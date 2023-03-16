@@ -5,7 +5,6 @@
 - java : jdk 11
 - build tool : gradle-7.6
 - tomcat : spring embedded tomcat
-
 ---
 
 
@@ -17,6 +16,7 @@
 
 ### Infra
 - server : AWS EC2
-- RDBMS : Amazon RDS (MySQL)
+- dev DB : Amazon RDS (MySQL)
+- local DB : H2 DB
 - NoSQL : MongoDB / Amazon documentDB
 
