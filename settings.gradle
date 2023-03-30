@@ -1,1 +1,3 @@
 rootProject.name = 'saesig_diary'
+include 'module-api', 'module-admin', 'module-core', 'module-chat'
+

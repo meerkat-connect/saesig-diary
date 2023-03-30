@@ -1,4 +1,4 @@
-package mekc.saesig_diary.domain;
+package saesigDiary.domain;
 
 
 import lombok.AccessLevel;

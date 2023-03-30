@@ -1,4 +1,4 @@
-package mekc.saesig_diary.config;
+package saesigDiary.config;
 
 import org.springframework.data.domain.AuditorAware;
 
