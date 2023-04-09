@@ -1,4 +1,4 @@
-package mekc;
+package saesigDiary;
 
 public class Main {
     public static void main(String[] args) {
