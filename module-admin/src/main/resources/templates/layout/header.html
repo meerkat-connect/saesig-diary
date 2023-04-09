@@ -1,0 +1,63 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="header">
+    <nav class="navbar header-navbar pcoded-header" header-theme="theme6">
+        <div class="navbar-wrapper">
+            <div class="navbar-logo">
+                <a class="mobile-menu" href="#!">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <a href="index.html">
+                    <img class="img-fluid" th:src="@{/files/assets/images/logo.png}" alt="Theme-Logo"/>
+                </a>
+                <a class="mobile-options">
+                    <i class="feather icon-more-horizontal"></i>
+                </a>
+            </div>
+
+            <div class="navbar-container">
+                <ul class="nav-left">
+                    <li>
+                        <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light">
+                            <i class="full-screen feather icon-maximize"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav-right">
+                    <!--<li>
+                        <div class="col-12 mt-2">
+                            <select name="select" class="form-select form-control">
+                                <option value="opt1">primary
+                                </option>
+                                <option value="opt2">Type 2</option>
+                                <option value="opt3">Type 3</option>
+                                <option value="opt4">Type 4</option>
+                                <option value="opt5">Type 5</option>
+                                <option value="opt6">Type 6</option>
+                                <option value="opt7">Type 7</option>
+                                <option value="opt8">Type 8</option>
+                            </select>
+                        </div>
+                    </li>-->
+                    <li class="user-profile header-notification">
+                        <div class="dropdown-primary dropdown">
+                            <div class="dropdown-toggle" data-bs-toggle="dropdown">
+                                <img src="../files/assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
+                                <span>John Doe</span>
+                                <i class="feather icon-chevron-down"></i>
+                            </div>
+                            <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                <li>
+                                    <a href="auth-normal-sign-in.html">
+                                        <i class="feather icon-log-out"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</th:block>
+</html>
+
