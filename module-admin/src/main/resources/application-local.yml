@@ -1,10 +1,28 @@
 # local
-#spring:
-#  config:
-#    activate:
-#      on-profile: local
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/db명?serverTimeZone=UTC&characterEncoding=UTF-8&useUnicode=true
-#    username:
-#    password:
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console: true
+
+  sql:
+    init:
+      mode: always
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      format_sql: true
+    generate-ddl: false
+    database-platform: org.hibernate.dialect.MariaDBDialect
+
+  database:
+#    platform: mariadb
