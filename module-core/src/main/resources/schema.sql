@@ -35,26 +35,6 @@ CREATE TABLE `file`
 ALTER TABLE `file`
     ADD CONSTRAINT `PK_FILE` PRIMARY KEY (`id`);
 
-
-CREATE TABLE `file`
-(
-    `id`          BIGINT       NOT NULL COMMENT '파일 일련번호',
-    `group_id`    BIGINT       NOT NULL COMMENT '파일 그룹 일련번호',
-    `path`        VARCHAR(500) NOT NULL COMMENT '경로',
-    `saved_name`  VARCHAR(500) NOT NULL COMMENT '저장 파일 이름',
-    `origin_name` VARCHAR(500) NOT NULL COMMENT '원본 파일 이름',
-    `extension`   VARCHAR(20)  NOT NULL COMMENT '확장자',
-    `size`        INTEGER      NOT NULL COMMENT '크기',
-    `ord`         SMALLINT     NULL COMMENT '순서',
-    `modified_at` DATETIME     NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT       NOT NULL COMMENT '수정자 아이디',
-    `created_at`  DATETIME     NOT NULL COMMENT '등록일',
-    `created_by`  BIGINT       NOT NULL COMMENT '등록자 아이디'
-);
-
-ALTER TABLE `file`
-    ADD CONSTRAINT `PK_FILE` PRIMARY KEY (`id`);
-
 CREATE TABLE `file_group`
 (
     `id`             BIGINT       NOT NULL COMMENT '파일 그룹 일련번호',
