@@ -1,10 +1,10 @@
 package saesigDiary.config;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.h2.tools.Server;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -18,6 +18,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableTransactionManagement
+@MapperScan(basePackages = "saesigDiary")
 public class MybatisConfig {
 
     @Autowired
@@ -36,7 +37,7 @@ public class MybatisConfig {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);
 
-//        factoryBean.setMapperLocations(applicationContext.getResources("classpath:mybatis/mappers/*.xml"));
+        factoryBean.setMapperLocations(applicationContext.getResources("classpath:mybatis/mappers/*.xml"));
 
         return factoryBean;
     }
