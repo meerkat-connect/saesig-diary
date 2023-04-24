@@ -7,4 +7,5 @@ dependencies {
     implementation 'org.springframework.session:spring-session-core'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
 }
