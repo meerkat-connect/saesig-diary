@@ -18,7 +18,8 @@ import java.io.IOException;
 
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackages = "saesigDiary")
+@MapperScan(basePackages = {"saesigDiary"},
+        annotationClass = org.apache.ibatis.annotations.Mapper.class)
 public class MybatisConfig {
 
     @Autowired
