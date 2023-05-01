@@ -7,6 +7,7 @@ dependencies {
     api 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     api 'org.springframework.boot:spring-boot-starter-jdbc'
 
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'com.h2database:h2'
 
 }
