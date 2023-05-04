@@ -10,8 +10,8 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name="role")
-public class Role extends BaseEntity {
+@Entity
+public class Resource extends BaseEntity{
     @Id
     private Long id;
 
@@ -19,19 +19,25 @@ public class Role extends BaseEntity {
     private String name;
 
     @Column
-    private String description;
+    private String url;
+
+    @Column(name = "http_method")
+    private String httpMethod;
 
     @Column(name = "is_enabled")
     private Character isEnabled;
 
-    @OneToMany(mappedBy = "role")
-    private List<MemberRole> memberRoles = new ArrayList<>();
+    @Column
+    private Integer depth;
+
+    @Column
+    private Integer ord;
 
     @ManyToOne
     @JoinColumn(name = "upperId")
-    private Role parentRole;
+    private Role parentResource;
 
-    @OneToMany(mappedBy = "parentRole")
-    private List<Role> childRoles = new ArrayList<>();
+    @OneToMany(mappedBy = "parentResource")
+    private List<Resource> childResources = new ArrayList<>();
 
 }

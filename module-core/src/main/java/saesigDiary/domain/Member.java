@@ -2,17 +2,17 @@ package saesigDiary.domain;
 
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "member")
 public class Member extends BaseEntity {
-
     @Id
     private Long id;
 
@@ -32,4 +32,8 @@ public class Member extends BaseEntity {
     @Column
     private String nickname;
 
+    @OneToMany(mappedBy = "member")
+    List<MemberRole> memberRoles = new ArrayList<>();
+
+    
 }
