@@ -28,7 +28,7 @@ CREATE TABLE `file` (
     `origin_name` VARCHAR(500) NOT NULL COMMENT '원본 파일 이름',
     `extension`   VARCHAR(20)  NOT NULL COMMENT '확장자',
     `size`        INTEGER      NOT NULL COMMENT '크기',
-    `ord`         SMALLINT NULL COMMENT '순서',
+    `ord`         INTEGER NULL COMMENT '순서',
     `modified_at` DATETIME     NOT NULL COMMENT '수정일',
     `modified_by` BIGINT       NOT NULL COMMENT '수정자 아이디',
     `created_at`  DATETIME     NOT NULL COMMENT '등록일',
@@ -50,7 +50,65 @@ CREATE TABLE `file_group` (
 ALTER TABLE `file_group`
     ADD CONSTRAINT `PK_FILE_GROUP` PRIMARY KEY (`id`);
 
+CREATE TABLE `resource`
+(
+    `id`          BIGINT       NOT NULL COMMENT '자원 일련번호',
+    `name`        VARCHAR(100) NOT NULL COMMENT '이름',
+    `url`         VARCHAR(500) NOT NULL COMMENT '자원 URL',
+    `http_method` VARCHAR(10) NOT NULL COMMENT 'HTTP 메소드',
+    `is_enabled`  CHAR(1)      NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+    `depth`       INTEGER     NULL COMMENT '깊이',
+    `ord`         INTEGER     NULL COMMENT '순서',
+    `upper_id`    BIGINT       NULL COMMENT '상위 자원 일련번호',
+    `modified_at` DATETIME     NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT       NOT NULL COMMENT '수정자 일련번호',
+    `created_at`  DATETIME     NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT       NOT NULL COMMENT '등록자 일련번호'
+);
+
+ALTER TABLE `resource`
+    ADD CONSTRAINT `PK_RESOURCE` PRIMARY KEY (`id`);
+
+CREATE TABLE `role`
+(
+    `id`          BIGINT       NOT NULL COMMENT '자원 일련번호',
+    `name`        VARCHAR(100) NULL COMMENT '이름',
+    `upper_id`    BIGINT       NULL COMMENT '상위 역할 일련번호',
+    `is_enabled`  CHAR(1)      NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+    `description` VARCHAR(500) NULL COMMENT '권한설명',
+    `modified_at` DATETIME     NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT       NOT NULL COMMENT '수정자 일련번호',
+    `created_at`  DATETIME     NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT       NOT NULL COMMENT '등록자 일련번호'
+);
+
+ALTER TABLE `role`
+    ADD CONSTRAINT `PK_ROLE` PRIMARY KEY (`id`);
+
+CREATE TABLE `member_role`
+(
+    `id`          BIGINT   NOT NULL COMMENT '회원 역할 일련번호',
+    `member_id`   BIGINT   NOT NULL COMMENT '회원 일련번호',
+    `role_id` BIGINT   NOT NULL COMMENT '자원 일련번호',
+    `modified_at` DATETIME NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT   NOT NULL COMMENT '수정자 일련번호',
+    `created_at`  DATETIME NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT   NOT NULL COMMENT '등록자 일련번호'
+);
+
+ALTER TABLE `member_role`
+    ADD CONSTRAINT `PK_MEMBER_ROLE` PRIMARY KEY (`id`);
 
 
+CREATE TABLE `role_resource` (
+    `id`	BIGINT	NOT NULL	COMMENT '역할 자원 일련번호',
+    `role_id`	BIGINT	NOT NULL	COMMENT '역할 일련번호',
+    `resource_id`	BIGINT	NOT NULL	COMMENT '자원 일련번호',
+    `modified_at`	DATETIME	NOT NULL	COMMENT '수정일',
+    `modified_by`	BIGINT	NOT NULL	COMMENT '수정자 일련번호',
+    `created_at`	DATETIME	NOT NULL	COMMENT '등록일',
+    `created_by`	BIGINT	NOT NULL	COMMENT '등록자 일련번호'
+);
 
+ALTER TABLE `role_resource` ADD CONSTRAINT `PK_ROLE_RESOURCE` PRIMARY KEY (`id`);
 
