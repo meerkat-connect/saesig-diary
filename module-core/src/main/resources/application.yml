@@ -9,7 +9,10 @@ spring:
       local: local
       prod : prod
       dev : dev
-
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
 
 logging:
   level:
