@@ -23,7 +23,6 @@ ALTER TABLE `member`
 CREATE TABLE `file` (
     `id`          BIGINT       NOT NULL COMMENT '파일 일련번호',
     `group_id`    BIGINT       NOT NULL COMMENT '파일 그룹 일련번호',
-    `path`        VARCHAR(500) NOT NULL COMMENT '경로',
     `saved_name`  VARCHAR(500) NOT NULL COMMENT '저장 파일 이름',
     `origin_name` VARCHAR(500) NOT NULL COMMENT '원본 파일 이름',
     `extension`   VARCHAR(20)  NOT NULL COMMENT '확장자',

@@ -1,8 +1,16 @@
 package saesigDiary.domain;
 
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.*;
 
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class File extends BaseEntity {
     @Id
@@ -11,10 +19,6 @@ public class File extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "group_id")
     private FileGroup fileGroup;
-
-    /* 굳이 필요한가? */
-    @Column
-    private String path;
 
     @Column(name = "saved_name")
     private String savedName;
