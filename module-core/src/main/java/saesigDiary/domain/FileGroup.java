@@ -2,10 +2,7 @@ package saesigDiary.domain;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @ToString
@@ -13,7 +10,7 @@ import javax.persistence.Id;
 @Entity(name = "file_group")
 public class FileGroup extends BaseEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "directory_path")

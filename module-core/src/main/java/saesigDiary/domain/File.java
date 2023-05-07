@@ -1,10 +1,7 @@
 package saesigDiary.domain;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,9 +11,10 @@ import javax.persistence.*;
 @Entity
 public class File extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private FileGroup fileGroup;
 
@@ -34,4 +32,15 @@ public class File extends BaseEntity {
 
     @Column
     private Integer ord;
+
+    @Builder
+    public File(Long id, FileGroup fileGroup, String savedName, String originName, String extension, Integer size, Integer ord) {
+        this.id = id;
+        this.fileGroup = fileGroup;
+        this.savedName = savedName;
+        this.originName = originName;
+        this.extension = extension;
+        this.size = size;
+        this.ord = ord;
+    }
 }
