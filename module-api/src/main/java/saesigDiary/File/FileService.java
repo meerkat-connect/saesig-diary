@@ -1,8 +1,11 @@
 package saesigDiary.File;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import saesigDiary.domain.FileGroup;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,37 +13,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * 1. Content-Type: applicattion/x-www-form-urlencoded
- * 2. Content-Type: multipart/form-data 방식 , enctype="multipart/form-data"
- */
 @Service
+@RequiredArgsConstructor
 public class FileService {
     @Value("${file.dir}")
     private String fileDir;
 
-    /*
-     * 첨부파일 업로드
-     * 이미지파일 업로드
-     * 이미지파일의 경우 웹 브라우저에서 확인 가능
-     * */
+    private final FileRepository fileRepository;
+
+    private final FileGroupRepository fileGroupRepository;
 
     public String getPullPath(String fileName) {
         return fileDir + fileName;
     }
 
+    @Transactional
     public List<FileDto> storeFiles(List<MultipartFile> multipartFiles) throws Exception {
-        List<FileDto> storeFileResult = new ArrayList<>();
+        List<FileDto> storedFiles = new ArrayList<>();
 
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
-                storeFileResult.add(storeFile(multipartFile));
+                storedFiles.add(storeFile(multipartFile));
             }
         }
 
-        return storeFileResult;
+        return storedFiles;
     }
 
+    @Transactional
     public FileDto storeFile(MultipartFile multipartFile) throws IOException {
 
         if (multipartFile.isEmpty()) {
@@ -48,16 +48,30 @@ public class FileService {
         }
 
         String originFileName = multipartFile.getOriginalFilename();
-        String savedFileName = createSavedFilleName(originFileName);
+        String savedFileName = createSavedFileName(originFileName);
 
+        FileGroup savedFileGroup = fileGroupRepository.save(new FileGroup(fileDir));
+
+        saesigDiary.domain.File savedFile = fileRepository.save(saesigDiary.domain.File.builder()
+                                                                        .fileGroup(savedFileGroup)
+                                                                        .originName(originFileName)
+                                                                        .savedName(savedFileName)
+                                                                        .size(multipartFile.getSize())
+                                                                        .extension(extractExt(originFileName))
+                                                                        .build());
         multipartFile.transferTo(new File(getPullPath(savedFileName)));
-        return new FileDto();
+
+        return FileDto.builder()
+                .savedName(savedFile.getSavedName())
+                .originName(savedFile.getOriginName())
+                .path(savedFileGroup.getDirectoryPath())
+                .build();
     }
 
-    private String createSavedFilleName(String originFileName) {
+    private String createSavedFileName(String originFileName) {
         String ext = extractExt(originFileName);
         String uuid = UUID.randomUUID().toString();
-        return uuid + ext;
+        return uuid + "." + ext;
     }
 
     private String extractExt(String originFileName) {
