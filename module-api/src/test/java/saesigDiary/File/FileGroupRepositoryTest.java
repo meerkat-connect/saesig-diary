@@ -17,7 +17,7 @@ class FileGroupRepositoryTest {
     @Test
     void 파일그룹정보_저장() {
         //given
-        FileGroup fileGroup = FileGroup.builder().directoryPath("/test").build();
+        FileGroup fileGroup = new FileGroup("/test");
 
         //when
         FileGroup savedFileGroup = fileGroupRepository.save(fileGroup);

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import saesigDiary.domain.File;
 import saesigDiary.domain.FileGroup;
 
@@ -13,6 +14,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@EnableJpaAuditing
 class FileRepositoryTest {
 
     @Value("${file.dir}")
@@ -32,7 +34,7 @@ class FileRepositoryTest {
         String extenstion = "txt";
 
         //when
-        FileGroup fileGroup = FileGroup.builder().directoryPath(directoryPath).build();
+        FileGroup fileGroup = new FileGroup(directoryPath);
         FileGroup savedFileGroup = fileGroupRepository.save(fileGroup);
         FileGroup fileGroupById = fileGroupRepository.findById(savedFileGroup.getId()).get();
 
