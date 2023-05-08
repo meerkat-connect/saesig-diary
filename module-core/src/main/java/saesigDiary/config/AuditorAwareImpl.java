@@ -9,6 +9,6 @@ public class AuditorAwareImpl implements AuditorAware<Long> {
     @Override
     public Optional<Long> getCurrentAuditor() {
         // TODO : OAUTH / JWT 방식 선택 후 로직 구현 해야함
-        return Optional.empty();
+        return Optional.of(1L);
     }
 }
