@@ -28,13 +28,13 @@ public class File extends BaseEntity {
     private String extension;
 
     @Column
-    private Integer size;
+    private Long size;
 
     @Column
     private Integer ord;
 
     @Builder
-    public File(Long id, FileGroup fileGroup, String savedName, String originName, String extension, Integer size, Integer ord) {
+    public File(Long id, FileGroup fileGroup, String savedName, String originName, String extension, Long size, Integer ord) {
         this.id = id;
         this.fileGroup = fileGroup;
         this.savedName = savedName;

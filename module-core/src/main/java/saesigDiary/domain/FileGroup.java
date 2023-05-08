@@ -16,7 +16,6 @@ public class FileGroup extends BaseEntity {
     @Column(name = "directory_path")
     private String directoryPath;
 
-    @Builder
     public FileGroup(String directoryPath) {
         this.directoryPath = directoryPath;
     }
