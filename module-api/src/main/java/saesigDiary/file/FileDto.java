@@ -1,4 +1,4 @@
-package saesigDiary.File;
+package saesigDiary.file;
 
 import lombok.Builder;
 import lombok.Getter;

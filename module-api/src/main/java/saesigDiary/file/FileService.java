@@ -1,4 +1,4 @@
-package saesigDiary.File;
+package saesigDiary.file;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +9,7 @@ import saesigDiary.domain.FileGroup;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public class FileService {
 
     private final FileGroupRepository fileGroupRepository;
 
-    public String getPullPath(String fileName) {
+    public String getFullPath(String fileName) {
         return fileDir + fileName;
     }
 
@@ -59,7 +60,7 @@ public class FileService {
                                                                         .size(multipartFile.getSize())
                                                                         .extension(extractExt(originFileName))
                                                                         .build());
-        multipartFile.transferTo(new File(getPullPath(savedFileName)));
+        multipartFile.transferTo(new File(getFullPath(savedFileName)));
 
         return FileDto.builder()
                 .savedName(savedFile.getSavedName())
@@ -67,6 +68,18 @@ public class FileService {
                 .path(savedFileGroup.getDirectoryPath())
                 .build();
     }
+
+    public FileDto findByName(String fileName) throws NoSuchFileException {
+        saesigDiary.domain.File file = fileRepository.findBySavedName(fileName)
+                .orElseThrow(() -> new NoSuchFileException("파일이 없습니다."));
+
+        return FileDto.builder()
+                .originName(file.getOriginName())
+                .savedName(file.getOriginName())
+                .path(file.getFileGroup().getDirectoryPath())
+                .build();
+    }
+
 
     private String createSavedFileName(String originFileName) {
         String ext = extractExt(originFileName);
@@ -79,4 +92,5 @@ public class FileService {
 
         return originFileName.substring(index + 1);
     }
+
 }
