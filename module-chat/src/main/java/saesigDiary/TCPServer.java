@@ -1,9 +1,9 @@
-package com.example.websocketnetty;
+package saesigDiary;
 
-import com.example.websocketnetty.netty.NettyChattingClient;
-import com.example.websocketnetty.netty.NettyChattingServer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import saesigDiary.websocketnetty.netty.NettyChattingClient;
+import saesigDiary.websocketnetty.netty.NettyChattingServer;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

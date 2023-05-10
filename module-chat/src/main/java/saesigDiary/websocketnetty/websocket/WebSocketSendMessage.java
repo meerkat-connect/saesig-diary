@@ -1,4 +1,4 @@
-package com.example.websocketnetty.websocket;
+package saesigDiary.websocketnetty.websocket;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;

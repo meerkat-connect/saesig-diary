@@ -1,4 +1,4 @@
-package com.example.websocketnetty.netty;
+package saesigDiary.websocketnetty.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;

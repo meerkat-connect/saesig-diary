@@ -1,4 +1,4 @@
-package com.example.websocketnetty.controller;
+package saesigDiary.websocketnetty.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

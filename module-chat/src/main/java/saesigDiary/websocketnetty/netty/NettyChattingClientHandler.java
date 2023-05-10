@@ -1,6 +1,6 @@
-package com.example.websocketnetty.netty;
+package saesigDiary.websocketnetty.netty;
 
-import com.example.websocketnetty.websocket.WebSocketSendMessage;
+import saesigDiary.websocketnetty.websocket.WebSocketSendMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
