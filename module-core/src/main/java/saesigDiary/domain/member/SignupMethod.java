@@ -1,4 +1,4 @@
-package saesigDiary.domain;
+package saesigDiary.domain.member;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

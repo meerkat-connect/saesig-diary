@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import saesigDiary.domain.FileGroup;
+import saesigDiary.domain.file.FileGroup;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class FileService {
 
         FileGroup savedFileGroup = fileGroupRepository.save(new FileGroup(fileDir));
 
-        saesigDiary.domain.File savedFile = fileRepository.save(saesigDiary.domain.File.builder()
+        saesigDiary.domain.file.File savedFile = fileRepository.save(saesigDiary.domain.file.File.builder()
                                                                         .fileGroup(savedFileGroup)
                                                                         .originName(originFileName)
                                                                         .savedName(savedFileName)
@@ -70,7 +70,7 @@ public class FileService {
     }
 
     public FileDto findByName(String fileName) throws NoSuchFileException {
-        saesigDiary.domain.File file = fileRepository.findBySavedName(fileName)
+        saesigDiary.domain.file.File file = fileRepository.findBySavedName(fileName)
                 .orElseThrow(() -> new NoSuchFileException("파일이 없습니다."));
 
         return FileDto.builder()

@@ -1,15 +1,16 @@
-package saesigDiary.domain;
+package saesigDiary.domain.role;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import saesigDiary.domain.common.BaseEntity;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class RoleResource extends BaseEntity{
+public class RoleResource extends BaseEntity {
     @Id
     private Long id;
 
