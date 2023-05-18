@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="saesigDiary.websocketnetty.chatting.ChattingMapper">
-    <select id="getMemberList" resultType="saesigDiary.websocketnetty.chatting.ChattingDto">
+    <select id="getMemberList" resultType="saesigDiary.websocketnetty.chatting.ChatMemberDto">
         SELECT
             id
              , email
@@ -10,4 +10,19 @@
         ,nickname
         FROM member
     </select>
+
+    <select id="getChattingRoomList" resultType="saesigDiary.websocketnetty.chatting.ChattingRoomDto">
+        SELECT
+            m.id,
+            m.nickname,
+            cr.chat_id,
+            cr.created_at
+        FROM member m LEFT JOIN chatting_room cr ON m.id = cr.member_id
+    </select>
+
+    <insert id="insertChattingRoom">
+        INSERT INTO chatting_room (chat_id, member_id, created_by) VALUES (#{chat_id}, #{member_id}, #{created_by_member_id})
+    </insert>
+
+
 </mapper>
