@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 public interface ChattingMapper {
     public List<ChatMemberDto> getMemberList();
 
+    public List<ChatMemberDto> getMemberData(int member_id);
+
     public List<ChattingRoomDto> getChattingRoomList(int member_id);
 
     public void insertChattingRoom(@Param("chat_id")String chat_id, @Param("member_id") String member_id, @Param("created_by_member_id") String created_by_member_id);

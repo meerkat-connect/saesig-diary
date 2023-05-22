@@ -54,4 +54,8 @@ public class ChattingServiceImpl implements ChattingService{
         chattingMapper.insertChattingRoom(chat_id, member_id, created_by_member_id);
     }
 
+    @Override
+    public List<ChatMemberDto> getMemberData(int member_id) throws Exception {
+        return chattingMapper.getMemberData(member_id);
+    }
 }

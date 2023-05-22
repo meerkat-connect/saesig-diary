@@ -36,7 +36,6 @@ public class ChattingController {
             model.addAttribute("memberList", chattingRoomList);
             model.addAttribute("meId", member_id);
         }catch (Exception e){
-            model.addAttribute("name",e);
         }
         return "chattingList";
     }
@@ -61,24 +60,15 @@ public class ChattingController {
         String meId = requestDataArray[2].split("=")[1];
         if (chat_id.equals("null")){
             String chat = meId.concat(targetId).concat(Integer.toString((int)(Math.random()*100000)));
+            chat_id = chat;
             chattingService.insertChattingRoom(chat,targetId,meId);
             chattingService.insertChattingRoom(chat,meId,meId);
+            model.addAttribute("chatId", chat_id);
+        }else{
+            model.addAttribute("chatId", chat_id);
         }
-        model.addAttribute("name", targetId);
+        model.addAttribute("name", meId);
+
         return "chattingRoom";
-    }
-
-    @GetMapping("/chat/chatdatatest/{title}")
-    public ChatDataSearchResponseDto findById(@PathVariable String title) throws Exception {
-        System.out.println("title");
-//        return null;
-        return (ChatDataSearchResponseDto) chattingService.getChatDataList(title);
-    }
-
-    @GetMapping("/chat/save/{name}&{text}")
-    public ChatDataSearchResponseDto findById(@PathVariable String name, @PathVariable String text) throws Exception {
-        String K = chattingService.saveChattingRoom(name,text);
-//        return null;
-        return null;
     }
 }

@@ -28,7 +28,7 @@ const chattingList = {
     }
 
     ,makeList : function (memberData){
-        let el = '<div class="message" mekc-member-id="'+memberData.id+'">'
+        let el = '<div class="message" style="color: #4f6ebd" mekc-member-id="'+memberData.id+'">'
         el += '<div class="photo you"></div>'
         el += '<p class="text me" style="width:100%" >'
         el += memberData.nickname

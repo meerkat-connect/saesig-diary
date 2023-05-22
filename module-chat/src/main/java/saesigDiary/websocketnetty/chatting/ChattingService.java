@@ -9,6 +9,8 @@ public interface ChattingService {
 
     public List<ChatMemberDto> getMemberList() throws Exception;
 
+    public List<ChatMemberDto> getMemberData(int member_id) throws Exception;
+
     public ChatDataSearchResponseDto getChatDataList(String title) throws Exception;
 
     public List<ChattingRoomDto> getChattingRoomList(int member_id) throws Exception;

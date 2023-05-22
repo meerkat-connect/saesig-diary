@@ -11,6 +11,15 @@
         FROM member
     </select>
 
+    <select id="getMemberData" resultType="saesigDiary.websocketnetty.chatting.ChatMemberDto">
+        SELECT
+            id
+             , email
+             , password
+             ,nickname
+        FROM member where id = #{member_id}
+    </select>
+
     <select id="getChattingRoomList" resultType="saesigDiary.websocketnetty.chatting.ChattingRoomDto">
         SELECT
             m.id,
