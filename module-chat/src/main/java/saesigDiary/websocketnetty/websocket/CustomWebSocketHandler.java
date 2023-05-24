@@ -20,7 +20,7 @@ import java.util.LinkedHashSet;
 public class CustomWebSocketHandler extends TextWebSocketHandler {
 
     private static LinkedHashSet<WebSocketSession> numSet = new LinkedHashSet<>();
-    private static HashMap<String,String[]> roomMap = new HashMap<String, String[]>();
+    private static HashMap<Integer,String[]> roomMap = new HashMap<Integer, String[]>();
 
 
     private final WebSocketSendMessage webSocketSendMessage;
@@ -47,7 +47,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
         numSet.add(session);
         String sessionId = session.getId();
         String url = session.getUri().toString();
-        String chatId = url.split("=")[1];
+        int chatId = Integer.parseInt(url.split("=")[1]);
         if (roomMap.containsKey(chatId)){
             String[] chatIdArrayOrigin = roomMap.get(chatId);
             String[] chatIdArrayNew = new String[chatIdArrayOrigin.length+1];
@@ -69,15 +69,19 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
         numSet.remove(session);
         String[] currntSessionList = roomMap.get(session.getUri().toString().split("=")[1]);
         String[] newSessionList = new String[currntSessionList.length-1];
+
         for (int i=0; i<currntSessionList.length; i++){
             int c=0;
-            if (currntSessionList[i].equals(session.getId())){
-                c = c;
-            }else{
+            if (!currntSessionList[i].equals(session.getId())){
                 newSessionList[c] = currntSessionList[i];
                 c = c + 1;
             }
         }
-        roomMap.put(session.getUri().toString().split("=")[1],newSessionList);
+        int cs = Integer.parseInt(session.getUri().toString().split("=")[1]);
+        if (roomMap.get(cs).length == 0){
+            roomMap.remove(cs);
+        }else{
+            roomMap.put(cs,newSessionList);
+        }
     }
 }

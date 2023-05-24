@@ -53,22 +53,28 @@ public class ChattingController {
     }
 
     @PostMapping("/chat/chatting")
-    public String chattingRoom(@RequestBody String requestData, HttpSession session, Model model){
+    public String chattingRoom(@RequestBody String requestData, HttpSession session, Model model) throws Exception {
         String[] requestDataArray = requestData.split("&");
-        String targetId = requestDataArray[0].split("=")[1];
-        String chat_id = requestDataArray[1].split("=")[1];
-        String meId = requestDataArray[2].split("=")[1];
-        if (chat_id.equals("null")){
-            String chat = meId.concat(targetId).concat(Integer.toString((int)(Math.random()*100000)));
-            chat_id = chat;
+        int targetId = Integer.parseInt(requestDataArray[0].split("=")[1]);
+        int meId = Integer.parseInt(requestDataArray[2].split("=")[1]);
+        String chatIdStr = requestDataArray[1].split("=")[1];
+        if (chatIdStr.equals("null")){
+            int chat = Integer.parseInt(Integer.toString(meId).concat(Integer.toString(targetId)).concat(Integer.toString((int)(Math.random()*100000))));
             chattingService.insertChattingRoom(chat,targetId,meId);
             chattingService.insertChattingRoom(chat,meId,meId);
-            model.addAttribute("chatId", chat_id);
+            model.addAttribute("chatId", chat);
+            ChatDataSearchResponseDto chatDataLog = chattingService.getChatDataList(chat);
+            model.addAttribute("chatDataLog", chatDataLog);
         }else{
+            int chat_id = Integer.parseInt(requestDataArray[1].split("=")[1]);
+            ChatDataSearchResponseDto chatDataLog = chattingService.getChatDataList(chat_id);
             model.addAttribute("chatId", chat_id);
+            model.addAttribute("chatDataLog", chatDataLog);
         }
-        model.addAttribute("name", meId);
-
+        List<ChatMemberDto> targetMemberData = chattingService.getMemberData(targetId);
+        List<ChatMemberDto> currentMemberData = chattingService.getMemberData(meId);
+        model.addAttribute("currentMemberData", currentMemberData);
+        model.addAttribute("targetMemberData", targetMemberData);
         return "chattingRoom";
     }
 }

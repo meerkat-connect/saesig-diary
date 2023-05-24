@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,10 +21,9 @@ public class ChattingServiceImpl implements ChattingService{
 
     private final ChatDataDao ChatDataDao;
     @Override
-    public ChatDataSearchResponseDto getChatDataList(String title) throws Exception {
-        String Regtitle = ".*" + title + ".*";
-        System.out.println(Regtitle);
-        List<ChatDataDto> chatDataDtoList = ChatDataDao.findBytextRegex(Regtitle);
+    public ChatDataSearchResponseDto getChatDataList(int chatId) throws Exception {
+        System.out.println(chatId);
+        List<ChatDataDto> chatDataDtoList = ChatDataDao.findByChatId(chatId);
         return new ChatDataSearchResponseDto(chatDataDtoList);
     }
 
@@ -32,16 +33,22 @@ public class ChattingServiceImpl implements ChattingService{
     }
 
     @Override
-    public String saveChattingRoom(String name, String text) {
+    public int saveChattingData(int chatId, String text, int memberId) {
+        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+        Date now = new Date();
+        String strDate = sdfDate.format(now);
+
         ChatDataDto ChatDataDto = new ChatDataDto();
-        ChatDataDto.setChatId(name);
+        ChatDataDto.setChatId(chatId);
         ChatDataDto.setText(text);
+        ChatDataDto.setSender_seq(memberId);
+        ChatDataDto.setReg_date(strDate);
         ChatDataDao.save(ChatDataDto);
-        return name;
+        return chatId;
     }
 
     @Override
-    public String getLastChat(String chat_id) {
+    public int getLastChat(int chat_id) {
         ChatDataDto ChatDataDto = new ChatDataDto();
         ChatDataDto.setChatId(chat_id);
         ChatDataDto.setText("hello");
@@ -50,7 +57,7 @@ public class ChattingServiceImpl implements ChattingService{
     }
 
     @Override
-    public void insertChattingRoom(@Param("chat_id")String chat_id, @Param("member_id") String member_id, @Param("created_by_member_id") String created_by_member_id) {
+    public void insertChattingRoom(@Param("chat_id")int chat_id, @Param("member_id") int member_id, @Param("created_by_member_id") int created_by_member_id) {
         chattingMapper.insertChattingRoom(chat_id, member_id, created_by_member_id);
     }
 

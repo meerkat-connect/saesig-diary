@@ -26,10 +26,14 @@
 </div>
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script type="text/javascript" src='/js/chattingRoom.js'></script>
 <script th:inline="javascript">
-
-    const username = [[${name}]];
+    const currentMemberData = [[${currentMemberData}]];
+    const targetMemberData = [[${targetMemberData}]]
+    const chatLog = [[${chatDataLog}]]
     const chatId = [[${chatId}]];
+    const username = currentMemberData[0]['nickname']
+    const userid = currentMemberData[0]['id']
 
     const websocket = new WebSocket("ws://127.0.0.1:8080/ws/chat?chatId=" + chatId);
     websocket.onmessage = onMessage;
@@ -83,19 +87,29 @@
         });
     })
 
+    function setChatLog(){
+        $(chatLog['chatDataDto']).each(function (){
+            setMessageTemplate(this.sender_seq,this.text);
+        })
+    }
+
     function enterkey() {
         if (window.event.keyCode == 13) {
             if ($("#opinion").val() != "") {
-                sendMessage(username + ":" + $("#opinion").val());
+                sendMessage($("#opinion").val());
                 $("#opinion").val('');
             }
         }
     }
 
     function sendMessage(str) {
+        if (str == '' || str == undefined){
+            str = $("#opinion").val();
+        }
         msg = {
             text : str,
-            chatId : chatId
+            chatId : chatId,
+            memberId : userid
         };
 
         websocket.send(JSON.stringify(msg));
@@ -103,7 +117,7 @@
 
     function send() {
         if ($("#opinion").val() != "") {
-            sendMessage(username + ":" + $("#opinion").val());
+            sendMessage($("#opinion").val());
             $("#opinion").val('');
         }
     }
@@ -114,8 +128,12 @@
     }
 
     function onOpen(evt) {
-        var str = username + ": entered the room";
-        sendMessage(str);
+        if (chatLog.chatDataDto.length == 0){
+            var str = username + ": entered the room";
+            sendMessage(str);
+        }else{
+            setChatLog();
+        }
     }
 
     let cachedTime;
@@ -124,19 +142,11 @@
 
     function onMessage(msg) {
         console.log(msg)
-        var data = msg.data;
-        var sessionId = null;
-        var message = null;
-        var arr = data.split(":");
+        var data = JSON.parse(msg.data);
+        var sessionId = data.memberId;
+        var message = data.text;;
 
-        for (var i = 0; i < arr.length; i++) {
-            console.log('arr[' + i + ']: ' + arr[i]);
-        }
-
-        var cur_session = username;
-
-        sessionId = arr[0];
-        message = arr[1];
+        var cur_session = userid;
 
         console.log("sessionID : " + sessionId);
         console.log("cur_session : " + cur_session);
@@ -146,6 +156,15 @@
             message = sessionId + " entered the room 😀";
         }
 
+        cachedSessionId = sessionId;
+
+        setMessageTemplate(sessionId,message)
+
+        document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+    }
+
+    function setMessageTemplate(sessionId, message){
+        const cur_session = userid;
         if (sessionId == cur_session) {
             var str = "<div class='message text-only'>";
             str += "<div class='response'><p class='text'>"
@@ -155,14 +174,13 @@
 
             isLastChatFromMe = true;
         } else {
+            if ($(document).find('.photo').length == 0) isLastChatFromMe = true
             if (isLastChatFromMe == true) {
-                var str = "<div class='message'> <div class='photo you'></div>";
+                var str = "<div class='message'> <div class='photo you'><span>"+targetMemberData[0]['nickname']+"</span></div>";
                 str += "<p class='text'>"
                 str += message;
                 str += "<p></div>";
                 $("#chat").append(str);
-
-
             } else {
                 var str = "<div class='message text-only'>";
                 str += "<p class='text'>"
@@ -176,10 +194,7 @@
                 newExcitingAlerts();
             }
         }
-
-        cachedSessionId = sessionId;
-
-        document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
     }
+
 </script>
 </html>
