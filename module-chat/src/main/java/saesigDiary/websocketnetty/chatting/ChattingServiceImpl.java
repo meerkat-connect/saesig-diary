@@ -22,7 +22,6 @@ public class ChattingServiceImpl implements ChattingService{
     private final ChatDataDao ChatDataDao;
     @Override
     public ChatDataSearchResponseDto getChatDataList(int chatId) throws Exception {
-        System.out.println(chatId);
         List<ChatDataDto> chatDataDtoList = ChatDataDao.findByChatId(chatId);
         return new ChatDataSearchResponseDto(chatDataDtoList);
     }
@@ -57,8 +56,8 @@ public class ChattingServiceImpl implements ChattingService{
     }
 
     @Override
-    public void insertChattingRoom(@Param("chat_id")int chat_id, @Param("member_id") int member_id, @Param("created_by_member_id") int created_by_member_id) {
-        chattingMapper.insertChattingRoom(chat_id, member_id, created_by_member_id);
+    public void insertChattingRoom(@Param("chat_id")int chat_id, @Param("title") String title ,@Param("member_id") int member_id, @Param("created_by_member_id") int created_by_member_id) {
+        chattingMapper.insertChattingRoom(chat_id, title, member_id, created_by_member_id);
     }
 
     @Override

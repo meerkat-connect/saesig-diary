@@ -73,18 +73,32 @@
         };
     }());
 
-    setInterval(() => console.log(new Date()), 60000); //prevent chrome refresh
-
     $(document).ready(function () {
         $(".floating-chat").click();
-
-        $("#disconn").on("click", (e) => {
-            disconnect();
-        })
 
         $("#button-send").on("click", (e) => {
             send();
         });
+
+        let preMessage = '';
+        $('#opinion').on("keyup", function (e){
+            console.log($(this).val());
+            let msg = {
+                text : '',
+                chatId : chatId,
+                memberId : userid
+            };
+            if (preMessage != '' && $(this).val() == ''){
+                if (e.keyCode != 13){
+                    msg.type = 'outMessage';
+                    websocket.send(JSON.stringify(msg));
+                }
+            }else if (preMessage == '' && $(this).val() != ''){
+                msg.type = 'onMessage';
+                websocket.send(JSON.stringify(msg));
+            }
+            preMessage = $(this).val();
+        })
     })
 
     function setChatLog(){
@@ -107,6 +121,7 @@
             str = $("#opinion").val();
         }
         msg = {
+            type : 'message',
             text : str,
             chatId : chatId,
             memberId : userid
@@ -129,8 +144,8 @@
 
     function onOpen(evt) {
         if (chatLog.chatDataDto.length == 0){
-            var str = username + ": entered the room";
-            sendMessage(str);
+            /*var str = username + ": entered the room";
+            sendMessage(str);*/
         }else{
             setChatLog();
         }
@@ -144,7 +159,7 @@
         console.log(msg)
         var data = JSON.parse(msg.data);
         var sessionId = data.memberId;
-        var message = data.text;;
+        var message = data.text;
 
         var cur_session = userid;
 
@@ -158,7 +173,15 @@
 
         cachedSessionId = sessionId;
 
-        setMessageTemplate(sessionId,message)
+        if (data.type == 'onMessage'){
+            setOnMessage();
+        }else if (data.type == 'outMessage'){
+            setOutMessage();
+        }else{
+
+            setMessageTemplate(sessionId,message)
+        }
+
 
         document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
     }
@@ -166,27 +189,24 @@
     function setMessageTemplate(sessionId, message){
         const cur_session = userid;
         if (sessionId == cur_session) {
-            var str = "<div class='message text-only'>";
+            var str = "<div class='message text-only myMessage'>";
             str += "<div class='response'><p class='text'>"
             str += message;
             str += "</p></div></div>";
-            $("#chat").append(str);
-
             isLastChatFromMe = true;
         } else {
+            setOutMessage();
             if ($(document).find('.photo').length == 0) isLastChatFromMe = true
             if (isLastChatFromMe == true) {
-                var str = "<div class='message'> <div class='photo you'><span>"+targetMemberData[0]['nickname']+"</span></div>";
+                var str = "<div class='message targetMessage'> <div class='photo you'></div>";
                 str += "<p class='text'>"
                 str += message;
                 str += "<p></div>";
-                $("#chat").append(str);
             } else {
                 var str = "<div class='message text-only'>";
                 str += "<p class='text'>"
                 str += message;
                 str += "<p></div>";
-                $("#chat").append(str);
             }
             isLastChatFromMe = false;
 
@@ -194,6 +214,33 @@
                 newExcitingAlerts();
             }
         }
+        if ($(document).find('.onMessage').length > 0){
+            $(".onMessage").before(str);
+        }else{
+            $("#chat").append(str);
+        }
+
+    }
+
+    function setOnMessage(){
+        if (userid != cachedSessionId && $('.onMessage').length == 0){
+            if (isLastChatFromMe == true || isLastChatFromMe == undefined) {
+                var str = "<div class='message onMessage targetMessage'> <div class='photo you'></div>";
+                str += "<p class='text'>"
+                str += '▲★■';
+                str += "<p></div>";
+                $("#chat").append(str);
+            } else {
+                var str = "<div class='message text-only onMessage targetMessage'>";
+                str += "<p class='text'>"
+                str += '▲★■';
+                str += "<p></div>";
+                $("#chat").append(str);
+            }
+        }
+    }
+    function setOutMessage(){
+        $(document).find('.onMessage.targetMessage').remove();
     }
 
 </script>

@@ -118,6 +118,7 @@ ALTER TABLE `role_resource`
 CREATE TABLE IF NOT EXISTS `chatting_room`
 (
    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '채팅방 회원 일련번호',
+   `title`       varchar(20)           NOT NULL COMMENT '채팅방 제목',
    `chat_id`     BIGINT                NOT NULL COMMENT '채팅방 일련번호',
    `member_id`  BIGINT                 NOT NULL  COMMENT '회원 일련번호',
    `created_at`  DATETIME              DEFAULT NOW() COMMENT  '등록일',

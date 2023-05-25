@@ -14,7 +14,7 @@ public class ChattingRoomDto {
 
     @Id
     private int id;
-    private String nickname;
+    private String title;
     private String chat_id;
     private String created_at;
     private String last_msg;

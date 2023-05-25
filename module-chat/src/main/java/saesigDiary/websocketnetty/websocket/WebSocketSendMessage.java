@@ -23,6 +23,7 @@ public class WebSocketSendMessage {
 
         Gson gson = new Gson();
         chatJsonData param = gson.fromJson(payload,chatJsonData.class);
+
         TextMessage msg = new TextMessage(payload);
         for(WebSocketSession sess: numSet) {
             String sessionId = sess.getId();
@@ -37,7 +38,9 @@ public class WebSocketSendMessage {
                 sess.sendMessage(msg);
             }
         }
-        chattingService.saveChattingData(param.getChatId(),param.getText(), param.getMemberId());
+        if (param.getType().equals("message")){
+            chattingService.saveChattingData(param.getChatId(),param.getText(), param.getMemberId());
+        }
     }
 
     public void setSession(LinkedHashSet<WebSocketSession> numSet){

@@ -22,15 +22,14 @@
 
     <select id="getChattingRoomList" resultType="saesigDiary.websocketnetty.chatting.ChattingRoomDto">
         SELECT
-            m.id,
-            m.nickname,
-            cr.chat_id,
-            cr.created_at
-        FROM member m LEFT JOIN chatting_room cr ON m.id = cr.member_id
+            title,
+            chat_id,
+            created_at
+        FROM chatting_room cr where member_id = ${member_id}
     </select>
 
     <insert id="insertChattingRoom">
-        INSERT INTO chatting_room (chat_id, member_id, created_by) VALUES (#{chat_id}, #{member_id}, #{created_by_member_id})
+        INSERT INTO chatting_room (chat_id, title,member_id, created_by) VALUES (#{chat_id}, #{title},#{member_id}, #{created_by_member_id})
     </insert>
 
 

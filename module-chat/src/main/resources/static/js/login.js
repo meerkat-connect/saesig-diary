@@ -30,9 +30,9 @@ const chattingList = {
     ,makeList : function (memberData){
         let el = '<div class="message" style="color: #4f6ebd" mekc-member-id="'+memberData.id+'">'
         el += '<div class="photo you"></div>'
-        el += '<p class="text me" style="width:100%" >'
+        el += '<p class="text me" style="width:50%" >'
         el += memberData.nickname
-        el += '- last chatting</p><p></p></div>'
+        el += '</p><p></p></div>'
         $('#chat').append(el)
     }
 };

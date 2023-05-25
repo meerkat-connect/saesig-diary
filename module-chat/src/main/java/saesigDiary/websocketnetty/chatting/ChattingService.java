@@ -19,7 +19,7 @@ public interface ChattingService {
 
     public int getLastChat(int chatId);
 
-    public void insertChattingRoom(int chat, int member_id, int created_by_member_id);
+    public void insertChattingRoom(int chat, String title ,int member_id, int created_by_member_id);
 
 
 }
