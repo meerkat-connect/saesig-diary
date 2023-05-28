@@ -25,7 +25,7 @@ ul {
 
 a {
     font-size: 13px;
-    @media only screen and(min-width: 1400px) {
+    @media only screen and (min-width: 1400px) {
         font-size: 14px;
     }
     color: $inverse-color;
@@ -37,13 +37,20 @@ a {
     }
 }
 
+h5{
+    font-size:24px;
+    font-weight: 600;
+    line-height: 30px;
+    color: #171a19;
+}
+
 h6 {
     font-size: 14px;
 }
 
 p {
     font-size: 13px;
-    @media only screen and(min-width: 1400px) {
+    @media only screen and (min-width: 1400px) {
         font-size: 14px;
     }
 }
@@ -67,7 +74,7 @@ p {
         }
 
         .page-header {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .page-header-title {
@@ -78,8 +85,10 @@ p {
                 margin-bottom: 0;
                 font-weight: 600;
                 color: #303548;
-                font-size: 20px;
+                font-size: 30px;
+                line-height: 30px;
                 text-transform: capitalize;
+                color: #171a19;
             }
 
             span {
@@ -1266,7 +1275,7 @@ a.mytooltip {
 
 .docs-buttons {
     > .btn,
-     > .form-control,
+    > .form-control,
     > .btn-group {
         margin-right: 5px;
     }
@@ -1274,7 +1283,7 @@ a.mytooltip {
 
 .docs-toggles {
     > .btn,
-     > .dropdown,
+    > .dropdown,
     > .btn-group {
         margin-bottom: 10px;
     }
