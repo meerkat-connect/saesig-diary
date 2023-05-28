@@ -27,11 +27,12 @@ public class ChattingController {
     public String getMemberList(int member_id,Model model) throws Exception {
         List<ChattingRoomDto> chattingRoomList = chattingService.getChattingRoomList(member_id);
         for (int i=0; i<chattingRoomList.size(); i++){
-            if (chattingRoomList.get(i).getChat_id() == null){
-                chattingRoomList.get(i).setLast_msg("make new Chatting room");
-            }else{
-                chattingRoomList.get(i).setLast_msg(chattingRoomList.get(i).getChat_id());
-            }
+                List<ChatDataDto> LastChat = chattingService.getLastChat(Integer.parseInt(chattingRoomList.get(i).getChat_id()));
+                if (LastChat.size() != 0){
+                    chattingRoomList.get(i).setLast_msg(LastChat.get(0).getText());
+                }else{
+                    chattingRoomList.remove(i);
+                }
         }
         model.addAttribute("chatList", chattingRoomList);
         model.addAttribute("meId", member_id);
@@ -51,26 +52,17 @@ public class ChattingController {
     }
 
     @PostMapping("/chat/chatting")
-    public String chattingRoom(@RequestBody String requestData, HttpSession session, Model model) throws Exception {
-        String[] requestDataArray = requestData.split("&");
-        String chatIdStr = requestDataArray[0].split("=")[1];
-        int meId = Integer.parseInt(requestDataArray[1].split("=")[1]);
+    public String chattingRoom(int meId, int chatId, int memberId,HttpSession session, Model model) throws Exception {
         List<ChatMemberDto> currentMemberData = chattingService.getMemberData(meId);
-        if (chatIdStr.equals("null")){
-            int targetId = Integer.parseInt(requestDataArray[2].split("=")[1]);
-            List<ChatMemberDto> targetMemberData = chattingService.getMemberData(targetId);
-            int chat = Integer.parseInt(Integer.toString(meId).concat(Integer.toString(targetId)).concat(Integer.toString((int)(Math.random()*100000))));
-            chattingService.insertChattingRoom(chat,currentMemberData.get(0).getNICKNAME(),targetId,meId);
-            chattingService.insertChattingRoom(chat,targetMemberData.get(0).getNICKNAME(),meId,meId);
-            model.addAttribute("chatId", chat);
-            ChatDataSearchResponseDto chatDataLog = chattingService.getChatDataList(chat);
-            model.addAttribute("chatDataLog", chatDataLog);
+        int chat_id;
+        if (chatId == 0){
+            chat_id = chattingService.makeChattingRoom(meId, memberId);
         }else{
-            int chat_id = Integer.parseInt(requestDataArray[0].split("=")[1]);
-            ChatDataSearchResponseDto chatDataLog = chattingService.getChatDataList(chat_id);
-            model.addAttribute("chatId", chat_id);
-            model.addAttribute("chatDataLog", chatDataLog);
+            chat_id = chatId;
         }
+        ChatDataSearchResponseDto chatDataLog = chattingService.getChatDataList(chat_id);
+        model.addAttribute("chatId", chat_id);
+        model.addAttribute("chatDataLog", chatDataLog);
         model.addAttribute("currentMemberData", currentMemberData);
         return "chattingRoom";
     }

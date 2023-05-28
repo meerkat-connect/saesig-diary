@@ -21,7 +21,7 @@ const chattingList = {
         el += '<div class="photo you"></div>'
         el += '<p class="text me" style="width:100%" >'
         el += memberData.title
-        el += '- last chatting</p><p></p></div>'
+        el += '- '+memberData.last_msg+'</p><p></p></div>'
         $('#chat').append(el)
     }
 
@@ -57,11 +57,18 @@ const chattingList = {
         select.id = 'memberSelectBox';
         select.name = 'memberSelectBox';
 
+        var option = document.createElement("option");
+        option.value = null
+        option.text = "선택";
+        select.appendChild(option);
+
         for(var i in _this.memberData){
-            var option = document.createElement("option");
-            option.value = _this.memberData[i]['ID'];
-            option.text = _this.memberData[i]['NICKNAME'];
-            select.appendChild(option);
+            if (meId != _this.memberData[i]['ID']){
+                var option = document.createElement("option");
+                option.value = _this.memberData[i]['ID'];
+                option.text = _this.memberData[i]['NICKNAME'];
+                select.appendChild(option);
+            }
         }
         $('.footer-chat').prepend(select);
         $(select).on('change',function (){
@@ -69,7 +76,13 @@ const chattingList = {
         })
     }
         ,makeChatRoom : function (chat_id=null,targerId = null){
+        if (chat_id == undefined || chat_id == null || chat_id == ''){
+            chat_id = 0
+        }
 
+        if (targerId == undefined || targerId == null || targerId == ''){
+            targerId = 0
+        }
         const form = document.createElement("form");
         form.setAttribute("charset", "UTF-8");
         form.setAttribute("method", "Post");  //Post 방식
@@ -77,7 +90,7 @@ const chattingList = {
 
         let hiddenField = document.createElement("input");
         hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "chat_id");
+        hiddenField.setAttribute("name", "chatId");
         hiddenField.setAttribute("value", chat_id);
         form.appendChild(hiddenField);
         hiddenField = document.createElement("input");
@@ -87,7 +100,7 @@ const chattingList = {
         form.appendChild(hiddenField);
         hiddenField = document.createElement("input");
         hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "member_id");
+        hiddenField.setAttribute("name", "memberId");
         hiddenField.setAttribute("value", targerId);
         form.appendChild(hiddenField);
         $(form).appendTo('body')

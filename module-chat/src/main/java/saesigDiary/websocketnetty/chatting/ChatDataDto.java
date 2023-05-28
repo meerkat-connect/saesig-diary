@@ -15,4 +15,5 @@ public class ChatDataDto {
     private int sender_seq;
     private String text;
     private String reg_date;
+    private int isRead;
 }

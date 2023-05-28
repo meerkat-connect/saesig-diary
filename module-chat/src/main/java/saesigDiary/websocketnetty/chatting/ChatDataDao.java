@@ -9,4 +9,6 @@ public interface ChatDataDao extends MongoRepository<ChatDataDto, String> {
     List<ChatDataDto> findBytextRegex(String title);
     List<ChatDataDto> findByChatId(int chatId);
 
+
+
 }

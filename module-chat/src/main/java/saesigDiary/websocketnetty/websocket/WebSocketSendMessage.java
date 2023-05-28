@@ -39,7 +39,7 @@ public class WebSocketSendMessage {
             }
         }
         if (param.getType().equals("message")){
-            chattingService.saveChattingData(param.getChatId(),param.getText(), param.getMemberId());
+            chattingService.saveChattingData(param.getChatId(),param.getText(), param.getMemberId(), 0);
         }
     }
 

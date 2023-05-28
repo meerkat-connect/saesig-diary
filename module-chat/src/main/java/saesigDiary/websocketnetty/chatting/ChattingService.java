@@ -15,11 +15,13 @@ public interface ChattingService {
 
     public List<ChattingRoomDto> getChattingRoomList(int member_id) throws Exception;
 
-    public int saveChattingData(int chatId, String text, int memberId);
+    public int saveChattingData(int chatId, String text, int memberId, int isRead);
 
-    public int getLastChat(int chatId);
+    public List<ChatDataDto> getLastChat(int chatId);
 
     public void insertChattingRoom(int chat, String title ,int member_id, int created_by_member_id);
+
+    public int makeChattingRoom(int member_id, int target_id) throws Exception;
 
 
 }
