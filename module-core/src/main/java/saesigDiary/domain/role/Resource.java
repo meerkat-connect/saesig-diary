@@ -34,11 +34,10 @@ public class Resource extends BaseEntity {
     @Column
     private Integer ord;
 
-    @ManyToOne
-    @JoinColumn(name = "upperId")
-    private Role parentResource;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "upper_id")
+    private Resource parentResource;
 
-    @OneToMany(mappedBy = "parentResource")
+    @OneToMany(mappedBy = "parentResource", fetch = FetchType.LAZY)
     private List<Resource> childResources = new ArrayList<>();
-
 }
