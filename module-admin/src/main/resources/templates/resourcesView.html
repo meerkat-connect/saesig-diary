@@ -11,19 +11,11 @@
                     <div class="card-block-small">
                         <ul>
                             <li class="d-inline-block m-r-10">
-                                디렉토리 : <img src="/images/mng/folder.png">
+
+                                메뉴 : <i class="icofont icofont-folder"></i>
                             </li>
                             <li class="d-inline-block m-r-10">
-                                메뉴 : <img src="/images/mng/layout_header.png">
-                            </li>
-                            <li class="d-inline-block m-r-10">
-                                메뉴상세 : <img src="/images/mng/tabnavigator.png">
-                            </li>
-                            <li class="d-inline-block m-r-10">
-                                기능 : <img src="/images/mng/widgets.png">
-                            </li>
-                            <li class="d-inline-block">
-                                팝업 : <img src="/images/mng/application_double.png">
+                                기능 : <i class="icofont icofont-file-alt"></i>
                             </li>
                         </ul>
                     </div>
@@ -147,53 +139,53 @@
     <link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
     <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
     <script>
-        let parentResources;
-
-        $(function() {
+        let resources;
+        $(function () {
             $.ajax({
-                url:'/admin/resources',
-                type:'get',
-            }).done(function(response){
-                parentResources = response;
-            }).fail(function(error){
+                url: '/admin/resources',
+                type: 'get',
+            }).done(function (response) {
+                resources = response;
+                console.log(resources);
+            }).fail(function (error) {
                 alert(error);
             });
 
             $('#jstree').jstree({
-                "core" : {
-                    'check_callback' : true,
-                    "themes" : {
+                "core": {
+                    'check_callback': true,
+                    "themes": {
                         "responsive": true
                     },
-                    //추가된 부분 시작
-                    "data":[
+                    "data": [
                         {
-                            "text" : "Parent",
-                            "children": [{
-                                "text":"child1",
-                                "type":"file",
-                                "id":"child1"
-                            },
+                            "text": "Parent",
+                            "children": [
                                 {
-                                    "text":"child2",
+                                    "text": "child1",
                                     "type": "file",
-                                    "id":"child2"
+                                    "id": "child1"
+                                },
+                                {
+                                    "text": "child2",
+                                    "type": "file",
+                                    "id": "child2"
                                 }
                             ]
                         },
                         "another"
-                    ]//추가된 부분 끝
+                    ]
                 },
-                "types" : {
-                    "default" : {
-                        "icon" : "icofont icofont-folder"
+                "types": {
+                    "default": {
+                        "icon": "icofont icofont-folder"
                     },
-                    "file" : {
-                        "icon" : "icofont icofont-file-alt"
+                    "file": {
+                        "icon": "icofont icofont-file-alt"
                     }
                 },
-                'plugins' : ['types', 'dnd']
-            }).bind("move_node.jstree", function(e,d) {
+                'plugins': ['types', 'dnd']
+            }).bind("move_node.jstree", function (e, d) {
                 console.log(e);
                 console.log(d);
             });

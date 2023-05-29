@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ResourceRepository extends JpaRepository<Resource, Long> {
 
-    @Query("select r from Resource r where r.parentResource = null")
+    @Query("select r from Resource r where r.parentResource is null")
     List<Resource> findParentResources();
 }

@@ -4,11 +4,8 @@ package saesigDiary.resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import saesigDiary.domain.role.Resource;
-import saesigDiary.domain.role.ResourceRepository;
+import org.springframework.web.bind.annotation.*;
+import saesigDiary.domain.role.ResourceResponseDto;
 
 import java.util.List;
 
@@ -16,7 +13,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class ResourceController {
-    private final ResourceRepository resourceRepository;
+    private final ResourceService resourceService;
 
     @GetMapping("/resourcesView")
     public String resourcesView(Model model) {
@@ -25,8 +22,21 @@ public class ResourceController {
 
     @GetMapping("/resources")
     @ResponseBody
-    public List<Resource> getResources() {
-        return resourceRepository.findParentResources();
+    public List<ResourceResponseDto> getResources() {
+        return resourceService.findAll();
     }
+
+    @PostMapping("/resources")
+    @ResponseBody
+    public ResourceResponseDto addResource(){
+        return null;
+    }
+
+    @GetMapping("/resources/{resourceId}")
+    @ResponseBody
+    public ResourceResponseDto getResource(@PathVariable Long resourceId) {
+        return resourceService.findById(resourceId);
+    }
+
 
 }
