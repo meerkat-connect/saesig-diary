@@ -1,7 +1,6 @@
 package saesigDiary.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.h2.tools.Server;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -28,8 +27,6 @@ public class MybatisConfig {
     @Bean
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() throws Exception {
-        Server.createTcpServer("-tcp", "-tcpAllowOthers", "-tcpPort", "9092").start();
-
         return DataSourceBuilder.create().build();
     }
 
