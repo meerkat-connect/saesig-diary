@@ -8,3 +8,8 @@ spring:
     url: jdbc:mysql://localhost:3306/db명?serverTimeZone=UTC&characterEncoding=UTF-8&useUnicode=true
     username:
     password:
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false

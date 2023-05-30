@@ -1,12 +1,12 @@
-$menu-title: #dcdcdc,#624e89,#3c4fb1,#919aa3,#999,#fff;
-$logo-theme: #404E67,#FF7588 ,#00bcd4,#16D39A ,#2196F3,#404E67;
-$header-theme: #fff,#FF7588 ,#00bcd4,#16D39A ,#2196F3,#404E67;
-$left-navbar-theme: #404E67;
+$menu-title: #dcdcdc,#624e89,#3c4fb1,#919aa3,#fff,#fff;
+$logo-theme: #171a19,#FF7588 ,#00bcd4,#16D39A ,#2196F3,#171a19;
+$header-theme: #171a19,#FF7588 ,#00bcd4,#16D39A ,#2196F3,#171a19;
+$left-navbar-theme: #171a19;
 $left-navbar-light-theme: #fff;
 $active-item: #FE8A7D,#FF7588 ,#16D39A ,#2196F3,#FFB64D,#ff5e3a,#e64056,#3c4fb1,#FF5370,#F76D47,#39ADB5,#7C4DFF;
 $icon-color: #2196F3,#FF7588 ,#16D39A ,#FFB64D,#ab7967,#39ADB5,#7C4DFF,#FF5370;
 $fream-color: #000,#16D39A,#FF7588,#404E67,#2196F3,#E91E63;
-$dark-layout-color: #404E67;
+$dark-layout-color: #171a19;
 
 .pcoded {
     .pcoded-item.pcoded-left-item {
@@ -248,11 +248,11 @@ $dark-layout-color: #404E67;
             align-items: center;
             display: flex;
             float: left;
-            height: 58px;
+            height: 68px;
             text-align: center;
             text-transform: uppercase;
             width: 240px;
-            padding: 10px;
+            padding: 20px;
             @media only screen and (max-width: 992px) {
                 justify-content: center;
             }
@@ -269,7 +269,7 @@ $dark-layout-color: #404E67;
                 padding: 5px 9px;
                 font-size: 20px;
             }
-            @media only screen and(max-width: 575px) {
+            @media only screen and (max-width: 575px) {
                 .mobile-search {
                     display: none !important;
                 }
@@ -288,8 +288,8 @@ $dark-layout-color: #404E67;
 
                 li {
                     float: left;
-                    line-height: 3.5;
-                    padding: 0 10px;
+                    line-height: 3;
+                    padding: 12px 0px 8px 10px;
                     position: relative;
                     @media only screen and (max-width: 575px) {
                         padding: 0 5px;
@@ -578,7 +578,7 @@ $dark-layout-color: #404E67;
 .pcoded-main-container {
     display: block;
     position: relative;
-    background: #F6F7FB;
+    background: #F9F7F2;
     min-height: calc(100vh - 56px);
 }
 
@@ -593,6 +593,7 @@ $dark-layout-color: #404E67;
 }
 
 .pcoded-inner-content {
+    background-color: #F9F7F2;
     padding: 10px;
 }
 
@@ -614,6 +615,7 @@ $dark-layout-color: #404E67;
             > a {
                 display: block;
                 font-size: 14px;
+                line-height: 45px;
                 padding: 0 15px;
                 text-decoration: none;
                 position: relative;
@@ -636,7 +638,7 @@ $dark-layout-color: #404E67;
             list-style: outside none none;
             margin: 0;
             padding: 0;
-
+            background: #000000;
             li {
                 display: block;
                 list-style: outside none none;
@@ -670,7 +672,7 @@ $dark-layout-color: #404E67;
 
         > li > a > .pcoded-micon {
             font-size: 16px;
-            padding: 4px;
+            //padding: 4px;
             margin-right: 10px;
             width: 23px;
             display: inline-block;
@@ -1114,7 +1116,7 @@ $dark-layout-color: #404E67;
         .pcoded-navbar .pcoded-item {
             > li > a {
                 text-align: left;
-                padding: 8px 15px;
+                //padding: 8px 15px;
             }
 
             .pcoded-hasmenu .pcoded-submenu {
@@ -1222,14 +1224,13 @@ $dark-layout-color: #404E67;
             li.pcoded-hasmenu {
                 > a:after {
                     float: right;
-                    font-style: normal;
                     margin-left: 3px;
                     font-size: 14px;
                     position: absolute;
                     right: 15px;
-                    top: 5px;
+                    //top: 5px;
                     font-family: 'feather';
-                    padding-top: 5px;
+                    //padding-top: 5px;
                     transition: opacity 0.3s linear;
                     -webkit-transition: opacity 0.3s linear;
                     -ms-transition: opacity 0.3s linear;
@@ -1431,7 +1432,6 @@ $dark-layout-color: #404E67;
             }
 
             .pcoded-mtext:before {
-                font-style: normal;
                 padding-right: 4px;
                 font-size: 10px;
                 position: relative;
@@ -1794,7 +1794,7 @@ $dark-layout-color: #404E67;
                 opacity: 1;
                 visibility: visible;
                 position: absolute;
-                top: 12px;
+                //top: 12px;
             }
 
             li.pcoded-hasmenu > a:after {
@@ -2892,9 +2892,10 @@ $dark-layout-color: #404E67;
     }
 
     .pcoded-navbar .pcoded-navigatio-lavel {
-        font-size: 14px;
-        font-weight: 400;
-        letter-spacing: 1px;
+        font-size: 18px;
+        line-height:30px;
+        font-weight: 600;
+        // letter-spacing: 1px;
         opacity: 1;
         padding: 25px 20px 8px;
         text-transform: capitalize;
@@ -3327,7 +3328,7 @@ $dark-layout-color: #404E67;
                     }
 
                     li.pcoded-hasmenu .pcoded-submenu {
-                        background: $value;
+                        background: black;
 
                         li > a {
                             border-bottom-color: lighten($value, 10%);

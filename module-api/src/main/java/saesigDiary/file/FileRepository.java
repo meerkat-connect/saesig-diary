@@ -1,7 +1,7 @@
 package saesigDiary.file;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import saesigDiary.domain.File;
+import saesigDiary.domain.file.File;
 
 import java.util.Optional;
 

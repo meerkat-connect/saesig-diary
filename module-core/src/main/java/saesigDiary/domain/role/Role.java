@@ -1,8 +1,9 @@
-package saesigDiary.domain;
+package saesigDiary.domain.role;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import saesigDiary.domain.common.BaseEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;

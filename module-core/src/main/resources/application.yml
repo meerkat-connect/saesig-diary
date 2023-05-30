@@ -21,3 +21,8 @@ logging:
 #      hibernate: debug
     sql: debug
 
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+

@@ -1,7 +1,8 @@
-package saesigDiary.domain;
+package saesigDiary.domain.file;
 
 
 import lombok.*;
+import saesigDiary.domain.common.BaseEntity;
 
 import javax.persistence.*;
 

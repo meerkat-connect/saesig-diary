@@ -1,4 +1,4 @@
-package saesigDiary.domain;
+package saesigDiary.domain.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
