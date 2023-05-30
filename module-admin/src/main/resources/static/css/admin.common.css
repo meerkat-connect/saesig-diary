@@ -1,6 +1,27 @@
 .pcoded .pcoded-navbar .pcoded-item > li > a:hover{color:#FF8031 !important;}
 .pcoded .pcoded-navbar[active-item-theme="theme1"] .pcoded-item li:hover > a {color:#FF8031 !important;}
 
+.navbar-wrapper { }
+.navbar-container{
+    float:right;
+    width: calc(100% - 240px) !important;
+    height:68px !important;
+    background: #F9F7F2 !important;
+    border-radius: 20px 0px 0px 0px;
+}
+.pcoded-content {
+    background: #171a19 !important;
+}
+.pcoded-inner-content {
+    border-radius: 0px 0px 0px 20px !important;
+}
+
+.pcoded .pcoded-header[header-theme="theme1"] {
+    color: #171a19 !important;
+}
+.pcoded .pcoded-header[header-theme="theme1"] a {
+    color: #1C1B1F;
+}
 /*
 .modal-content.type_2{background-color:#F6F7FB;}
 .modal-content.type_2 .modal-header{background-color: #fff;}
