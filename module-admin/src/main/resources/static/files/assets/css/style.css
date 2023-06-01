@@ -5919,10 +5919,11 @@ table tbody .border-bottom-info td {
       .header-navbar .navbar-wrapper .navbar-logo .mobile-search {
         display: none; }
     .header-navbar .navbar-wrapper .navbar-container {
-      width: calc(100% - 240px) !important;
-      height: 68px !important;
-      background: #F9F7F2 !important;
-      border-radius: 20px 0px 0px 0px; }
+      width: calc(100% - 240px);
+      height: 68px;
+      background: #F9F7F2;
+      border-radius: 20px 0px 0px 0px;
+      color: black; }
       @media only screen and (max-width: 992px) {
         .header-navbar .navbar-wrapper .navbar-container {
           display: none; } }
@@ -5945,6 +5946,9 @@ table tbody .border-bottom-info td {
               border-radius: 50%;
               width: 20px;
               height: 20px; }
+        .header-navbar .navbar-wrapper .navbar-container .nav-left li:not(:first-child), .header-navbar .navbar-wrapper .navbar-container .nav-right li:not(:first-child) {
+          padding-top: 14px;
+          margin-left: -15px; }
         .header-navbar .navbar-wrapper .navbar-container .nav-left a, .header-navbar .navbar-wrapper .navbar-container .nav-right a {
           padding: 0 0.6rem; }
         .header-navbar .navbar-wrapper .navbar-container .nav-left .mega-menu-top i, .header-navbar .navbar-wrapper .navbar-container .nav-right .mega-menu-top i {
@@ -5953,7 +5957,7 @@ table tbody .border-bottom-info td {
       .header-navbar .navbar-wrapper .navbar-container .nav-right {
         float: right; }
         .header-navbar .navbar-wrapper .navbar-container .nav-right li {
-          padding: 0 20px; }
+          padding: 10px 20px; }
         .header-navbar .navbar-wrapper .navbar-container .nav-right .user-profile img {
           margin-right: 10px;
           width: 30px; }
