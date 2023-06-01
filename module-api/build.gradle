@@ -17,6 +17,9 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
+
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation group: 'javax.mail', name: 'mail', version: '1.4.7'
 }
 
 def querydslDir = "$buildDir/generated/querydsl"
