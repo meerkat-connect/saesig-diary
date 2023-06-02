@@ -25,9 +25,9 @@ public class MailContorller {
     private static ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ThymeleafConfig .class);
 
     // 구글 이메일
-    static final String user_email= "meerkatconnect@gmail.com";
+    static final String user_email= "eamil";
     // 구글 비번
-    static final String user_pw = "edqcluufiptvdawd";
+    static final String user_pw = "앱 비밀번호";
 
     static final String smtp_host = "smtp.gmail.com";
     static final int smtp_port = 465;  // TLS : 587, SSL : 465
@@ -64,7 +64,7 @@ public class MailContorller {
             // 받는 이메일
             message.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse("ahnov23@naver.com")
+                    InternetAddress.parse("email, email")
             );
 
             // 제목
