@@ -58,6 +58,7 @@ CREATE TABLE `resource`
     `url`         VARCHAR(500)          NOT NULL COMMENT '자원 URL',
     `http_method` VARCHAR(10)           NOT NULL COMMENT 'HTTP 메소드',
     `is_enabled`  CHAR(1)               NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+    `type`        VARCHAR(10)           NOT NULL COMMENT '유형',
     `depth`       INTEGER               NULL COMMENT '깊이',
     `ord`         INTEGER               NULL COMMENT '순서',
     `upper_id`    BIGINT                NULL COMMENT '상위 자원 일련번호',
