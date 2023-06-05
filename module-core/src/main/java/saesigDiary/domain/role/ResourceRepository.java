@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ResourceRepository extends JpaRepository<Resource, Long> {
 
-    @Query("select r from Resource r where r.parentResource is null")
-    List<Resource> findParentResources();
+    @Query("SELECT r FROM Resource AS r left join fetch r.childResources order by r.id")
+    public List<Resource> findAllWithRecursive();
+
 }

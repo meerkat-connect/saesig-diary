@@ -2,10 +2,10 @@ package saesigDiary.resource;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import saesigDiary.domain.role.ResourceResponseDto;
 
 import java.util.List;
 
@@ -26,10 +26,16 @@ public class ResourceController {
         return resourceService.findAll();
     }
 
-    @PostMapping("/resources")
+    @GetMapping("/resourcesWithRecursive")
     @ResponseBody
-    public ResourceResponseDto addResource(){
-        return null;
+    public List<ResourceResponseDto> getResourcesWithRecursive() {
+        return resourceService.findAllWithRecursive();
+    }
+
+    @PostMapping(value = "/resources", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Long addResource(@RequestBody ResourceRequestDto resourceRequestDto){
+        return resourceService.save(resourceRequestDto);
     }
 
     @GetMapping("/resources/{resourceId}")

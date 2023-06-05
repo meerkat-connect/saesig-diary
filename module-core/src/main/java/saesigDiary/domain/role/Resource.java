@@ -1,8 +1,6 @@
 package saesigDiary.domain.role;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import saesigDiary.domain.common.BaseEntity;
 
 import javax.persistence.*;
@@ -12,6 +10,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@ToString(exclude = "parentResource")
 public class Resource extends BaseEntity {
     @Id
     private Long id;
@@ -34,10 +33,27 @@ public class Resource extends BaseEntity {
     @Column
     private Integer ord;
 
+    @Column
+    private String type;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "upper_id")
     private Resource parentResource;
 
     @OneToMany(mappedBy = "parentResource", fetch = FetchType.LAZY)
     private List<Resource> childResources = new ArrayList<>();
+
+    @Builder
+    public Resource(Long id, String name, String url, String httpMethod, Character isEnabled, Integer depth, Integer ord, String type, Resource parentResource, List<Resource> childResources) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.httpMethod = httpMethod;
+        this.isEnabled = isEnabled;
+        this.depth = depth;
+        this.ord = ord;
+        this.type = type;
+        this.parentResource = parentResource;
+        this.childResources = childResources;
+    }
 }

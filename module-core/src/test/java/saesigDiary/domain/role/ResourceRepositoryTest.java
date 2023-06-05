@@ -5,12 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
+import saesigDiary.config.CustomDataJpaTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@CustomDataJpaTest
 @ActiveProfiles("local")
 class ResourceRepositoryTest {
     @Autowired
@@ -22,5 +23,14 @@ class ResourceRepositoryTest {
         List<Resource> resources = resourceRepository.findAll();
 
         assertThat(resources.size()).isGreaterThan(0);
+    }
+
+    @DisplayName("사용자 정의 메소드 조회")
+    @Test
+    public void 사용자_정의_메소드_조회() {
+        List<Resource> allWithRecursive = resourceRepository.findAllWithRecursive();
+
+        allWithRecursive.stream().forEach(resource -> System.out.println(resource));
+
     }
 }
