@@ -45,6 +45,9 @@
                                         </h5>
                                         <form id="resourceForm" name="resourceForm">
                                             <input type="hidden" name="id" id="id"/>
+                                            <input type="hidden" name="ord" id="ord">
+                                            <input type="hidden" name="depth" id="depth">
+
                                             <div class="card">
                                                 <div class="card-block-small">
                                                     <div class="mb-3 form-group row">
@@ -130,6 +133,9 @@
     <script>
         const resourceController = {
             resources: [],
+            parentNode: null,
+            selectedNode: null,
+            $jstree: $('#jstree'),
 
             init: function () {
                 $.ajax({
@@ -140,11 +146,18 @@
                     response.forEach(function (element, index) {
                         resourceController.resources[index] = {
                             id: element.id,
-                            parent: element.parentId == null ? '#' : element.parentId,
+                            parent: element.parentId ? element.parentId : '#',
                             text: element.name,
-                            type: element.parentId == null ? 'default' : 'file'
+                            type: element.parentId ? 'file' : 'default',
+                            httpMethod: element.httpMethod,
+                            url: element.url,
+                            isEnabled: element.isEnabled,
+                            name: element.name,
+                            depth: element.depth,
+                            ord: element.ord
                         };
                     });
+                    console.log(resourceController.resources);
                 }).fail(function (error) {
                     alert(error);
                 });
@@ -154,7 +167,7 @@
 
             renderJsTree: function () {
                 /* 이벤트 목록 조회 URL: https://www.jstree.com/api/#/?q=.jstree%20Event */
-                $('#jstree').jstree({
+                this.$jstree.jstree({
                     "core": {
                         "animation": 50,
                         "strings": {
@@ -182,7 +195,10 @@
                                 "separator_after": false,
                                 "label": "하위 등록",
                                 "action": function (obj) {
-                                    alert('하위 테스트 ')
+                                    $('#resourceForm')[0].reset();
+                                    $('#id').val('');
+                                    $('#upperId').val(resourceController.selectedNode.original.id);
+                                    $('#upperUrl').val(resourceController.selectedNode.original.url);
                                 }
                             }, "delete": {
                                 "separator_before": false,
@@ -198,7 +214,8 @@
                 }).bind("move_node.jstree", function (event, data) {
 
                 }).bind("select_node.jstree", function (event, data) {
-                    resourceController.findById(data.node.id)
+                    resourceController.selectedNode = resourceController.$jstree.jstree('get_selected',true)[0];
+                    resourceController.print();
                 }).bind("dblclick.jstree", function (event) {
 
                 }).bind("open_node.jstree", function (event, data) {
@@ -245,25 +262,37 @@
             insert: function () {
                 if (confirm('자원 정보를 등록하시겠습니까?')) {
                     const formData = $('#resourceForm').serializeObject();
+                    formData.depth = this.parentNode.original.depth + 1;
+                    formData.isEnabled = "Y";
+                    formData.ord = this.parentNode.children.length + 1;
+                    formData.id = null;
 
+                    console.log(formData);
                     $.ajax({
                         url: '/admin/resources',
                         type: 'post',
-                        data: formData,
+                        data: JSON.stringify(formData),
                         contentType: 'application/json'
                     }).done(function (response) {
-                        alert('등록되었습니다.');
+                        alert('자원이 등록되었습니다.');
+                        resourceController.$jstree.jstree(true).refresh();
                     }).fail(function (error) {
                     });
                 }
             },
 
-            print: function (response) {
-                $('#id').val(response.id);
-                $('#name').val(response.name);
-                $('#url').val(response.url);
-                $('#isEnabled').attr('checked', response.isEnabled === 'Y');
-                $(`input[name=type]:input[value=${response.type}]`).attr('checked', true);
+            print: function () {
+                this.parentNode = resourceController.$jstree.jstree(true).get_node(this.selectedNode.parent);
+                if(this.parentNode.original) {
+                    $('#upperId').val(this.parentNode.original.id);
+                    $('#upperUrl').val(this.parentNode.original.url);
+                }
+
+                $('#id').val(this.selectedNode.original.id);
+                $('#name').val(this.selectedNode.original.name);
+                $('#url').val(this.selectedNode.original.url);
+                $('#isEnabled').attr('checked', this.selectedNode.original.isEnabled === 'Y');
+                $(`input[name=type]:input[value=${this.selectedNode.original.type}]`).attr('checked', true);
             }
         };
 

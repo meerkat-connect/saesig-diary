@@ -13,6 +13,7 @@ import java.util.List;
 @ToString(exclude = "parentResource")
 public class Resource extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column

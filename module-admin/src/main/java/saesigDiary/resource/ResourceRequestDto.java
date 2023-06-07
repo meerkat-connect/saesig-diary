@@ -13,6 +13,9 @@ public class ResourceRequestDto {
     private String httpMethod;
     private String type;
     private Character isEnabled;
+    private Integer ord;
+    private Integer depth;
+    private Long upperId;
 
     public Resource toEntity() {
         return Resource
@@ -20,9 +23,17 @@ public class ResourceRequestDto {
                 .id(id)
                 .url(url)
                 .name(name)
+                .depth(depth)
+                .ord(ord)
+                .parentResource(setParentResource(upperId))
                 .httpMethod(httpMethod)
                 .type(type)
                 .isEnabled(isEnabled)
                 .build();
     }
+
+    public Resource setParentResource(Long upperId) {
+        return Resource.builder().id(upperId).build();
+    }
+
 }
