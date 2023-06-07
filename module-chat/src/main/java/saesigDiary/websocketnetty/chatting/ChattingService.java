@@ -23,5 +23,7 @@ public interface ChattingService {
 
     public int makeChattingRoom(int member_id, int target_id) throws Exception;
 
+    public boolean readMessage(int member_id, int chat_id);
+
 
 }

@@ -61,11 +61,13 @@
             }
         };
         var clear = function () {
+            readMessage()
             clearInterval(timeoutId);
             document.title = oldTitle;
             window.onmousemove = null;
             timeoutId = null;
         };
+
         return function () {
             if (!timeoutId) {
                 timeoutId = setInterval(blink, 1000);
@@ -103,7 +105,7 @@
 
     function setChatLog(){
         $(chatLog['chatDataDto']).each(function (){
-            setMessageTemplate(this.sender_seq,this.text);
+            setMessageTemplate(this.sender_seq,this.text,this.isRead,this.reg_date.substring(16,11));
         })
     }
 
@@ -114,6 +116,16 @@
                 $("#opinion").val('');
             }
         }
+    }
+
+    function readMessage(){
+        let msg = {
+            type : 'readMessage',
+            text : '',
+            chatId : chatId,
+            memberId : userid
+        }
+        websocket.send(JSON.stringify(msg));
     }
 
     function sendMessage(str) {
@@ -177,22 +189,36 @@
             setOnMessage();
         }else if (data.type == 'outMessage'){
             setOutMessage();
-        }else{
+        }else if (data.type == "readMessage"){
+            setReadMessage(data.memberId);
+        }
 
-            setMessageTemplate(sessionId,message)
+        else{
+            const date = new Date;
+            let chatTime = date.getHours()+':'+date.getMinutes()
+            setMessageTemplate(sessionId,message,0,chatTime)
         }
 
 
         document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
     }
 
-    function setMessageTemplate(sessionId, message){
+    function setMessageTemplate(sessionId, message, isRead, reg_date){
+        let readStr = "";
+        if (isRead == 0){
+            readStr = "unread"
+        }else{
+            readStr = "read"
+        }
+
         const cur_session = userid;
         if (sessionId == cur_session) {
             var str = "<div class='message text-only myMessage'>";
             str += "<div class='response'><p class='text'>"
             str += message;
-            str += "</p></div></div>";
+            str += "</p>"
+            str += "<div class='chatInfo'><span class='readStatus'>"+readStr+"</span><span class='chatTime'>"+reg_date+"</span></div>"
+            str += "</div></div>";
             isLastChatFromMe = true;
         } else {
             setOutMessage();
@@ -201,17 +227,23 @@
                 var str = "<div class='message targetMessage'> <div class='photo you'></div>";
                 str += "<p class='text'>"
                 str += message;
-                str += "<p></div>";
+                str += "</p>"
+                str += "<div class='chatInfo'><span class='chatTime'>"+reg_date+"</span><span class='readStatus'>"+readStr+"</span></div>"
+                str += "</div>";
             } else {
-                var str = "<div class='message text-only'>";
+                var str = "<div class='message text-only targetMessage'>";
                 str += "<p class='text'>"
                 str += message;
-                str += "<p></div>";
+                str += "</p>"
+                str += "<div class='chatInfo'><span class='chatTime'>"+reg_date+"</span><span class='readStatus'>"+readStr+"</span></div>"
+                str += "</div>";
             }
             isLastChatFromMe = false;
 
             if (isSeeing == false) {
                 newExcitingAlerts();
+            }else{
+                readMessage();
             }
         }
         if ($(document).find('.onMessage').length > 0){
@@ -241,6 +273,14 @@
     }
     function setOutMessage(){
         $(document).find('.onMessage.targetMessage').remove();
+    }
+
+    function setReadMessage(memberId){
+        if (memberId == userid){
+            $('#chat').find('.targetMessage').find('.readStatus').text("read")
+        }else{
+            $('#chat').find('.myMessage').find('.readStatus').text("read")
+        }
     }
 
 </script>

@@ -40,6 +40,8 @@ public class WebSocketSendMessage {
         }
         if (param.getType().equals("message")){
             chattingService.saveChattingData(param.getChatId(),param.getText(), param.getMemberId(), 0);
+        }else if (param.getType().equals("readMessage")){
+            chattingService.readMessage(param.getMemberId(), param.getChatId());
         }
     }
 

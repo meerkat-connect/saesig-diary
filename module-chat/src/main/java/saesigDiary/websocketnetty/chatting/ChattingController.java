@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import saesigDiary.websocketnetty.websocket.chatJsonData;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,7 +27,7 @@ public class ChattingController {
     @PostMapping({"", "/chat"})
     public String getMemberList(int member_id,Model model) throws Exception {
         List<ChattingRoomDto> chattingRoomList = chattingService.getChattingRoomList(member_id);
-        for (int i=0; i<chattingRoomList.size(); i++){
+        for (int i= (chattingRoomList.size()-1); i > -1 ; i--){
                 List<ChatDataDto> LastChat = chattingService.getLastChat(Integer.parseInt(chattingRoomList.get(i).getChat_id()));
                 if (LastChat.size() != 0){
                     chattingRoomList.get(i).setLast_msg(LastChat.get(0).getText());
@@ -54,6 +55,7 @@ public class ChattingController {
     @PostMapping("/chat/chatting")
     public String chattingRoom(int meId, int chatId, int memberId,HttpSession session, Model model) throws Exception {
         List<ChatMemberDto> currentMemberData = chattingService.getMemberData(meId);
+        List<ChatMemberDto> targetMemberData = chattingService.getMemberData(memberId);
         int chat_id;
         if (chatId == 0){
             chat_id = chattingService.makeChattingRoom(meId, memberId);
@@ -64,6 +66,7 @@ public class ChattingController {
         model.addAttribute("chatId", chat_id);
         model.addAttribute("chatDataLog", chatDataLog);
         model.addAttribute("currentMemberData", currentMemberData);
+        model.addAttribute("targetMemberData", targetMemberData);
         return "chattingRoom";
     }
 

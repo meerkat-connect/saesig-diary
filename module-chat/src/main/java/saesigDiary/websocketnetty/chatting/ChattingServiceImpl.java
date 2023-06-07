@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -62,7 +63,7 @@ public class ChattingServiceImpl implements ChattingService{
     public List<ChatDataDto> getLastChat(int chat_id) {
         Query query = new Query();
         query.addCriteria(Criteria.where("chatId").is(chat_id)).limit(1);
-        query.with(Sort.by(Sort.Direction.DESC,"_id"));
+        query.with(Sort.by(Sort.Direction.DESC,"reg_date"));
         return mongoTemplate.find(query, ChatDataDto.class);
     }
 
@@ -84,5 +85,14 @@ public class ChattingServiceImpl implements ChattingService{
         insertChattingRoom(chat,currentMemberData.get(0).getNICKNAME(),target_id,member_id);
         insertChattingRoom(chat,targetMemberData.get(0).getNICKNAME(),member_id,member_id);
         return chat;
+    }
+
+    public boolean readMessage(int member_id, int chat_id){
+        Update update = new Update();
+        Query query = new Query(Criteria.where("sender_seq").ne(member_id)
+                .and("chatId").is(chat_id));
+        update.set("isRead",1);
+        mongoTemplate.updateMulti(query, update, "chat");
+        return true;
     }
 }
