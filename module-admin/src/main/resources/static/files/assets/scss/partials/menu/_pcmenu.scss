@@ -243,6 +243,8 @@ $dark-layout-color: #171a19;
     padding: 0;
 
     .navbar-wrapper {
+        display:flex;
+
         .navbar-logo {
             position: relative;
             align-items: center;
@@ -282,6 +284,17 @@ $dark-layout-color: #171a19;
         }
 
         .navbar-container {
+            width: calc(100% - 240px);
+            height:68px;
+            background: #F9F7F2;
+            border-radius: 20px 0px 0px 0px;
+            color: black;
+
+
+            @media only screen and (max-width: 992px) {
+                display:none;
+            }
+
             .nav-left {
                 float: left;
                 margin-bottom: 0;
@@ -311,6 +324,10 @@ $dark-layout-color: #171a19;
                         }
                     }
                 }
+                li:not(:first-child) {
+                    padding-top: 14px;
+                    margin-left: -15px;
+                }
 
                 a {
                     padding: 0 0.6rem;
@@ -329,7 +346,7 @@ $dark-layout-color: #171a19;
                 @extend .nav-left;
 
                 li {
-                    padding: 0 20px;
+                    padding: 10px 20px;
                 }
 
                 .user-profile {
@@ -583,6 +600,7 @@ $dark-layout-color: #171a19;
 }
 
 .pcoded .pcoded-content {
+    background: #171a19;
     position: relative;
     display: block;
 }
@@ -594,6 +612,8 @@ $dark-layout-color: #171a19;
 
 .pcoded-inner-content {
     background-color: #F9F7F2;
+    border-radius: 0px 0px 0px 20px !important;
+    min-height: calc(100vh - 56px);
     padding: 10px;
 }
 
@@ -1133,12 +1153,12 @@ $dark-layout-color: #171a19;
         &[vertical-nav-type="expanded"] .pcoded-navbar .pcoded-item .pcoded-hasmenu {
             .pcoded-submenu li {
                 > a {
-                    padding-left: 30px;
+                    padding-left: 18px;
                 }
 
                 .pcoded-submenu li {
                     > a {
-                        padding-left: 50px;
+                        padding-left: 40px;
                     }
                 }
             }
@@ -1239,7 +1259,7 @@ $dark-layout-color: #171a19;
                 }
 
                 .pcoded-submenu li.pcoded-hasmenu > a:after {
-                    top: 0;
+                    top: 9px;
                 }
             }
 
@@ -1445,7 +1465,7 @@ $dark-layout-color: #171a19;
             }
         }
 
-        &[subitem-icon="style1"] .pcoded-submenu li > a .pcoded-mtext:before {
+      /*  &[subitem-icon="style1"] .pcoded-submenu li > a .pcoded-mtext:before {
             content: "\e844";
         }
 
@@ -1467,7 +1487,7 @@ $dark-layout-color: #171a19;
 
         &[subitem-icon="style6"] .pcoded-submenu li > a .pcoded-mtext:before {
             content: '\e89b';
-        }
+        }*/
     }
 
     &[theme-layout="vertical"] .pcoded-navbar .pcoded-item > li {
@@ -1498,14 +1518,14 @@ $dark-layout-color: #171a19;
     }
 
     .pcoded-navbar .pcoded-item .pcoded-hasmenu .pcoded-submenu li > a:before {
-        border-left-style: solid;
+/*        border-left-style: solid;
         border-left-width: 3px;
         border-left-color: transparent;
         content: " ";
         height: 100%;
         left: 0;
         position: absolute;
-        top: 0;
+        top: 0;*/
     }
 
     &[theme-layout="vertical"] {
@@ -3361,7 +3381,7 @@ $dark-layout-color: #171a19;
                     .pcoded-hasmenu .pcoded-submenu li {
                         &:hover {
                             > a {
-                                background-color: $value;
+                                background-color: #000;
                                 color: #dcdcdc;
                             }
 
@@ -3373,7 +3393,7 @@ $dark-layout-color: #171a19;
                         &.active {
                             > a {
                                 color: #dcdcdc;
-                                background-color: $value;
+                                background-color: #000;
                             }
 
                             > a .pcoded-mtext:before {
@@ -4546,7 +4566,7 @@ $dark-layout-color: #171a19;
                 } @else {
                     color: #fff;
                     a {
-                        color: #fff;
+                        color: #1C1B1F;
                     }
                     .navbar-wrapper .header-search .main-search .input-group .input-group-addon{
                         color: #fff;
