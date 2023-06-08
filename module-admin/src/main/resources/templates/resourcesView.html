@@ -157,9 +157,8 @@
                             ord: element.ord
                         };
                     });
-                    console.log(resourceController.resources);
                 }).fail(function (error) {
-                    alert(error);
+                    alert("자원 목록을 조회하는데 실패하였습니다.");
                 });
 
                 this.renderJsTree();
@@ -248,7 +247,7 @@
 
                     $.ajax({
                         url: '/admin/resources',
-                        type: 'post',
+                        type: 'put',
                         data: formData,
                         contentType: 'application/json'
                     }).done(function (response) {
@@ -265,9 +264,7 @@
                     formData.depth = this.parentNode.original.depth + 1;
                     formData.isEnabled = "Y";
                     formData.ord = this.parentNode.children.length + 1;
-                    formData.id = null;
 
-                    console.log(formData);
                     $.ajax({
                         url: '/admin/resources',
                         type: 'post',

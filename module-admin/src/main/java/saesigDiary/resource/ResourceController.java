@@ -34,8 +34,8 @@ public class ResourceController {
 
     @PostMapping(value = "/resources", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Long addResource(@RequestBody ResourceRequestDto resourceRequestDto){
-        return resourceService.save(resourceRequestDto);
+    public Long addResource(@RequestBody ResourceInsertDto resourceInsertDto){
+        return resourceService.insert(resourceInsertDto);
     }
 
     @GetMapping("/resources/{resourceId}")

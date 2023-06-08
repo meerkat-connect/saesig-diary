@@ -1,6 +1,7 @@
 package saesigDiary.domain.role;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import saesigDiary.domain.common.BaseEntity;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@DynamicUpdate
 @ToString(exclude = "parentResource")
 public class Resource extends BaseEntity {
     @Id
@@ -56,5 +58,13 @@ public class Resource extends BaseEntity {
         this.type = type;
         this.parentResource = parentResource;
         this.childResources = childResources;
+    }
+
+    public void updateInfo(String name, String url, String httpMethod, Character isEnabled, String type) {
+        this.name = name;
+        this.url =url;
+        this.httpMethod = httpMethod;
+        this.isEnabled = isEnabled;
+        this.type = type;
     }
 }

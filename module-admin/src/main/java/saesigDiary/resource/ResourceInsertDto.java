@@ -1,13 +1,10 @@
 package saesigDiary.resource;
 
-
-import lombok.Builder;
 import lombok.Getter;
 import saesigDiary.domain.role.Resource;
 
 @Getter
-public class ResourceRequestDto {
-    private Long id;
+public class ResourceInsertDto {
     private String url;
     private String name;
     private String httpMethod;
@@ -20,7 +17,6 @@ public class ResourceRequestDto {
     public Resource toEntity() {
         return Resource
                 .builder()
-                .id(id)
                 .url(url)
                 .name(name)
                 .depth(depth)
