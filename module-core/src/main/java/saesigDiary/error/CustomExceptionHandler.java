@@ -14,6 +14,15 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> CommonExceptionHandler(Exception e) {
+        ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> runtimeExceptionHandler(Exception e) {
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
@@ -22,33 +31,35 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e){
+    @Override
+    public ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex
+            , HttpHeaders headers
+            , HttpStatus status
+            , WebRequest request) {
         ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), e.getMessage(), e.getBindingResult());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-    }
-
-    @ExceptionHandler(BindException.class)
-    public ResponseEntity<ErrorResponse> bindExceptionHandler(BindException e) {
-        ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), e.getMessage(), e.getBindingResult());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
-    }
-
-    @ExceptionHandler(TypeMismatchException.class)
-    public ResponseEntity<ErrorResponse> TypeMismatchExceptionHandler(TypeMismatchException e) {
-        ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), e.getMessage());
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), ex.getMessage(), ex.getBindingResult());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleTypeMismatch(
+            TypeMismatchException ex
+            , HttpHeaders headers
+            , HttpStatus status
+            , WebRequest request) {
+        ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), ex.getMessage());
 
-        return super.handleExceptionInternal(ex, body, headers, status, request);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), ex.getMessage(), ex.getBindingResult());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }
