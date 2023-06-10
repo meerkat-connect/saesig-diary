@@ -38,10 +38,16 @@ public class ResourceController {
         return resourceService.insert(resourceInsertDto);
     }
 
-    @GetMapping("/resources/{resourceId}")
+    @GetMapping("/resources/{id}")
     @ResponseBody
-    public ResourceResponseDto getResource(@PathVariable Long resourceId) {
-        return resourceService.findById(resourceId);
+    public ResourceResponseDto getResource(@PathVariable Long id) {
+        return resourceService.findById(id);
+    }
+
+    @PutMapping("/resources/{id}")
+    @ResponseBody
+    public Long updateResource(@PathVariable Long id, @RequestBody ResourceUpdateDto resourceUpdateDto) {
+        return resourceService.update(id, resourceUpdateDto);
     }
 
 

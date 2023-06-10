@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
@@ -65,10 +67,10 @@
                                                     </div>
 
                                                     <div class="mb-3 form-group row">
-                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                                               for="httpMethod"><strong>Http Method Type</strong></label>
+                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="httpMethod"><strong>Http Method Type</strong></label>
                                                         <div class="col-sm-12">
                                                             <select name="httpMethod" id="httpMethod" class="form-select form-select-sm form-control-sm">
+                                                                <option value="">- 선택 - </option>
                                                                 <option value="PUT">PUT</option>
                                                                 <option value="GET">GET</option>
                                                                 <option value="POST">POST</option>
@@ -84,6 +86,7 @@
                                                             <input type="text" class="form-control form-control-sm" name="name" id="name"/>
                                                         </div>
                                                     </div>
+
                                                     <div class="mb-3 form-group row">
                                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>URL</strong></label>
                                                         <div class="col-sm-12">
@@ -93,12 +96,20 @@
 
                                                     <div class="mb-3 form-group row">
                                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="type1"><strong>자원 유형 (메뉴 / 기능) </strong></label>
-                                                        <div class="col-sm-12">
-                                                            <input type="radio" id="type1" name="type" value="MENU"/>
-                                                            <label for="type1">메뉴</label>
+                                                        <div class="form-radio">
+                                                            <div class="radio radio-inline">
+                                                                <label class="mb-0">
+                                                                    <input type="radio" id="type1" name="type"  value="MENU">
+                                                                    <i class="helper"></i>메뉴
+                                                                </label>
+                                                            </div>
 
-                                                            <input type="radio" id="type2" name="type" value="FUNCTION"/>
-                                                            <label for="type2">기능</label>
+                                                            <div class="radio radio-inline">
+                                                                <label class="mb-0">
+                                                                    <input type="radio" id= type2 name="type" value="FUNCTION">
+                                                                    <i class="helper"></i>기능
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -111,7 +122,9 @@
 
                                                     <div class="mb-0 mt-4 form-group row">
                                                         <div class="col-sm-12">
-                                                            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+                                                            <button type="button" class="btn btn-primary" id="saveBtn">
+                                                                저장
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -148,7 +161,7 @@
                             id: element.id,
                             parent: element.parentId ? element.parentId : '#',
                             text: element.name,
-                            type: element.parentId ? 'file' : 'default',
+                            type: element.type,
                             httpMethod: element.httpMethod,
                             url: element.url,
                             isEnabled: element.isEnabled,
@@ -180,10 +193,10 @@
                         'check_callback': true
                     },
                     "types": {
-                        "default": {
+                        "MENU": {
                             "icon": "icofont icofont-folder"
                         },
-                        "file": {
+                        "FUNCTION": {
                             "icon": "icofont icofont-file-alt"
                         }
                     },
@@ -211,25 +224,19 @@
                     },
                     'plugins': ['types', 'dnd', 'contextmenu']
                 }).bind("move_node.jstree", function (event, data) {
+                    console.log(data);
+                    if(confirm('자원 순서를 변경하시겠습니까?')) {
+
+                    }
 
                 }).bind("select_node.jstree", function (event, data) {
-                    resourceController.selectedNode = resourceController.$jstree.jstree('get_selected',true)[0];
+                    resourceController.selectedNode = resourceController.$jstree.jstree('get_selected', true)[0];
+                    resourceController.parentNode = resourceController.$jstree.jstree(true).get_node(resourceController.selectedNode.parent);
                     resourceController.print();
                 }).bind("dblclick.jstree", function (event) {
 
                 }).bind("open_node.jstree", function (event, data) {
                 });
-            },
-
-            findById: function (id) {
-                $.ajax({
-                    url: `/admin/resources/${id}`,
-                    type: 'get',
-                }).done(function (response) {
-                    resourceController.print(response);
-                }).fail(function (error) {
-                    alert(error);
-                })
             },
 
             save: function () {
@@ -244,16 +251,19 @@
             update: function () {
                 if (confirm('자원 정보를 수정하시겠습니까?')) {
                     const formData = $('#resourceForm').serializeObject();
+                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
 
                     $.ajax({
-                        url: '/admin/resources',
+                        url: `/admin/resources/${formData.id}`,
                         type: 'put',
-                        data: formData,
+                        data: JSON.stringify(formData),
                         contentType: 'application/json'
                     }).done(function (response) {
-
+                        alert('자원이 수정되었습니다.');
+                        /* resources 업데이트 */
                     }).fail(function (error) {
-
+                        alert('자원을 수정하는데 실패하였습니다.')
+                        console.log(JSON.stringify(error));
                     })
                 }
             },
@@ -261,35 +271,40 @@
             insert: function () {
                 if (confirm('자원 정보를 등록하시겠습니까?')) {
                     const formData = $('#resourceForm').serializeObject();
-                    formData.depth = this.parentNode.original.depth + 1;
-                    formData.isEnabled = "Y";
-                    formData.ord = this.parentNode.children.length + 1;
+                    formData.depth = this.selectedNode.original.depth + 1;
+                    formData.ord = this.selectedNode.children.length + 1;
+                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
 
                     $.ajax({
                         url: '/admin/resources',
                         type: 'post',
                         data: JSON.stringify(formData),
                         contentType: 'application/json'
-                    }).done(function (response) {
+                    }).done(function () {
                         alert('자원이 등록되었습니다.');
-                        resourceController.$jstree.jstree(true).refresh();
+                        // resourceController.$jstree.jstree(true).refresh();
                     }).fail(function (error) {
+                        alert('자원을 등록하는데 실패하였습니다.');
+                        console.log(JSON.stringify(error));
                     });
                 }
             },
 
             print: function () {
-                this.parentNode = resourceController.$jstree.jstree(true).get_node(this.selectedNode.parent);
-                if(this.parentNode.original) {
-                    $('#upperId').val(this.parentNode.original.id);
-                    $('#upperUrl').val(this.parentNode.original.url);
-                }
+                const parentNodeOriginal = this.parentNode.original;
+                const selectedNodeOriginal = this.selectedNode.original;
 
-                $('#id').val(this.selectedNode.original.id);
-                $('#name').val(this.selectedNode.original.name);
-                $('#url').val(this.selectedNode.original.url);
-                $('#isEnabled').attr('checked', this.selectedNode.original.isEnabled === 'Y');
-                $(`input[name=type]:input[value=${this.selectedNode.original.type}]`).attr('checked', true);
+                $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
+                $('#upperUrl').val(parentNodeOriginal ? parentNodeOriginal.url : '');
+
+                $('#ord').val(selectedNodeOriginal.ord);
+                $('#depth').val(selectedNodeOriginal.depth);
+                $('#id').val(selectedNodeOriginal.id);
+                $('#name').val(selectedNodeOriginal.name);
+                $('#url').val(selectedNodeOriginal.url);
+                adminCommon.toggleSwitch('#isEnabled', selectedNodeOriginal.isEnabled === 'Y');
+                $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true);
+                $(`#httpMethod option[value=${selectedNodeOriginal.httpMethod}]`).prop('selected',true);
             }
         };
 
@@ -301,7 +316,5 @@
             });
 
         });
-
     </script>
-
 </div>

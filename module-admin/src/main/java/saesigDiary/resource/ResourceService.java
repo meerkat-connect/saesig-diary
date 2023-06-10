@@ -7,7 +7,6 @@ import saesigDiary.domain.role.Resource;
 import saesigDiary.domain.role.ResourceRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -46,8 +45,8 @@ public class ResourceService {
     }
 
     @Transactional
-    public Long update(ResourceUpdateDto resourceUpdateDto) {
-        Resource resourceById = resourceRepository.findById(resourceUpdateDto.getId())
+    public Long update(Long id, ResourceUpdateDto resourceUpdateDto) {
+        Resource resourceById = resourceRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("자원 아이디가 존재하지 않습니다."));
 
         resourceById.updateInfo(resourceUpdateDto.getName()
