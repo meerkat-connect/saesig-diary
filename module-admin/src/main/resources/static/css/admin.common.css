@@ -14,6 +14,35 @@
 }
 
 
+.form-select {
+    border-radius: 25px;
+}
+
+button {
+    border-radius: 25px !important;
+}
+
+.btn-primary {
+    background: #FF8031 !important;
+    border-color: #FF8031 !important;
+}
+
+.btn-gray {
+    background: #f4f1f1 !important;
+    border-color: #f4f1f1 !important;
+    color: #ff8031;
+}
+
+.btn-transparent {
+    border-color: #ff8031;
+    color: #ff8031;
+}
+
+.btn-transparent:hover{
+    background: #ff8031;
+    color: white;
+}
+
 /*.navbar-wrapper { display:flex !important;}
 .navbar-container{
     width: calc(100% - 240px) !important;
