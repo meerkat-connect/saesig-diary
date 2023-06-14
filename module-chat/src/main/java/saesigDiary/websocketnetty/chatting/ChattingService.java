@@ -9,21 +9,23 @@ public interface ChattingService {
 
     public List<ChatMemberDto> getMemberList() throws Exception;
 
-    public List<ChatMemberDto> getMemberData(int member_id) throws Exception;
+    public ChatMemberDto getMemberData(int memberId) throws Exception;
 
     public ChatDataSearchResponseDto getChatDataList(int chatId) throws Exception;
 
-    public List<ChattingRoomDto> getChattingRoomList(int member_id) throws Exception;
+    public List<ChattingRoomDto> getChattingRoomList(int memberId) throws Exception;
 
-    public int saveChattingData(int chatId, String text, int memberId, int isRead);
+    public int saveChattingData(int chatId, String text, int memberId, int receiverId,int isRead);
 
     public List<ChatDataDto> getLastChat(int chatId);
 
-    public void insertChattingRoom(int chat, String title ,int member_id, int created_by_member_id);
+    public void insertChattingRoom(int chat, String title ,int memberId, int createdByMemberId);
 
-    public int makeChattingRoom(int member_id, int target_id) throws Exception;
+    public int makeChattingRoom(int memberId, int target_id) throws Exception;
 
-    public boolean readMessage(int member_id, int chat_id);
+    public boolean readMessage(int memberId, int chatId);
 
+    public List<ChatReadDto> getChatMemberData(int chatId);
 
+    public long getUnreadChatCnt(int chatId, int receiverId);
 }

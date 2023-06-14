@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 import saesigDiary.websocketnetty.websocket.chatJsonData;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,24 +22,27 @@ public class ChattingController {
 
     @Autowired
     private ChattingService chattingService;
+    private TextWebSocketHandler textWebSocketHandler;
 
     public ChattingController(ChattingService chattingService) {
         this.chattingService = chattingService;
     }
 
     @PostMapping({"", "/chat"})
-    public String getMemberList(int member_id,Model model) throws Exception {
-        List<ChattingRoomDto> chattingRoomList = chattingService.getChattingRoomList(member_id);
+    public String getMemberList(int memberId,Model model) throws Exception {
+        List<ChattingRoomDto> chattingRoomList = chattingService.getChattingRoomList(memberId);
         for (int i= (chattingRoomList.size()-1); i > -1 ; i--){
-                List<ChatDataDto> LastChat = chattingService.getLastChat(Integer.parseInt(chattingRoomList.get(i).getChat_id()));
+                List<ChatDataDto> LastChat = chattingService.getLastChat(Integer.parseInt(chattingRoomList.get(i).getChatId()));
+                long UnreadChat = chattingService.getUnreadChatCnt(Integer.parseInt(chattingRoomList.get(i).getChatId()),memberId);
                 if (LastChat.size() != 0){
-                    chattingRoomList.get(i).setLast_msg(LastChat.get(0).getText());
+                    chattingRoomList.get(i).setLastMsg(LastChat.get(0).getText());
+                    chattingRoomList.get(i).setUnreadCnt(UnreadChat);
                 }else{
                     chattingRoomList.remove(i);
                 }
         }
         model.addAttribute("chatList", chattingRoomList);
-        model.addAttribute("meId", member_id);
+        model.addAttribute("userId", memberId);
         return "chattingList";
     }
 
@@ -53,17 +59,18 @@ public class ChattingController {
     }
 
     @PostMapping("/chat/chatting")
-    public String chattingRoom(int meId, int chatId, int memberId,HttpSession session, Model model) throws Exception {
-        List<ChatMemberDto> currentMemberData = chattingService.getMemberData(meId);
-        List<ChatMemberDto> targetMemberData = chattingService.getMemberData(memberId);
-        int chat_id;
+    public String chattingRoom(int userId, int chatId, int memberId,HttpSession session, Model model) throws Exception {
+        ChatMemberDto currentMemberData = chattingService.getMemberData(userId);
+        ChatMemberDto targetMemberData = chattingService.getMemberData(memberId);
+        int chatIdValue;
         if (chatId == 0){
-            chat_id = chattingService.makeChattingRoom(meId, memberId);
+            chatIdValue = chattingService.makeChattingRoom(userId, memberId);
+
         }else{
-            chat_id = chatId;
+            chatIdValue = chatId;
         }
-        ChatDataSearchResponseDto chatDataLog = chattingService.getChatDataList(chat_id);
-        model.addAttribute("chatId", chat_id);
+        ChatDataSearchResponseDto chatDataLog = chattingService.getChatDataList(chatIdValue);
+        model.addAttribute("chatId", chatIdValue);
         model.addAttribute("chatDataLog", chatDataLog);
         model.addAttribute("currentMemberData", currentMemberData);
         model.addAttribute("targetMemberData", targetMemberData);
@@ -78,5 +85,15 @@ public class ChattingController {
         model.addAttribute("msg",param);
         return "/chattingList :: #resultDiv";
     }
+    @PostMapping("/chat/getMemberData")
+    @ResponseBody
+    public Map<String, Object> getMemberData(@RequestParam Map<String, Object> data, Model model) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
 
+        Integer Id = Integer.parseInt(data.get("memberId").toString());
+        ChatMemberDto memberData = chattingService.getMemberData(Id);
+
+        resultMap.put("memberData", memberData);
+        return resultMap;
+    }
 }

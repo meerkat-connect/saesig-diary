@@ -17,7 +17,7 @@
              , email
              , password
              ,nickname
-        FROM member where id = #{member_id}
+        FROM member where id = #{memberId}
     </select>
 
     <select id="getChattingRoomList" resultType="saesigDiary.websocketnetty.chatting.ChattingRoomDto">
@@ -25,12 +25,18 @@
             title,
             chat_id,
             created_at
-        FROM chatting_room cr where member_id = ${member_id}
+        FROM chatting_room cr where member_id = ${memberId}
     </select>
 
     <insert id="insertChattingRoom">
-        INSERT INTO chatting_room (chat_id, title,member_id, created_by) VALUES (#{chat_id}, #{title},#{member_id}, #{created_by_member_id})
+        INSERT INTO chatting_room (chat_id, title,member_id, created_by) VALUES (#{chatId}, #{title},#{memberId}, #{createdByMemberId})
     </insert>
+
+    <select id="getChatMemberData" resultType="saesigDiary.websocketnetty.chatting.ChatReadDto">
+        SELECT
+            member_id,chat_id
+        FROM chatting_room where chat_id = #{chatId}
+    </select>
 
 
 </mapper>

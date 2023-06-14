@@ -12,8 +12,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class ChatDataDto {
     private int chatId;
-    private int sender_seq;
+    private int senderId;
+    private int receiverId;
     private String text;
-    private String reg_date;
+    private String regDate;
     private int isRead;
 }

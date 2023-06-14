@@ -8,10 +8,12 @@ import org.apache.ibatis.annotations.Param;
 public interface ChattingMapper {
     public List<ChatMemberDto> getMemberList();
 
-    public List<ChatMemberDto> getMemberData(int member_id);
+    public ChatMemberDto getMemberData(int memberId);
 
-    public List<ChattingRoomDto> getChattingRoomList(int member_id);
+    public List<ChattingRoomDto> getChattingRoomList(int memberId);
 
-    public void insertChattingRoom(@Param("chat_id")int chat_id,@Param("title")String title, @Param("member_id") int member_id, @Param("created_by_member_id") int created_by_member_id);
+    public List<ChatReadDto> getChatMemberData(int chatId);
+
+    public void insertChattingRoom(@Param("chatId")int chatId,@Param("title")String title, @Param("memberId") int memberId, @Param("createdByMemberId") int createdByMemberId);
 
 }

@@ -18,7 +18,7 @@ const chattingList = {
                 form.setAttribute("action", '/chat'); //요청 보낼 주소
                 var hiddenField = document.createElement("input");
                 hiddenField.setAttribute("type", "hidden");
-                hiddenField.setAttribute("name", "member_id");
+                hiddenField.setAttribute("name", "memberId");
                 hiddenField.setAttribute("value", targerId);
                 form.appendChild(hiddenField);
                 document.body.appendChild(form);

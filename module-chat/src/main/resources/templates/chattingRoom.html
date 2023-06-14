@@ -32,10 +32,10 @@
     const targetMemberData = [[${targetMemberData}]]
     const chatLog = [[${chatDataLog}]]
     const chatId = [[${chatId}]];
-    const username = currentMemberData[0]['nickname']
-    const userid = currentMemberData[0]['id']
+    const username = currentMemberData['nickname']
+    const userid = currentMemberData['id']
 
-    const websocket = new WebSocket("ws://127.0.0.1:8080/ws/chat?chatId=" + chatId);
+    const websocket = new WebSocket("ws://127.0.0.1:8080/ws/chat?chatId=" + chatId+"&memberId="+userid);
     websocket.onmessage = onMessage;
     websocket.onopen = onOpen;
     websocket.onclose = onClose;
@@ -105,7 +105,7 @@
 
     function setChatLog(){
         $(chatLog['chatDataDto']).each(function (){
-            setMessageTemplate(this.sender_seq,this.text,this.isRead,this.reg_date.substring(16,11));
+            setMessageTemplate(this.senderId,this.text,this.isRead,this.regDate.substring(16,11));
         })
     }
 
