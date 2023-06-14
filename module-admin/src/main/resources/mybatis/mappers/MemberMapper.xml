@@ -2,6 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="saesigDiary.member.MemberMapper">
+
+    <select id="selectMemberList" resultType="saesigDiary.member.MemberDto">
+        SELECT
+            id
+             , email
+             , password
+             , signup_method
+             , nickname
+             , status
+             , joined_at
+             , modified_at
+             , modified_by
+             , created_at
+             , created_by
+             , service_agreement
+             , privacy_agreement
+             , location_service_agreement
+             , marketing_service_agreement
+        FROM member
+    </select>
+
     <select id="findAll" resultType="saesigDiary.member.MemberDto">
         SELECT
             id
