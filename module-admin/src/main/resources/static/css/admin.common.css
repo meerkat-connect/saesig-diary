@@ -13,23 +13,18 @@
     background-color: #fff;
 }
 
+text-area {border-radius: 15px;}
 
-.form-select {
+.btn {
+    font-size: 14px;
+    font-weight:500;
     border-radius: 25px;
-}
-
-button {
-    border-radius: 25px !important;
-}
-
-.btn-primary {
-    background: #FF8031 !important;
-    border-color: #FF8031 !important;
+    line-height: 14px;
 }
 
 .btn-gray {
-    background: #f4f1f1 !important;
-    border-color: #f4f1f1 !important;
+    background: #f4f1f1;
+    border-color: #f4f1f1;
     color: #ff8031;
 }
 
@@ -41,6 +36,10 @@ button {
 .btn-transparent:hover{
     background: #ff8031;
     color: white;
+}
+
+.form-select {
+    padding: .5rem 2.25rem .5rem 1.5rem;
 }
 
 /*.navbar-wrapper { display:flex !important;}

@@ -9721,7 +9721,10 @@ body.menu-bottom #collapse-menu {
     outline: none; }
 
 .form-control {
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 26px;
+  color: #171a19;
   border-radius: 2px;
   border: 1px solid #cccccc; }
   .form-control:focus {
@@ -10396,6 +10399,7 @@ body.menu-bottom #collapse-menu {
       -webkit-transform-origin: left top;
       transform-origin: left top; }
     .border-checkbox-section .border-checkbox-group .border-checkbox-label:before {
+      border-radius: 100%;
       content: "";
       display: block;
       border: 2px solid #ff8031;
