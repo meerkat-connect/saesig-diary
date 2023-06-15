@@ -13,30 +13,38 @@
     background-color: #fff;
 }
 
-textarea {border-radius: 15px !important;}
+textarea {
+    border-radius: 15px !important;
+    padding: .5rem 2.25rem .5rem 1.5rem !important;
+}
 
-.label {
+.label-yellow {
     border-radius: 20px;
     border: 1px solid #FF8031;
     background: white;
     color: #ff8031 !important;
     margin:1px 5px 1px 0;
     display:inline-block;
+    font-size:14px;
+}
+
+strong {
+    font-weight:600;
 }
 
 .text-yellow {
     color: #ff8031 !important;
 }
 
-.radio {
-
-}
-
 .btn {
     font-size: 14px;
     font-weight:500;
     border-radius: 25px;
-    line-height: 14px;
+    line-height: 1.5;
+}
+
+.btn:not(.input-group-text) {
+    min-width:7rem;
 }
 
 .btn-gray {

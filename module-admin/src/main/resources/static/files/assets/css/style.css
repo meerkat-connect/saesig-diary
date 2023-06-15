@@ -13,7 +13,7 @@ File: style.css
 		-	Margin, Padding, Font class, text align, position, floating, overflow, background class, text color, display class, boarder class
 	- Theme Elements
 		-	Icons, Accordion, Button, Redial, floating actions, FAB, tabs, typography, buttons, box shadow, slider page, error page, Breadcrumb, pagination, Basic card, Login card
-	- General Elements
+	- Ge neral Elements
 		-	Modal, Nestable, Lable & Badges, List, Portlates, Preloader, Calender, To-Do, Materialize general elements, Lables
 	- Advance Form Elements
 	- Pages
@@ -31,7 +31,7 @@ body {
   font-size: 0.875em;
   overflow-x: hidden;
   color: #353c4e;
-  font-family: "Open Sans", sans-serif;
+  font-family: "pretendard", "Open Sans", sans-serif;
   background-attachment: fixed; }
 
 ul {
