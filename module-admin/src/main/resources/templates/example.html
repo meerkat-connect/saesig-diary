@@ -238,7 +238,7 @@
                         <div class="mb-3 form-group row required">
                             <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>상태</strong></div>
                             <div class="col-sm-12">
-                                <select name="answerStatus" class="form-select form-control-round" id="answerStatus">
+                                <select name="answerStatus" class="form-select form-control form-control-round" id="answerStatus">
                                     <option value="0">답변대기</option>
                                     <option value="1">답변완료</option>
                                 </select>
@@ -248,16 +248,14 @@
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                    for="answerTitle"><strong>답변 제목</strong></label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control form-control-round"
-                                       name="answerTitle" id="answerTitle"
-                                       placeholder="Text Input Validation"/>
+                                <input type="text" class="form-control form-control-round" name="answerTitle" id="answerTitle" placeholder="Text Input Validation"/>
                             </div>
                         </div>
                         <div class="mb-3 form-group row">
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                    for="answerContents"><strong>답변 내용</strong></label>
                             <div class="col-sm-12">
-                                <textarea rows="5" cols="5" class="form-control form-control-round" placeholder="Default textarea" id="answerContents" name="answerContents"></textarea>
+                                <textarea rows="5" cols="5" class="form-control" id="answerContents" name="answerContents"></textarea>
                             </div>
                         </div>
                         <div class="mb-3 form-group row">
@@ -286,7 +284,7 @@
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                            for="answerManager"><strong>답변자</strong></label>
                                     <div class="col-sm-12">
-                                        <input type="text" class="form-control form-control-sm" name="answerManager" id="answerManager" placeholder="Text Input Validation"/>
+                                        <input type="text" class="form-control form-control-round" name="answerManager" id="answerManager" placeholder="Text Input Validation"/>
                                     </div>
                                 </div>
                             </div>
@@ -295,7 +293,7 @@
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                            for="answerDate"><strong>답변일자</strong></label>
                                     <div class="col-sm-12">
-                                        <input type="text" class="form-control form-control-sm" name="answerDate" id="answerDate" placeholder="Text Input Validation"/></div>
+                                        <input type="text" class="form-control form-control-round" name="answerDate" id="answerDate" placeholder="Text Input Validation"/></div>
                                 </div>
                             </div>
                         </div>
@@ -313,12 +311,12 @@
 
 
                                             <span class="label label-inverse" id="42008"> 슬랙 (1).png
-                                                <a class="text-white" href="javascript:void(0)" name="42008" onclick="deleteFile(this.name, this.dataset.idntfcKey)" data-idntfc-key="155254744532866413812830686042667176820">X
+                                                <a class="text-yellow" href="javascript:void(0)" name="42008" onclick="deleteFile(this.name, this.dataset.idntfcKey)" data-idntfc-key="155254744532866413812830686042667176820">X
                                                 </a>
                                             </span>
 
                                                 <span class="label label-inverse" id="42027"> 환경·경제 통합분석을 위한 환경가치 종합연구_통합분석 시스템 구축.pdf
-                                                <a class="text-white" href="javascript:void(0)" name="42027" onclick="deleteFile(this.name, this.dataset.idntfcKey)" data-idntfc-key="187729746533770933651671500955560289682">X
+                                                <a class="text-yellow" href="javascript:void(0)" name="42027" onclick="deleteFile(this.name, this.dataset.idntfcKey)" data-idntfc-key="187729746533770933651671500955560289682">X
                                                 </a>
                                             </span>
 
@@ -334,7 +332,17 @@
                         <div class="mb-0 form-group row">
                             <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>답변공개</strong></div>
                             <div class="col-12">
-                                <div class="form-radio">
+                                <div class="border-checkbox-section">
+                                    <div class="border-checkbox-group">
+                                        <input type="radio" name="rlsYn" id="rlsYn1" value="Y" checked="" style="display:none;">
+                                        <label class="form-label border-checkbox-label" for="clsfCds1">공기</label>
+                                    </div>
+                                    <div class="border-checkbox-group">
+                                        <input type="radio" name="rlsYn" id="rlsYn2" value="Y" checked="" style="display:none;">
+                                        <label class="form-label border-checkbox-label" for="clsfCds2">기후변화</label>
+                                    </div>
+                                </div>
+<!--                                <div class="form-radio">
                                     <div class="radio radio-inline">
                                         <label class="mb-0 form-label'" style="">
                                             <input type="radio" name="rlsYn" id="rlsYn1" value="Y" checked="">
@@ -347,27 +355,64 @@
                                             <i class="helper"></i>비공개
                                         </label>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                         <div class="mb-0 form-group required">
                             <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>분류</strong></div>
                             <div class="border-checkbox-section">
-                                <div class="border-checkbox-section">
-                                    <div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds1" name="clsfCds" value="228101" data-cd-name="공기" checked=""><label class="form-label border-checkbox-label" for="clsfCds1">공기</label>
-                                    </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds2" name="clsfCds" value="228102" data-cd-name="기후변화" checked=""><label class="form-label border-checkbox-label" for="clsfCds2">기후변화</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds3" name="clsfCds" value="228103" data-cd-name="물" checked=""><label class="form-label border-checkbox-label" for="clsfCds3">물</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds4" name="clsfCds" value="228104" data-cd-name="생명윤리" checked=""><label class="form-label border-checkbox-label" for="clsfCds4">생명윤리</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds5" name="clsfCds" value="228105" data-cd-name="생태계" checked=""><label class="form-label border-checkbox-label" for="clsfCds5">생태계</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds6" name="clsfCds" value="228106" data-cd-name="에너지" checked=""><label class="form-label border-checkbox-label" for="clsfCds6">에너지</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds7" name="clsfCds" value="228107" data-cd-name="연구" checked=""><label class="form-label border-checkbox-label" for="clsfCds7">연구</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds8" name="clsfCds" value="228108" data-cd-name="정책" checked=""><label class="form-label border-checkbox-label" for="clsfCds8">정책</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds9" name="clsfCds" value="228109" data-cd-name="지속가능발전" checked=""><label class="form-label border-checkbox-label" for="clsfCds9">지속가능발전</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds10" name="clsfCds" value="228110" data-cd-name="토양" checked=""><label class="form-label border-checkbox-label" for="clsfCds10">토양</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds11" name="clsfCds" value="228111" data-cd-name="통계" checked=""><label class="form-label border-checkbox-label" for="clsfCds11">통계</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds12" name="clsfCds" value="228112" data-cd-name="폐기물" checked=""><label class="form-label border-checkbox-label" for="clsfCds12">폐기물</label>
-                                </div><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="clsfCds13" name="clsfCds" value="228113" data-cd-name="환경보건" checked=""><label class="form-label border-checkbox-label" for="clsfCds13">환경보건</label>
-                                </div></div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds1" name="clsfCds" value="228101" data-cd-name="공기" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds1">공기</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds2" name="clsfCds" value="228102" data-cd-name="기후변화" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds2">기후변화</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds3" name="clsfCds" value="228103" data-cd-name="물" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds3">물</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds4" name="clsfCds" value="228104" data-cd-name="생명윤리" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds4">생명윤리</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds5" name="clsfCds" value="228105" data-cd-name="생태계" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds5">생태계</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds6" name="clsfCds" value="228106" data-cd-name="에너지" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds6">에너지</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds7" name="clsfCds" value="228107" data-cd-name="연구" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds7">연구</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds8" name="clsfCds" value="228108" data-cd-name="정책" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds8">정책</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds9" name="clsfCds" value="228109" data-cd-name="지속가능발전" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds9">지속가능발전</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds10" name="clsfCds" value="228110" data-cd-name="토양" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds10">토양</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds11" name="clsfCds" value="228111" data-cd-name="통계" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds11">통계</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds12" name="clsfCds" value="228112" data-cd-name="폐기물" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds12">폐기물</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds13" name="clsfCds" value="228113" data-cd-name="환경보건" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds13">환경보건</label>
+                                </div>
                             </div>
                         </div>
                     </div>

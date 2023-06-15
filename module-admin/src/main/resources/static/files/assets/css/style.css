@@ -10159,10 +10159,9 @@ body.menu-bottom #collapse-menu {
     content: '';
     position: absolute;
     left: 0;
-    top: 3px;
     margin: 0.25rem;
-    width: 1rem;
-    height: 1rem;
+    width: 20px;
+    height: 20px;
     -webkit-transition: -webkit-transform 0.28s ease;
     transition: -webkit-transform 0.28s ease;
     transition: transform 0.28s ease, -webkit-transform 0.28s ease;
