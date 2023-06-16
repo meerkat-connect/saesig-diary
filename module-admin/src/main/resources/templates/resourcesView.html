@@ -151,6 +151,9 @@
             $jstree: $('#jstree'),
 
             init: function () {
+                parentNode = null;
+                selectedNode = null;
+
                 $.ajax({
                     url: '/admin/resourcesWithRecursive',
                     type: 'get',
@@ -209,6 +212,7 @@
                                 "action": function (obj) {
                                     $('#resourceForm')[0].reset();
                                     $('#id').val('');
+                                    $('#type1').prop('checked',true);
                                     $('#upperId').val(resourceController.selectedNode.original.id);
                                     $('#upperUrl').val(resourceController.selectedNode.original.url);
                                 }
@@ -223,12 +227,6 @@
                         }
                     },
                     'plugins': ['types', 'dnd', 'contextmenu']
-                }).bind("move_node.jstree", function (event, data) {
-                    console.log(data);
-                    if(confirm('자원 순서를 변경하시겠습니까?')) {
-
-                    }
-
                 }).bind("select_node.jstree", function (event, data) {
                     resourceController.selectedNode = resourceController.$jstree.jstree('get_selected', true)[0];
                     resourceController.parentNode = resourceController.$jstree.jstree(true).get_node(resourceController.selectedNode.parent);
@@ -260,7 +258,9 @@
                         contentType: 'application/json'
                     }).done(function (response) {
                         alert('자원이 수정되었습니다.');
-                        /* resources 업데이트 */
+                        resourceController.$jstree.jstree().destroy();
+                        resourceController.init();
+                        resourceController.$jstree.jstree(true)._open_to(resourceController.selectedNode.id);
                     }).fail(function (error) {
                         alert('자원을 수정하는데 실패하였습니다.')
                         console.log(JSON.stringify(error));
@@ -282,7 +282,9 @@
                         contentType: 'application/json'
                     }).done(function () {
                         alert('자원이 등록되었습니다.');
-                        // resourceController.$jstree.jstree(true).refresh();
+                        resourceController.$jstree.jstree().destroy();
+                        resourceController.init();
+                        resourceController.$jstree.jstree(true)._open_to(resourceController.selectedNode.id);
                     }).fail(function (error) {
                         alert('자원을 등록하는데 실패하였습니다.');
                         console.log(JSON.stringify(error));
@@ -302,7 +304,7 @@
                 $('#id').val(selectedNodeOriginal.id);
                 $('#name').val(selectedNodeOriginal.name);
                 $('#url').val(selectedNodeOriginal.url);
-                adminCommon.toggleSwitch('#isEnabled', selectedNodeOriginal.isEnabled === 'Y');
+                adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
                 $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true);
                 $(`#httpMethod option[value=${selectedNodeOriginal.httpMethod}]`).prop('selected',true);
             }
