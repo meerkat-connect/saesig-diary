@@ -14,6 +14,8 @@ public interface ChattingMapper {
 
     public List<ChatReadDto> getChatMemberData(int chatId);
 
+    public ChatMemberDto getTargetMemberData(@Param("chatId")int chatId, @Param("senderId")int senderId);
+
     public void insertChattingRoom(@Param("chatId")int chatId,@Param("title")String title, @Param("memberId") int memberId, @Param("createdByMemberId") int createdByMemberId);
 
 }

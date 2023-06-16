@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
-import saesigDiary.websocketnetty.websocket.chatJsonData;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -22,7 +20,6 @@ public class ChattingController {
 
     @Autowired
     private ChattingService chattingService;
-    private TextWebSocketHandler textWebSocketHandler;
 
     public ChattingController(ChattingService chattingService) {
         this.chattingService = chattingService;
@@ -61,14 +58,13 @@ public class ChattingController {
     @PostMapping("/chat/chatting")
     public String chattingRoom(int userId, int chatId, int memberId,HttpSession session, Model model) throws Exception {
         ChatMemberDto currentMemberData = chattingService.getMemberData(userId);
-        ChatMemberDto targetMemberData = chattingService.getMemberData(memberId);
         int chatIdValue;
-        if (chatId == 0){
+        if (chatId == 0){ //리스트 세션
             chatIdValue = chattingService.makeChattingRoom(userId, memberId);
-
         }else{
             chatIdValue = chatId;
         }
+        ChatMemberDto targetMemberData = chattingService.getTargetMemberData(chatIdValue,userId);
         ChatDataSearchResponseDto chatDataLog = chattingService.getChatDataList(chatIdValue);
         model.addAttribute("chatId", chatIdValue);
         model.addAttribute("chatDataLog", chatDataLog);

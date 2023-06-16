@@ -88,7 +88,8 @@
             let msg = {
                 text : '',
                 chatId : chatId,
-                memberId : userid
+                memberId : userid,
+                receiverId : targetMemberData.id
             };
             if (preMessage != '' && $(this).val() == ''){
                 if (e.keyCode != 13){
@@ -123,7 +124,8 @@
             type : 'readMessage',
             text : '',
             chatId : chatId,
-            memberId : userid
+            memberId : userid,
+            receiverId : targetMemberData.id
         }
         websocket.send(JSON.stringify(msg));
     }
@@ -136,7 +138,8 @@
             type : 'message',
             text : str,
             chatId : chatId,
-            memberId : userid
+            memberId : userid,
+            receiverId : targetMemberData.id
         };
 
         websocket.send(JSON.stringify(msg));

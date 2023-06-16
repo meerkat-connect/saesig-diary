@@ -5,10 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-import saesigDiary.websocketnetty.chatting.ChatReadDto;
 import saesigDiary.websocketnetty.chatting.ChattingService;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -22,7 +20,8 @@ public class WebSocketSendMessage {
 
     private HashMap<Integer, String[]> roomMap = new HashMap<Integer, String[]>();
 
-    private HashMap<Integer, HashMap<Integer, String[]>> chatMap = new HashMap<Integer, HashMap<Integer, String[]>>();
+    private static HashMap<Integer, HashMap<Integer, List<String> >> chatMap = new HashMap<Integer, HashMap<Integer,List<String>>>();
+
 
     public void sendMessage(String payload) throws Exception {
 
@@ -30,64 +29,50 @@ public class WebSocketSendMessage {
 
         chatJsonData param = gson.fromJson(payload, chatJsonData.class);
         TextMessage msg = new TextMessage(payload);
-
         int chatId = param.getChatId();
         int senderId = param.getMemberId();
-        List<ChatReadDto> chatReadDtoList = chattingService.getChatMemberData(chatId);
-        for (ChatReadDto receiver : chatReadDtoList) {
-            String[] sessionChatArray = {};
-            String[] sessionListArray = {};
-            if (chatMap.containsKey(receiver.getMemberId())) {
-                if (chatMap.get(receiver.getMemberId()).containsKey(chatId)) {
-                    sessionChatArray = chatMap.get(receiver.getMemberId()).get(chatId);
-                }
+        int receiver = param.getReceiverId();
+        for (WebSocketSession sess : numSet) {
+            String sessionId = sess.getId();
+            boolean isSend = isCheckSendSession(sessionId, senderId, chatId);
+            if (isSend == false){
+                isSend = isCheckSendSession(sessionId, receiver, chatId);
             }
-            if (chatMap.containsKey(receiver.getMemberId())) {
-                if (chatMap.get(receiver.getMemberId()).containsKey(0)) {
-                    sessionListArray = chatMap.get(receiver.getMemberId()).get(0);
-                }
+            if (isSend) {
+                sess.sendMessage(msg);
             }
-            for (WebSocketSession sess : numSet) {
-                String sessionId = sess.getId();
-                boolean isSend = false;
-                if (sessionChatArray.length != 0) {
-                    for (String sessionChatArrayItem : sessionChatArray) {
-                        if (sessionChatArrayItem.equals(sessionId)) {
-                            isSend = true;
-                        }
-                    }
-                }
-                if (sessionListArray.length != 0) {
-                    for (String sessionListArrayItem : sessionListArray) {
-                        if (sessionListArrayItem.equals(sessionId)) {
-                            isSend = true;
-                        }
-                    }
-                }
-                if (isSend) {
-                    sess.sendMessage(msg);
-                }
-            }
-
-                if (param.getType().equals("message")) {
-                    if (receiver.getMemberId() != senderId) {
-                        chattingService.saveChattingData(chatId, param.getText(), senderId, receiver.getMemberId(), 0);
-                    }
-                } else if (param.getType().equals("readMessage")) {
-                    chattingService.readMessage(senderId, chatId);
-                }
         }
+        SaveDbChat(param.getType(), chatId, senderId, receiver,param.getText());
+    }
+
+    public boolean isCheckSendSession(String sessionId, int targetMemberId, int chatId){ // 세션마다 채팅 보낼지 말지 여부 체크
+        if (chatMap.containsKey(targetMemberId)){
+            if (chatMap.get(targetMemberId).containsKey(chatId)){
+                if (chatMap.get(targetMemberId).get(chatId).contains(sessionId)){
+                    return true;
+                }
+            }
+            if (chatMap.get(targetMemberId).containsKey(0)){
+                if (chatMap.get(targetMemberId).get(0).contains(sessionId)){
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public void SaveDbChat(String type, int chatId,int senderId,int receiver, String text){ // 채팅타입에 따라 메시지를 분기 처리.
+        if (type.equals("message")) {
+            if (receiver != senderId) { chattingService.saveChattingData(chatId, text, senderId, receiver, 0); }
+        } else if (type.equals("readMessage")) { chattingService.readMessage(senderId, chatId); }
     }
 
     public void setSession(LinkedHashSet<WebSocketSession> numSet) {
         this.numSet = numSet;
     }
 
-    public void setRoomMap(HashMap<Integer, String[]> roomMap) {
-        this.roomMap = roomMap;
-    }
-
-    public void setChatMap(HashMap<Integer, HashMap<Integer, String[]>> chatMap) {
+    public void setChatMap(HashMap<Integer, HashMap<Integer, List<String>>> chatMap) {
         this.chatMap = chatMap;
     }
 }

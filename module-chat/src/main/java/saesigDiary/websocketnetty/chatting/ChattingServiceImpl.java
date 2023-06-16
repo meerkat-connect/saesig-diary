@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -13,9 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Stack;
 
 @Service
 @RequiredArgsConstructor
@@ -105,5 +102,8 @@ public class ChattingServiceImpl implements ChattingService{
         Query query = new Query();
         query.addCriteria(Criteria.where("chatId").is(chatId).and("receiverId").is(memberId).and("isRead").is(0));
         return mongoTemplate.count(query, ChatDataDto.class);
+    }
+    public ChatMemberDto getTargetMemberData(int chatId, int senderId){
+        return chattingMapper.getTargetMemberData(chatId, senderId);
     }
 }

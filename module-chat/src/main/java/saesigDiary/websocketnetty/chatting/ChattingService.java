@@ -28,4 +28,6 @@ public interface ChattingService {
     public List<ChatReadDto> getChatMemberData(int chatId);
 
     public long getUnreadChatCnt(int chatId, int receiverId);
+
+    public ChatMemberDto getTargetMemberData(int chatId, int senderId);
 }

@@ -38,5 +38,13 @@
         FROM chatting_room where chat_id = #{chatId}
     </select>
 
+    <select id="getTargetMemberData" resultType="saesigDiary.websocketnetty.chatting.ChatMemberDto">
+        SELECT
+            m.id
+             , m.email
+             , m.password
+             ,m.nickname
+        FROM chatting_room c LEFT JOIN member m ON c.chat_id = #{chatId} and c.member_id != #{senderId} and c.member_id = m.id where m.id is not null
+    </select>
 
 </mapper>
