@@ -31,4 +31,11 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+    data:
+      mongodb:
+        host: localhost
+        port: 27017
+        authentication-database: admin
+        database: sample
+
 file.dir: C:/saesigDiary/file/
