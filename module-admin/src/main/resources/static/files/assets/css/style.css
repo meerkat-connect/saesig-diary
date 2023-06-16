@@ -5957,7 +5957,7 @@ table tbody .border-bottom-info td {
       .header-navbar .navbar-wrapper .navbar-container .nav-right {
         float: right; }
         .header-navbar .navbar-wrapper .navbar-container .nav-right li {
-          padding: 10px 20px; }
+          padding: 14px 20px 10px 20px; }
         .header-navbar .navbar-wrapper .navbar-container .nav-right .user-profile img {
           margin-right: 10px;
           width: 30px; }
@@ -10822,7 +10822,7 @@ body.menu-bottom #collapse-menu {
 .label {
   border-radius: 4px;
   font-size: 75%;
-  padding: 4px 7px;
+  padding: 9px 12px;
   margin-right: 5px;
   font-weight: 400;
   color: #fff !important; }
