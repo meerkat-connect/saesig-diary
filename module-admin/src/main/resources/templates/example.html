@@ -4,24 +4,27 @@
       layout:decorate="~{layout/main}">
 
 <div layout:fragment="content">
-    <link href="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.css" rel="stylesheet"/>
     <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
     <!-- Page-body start -->
     <style>
-        .paginate_button {
-            border: 1px solid black !important;
-            border-radius: 25px !important;
-        }
-
         .dataTables_paginate {
             text-align: center !important;
             width: 100% !important;
         }
 
+        .paginate_button.previous {
+            border: 0px !important;
+            background: white !important;
+        }
+
+        .paginate_button.next {
+            border : 0px !important;
+            background: white !important;
+        }
+
         .paginate_button.current {
             background: #ff8031 !important;
         }
-
     </style>
     <div class="page-body">
         <div class="row">
@@ -179,6 +182,49 @@
                                         <td>61</td>
                                         <td>2011-04-25</td>
                                     </tr>
+                                    <tr>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+
                                     </tbody>
                                     <tfoot>
                                     <tr>
@@ -281,26 +327,27 @@
                             <div class="col-12 mb-3">
                                 <div class="mb-0 form-group">
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="atchFile"><strong>첨부파일</strong></label>
-                                    <div class="col-12">
-                                        <input type="file" name="atchFile" id="atchFile" multiple="" accept="*/*" class="form-control form-control-sm">
 
-                                    </div>
+<!--                                    <div class=" input-group-button">
+                                        <input type="file" name="atchFile" id="atchFile" multiple="" accept="*/*" class="form-control form-control-sm" style="opacity:0 !important; position:absolute">
+                                        <div class="input-file-container">
+                                            <div style="position:relative;" class="form-control form-control-sm form-control-round">파일선택</div>
+                                            <button> 파일 선택</button>
+                                        </div>
+                                    </div>-->
+
                                     <div class="mt-2 row">
                                         <div class="col-auto">
                                             <div id="atchFileUploadSuccess">
+                                                <span class="label label-yellow" id="42008"> 슬랙 (1).png
+                                                    <a class="text-yellow" href="javascript:void(0)" name="42008" onclick="deleteFile(this.name, this.dataset.idntfcKey)" data-idntfc-key="155254744532866413812830686042667176820">X
+                                                    </a>
+                                                </span>
 
-
-                                            <span class="label label-yellow" id="42008"> 슬랙 (1).png
-                                                <a class="text-yellow" href="javascript:void(0)" name="42008" onclick="deleteFile(this.name, this.dataset.idntfcKey)" data-idntfc-key="155254744532866413812830686042667176820">X
-                                                </a>
-                                            </span>
-
-                                                <span class="label label-yellow" id="42027"> 환경·경제 통합분석을 위한 환경가치 종합연구_통합분석 시스템 구축.pdf
-                                                <a class="text-yellow" href="javascript:void(0)" name="42027" onclick="deleteFile(this.name, this.dataset.idntfcKey)" data-idntfc-key="187729746533770933651671500955560289682">X
-                                                </a>
-                                            </span>
-
-
+                                                    <span class="label label-yellow" id="42027"> 환경·경제 통합분석을 위한 환경가치 종합연구_통합분석 시스템 구축.pdf
+                                                    <a class="text-yellow" href="javascript:void(0)" name="42027" onclick="deleteFile(this.name, this.dataset.idntfcKey)" data-idntfc-key="187729746533770933651671500955560289682">X
+                                                    </a>
+                                                </span>
                                             </div>
                                             <input type="hidden" id="atchFilegrpid" name="atchFilegrpid" value="20799">
                                         </div>
@@ -557,7 +604,6 @@
         </div>
     </div>
 
-
     <script>
         $(function () {
             $('#exampleTable').DataTable({
@@ -566,7 +612,12 @@
                 ordering: false,
                 paging: true,
                 select: false,
-                info: false
+                info: false,
+                pageLength: 5,
+                "columnDefs": [
+                    {"className": "dt-head-center", "targets": "_all"},
+                    { className: "dt-body-center", targets: "_all"}
+                ]
             })
         })
     </script>
