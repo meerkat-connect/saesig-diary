@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -50,5 +51,10 @@ public class ResourceController {
         return resourceService.update(id, resourceUpdateDto);
     }
 
-
+    @PostMapping(value = "/resources/move", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Long moveResource(@RequestBody ResourceMoveDto resourceMoveDto) {
+        resourceService.move(resourceMoveDto);
+        return null;
+    }
 }

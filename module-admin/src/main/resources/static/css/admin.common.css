@@ -41,9 +41,11 @@
 .modal-content.type_2 .modal-footer{background-color: #fff;}
 
 .breadcrumb-item:not(:first-child) i.icon-home{display: none;}
-
+*/
+.form-select-sm {padding-left:1rem;}
+.input-group-sm > .form-control{border-radius: 25px;}
 .input-group-dropdown > .form-select{padding-right: 2.25rem; flex: none; width: auto;}
-
+/*
 .form-select.form-control-primary.form-bg-primary{background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");}
 
 .form-group.required .col-form-label::after{content:" *";color:red;}
@@ -72,10 +74,10 @@
 .rounded {border-radius:3px !important;}
 div {word-break:keep-all;}
 
-
-!* btn *!
-.btn {border-radius:3px;}
-.btn:not(.input-group-text) {min-width:4.4rem;}
+*/
+/* btn */
+.btn {border-radius:25px;}
+.btn:not(.input-group-text) {min-width:6.25rem;}
 .btn-group-sm >.btn,
 .btn.btn-sm {padding:7px 9px 6px;font-size:14px;line-height:16px;}
 .btn-group-sm >.btn,
@@ -93,7 +95,7 @@ div {word-break:keep-all;}
 .btn-toggle .btn + .btn {margin-left:0;}
 .btn-outline-secondary {color:#212529;border-color:#ccc;}
 .btn-check:checked + .btn-disabled {background-color:#237db1;border-color:#237db1;color:#fff;}
-
+/*
 !* label *!
 .label.label-inverse {margin:1px 5px 1px 0;background:#237db1;display:inline-block;line-height:13px;}
 .label.label-inverse a {vertical-align:text-bottom;margin-left:4px;}
@@ -124,13 +126,14 @@ div {word-break:keep-all;}
 .radio input:disabled + .helper::before {border-color:#ccc;}
 .radio.d-inline-block {margin-right:20px;}
 
-!* select *!
-.form-select {border-color:#ccc}
+*/
+/* select */
+.form-select {border-color:#ccc; border-radius:25px;}
 .form-select option[value=""][disabled] {display:none;}
 .select2-container.select2-container--open {z-index:9999999999;}
 .select2-container--default .select2-results__option[aria-disabled=true]:not([id]) {display:none;}
 .dropdown-toggle::after {margin-left:1em;}
-
+/*
 !* tabs *!
 .gray-tabs.nav-tabs {margin-bottom:1.9rem;border:none;border-bottom:2px solid #404e67;}
 .gray-tabs.nav-tabs .nav-link {margin-bottom:0;padding:0.38rem 1.2rem;border:2px solid transparent;border-bottom:none;color:#666;font-size:16px;}

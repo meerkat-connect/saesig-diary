@@ -13,6 +13,11 @@ public class MemberSerivceImpl implements MemberSerivce{
     private final MemberMapper memberMapper;
 
     @Override
+    public List<MemberDto> selectMemberList(MemberDto memberDto) throws Exception {
+        return memberMapper.selectMemberList(memberDto);
+    }
+
+    @Override
     public List<MemberDto> findAll() throws Exception {
         return memberMapper.findAll();
     }

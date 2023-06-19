@@ -58,4 +58,10 @@ public class ResourceService {
         return resourceById.getId();
     }
 
+    @Transactional
+    public void move(ResourceMoveDto resourceMoveDto) {
+        resourceRepository.decreaseOrder(resourceMoveDto.getOriginalParentIdOfSelectedNode(), resourceMoveDto.getOriginalOrdOfSelectedNode());
+        resourceRepository.increaseOrder(resourceMoveDto.getNewParentIdOfSelectedNode(), resourceMoveDto.getNewOrdOfSelectedNode());
+        resourceRepository.changeParentId(resourceMoveDto.getIdOfSelectedNode(), resourceMoveDto.getNewParentIdOfSelectedNode(), resourceMoveDto.getNewOrdOfSelectedNode());
+    }
 }
