@@ -227,6 +227,23 @@
                         }
                     },
                     'plugins': ['types', 'dnd', 'contextmenu']
+                }).bind("move_node.jstree", function (event, data) {
+                    /* 부모 노드의 id와 선택된 node의 ord 값 필요 */
+                    /* 옮겨진 위치의 부모 노드의 id와 옮겨진 위치의 ord값 필요 */
+                    const originalParentIdOfSelectedNode = resourceController.$jstree.jstree(true).get_node(data.old_parent).id;
+                    const originalOrdOfSelectedNode = data.node.original.ord;
+                    const newParentIdOfSelectedNode = resourceController.$jstree.jstree(true).get_node(data.parent).id;
+                    const newOrdOfSelectedNode = data.position + 1;
+
+                    const param = {
+                        originalParentIdOfSelectedNode : originalParentIdOfSelectedNode,
+                        originalOrdOfSelectedNode : originalOrdOfSelectedNode,
+                        newParentIdOfSelectedNode : newParentIdOfSelectedNode,
+                        newOrdOfSelectedNode : newOrdOfSelectedNode
+                    }
+
+                    resourceController.moveNode(param);
+
                 }).bind("select_node.jstree", function (event, data) {
                     resourceController.selectedNode = resourceController.$jstree.jstree('get_selected', true)[0];
                     resourceController.parentNode = resourceController.$jstree.jstree(true).get_node(resourceController.selectedNode.parent);
@@ -307,6 +324,20 @@
                 adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
                 $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true);
                 $(`#httpMethod option[value=${selectedNodeOriginal.httpMethod}]`).prop('selected',true);
+            },
+
+            moveNode : function(param) {
+                $.ajax({
+                    url: '/admin/resources/move',
+                    method: 'post',
+                    data: JSON.stringify(param),
+                    contentType: 'application/json',
+                    dataType: 'json'
+                }).done(function(){
+
+                }).fail(function(error) {
+
+                })
             }
         };
 
