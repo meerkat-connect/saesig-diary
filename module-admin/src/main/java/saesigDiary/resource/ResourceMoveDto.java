@@ -15,12 +15,15 @@ public class ResourceMoveDto {
 
     private Long idOfSelectedNode;
 
+    private Integer depthOfNewParentId;
+
     @Builder
-    public ResourceMoveDto(Long originalParentIdOfSelectedNode, Integer originalOrdOfSelectedNode, Long newParentIdOfSelectedNode, Integer newOrdOfSelectedNode, Long idOfSelectedNode) {
+    public ResourceMoveDto(Long originalParentIdOfSelectedNode, Integer originalOrdOfSelectedNode, Long newParentIdOfSelectedNode, Integer newOrdOfSelectedNode, Long idOfSelectedNode, Integer depthOfNewParentId) {
         this.originalParentIdOfSelectedNode = originalParentIdOfSelectedNode;
         this.originalOrdOfSelectedNode = originalOrdOfSelectedNode;
         this.newParentIdOfSelectedNode = newParentIdOfSelectedNode;
         this.newOrdOfSelectedNode = newOrdOfSelectedNode;
         this.idOfSelectedNode = idOfSelectedNode;
+        this.depthOfNewParentId = depthOfNewParentId;
     }
 }

@@ -233,16 +233,18 @@
                     const originalParentIdOfSelectedNode = resourceController.$jstree.jstree(true).get_node(data.old_parent).id;
                     const originalOrdOfSelectedNode = data.node.original.ord;
                     const newParentIdOfSelectedNode = resourceController.$jstree.jstree(true).get_node(data.parent).id;
+                    const depthOfNewParentId = resourceController.$jstree.jstree(true).get_node(data.parent).depth;
                     const newOrdOfSelectedNode = data.position + 1;
 
                     const param = {
                         originalParentIdOfSelectedNode : originalParentIdOfSelectedNode,
                         originalOrdOfSelectedNode : originalOrdOfSelectedNode,
                         newParentIdOfSelectedNode : newParentIdOfSelectedNode,
-                        newOrdOfSelectedNode : newOrdOfSelectedNode
+                        newOrdOfSelectedNode : newOrdOfSelectedNode,
+                        depthOfNewParentId : depthOfNewParentId
                     }
 
-                    resourceController.moveNode(param);
+                    // resourceController.moveNode(param);
 
                 }).bind("select_node.jstree", function (event, data) {
                     resourceController.selectedNode = resourceController.$jstree.jstree('get_selected', true)[0];
