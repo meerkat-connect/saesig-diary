@@ -5,6 +5,7 @@
 
 <div layout:fragment="content">
     <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+
     <!-- Page-body start -->
     <style>
         .dataTables_paginate {
@@ -160,6 +161,7 @@
                                 <table id="exampleTable" class="display" style="width:100%;">
                                     <thead>
                                     <tr>
+                                        <th></th>
                                         <th>Name</th>
                                         <th>Position</th>
                                         <th>Office</th>
@@ -169,6 +171,7 @@
                                     </thead>
                                     <tbody>
                                     <tr>
+                                        <td></td>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
                                         <td>Edinburgh</td>
@@ -176,6 +179,7 @@
                                         <td>2011-04-25</td>
                                     </tr>
                                     <tr>
+                                        <td></td>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
                                         <td>Edinburgh</td>
@@ -183,6 +187,7 @@
                                         <td>2011-04-25</td>
                                     </tr>
                                     <tr>
+                                        <td></td>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
                                         <td>Edinburgh</td>
@@ -190,6 +195,7 @@
                                         <td>2011-04-25</td>
                                     </tr>
                                     <tr>
+                                        <td></td>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
                                         <td>Edinburgh</td>
@@ -197,6 +203,7 @@
                                         <td>2011-04-25</td>
                                     </tr>
                                     <tr>
+                                        <td></td>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
                                         <td>Edinburgh</td>
@@ -204,6 +211,7 @@
                                         <td>2011-04-25</td>
                                     </tr>
                                     <tr>
+                                        <td></td>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
                                         <td>Edinburgh</td>
@@ -211,6 +219,7 @@
                                         <td>2011-04-25</td>
                                     </tr>
                                     <tr>
+                                        <td></td>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
                                         <td>Edinburgh</td>
@@ -218,6 +227,7 @@
                                         <td>2011-04-25</td>
                                     </tr>
                                     <tr>
+                                        <td></td>
                                         <td>Tiger Nixon</td>
                                         <td>System Architect</td>
                                         <td>Edinburgh</td>
@@ -228,6 +238,7 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
+                                        <td></td>
                                         <th>Name</th>
                                         <th>Position</th>
                                         <th>Office</th>
@@ -383,6 +394,38 @@
                                         </label>
                                     </div>
                                 </div>-->
+                            </div>
+                        </div>
+
+                        <div class="mb-0 form-group required">
+                            <div class="btn-group dropdown-split-primary">
+                                <button type="button" class="btn btn-primary"><i class="icofont icofont-user-alt-3"></i>Primary</button>
+                                <label for="fileTest" class="btn btn-primary dropdown-toggle dropdown-toggle-split"></label>
+                                <input type="file" id="fileTest" name="fileTest" style="display:none;">
+                                <!--<button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split " data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="sr-only">Toggle primary</span>
+                                </button>-->
+
+                                <div class="dropdown-menu" >
+                                    <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
+                                    <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
+                                    <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item waves-effect waves-light" href="#">Separated link</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-0 form-group required">
+                            <div class="dropdown-primary dropdown open">
+                                <button class="btn btn-primary dropdown-toggle waves-effect waves-light " type="button" id="dropdown-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Primary</button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown-2" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                    <a class="dropdown-item waves-light waves-effect" href="#">Action</a>
+                                    <a class="dropdown-item waves-light waves-effect" href="#">Another action</a>
+                                    <a class="dropdown-item waves-light waves-effect" href="#">Something else here</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item waves-light waves-effect" href="#">Something else here</a>
+                                </div>
                             </div>
                         </div>
                         <div class="mb-0 form-group required">
@@ -607,17 +650,23 @@
     <script>
         $(function () {
             $('#exampleTable').DataTable({
+                columnDefs: [ {
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets:   0
+                } ],
+                select: {
+                    style:    'os',
+                    selector: 'td:first-child'
+                },
+
                 lengthChange: false,
                 searching: false,
                 ordering: false,
                 paging: true,
-                select: false,
                 info: false,
                 pageLength: 5,
-                "columnDefs": [
-                    {"className": "dt-head-center", "targets": "_all"},
-                    { className: "dt-body-center", targets: "_all"}
-                ]
+
             })
         })
     </script>
