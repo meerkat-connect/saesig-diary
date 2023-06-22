@@ -89,6 +89,15 @@ strong {
     border-color: #FF6200 !important;
 }
 
+.nav-tabs .slide {
+    height:2px;
+}
+
+.md-tabs .nav-item a {
+    padding: 10px 0 !important;
+}
+
+.nav-tabs{ border-bottom: 0;}
 /*.navbar-wrapper { display:flex !important;}
 .navbar-container{
     width: calc(100% - 240px) !important;

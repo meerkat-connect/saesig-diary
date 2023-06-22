@@ -9,4 +9,10 @@ public class ExampleController {
     public String example() {
         return "example";
     }
+
+    @GetMapping("/tabExample")
+    public String tabExample() {
+        return "tabExample";
+    }
+
 }
