@@ -70,6 +70,14 @@ strong {
     font-size: 14px !important;
 }
 
+.border-checkbox-section .border-checkbox-group .border-checkbox-label:after {
+    border-right: 2px solid white !important;
+    border-top: 2px solid white !important;
+}
+
+.border-checkbox-section .border-checkbox-group .border-checkbox:checked + .border-checkbox-label:before {
+    background : #ff8031;
+}
 
 /*.navbar-wrapper { display:flex !important;}
 .navbar-container{
