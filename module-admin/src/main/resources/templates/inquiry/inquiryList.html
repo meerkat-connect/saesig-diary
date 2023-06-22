@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<div layout:fragment="content">
+    <script>
+        const inquiryList = {
+            init : function (){
+                this.setFilter()
+                this.inquriyListLoad()
+            },
+
+            registEvent : function () {
+
+            },
+
+            setFilter : function () {
+                $.ajax({
+                    type: "post",
+                    async : false,
+                    enctype: 'multipart/form-data',
+                    url: "/inquiry/getFilterData.do",
+                    ContentType :'application/json',
+                    dataType : 'json',
+                    cache: false,
+                    success: function(result) {
+                        const categoryList = Object.keys(result['InquiryCategory']);
+                        let categoryOption = '';
+                        for(let i=0; i<categoryList.length; i++){
+                            categoryOption += '<option value="'+categoryList[i]+'">'+result['InquiryCategory'][categoryList[i]]['title']+'</option>'
+                        }
+                        $('#inquiryCategory').append(categoryOption)
+
+                        const statusList = Object.keys(result['InquiryStatus']);
+                        let statusOption = '';
+                        for(let i=0; i<statusList.length; i++){
+                            statusOption += '<option value="'+statusList[i]+'">'+result['InquiryStatus'][statusList[i]]['title']+'</option>'
+                        }
+                        $('#inquiryStatus').append(statusOption)
+
+                    },
+                    error: function(e) {
+                        console.log(e)
+                    }
+                });
+            },
+
+            inquriyListLoad : function () {
+                const _this = this;
+                let params = _this.getFilterParam()
+                // $.ajax({
+                //     type: "post",
+                //     async : false,
+                //     enctype: 'multipart/form-data',
+                //     url: "/inquiry/getInquiryList.do",
+                //     ContentType :'application/json',
+                //     dataType : 'json',
+                //     data : params,
+                //     cache: false,
+                //     success: function(result) {
+                //         console.log(result)
+                //     },
+                //     error: function(e) {
+                //         console.log(e)
+                //     }
+                // });
+
+                $("#inquiryListTable").dataTable({
+                    ordering: false,
+                    ajax: {type: "post",
+                        async : false,
+                        enctype: 'multipart/form-data',
+                        url: "/inquiry/getInquiryList.do",
+                        ContentType :'application/json',
+                        dataType : 'json',
+                        data : params,
+                        cache: false},
+                    columns : [
+                        {data : null},
+                        {data : "categoryStr"},
+                        {data : "title"},
+                        {data : "nickname"},
+                        {data : "statusStr"},
+                        {data : "createdAt"}
+                    ],
+                    columnDefs: [{
+                        'targets': 0,
+                        'searchable': false,
+                        'orderable': false,
+                        'width' : '30px',
+                        'className': 'dt-body-center',
+                        'render': function (data, type, full, meta){
+                            console.log(data)
+                            return '<input type="checkbox" name="rowCheckbox" value="' + $('<div/>').text(data.id).html() + '">';
+                        }
+                        },{'targets': 1,'width' : '70px'}
+                        ,{'targets': 2,'width' : 'auto'}
+                        ,{'targets': 3,'width' : '70px'}
+                        ,{'targets': 4,'width' : '70px'}
+                        ,{'targets': 5,'width' : '70px'}
+                    ],
+                    language : {
+                        paginate : {
+                            previous : 'Prev'
+                        }
+                    }
+                })
+            },
+
+            getFilterParam : function () {
+                let param = {};
+                param.orderColumn = null;
+                param.orderColumnSort = null;
+                param.category = null;
+                param.status = null;
+                param.title = null;
+                param.keywordSelect = null;
+                param.keywordInput = null;
+
+                if ($('#inquiryStatus').val() != '' && $('#inquiryStatus').val() != null && $('#inquiryStatus').val() != undefined){
+                    param.status = $('#inquiryStatus').val()
+                }
+                if ($('#titleInput').val() != '' && $('#titleInput').val() != null && $('#titleInput').val() != undefined){
+                    param.title = $('#titleInput').val()
+                }
+                if ($('#inquiryCategory').val() != '' && $('#inquiryCategory').val() != null && $('#inquiryCategory').val() != undefined && $('#inquiryCategory').val() != 'all'){
+                    param.category = $('#inquiryCategory').val()
+                }
+                if ($('#keywordSelect').val() != '' && $('#keywordSelect').val() != null && $('#keywordSelect').val() != undefined){
+                    param.keywordSelect = $('#keywordSelect').val()
+                }
+                if ($('#keywordInput').val() != '' && $('#keywordInput').val() != null && $('#keywordInput').val() != undefined){
+                    param.keywordInput = $('#keywordInput').val()
+                }
+                return param
+            }
+        }
+
+        $(document).ready(function () {
+            inquiryList.init();
+        })
+    </script>
+
+    <!-- Page-body start -->
+    <div class="page-body">
+        <div class="row">
+            <!-- 필터 부분 -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <!-- 키워드 filter -->
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                                    <div class="input-group input-group-sm input-group-dropdown mb-0">
+                                        <select name="keywordSelect" class="form-select form-control">
+                                            <option value="created_by">아이디</option>
+                                            <option value="nickname">닉네임</option>
+                                        </select>
+                                        <input type="text" class="form-control" aria-label="Text input with dropdown button" name="keywordInput" id="keywordInput"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>문의유형</strong></div>
+                                    <div class="col-sm-12">
+                                        <select name="inquiryCategory" id="inquiryCategory" class="form-select form-select-sm form-control-sm">
+                                            <option value="all">전체</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>제목</strong></div>
+                                    <div class="input-group input-group-sm input-group-dropdown mb-0">
+                                        <input type="text" class="form-control" aria-label="Text input with dropdown button" name="filterKeywordInput" id="titleInput"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>답변 상태</strong></div>
+                                    <div class="col-sm-12">
+                                        <select name="inquiryStatus" class="form-select form-select-sm form-control-sm" id="InquiryStatus">
+                                            <option value="all">전체</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- //키워드 filter -->
+                        <!-- 키워드 filter-btn -->
+                        <div class="mt-1 p-t-20 text-center border-top">
+                            <button class="btn btn-disabled m-r-5">초기화</button>
+                            <button class="btn btn-primary">검색</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //필터 부분 -->
+
+            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="row p-20 p-b-0">
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <h5><strong>1:1 문의 검색결과</strong></h5>
+                        </div>
+                        <div class="col-12 col-md-6 text-right">
+                            <button type="button" class="btn btn-inverse">삭제</button>
+                        </div>
+                    </div>
+                    <div class="card-block-small">
+                        <div class="dt-responsive table-responsive">
+                            <table id="inquiryListTable"
+                                   class="hover nowrap row-border"
+                                   role="grid" style="width: 100%">
+                                <thead>
+                                <tr role="row">
+                                    <th class="" tabindex="0"
+                                        rowspan="1"
+                                        colspan="1">
+                                        <input type="checkbox" name="rowCheckBoxAll" value="" />
+                                    </th>
+                                    <th class="" tabindex="0"
+                                         rowspan="1"
+                                        colspan="1">
+                                        문의유형
+                                    </th>
+                                    <th class="" tabindex="0"
+                                         rowspan="1"
+                                        colspan="1">
+                                        제목
+                                    </th>
+                                    <th tabindex="0"
+                                        rowspan="1"
+                                        colspan="1">
+                                        작성자
+                                    </th>
+                                    <th class="" tabindex="0"
+                                         rowspan="1"
+                                        colspan="1">
+                                        답변상태
+                                    </th>
+                                    <th class="" tabindex="0"
+                                        rowspan="1"
+                                        colspan="1">
+                                        등록일
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody style="border-bottom: 1px solid #dddddd">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header p-b-0">
+                        <h4 class="sub-title"><strong>문의</strong></h4>
+                    </div>
+                    <div class="card-block-small p-t-0">
+                        <p>
+                            <strong>[분류] Cum sociis natoque penatibus et magnis dis
+                                parturient montes</strong>
+                        </p>
+                        <p>
+                            기관명 홍길동(아이디)<br/>
+                            YYYY-MM-DD
+                        </p>
+                    </div>
+                    <div class="card-header p-t-0 p-b-0">
+                        <h4 class="sub-title"><strong>문의 내용</strong></h4>
+                    </div>
+                    <div class="card-block-small p-t-0">
+                        <p>
+                            Nullam quis risus eget urna mollis ornare vel eu leo. Cum
+                            sociis natoque penatibus et magnis dis parturient montes,
+                            nascetur ridiculus mus.<br/>
+                            Nullam id dolor id nibh ultricies vehicula. Cum sociis
+                            natoque penatibus et magnis dis parturient montes, nascetur
+                            ridiculus mus. Donec ullamcorper nulla non metus auctor
+                            fringilla.
+                            Duis mollis, est non commodo luctus, nisi erat porttitor
+                            ligula, eget lacinia odio sem nec elit. Donec ullamcorper
+                            nulla non metus auctor fringilla.
+                        </p>
+                        <div class="mt-2 row">
+                            <ul>
+                                <li><a href="javascript:void(0)"><i class="ion-paperclip f-18"></i> Cum sociis natoque.pptx</a></li>
+                                <li><a href="javascript:void(0)"><i class="ion-paperclip f-18"></i> Cum sociis natoque.xlsx</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header p-b-0">
+                        <h4 class="sub-title"><strong>답변</strong></h4>
+                    </div>
+                    <div class="card-block-small p-t-0">
+                        <div class="mb-3 form-group row required">
+                            <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>상태</strong></div>
+                            <div class="col-sm-12">
+                                <select name="answerStatus" class="form-select form-select-sm form-control-sm" id="answerStatus">
+                                    <option value="0">답변대기</option>
+                                    <option value="1">답변완료</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-group row">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                   for="answerTitle"><strong>답변 제목</strong></label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control form-control-sm"
+                                       name="answerTitle" id="answerTitle"
+                                       placeholder="Text Input Validation"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-group row">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                   for="answerContents"><strong>답변 내용</strong></label>
+                            <div class="col-sm-12">
+                                                                <textarea rows="5" cols="5" class="form-control form-control-sm"
+                                                                          placeholder="Default textarea"
+                                                                          id="answerContents"
+                                                                          name="answerContents"></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-group row">
+                            <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>담당자 지정</strong></div>
+                            <div class="col-sm-12 btn-group-sm">
+                                <button type="button" class="btn btn-inverse" data-bs-toggle="modal" data-bs-target="#managerSearchPopup">담당자 검색</button>
+                            </div>
+                            <div class="m-0 row">
+                                <div class="col-12 row border rounded p-t-10 p-b-10 m-0 mt-2">
+                                    <div class="col-auto">
+                                                                    <span class="label label-inverse">
+                                                                        Label Badge <a href="javascript:void(0)" class="text-white">X</a>
+                                                                    </span>
+                                        <span class="label label-inverse">
+                                                                        Label Badge <a href="javascript:void(0)" class="text-white">X</a>
+                                                                    </span><span class="label label-inverse">
+                                                                        Label Badge <a href="javascript:void(0)" class="text-white">X</a>
+                                                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                           for="answerManager"><strong>답변자</strong></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control form-control-sm"
+                                               name="answerManager" id="answerManager"
+                                               placeholder="Text Input Validation"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                           for="answerDate"><strong>답변일자</strong></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control form-control-sm" name="answerDate" id="answerDate" placeholder="Text Input Validation"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-block-small">
+                        <button class="btn btn-disabled m-r-5">취소</button>
+                        <button class="btn btn-primary">저장</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

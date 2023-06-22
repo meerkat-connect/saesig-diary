@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="saesigDiary.inquiry.InquiryMapper">
+
+    <select id="getInquiryList" resultType="saesigDiary.inquiry.InquiryDto" parameterType="hashMap">
+        select
+        i.id,
+        i.category,
+        i.incoming_email,
+        i.status,
+        i.title,
+        i.content,
+        i.is_deleted,
+        FORMATDATETIME(i.created_at, 'yyyy-MM-dd') as created_at,
+        i.created_by,
+        i.modified_at,
+        i.modified_by,
+        m.nickname,
+        m.email as memberId
+        from inquiry i
+        LEFT JOIN member m ON i.created_by = m.id
+        where 1=1
+        and is_deleted = 'N'
+        <if test="status != ''">
+            and i.status = #{statusList}
+        </if>
+        <if test="category != ''">
+            and i.category = #{categoryList}
+        </if>
+        <if test="title != ''">
+            and i.title = #{title}
+        </if>
+        <if test="keywordSelect != '' and keywordInput != ''">
+            and ${keywordSelect} = #{keywordInput}
+        </if>
+        <if test="orderColumn != ''">
+            ORDER BY i.${orderColumn}
+            <if test="orderColumnSort = ASC">
+                ASC
+            </if>
+            <if test="orderColumnSort != ASC">
+                DESC
+            </if>
+        </if>
+    </select>
+</mapper>
