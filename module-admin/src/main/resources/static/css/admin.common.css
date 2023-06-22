@@ -50,11 +50,16 @@ strong {
 }
 
 .btn-gray {
-    background: #f4f1f1;
-    border-color: #f4f1f1;
+    background: #f8f7f7;
+    border-color: #f8f7f7;
     color: #ff8031;
 }
 
+.btn-gray:hover {
+    background-color: #f1f1f1;
+    border-color: #f1f1f1;
+    color: #ff8031 !important;
+}
 .btn-transparent {
     border-color: #ff8031;
     color: #ff8031;
@@ -77,6 +82,11 @@ strong {
 
 .border-checkbox-section .border-checkbox-group .border-checkbox:checked + .border-checkbox-label:before {
     background : #ff8031;
+}
+
+.btn-primary:hover {
+    background-color: #FF6200 !important;
+    border-color: #FF6200 !important;
 }
 
 /*.navbar-wrapper { display:flex !important;}
