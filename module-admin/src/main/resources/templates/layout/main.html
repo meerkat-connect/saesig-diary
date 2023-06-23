@@ -61,7 +61,7 @@
                                         <div class="col-lg-auto">
                                             <div class="page-header-title">
                                                 <div class="d-inline">
-                                                    <h4>테스트</h4>
+                                                    <h4>메뉴명</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@
                                             <div class="page-header-breadcrumb">
                                                 <ul class="breadcrumb-title">
                                                     <li class="breadcrumb-item" style="float: left;">
-                                                        <i class="feather icon-home"></i> 테스트
+                                                        <i class="feather icon-home"></i> 메뉴명
                                                     </li>
                                                 </ul>
                                             </div>
@@ -91,7 +91,6 @@
     </div>
 
 </div>
-<span th:replace="~{layout/jsCommon :: jsCommon}"></span>
 <!-- Required Jquery -->
 <script type="text/javascript" th:src="@{/files/bower_components/jquery-ui/jquery-ui.min.js}"></script>
 <script type="text/javascript" th:src="@{/files/bower_components/popper.js/dist/umd/popper.min.js}"></script>
@@ -131,7 +130,8 @@
 <script type="text/javascript" th:src="@{/files/assets/js/script.js}"></script>
 
 <!-- Data tables-->
-<script type="text/javascript" th:src="@{/files/bower_components/datatables.net/js/jquery.dataTables.js}"></script>
+<script type="text/javascript" th:src="@{/files/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
 
 </body>
 </html>
