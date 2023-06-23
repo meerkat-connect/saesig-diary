@@ -115,3 +115,20 @@ CREATE TABLE `role_resource`
 ALTER TABLE `role_resource`
     ADD CONSTRAINT `PK_ROLE_RESOURCE` PRIMARY KEY (`id`);
 
+CREATE TABLE `send_template`
+(
+    `id`          BIGINT       NOT NULL COMMENT '템플릿 일련번호',
+    `method`      VARCHAR(20)  NOT NULL COMMENT '발송 수단',
+    `title`       VARCHAR(300) NOT NULL COMMENT '제목',
+    `content`     TEXT         NOT NULL COMMENT '내용',
+    `category`    VARCHAR(20)  NOT NULL COMMENT '발송 유형',
+    `is_enabled`  CHAR(1)      NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
+    `time_point`  VARCHAR(20)  NOT NULL COMMENT '발송 시점',
+    `created_at`  DATETIME     NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT       NOT NULL COMMENT '등록자 일련번호',
+    `modified_at` DATETIME     NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT       NOT NULL COMMENT '수정자 일련번호'
+);
+
+ALTER TABLE `send_template`
+    ADD CONSTRAINT `PK_SEND_TEMPLATE` PRIMARY KEY (`id`);

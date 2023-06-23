@@ -83,7 +83,7 @@
                         <!-- 키워드 filter-btn -->
                         <div class="mt-1 p-t-20 text-center border-top">
                             <button class="btn btn-disabled m-r-5">초기화</button>
-                            <button class="btn btn-primary" onclick="sendMail();">검색</button>
+                            <button class="btn btn-primary" onclick="search();">검색</button>
                         </div>
                     </div>
                 </div>
@@ -108,43 +108,16 @@
                                 <table id="listTable" class="display" style="width:100%">
                                     <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
+                                        <th>No.</th>
+                                        <th>발송수단</th>
+                                        <th>제목</th>
+                                        <th>발송시점</th>
+                                        <th>발송유형</th>
+                                        <th>사용여부</th>
+                                        <th>등록일</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011-04-25</td>
-                                        <td>$320,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011-04-25</td>
-                                        <td>$320,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011-04-25</td>
-                                        <td>$320,800</td>
-                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -165,6 +138,7 @@
     <script th:inline="javascript">
 
         $(document).ready( function () {
+            $('#listTable').DataTable().destroy();
             $('#listTable').DataTable({
                 columnDefs: [ {
                     orderable: false,
@@ -174,7 +148,21 @@
                 select: {
                     style:    'os',
                     selector: 'td:first-child'
-                }
+                },
+                ajax: {
+                    url: '/templateManage/selectTemplateList.do',
+                    type: 'GET'
+                },
+                columns: [
+                    {data : 'id'},
+                    {data : 'id'},
+                    {data : 'id'},
+                    {data : 'id'},
+                    {data : 'id'},
+                    {data : 'id'},
+                    {data : 'id'},
+                ]
+
             });
         });
 
@@ -184,6 +172,10 @@
 
             $("#contentPanel").load("/templateManage/templateManageForm.html")
         });
+
+        function search() {
+            $('#listTable').DataTable().ajax.reload();
+        }
 
         function fn_regForm() {
             $("#contentPanel").show();
