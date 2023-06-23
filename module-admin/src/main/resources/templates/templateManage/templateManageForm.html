@@ -11,9 +11,8 @@
                 <div class="mb-2 form-group required">
                     <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송수단</strong></div>
                     <div class="col-sm-12">
-                        <select id="subjectSelect1" name="eduSbjctCds" class="form-select form-select-sm" onchange="duplCheck('1')">
+                        <select class="form-select form-select-sm" id="sendMethod" name="sendMethod">
                             <option value="" >- 선택 -</option>
-                            <option th:each="item : ${sbjctCdLsit}"   th:value="${item.CD}"> <th:block th:text="${item.CD_NM}" /> </option>
                         </select>
                     </div>
                 </div>
@@ -22,9 +21,8 @@
                 <div class="mb-2 form-group required">
                     <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong></div>
                     <div class="col-sm-12">
-                        <select id="subjectSelect1" name="eduSbjctCds" class="form-select form-select-sm" onchange="duplCheck('1')">
+                        <select class="form-select form-select-sm" id="sendType" name="sendType">
                             <option value="" >- 선택 -</option>
-                            <option th:each="item : ${sbjctCdLsit}"   th:value="${item.CD}"> <th:block th:text="${item.CD_NM}" /> </option>
                         </select>
                     </div>
                 </div>
@@ -37,13 +35,13 @@
                     <div class="form-radio">
                         <div class="radio radio-inline">
                             <label class="mb-0 form-label">
-                                <input type="radio" name="typeCd" id="typeCd1" value="HTML" checked/>
+                                <input type="radio" name="useYn" id="useY" value="Y" checked/>
                                 <i class="helper"></i>사용
                             </label>
                         </div>
                         <div class="radio radio-inline">
                             <label class="mb-0 form-label">
-                                <input type="radio" name="typeCd" id="typeCd2" value="URL"/>
+                                <input type="radio" name="useYn" id="useN" value="N"/>
                                 <i class="helper"></i>사용안함
                             </label>
                         </div>
@@ -54,9 +52,9 @@
         <div class="row mb-3">
             <div class="col-12">
                 <div class="mb-0 form-group required">
-                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="ttl"><strong>제목</strong></label>
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
                     <div class="col-12">
-                        <input type="text" class="form-control form-control-sm" name="ttl" id="ttl" placeholder="제목">
+                        <input type="text" class="form-control form-control-sm" id="title" name="title" placeholder="제목">
                     </div>
                 </div>
             </div>
@@ -64,27 +62,24 @@
         <div class="row mb-3">
             <div class="col-12">
                 <div class="mb-0 form-group row ">
-                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="cn"><strong>내용</strong></label>
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
                     <div class="col-12">
-                        <textarea class="form-control form-control-sm" name="cn" id="cn"></textarea>
+                        <textarea class="form-control form-control-sm" name="content" id="content"></textarea>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="card-block-small">
-        <button type="button" class="btn btn-disabled m-r-5" id="cancelInsertMmnws" onclick="fn_cancelReg()">취소</button>
+        <button type="button" class="btn btn-disabled m-r-5" id="cancelInsertMmnws" onclick="fn_cancel()">취소</button>
         <th:block sec:authorize-url="/mng/mmnws/insertMmnws.do">
-            <button type="button" class="btn btn-primary" id="insertMmnws" onclick="fn_insertMmnws()">저장</button>
+            <button type="button" class="btn btn-primary" id="insertMmnws" onclick="fn_save()">저장</button>
         </th:block>
     </div>
     <!-- Tab Container End -->
 </form>
 
 <script type="text/javascript">
-    function fn_cancelReg() {
-        $("#contentPanel").hide();
-    }
     var validator= $("#mmnwsInsertForm").validate({
         rules: {
             clsfCd		:	{ required: true }
@@ -100,15 +95,19 @@
         }
     })
 
-    function fn_insertMmnws(){
-        if(!($("#mmnwsInsertForm").valid())) return;
+    function fn_cancel() {
+        $("#contentPanel").hide();
+    }
+
+    function fn_save(){
+        if(!($("#templateManageForm").valid())) return;
 
         if(!confirm("저장하시겠습니까?")) return;
 
-        var data =  $("#mmnwsInsertForm").serialize();
+        var data =  $("#templateManageForm").serialize();
         if(displayWorkProgress()){
             $.ajax({
-                url : contextpath + "mng/mmnws/insertMmnws.do",
+                url : "/mng/mmnws/insertMmnws.do",
                 type: 'POST',
                 cache : false,
                 dataType: 'json',
@@ -116,7 +115,7 @@
                 success : function (data){
                     if(data.result=="success"){
                         alert(data.msg);
-                        gridHelper1.resetListContent();
+                        $("#contentPanel").hide();
                     }else{
                         alert(data.msg);
                     }
