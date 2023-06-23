@@ -13,12 +13,12 @@ public interface ResourceRepository extends JpaRepository<Resource, Long>, Custo
     public List<Resource> findAllWithRecursive();
 
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE Resource r SET r.ord=r.ord-1 WHERE r.parentResource.id=:parentId AND r.ord >:ord")
-    void decreaseOrder(@Param("parentId") Long parentId, @Param("ord") Integer ord);
+    @Query("UPDATE Resource r SET r.ord=r.ord-1 WHERE r.parentResource.id=:parentId AND r.ord > :originalOrd AND r.ord <= :newOrd")
+    void decreaseOrder(@Param("parentId") Long parentId, @Param("newOrd") Integer newOrd, @Param("originalOrd") Integer originalOrd);
 
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE Resource r SET r.ord=r.ord+1 WHERE r.parentResource.id=:parentId AND r.ord >:ord")
-    void increaseOrder(@Param("parentId") Long parentId, @Param("ord") Integer ord);
+    @Query("UPDATE Resource r SET r.ord=r.ord+1 WHERE r.parentResource.id=:parentId AND r.ord >= :newOrd AND r.ord < :originalOrd")
+    void increaseOrder(@Param("parentId") Long parentId, @Param("newOrd") Integer newOrd, @Param("originalOrd") Integer originalOrd);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Resource r SET r.ord=:ord, r.parentResource.id=:parentId, r.depth =:depth + 1 WHERE r.id=:id")

@@ -46,9 +46,19 @@ class ResourceRepositoryTest {
         //given
 
         //when
-        List<Resource> resources = resourceRepository.findAllByIdUsingCTE(2L);
+        List<ResourceCteDto> resources = resourceRepository.findAllByIdUsingCTE(2L);
 
         //then
         assertThat(resources.size()).isGreaterThan(0);
+    }
+
+    @Test
+    public void changeDepth() {
+        //given
+
+        //when
+        resourceRepository.changeDepth(2L);
+
+        //then
     }
 }
