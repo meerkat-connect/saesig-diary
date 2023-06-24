@@ -10,6 +10,10 @@ import saesigDiary.domain.role.ResourceRepository;
 
 import javax.transaction.Transactional;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest(classes = SaesigDiaryApplication.class)
 @ActiveProfiles("local")
 public class ResourceServiceTest {
@@ -27,23 +31,28 @@ public class ResourceServiceTest {
         //when
         // id 3 -> id 1의 마지막으로 이동하는 경우
         // id 3의 upperid : 2, newparentid : 1
-        ResourceResponseDto byId = resourceService.findById(3L);
+        ResourceResponseDto byId = resourceService.findById(5L);
 
         ResourceMoveDto testData = ResourceMoveDto.builder()
-                                                .originalOrdOfSelectedNode(1)
-                                                .originalParentIdOfSelectedNode(2L)
-                                                .newOrdOfSelectedNode(2)
-                                                .newParentIdOfSelectedNode(1L)
-                                                .idOfSelectedNode(3L)
-                                                .build();
+                .originalOrdOfSelectedNode(2)
+                .originalParentIdOfSelectedNode(3L)
+                .newOrdOfSelectedNode(2)
+                .newParentIdOfSelectedNode(1L)
+                .depthOfNewParentId(1)
+                .idOfSelectedNode(5L)
+                .build();
 
         //given
         resourceService.move(testData);
 
         //then
-        ResourceResponseDto byId1 = resourceService.findById(3L);
-        System.out.println(byId);
-        System.out.println(byId1);
+        ResourceResponseDto byId1 = resourceService.findById(5L);
+        List<ResourceResponseDto> allWithRecursive = resourceService.findAllWithRecursive();
+        allWithRecursive.stream().forEach(resource -> resource.getParentUrl());
+
+        assertThat(byId.getParentId()).isNotEqualTo(byId1.getParentId());
+        allWithRecursive.stream().forEach(System.out::println);
+
     }
 
 }

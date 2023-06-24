@@ -60,8 +60,42 @@ public class ResourceService {
 
     @Transactional
     public void move(ResourceMoveDto resourceMoveDto) {
-        resourceRepository.decreaseOrder(resourceMoveDto.getOriginalParentIdOfSelectedNode(), resourceMoveDto.getOriginalOrdOfSelectedNode());
-        resourceRepository.increaseOrder(resourceMoveDto.getNewParentIdOfSelectedNode(), resourceMoveDto.getNewOrdOfSelectedNode());
-        resourceRepository.changeParentId(resourceMoveDto.getIdOfSelectedNode(), resourceMoveDto.getNewParentIdOfSelectedNode(), resourceMoveDto.getNewOrdOfSelectedNode());
+        if (isNotSameParent(resourceMoveDto)) {
+            /*resourceRepository.decreaseOrder(resourceMoveDto.getOriginalParentIdOfSelectedNode(), resourceMoveDto.getOriginalOrdOfSelectedNode()); // 기존 상위 자원의 ord 정렬
+            resourceRepository.increaseOrder(resourceMoveDto.getNewParentIdOfSelectedNode(), resourceMoveDto.getNewOrdOfSelectedNode()); // 새로운 상위 자원의 ord 정렬*/
+
+            Resource resource = resourceRepository.findById(resourceMoveDto.getIdOfSelectedNode()).get();
+            resource.move(resourceMoveDto.getNewParentIdOfSelectedNode(), resourceMoveDto.getDepthOfNewParentId(), resourceMoveDto.getNewOrdOfSelectedNode());
+
+            /*resourceRepository.changeParentId(
+                    resourceMoveDto.getIdOfSelectedNode()
+                    , resourceMoveDto.getNewParentIdOfSelectedNode()
+                    , resourceMoveDto.getNewOrdOfSelectedNode()
+                    , resourceMoveDto.getDepthOfNewParentId());*/
+
+            resourceRepository.changeDepth(resourceMoveDto.getIdOfSelectedNode());
+
+        } else {
+            if (moveUp(resourceMoveDto)) {
+                resourceRepository.increaseOrder(resourceMoveDto.getOriginalParentIdOfSelectedNode(), resourceMoveDto.getNewOrdOfSelectedNode(), resourceMoveDto.getOriginalOrdOfSelectedNode());
+            } else {
+                resourceRepository.decreaseOrder(resourceMoveDto.getOriginalParentIdOfSelectedNode(), resourceMoveDto.getNewOrdOfSelectedNode(),resourceMoveDto.getOriginalOrdOfSelectedNode());
+            }
+            Resource resource = resourceRepository.findById(resourceMoveDto.getIdOfSelectedNode()).get();
+            resource.changeOrd(resourceMoveDto. getNewOrdOfSelectedNode());
+        }
+
+    }
+
+    private boolean moveUp(ResourceMoveDto resourceMoveDto) {
+        return resourceMoveDto.getOriginalOrdOfSelectedNode() > resourceMoveDto.getNewOrdOfSelectedNode();
+    }
+
+    private boolean isSameParent(ResourceMoveDto resourceMoveDto) {
+        return resourceMoveDto.getOriginalParentIdOfSelectedNode().equals(resourceMoveDto.getNewParentIdOfSelectedNode());
+    }
+
+    private boolean isNotSameParent(ResourceMoveDto resourceMoveDto) {
+        return !isSameParent(resourceMoveDto);
     }
 }

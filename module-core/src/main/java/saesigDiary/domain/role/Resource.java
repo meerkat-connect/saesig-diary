@@ -67,4 +67,18 @@ public class Resource extends BaseEntity {
         this.isEnabled = isEnabled;
         this.type = type;
     }
+
+    public void move(Long upperId, Integer depth, Integer ord) {
+        parentResource.getParentResource().changeParentId(upperId);
+        this.depth = depth;
+        this.ord = ord;
+    }
+
+    public void changeOrd(Integer ord) {
+        this.ord = ord;
+    }
+
+    public void changeParentId(Long upperId) {
+        this.getParentResource().changeParentId(upperId);
+    }
 }

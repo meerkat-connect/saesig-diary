@@ -228,18 +228,20 @@
                     },
                     'plugins': ['types', 'dnd', 'contextmenu']
                 }).bind("move_node.jstree", function (event, data) {
-                    /* 부모 노드의 id와 선택된 node의 ord 값 필요 */
-                    /* 옮겨진 위치의 부모 노드의 id와 옮겨진 위치의 ord값 필요 */
                     const originalParentIdOfSelectedNode = resourceController.$jstree.jstree(true).get_node(data.old_parent).id;
                     const originalOrdOfSelectedNode = data.node.original.ord;
                     const newParentIdOfSelectedNode = resourceController.$jstree.jstree(true).get_node(data.parent).id;
+                    const depthOfNewParentId = resourceController.$jstree.jstree(true).get_node(data.parent).depth;
                     const newOrdOfSelectedNode = data.position + 1;
+                    const idOfSelectedNode = data.node.original.id;
 
                     const param = {
                         originalParentIdOfSelectedNode : originalParentIdOfSelectedNode,
                         originalOrdOfSelectedNode : originalOrdOfSelectedNode,
                         newParentIdOfSelectedNode : newParentIdOfSelectedNode,
-                        newOrdOfSelectedNode : newOrdOfSelectedNode
+                        newOrdOfSelectedNode : newOrdOfSelectedNode,
+                        depthOfNewParentId : depthOfNewParentId,
+                        idOfSelectedNode: idOfSelectedNode
                     }
 
                     resourceController.moveNode(param);
@@ -334,9 +336,10 @@
                     contentType: 'application/json',
                     dataType: 'json'
                 }).done(function(){
-
+                    alert('자원이 이동되었습니다.')
                 }).fail(function(error) {
-
+                    alert('자원을 이동하는데 실패하였습니다.');
+                    console.log(JSON.stringify(error));
                 })
             }
         };

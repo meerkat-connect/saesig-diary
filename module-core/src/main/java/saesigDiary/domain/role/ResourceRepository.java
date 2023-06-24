@@ -7,20 +7,20 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ResourceRepository extends JpaRepository<Resource, Long> {
+public interface ResourceRepository extends JpaRepository<Resource, Long>, CustomResourceRepository {
 
     @Query("SELECT r FROM Resource AS r left join fetch r.parentResource")
     public List<Resource> findAllWithRecursive();
 
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE Resource r SET r.ord=r.ord-1 WHERE r.parentResource.id=:parentId AND r.ord >:ord")
-    void decreaseOrder(@Param("parentId") Long parentId, @Param("ord") Integer ord);
+    @Query("UPDATE Resource r SET r.ord=r.ord-1 WHERE r.parentResource.id=:parentId AND r.ord > :originalOrd AND r.ord <= :newOrd")
+    void decreaseOrder(@Param("parentId") Long parentId, @Param("newOrd") Integer newOrd, @Param("originalOrd") Integer originalOrd);
 
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE Resource r SET r.ord=r.ord+1 WHERE r.parentResource.id=:parentId AND r.ord >:ord")
-    void increaseOrder(@Param("parentId") Long parentId, @Param("ord") Integer ord);
+    @Query("UPDATE Resource r SET r.ord=r.ord+1 WHERE r.parentResource.id=:parentId AND r.ord >= :newOrd AND r.ord < :originalOrd")
+    void increaseOrder(@Param("parentId") Long parentId, @Param("newOrd") Integer newOrd, @Param("originalOrd") Integer originalOrd);
 
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE Resource r SET r.ord=:ord, r.parentResource.id=:parentId WHERE r.id=:id")
-    void changeParentId(@Param("id") Long id, @Param("parentId") Long parentId,@Param("ord") Integer ord);
+    @Query("UPDATE Resource r SET r.ord=:ord, r.parentResource.id=:parentId, r.depth =:depth + 1 WHERE r.id=:id")
+    void changeParentId(@Param("id") Long id, @Param("parentId") Long parentId,@Param("ord") Integer ord, @Param("depth") Integer depth);
 }
