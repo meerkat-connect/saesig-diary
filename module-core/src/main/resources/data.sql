@@ -38,7 +38,7 @@ INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, u
 VALUES (1, '회원관리', '/admin/members', 'GET', 'Y', 'MENU', 1, 1, NULL, NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, modified_at, modified_by, created_at, created_by)
-VALUES (2, '시스템관리', '/admin/system', 'GET', 'Y', 'MENU', 1, 1, NULL, NOW(), 1, NOW(), 1);
+VALUES (2, '시스템관리', '/admin/system', 'GET', 'Y', 'MENU', 1, 2, NULL, NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, modified_at, modified_by, created_at, created_by)
 VALUES (3, '시스템관리 목록화면', '/admin/system/view.html', 'GET', 'Y', 'MENU', 2, 1, 2, NOW(), 1, NOW(), 1);

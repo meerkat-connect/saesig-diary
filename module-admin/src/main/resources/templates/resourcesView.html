@@ -231,7 +231,7 @@
                     const originalParentIdOfSelectedNode = resourceController.$jstree.jstree(true).get_node(data.old_parent).id;
                     const originalOrdOfSelectedNode = data.node.original.ord;
                     const newParentIdOfSelectedNode = resourceController.$jstree.jstree(true).get_node(data.parent).id;
-                    const depthOfNewParentId = resourceController.$jstree.jstree(true).get_node(data.parent).depth;
+                    const depthOfNewParentId = resourceController.$jstree.jstree(true).get_node(data.parent).original.depth;
                     const newOrdOfSelectedNode = data.position + 1;
                     const idOfSelectedNode = data.node.original.id;
 

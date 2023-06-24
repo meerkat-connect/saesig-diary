@@ -21,6 +21,14 @@ public interface ResourceRepository extends JpaRepository<Resource, Long>, Custo
     void increaseOrder(@Param("parentId") Long parentId, @Param("newOrd") Integer newOrd, @Param("originalOrd") Integer originalOrd);
 
     @Modifying(clearAutomatically = true)
+    @Query("UPDATE Resource r SET r.ord=r.ord-1 WHERE r.parentResource.id=:parentId AND r.ord > :ord")
+    void decreaseOrderOfOriginalParentResource(@Param("parentId") Long parentId, @Param("ord") Integer ord);
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Resource r SET r.ord=r.ord+1 WHERE r.parentResource.id=:parentId AND r.ord >= :ord")
+    void increaseOrderOfNewParentResource(@Param("parentId") Long parentId, @Param("ord") Integer ord);
+
+    @Modifying(clearAutomatically = true)
     @Query("UPDATE Resource r SET r.ord=:ord, r.parentResource.id=:parentId, r.depth =:depth + 1 WHERE r.id=:id")
     void changeParentId(@Param("id") Long id, @Param("parentId") Long parentId,@Param("ord") Integer ord, @Param("depth") Integer depth);
 }
