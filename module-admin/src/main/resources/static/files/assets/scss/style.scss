@@ -15,7 +15,7 @@ File: style.css
 		-	Margin, Padding, Font class, text align, position, floating, overflow, background class, text color, display class, boarder class
 	- Theme Elements
 		-	Icons, Accordion, Button, Redial, floating actions, FAB, tabs, typography, buttons, box shadow, slider page, error page, Breadcrumb, pagination, Basic card, Login card
-	- General Elements
+	- Ge neral Elements
 		-	Modal, Nestable, Lable & Badges, List, Portlates, Preloader, Calender, To-Do, Materialize general elements, Lables
 	- Advance Form Elements
 	- Pages
@@ -27,49 +27,49 @@ File: style.css
 ============= */
 
 // General theme contents
-@import "partials/variables";
-@import "partials/mixins";
-@import "partials/general";
-@import "partials/generic";
+@import "partials/_variables";
+@import "partials/_mixins";
+@import "partials/_general";
+@import "partials/_generic";
 // Menu
-@import "partials/menu/pcmenu";
+@import "partials/menu/_pcmenu";
 // Important Theme elements
-@import "partials/theme-elements/button";
-@import "partials/theme-elements/form-elements";
+@import "partials/theme-elements/_button";
+@import "partials/theme-elements/_form-elements";
 // Theme elements
-@import "partials/theme-elements/label-badges";
-@import "partials/theme-elements/icon-layout";
-@import "partials/theme-elements/ready-to-use";
-@import "partials/theme-elements/box-shadow";
+@import "partials/theme-elements/_label-badges";
+@import "partials/theme-elements/_icon-layout";
+@import "partials/theme-elements/_ready-to-use";
+@import "partials/theme-elements/_box-shadow";
 // Tables
-@import "partials/tables/tables";
+@import "partials/tables/_tables";
 // Widget
-@import "partials/widget-dashboard/widget";
+@import "partials/widget-dashboard/_widget";
 // Other
-@import "partials/other/alert";
-@import "partials/other/authentication";
-@import "partials/other/breadcrumb";
-@import "partials/other/charts";
-@import "partials/other/chat";
-@import "partials/other/color";
-@import "partials/other/draggable";
-@import "partials/other/e-payment";
-@import "partials/other/editors";
-@import "partials/other/fb-wall";
-@import "partials/other/full-calender";
-@import "partials/other/job-find";
-@import "partials/other/mail-pages";
-@import "partials/other/maps";
-@import "partials/other/navbars";
-@import "partials/other/note";
-@import "partials/other/prism";
-@import "partials/other/progress-bar";
-@import "partials/other/pre-loader";
-@import "partials/other/range-slider";
-@import "partials/other/rating";
+@import "partials/other/_alert";
+@import "partials/other/_authentication";
+@import "partials/other/_breadcrumb";
+@import "partials/other/_charts";
+@import "partials/other/_chat";
+@import "partials/other/_color";
+@import "partials/other/_draggable";
+@import "partials/other/_e-payment";
+@import "partials/other/_editors";
+@import "partials/other/_fb-wall";
+@import "partials/other/_full-calender";
+@import "partials/other/_job-find";
+@import "partials/other/_mail-pages";
+@import "partials/other/_maps";
+@import "partials/other/_navbars";
+@import "partials/other/_note";
+@import "partials/other/_prism";
+@import "partials/other/_progress-bar";
+@import "partials/other/_pre-loader";
+@import "partials/other/_range-slider";
+@import "partials/other/_rating";
 //To-do
-@import "partials/todo/todo";
+@import "partials/todo/_todo";
 // Responsive css
-@import "partials/responsive/responsive";
+@import "partials/responsive/_responsive";
 // dark layout css
-@import "partials/dark";
+@import "partials/_dark";

@@ -28,7 +28,10 @@
 }
 
 .form-control {
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 26px;
+    color: #171a19;
     border-radius: 2px;
     border: 1px solid rgb(204, 204, 204);
 
@@ -313,10 +316,9 @@ $form-valid-color: $success-color, $warning-color, $danger-color;
             content: '';
             position: absolute;
             left: 0;
-            top: 3px;
             margin: 0.25rem;
-            width: 1rem;
-            height: 1rem;
+            width: 20px;
+            height: 20px;
             -webkit-transition: -webkit-transform 0.28s ease;
             transition: -webkit-transform 0.28s ease;
             transition: transform 0.28s ease, -webkit-transform 0.28s ease;
@@ -480,6 +482,7 @@ $radio-bg-color: $primary-color, $warning-color, $default-color, $danger-color, 
             }
 
             &:before {
+                border-radius: 100%;
                 content: "";
                 display: block;
                 border: 2px solid $primary-color;
