@@ -98,6 +98,20 @@ strong {
 }
 
 .nav-tabs{ border-bottom: 0;}
+
+.file-open-btn {
+    border: 1px solid #ff8031;
+    position: absolute;
+    background: #ff8031;
+    right: 9px;
+    top: 6px;
+    height: 30px;
+    width: 70px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    color:white;
+    font-weight: 400;
+}
 /*.navbar-wrapper { display:flex !important;}
 .navbar-container{
     width: calc(100% - 240px) !important;
