@@ -2,8 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main}">
-
 <div layout:fragment="content">
+    <!-- CKEditor 사용시에, 아래 3줄 추가 필요-->
+    <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
+    <!-- CKEditor 사용시에, 위 3줄 추가 필요-->
     <!-- Page-body start -->
     <div class="page-body">
         <div class="row">
@@ -372,7 +376,7 @@
                                                                 <textarea rows="5" cols="5" class="form-control form-control-sm"
                                                                           placeholder="Default textarea"
                                                                           id="answerContents"
-                                                                          name="answerContents"></textarea>
+                                                                          name="answerContents" mekc-ck-editor></textarea>
                             </div>
                         </div>
                         <div class="mb-3 form-group row">
@@ -581,5 +585,4 @@
         </div>
     </div>
 </div>
-
 </html>
