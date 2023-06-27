@@ -5,12 +5,22 @@
 <div layout:fragment="content">
     <script>
         const inquiryList = {
+            InquiryData : null,
             init : function (){
                 this.setFilter()
-                this.inquriyListLoad()
+                this.inquiryListLoad()
+                this.registEvent()
             },
 
             registEvent : function () {
+                const _this = this;
+                $('#searchBtn').on('click',function () {
+                    _this.inquiryListLoad()
+                })
+
+                $(document).on('click','#inquiryListTable tbody tr', function () {
+                    _this.selectItem(this);
+                })
 
             },
 
@@ -29,14 +39,14 @@
                         for(let i=0; i<categoryList.length; i++){
                             categoryOption += '<option value="'+categoryList[i]+'">'+result['InquiryCategory'][categoryList[i]]['title']+'</option>'
                         }
-                        $('#inquiryCategory').append(categoryOption)
+                        $('#searchCategory').append(categoryOption)
 
                         const statusList = Object.keys(result['InquiryStatus']);
                         let statusOption = '';
                         for(let i=0; i<statusList.length; i++){
                             statusOption += '<option value="'+statusList[i]+'">'+result['InquiryStatus'][statusList[i]]['title']+'</option>'
                         }
-                        $('#inquiryStatus').append(statusOption)
+                        $('#searchStatus').append(statusOption)
 
                     },
                     error: function(e) {
@@ -45,97 +55,103 @@
                 });
             },
 
-            inquriyListLoad : function () {
+            inquiryListLoad : function () {
                 const _this = this;
-                let params = _this.getFilterParam()
-                // $.ajax({
-                //     type: "post",
-                //     async : false,
-                //     enctype: 'multipart/form-data',
-                //     url: "/inquiry/getInquiryList.do",
-                //     ContentType :'application/json',
-                //     dataType : 'json',
-                //     data : params,
-                //     cache: false,
-                //     success: function(result) {
-                //         console.log(result)
-                //     },
-                //     error: function(e) {
-                //         console.log(e)
-                //     }
-                // });
-
-                $("#inquiryListTable").dataTable({
-                    ordering: false,
-                    ajax: {type: "post",
-                        async : false,
-                        enctype: 'multipart/form-data',
-                        url: "/inquiry/getInquiryList.do",
-                        ContentType :'application/json',
-                        dataType : 'json',
-                        data : params,
-                        cache: false},
-                    columns : [
-                        {data : null},
-                        {data : "categoryStr"},
-                        {data : "title"},
-                        {data : "nickname"},
-                        {data : "statusStr"},
-                        {data : "createdAt"}
-                    ],
-                    columnDefs: [{
-                        'targets': 0,
-                        'searchable': false,
-                        'orderable': false,
-                        'width' : '30px',
-                        'className': 'dt-body-center',
-                        'render': function (data, type, full, meta){
-                            console.log(data)
-                            return '<input type="checkbox" name="rowCheckbox" value="' + $('<div/>').text(data.id).html() + '">';
-                        }
-                        },{'targets': 1,'width' : '70px'}
-                        ,{'targets': 2,'width' : 'auto'}
-                        ,{'targets': 3,'width' : '70px'}
-                        ,{'targets': 4,'width' : '70px'}
-                        ,{'targets': 5,'width' : '70px'}
-                    ],
-                    language : {
-                        paginate : {
-                            previous : 'Prev'
-                        }
+                let params = _this.getFilterParam();
+                console.log(params)
+                let table = null
+                if(table != null){
+                    table.destroy();
+                }
+                $.ajax({
+                    type: "post",
+                    async : false,
+                    enctype: 'multipart/form-data',
+                    url: "/inquiry/getInquiryList.do",
+                    dataType : 'json',
+                    data : params,
+                    cache: false,
+                    success: function(result) {
+                        _this.InquiryData = result.data;
+                        table = $("#inquiryListTable").DataTable({
+                            ordering: false,
+                            data : result.data,
+                            columns : [
+                                {data : null},
+                                {data : "categoryStr"},
+                                {data : "title"},
+                                {data : "nickname"},
+                                {data : "statusStr"},
+                                {data : "createdAt"}
+                            ],
+                            columnDefs: [{
+                                'targets': 0,
+                                'searchable': false,
+                                'orderable': false,
+                                'width' : '30px',
+                                'className': 'dt-body-center',
+                                'render': function (data, type, full, meta){
+                                    return '<input type="checkbox" name="rowCheckbox" value="' + $('<div/>').text(data.id).html() + '">';
+                                }
+                            }
+                                ,{'targets': 1,'width' : '70px'}
+                                ,{'targets': 2,'width' : 'auto'}
+                                ,{'targets': 3,'width' : '70px'}
+                                ,{'targets': 4,'width' : '70px'}
+                                ,{'targets': 5,'width' : '70px'}
+                            ],
+                            destroy : true,
+                            language : {
+                                paginate : {
+                                    previous : 'Prev'
+                                }
+                            }
+                        })
+                    },
+                    error: function(e) {
+                        console.log(e)
                     }
-                })
+                });
             },
 
             getFilterParam : function () {
                 let param = {};
                 param.orderColumn = null;
                 param.orderColumnSort = null;
-                param.category = null;
-                param.status = null;
-                param.title = null;
-                param.keywordSelect = null;
-                param.keywordInput = null;
+                param.searchCategory = null;
+                param.searchStatus = null;
+                param.searchTitle = null;
+                param.searchKeywordSelect = null;
+                param.searchKeyword = null;
 
-                if ($('#inquiryStatus').val() != '' && $('#inquiryStatus').val() != null && $('#inquiryStatus').val() != undefined){
-                    param.status = $('#inquiryStatus').val()
+                if ($('#searchStatus').val() != '' && $('#searchStatus').val() != null && $('#searchStatus').val() != undefined){
+                    param.searchStatus = $('#searchStatus').val()
                 }
-                if ($('#titleInput').val() != '' && $('#titleInput').val() != null && $('#titleInput').val() != undefined){
-                    param.title = $('#titleInput').val()
+                if ($('#searchTitle').val() != '' && $('#searchTitle').val() != null && $('#searchTitle').val() != undefined){
+                    param.searchTitle = $('#searchTitle').val()
                 }
-                if ($('#inquiryCategory').val() != '' && $('#inquiryCategory').val() != null && $('#inquiryCategory').val() != undefined && $('#inquiryCategory').val() != 'all'){
-                    param.category = $('#inquiryCategory').val()
+                if ($('#searchCategory').val() != '' && $('#searchCategory').val() != null && $('#searchCategory').val() != undefined && $('#searchCategory').val() != 'all'){
+                    param.searchCategory = $('#searchCategory').val()
                 }
-                if ($('#keywordSelect').val() != '' && $('#keywordSelect').val() != null && $('#keywordSelect').val() != undefined){
-                    param.keywordSelect = $('#keywordSelect').val()
+                if ($('#searchKeywordSelect').val() != '' && $('#searchKeywordSelect').val() != null && $('#searchKeywordSelect').val() != undefined){
+                    param.searchKeywordSelect = $('#searchKeywordSelect').val()
                 }
-                if ($('#keywordInput').val() != '' && $('#keywordInput').val() != null && $('#keywordInput').val() != undefined){
-                    param.keywordInput = $('#keywordInput').val()
+                if ($('#searchKeyword').val() != '' && $('#searchKeyword').val() != null && $('#searchKeyword').val() != undefined){
+                    param.searchKeyword = $('#searchKeyword').val()
                 }
                 return param
+            },
+
+            selectItem : function (el) {
+              const targetId = $(el).closest('tr').find('[name=rowCheckbox]').val();
+              const targetData = this.InquiryData.find(e => e.id === parseInt(targetId));
+                $('.InquiryTitle').text('['+targetData.categoryStr+'] '+targetData.title)
+                $('.InquiryCreatedMemberName').text(targetData.nickname+'('+targetData.memberId+')')
+                $('.InquiryCreatedDate').text(targetData.modifiedAt)
+                $('.InquiryContentCon').text(targetData.content)
+                $('.targetInquiryCon').attr('mekc-inquiry-id',targetId)
             }
         }
-
         $(document).ready(function () {
             inquiryList.init();
         })
@@ -145,7 +161,8 @@
     <div class="page-body">
         <div class="row">
             <!-- 필터 부분 -->
-            <div class="col-12">
+            <form name="searchFrm" id="searchFrm" action="" onsubmit="return false;" class="card">
+                <div class="col-12">
                 <div class="card">
                     <div class="card-block-small">
                         <!-- 키워드 filter -->
@@ -154,11 +171,11 @@
                                 <div class="mb-0 form-group row">
                                     <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
                                     <div class="input-group input-group-sm input-group-dropdown mb-0">
-                                        <select name="keywordSelect" class="form-select form-control">
-                                            <option value="created_by">아이디</option>
+                                        <select name="searchKeywordSelect" id="searchKeywordSelect" class="form-select form-control">
+                                            <option value="m.email">아이디</option>
                                             <option value="nickname">닉네임</option>
                                         </select>
-                                        <input type="text" class="form-control" aria-label="Text input with dropdown button" name="keywordInput" id="keywordInput"/>
+                                        <input type="text" class="form-control" aria-label="Text input with dropdown button" name="searchKeyword" id="searchKeyword"/>
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +183,7 @@
                                 <div class="mb-0 form-group row">
                                     <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>문의유형</strong></div>
                                     <div class="col-sm-12">
-                                        <select name="inquiryCategory" id="inquiryCategory" class="form-select form-select-sm form-control-sm">
+                                        <select name="searchCategory" id="searchCategory" class="form-select form-select-sm form-control-sm">
                                             <option value="all">전체</option>
                                         </select>
                                     </div>
@@ -176,7 +193,7 @@
                                 <div class="mb-0 form-group row">
                                     <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>제목</strong></div>
                                     <div class="input-group input-group-sm input-group-dropdown mb-0">
-                                        <input type="text" class="form-control" aria-label="Text input with dropdown button" name="filterKeywordInput" id="titleInput"/>
+                                        <input type="text" class="form-control" aria-label="Text input with dropdown button" name="searchTitle" id="searchTitle"/>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +201,7 @@
                                 <div class="mb-0 form-group row">
                                     <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>답변 상태</strong></div>
                                     <div class="col-sm-12">
-                                        <select name="inquiryStatus" class="form-select form-select-sm form-control-sm" id="InquiryStatus">
+                                        <select name="searchStatus" class="form-select form-select-sm form-control-sm" id="searchStatus">
                                             <option value="all">전체</option>
                                         </select>
                                     </div>
@@ -195,11 +212,12 @@
                         <!-- 키워드 filter-btn -->
                         <div class="mt-1 p-t-20 text-center border-top">
                             <button class="btn btn-disabled m-r-5">초기화</button>
-                            <button class="btn btn-primary">검색</button>
+                            <button class="btn btn-primary" id="searchBtn" >검색</button>
                         </div>
                     </div>
                 </div>
             </div>
+            </form>
             <!-- //필터 부분 -->
 
             <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
@@ -262,43 +280,33 @@
             <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
         </div>
         <div class="row">
-            <div class="col-12 col-lg-6">
+            <div class="col-12 col-lg-6 targetInquiryCon" mekc-inquiry-id="">
                 <div class="card">
                     <div class="card-header p-b-0">
                         <h4 class="sub-title"><strong>문의</strong></h4>
                     </div>
                     <div class="card-block-small p-t-0">
-                        <p>
-                            <strong>[분류] Cum sociis natoque penatibus et magnis dis
-                                parturient montes</strong>
+                        <p class="InquiryTitleCon">
+                            <strong class="InquiryTitle"></strong>
                         </p>
                         <p>
-                            기관명 홍길동(아이디)<br/>
-                            YYYY-MM-DD
+                            <span class="InquiryCreatedMemberName"></span><br/>
+                            <span class="InquiryCreatedDate"></span>
                         </p>
                     </div>
                     <div class="card-header p-t-0 p-b-0">
                         <h4 class="sub-title"><strong>문의 내용</strong></h4>
                     </div>
                     <div class="card-block-small p-t-0">
-                        <p>
-                            Nullam quis risus eget urna mollis ornare vel eu leo. Cum
-                            sociis natoque penatibus et magnis dis parturient montes,
-                            nascetur ridiculus mus.<br/>
-                            Nullam id dolor id nibh ultricies vehicula. Cum sociis
-                            natoque penatibus et magnis dis parturient montes, nascetur
-                            ridiculus mus. Donec ullamcorper nulla non metus auctor
-                            fringilla.
-                            Duis mollis, est non commodo luctus, nisi erat porttitor
-                            ligula, eget lacinia odio sem nec elit. Donec ullamcorper
-                            nulla non metus auctor fringilla.
+                        <p class="InquiryContentCon">
+
                         </p>
-                        <div class="mt-2 row">
-                            <ul>
-                                <li><a href="javascript:void(0)"><i class="ion-paperclip f-18"></i> Cum sociis natoque.pptx</a></li>
-                                <li><a href="javascript:void(0)"><i class="ion-paperclip f-18"></i> Cum sociis natoque.xlsx</a></li>
-                            </ul>
-                        </div>
+<!--                        <div class="mt-2 row"> 첨부파일이라 주석처리 해놓음.-->
+<!--                            <ul>-->
+<!--                                <li><a href="javascript:void(0)"><i class="ion-paperclip f-18"></i> Cum sociis natoque.pptx</a></li>-->
+<!--                                <li><a href="javascript:void(0)"><i class="ion-paperclip f-18"></i> Cum sociis natoque.xlsx</a></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
                     </div>
                 </div>
             </div>

@@ -22,26 +22,26 @@
         LEFT JOIN member m ON i.created_by = m.id
         where 1=1
         and is_deleted = 'N'
-        <if test="status != ''">
-            and i.status = #{statusList}
+        <if test="searchStatus != '' and searchStatus != null and searchStatus != 'all'">
+            and i.status = #{searchStatus}
         </if>
-        <if test="category != ''">
-            and i.category = #{categoryList}
+        <if test="searchCategory != '' and searchCategory != null and searchCategory != 'all'">
+            and i.category = #{searchCategory}
         </if>
-        <if test="title != ''">
-            and i.title = #{title}
+        <if test="searchTitle != '' and searchTitle != null">
+            and i.title = #{searchTitle}
         </if>
-        <if test="keywordSelect != '' and keywordInput != ''">
-            and ${keywordSelect} = #{keywordInput}
+        <if test="searchKeywordSelect != '' and searchKeyword != '' and searchKeywordSelect != null and searchKeyword != null">
+            and ${searchKeywordSelect} = #{searchKeyword}
         </if>
-        <if test="orderColumn != ''">
-            ORDER BY i.${orderColumn}
-            <if test="orderColumnSort = ASC">
-                ASC
-            </if>
-            <if test="orderColumnSort != ASC">
-                DESC
-            </if>
-        </if>
+<!--        <if test="orderColumn != ''">-->
+<!--            ORDER BY i.${orderColumn}-->
+<!--            <if test="orderColumnSort = ASC">-->
+<!--                ASC-->
+<!--            </if>-->
+<!--            <if test="orderColumnSort != ASC">-->
+<!--                DESC-->
+<!--            </if>-->
+<!--        </if>-->
     </select>
 </mapper>

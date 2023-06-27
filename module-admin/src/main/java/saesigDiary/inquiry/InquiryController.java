@@ -39,13 +39,13 @@ public class InquiryController {
     @ResponseBody
     public Map<String, Object> getInquiryEnum() throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
-        InquiryStatus[] inquiryStatus = InquiryStatus.values();
 
-        Map<String,Map<String,String>> inquiryStatusMap = new HashMap<>();
+        InquiryStatus[] inquiryStatus = InquiryStatus.values();
+        Map<String,Map<String,String>> InquiryStatusMap = new HashMap<>();
         for (InquiryStatus item : inquiryStatus){
             Map<String,String> itemTitle = new HashMap<>();
             itemTitle.put("title",item.getTitle());
-            inquiryStatusMap.put(item.name(),itemTitle);
+            InquiryStatusMap.put(item.name(),itemTitle);
         }
         InquiryCategory[] inquiryCategory = InquiryCategory.values();
         Map<String,Map<String,String>> InquiryCategoryMap = new HashMap<>();
@@ -54,7 +54,7 @@ public class InquiryController {
             itemTitle.put("title",item.getTitle());
             InquiryCategoryMap.put(item.name(),itemTitle);
         }
-        resultMap.put("InquiryStatus",inquiryStatusMap);
+        resultMap.put("InquiryStatus",InquiryStatusMap);
         resultMap.put("InquiryCategory",InquiryCategoryMap);
         return resultMap;
     }
