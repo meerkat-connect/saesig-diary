@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content">
+
+    <!-- Page-body start -->
+    <div class="page-body">
+        <div class="row">
+            <!-- 필터 부분 -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <!-- 키워드 filter -->
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송수단</strong>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <select name="filterStatusSelect"
+                                                class="form-select form-select-sm form-control-sm">
+                                            <option value="opt1">전체</option>
+                                            <option value="opt2">Type 2</option>
+                                            <option value="opt3">Type 3</option>
+                                            <option value="opt4">Type 4</option>
+                                            <option value="opt5">Type 5</option>
+                                            <option value="opt6">Type 6</option>
+                                            <option value="opt7">Type 7</option>
+                                            <option value="opt8">Type 8</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm">
+                                            <option value="opt1">전체</option>
+                                            <option value="opt2">Type 2</option>
+                                            <option value="opt3">Type 3</option>
+                                            <option value="opt4">Type 4</option>
+                                            <option value="opt5">Type 5</option>
+                                            <option value="opt6">Type 6</option>
+                                            <option value="opt7">Type 7</option>
+                                            <option value="opt8">Type 8</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchTitle"><strong>제목</strong></label>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control form-control-sm" name="searchTitle" id="searchTitle"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>사용여부</strong>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <select name="filterStatusSelect"
+                                                class="form-select form-select-sm form-control-sm">
+                                            <option value="opt1">전체</option>
+                                            <option value="opt2">Type 2</option>
+                                            <option value="opt3">Type 3</option>
+                                            <option value="opt4">Type 4</option>
+                                            <option value="opt5">Type 5</option>
+                                            <option value="opt6">Type 6</option>
+                                            <option value="opt7">Type 7</option>
+                                            <option value="opt8">Type 8</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- //키워드 filter -->
+                        <!-- 키워드 filter-btn -->
+                        <div class="mt-1 p-t-20 text-center border-top">
+                            <button class="btn btn-disabled m-r-5">초기화</button>
+                            <button class="btn btn-primary" onclick="sendMail();">검색</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //필터 부분 -->
+
+            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="row p-20 p-b-0">
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <h5><strong>템플릿 검색결과</strong></h5>
+                        </div>
+                        <div class="col-12 col-md-6 text-right">
+                            <button type="button" class="btn btn btn-primary m-r-5" onclick="fn_deleteItem();">삭제</button>
+                            <button type="button" class="btn btn-primary" onclick="fn_regForm();">등록</button>
+                        </div>
+                    </div>
+                    <div class="card-block-small">
+                        <div class="dt-responsive table-responsive">
+                            <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <table id="listTable" class="display" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Office</th>
+                                        <th>Age</th>
+                                        <th>Start date</th>
+                                        <th>Salary</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                        <td>$320,800</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                        <td>$320,800</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                        <td>$320,800</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
+
+            <!-- Content Area -->
+            <div class="col-12">
+                <div id="contentPanel" class="card"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+
+        $(document).ready( function () {
+            $('#listTable').DataTable({
+                columnDefs: [ {
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets:   0
+                } ],
+                select: {
+                    style:    'os',
+                    selector: 'td:first-child'
+                }
+            });
+        });
+
+        $("#listTable").on('click', 'tbody tr', function () {
+            var row = $("#listTable").DataTable().row($(this)).data();
+            console.log(row);
+
+            $("#contentPanel").load("/templateManage/templateManageForm.html")
+        });
+
+        function fn_regForm() {
+            $("#contentPanel").show();
+            $("#contentPanel").load("/templateManage/templateManageForm.html");
+        }
+
+        function sendMail() {
+            $.ajax({
+                url: "/sendMail.do",
+                type: 'POST',
+                cache: false,
+                success: function (data) {
+                    if (data.result == "success") {
+                        alert("1");
+                    } else {
+                        alert("2");
+                    }
+                }
+            });
+        }
+    </script>
+
+</div>
+</html>
