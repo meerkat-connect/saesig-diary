@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" >
+<!-- css from https://freefrontend.com/css-chats/ -->
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<div class="container" style="width: 540px;">
+  <section class="chat">
+    <div class="footer-chat">
+      <i class="icon send fa fa-wechat clickable" onclick="chattingList.makeTargetSelect()" aria-hidden="true"></i>
+
+    </div>
+    <div id="chat" class="messages-chat" style="height: 620px;">
+      <div class="message" ><div class="photo you"></div><p class="text me" style="width:100%">채팅 타겟 인원 선택</p><p></p></div>
+    </div>
+  </section>
+</div>
+</body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script type="text/javascript" src='/js/chattingList.js'></script>
+<script th:inline="javascript">
+  const chatList = [[${chatList}]];
+  const userId = [[${userId}]];
+  const websocket = new WebSocket("ws://127.0.0.1:8080/ws/chat?mode=chatList&chatId=0&memberId="+userId); //채팅방에서도 해당 메시지를 받아서, 안읽은 메시지 수와함께, 채팅방 텍스트를 변경해주어야함. -> 따라서 채팅리스트와 채팅방 각각 socket통신을 실행시켜 메시지를 송신받아야함
+  websocket.onmessage = chattingList.onMessage;
+  // websocket.onopen = onOpen;
+  // websocket.onclose = onClose;
+</script>
+<div id="resultDiv" style="display: none">
+  <p th:if="${msg}!=null" th:text="${msg}"></p>
+</div>
+</html>

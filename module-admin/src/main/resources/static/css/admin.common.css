@@ -26,7 +26,9 @@
 }
 .pcoded-inner-content {
     border-radius: 0px 0px 0px 20px !important;
+    min-height: calc(100vh - 68px);
 }
+
 
 .pcoded .pcoded-header[header-theme="theme1"] {
     color: #171a19 !important;
