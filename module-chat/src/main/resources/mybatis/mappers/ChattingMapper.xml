@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="saesigDiary.websocketnetty.chatting.ChattingMapper">
+    <select id="getMemberList" resultType="saesigDiary.websocketnetty.chatting.ChatMemberDto">
+        SELECT
+            id
+             , email
+             , password
+        ,nickname
+        FROM member
+    </select>
+
+    <select id="getMemberData" resultType="saesigDiary.websocketnetty.chatting.ChatMemberDto">
+        SELECT
+            id
+             , email
+             , password
+             ,nickname
+        FROM member where id = #{memberId}
+    </select>
+
+    <select id="getChattingRoomList" resultType="saesigDiary.websocketnetty.chatting.ChattingRoomDto">
+        SELECT
+            title,
+            chat_id,
+            created_at
+        FROM chatting_room cr where member_id = ${memberId}
+    </select>
+
+    <insert id="insertChattingRoom">
+        INSERT INTO chatting_room (chat_id, title,member_id, created_by) VALUES (#{chatId}, #{title},#{memberId}, #{createdByMemberId})
+    </insert>
+
+    <select id="getChatMemberData" resultType="saesigDiary.websocketnetty.chatting.ChatReadDto">
+        SELECT
+            member_id,chat_id
+        FROM chatting_room where chat_id = #{chatId}
+    </select>
+
+    <select id="getTargetMemberData" resultType="saesigDiary.websocketnetty.chatting.ChatMemberDto">
+        SELECT
+            m.id
+             , m.email
+             , m.password
+             ,m.nickname
+        FROM chatting_room c LEFT JOIN member m ON c.chat_id = #{chatId} and c.member_id != #{senderId} and c.member_id = m.id where m.id is not null
+    </select>
+
+</mapper>
