@@ -1,171 +1,290 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <!-- css from https://freefrontend.com/css-chats/ -->
 <head>
-  <meta charset="UTF-8">
-  <title></title>
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
-  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat'>
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
-  <link rel="stylesheet" href="./css/style.css">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat'>
+    <link rel='stylesheet'
+          href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 <div class="container" style="width: 540px;">
-  <section class="chat">
+    <section class="chat">
 
-    <div id="chat" class="messages-chat" style="height: 620px;">
-    </div>
-    <div class="footer-chat">
+        <div id="chat" class="messages-chat" style="height: 620px;">
+        </div>
+        <div class="footer-chat">
 
-      <input id="opinion" type="text" class="write-message" onkeyup="enterkey()" placeholder="Type your message here">
-      <i class="icon send fa fa-paper-plane-o clickable" onclick="sendMessage()" aria-hidden="true"></i>
-    </div>
-  </section>
+            <input id="opinion" type="text" class="write-message" onkeyup="enterkey()"
+                   placeholder="Type your message here">
+            <i class="icon send fa fa-paper-plane-o clickable" onclick="sendMessage()" aria-hidden="true"></i>
+        </div>
+    </section>
 </div>
 </body>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script type="text/javascript" src='/js/chattingRoom.js'></script>
 <script th:inline="javascript">
+    const currentMemberData = [[${currentMemberData}]];
+    const targetMemberData = [[${targetMemberData}]]
+    const chatLog = [[${chatDataLog}]]
+    const chatId = [[${chatId}]];
+    const username = currentMemberData['nickname']
+    const userid = currentMemberData['id']
 
-  const username = [[${name}]];
+    const websocket = new WebSocket("ws://127.0.0.1:8080/ws/chat?chatId=" + chatId+"&memberId="+userid);
+    websocket.onmessage = onMessage;
+    websocket.onopen = onOpen;
+    websocket.onclose = onClose;
 
-  const websocket = new WebSocket("ws://localhost:8080/ws/chat");
-  websocket.onmessage = onMessage;
-  websocket.onopen = onOpen;
-  websocket.onclose = onClose;
+    let isSeeing = true;
+    document.addEventListener("visibilitychange", function () {
+        console.log(document.visibilityState);
+        if (document.visibilityState == "hidden") {
+            isSeeing = false;
+        } else {
+            isSeeing = true;
+        }
+    });
 
-  let isSeeing = true;
-  document.addEventListener("visibilitychange", function() {
-    console.log(document.visibilityState);
-    if(document.visibilityState == "hidden"){
-      isSeeing = false;
-    }else{
-      isSeeing = true;
-    }
-  });
+    var newExcitingAlerts = (function () {
+        var oldTitle = document.title;
+        var msg = "★Message!★";
+        var timeoutId;
+        var blink = function () {
+            document.title = document.title == msg ? ' ' : msg;
+            if (isSeeing == true) {
+                clear();
+            }
+        };
+        var clear = function () {
+            readMessage()
+            clearInterval(timeoutId);
+            document.title = oldTitle;
+            window.onmousemove = null;
+            timeoutId = null;
+        };
 
-  var newExcitingAlerts = (function () {
-    var oldTitle = document.title;
-    var msg = "★Message!★";
-    var timeoutId;
-    var blink = function() { document.title = document.title == msg ? ' ' : msg;
-      if(isSeeing == true){
-        clear();
-      }
-    };
-    var clear = function() {
-      clearInterval(timeoutId);
-      document.title = oldTitle;
-      window.onmousemove = null;
-      timeoutId = null;
-    };
-    return function () {
-      if (!timeoutId) {
-        timeoutId = setInterval(blink, 1000);
-      }
-    };
-  }());
+        return function () {
+            if (!timeoutId) {
+                timeoutId = setInterval(blink, 1000);
+            }
+        };
+    }());
 
-  setInterval(() => console.log(new Date()), 60000); //prevent chrome refresh
+    $(document).ready(function () {
+        $(".floating-chat").click();
 
-  $(document).ready(function(){
-    $(".floating-chat").click();
+        $("#button-send").on("click", (e) => {
+            send();
+        });
 
-    $("#disconn").on("click", (e) => {
-      disconnect();
+        let preMessage = '';
+        $('#opinion').on("keyup", function (e){
+            console.log($(this).val());
+            let msg = {
+                text : '',
+                chatId : chatId,
+                memberId : userid,
+                receiverId : targetMemberData.id
+            };
+            if (preMessage != '' && $(this).val() == ''){
+                if (e.keyCode != 13){
+                    msg.type = 'outMessage';
+                    websocket.send(JSON.stringify(msg));
+                }
+            }else if (preMessage == '' && $(this).val() != ''){
+                msg.type = 'onMessage';
+                websocket.send(JSON.stringify(msg));
+            }
+            preMessage = $(this).val();
+        })
     })
 
-    $("#button-send").on("click", (e) => {
-      send();
-    });
-  })
-
-  function enterkey(){
-    if (window.event.keyCode == 13) {
-      sendMessage();
-    }
-  }
-
-  function sendMessage(){
-    send();
-  }
-  function send(){
-    if($("#opinion").val() != ""){
-      websocket.send(username + ":" + $("#opinion").val());
-      $("#opinion").val('');
-    }
-  }
-
-  function onClose(evt) {
-    var str = username + ": has left the room";
-    websocket.send(str);
-  }
-
-  function onOpen(evt) {
-    var str = username + ": entered the room";
-    websocket.send(str);
-  }
-
-  let cachedTime;
-  let cachedSessionId;
-  let isLastChatFromMe;
-  function onMessage(msg) {
-    var data = msg.data;
-    var sessionId = null;
-    var message = null;
-    var arr = data.split(":");
-
-    for(var i=0; i<arr.length; i++){
-      console.log('arr[' + i + ']: ' + arr[i]);
+    function setChatLog(){
+        $(chatLog['chatDataDto']).each(function (){
+            setMessageTemplate(this.senderId,this.text,this.isRead,this.regDate.substring(16,11));
+        })
     }
 
-    var cur_session = username;
-
-    sessionId = arr[0];
-    message = arr[1];
-
-    console.log("sessionID : " + sessionId);
-    console.log("cur_session : " + cur_session);
-
-
-    if(message == " entered the room"){
-      message = sessionId + " entered the room 😀";
+    function enterkey() {
+        if (window.event.keyCode == 13) {
+            if ($("#opinion").val() != "") {
+                sendMessage($("#opinion").val());
+                $("#opinion").val('');
+            }
+        }
     }
 
-    if(sessionId == cur_session){
-      var str = "<div class='message text-only'>";
-      str += "<div class='response'><p class='text'>"
-      str += message;
-      str += "</p></div></div>";
-      $("#chat").append(str);
-
-      isLastChatFromMe = true;
-    }
-    else{
-      if(isLastChatFromMe == true){
-        var str = "<div class='message'> <div class='photo you'></div>";
-        str += "<p class='text'>"
-        str += message;
-        str += "<p></div>";
-        $("#chat").append(str);
-
-
-      }else{
-        var str = "<div class='message text-only'>";
-        str += "<p class='text'>"
-        str += message;
-        str += "<p></div>";
-        $("#chat").append(str);
-      }
-      isLastChatFromMe = false;
-
-      if(isSeeing == false){
-        newExcitingAlerts();
-      }
+    function readMessage(){
+        let msg = {
+            type : 'readMessage',
+            text : '',
+            chatId : chatId,
+            memberId : userid,
+            receiverId : targetMemberData.id
+        }
+        websocket.send(JSON.stringify(msg));
     }
 
-    cachedSessionId = sessionId;
+    function sendMessage(str) {
+        if (str == '' || str == undefined){
+            str = $("#opinion").val();
+        }
+        msg = {
+            type : 'message',
+            text : str,
+            chatId : chatId,
+            memberId : userid,
+            receiverId : targetMemberData.id
+        };
 
-    document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
-  }
+        websocket.send(JSON.stringify(msg));
+    }
+
+    function send() {
+        if ($("#opinion").val() != "") {
+            sendMessage($("#opinion").val());
+            $("#opinion").val('');
+        }
+    }
+
+    function onClose(evt) {
+        var str = username + ": has left the room";
+        sendMessage(str);
+    }
+
+    function onOpen(evt) {
+        if (chatLog.chatDataDto.length == 0){
+            /*var str = username + ": entered the room";
+            sendMessage(str);*/
+        }else{
+            setChatLog();
+        }
+    }
+
+    let cachedTime;
+    let cachedSessionId;
+    let isLastChatFromMe;
+
+    function onMessage(msg) {
+        console.log(msg)
+        var data = JSON.parse(msg.data);
+        var sessionId = data.memberId;
+        var message = data.text;
+
+        var cur_session = userid;
+
+        console.log("sessionID : " + sessionId);
+        console.log("cur_session : " + cur_session);
+
+
+        if (message == " entered the room") {
+            message = sessionId + " entered the room 😀";
+        }
+
+        cachedSessionId = sessionId;
+
+        if (data.type == 'onMessage'){
+            setOnMessage();
+        }else if (data.type == 'outMessage'){
+            setOutMessage();
+        }else if (data.type == "readMessage"){
+            setReadMessage(data.memberId);
+        }
+
+        else{
+            const date = new Date;
+            let chatTime = date.getHours()+':'+date.getMinutes()
+            setMessageTemplate(sessionId,message,0,chatTime)
+        }
+
+
+        document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+    }
+
+    function setMessageTemplate(sessionId, message, isRead, reg_date){
+        let readStr = "";
+        if (isRead == 0){
+            readStr = "unread"
+        }else{
+            readStr = "read"
+        }
+
+        const cur_session = userid;
+        if (sessionId == cur_session) {
+            var str = "<div class='message text-only myMessage'>";
+            str += "<div class='response'><p class='text'>"
+            str += message;
+            str += "</p>"
+            str += "<div class='chatInfo'><span class='readStatus'>"+readStr+"</span><span class='chatTime'>"+reg_date+"</span></div>"
+            str += "</div></div>";
+            isLastChatFromMe = true;
+        } else {
+            setOutMessage();
+            if ($(document).find('.photo').length == 0) isLastChatFromMe = true
+            if (isLastChatFromMe == true) {
+                var str = "<div class='message targetMessage'> <div class='photo you'></div>";
+                str += "<p class='text'>"
+                str += message;
+                str += "</p>"
+                str += "<div class='chatInfo'><span class='chatTime'>"+reg_date+"</span><span class='readStatus'>"+readStr+"</span></div>"
+                str += "</div>";
+            } else {
+                var str = "<div class='message text-only targetMessage'>";
+                str += "<p class='text'>"
+                str += message;
+                str += "</p>"
+                str += "<div class='chatInfo'><span class='chatTime'>"+reg_date+"</span><span class='readStatus'>"+readStr+"</span></div>"
+                str += "</div>";
+            }
+            isLastChatFromMe = false;
+
+            if (isSeeing == false) {
+                newExcitingAlerts();
+            }else{
+                readMessage();
+            }
+        }
+        if ($(document).find('.onMessage').length > 0){
+            $(".onMessage").before(str);
+        }else{
+            $("#chat").append(str);
+        }
+
+    }
+
+    function setOnMessage(){
+        if (userid != cachedSessionId && $('.onMessage').length == 0){
+            if (isLastChatFromMe == true || isLastChatFromMe == undefined) {
+                var str = "<div class='message onMessage targetMessage'> <div class='photo you'></div>";
+                str += "<p class='text'>"
+                str += '▲★■';
+                str += "<p></div>";
+                $("#chat").append(str);
+            } else {
+                var str = "<div class='message text-only onMessage targetMessage'>";
+                str += "<p class='text'>"
+                str += '▲★■';
+                str += "<p></div>";
+                $("#chat").append(str);
+            }
+        }
+    }
+    function setOutMessage(){
+        $(document).find('.onMessage.targetMessage').remove();
+    }
+
+    function setReadMessage(memberId){
+        if (memberId == userid){
+            $('#chat').find('.targetMessage').find('.readStatus').text("read")
+        }else{
+            $('#chat').find('.myMessage').find('.readStatus').text("read")
+        }
+    }
+
 </script>
 </html>
