@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content" class="page-body">
+    <div class="page-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <ul>
+                            <li class="d-inline-block m-r-10">
+                                메뉴 : <i class="icofont icofont-folder"></i>
+                            </li>
+                            <li class="d-inline-block m-r-10">
+                                기능 : <i class="icofont icofont-file-alt"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <div class="tab-content tabs p-t-20">
+                            <div class="tab-pane active" id="roleJudge" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-12 col-xl-4">
+                                        <h5 class="mb-3">
+                                            <strong>자원구조</strong>
+                                        </h5>
+                                        <div class="card">
+                                            <div class="card-block-small tree-view">
+                                                <div id="jstree"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-xl-8">
+                                        <h5 class="mb-3">
+                                            <strong>자원 상세정보</strong>
+                                        </h5>
+                                        <form id="resourceForm" name="resourceForm">
+                                            <input type="hidden" name="id" id="id"/>
+                                            <input type="hidden" name="ord" id="ord">
+                                            <input type="hidden" name="depth" id="depth">
+
+                                            <div class="card">
+                                                <div class="card-block-small">
+                                                    <div class="mb-3 form-group row">
+                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperId"><strong>상위자원명</strong></label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control form-control-round" name="upperId" id="upperId" readonly/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3 form-group row">
+                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperUrl"><strong>상위 자원 URL</strong></label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control form-control-round" name="upperUrl" id="upperUrl" readonly/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3 form-group row">
+                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="httpMethod"><strong>Http Method Type</strong></label>
+                                                        <div class="col-sm-12">
+                                                            <select name="httpMethod" id="httpMethod" class="form-select form-control form-control-round">
+                                                                <option value="">- 선택 - </option>
+                                                                <option value="PUT">PUT</option>
+                                                                <option value="GET">GET</option>
+                                                                <option value="POST">POST</option>
+                                                                <option value="DELETE">DELETE</option>
+                                                                <option value="PATCH">PATCH</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3 form-group row">
+                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="name"><strong>자원명</strong></label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control form-control-round" name="name" id="name"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3 form-group row">
+                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>URL</strong></label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control form-control-round" name="url" id="url"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3 form-group row">
+                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="type1"><strong>자원 유형 (메뉴 / 기능) </strong></label>
+                                                        <div class="form-radio">
+                                                            <div class="radio radio-inline">
+                                                                <label class="mb-0">
+                                                                    <input type="radio" id="type1" name="type"  value="MENU">
+                                                                    <i class="helper"></i>메뉴
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="radio radio-inline">
+                                                                <label class="mb-0">
+                                                                    <input type="radio" id= type2 name="type" value="FUNCTION">
+                                                                    <i class="helper"></i>기능
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3 form-group row">
+                                                        <div class="col-sm-12">
+                                                            <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
+                                                            <label for="isEnabled" class="v-middle">사용여부</label>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-0 mt-4 form-group row">
+                                                        <div class="col-sm-12">
+                                                            <button type="button" class="btn btn-primary" id="saveBtn">
+                                                                저장
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
+    <link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
+    <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
+    <script>
+        const resourceController = {
+            resources: [],
+            parentNode: null,
+            selectedNode: null,
+            $jstree: $('#jstree'),
+
+            init: function () {
+                parentNode = null;
+                selectedNode = null;
+                const _this = this;
+
+                $.ajax({
+                    url: '/admin/resources',
+                    type: 'get',
+                    async: false
+                }).done(function (response) {
+                    response.forEach(function (element, index) {
+                        _this.resources[index] = {
+                            id: element.id,
+                            parent: element.parentId ? element.parentId : '#',
+                            text: element.name,
+                            type: element.type,
+                            httpMethod: element.httpMethod,
+                            url: element.url,
+                            isEnabled: element.isEnabled,
+                            name: element.name,
+                            depth: element.depth,
+                            ord: element.ord
+                        };
+                    });
+                }).fail(function (error) {
+                    alert("자원 목록을 조회하는데 실패하였습니다.");
+                });
+
+                _this.renderJsTree();
+            },
+
+            renderJsTree: function () {
+                const _this = this;
+
+                _this.$jstree.jstree({
+                    "core": {
+                        "animation": 50,
+                        "strings": {
+                            loading: "Loading ..."
+                        },
+                        "themes": {
+                            "responsive": true,
+                        },
+                        'data': _this.resources,
+                        'check_callback' : true
+                    },
+                    "types": {
+                        "MENU": {
+                            "icon": "icofont icofont-folder"
+                        },
+                        "FUNCTION": {
+                            "icon": "icofont icofont-file-alt"
+                        }
+                    },
+                    'contextmenu': {
+                        'items': {
+                            "regist": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "하위 등록",
+                                "action": function (obj) {
+                                    const selectedNode = $.jstree.reference(obj.reference).get_node(obj.reference).original;
+                                    if(selectedNode.type === 'FUNCTION') {
+                                        alert('프로그램 유형이 메뉴인 경우에만 하위 등록이 가능합니다.')
+                                    } else {
+                                        $('#resourceForm')[0].reset();
+                                        $('#id').val('');
+                                        $('#type1').prop('checked',true);
+                                        $('#upperId').val(_this.selectedNode.original.id);
+                                        $('#upperUrl').val(_this.selectedNode.original.url);
+                                    }
+                                }
+                            }, "delete": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "수정",
+                                "action": function (obj) {
+                                    alert('수정 테스트 ')
+                                }
+                            }
+                        }
+                    },
+                    'plugins': ['types', 'dnd', 'contextmenu']
+                }).bind("move_node.jstree", function (event, data) {
+                    const originalParentIdOfSelectedNode = _this.$jstree.jstree(true).get_node(data.old_parent).id;
+                    const originalOrdOfSelectedNode = data.node.original.ord;
+                    const newParentIdOfSelectedNode = _this.$jstree.jstree(true).get_node(data.parent).id;
+                    const depthOfNewParentId = _this.$jstree.jstree(true).get_node(data.parent).depth;
+                    const newOrdOfSelectedNode = data.position + 1;
+                    const idOfSelectedNode = data.node.original.id;
+
+                    const param = {
+                        originalParentIdOfSelectedNode : originalParentIdOfSelectedNode,
+                        originalOrdOfSelectedNode : originalOrdOfSelectedNode,
+                        newParentIdOfSelectedNode : newParentIdOfSelectedNode,
+                        newOrdOfSelectedNode : newOrdOfSelectedNode,
+                        depthOfNewParentId : depthOfNewParentId,
+                        idOfSelectedNode: idOfSelectedNode
+                    }
+
+                    _this.moveNode(param);
+
+                }).bind("select_node.jstree", function (event, data) {
+                    _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
+                    _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
+                    _this.print();
+                }).bind("dblclick.jstree", function (event) {
+
+                }).bind("open_node.jstree", function (event, data) {
+                });
+            },
+
+            save: function () {
+                const id = $('#resourceForm #id').val();
+                if (!!id) {
+                    this.update(id);
+                } else {
+                    this.insert(id);
+                }
+            },
+
+            update: function () {
+                if (confirm('자원 정보를 수정하시겠습니까?')) {
+                    const formData = $('#resourceForm').serializeObject();
+                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
+
+                    $.ajax({
+                        url: `/admin/resources/${formData.id}`,
+                        type: 'put',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json'
+                    }).done(function (response) {
+                        alert('자원이 수정되었습니다.');
+                        _this.$jstree.jstree().destroy();
+                        _this.init();
+                        _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
+                    }).fail(function (error) {
+                        alert('자원을 수정하는데 실패하였습니다.')
+                        console.log(JSON.stringify(error));
+                    })
+                }
+            },
+
+            insert: function () {
+                if (confirm('자원 정보를 등록하시겠습니까?')) {
+                    const formData = $('#resourceForm').serializeObject();
+                    formData.depth = this.selectedNode.original.depth + 1;
+                    formData.ord = this.selectedNode.children.length + 1;
+                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
+
+                    $.ajax({
+                        url: '/admin/resources',
+                        type: 'post',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json'
+                    }).done(function () {
+                        alert('자원이 등록되었습니다.');
+                        _this.$jstree.jstree().destroy();
+                        _this.init();
+                        _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
+                    }).fail(function (error) {
+                        alert('자원을 등록하는데 실패하였습니다.');
+                        console.log(JSON.stringify(error));
+                    });
+                }
+            },
+
+            print: function () {
+                const parentNodeOriginal = this.parentNode.original;
+                const selectedNodeOriginal = this.selectedNode.original;
+
+                $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
+                $('#upperUrl').val(parentNodeOriginal ? parentNodeOriginal.url : '');
+
+                $('#ord').val(selectedNodeOriginal.ord);
+                $('#depth').val(selectedNodeOriginal.depth);
+                $('#id').val(selectedNodeOriginal.id);
+                $('#name').val(selectedNodeOriginal.name);
+                $('#url').val(selectedNodeOriginal.url);
+                adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
+                $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true);
+                $(`#httpMethod option[value=${selectedNodeOriginal.httpMethod}]`).prop('selected',true);
+            },
+
+            moveNode : function(param) {
+                $.ajax({
+                    url: '/admin/resources/move',
+                    method: 'post',
+                    data: JSON.stringify(param),
+                    contentType: 'application/json',
+                    dataType: 'json'
+                }).done(function(){
+                    alert('자원이 이동되었습니다.')
+                }).fail(function(error) {
+                    alert('자원을 이동하는데 실패하였습니다.');
+                    console.log(JSON.stringify(error));
+                })
+            }
+        };
+
+        $(function () {
+            resourceController.init();
+
+            $('#saveBtn').on('click', function () {
+                resourceController.save();
+            });
+
+        });
+    </script>
+</div>
