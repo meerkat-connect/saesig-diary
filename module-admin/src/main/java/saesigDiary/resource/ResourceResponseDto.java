@@ -1,14 +1,11 @@
 package saesigDiary.resource;
 
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import saesigDiary.domain.role.Resource;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class ResourceResponseDto {
     private Long id;

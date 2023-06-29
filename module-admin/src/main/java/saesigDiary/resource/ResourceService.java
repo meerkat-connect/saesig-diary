@@ -30,14 +30,6 @@ public class ResourceService {
         return new ResourceResponseDto(resourceById);
     }
 
-    public List<ResourceResponseDto> findAllWithRecursive() {
-        return resourceRepository
-                .findAllWithRecursive()
-                .stream()
-                .map(ResourceResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     @Transactional
     public Long insert(ResourceInsertDto resourceInsertDto) {
         Resource savedResource = resourceRepository.save(resourceInsertDto.toEntity());

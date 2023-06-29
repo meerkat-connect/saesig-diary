@@ -47,11 +47,11 @@ public class ResourceServiceTest {
 
         //then
         ResourceResponseDto byId1 = resourceService.findById(5L);
-        List<ResourceResponseDto> allWithRecursive = resourceService.findAllWithRecursive();
-        allWithRecursive.stream().forEach(resource -> resource.getParentUrl());
+        List<ResourceResponseDto> findAll = resourceService.findAll();
+        findAll.forEach(resource -> resource.getParentUrl());
 
         assertThat(byId.getParentId()).isNotEqualTo(byId1.getParentId());
-        allWithRecursive.stream().forEach(System.out::println);
+        findAll.forEach(System.out::println);
 
     }
 

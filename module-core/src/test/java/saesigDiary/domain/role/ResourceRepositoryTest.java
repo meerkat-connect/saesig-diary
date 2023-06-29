@@ -35,10 +35,10 @@ class ResourceRepositoryTest {
         //given
 
         //when
-        List<Resource> allWithRecursive = resourceRepository.findAllWithRecursive();
+        List<Resource> findAll = resourceRepository.findAll();
 
         //then
-        allWithRecursive.stream().forEach(resource -> System.out.println(resource));
+        assertThat(findAll.size()).isGreaterThan(0);
     }
 
     @Test

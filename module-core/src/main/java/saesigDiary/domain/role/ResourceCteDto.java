@@ -1,8 +1,6 @@
 package saesigDiary.domain.role;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class ResourceCteDto {
@@ -12,11 +10,11 @@ public class ResourceCteDto {
     private Integer depth;
     private Integer ord;
 
-    public ResourceCteDto(Long aLong, String s, String s1, Integer integer, Integer integer1) {
-        this.id = aLong;
-        this.name = s;
-        this.url = s1;
-        this.depth = integer;
-        this.ord = integer1;
+    public ResourceCteDto(Long id, String name, String url, Integer depth, Integer ord) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.depth = depth;
+        this.ord = ord;
     }
 }
