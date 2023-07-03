@@ -11,7 +11,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name="role")
+@Entity
 public class Role extends BaseEntity {
     @Id
     private Long id;
@@ -29,7 +29,7 @@ public class Role extends BaseEntity {
     private List<MemberRole> memberRoles = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "upperId")
+    @JoinColumn(name = "upper_id")
     private Role parentRole;
 
     @OneToMany(mappedBy = "parentRole")

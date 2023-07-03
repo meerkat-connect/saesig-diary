@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content" class="page-body">
+    <div class="page-body">
+        <div class="nav-main">
+            <ul class="nav nav-tabs md-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#home3" role="tab" aria-selected="false">역할 등록</a>
+                    <div class="slide"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#profile3" role="tab" aria-selected="false">사용자 매핑</a>
+                    <div class="slide"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#messages3" role="tab" aria-selected="true">자원 매핑</a>
+                    <div class="slide"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <div class="tab-content tabs p-t-20">
+                            <div class="tab-pane active" id="home3" role="tabpanel">
+                                <div class="col-12">
+                                    <div class="tab-content tabs">
+                                        <div class="tab-pane active" id="roleJudge" role="tabpanel">
+                                            <div class="row">
+                                                <div class="col-12 col-xl-4">
+                                                    <h5 class="mb-3">
+                                                        <strong>자원구조</strong>
+                                                    </h5>
+                                                    <div class="card">
+                                                        <div class="card-block-small tree-view">
+                                                            <div id="jstree"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 col-xl-8">
+                                                    <h5 class="mb-3">
+                                                        <strong>자원 상세정보</strong>
+                                                    </h5>
+                                                    <form id="resourceForm" name="resourceForm">
+                                                        <input type="hidden" name="id" id="id"/>
+                                                        <input type="hidden" name="ord" id="ord">
+                                                        <input type="hidden" name="depth" id="depth">
+
+                                                        <div class="card">
+                                                            <div class="card-block-small">
+                                                                <div class="mb-3 form-group row">
+                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperId"><strong>상위자원명</strong></label>
+                                                                    <div class="col-sm-12">
+                                                                        <input type="text" class="form-control form-control-round" name="upperId" id="upperId" readonly/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="mb-3 form-group row">
+                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperUrl"><strong>상위 자원 URL</strong></label>
+                                                                    <div class="col-sm-12">
+                                                                        <input type="text" class="form-control form-control-round" name="upperUrl" id="upperUrl" readonly/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="mb-3 form-group row">
+                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="httpMethod"><strong>Http Method Type</strong></label>
+                                                                    <div class="col-sm-12">
+                                                                        <select name="httpMethod" id="httpMethod" class="form-select form-control form-control-round">
+                                                                            <option value="">- 선택 - </option>
+                                                                            <option value="PUT">PUT</option>
+                                                                            <option value="GET">GET</option>
+                                                                            <option value="POST">POST</option>
+                                                                            <option value="DELETE">DELETE</option>
+                                                                            <option value="PATCH">PATCH</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="mb-3 form-group row">
+                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="name"><strong>자원명</strong></label>
+                                                                    <div class="col-sm-12">
+                                                                        <input type="text" class="form-control form-control-round" name="name" id="name"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="mb-3 form-group row">
+                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>URL</strong></label>
+                                                                    <div class="col-sm-12">
+                                                                        <input type="text" class="form-control form-control-round" name="url" id="url"/>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="mb-3 form-group row">
+                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="type1"><strong>자원 유형 (메뉴 / 기능) </strong></label>
+                                                                    <div class="form-radio">
+                                                                        <div class="radio radio-inline">
+                                                                            <label class="mb-0">
+                                                                                <input type="radio" id="type1" name="type"  value="MENU">
+                                                                                <i class="helper"></i>메뉴
+                                                                            </label>
+                                                                        </div>
+
+                                                                        <div class="radio radio-inline">
+                                                                            <label class="mb-0">
+                                                                                <input type="radio" id= type2 name="type" value="FUNCTION">
+                                                                                <i class="helper"></i>기능
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="mb-3 form-group row">
+                                                                    <div class="col-sm-12">
+                                                                        <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
+                                                                        <label for="isEnabled" class="v-middle">사용여부</label>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="mb-0 mt-4 form-group row">
+                                                                    <div class="col-sm-12">
+                                                                        <button type="button" class="btn btn-primary" id="saveBtn">
+                                                                            저장
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="profile3" role="tabpanel">
+                                <div class="row" id="mappingUserContent"></div>
+                            </div>
+                            <div class="tab-pane" id="configMenu" role="tabpanel">
+                                <div id="configMenuContent"></div>
+                            </div>
+                            <div class="tab-pane" id="messages3" role="tabpanel">
+                                <div id="configInstContent"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
