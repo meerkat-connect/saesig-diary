@@ -54,17 +54,18 @@ ALTER TABLE `file_group`
 CREATE TABLE `resource`
 (
     `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '자원 일련번호',
-    `name`        VARCHAR(100) NOT NULL COMMENT '이름',
-    `url`         VARCHAR(500) NOT NULL COMMENT '자원 URL',
-    `http_method` VARCHAR(10)  NOT NULL COMMENT 'HTTP 메소드',
-    `is_enabled`  CHAR(1)      NOT NULL DEFAULT 'Y' COMMENT '사용여부',
-    `depth`       INTEGER NULL COMMENT '깊이',
-    `ord`         INTEGER NULL COMMENT '순서',
-    `upper_id`    BIGINT NULL COMMENT '상위 자원 일련번호',
-    `modified_at` DATETIME     NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT       NOT NULL COMMENT '수정자 일련번호',
-    `created_at`  DATETIME     NOT NULL COMMENT '등록일',
-    `created_by`  BIGINT       NOT NULL COMMENT '등록자 일련번호'
+    `name`        VARCHAR(100)          NOT NULL COMMENT '이름',
+    `url`         VARCHAR(500)          NOT NULL COMMENT '자원 URL',
+    `http_method` VARCHAR(10)           NOT NULL COMMENT 'HTTP 메소드',
+    `is_enabled`  CHAR(1)               NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+    `type`        VARCHAR(10)           NOT NULL COMMENT '유형',
+    `depth`       INTEGER               NULL COMMENT '깊이',
+    `ord`         INTEGER               NULL COMMENT '순서',
+    `upper_id`    BIGINT                NULL COMMENT '상위 자원 일련번호',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호'
 );
 
 ALTER TABLE `resource`
@@ -127,8 +128,8 @@ CREATE TABLE `inquiry`
     `is_deleted`     CHAR(1)       NOT NULL DEFAULT 'N' COMMENT '삭제 여부',
     `created_at`     DATETIME      NOT NULL COMMENT '등록일',
     `created_by`     BIGINT        NOT NULL COMMENT '등록자 일련번호',
-    `modified_at`    DATETIME      NOT NULL COMMENT '수정일',
-    `modified_by`    BIGINT        NOT NULL COMMENT '수정자 일련번호'
+    `modified_at`    DATETIME      COMMENT '수정일',
+    `modified_by`    BIGINT        COMMENT '수정자 일련번호'
 );
 
 ALTER TABLE `inquiry`
@@ -146,8 +147,8 @@ CREATE TABLE `inquiry_answer`
     `content`     VARCHAR(2000) NOT NULL COMMENT '내용',
     `created_at`  DATETIME      NOT NULL COMMENT '등록일',
     `created_by`  BIGINT        NOT NULL COMMENT '등록자 일련번호',
-    `modified_at` DATETIME      NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT        NOT NULL COMMENT '수정자 일련번호'
+    `modified_at` DATETIME      COMMENT '수정일',
+    `modified_by` BIGINT        COMMENT '수정자 일련번호'
 );
 
 ALTER TABLE `inquiry_answer`

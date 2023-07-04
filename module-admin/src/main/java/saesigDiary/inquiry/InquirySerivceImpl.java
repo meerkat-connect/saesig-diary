@@ -14,8 +14,20 @@ public class InquirySerivceImpl implements InquirySerivce {
 
     private final InquiryMapper inquiryMapper;
 
+    @Override
     public List<InquiryDto> getInquiryList(Map<String, Object> param) throws Exception {
         return inquiryMapper.getInquiryList(param);
     }
 
+    @Override
+    public boolean InsertAnswer(InquiryAnswerDto param) throws Exception {
+        inquiryMapper.insertAnswer(param);
+        inquiryMapper.updateInquiryAnswerStatus(param);
+        return true;
+    }
+
+    @Override
+    public List<InquiryAnswerDto> selectAnswerById(Long id) throws Exception {
+        return inquiryMapper.selectAnswerById(id);
+    }
 }

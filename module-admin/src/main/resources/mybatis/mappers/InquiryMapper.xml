@@ -44,4 +44,30 @@
 <!--            </if>-->
 <!--        </if>-->
     </select>
+
+    <insert id="insertAnswer">
+        INSERT INTO inquiry_answer (inquiry_id,title,content,created_at,created_by) VALUES (#{inquiryId}, #{title},#{content}, now(),#{createdBy})
+    </insert>
+
+    <update id="updateInquiryAnswerStatus" parameterType="saesigDiary.inquiry.InquiryAnswerDto">
+        UPDATE inquiry
+        SET status = 'COMPLETE'
+        WHERE id = #{inquiryId}
+    </update>
+
+    <select id="selectAnswerById" parameterType="java.lang.Long" resultType="saesigDiary.inquiry.InquiryAnswerDto">
+        SELECT
+            i.id,
+            i.inquiry_id,
+            i.title,
+            i.content,
+            i.created_at,
+            i.created_by,
+            i.modified_at,
+            i.modified_by,
+            M.nickName as createdByStr
+            FROM inquiry_answer I LEFT JOIN member M on I.created_by = M.id WHERE inquiry_id = #{id} ORDER BY created_at DESC
+    </select>
+
+
 </mapper>

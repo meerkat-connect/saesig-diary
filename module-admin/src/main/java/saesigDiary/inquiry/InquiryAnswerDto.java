@@ -5,11 +5,12 @@ import lombok.Data;
 @Data
 public class InquiryAnswerDto {
     private Long id;
-    private Long inquiry_id;
+    private Long inquiryId;
     private String title;
     private String content;
-    private String modified_at;
-    private String modified_by;
-    private String created_at;
-    private String created_by;
+    private String modifiedAt;
+    private Long modifiedBy;
+    private String createdAt;
+    private Long createdBy;
+    private String createdByStr;
 }

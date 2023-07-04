@@ -2,10 +2,7 @@ package saesigDiary.inquiry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,5 +56,16 @@ public class InquiryController {
         return resultMap;
     }
 
+    @RequestMapping(value = "/inquiry/insertAnswer.do")
+    @ResponseBody
+    public boolean insertAnswer(@RequestBody InquiryAnswerDto param) throws Exception {
+        boolean result = inquiryService.InsertAnswer(param);
+        return result;
+    }
 
+    @RequestMapping(value = "/inquiry/getAnswerById.do")
+    @ResponseBody
+    public List<InquiryAnswerDto> getAnswerById(@RequestBody Long id) throws Exception {
+        return inquiryService.selectAnswerById(id);
+    }
 }
