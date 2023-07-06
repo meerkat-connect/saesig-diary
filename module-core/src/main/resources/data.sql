@@ -49,3 +49,5 @@ VALUES (5, '시스템관리 수정', '/admin/system/**', 'PUT', 'Y', 'FUNCTION',
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, modified_at, modified_by, created_at, created_by)
 VALUES (6, '회원관리 목록화면', '/admin/members/view.html', 'GET', 'Y', 'FUNCTION', 2, 1, 1, NOW(), 1, NOW(), 1);
 
+INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
+VALUES (3, 'ROLE_GUEST', NULL, 'Y', '게스트 역할', NOW(), 1, NOW(), 1);

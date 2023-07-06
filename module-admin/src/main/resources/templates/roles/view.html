@@ -8,7 +8,7 @@
         <div class="nav-main">
             <ul class="nav nav-tabs md-tabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#home3" role="tab" aria-selected="false">역할 등록</a>
+                    <a class="nav-link active" data-bs-toggle="tab" href="#home3" role="tab" aria-selected="false">역할 등록</a>
                     <div class="slide"></div>
                 </li>
                 <li class="nav-item">
@@ -16,7 +16,7 @@
                     <div class="slide"></div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#messages3" role="tab" aria-selected="true">자원 매핑</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#messages3" role="tab" aria-selected="true">자원 매핑</a>
                     <div class="slide"></div>
                 </li>
             </ul>
@@ -33,7 +33,7 @@
                                             <div class="row">
                                                 <div class="col-12 col-xl-4">
                                                     <h5 class="mb-3">
-                                                        <strong>자원구조</strong>
+                                                        <strong>역할구조</strong>
                                                     </h5>
                                                     <div class="card">
                                                         <div class="card-block-small tree-view">
@@ -44,71 +44,49 @@
 
                                                 <div class="col-12 col-xl-8">
                                                     <h5 class="mb-3">
-                                                        <strong>자원 상세정보</strong>
+                                                        <strong>역할 상세정보</strong>
                                                     </h5>
-                                                    <form id="resourceForm" name="resourceForm">
+                                                    <form id="roleForm" name="roleForm">
                                                         <input type="hidden" name="id" id="id"/>
-                                                        <input type="hidden" name="ord" id="ord">
-                                                        <input type="hidden" name="depth" id="depth">
 
                                                         <div class="card">
                                                             <div class="card-block-small">
                                                                 <div class="mb-3 form-group row">
-                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperId"><strong>상위자원명</strong></label>
+                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperId"><strong>상위 역할명</strong></label>
                                                                     <div class="col-sm-12">
                                                                         <input type="text" class="form-control form-control-round" name="upperId" id="upperId" readonly/>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="mb-3 form-group row">
-                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperUrl"><strong>상위 자원 URL</strong></label>
-                                                                    <div class="col-sm-12">
-                                                                        <input type="text" class="form-control form-control-round" name="upperUrl" id="upperUrl" readonly/>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="mb-3 form-group row">
-                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="httpMethod"><strong>Http Method Type</strong></label>
-                                                                    <div class="col-sm-12">
-                                                                        <select name="httpMethod" id="httpMethod" class="form-select form-control form-control-round">
-                                                                            <option value="">- 선택 - </option>
-                                                                            <option value="PUT">PUT</option>
-                                                                            <option value="GET">GET</option>
-                                                                            <option value="POST">POST</option>
-                                                                            <option value="DELETE">DELETE</option>
-                                                                            <option value="PATCH">PATCH</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="mb-3 form-group row">
-                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="name"><strong>자원명</strong></label>
+                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="name"><strong>역할명</strong></label>
+                                                                    <p class="text-warning m-b-0">* 역할명은 "ROLE_"를 접두사로 가져야합니다.</p>
                                                                     <div class="col-sm-12">
                                                                         <input type="text" class="form-control form-control-round" name="name" id="name"/>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="mb-3 form-group row">
-                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>URL</strong></label>
+                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="name"><strong>설명</strong></label>
                                                                     <div class="col-sm-12">
-                                                                        <input type="text" class="form-control form-control-round" name="url" id="url"/>
+                                                                        <input type="text" class="form-control form-control-round" name="description" id="description"/>
                                                                     </div>
                                                                 </div>
 
                                                                 <div class="mb-3 form-group row">
-                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="type1"><strong>자원 유형 (메뉴 / 기능) </strong></label>
+                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="type1"><strong>역할 유형 (관리자 / 사용자) </strong></label>
                                                                     <div class="form-radio">
                                                                         <div class="radio radio-inline">
                                                                             <label class="mb-0">
-                                                                                <input type="radio" id="type1" name="type"  value="MENU">
-                                                                                <i class="helper"></i>메뉴
+                                                                                <input type="radio" id="type1" name="type" value="ADMIN" checked>
+                                                                                <i class="helper"></i>관리자
                                                                             </label>
                                                                         </div>
 
                                                                         <div class="radio radio-inline">
                                                                             <label class="mb-0">
-                                                                                <input type="radio" id= type2 name="type" value="FUNCTION">
-                                                                                <i class="helper"></i>기능
+                                                                                <input type="radio" id=type2 name="type" value="USER">
+                                                                                <i class="helper"></i>사용자
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -152,4 +130,167 @@
             </div>
         </div>
     </div>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
+    <link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
+    <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
+
+    <script th:inline="javascript">
+        const roleController = {
+            roles: [],
+            parentNode: null,
+            selectedNode: null,
+            $jstree: $('#jstree'),
+
+            init: function () {
+                const _this = this;
+                parentNode = null;
+                selectedNode = null;
+
+                $.ajax({
+                    url: '/admin/roles',
+                    type: 'get',
+                    async: false
+                }).done(function (response) {
+                    response.forEach(function (element, index) {
+                        _this.roles[index] = {
+                            id: element.id,
+                            parent: element.parentId ? element.parentId : '#',
+                            text: element.name,
+                            description: element.description,
+                            isEnabled: element.isEnabled,
+                            name: element.name,
+                        };
+                    });
+                }).fail(function (error) {
+                    alert("역할 목록을 조회하는데 실패하였습니다.");
+                });
+
+                _this.renderJsTree();
+            },
+
+            renderJsTree: function () {
+                const _this = this;
+
+                _this.$jstree.jstree({
+                    "core": {
+                        "animation": 50,
+                        "strings": {
+                            loading: "Loading ..."
+                        },
+                        "themes": {
+                            "responsive": true,
+                        },
+                        'data': _this.roles,
+                    },
+                    "types": {
+                        "ADMIN": {
+                            "icon": "icofont icofont-folder"
+                        },
+                        "USER": {
+                            "icon": "icofont icofont-file-alt"
+                        }
+                    },
+                    'contextmenu': {
+                        'items': {
+                            "regist": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "하위 등록",
+                                "action": function (obj) {
+                                    $('#roleForm')[0].reset();
+                                    $('#id').val('');
+                                    $('#type1').prop('checked', true);
+                                    $('#upperId').val(_this.selectedNode.original.id);
+                                }
+                            }
+                        }
+                    },
+                    'plugins': ['types', 'contextmenu']
+                }).bind("select_node.jstree", function (event, data) {
+                    _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
+                    _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
+                    _this.print();
+                });
+            },
+
+
+            save: function () {
+                const id = $('#roleForm #id').val();
+                !!id ? this.update(id) : this.insert(id);
+            },
+
+            update: function () {
+                const _this = this;
+
+                if (confirm('역할 정보를 수정하시겠습니까?')) {
+                    const formData = $('#roleForm').serializeObject();
+                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
+
+                    $.ajax({
+                        url: `/admin/roles/${formData.id}`,
+                        type: 'put',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json'
+                    }).done(function (response) {
+                        alert('역할이 수정되었습니다.');
+                        _this.$jstree.jstree().destroy();
+                        _this.init();
+                        _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
+                    }).fail(function (error) {
+                        alert('역할을 수정하는데 실패하였습니다.')
+                        console.log(JSON.stringify(error));
+                    })
+                }
+            },
+
+            insert: function () {
+                const _this = this;
+
+                if (confirm('역할 정보를 등록하시겠습니까?')) {
+                    const formData = $('#roleForm').serializeObject();
+                    formData.depth = this.selectedNode.original.depth + 1;
+                    formData.ord = this.selectedNode.children.length + 1;
+                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
+
+                    $.ajax({
+                        url: '/admin/roles',
+                        type: 'post',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json'
+                    }).done(function () {
+                        alert('역할이 등록되었습니다.');
+                        _this.$jstree.jstree().destroy();
+                        _this.init();
+                        _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
+                    }).fail(function (error) {
+                        alert('역할을 등록하는데 실패하였습니다.');
+                        console.log(JSON.stringify(error));
+                    });
+                }
+            },
+
+            print: function () {
+                const parentNodeOriginal = this.parentNode.original;
+                const selectedNodeOriginal = this.selectedNode.original;
+
+                $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
+                $('#upperUrl').val(parentNodeOriginal ? parentNodeOriginal.url : '');
+                $('#id').val(selectedNodeOriginal.id);
+                $('#name').val(selectedNodeOriginal.name);
+                $('#description').val(selectedNodeOriginal.description);
+                adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
+                $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true);
+            },
+        };
+
+        $(function () {
+            roleController.init();
+
+            $('#saveBtn').on('click', function () {
+                roleController.save();
+            });
+        });
+
+    </script>
 </div>
