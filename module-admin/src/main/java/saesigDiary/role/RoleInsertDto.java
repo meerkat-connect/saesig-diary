@@ -19,6 +19,16 @@ public class RoleInsertDto {
     private Long upperId;
 
     public Role toEntity() {
-        return null;
+        return Role
+                .builder()
+                .name(this.name)
+                .isEnabled(this.isEnabled)
+                .description(this.description)
+                .parentRole(setParentRole(this.upperId))
+                .build();
+    }
+
+    public Role setParentRole(Long upperId) {
+        return Role.builder().id(upperId).build();
     }
 }

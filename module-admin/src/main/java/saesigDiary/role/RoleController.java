@@ -19,19 +19,19 @@ public class RoleController {
         return "roles/view";
     }
 
-    @GetMapping("")
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<RoleResponseDto> findAll() {
         return roleService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public RoleResponseDto findById(@PathVariable Long id) {
         return roleService.fineById(id);
     }
 
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Long insert(@RequestBody RoleInsertDto roleInsertDto) {
         return roleService.insert(roleInsertDto);
@@ -39,8 +39,8 @@ public class RoleController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Long update(@RequestBody RoleUpdateDto roleUpdateDto) {
-        return roleService.update(roleUpdateDto);
+    public Long update(@PathVariable Long id, @RequestBody RoleUpdateDto roleUpdateDto) {
+        return roleService.update(id, roleUpdateDto);
     }
 
 }

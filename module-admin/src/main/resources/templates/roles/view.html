@@ -30,11 +30,16 @@
                                 <div class="col-12">
                                     <div class="tab-content tabs">
                                         <div class="tab-pane active" id="roleJudge" role="tabpanel">
-                                            <div class="row">
+                                            <div class="row mb-3">
                                                 <div class="col-12 col-xl-4">
-                                                    <h5 class="mb-3">
-                                                        <strong>역할구조</strong>
-                                                    </h5>
+                                                    <div class="row">
+                                                        <h5 class="col-12 col-md-6 mb-3">
+                                                            <strong>역할구조</strong>
+                                                        </h5>
+                                                        <div class="col-12 col-md-6 btn-group-sm text-right">
+                                                            <button type="button" id='exprtSearchBtn' class="btn btn-primary btn-sm" onclick="roleController.insertRootForm()">루트 역할 등록</button>
+                                                        </div>
+                                                    </div>
                                                     <div class="card">
                                                         <div class="card-block-small tree-view">
                                                             <div id="jstree"></div>
@@ -48,13 +53,14 @@
                                                     </h5>
                                                     <form id="roleForm" name="roleForm">
                                                         <input type="hidden" name="id" id="id"/>
+                                                        <input type="hidden" name="upperId" id="upperId">
 
                                                         <div class="card">
                                                             <div class="card-block-small">
                                                                 <div class="mb-3 form-group row">
                                                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperId"><strong>상위 역할명</strong></label>
                                                                     <div class="col-sm-12">
-                                                                        <input type="text" class="form-control form-control-round" name="upperId" id="upperId" readonly/>
+                                                                        <input type="text" class="form-control form-control-round" name="upperName" id="upperName" readonly/>
                                                                     </div>
                                                                 </div>
 
@@ -70,25 +76,6 @@
                                                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="name"><strong>설명</strong></label>
                                                                     <div class="col-sm-12">
                                                                         <input type="text" class="form-control form-control-round" name="description" id="description"/>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="mb-3 form-group row">
-                                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="type1"><strong>역할 유형 (관리자 / 사용자) </strong></label>
-                                                                    <div class="form-radio">
-                                                                        <div class="radio radio-inline">
-                                                                            <label class="mb-0">
-                                                                                <input type="radio" id="type1" name="type" value="ADMIN" checked>
-                                                                                <i class="helper"></i>관리자
-                                                                            </label>
-                                                                        </div>
-
-                                                                        <div class="radio radio-inline">
-                                                                            <label class="mb-0">
-                                                                                <input type="radio" id=type2 name="type" value="USER">
-                                                                                <i class="helper"></i>사용자
-                                                                            </label>
-                                                                        </div>
                                                                     </div>
                                                                 </div>
 
@@ -144,8 +131,7 @@
 
             init: function () {
                 const _this = this;
-                parentNode = null;
-                selectedNode = null;
+                parentNode = selectedNode = null;
 
                 $.ajax({
                     url: '/admin/roles',
@@ -155,7 +141,7 @@
                     response.forEach(function (element, index) {
                         _this.roles[index] = {
                             id: element.id,
-                            parent: element.parentId ? element.parentId : '#',
+                            parent: element.parentId ?? '#',
                             text: element.name,
                             description: element.description,
                             isEnabled: element.isEnabled,
@@ -184,11 +170,8 @@
                         'data': _this.roles,
                     },
                     "types": {
-                        "ADMIN": {
-                            "icon": "icofont icofont-folder"
-                        },
-                        "USER": {
-                            "icon": "icofont icofont-file-alt"
+                        "default": {
+                            "icon" : "icofont icofont-user-alt-3"
                         }
                     },
                     'contextmenu': {
@@ -200,8 +183,8 @@
                                 "action": function (obj) {
                                     $('#roleForm')[0].reset();
                                     $('#id').val('');
-                                    $('#type1').prop('checked', true);
                                     $('#upperId').val(_this.selectedNode.original.id);
+                                    $('#upperName').val(_this.selectedNode.original.name);
                                 }
                             }
                         }
@@ -249,8 +232,6 @@
 
                 if (confirm('역할 정보를 등록하시겠습니까?')) {
                     const formData = $('#roleForm').serializeObject();
-                    formData.depth = this.selectedNode.original.depth + 1;
-                    formData.ord = this.selectedNode.children.length + 1;
                     formData.isEnabled = formData.isEnabled ? "Y" : "N";
 
                     $.ajax({
@@ -275,13 +256,19 @@
                 const selectedNodeOriginal = this.selectedNode.original;
 
                 $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
-                $('#upperUrl').val(parentNodeOriginal ? parentNodeOriginal.url : '');
+                $('#upperName').val(parentNodeOriginal ? parentNodeOriginal.name : '');
                 $('#id').val(selectedNodeOriginal.id);
                 $('#name').val(selectedNodeOriginal.name);
                 $('#description').val(selectedNodeOriginal.description);
                 adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
-                $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true);
             },
+
+            insertRootForm() {
+                $('#roleForm')[0].reset();
+                $('#id').val('');
+                $('#upperId').val();
+                $('#upperName').val();
+            }
         };
 
         $(function () {

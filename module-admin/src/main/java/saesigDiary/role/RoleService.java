@@ -30,12 +30,23 @@ public class RoleService {
     }
 
     @Transactional
-    public Long update(RoleUpdateDto roleUpdateDto) {
+    public Long update(Long id, RoleUpdateDto roleUpdateDto) {
+        Role roleById = roleRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("자원 아이디가 존재하지 않습니다."));
 
-        return null;
+        roleById.updateInfo(roleUpdateDto.getName()
+                , roleUpdateDto.getIsEnabled()
+                , roleUpdateDto.getDescription());
+
+        return roleById.getId();
     }
 
     public RoleResponseDto fineById(Long id) {
-        return null;
+        Role roleById = roleRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("역할 아이디가 존재하지 않습니다."));
+
+        return new RoleResponseDto(roleById);
     }
 }
