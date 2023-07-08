@@ -27,4 +27,17 @@ class RoleRepositoryTest {
         //then
         assertThat(findAll.size()).isGreaterThanOrEqualTo(0);
     }
+
+    @DisplayName("역할 이름 조회")
+    @Test
+    void 역할_이름_조회() {
+        //given
+        String name = "ROLE_ADMIN";
+
+        //when
+        Role findByName = roleRepository.findByName(name);
+
+        //then
+        assertThat(findByName).isNotNull();
+    }
 }
