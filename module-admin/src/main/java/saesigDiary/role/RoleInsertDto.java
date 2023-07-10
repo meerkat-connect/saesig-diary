@@ -28,7 +28,11 @@ public class RoleInsertDto {
                 .build();
     }
 
-    public Role setParentRole(Long upperId) {
-        return Role.builder().id(upperId).build();
+    public Role setParentRole(Long upperId)
+    {
+        if(upperId != null)
+            return Role.builder().id(upperId).build();
+        else
+            return null;
     }
 }

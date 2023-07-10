@@ -29,12 +29,22 @@ public class RoleService {
 
     @Transactional
     public Long insert(RoleInsertDto roleInsertDto) {
+        Role findByName = roleRepository.findByName(roleInsertDto.getName());
+        if (idDuplicatedRoleName(roleInsertDto.getName(), findByName.getName())) {
+            throw new IllegalArgumentException("역할명이 중복됩니다.");
+        }
+
         Role savedRole = roleRepository.save(roleInsertDto.toEntity());
         return savedRole.getId();
     }
 
     @Transactional
     public Long update(Long id, RoleUpdateDto roleUpdateDto) {
+        Role findByName = roleRepository.findByName(roleUpdateDto.getName());
+        if (idDuplicatedRoleName(roleUpdateDto.getName(), findByName.getName())) {
+            throw new IllegalArgumentException("역할명이 중복됩니다.");
+        }
+
         Role roleById = roleRepository
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("자원 아이디가 존재하지 않습니다."));
@@ -44,6 +54,10 @@ public class RoleService {
                 , roleUpdateDto.getDescription());
 
         return roleById.getId();
+    }
+
+    private boolean idDuplicatedRoleName(String srcName, String desName) {
+        return srcName.equals(desName);
     }
 
     public RoleResponseDto fineById(Long id) {
