@@ -1,15 +1,19 @@
 package saesigDiary.role;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import saesigDiary.domain.member.Member;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -54,21 +58,32 @@ public class RoleController {
 
     @GetMapping("/memberMapping/members")
     @ResponseBody
-    public Map<String,Object> findAllMembers(HttpServletRequest request) {
+    public Map<String, Object> findAllMembers(HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
         List<MappedMemberDto> allMember = roleService.findAllMember();
 
         result.put("data", allMember);
-        result.put("recordsTotal", 200);
-        result.put("recordsFiltered", 11);
-        result.put("draw", 1);
+        result.put("recordsTotal", 10);
+        result.put("recordsFiltered", 5);
+        result.put("draw", 2);
 
-        return  result;
+        return result;
     }
 
     @GetMapping("/memberMapping/members/search")
-    public String findUsers(Pageable pageable) {
-        return null;
+    @ResponseBody
+    public Map<String, Object> findUsers(Pageable pageable) {
+        PageRequest of = PageRequest.of(1, 5);
+        Page<Member> allMemberUsingPageable = roleService.findAllMemberUsingPageable(of);
+
+        Map<String, Object> result = new HashMap<>();
+        DataTablesResponseDto dataTablesResponseDto = new DataTablesResponseDto(allMemberUsingPageable, allMemberUsingPageable.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
+        result.put("data", dataTablesResponseDto.getList());
+        result.put("draw", dataTablesResponseDto.getDraw());
+        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
+        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
+
+        return result;
     }
 
 }

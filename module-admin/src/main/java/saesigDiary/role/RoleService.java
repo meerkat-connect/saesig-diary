@@ -1,6 +1,8 @@
 package saesigDiary.role;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saesigDiary.domain.member.Member;
@@ -74,5 +76,9 @@ public class RoleService {
                 .stream()
                 .map(MappedMemberDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public Page<Member> findAllMemberUsingPageable(Pageable pageable) {
+        return memberRepository.findAll(pageable);
     }
 }
