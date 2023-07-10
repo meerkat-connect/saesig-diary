@@ -3,6 +3,8 @@ package saesigDiary.role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import saesigDiary.domain.member.Member;
+import saesigDiary.domain.member.MemberRepository;
 import saesigDiary.domain.role.Role;
 import saesigDiary.domain.role.RoleRepository;
 
@@ -13,6 +15,8 @@ import java.util.stream.Collectors;
 @Service
 public class RoleService {
     private final RoleRepository roleRepository;
+
+    private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
     public List<RoleResponseDto> findAll() {
@@ -48,5 +52,13 @@ public class RoleService {
                 .orElseThrow(() -> new IllegalArgumentException("역할 아이디가 존재하지 않습니다."));
 
         return new RoleResponseDto(roleById);
+    }
+
+    public List<MappedMemberDto> findAllMember() {
+        return memberRepository
+                .findAll()
+                .stream()
+                .map(MappedMemberDto::new)
+                .collect(Collectors.toList());
     }
 }

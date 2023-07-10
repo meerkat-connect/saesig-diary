@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content" class="page-body">
+    <div class="page-body">
+        <div class="nav-main">
+            <ul class="nav nav-tabs md-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#home3" role="tab" aria-selected="false">역할 등록</a>
+                    <div class="slide"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#profile3" role="tab" aria-selected="false">사용자 매핑</a>
+                    <div class="slide"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#messages3" role="tab" aria-selected="true">자원 매핑</a>
+                    <div class="slide"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <div class="tab-content tabs p-t-20">
+                            <div class="tab-pane" id="home3" role="tabpanel">
+                            </div>
+                            <div class="tab-pane active" id="profile3" role="tabpanel">
+                                <div class="col-12">
+                                    <div class="tab-content tabs">
+                                        <div class="tab-pane active" id="roleJudge" role="tabpanel">
+                                            <div class="row mb-3">
+                                                <div class="col-12 col-xl-4">
+                                                    <h5 class="mb-3">
+                                                        <strong>역할구조</strong>
+                                                    </h5>
+                                                    <div class="card">
+                                                        <div class="card-block-small" id="jstree">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-xl-8">
+                                                    <h5 class="mb-3">
+                                                        <strong>사용자 정보</strong>
+                                                    </h5>
+                                                    <div class="card">
+                                                        <form id="userSearchForm" name="userSearchForm" onsubmit="return false;" th:action="@{/admin/roles/userMapping/users}">
+                                                            <div class="card-block-small">
+                                                                <div class="col-12 col-lg-6 mb-3">
+                                                                    <div class="mb-0 form-group row">
+                                                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                                                                        <div class="input-group input-group-dropdown mb-0">
+                                                                            <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" id="searchKeyword"
+                                                                                   name="searchKeyword">
+                                                                            <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select">
+                                                                                <option value="">- 선택 -</option>
+                                                                                <option value="U.NM">이름</option>
+                                                                                <option value="ACNT">아이디</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mt-1 p-t-20 text-center border-top">
+                                                                    <button type="button" class="btn btn-gray m-r-5">초기화</button>
+                                                                    <button type="button" class="btn btn-primary">검색</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="card">
+                                                        <form id="mappingUserForm" name="mappingUserForm" method="get" action="">
+                                                            <input type="hidden" name="seCd" id="seCd" value="A"/>
+                                                            <div class="row p-20 p-b-0">
+                                                                <div class="col-12 col-md-6 mb-2 mb-md-0">
+                                                                    <h5><strong>사용자 검색 결과</strong></h5>
+                                                                </div>
+                                                                <div class="col-12 col-md-6 text-right">
+                                                                    <button type="button" id="goPopup" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal"
+                                                                            data-bs-target="#managerSearchPopup">사용자추가
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-block-small">
+                                                                <div class="dt-responsive table-responsive">
+                                                                    <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                                                        <table id="mappedUserTable" class="display" style="width:100%;">
+                                                                            <thead>
+                                                                            <tr>
+                                                                                <th>회원 일련번호</th>
+                                                                                <th>이메일</th>
+                                                                                <th>닉네임</th>
+                                                                            </tr>
+                                                                            </thead>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+
+                                                        <div class="modal fade" id="userAddModal" data-bs-backdrop="static">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="configMenu" role="tabpanel">
+                                <div id="configMenuContent"></div>
+                            </div>
+                            <div class="tab-pane" id="messages3" role="tabpanel">
+                                <div id="configInstContent"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page-body end -->
+    <div class="modal fade" id="managerSearchPopup">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content type_2">
+                <div class="modal-header">
+                    <h4 class="modal-title">회원검색</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-block-small">
+                            <div class="row">
+                                <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                    <div class="mb-0 form-group">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                                        <div class="input-group input-group-sm input-group-dropdown mb-0">
+                                            <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" name="popupFilterKeywordInput"
+                                                   id="popupFilterKeywordInput"/>
+
+                                            <select name="popupFilterKeywordSelect"
+                                                    class="form-select form-control form-control-sm form-control-primary form-bg-primary form-control-round">
+                                                <option value="opt1">primary</option>
+                                                <option value="opt2">Type 2</option>
+                                                <option value="opt3">Type 3</option>
+                                                <option value="opt4">Type 4</option>
+                                                <option value="opt5">Type 5</option>
+                                                <option value="opt6">Type 6</option>
+                                                <option value="opt7">Type 7</option>
+                                                <option value="opt8">Type 8</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-0 form-group">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>기관</strong></div>
+                                        <select class="js-example-basic-single col-sm-12 sm" name="popupFilterAgencySelect">
+                                            <optgroup label="Developer">
+                                                <option value="AL">Alabama</option>
+                                                <option value="WY">Wyoming</option>
+                                            </optgroup>
+                                            <optgroup label="Designer">
+                                                <option value="WY">Peter</option>
+                                                <option value="WY">Hanry Die</option>
+                                                <option value="WY">John Doe</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-1 p-t-20 text-center border-top">
+                                <button class="btn btn-disabled m-r-5" data-bs-dismiss="modal">초기화</button>
+                                <button class="btn btn-primary">검색</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card m-b-10">
+                        <div class="card-block-small">
+                            <div class="row">
+                                <div class="col-12">
+                                    <!-- 그리드 부분(임의로 넣어둠) -->
+                                    <table id="colum-select" class="table table-striped table-bordered nowrap dataTable" role="grid"
+                                           aria-describedby="colum-select_info">
+                                        <thead>
+                                        <tr role="row">
+                                            <th class="select-checkbox sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 3.125px;"></th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="colum-select" rowspan="1" colspan="1" aria-sort="ascending"
+                                                aria-label="Name: activate to sort column descending" style="width: 126.625px;">사용자
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="colum-select" rowspan="1" colspan="1"
+                                                aria-label="Position: activate to sort column ascending" style="width: 213.312px;">휴대폰
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="colum-select" rowspan="1" colspan="1"
+                                                aria-label="Office: activate to sort column ascending" style="width: 87.1094px;">이메일
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr role="row" class="odd">
+                                            <td class=" select-checkbox"></td>
+                                            <td class="sorting_1">Airi Satou</td>
+                                            <td>01012345678</td>
+                                            <td>adcde@gmail.com</td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class=" select-checkbox"></td>
+                                            <td class="sorting_1">Angelica Ramos</td>
+                                            <td>01012345678</td>
+                                            <td>adcde@gmail.com</td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class=" select-checkbox"></td>
+                                            <td class="sorting_1">Angelica Ramos</td>
+                                            <td>01012345678</td>
+                                            <td>adcde@gmail.com</td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class=" select-checkbox"></td>
+                                            <td class="sorting_1">Angelica Ramos</td>
+                                            <td>01012345678</td>
+                                            <td>adcde@gmail.com</td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class=" select-checkbox"></td>
+                                            <td class="sorting_1">Angelica Ramos</td>
+                                            <td>01012345678</td>
+                                            <td>adcde@gmail.com</td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class=" select-checkbox"></td>
+                                            <td class="sorting_1">Angelica Ramos</td>
+                                            <td>01012345678</td>
+                                            <td>adcde@gmail.com</td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class=" select-checkbox"></td>
+                                            <td class="sorting_1">Angelica Ramos</td>
+                                            <td>01012345678</td>
+                                            <td>adcde@gmail.com</td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class=" select-checkbox"></td>
+                                            <td class="sorting_1">Angelica Ramos</td>
+                                            <td>01012345678</td>
+                                            <td>adcde@gmail.com</td>
+                                        </tr>
+                                        <tr role="row" class="odd">
+                                            <td class=" select-checkbox"></td>
+                                            <td class="sorting_1">Angelica Ramos</td>
+                                            <td>01012345678</td>
+                                            <td>adcde@gmail.com</td>
+                                        </tr>
+                                        <tr role="row" class="even">
+                                            <td class=" select-checkbox"></td>
+                                            <td class="sorting_1">Angelica Ramos</td>
+                                            <td>01012345678</td>
+                                            <td>adcde@gmail.com</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- //그리드 부분(임의로 넣어둠) -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary waves-effect waves-light ">선택</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
+    <link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
+    <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
+
+    <script th:inline="javascript">
+        const roleController = {
+            roles: [],
+            parentNode: null,
+            selectedNode: null,
+            $jstree: $('#jstree'),
+
+            init: function () {
+                const _this = this;
+                parentNode = selectedNode = null;
+
+                $.ajax({
+                    url: '/admin/roles',
+                    type: 'get',
+                    async: false
+                }).done(function (response) {
+                    response.forEach(function (element, index) {
+                        _this.roles[index] = {
+                            id: element.id,
+                            parent: element.parentId ?? '#',
+                            text: element.name,
+                            description: element.description,
+                            isEnabled: element.isEnabled,
+                            name: element.name,
+                        };
+                    });
+                }).fail(function (error) {
+                    alert("역할 목록을 조회하는데 실패하였습니다.");
+                });
+
+                _this.renderJsTree();
+            },
+
+            renderJsTree: function () {
+                const _this = this;
+
+                _this.$jstree.jstree({
+                    "core": {
+                        "animation": 50,
+                        "strings": {
+                            loading: "Loading ..."
+                        },
+                        "themes": {
+                            "responsive": true,
+                        },
+                        'data': _this.roles,
+                    },
+                    "types": {
+                        "default": {
+                            "icon": "icofont icofont-user-alt-3"
+                        }
+                    },
+                    'contextmenu': {
+                        'items': {
+                            "regist": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "하위 등록",
+                                "action": function (obj) {
+                                    $('#roleForm')[0].reset();
+                                    $('#id').val('');
+                                    $('#upperId').val(_this.selectedNode.original.id);
+                                    $('#upperName').val(_this.selectedNode.original.name);
+                                }
+                            }
+                        }
+                    },
+                    'plugins': ['types', 'contextmenu']
+                }).bind("select_node.jstree", function (event, data) {
+                    _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
+                    _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
+                    _this.print();
+                });
+            },
+
+
+            save: function () {
+                const id = $('#roleForm #id').val();
+                !!id ? this.update(id) : this.insert(id);
+            },
+
+            update: function () {
+                const _this = this;
+
+                if (confirm('역할 정보를 수정하시겠습니까?')) {
+                    const formData = $('#roleForm').serializeObject();
+                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
+
+                    $.ajax({
+                        url: `/admin/roles/${formData.id}`,
+                        type: 'put',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json'
+                    }).done(function (response) {
+                        alert('역할이 수정되었습니다.');
+                        _this.$jstree.jstree().destroy();
+                        _this.init();
+                        _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
+                    }).fail(function (error) {
+                        alert('역할을 수정하는데 실패하였습니다.')
+                        console.log(JSON.stringify(error));
+                    })
+                }
+            },
+
+            insert: function () {
+                const _this = this;
+
+                if (confirm('역할 정보를 등록하시겠습니까?')) {
+                    const formData = $('#roleForm').serializeObject();
+                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
+
+                    $.ajax({
+                        url: '/admin/roles',
+                        type: 'post',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json'
+                    }).done(function () {
+                        alert('역할이 등록되었습니다.');
+                        _this.$jstree.jstree().destroy();
+                        _this.init();
+                        _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
+                    }).fail(function (error) {
+                        alert('역할을 등록하는데 실패하였습니다.');
+                        console.log(JSON.stringify(error));
+                    });
+                }
+            },
+
+            print: function () {
+                const parentNodeOriginal = this.parentNode.original;
+                const selectedNodeOriginal = this.selectedNode.original;
+
+                $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
+                $('#upperName').val(parentNodeOriginal ? parentNodeOriginal.name : '');
+                $('#id').val(selectedNodeOriginal.id);
+                $('#name').val(selectedNodeOriginal.name);
+                $('#description').val(selectedNodeOriginal.description);
+                adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
+            },
+
+            insertRootForm() {
+                $('#roleForm')[0].reset();
+                $('#id').val('');
+                $('#upperId').val();
+                $('#upperName').val();
+            }
+        };
+
+        $(function () {
+            roleController.init();
+
+            $('#saveBtn').on('click', function () {
+                roleController.save();
+            });
+
+
+            $('#mappedUserTable').DataTable({
+                "columnDefs": [
+                        {"className": "dt-center", "targets": "_all"}
+                ],
+
+                pagingType: 'full_numbers',
+                lengthChange: false,
+                responsive:true,
+                searching: true,
+                ordering: false,
+                paging: true,
+                info: true,
+                pageLength: 10,
+                bPaginate: true,
+                bAutoWidth: true,
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: '/admin/roles/memberMapping/members',
+                    type: 'get',
+                },
+                columns: [
+                    {data: 'id'},
+                    {data: 'email'},
+                    {data: 'nickname'},
+                ]
+
+            });
+        });
+
+    </script>
+</div>
+
+

@@ -1,11 +1,15 @@
 package saesigDiary.role;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -41,6 +45,30 @@ public class RoleController {
     @ResponseBody
     public Long update(@PathVariable Long id, @RequestBody RoleUpdateDto roleUpdateDto) {
         return roleService.update(id, roleUpdateDto);
+    }
+
+    @GetMapping("/memberMapping/view")
+    public String userMappingView() {
+        return "roles/memberMapping";
+    }
+
+    @GetMapping("/memberMapping/members")
+    @ResponseBody
+    public Map<String,Object> findAllMembers(HttpServletRequest request) {
+        Map<String, Object> result = new HashMap<>();
+        List<MappedMemberDto> allMember = roleService.findAllMember();
+
+        result.put("data", allMember);
+        result.put("recordsTotal", 200);
+        result.put("recordsFiltered", 11);
+        result.put("draw", 1);
+
+        return  result;
+    }
+
+    @GetMapping("/memberMapping/members/search")
+    public String findUsers(Pageable pageable) {
+        return null;
     }
 
 }
