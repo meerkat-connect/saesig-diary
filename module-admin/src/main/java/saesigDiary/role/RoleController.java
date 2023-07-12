@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import saesigDiary.domain.member.Member;
+import saesigDiary.domain.role.MemberRole;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -70,18 +71,44 @@ public class RoleController {
         return result;
     }
 
+    @GetMapping("/{id}/members")
+    @ResponseBody
+    public Map<String,Object> findMappedMembersById(HttpServletRequest request, @PathVariable Long id, Pageable pageable) {
+        Integer start = Integer.valueOf(request.getParameter("start"));
+        Integer length = Integer.valueOf(request.getParameter("length"));
+        Integer pageNum = start / length;
+        PageRequest of = PageRequest.of(pageNum, length);
+        Page<MemberRole> findMappedMembersById = roleService.findMappedMembersById(id, of);
+
+        Map<String, Object> result = new HashMap<>();
+        DataTablesResponseDto dataTablesResponseDto = new DataTablesResponseDto(findMappedMembersById, findMappedMembersById.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
+        result.put("data", dataTablesResponseDto.getList());
+        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
+        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
+//        result.put("error", "에러 발생시 사용할 메시지");
+        return result;
+    }
+
+    @GetMapping("/userListModal")
+    public String userListModel() {
+        return "roles/userListModal";
+    }
+
     @GetMapping("/memberMapping/members/search")
     @ResponseBody
-    public Map<String, Object> findUsers(Pageable pageable) {
-        PageRequest of = PageRequest.of(1, 5);
+    public Map<String, Object> findUsers(HttpServletRequest req, Pageable pageable) {
+        Integer start = Integer.valueOf(req.getParameter("start"));
+        Integer length = Integer.valueOf(req.getParameter("length"));
+        Integer pageNum = start / length;
+        PageRequest of = PageRequest.of(pageNum, length);
         Page<Member> allMemberUsingPageable = roleService.findAllMemberUsingPageable(of);
 
         Map<String, Object> result = new HashMap<>();
-        DataTablesResponseDto dataTablesResponseDto = new DataTablesResponseDto(allMemberUsingPageable, allMemberUsingPageable.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
-        result.put("data", dataTablesResponseDto.getList());
-        result.put("draw", dataTablesResponseDto.getDraw());
-        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
-        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
+//        DataTablesResponseDto dataTablesResponseDto = new DataTablesResponseDto(allMemberUsingPageable, allMemberUsingPageable.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
+//        result.put("data", dataTablesResponseDto.getList());
+//        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
+//        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
+//        result.put("error", "에러 발생시 사용할 메시지");
 
         return result;
     }

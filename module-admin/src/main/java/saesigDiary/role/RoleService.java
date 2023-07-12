@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saesigDiary.domain.member.Member;
 import saesigDiary.domain.member.MemberRepository;
+import saesigDiary.domain.role.MemberRole;
+import saesigDiary.domain.role.MemberRoleRepository;
 import saesigDiary.domain.role.Role;
 import saesigDiary.domain.role.RoleRepository;
 
@@ -19,6 +21,8 @@ public class RoleService {
     private final RoleRepository roleRepository;
 
     private final MemberRepository memberRepository;
+
+    private final MemberRoleRepository memberRoleRepository;
 
     @Transactional(readOnly = true)
     public List<RoleResponseDto> findAll() {
@@ -80,5 +84,9 @@ public class RoleService {
 
     public Page<Member> findAllMemberUsingPageable(Pageable pageable) {
         return memberRepository.findAll(pageable);
+    }
+
+    public Page<MemberRole> findMappedMembersById(Long roleId, Pageable pageable) {
+        return memberRoleRepository.findByRoleId(roleId,pageable);
     }
 }
