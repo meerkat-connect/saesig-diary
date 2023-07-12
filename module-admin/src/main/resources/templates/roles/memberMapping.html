@@ -86,7 +86,7 @@
                                                             <div class="card-block-small">
                                                                 <div class="dt-responsive table-responsive">
                                                                     <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                                                        <table id="mappedUserTable" class="display" style="width:100%;">
+                                                                        <table id="mappedUserTable" class="display" style="width:100%; display:none;" >
                                                                             <thead>
                                                                             <tr>
                                                                                 <th>회원 일련번호</th>
@@ -190,11 +190,14 @@
                                         <thead>
                                         <tr role="row">
                                             <th class="select-checkbox sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 3.125px;"></th>
-                                            <th class="sorting_asc" tabindex="0" aria-controls="colum-select" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 126.625px;">사용자
+                                            <th class="sorting_asc" tabindex="0" aria-controls="colum-select" rowspan="1" colspan="1" aria-sort="ascending"
+                                                aria-label="Name: activate to sort column descending" style="width: 126.625px;">사용자
                                             </th>
-                                            <th class="sorting" tabindex="0" aria-controls="colum-select" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 213.312px;">휴대폰
+                                            <th class="sorting" tabindex="0" aria-controls="colum-select" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending"
+                                                style="width: 213.312px;">휴대폰
                                             </th>
-                                            <th class="sorting" tabindex="0" aria-controls="colum-select" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending" style="width: 87.1094px;">이메일
+                                            <th class="sorting" tabindex="0" aria-controls="colum-select" rowspan="1" colspan="1" aria-label="Office: activate to sort column ascending"
+                                                style="width: 87.1094px;">이메일
                                             </th>
                                         </tr>
                                         </thead>
@@ -277,6 +280,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
     <link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
     <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
+    <script type="text/javascript" th:src="@{/js/roles/memberMapping.js}"></script>
 
     <script th:inline="javascript">
         const roleController = {
@@ -349,7 +353,7 @@
                 }).bind("select_node.jstree", function (event, data) {
                     _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
                     _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
-                    _this.print();
+                    memberMappingController.findMappedMembers(_this.selectedNode.original.id);
                 });
             },
 
@@ -432,45 +436,6 @@
 
             $('#saveBtn').on('click', function () {
                 roleController.save();
-            });
-
-
-            $('#mappedUserTable').DataTable({
-                "columnDefs": [
-                        {"className": "dt-center", "targets": "_all"}
-                ],
-
-                // pagingType: 'full_numbers',
-                lengthChange: false,
-                responsive:true,
-                searching: true,
-                ordering: false,
-                paging: true,
-                info: true,
-                pageLength: 5,
-                bPaginate: true,
-                bAutoWidth: true,
-                serverSide: true,
-                processing: true,
-                ajax: {
-                    "url": '/admin/roles/memberMapping/members/search',
-                    "method": 'get',
-                    "dataSrc": function(res) {
-/*                        const jsonData = {};
-                        jsonData.draw = res.draw;
-                        jsonData.recordsTotal = res.recordsTotal;
-                        jsonData.recordsFiltered = res.recordsFiltered;
-                        jsonData.data= res.data;*/
-
-                        return res.data;
-                    }
-                },
-                columns: [
-                    {data: 'id'},
-                    {data: 'email'},
-                    {data: 'nickname'},
-                ]
-
             });
         });
 
