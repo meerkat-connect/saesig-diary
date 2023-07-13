@@ -1,0 +1,145 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content type_2">
+        <div class="modal-header">
+            <h4 class="modal-title">회원검색</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="card">
+                <div class="card-block-small">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                            <div class="mb-0 form-group">
+                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                                <div class="input-group input-group-sm input-group-dropdown mb-0">
+                                    <input type="text" class="form-control form-control-round" name="searchKeyword" id="searchKeyword"/>
+                                    <select name="searchType" class="form-select form-control form-control-sm form-control-primary form-bg-primary form-control-round">
+                                        <option value="opt1">primary</option>
+                                        <option value="opt2">Type 2</option>
+                                        <option value="opt3">Type 3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-1 p-t-20 text-center border-top">
+                        <button class="btn btn-gray m-r-5" data-bs-dismiss="modal">초기화</button>
+                        <button class="btn btn-primary">검색</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card m-b-10">
+                <div class="card-block-small">
+                    <div class="row">
+                        <div class="col-12">
+                            <table id="memberListTable" class="display" style="width:100%;">
+                                <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
+                                    <th>회원 일련번호</th>
+                                    <th>이메일</th>
+                                    <th>닉네임</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary waves-effect waves-light" id="checkedMembersAddBtn">선택</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let memberListTable;
+    $(function () {
+        if (!!memberListTable) memberListTable.destroy();
+
+        memberListTable = $('#memberListTable').DataTable({
+            "columnDefs": [
+                // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
+                {className: "dt-center", targets: "_all"}
+            ],
+
+            /*select: {
+                style: 'multi',
+                selector: 'td:first-child'
+            },*/
+
+            pagingType: 'full_numbers',
+            lengthChange: false,
+            responsive: true,
+            searching: false,
+            ordering: false,
+            paging: true,
+            info: true,
+            pageLength: 10,
+            bPaginate: true,
+            bAutoWidth: true,
+            serverSide: true,
+            processing: true,
+
+            ajax: {
+                async: false,
+                url: `/admin/roles/memberMapping/members`,
+                method: 'get',
+                "dataSrc": function (res) {
+                    return res.data;
+                }
+            },
+
+            columns: [
+                {
+                    render: function (data, type, row) {
+                        return '<input type="checkbox" name="input_field">';
+                    }
+                },
+                {data: 'id'},
+                {data: 'email'},
+                {data: 'nickname'}
+            ],
+
+            language: {
+                search: '검색',
+                emptyTable: '데이터가 없습니다.',
+                info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
+                infoEmpty: '데이터 0 부터 0 까지 / 총데이터 : 0',
+                lengthMenu: '보기',
+                loadingRecords: '로딩중..',
+            },
+        });
+
+        $('#checkedMembersAddBtn').on('click', function () {
+
+            if (confirm('선택하신 사용자를 역할에 매핑하시겠습니까?')) {
+                const checkedMembers = memberListTable.rows(function (idx, data, node) {
+                    return $(node).find('input[type="checkbox"]').prop('checked');
+                }).data().toArray();
+
+                const formData = {
+                    memberIds : $.map(checkedMembers,function(value) {return value.id;}).join(","),
+                    roleId : roleController.selectedNode.original.id
+                };
+
+                $.ajax({
+                    url: '/admin/roles/memberMapping/members',
+                    type: 'post',
+                    data: formData
+                }).done(function(response){
+                    alert('매핑 등록에 성공하였습니다.');
+                    mappedUserTable.ajax.reload(null, false);
+                }).fail(function(error){
+                    alert('역할을 매핑하는데 실패하였습니다.');
+                    console.log(JSON.stringify(error));
+                })
+            }
+
+        })
+
+    })
+</script>

@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import saesigDiary.domain.member.Member;
@@ -61,12 +63,17 @@ public class RoleController {
     @ResponseBody
     public Map<String, Object> findAllMembers(HttpServletRequest request) {
         Map<String, Object> result = new HashMap<>();
-        List<MappedMemberDto> allMember = roleService.findAllMember();
 
-        result.put("data", allMember);
-        result.put("recordsTotal", 10);
-        result.put("recordsFiltered", 5);
-        result.put("draw", 2);
+        Integer start = Integer.valueOf(request.getParameter("start"));
+        Integer length = Integer.valueOf(request.getParameter("length"));
+        Integer pageNum = start / length;
+        PageRequest of = PageRequest.of(pageNum, length);
+        Page<Member> members = roleService.findAllMemberUsingPageable(of);
+        DataTablesResponseDto dataTablesResponseDto = new DataTablesResponseDto(members, members.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
+
+        result.put("data", dataTablesResponseDto.getList());
+        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
+        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
 
         return result;
     }
@@ -89,28 +96,15 @@ public class RoleController {
         return result;
     }
 
-    @GetMapping("/userListModal")
+    @GetMapping("/memberListModal")
     public String userListModel() {
-        return "roles/userListModal";
+        return "roles/memberListModal";
     }
 
-    @GetMapping("/memberMapping/members/search")
-    @ResponseBody
-    public Map<String, Object> findUsers(HttpServletRequest req, Pageable pageable) {
-        Integer start = Integer.valueOf(req.getParameter("start"));
-        Integer length = Integer.valueOf(req.getParameter("length"));
-        Integer pageNum = start / length;
-        PageRequest of = PageRequest.of(pageNum, length);
-        Page<Member> allMemberUsingPageable = roleService.findAllMemberUsingPageable(of);
+    @PostMapping("/memberMapping/members")
+    public ResponseEntity<Object> addCheckedMembers(@RequestParam Long roleId, @RequestParam Long[] memberIds){
+        roleService.addCheckedMembers(roleId, memberIds);
 
-        Map<String, Object> result = new HashMap<>();
-//        DataTablesResponseDto dataTablesResponseDto = new DataTablesResponseDto(allMemberUsingPageable, allMemberUsingPageable.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
-//        result.put("data", dataTablesResponseDto.getList());
-//        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
-//        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
-//        result.put("error", "에러 발생시 사용할 메시지");
-
-        return result;
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
 }

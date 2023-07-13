@@ -7,17 +7,10 @@ const memberMappingController =  {
         if(!!mappedUserTable) mappedUserTable.destroy();
 
         mappedUserTable = $('#mappedUserTable').DataTable({
-            /*"columnDefs": [
-                {orderable: false, className: 'select-checkbox', targets: 0},
-                {className: "dt-center", targets: "_all"}
-            ],
-            select: {
-                style: 'os',
-                selector: 'td:first-child'
-            },*/
             "columnDefs": [
                 {className: "dt-center", targets: "_all"}
             ],
+
             pagingType: 'full_numbers',
             lengthChange: false,
             responsive: true,
@@ -30,6 +23,7 @@ const memberMappingController =  {
             bAutoWidth: true,
             serverSide: true,
             processing: true,
+
             ajax: {
                 async: false,
                 url: `/admin/roles/${roleId}/members/`,
@@ -38,24 +32,33 @@ const memberMappingController =  {
                     return res.data;
                 }
             },
+
             columns: [
                 {data: 'id'},
                 {data: 'email'},
-                {data: 'nickname'},
-            ]
+                {data: 'nickname'}
+            ],
+
+            language: {
+                search : '검색',
+                emptyTable: '데이터가 없습니다.',
+                info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
+                infoEmpty : '데이터 0 부터 0 까지 0 총데이터',
+                lengthMenu : '보기',
+                loadingRecords : '로딩중..',
+            },
+
+            rowCallback : function(row, data, dataIndex) {
+                // row id 얻기
+                var rowId = data.id;
+                /*if ($.inArray(rowId, rows_selected) !== -1) { // row 선택됐을때 실행할(rowId가 rows_selected 배열에 있으면)
+                    $(row).find('input[type="checkbox"]').prop(
+                        'checked', true);
+                    $(row).addClass('selected');
+                }*/
+            }
         });
 
         $('#mappedUserTable').show();
-        /*$.ajax( {
-            async:false,
-            url: `/admin/roles/${roleId}/members/`,
-            method: 'get',
-            dataType: 'application/json',
-        }).done(function(response){
-            console.log(response);
-        }).fail(function(error) {
-            alert('매핑된 사용자 목록을 조회하는데 실패하였습니다.');
-            console.log(JSON.stringify(error));
-        });*/
     }
 };

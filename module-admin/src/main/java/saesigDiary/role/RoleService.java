@@ -87,6 +87,16 @@ public class RoleService {
     }
 
     public Page<MemberRole> findMappedMembersById(Long roleId, Pageable pageable) {
-        return memberRoleRepository.findByRoleId(roleId,pageable);
+        return memberRoleRepository.findByRoleId(roleId, pageable);
+    }
+
+    @Transactional
+    public void addCheckedMembers(Long roleId, Long[] memberIds) {
+        Role role = roleRepository.findById(roleId).orElseThrow(() -> new IllegalArgumentException("역할 아이디가 존재하지 않습니다."));
+        for (Long memberId : memberIds) {
+            Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원 아이디가 존재하지 않습니다."));
+            MemberRole newMemberRole = MemberRole.builder().member(member).role(role).build();
+            memberRoleRepository.save(newMemberRole);
+        }
     }
 }
