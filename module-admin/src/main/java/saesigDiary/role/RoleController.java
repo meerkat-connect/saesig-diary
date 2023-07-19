@@ -107,4 +107,16 @@ public class RoleController {
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("/resourceMapping/view")
+    public String resourceMappingView() {
+        return "roles/resourceMapping";
+    }
+
+    @GetMapping("/mappedResources")
+    @ResponseBody
+    public ResponseEntity<Object> findMappedResources() {
+
+        return null;
+    }
 }
