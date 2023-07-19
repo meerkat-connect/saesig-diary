@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Entity
 public class RoleResource extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

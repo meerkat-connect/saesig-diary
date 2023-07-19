@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import saesigDiary.domain.member.Member;
 import saesigDiary.domain.role.MemberRole;
+import saesigDiary.domain.role.RoleResourceResponseDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -104,7 +105,6 @@ public class RoleController {
     @PostMapping("/memberMapping/members")
     public ResponseEntity<Object> addCheckedMembers(@RequestParam Long roleId, @RequestParam Long[] memberIds){
         roleService.addCheckedMembers(roleId, memberIds);
-
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -113,10 +113,9 @@ public class RoleController {
         return "roles/resourceMapping";
     }
 
-    @GetMapping("/mappedResources")
+    @GetMapping("/{roleId}/mappedResources")
     @ResponseBody
-    public ResponseEntity<Object> findMappedResources() {
-
-        return null;
+    public List<RoleResourceResponseDto> findMappedResources(@PathVariable Long roleId) {
+        return roleService.findMappedResources(roleId);
     }
 }

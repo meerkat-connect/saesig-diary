@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import saesigDiary.domain.member.Member;
 import saesigDiary.domain.member.MemberRepository;
-import saesigDiary.domain.role.MemberRole;
-import saesigDiary.domain.role.MemberRoleRepository;
-import saesigDiary.domain.role.Role;
-import saesigDiary.domain.role.RoleRepository;
+import saesigDiary.domain.role.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,10 +16,9 @@ import java.util.stream.Collectors;
 @Service
 public class RoleService {
     private final RoleRepository roleRepository;
-
     private final MemberRepository memberRepository;
-
     private final MemberRoleRepository memberRoleRepository;
+    private final RoleResourceRepository roleResourceRepository;
 
     @Transactional(readOnly = true)
     public List<RoleResponseDto> findAll() {
@@ -93,10 +89,17 @@ public class RoleService {
     @Transactional
     public void addCheckedMembers(Long roleId, Long[] memberIds) {
         Role role = roleRepository.findById(roleId).orElseThrow(() -> new IllegalArgumentException("역할 아이디가 존재하지 않습니다."));
+
         for (Long memberId : memberIds) {
+            // 중복 제거 필요
+
             Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원 아이디가 존재하지 않습니다."));
             MemberRole newMemberRole = MemberRole.builder().member(member).role(role).build();
             memberRoleRepository.save(newMemberRole);
         }
+    }
+
+    public List<RoleResourceResponseDto> findMappedResources(Long roleId) {
+        return roleResourceRepository.findMappedResources(roleId);
     }
 }
