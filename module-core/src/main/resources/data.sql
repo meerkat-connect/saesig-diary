@@ -49,3 +49,17 @@ VALUES (5, '시스템관리 수정', '/admin/system/**', 'PUT', 'Y', 'FUNCTION',
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, modified_at, modified_by, created_at, created_by)
 VALUES (6, '회원관리 목록화면', '/admin/members/view.html', 'GET', 'Y', 'FUNCTION', 2, 1, 1, NOW(), 1, NOW(), 1);
 
+INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
+VALUES (1, 'TYPE_A', 'Lorem ipsum dolor sit amet', 'content1',  1, 'Y', NOW(), 1, NOW(), 1);
+
+INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
+VALUES (2, 'TYPE_A', 'Pellentesque erat arcu', 'content2', 2, 'Y', NOW(), 1, NOW(), 1);
+
+INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
+VALUES (3, 'TYPE_C', 'Nam vitae tellus lectus. Sed porttit', 'content3', 3, 'Y', NOW(), 1, NOW(), 1);
+
+INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
+VALUES (4, 'TYPE_D', 'nec massa eu faucibus', 'content4', 4, 'Y', NOW(), 1, NOW(), 1);
+
+INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
+VALUES (5, 'TYPE_E', 'Fusce eget turpis lorem', 'content5', 5, 'Y', NOW(), 1, NOW(), 1);
