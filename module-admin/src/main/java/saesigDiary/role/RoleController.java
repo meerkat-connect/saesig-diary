@@ -118,4 +118,11 @@ public class RoleController {
     public List<RoleResourceResponseDto> findMappedResources(@PathVariable Long roleId) {
         return roleService.findMappedResources(roleId);
     }
+
+    @PostMapping("/{roleId}/resources/mapping")
+    @ResponseBody
+    public ResponseEntity<Object> mapResources(@PathVariable Long roleId, @RequestBody List<RoleResourceDto> data) {
+        roleService.mapResources(roleId, data);
+        return null;
+    }
 }

@@ -102,4 +102,12 @@ public class RoleService {
     public List<RoleResourceResponseDto> findMappedResources(Long roleId) {
         return roleResourceRepository.findMappedResources(roleId);
     }
+
+    @Transactional
+    public void mapResources(Long roleId, List<RoleResourceDto> roleResourceDtos) {
+
+    }
+    private List<RoleResourceResponseDto> findMappedResources(Long roleId, List<RoleResourceDto> roleResourceDtos) {
+        return roleResourceRepository.findMappedResources(roleId);
+    }
 }
