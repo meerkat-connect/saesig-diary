@@ -23,4 +23,8 @@ public class RoleResource extends BaseEntity {
     @JoinColumn(name = "resource_id")
     private Resource resource;
 
+    public RoleResource(Role role, Resource resource) {
+        this.role = role;
+        this.resource = resource;
+    }
 }

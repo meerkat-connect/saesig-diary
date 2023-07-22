@@ -7,4 +7,6 @@ import java.util.List;
 public interface RoleResourceRepository extends JpaRepository< RoleResource, Long>, CustomRoleResourceRepository {
     public List<RoleResource> findAllByRoleIdAndResourceIdIn(Long roleId, List<Long> resourceId);
 
+    public List<RoleResource> findAllByRoleId(Long roleId);
+
 }

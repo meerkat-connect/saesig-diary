@@ -8,7 +8,8 @@ import saesigDiary.config.CustomDataJpaTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @CustomDataJpaTest
 @ActiveProfiles("local")
@@ -24,10 +25,23 @@ class RoleResourceRepositoryTest {
         Long[] resourcesId = new Long[]{1L,2L};
 
         //when
-        List<RoleResource> mappedResourcesByRoleIdAndIn = roleResourceRepository.findAllByRoleIdAndResourceIdIn(roleId, List.of(resourcesId));
+        List<RoleResource> allByRoleIdAndResourceIdIn = roleResourceRepository.findAllByRoleIdAndResourceIdIn(roleId, List.of(resourcesId));
 
         //then
-        mappedResourcesByRoleIdAndIn.stream().forEach(System.out::println);
+        assertThat(allByRoleIdAndResourceIdIn).isNotNull();
+    }
+
+    @DisplayName("역할 아이디로 조회")
+    @Test
+    void 역할_아이디로_조회() {
+        //given
+        Long roleId = 1L;
+
+        //when
+        List<RoleResource> allBy = roleResourceRepository.findAllByRoleId(roleId);
+
+        //then
+        assertThat(allBy).isNotNull();
     }
 
 }

@@ -19,6 +19,7 @@ public class RoleService {
     private final MemberRepository memberRepository;
     private final MemberRoleRepository memberRoleRepository;
     private final RoleResourceRepository roleResourceRepository;
+    private final ResourceRepository resourceRepository;
 
     @Transactional(readOnly = true)
     public List<RoleResponseDto> findAll() {
@@ -105,9 +106,24 @@ public class RoleService {
 
     @Transactional
     public void mapResources(Long roleId, List<RoleResourceDto> roleResourceDtos) {
+        List<RoleResource> mappedResources = roleResourceRepository.findAllByRoleId(roleId);
 
-    }
-    private List<RoleResourceResponseDto> findMappedResources(Long roleId, List<RoleResourceDto> roleResourceDtos) {
-        return roleResourceRepository.findMappedResources(roleId);
+        for (RoleResourceDto roleResourceDto : roleResourceDtos) {
+            boolean isAlreadyMapped = false;
+            for (RoleResource mappedResource : mappedResources) {
+                if (mappedResource.getId().equals(roleResourceDto.getId())) {
+                    isAlreadyMapped = true;
+                    roleResourceRepository.deleteById(mappedResource.getId());
+                    break;
+                }
+            }
+
+            if (!isAlreadyMapped) {
+                Role role = roleRepository.findById(roleId).get();
+                Resource resource = resourceRepository.findById(roleResourceDto.getId()).get();
+                RoleResource roleResource = new RoleResource(role, resource);
+                roleResourceRepository.save(roleResource);
+            }
+        }
     }
 }

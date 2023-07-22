@@ -123,6 +123,6 @@ public class RoleController {
     @ResponseBody
     public ResponseEntity<Object> mapResources(@PathVariable Long roleId, @RequestBody List<RoleResourceDto> data) {
         roleService.mapResources(roleId, data);
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
