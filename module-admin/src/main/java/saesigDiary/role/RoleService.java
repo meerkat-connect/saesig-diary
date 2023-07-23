@@ -44,7 +44,7 @@ public class RoleService {
     @Transactional
     public Long update(Long id, RoleUpdateDto roleUpdateDto) {
         Role findByName = roleRepository.findByName(roleUpdateDto.getName());
-        if (idDuplicatedRoleName(roleUpdateDto.getName(), findByName.getName())) {
+        if (findByName != null && idDuplicatedRoleName(roleUpdateDto.getName(), findByName.getName())) {
             throw new IllegalArgumentException("역할명이 중복됩니다.");
         }
 
