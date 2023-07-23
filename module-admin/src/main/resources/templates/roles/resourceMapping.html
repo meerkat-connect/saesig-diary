@@ -1,87 +1,38 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorate="~{layout/main}">
-
-<div layout:fragment="content" class="page-body">
-    <div class="page-body">
-        <div class="nav-main">
-            <ul class="nav nav-tabs md-tabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#home3" role="tab" aria-selected="false">역할 등록</a>
-                    <div class="slide"></div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#profile3" role="tab" aria-selected="false">사용자 매핑</a>
-                    <div class="slide"></div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" data-bs-toggle="tab" href="#messages3" role="tab" aria-selected="true">자원 매핑</a>
-                    <div class="slide"></div>
-                </li>
-            </ul>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-block-small">
-                        <div class="tab-content tabs p-t-20">
-                            <div class="tab-pane" id="home3" role="tabpanel">
-                            </div>
-                            <div class="tab-pane" id="profile3" role="tabpanel">
-                            </div>
-                            <div class="tab-pane" id="configMenu" role="tabpanel">
-                                <div id="configMenuContent"></div>
-                            </div>
-
-                            <div class="tab-pane active" id="messages3" role="tabpanel">
-                                <div class="col-12">
-                                    <div class="tab-content tabs">
-                                        <div class="tab-pane active" id="roleJudge" role="tabpanel">
-                                            <div class="row mb-3">
-                                                <div class="col-12 col-xl-4">
-                                                    <h5 class="mb-3">
-                                                        <strong>역할구조</strong>
-                                                    </h5>
-                                                    <div class="card">
-                                                        <div class="card-block-small" id="jstree">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-xl-8">
-                                                    <div class="row">
-                                                        <h5 class="col-12 col-md-6 mb-3">
-                                                            <strong>자원구조</strong>
-                                                        </h5>
-                                                        <div class="col-12 col-md-6 btn-group-sm text-right">
-                                                            <button type="button" id='resourceMappingSaveBtn' class="btn btn-primary btn-sm">저장</button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="card">
-                                                        <div class="card-block-small" id="jstree2">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="row mb-3">
+    <div class="col-12 col-xl-4">
+        <h5 class="mb-3">
+            <strong>역할구조</strong>
+        </h5>
+        <div class="card">
+            <div class="card-block-small" id="jstree">
             </div>
         </div>
     </div>
+    <div class="col-12 col-xl-8">
+        <div class="row">
+            <h5 class="col-12 col-md-6 mb-3">
+                <strong>자원구조</strong>
+            </h5>
+            <div class="col-12 col-md-6 btn-group-sm text-right">
+                <button type="button" id='resourceMappingSaveBtn' class="btn btn-primary btn-sm">저장</button>
+            </div>
+        </div>
 
-    <div class="modal fade" id="memberListModalContainer" data-bs-backdrop="static" aria-hidden="true"></div>
+        <div class="card">
+            <div class="card-block-small" id="jstree2">
+            </div>
+        </div>
+    </div>
+</div>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
-    <link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
-    <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
+<div class="modal fade" id="memberListModalContainer" data-bs-backdrop="static" aria-hidden="true"></div>
 
-    <script th:inline="javascript">
+<link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
+<script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
+
+<script th:inline="javascript">
+    $(function () {
         const roleController = {
             roles: [],
             $jstree: $('#jstree'),
@@ -154,7 +105,7 @@
             resources: [],
             $jstree: $('#jstree2'),
             changedNode: null,
-            selectedRoleId : null,
+            selectedRoleId: null,
 
             init: function (roleId) {
                 const _this = this;
@@ -239,56 +190,57 @@
             }
         };
 
-        $(function () {
-            roleController.init();
+        roleController.init();
 
-            $('#resourceMappingSaveBtn').on('click', function () {
-                if (confirm('저장하시겠습니까?')) {
-                    resourceMapping();
+        $('#resourceMappingSaveBtn').on('click', function () {
+            if (confirm('저장하시겠습니까?')) {
+                resourceMapping();
 
-                    //변경된 데이터가 있는지 확인
+                //변경된 데이터가 있는지 확인
 
-                    //json 데이터 생성
+                //json 데이터 생성
 
-                    //ajax 호출
+                //ajax 호출
 
-                    //resource jstree refresh
+                //resource jstree refresh
 
-                }
-            })
-        });
-        function resourceMapping() {
-            const _this = resourceController;
-            const changedNode = _this.changedNode;
-            const jsonData = _this.resources;
-            const filteredDatas = [];
-
-            for(const [key,value] of changedNode) { // es2017 (es8)
-                const filteredData = jsonData.filter(function(data) { return data.id == key})[0];
-
-                if(filteredData.state.checked !== value) {
-                    filteredDatas.push({id: key, isChecked: value});
-                }
             }
+        })
+    });
 
-            if(filteredDatas.length === 0){
-                alert('변경된 데이터가 없습니다.');
-            } else {
-                $.ajax({
-                    type:'post',
-                    url:`/admin/roles/${_this.selectedRoleId}/resources/mapping`,
-                    contentType: 'application/json',
-                    data : JSON.stringify(filteredDatas)
-                }).done(function(response){
-                    alert('등록이 완료되었습니다.');
-                }).fail(function(error){
-                    alert('등록중 에러가 발생하였습니다. 다시 시도해주시기 바랍니다.');
-                    console.log(JSON.stringify(error));
-                });
+    function resourceMapping() {
+        const _this = resourceController;
+        const changedNode = _this.changedNode;
+        const jsonData = _this.resources;
+        const filteredDatas = [];
+
+        for (const [key, value] of changedNode) { // es2017 (es8)
+            const filteredData = jsonData.filter(function (data) {
+                return data.id == key
+            })[0];
+
+            if (filteredData.state.checked !== value) {
+                filteredDatas.push({id: key, isChecked: value});
             }
         }
 
-    </script>
-</div>
+        if (filteredDatas.length === 0) {
+            alert('변경된 데이터가 없습니다.');
+        } else {
+            $.ajax({
+                type: 'post',
+                url: `/admin/roles/${_this.selectedRoleId}/resources/mapping`,
+                contentType: 'application/json',
+                data: JSON.stringify(filteredDatas)
+            }).done(function (response) {
+                alert('등록이 완료되었습니다.');
+            }).fail(function (error) {
+                alert('등록중 에러가 발생하였습니다. 다시 시도해주시기 바랍니다.');
+                console.log(JSON.stringify(error));
+            });
+        }
+    }
+
+</script>
 
 

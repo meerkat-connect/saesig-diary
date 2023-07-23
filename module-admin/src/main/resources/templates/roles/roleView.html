@@ -1,143 +1,79 @@
 <div class="row mb-3">
     <div class="col-12 col-xl-4">
-        <h5 class="mb-3">
-            <strong>역할구조</strong>
-        </h5>
+        <div class="row">
+            <h5 class="col-12 col-md-6 mb-3">
+                <strong>역할구조</strong>
+            </h5>
+            <div class="col-12 col-md-6 mb-3 text-right">
+                <button type="button" id='exprtSearchBtn' class="btn btn-primary btn-sm" onclick="roleController.insertRootForm()">루트 역할 등록</button>
+            </div>
+        </div>
         <div class="card">
-            <div class="card-block-small" id="jstree">
+            <div class="card-block-small tree-view">
+                <div id="jstree"></div>
             </div>
         </div>
     </div>
+
     <div class="col-12 col-xl-8">
         <h5 class="mb-3">
-            <strong>사용자 정보</strong>
+            <strong>역할 상세정보</strong>
         </h5>
-        <div class="card">
-            <form id="userSearchForm" name="userSearchForm" onsubmit="return false;" th:action="@{/admin/roles/userMapping/users}">
+        <form id="roleForm" name="roleForm">
+            <input type="hidden" name="id" id="id"/>
+            <input type="hidden" name="upperId" id="upperId">
+
+            <div class="card">
                 <div class="card-block-small">
-                    <div class="col-12 col-lg-6 mb-3">
-                        <div class="mb-0 form-group row">
-                            <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
-                            <div class="input-group input-group-dropdown mb-0">
-                                <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
-                                <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select">
-                                    <option value="">- 선택 -</option>
-                                    <option value="U.NM">이메일</option>
-                                    <option value="ACNT">닉네임</option>
-                                </select>
-                            </div>
+                    <div class="mb-3 form-group row">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperId"><strong>상위 역할명</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-round" name="upperName" id="upperName" readonly/>
                         </div>
                     </div>
-                    <div class="mt-1 p-t-20 text-center border-top">
-                        <button type="button" class="btn btn-gray m-r-5">초기화</button>
-                        <button type="button" class="btn btn-primary">검색</button>
+
+                    <div class="mb-3 form-group row">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="name"><strong>역할명</strong></label>
+                        <p class="text-warning m-b-0">* 역할명은 "ROLE_"를 접두사로 가져야합니다.</p>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-round" name="name" id="name"/>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
-        <div class="card">
-            <form id="mappingUserForm" name="mappingUserForm" method="get" action="">
-                <input type="hidden" name="seCd" id="seCd" value="A"/>
-                <div class="row p-20 p-b-0">
-                    <div class="col-12 col-md-6 mb-2 mb-md-0">
-                        <h5><strong>사용자 검색 결과</strong></h5>
+
+                    <div class="mb-3 form-group row">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="name"><strong>설명</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-round" name="description" id="description"/>
+                        </div>
                     </div>
-                    <div class="col-12 col-md-6 text-right">
-                        <button type="button" id="addMemberBtn" class="btn btn-primary">사용자추가</button>
+
+                    <div class="mb-3 form-group row">
+                        <div class="col-sm-12">
+                            <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
+                            <label for="isEnabled" class="v-middle">사용여부</label>
+                        </div>
                     </div>
-                </div>
-                <div class="card-block-small">
-                    <div class="dt-responsive table-responsive">
-                        <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                            <table id="mappedUserTable" class="display" style="width:100%; display:none;">
-                                <thead>
-                                <tr>
-                                    <th>회원 일련번호</th>
-                                    <th>이메일</th>
-                                    <th>닉네임</th>
-                                </tr>
-                                </thead>
-                            </table>
+
+                    <div class="mb-0 mt-4 form-group row">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary" id="saveBtn">
+                                저장
+                            </button>
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 
-<div class="modal fade" id="memberListModalContainer" data-bs-backdrop="static" aria-hidden="true"></div>
 
 <link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
 <link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
 <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
-<script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
+
 <script th:inline="javascript">
-
     $(function () {
-        let mappedUserTable = null;
-
-        const memberMappingController =  {
-            findMappedMembers : function(roleId) {
-                if(!!mappedUserTable) mappedUserTable.destroy();
-
-                mappedUserTable = $('#mappedUserTable').DataTable({
-                    "columnDefs": [
-                        {className: "dt-center", targets: "_all"}
-                    ],
-
-                    pagingType: 'full_numbers',
-                    lengthChange: false,
-                    responsive: true,
-                    searching: false,
-                    ordering: false,
-                    paging: true,
-                    info: true,
-                    pageLength: 10,
-                    bPaginate: true,
-                    bAutoWidth: true,
-                    serverSide: true,
-                    processing: true,
-
-                    ajax: {
-                        async: false,
-                        url: `/admin/roles/${roleId}/members/`,
-                        method: 'get',
-                        "dataSrc": function (res) {
-                            return res.data;
-                        }
-                    },
-
-                    columns: [
-                        {data: 'id'},
-                        {data: 'email'},
-                        {data: 'nickname'}
-                    ],
-
-                    language: {
-                        search : '검색',
-                        emptyTable: '데이터가 없습니다.',
-                        info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
-                        infoEmpty : '데이터 0 부터 0 까지 0 총데이터',
-                        lengthMenu : '보기',
-                        loadingRecords : '로딩중..',
-                    },
-
-                    rowCallback : function(row, data, dataIndex) {
-                        // row id 얻기
-                        var rowId = data.id;
-                        /*if ($.inArray(rowId, rows_selected) !== -1) { // row 선택됐을때 실행할(rowId가 rows_selected 배열에 있으면)
-                            $(row).find('input[type="checkbox"]').prop(
-                                'checked', true);
-                            $(row).addClass('selected');
-                        }*/
-                    }
-                });
-
-                $('#mappedUserTable').show();
-            }
-        };
-
         const roleController = {
             roles: [],
             parentNode: null,
@@ -208,7 +144,7 @@
                 }).bind("select_node.jstree", function (event, data) {
                     _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
                     _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
-                    memberMappingController.findMappedMembers(_this.selectedNode.original.id);
+                    _this.print();
                 });
             },
 
@@ -285,24 +221,11 @@
                 $('#upperName').val();
             }
         };
-        let memberListModal;
 
         roleController.init();
 
-        $('#addMemberBtn').on('click', function () {
-            if (!!roleController.selectedNode) {
-                $("#memberListModalContainer").load('/admin/roles/memberListModal', function (response, status, xhr) {
-                    if (status == "success") {
-                        memberListModal = new bootstrap.Modal($('#memberListModalContainer'));
-                        memberListModal.show();
-                    }
-                });
-            } else {
-                alert('역할을 선택하여 주십시오.');
-            }
-        })
+        $('#saveBtn').on('click', function () {
+            roleController.save();
+        });
     });
-
 </script>
-
-
