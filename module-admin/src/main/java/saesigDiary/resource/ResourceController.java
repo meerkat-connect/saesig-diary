@@ -4,7 +4,6 @@ package saesigDiary.resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class ResourceController {
 
     @PostMapping(value = "/resources", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Long addResource(@RequestBody ResourceInsertDto resourceInsertDto){
+    public Long addResource(@RequestBody ResourceInsertDto resourceInsertDto) {
         return resourceService.insert(resourceInsertDto);
     }
 

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Entity
 public class RoleResource extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,4 +23,8 @@ public class RoleResource extends BaseEntity {
     @JoinColumn(name = "resource_id")
     private Resource resource;
 
+    public RoleResource(Role role, Resource resource) {
+        this.role = role;
+        this.resource = resource;
+    }
 }

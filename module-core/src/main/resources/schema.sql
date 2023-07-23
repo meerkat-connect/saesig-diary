@@ -73,11 +73,11 @@ ALTER TABLE `resource`
 
 CREATE TABLE `role`
 (
-    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '자원 일련번호',
+    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '역할 일련번호',
     `name`        VARCHAR(100)          NULL COMMENT '이름',
     `upper_id`    BIGINT                NULL COMMENT '상위 역할 일련번호',
     `is_enabled`  CHAR(1)               NOT NULL DEFAULT 'Y' COMMENT '사용여부',
-    `description` VARCHAR(500)          NULL COMMENT '권한설명',
+    `description` VARCHAR(500)          NULL COMMENT '역할 설명',
     `modified_at` DATETIME              NOT NULL COMMENT '수정일',
     `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호',
     `created_at`  DATETIME              NOT NULL COMMENT '등록일',
