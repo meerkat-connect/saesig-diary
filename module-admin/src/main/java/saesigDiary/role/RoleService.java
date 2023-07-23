@@ -43,14 +43,16 @@ public class RoleService {
 
     @Transactional
     public Long update(Long id, RoleUpdateDto roleUpdateDto) {
-        Role findByName = roleRepository.findByName(roleUpdateDto.getName());
-        if (findByName != null && idDuplicatedRoleName(roleUpdateDto.getName(), findByName.getName())) {
-            throw new IllegalArgumentException("역할명이 중복됩니다.");
-        }
-
         Role roleById = roleRepository
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("자원 아이디가 존재하지 않습니다."));
+
+        if(!roleById.getName().equals(roleUpdateDto.getName())) {
+            Role findByName = roleRepository.findByName(roleUpdateDto.getName());
+            if (findByName != null && idDuplicatedRoleName(roleUpdateDto.getName(), findByName.getName())) {
+                throw new IllegalArgumentException("역할명이 중복됩니다.");
+            }
+        }
 
         roleById.updateInfo(roleUpdateDto.getName()
                 , roleUpdateDto.getIsEnabled()
