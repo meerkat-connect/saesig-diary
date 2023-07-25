@@ -1,35 +1,41 @@
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (1, 'email@email.com', '1qaz2wsx!@', '이메일', '서정도', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (1, 'email@email.com', '1qaz2wsx!@', 'EMAIL', '서정도1', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (2, 'email@email.com', '1qaz2wsx!@', '카카오', '서정도', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (2, 'email@email.com', '1qaz2wsx!@', 'EMAIL', '서정도2', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (3, 'email@email.com', '1qaz2wsx!@', '네이버', '서정도', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (3, 'email@email.com', '1qaz2wsx!@', 'EMAIL', '서정도3', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (4, 'email@email.com', '1qaz2wsx!@', '구글', '서정도', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (4, 'email@email.com', '1qaz2wsx!@', 'EMAIL', '서정도4', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (5, 'email@email.com', '1qaz2wsx!@', '이메일', '서정도', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (5, 'email@email.com', '1qaz2wsx!@', 'SOCIAL', '서정도5', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (6, 'email@email.com', '1qaz2wsx!@', '카카오', '서정도', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (6, 'email@email.com', '1qaz2wsx!@', 'SOCIAL', '서정도6', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (7, 'email@email.com', '1qaz2wsx!@', '네이버', '서정도', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (7, 'email@email.com', '1qaz2wsx!@', 'SOCIAL', '서정도7', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (8, 'email@email.com', '1qaz2wsx!@', '구글', '서정도', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (8, 'email@email.com', '1qaz2wsx!@', 'SOCIAL', '서정도8', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (10, 'email@email.com', '1qaz2wsx!@', '네이버', '서정도', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (9, 'email@email.com', '1qaz2wsx!@', 'SOCIAL', '서정도9', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'ROLE_USER', NULL, 'Y', '사용자 역할', NOW(), 1, NOW(), 1);
 
 INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
 VALUES (2, 'ROLE_ADMIN', NULL, 'Y', '관리자 역할', NOW(), 1, NOW(), 1);
+
+INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
+VALUES (3, 'ROLE_GUEST', NULL, 'Y', '게스트 역할', NOW(), 1, NOW(), 1);
+
+INSERT INTO member_role(id, member_id,role_id, modified_at, modified_by, created_at, created_by)
+VALUES(1, 1, 2, NOW(),1,NOW(),1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, modified_at, modified_by, created_at, created_by)
 VALUES (1, '회원관리', '/admin/members', 'GET', 'Y', 'MENU', 1, 1, NULL, NOW(), 1, NOW(), 1);
@@ -48,6 +54,22 @@ VALUES (5, '시스템관리 수정', '/admin/system/**', 'PUT', 'Y', 'FUNCTION',
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, modified_at, modified_by, created_at, created_by)
 VALUES (6, '회원관리 목록화면', '/admin/members/view.html', 'GET', 'Y', 'FUNCTION', 2, 1, 1, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (1, 1, 1, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (2, 1, 2, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (3, 1, 3, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (4, 1, 4, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (5, 1, 5, NOW(), 1, NOW(), 1);
+
 
 INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'TYPE_A', 'Lorem ipsum dolor sit amet', 'content1',  1, 'Y', NOW(), 1, NOW(), 1);
