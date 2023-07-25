@@ -1,7 +1,7 @@
 package saesigDiary.common.enumCode;
 
 public interface EnumMapperType {
-    String getCode();
+    String getKey();
 
-    String getTitle();
+    String getValue();
 }

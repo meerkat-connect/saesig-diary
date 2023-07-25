@@ -9,12 +9,11 @@ public enum ExampleEnum implements EnumMapperType{
     EXAMPLE2("예제2");
 
     @Getter
-    private final String title;
+    private final String value;
 
 
     @Override
-    public String getCode() {
+    public String getKey() {
         return name();
     }
-
 }

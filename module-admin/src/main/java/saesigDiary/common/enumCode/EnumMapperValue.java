@@ -5,12 +5,12 @@ import lombok.Getter;
 
 @Getter
 public class EnumMapperValue {
-    private String code;
-    private String title;
+    private String key;
+    private String value;
 
     public EnumMapperValue(EnumMapperType enumMapperType) {
-        this.code = enumMapperType.getCode();
-        this.title = enumMapperType.getTitle();
+        this.key = enumMapperType.getKey();
+        this.value = enumMapperType.getValue();
     }
 
 }
