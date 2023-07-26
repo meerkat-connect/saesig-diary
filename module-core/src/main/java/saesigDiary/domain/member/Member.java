@@ -1,10 +1,7 @@
 package saesigDiary.domain.member;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import saesigDiary.domain.common.BaseEntity;
 import saesigDiary.domain.role.MemberRole;
 
@@ -14,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity(name = "member")
 @ToString(exclude = "memberRoles")
 public class Member extends BaseEntity {

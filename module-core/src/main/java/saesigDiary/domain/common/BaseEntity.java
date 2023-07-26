@@ -6,10 +6,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import saesigDiary.domain.member.Member;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -18,12 +17,14 @@ import java.time.LocalDateTime;
 public class BaseEntity {
 
     @CreatedBy
-    @Column(updatable = false, name = "created_by")
-    private Long createdBy;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private Member createdBy;
 
     @LastModifiedBy
-    @Column(name = "modified_by")
-    private Long modifiedBy;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "modified_by")
+    private Member modifiedBy;
 
     @CreatedDate
     @Column(updatable = false, name = "created_at")
