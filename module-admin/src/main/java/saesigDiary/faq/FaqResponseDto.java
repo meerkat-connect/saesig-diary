@@ -15,6 +15,7 @@ public class FaqResponseDto {
     private FaqCategory category;
     private Long ord;
     private Character isEnabled;
+    private String createdBy;
     private LocalDate createdAt;
 
     public FaqResponseDto(Faq faq) {
@@ -24,5 +25,6 @@ public class FaqResponseDto {
         this.ord = faq.getOrd();
         this.isEnabled = faq.getIsEnabled();
         this.createdAt = faq.getCreatedAt().toLocalDate();
+        this.createdBy = faq.getCreatedBy().getNickname();
     }
 }

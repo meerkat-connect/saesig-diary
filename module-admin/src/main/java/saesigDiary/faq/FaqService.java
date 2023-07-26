@@ -1,8 +1,12 @@
 package saesigDiary.faq;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import saesigDiary.domain.faq.Faq;
 import saesigDiary.domain.faq.FaqRepository;
+import saesigDiary.role.DataTablesResponseDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,5 +20,17 @@ public class FaqService {
         return faqRepository.findAll().stream()
                 .map(FaqResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    public DataTablesResponseDto findAll(Pageable pageable) {
+        Page<Faq> findAllUsingPageable = faqRepository.findAllWithMember(pageable);
+        return new DataTablesResponseDto(
+                findAllUsingPageable,
+                findAllUsingPageable.stream().map(FaqResponseDto::new).collect(Collectors.toList()));
+    }
+
+    public FaqResponseDto findById(Long id) {
+        Faq faq = faqRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("FAQ 아이디가 존재하지 않습니다."));
+        return new FaqResponseDto(faq);
     }
 }
