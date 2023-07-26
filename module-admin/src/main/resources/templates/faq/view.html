@@ -83,8 +83,8 @@
                             <h5><strong>FAQ 검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn btn-primary m-r-5">삭제</button>
-                            <button type="button" class="btn btn-primary">등록</button>
+                            <button type="button" class="btn btn btn-primary m-r-5" id="deleteBtn">삭제</button>
+                            <button type="button" class="btn btn-primary" id="insertBtn">등록</button>
                         </div>
                     </div>
                     <div class="card-block-small">
@@ -94,7 +94,6 @@
                                     <thead>
                                     <tr>
                                         <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
-                                        <th>No</th>
                                         <th>유형</th>
                                         <th>제목</th>
                                         <th>순서</th>
@@ -115,19 +114,27 @@
 
             <!-- Content Area -->
             <div class="col-12">
-                <div id="contentPanel" style="display: none" class="card"></div>
+                <div id="contentPanel" style="display:none">
+
+                </div>
             </div>
         </div>
     </div>
 
     <script th:inline="javascript">
         const faqController = {
-            faqListTable : null,
+            faqListTable: null,
 
-            init : function() {
-                if(!!faqListTable) faqListTable.destroy();
+            init: function () {
 
-                faqListTable = $('#faqListTable').DataTable({
+                if (!!this.faqListTable) {
+                    this.faqListTable.destroy();
+                }
+
+                this.faqListTable = $('#faqListTable').DataTable({
+                    select: {
+                        style: 'single'
+                    },
                     "columnDefs": [
                         // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
                         {className: "dt-center", targets: "_all"}
@@ -156,13 +163,24 @@
 
                     columns: [
                         {
-                            render: function (data, type, row) {
+                            render: function () {
                                 return '<input type="checkbox" name="input_field">';
                             }
                         },
-                        {data: 'id'},
-                        {data: 'email'},
-                        {data: 'nickname'}
+                        {data: 'category'},
+                        {data: 'title'},
+                        {
+                            render: function (data, type, row) {
+                                return `<button class="btn btn-sm">▲</button> &nbsp; <button class="btn btn-sm">▼</button>`
+                            }
+                        },
+                        {data: 'createdBy'},
+                        {
+                            render: function (data, type, row) {
+                                return row.isEnabled === 'Y' ? '사용' : '사용안함';
+                            }
+                        },
+                        {data: 'createdAt'},
                     ],
 
                     language: {
@@ -175,8 +193,35 @@
                     },
                 })
 
+                this.faqListTable.on('select', function(e, dt, type, indexes) {
+                    let rowData = faqController.faqListTable.rows(indexes).data().toArray();
+                    const selectedFaqId = rowData[0].id;
+
+                    $.ajax({
+                        type: 'get',
+                        url: `/admin/faqs/${selectedFaqId}/view`,
+                        dataType: 'html'
+                    }).done(function (response) {
+                        console.log(response);
+                        $('#contentPanel').replaceWith(response);
+                        $('#contentPanel').show();
+                    }).fail(function (error) {
+
+                    });
+
+                }).on('deselect', function (e, dt, type, indexes) {
+                    let rowData = faqController.faqListTable.rows(indexes).data().toArray();
+                });
             }
         };
+
+        $(function () {
+            faqController.init();
+
+            $("body").on('click', '#insertBtn', function () {
+                $('#contentPanel').show();
+            });
+        })
     </script>
 </div>
 
