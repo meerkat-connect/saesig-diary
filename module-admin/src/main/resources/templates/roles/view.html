@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content" class="page-body">
+    <div class="page-body">
+        <div class="nav-main">
+            <ul class="nav nav-tabs md-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="roleTab" data-bs-toggle="tab" href="#home3" role="tab" aria-selected="false">역할 등록</a>
+                    <div class="slide"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="userTab" data-bs-toggle="tab" href="#profile3" role="tab" aria-selected="false">사용자 매핑</a>
+                    <div class="slide"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="resourceTab" data-bs-toggle="tab" href="#messages3" role="tab" aria-selected="true">자원 매핑</a>
+                    <div class="slide"></div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <div id="tabContentArea"> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            tabEvent();
+            initTab();
+
+        });
+        const tabEvent = () => {
+            $('.nav-tabs a').on('show.bs.tab', function (event) {
+                const tabId = event.currentTarget.attributes.id.value;
+                moveTab(tabId);
+            });
+        }
+
+        const moveTab = (tabId) => {
+            if(tabId == 'roleTab') {
+                $('#tabContentArea').load('/admin/roles/roleView');
+            } else if(tabId == 'userTab') {
+                $('#tabContentArea').load('/admin/roles/memberMapping/view');
+            } else if(tabId == 'resourceTab') {
+                $('#tabContentArea').load('/admin/roles/resourceMapping/view');
+            }
+            $('#'+tabId).parent().addClass('active');
+        }
+
+        const initTab = () => {
+            moveTab("roleTab");
+        }
+
+    </script>
+</div>

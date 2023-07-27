@@ -1,0 +1,246 @@
+<div class="row mb-3">
+    <div class="col-12 col-xl-4">
+        <h5 class="mb-3">
+            <strong>역할구조</strong>
+        </h5>
+        <div class="card">
+            <div class="card-block-small" id="jstree">
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xl-8">
+        <div class="row">
+            <h5 class="col-12 col-md-6 mb-3">
+                <strong>자원구조</strong>
+            </h5>
+            <div class="col-12 col-md-6 btn-group-sm text-right">
+                <button type="button" id='resourceMappingSaveBtn' class="btn btn-primary btn-sm">저장</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-block-small" id="jstree2">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="memberListModalContainer" data-bs-backdrop="static" aria-hidden="true"></div>
+
+<link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
+<script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
+
+<script th:inline="javascript">
+    $(function () {
+        const roleController = {
+            roles: [],
+            $jstree: $('#jstree'),
+
+            init: function () {
+                const _this = this;
+
+                $.ajax({
+                    url: '/admin/roles',
+                    type: 'get',
+                    async: false
+                }).done(function (response) {
+                    response.forEach(function (element, index) {
+                        _this.roles[index] = {
+                            id: element.id,
+                            parent: element.parentId ?? '#',
+                            text: element.name,
+                            description: element.description,
+                            isEnabled: element.isEnabled,
+                            name: element.name,
+                        };
+                    });
+                }).fail(function (error) {
+                    alert("역할 목록을 조회하는데 실패하였습니다.");
+                });
+
+                _this.renderJsTree();
+            },
+
+            renderJsTree: function () {
+                const _this = this;
+
+                _this.$jstree.jstree({
+                    "core": {
+                        "animation": 50,
+                        "strings": {
+                            loading: "Loading ..."
+                        },
+                        "themes": {
+                            "responsive": true,
+                        },
+                        'data': _this.roles,
+                        'check_callback': function (operation, node, node_parent, node_position, more) {
+                            if (operation === "move_node") {
+                                return false;
+                            }
+                        }
+                    },
+                    "types": {
+                        "default": {
+                            "icon": "icofont icofont-user-alt-3"
+                        }
+                    },
+                    'plugins': ['types']
+                }).bind('move_node.jstree', function (evt, data) {
+                    console.log(data);
+                    if (data.rslt.ot != data.rslt.rt) {
+                        console.log("Node was moved to a different tree-instance");
+                    } else {
+                        console.log("Node was moved inside the same tree-instance");
+                    }
+                }).bind('select_node.jstree', function (event, data) {
+                    console.log(data);
+                    resourceController.init(_this.$jstree.jstree('get_selected', true)[0].original.id);
+                });
+            },
+        };
+
+        const resourceController = {
+            resources: [],
+            $jstree: $('#jstree2'),
+            changedNode: null,
+            selectedRoleId: null,
+
+            init: function (roleId) {
+                const _this = this;
+                _this.changedNode = new Map();
+                _this.selectedRoleId = roleId;
+
+                $.ajax({
+                    url: `/admin/roles/${roleId}/mappedResources`,
+                    type: 'get',
+                    async: false
+                }).done(function (response) {
+                    response.forEach(function (element, index) {
+                        _this.resources[index] = {
+                            id: element.id,
+                            parent: element.parentId ? element.parentId : '#',
+                            text: element.name,
+                            type: element.type,
+                            url: element.url,
+                            isEnabled: element.isEnabled,
+                            name: element.name,
+                            state: {opened: true, checked: element.isMapped === 'Y'}
+                        };
+                    });
+                }).fail(function (error) {
+                    alert("자원 목록을 조회하는데 실패하였습니다.");
+                });
+
+                _this.renderJsTree();
+            },
+
+            renderJsTree: function () {
+                const _this = this;
+                _this.$jstree.jstree('destroy');
+
+                _this.$jstree.jstree({
+                    "core": {
+                        "animation": 50,
+                        "strings": {
+                            loading: "Loading ..."
+                        },
+                        "themes": {
+                            "responsive": true,
+                        },
+                        'data': _this.resources,
+                        'check_callback': true
+                    },
+                    "types": {
+                        "MENU": {
+                            "icon": "icofont icofont-folder"
+                        },
+                        "FUNCTION": {
+                            "icon": "icofont icofont-file-alt"
+                        }
+                    },
+                    'checkbox': {
+                        three_state: false, //
+                        whole_node: false, //
+                        keep_selected_style: false, //
+                        tie_selection: false, //
+                        // cascade: 'up'
+                    },
+                    'plugins': ['types', 'checkbox']
+                }).bind("move_node.jstree", function (event, data) {
+                    if (data.rslt.ot != data.rslt.rt) {
+                        console.log("Node was moved to a different tree-instance");
+                    } else {
+                        console.log("Node was moved inside the same tree-instance");
+                    }
+                }).bind('check_node.jstree', function (event, data) {
+                    _this.checkEvent(event.type, data);
+                }).bind('uncheck_node.jstree', function (event, data) {
+                    _this.checkEvent(event.type, data);
+                });
+            },
+
+            checkEvent: function (eventType, data) {
+                if (eventType === 'check_node') {
+                    this.changedNode.set(data.node.id, true);
+                } else if (eventType === 'uncheck_node') {
+                    this.changedNode.set(data.node.id, false);
+                }
+            }
+        };
+
+        roleController.init();
+
+        $('#resourceMappingSaveBtn').on('click', function () {
+            if (confirm('저장하시겠습니까?')) {
+                resourceMapping();
+
+                //변경된 데이터가 있는지 확인
+
+                //json 데이터 생성
+
+                //ajax 호출
+
+                //resource jstree refresh
+
+            }
+        })
+    });
+
+    function resourceMapping() {
+        const _this = resourceController;
+        const changedNode = _this.changedNode;
+        const jsonData = _this.resources;
+        const filteredDatas = [];
+
+        for (const [key, value] of changedNode) { // es2017 (es8)
+            const filteredData = jsonData.filter(function (data) {
+                return data.id == key
+            })[0];
+
+            if (filteredData.state.checked !== value) {
+                filteredDatas.push({id: key, isChecked: value});
+            }
+        }
+
+        if (filteredDatas.length === 0) {
+            alert('변경된 데이터가 없습니다.');
+        } else {
+            $.ajax({
+                type: 'post',
+                url: `/admin/roles/${_this.selectedRoleId}/resources/mapping`,
+                contentType: 'application/json',
+                data: JSON.stringify(filteredDatas)
+            }).done(function (response) {
+                alert('등록이 완료되었습니다.');
+            }).fail(function (error) {
+                alert('등록중 에러가 발생하였습니다. 다시 시도해주시기 바랍니다.');
+                console.log(JSON.stringify(error));
+            });
+        }
+    }
+
+</script>
+
+
