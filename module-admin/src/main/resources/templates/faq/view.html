@@ -114,7 +114,7 @@
 
             <!-- Content Area -->
             <div class="col-12">
-                <div id="contentPanel" style="display:none">
+                <div id="contentPanel">
 
                 </div>
             </div>
@@ -202,7 +202,6 @@
                         url: `/admin/faqs/${selectedFaqId}/view`,
                         dataType: 'html'
                     }).done(function (response) {
-                        console.log(response);
                         $('#contentPanel').replaceWith(response);
                         $('#contentPanel').show();
                     }).fail(function (error) {

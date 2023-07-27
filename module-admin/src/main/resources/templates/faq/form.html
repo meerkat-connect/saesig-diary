@@ -1,69 +1,86 @@
 <div class="card">
-  <!-- 기본정보 -->
-  <form th:object="${faq}" method="post">
-    <div class="card-header p-b-0">
-      <h3 class="sub-title"><strong>기본정보</strong></h3>
-    </div>
-    <div class="card-block-small p-t-0">
-      <div class="row">
-        <div class="col-lg-6 mb-3">
-          <div class="mb-0 form-group">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>FAQ 유형</strong></label>
-            <div class="col-12">
-              <select name="category" id="category" class="form-select form-select-sm form-control-sm form-control-round custom-select">
-                <!-- enum 리스트의 목록을 나열하면서 faq의 유형과 일치하는 값을 select -->
-                <option value="">asd</option>
-              </select>
-            </div>
-          </div>
+    <!-- 기본정보 -->
+    <form th:object="${faq}" method="post">
+        <div class="card-header p-b-0">
+            <h3 class="sub-title"><strong>기본정보</strong></h3>
         </div>
-        <div class="col-lg-6 mb-3">
-          <div class="mb-0 form-group">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled"><strong>사용여부</strong></label>
-            <select name="isEnabled" class="form-select form-select-sm form-control-sm form-control-round custom-select">
-              <option value="Y">사용</option>
-              <option value="N">사용 안함</option>
-            </select>
-          </div>
-        </div>
-        <div class="row form-group required mb-3">
-          <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
-          <div class="col-sm-12">
-            <input type="text" th:field="*{title}" class="form-control form-control-sm form-control-round" name="title" id="title" placeholder="제목을 입력해주세요.">
-          </div>
-        </div>
+        <div class="card-block-small p-t-0">
+            <div class="row">
+                <div class="col-lg-6 mb-3">
+                    <div class="mb-0 form-group">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>FAQ 유형</strong></label>
+                        <div class="col-12">
+                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{category}">
+                                <option th:each="faqCategory : ${faqCategories}" th:value="${faqCategory.key}" th:text="${faqCategory.value}">value</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="mb-0 form-group">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled"><strong>사용여부</strong></label>
+                        <select th:field="*{isEnabled}" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                            <option value="Y">사용</option>
+                            <option value="N">사용 안함</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{title}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요.">
+                    </div>
+                </div>
 
-        <div class="row form-group required mb-3">
-          <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
-          <div class="col-sm-12">
-            <textarea rows="5" cols="5" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요." id="content" name="content"></textarea>
-          </div>
-        </div>
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
+                    <div class="col-sm-12">
+                        <textarea rows="5" cols="5" th:field="*{content}" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
+                    </div>
+                </div>
 
-        <div class="col-lg-6 mb-3">
-          <div class="mb-0 form-group">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdBy"><strong>작성자</strong></label>
-            <div class="col-sm-12">
-              <input type="text" th:field="*{createdBy}" class="form-control form-control-sm from-control-round" id="createdBy" name="createdBy" disabled>
-            </div>
-          </div>
-        </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="mb-0 form-group">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성자</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" th:field="*{createdBy}" class="form-control form-control-sm form-control-round" readonly>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="col-lg-6 mb-3">
-          <div class="mb-0 form-group">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>작성일시</strong></label>
-            <div class="col-12">
-              <input type="datetime-local" th:field="*{createdAt}" class="form-control form-control-sm from-control-round" id="createdAt" disabled>
+                <div class="col-lg-6 mb-3">
+                    <div class="mb-0 form-group">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성일시</strong></label>
+                        <div class="col-12">
+                            <input type="datetime-local" th:field="*{createdAt}" class="form-control form-control-sm form-control-round" readonly>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-    <!-- 버튼영역 -->
-    <div class="card-block-small">
-      <button class="btn btn-gray m-r-5">취소</button>
-      <button class="btn btn-primary" id="saveBtn">저장</button>
-    </div>
-    <!-- // -->
-  </form>
+        <!-- 버튼영역 -->
+        <div class="card-block-small">
+            <button class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
+            <button class="btn btn-primary" id="saveBtn">저장</button>
+        </div>
+        <!-- // -->
+    </form>
 </div>
+
+<script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
+<script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
+<script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
+<script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
+
+<script>
+    $(function () {
+        $('#body').on('click', '#saveBtn', function (event) {
+
+        }).on('click', '#cancelBtn', function (event) {
+
+        });
+    });
+
+</script>
+
+
