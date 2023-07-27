@@ -1,6 +1,7 @@
 <div class="card">
     <!-- 기본정보 -->
-    <form th:object="${faq}" method="post">
+    <form th:object="${faq}" method="post" id="faqForm" name="faqForm">
+        <input type="hidden" th:field="*{id}">
         <div class="card-header p-b-0">
             <h3 class="sub-title"><strong>기본정보</strong></h3>
         </div>
@@ -60,8 +61,8 @@
         </div>
         <!-- 버튼영역 -->
         <div class="card-block-small">
-            <button class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
-            <button class="btn btn-primary" id="saveBtn">저장</button>
+            <button type="button" class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
+            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
         </div>
         <!-- // -->
     </form>
@@ -69,17 +70,45 @@
 
 <script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
 <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
-<script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
-<script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
 
 <script>
     $(function () {
-        $('#body').on('click', '#saveBtn', function (event) {
+        const faqFormController = {
+            save: function () {
+                const id = $('#id');
+                if (!!id) {
+                    // 수정
+                    this.update();
+                } else {
+                    // 저장
+                    this.insert();
+                }
+            },
 
+            update: function () {
+                const formData = $('#faqForm').serializeObject();
+                formData.content = ckeditorApp.getEditorData('content');
+                console.log(JSON.stringify(formData,null,4));
+                if (confirm('수정하시겠습니까?')) {
+
+                }
+            },
+
+            insert: function () {
+                if (confirm('저장하시겠습니까?')) {
+
+                }
+            }
+
+        }
+
+        $('body').on('click', '#saveBtn', function (event) {
+            faqFormController.save();
         }).on('click', '#cancelBtn', function (event) {
 
         });
     });
+
 
 </script>
 

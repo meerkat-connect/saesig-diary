@@ -13,6 +13,7 @@ import saesigDiary.role.DataTablesResponseDto;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -50,12 +51,17 @@ public class FaqController {
         return faqService.findById(id);
     }
 
-    @GetMapping("/admin/faqs/{id}/view")
-    public String findByIdView(@PathVariable Long id, Model model) {
-        FaqResponseDto byId = faqService.findById(id);
+    @GetMapping("/admin/faqs/{id}/form")
+    public String findByIdView(@PathVariable(required = false) Optional<Long> id, Model model) {
+        if(id.isPresent()) {
+            FaqResponseDto byId = faqService.findById(id.get());
+            model.addAttribute("faq", byId);
+        } else {
+            FaqResponseDto byId = new FaqResponseDto();
+            model.addAttribute("faq", byId);
+        }
 
         model.addAttribute("faqCategories", enumFactory.get("faqCategory"));
-        model.addAttribute("faq", byId);
         return "faq/form";
     }
 }

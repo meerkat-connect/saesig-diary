@@ -199,15 +199,12 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/admin/faqs/${selectedFaqId}/view`,
+                        url: `/admin/faqs/${selectedFaqId}/form`,
                         dataType: 'html'
                     }).done(function (response) {
-                        $('#contentPanel').replaceWith(response);
-                        $('#contentPanel').show();
+                        $('#contentPanel').html(response);
                     }).fail(function (error) {
-
                     });
-
                 }).on('deselect', function (e, dt, type, indexes) {
                     let rowData = faqController.faqListTable.rows(indexes).data().toArray();
                 });
@@ -218,10 +215,20 @@
             faqController.init();
 
             $("body").on('click', '#insertBtn', function () {
-                $('#contentPanel').show();
+                $.ajax({
+                    type: 'get',
+                    url: `/admin/faqs/form`,
+                    dataType: 'html'
+                }).done(function (response) {
+                    $('#contentPanel').html(response);
+                }).fail(function (error) {
+                });
             });
         })
     </script>
+
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
 </div>
 
 
