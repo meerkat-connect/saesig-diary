@@ -26,6 +26,9 @@ public class Faq extends BaseEntity {
     private String title;
 
     @Column
+    private String content;
+
+    @Column
     private Long ord;
 
     @Column(name="is_enabled")
