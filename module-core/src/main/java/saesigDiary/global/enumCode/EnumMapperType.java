@@ -1,4 +1,4 @@
-package saesigDiary.common.enumCode;
+package saesigDiary.global.enumCode;
 
 public interface EnumMapperType {
     String getKey();

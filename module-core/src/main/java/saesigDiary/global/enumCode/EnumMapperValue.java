@@ -1,12 +1,12 @@
-package saesigDiary.common.enumCode;
+package saesigDiary.global.enumCode;
 
 
 import lombok.Getter;
 
 @Getter
 public class EnumMapperValue {
-    private String key;
-    private String value;
+    private final String key;
+    private final String value;
 
     public EnumMapperValue(EnumMapperType enumMapperType) {
         this.key = enumMapperType.getKey();

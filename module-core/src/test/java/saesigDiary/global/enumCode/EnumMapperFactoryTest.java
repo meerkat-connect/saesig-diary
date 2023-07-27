@@ -1,8 +1,12 @@
-package saesigDiary.common.enumCode;
+package saesigDiary.global.enumCode;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import saesigDiary.global.enumCode.EnumMapperFactory;
+import saesigDiary.global.enumCode.EnumMapperValue;
+import saesigDiary.global.enumCode.ExampleEnum;
+import saesigDiary.global.enumCode.ExampleUpperEnum;
 
 import java.util.LinkedHashMap;
 import java.util.List;

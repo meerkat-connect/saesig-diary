@@ -2,8 +2,8 @@ package saesigDiary.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import saesigDiary.common.enumCode.EnumMapperFactory;
-import saesigDiary.common.enumCode.ExampleEnum;
+import saesigDiary.global.enumCode.EnumMapperFactory;
+import saesigDiary.global.enumCode.ExampleEnum;
 
 import java.util.LinkedHashMap;
 
