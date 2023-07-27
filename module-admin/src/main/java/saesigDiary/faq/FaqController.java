@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+import saesigDiary.global.enumCode.EnumMapperFactory;
 import saesigDiary.role.DataTablesResponseDto;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,8 @@ import java.util.Map;
 @Controller
 public class FaqController {
     private final FaqService faqService;
+    private final EnumMapperFactory enumFactory;
+
 
     @GetMapping("/admin/faqs/view")
     public String faqView() {
@@ -50,6 +53,8 @@ public class FaqController {
     @GetMapping("/admin/faqs/{id}/view")
     public String findByIdView(@PathVariable Long id, Model model) {
         FaqResponseDto byId = faqService.findById(id);
+
+        model.addAttribute("faqCategories", enumFactory.get("faqCategory"));
         model.addAttribute("faq", byId);
         return "faq/form";
     }
