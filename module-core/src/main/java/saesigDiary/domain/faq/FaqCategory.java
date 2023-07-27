@@ -2,9 +2,10 @@ package saesigDiary.domain.faq;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import saesigDiary.global.enumCode.EnumMapperType;
 
 @RequiredArgsConstructor
-public enum FaqCategory {
+public enum FaqCategory implements EnumMapperType {
     TYPE_A("유형 A"),
     TYPE_B("유형 B"),
     TYPE_C("유형 C"),
@@ -12,9 +13,9 @@ public enum FaqCategory {
     TYPE_E("유형 E");
 
     @Getter
-    private final String title;
+    private final String value;
 
-    public String getCode() {
+    public String getKey() {
         return name();
     }
 }
