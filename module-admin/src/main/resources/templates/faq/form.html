@@ -75,7 +75,7 @@
     $(function () {
         const faqFormController = {
             save: function () {
-                const id = $('#id');
+                const id = $('#id').val();
                 if (!!id) {
                     // 수정
                     this.update();
@@ -86,17 +86,45 @@
             },
 
             update: function () {
-                const formData = $('#faqForm').serializeObject();
-                formData.content = ckeditorApp.getEditorData('content');
-                console.log(JSON.stringify(formData,null,4));
                 if (confirm('수정하시겠습니까?')) {
+                    const id = $('#id').val();
+                    const formData = $('#faqForm').serializeObject();
+                    formData.content = ckeditorApp.getEditorData('content');
 
+                    $.ajax({
+                        type: 'put',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: `/admin/faqs/${id}`
+                    }).done(function(response){
+                        alert('수정 되었습니다.');
+                        console.log(response);
+                    }).fail(function(error){
+                        alert('수정중 에러가 발생하였습니다.');
+                        console.log(JSON.stringify(error));
+                    })
                 }
             },
 
             insert: function () {
                 if (confirm('저장하시겠습니까?')) {
+                    const formData = $('#faqForm').serializeObject();
+                    formData.content = ckeditorApp.getEditorData('content');
 
+                    $.ajax({
+                        type: 'post',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: '/admin/faqs'
+                    }).done(function(response){
+                        alert('등록 되었습니다.');
+                        console.log(response);
+                    }).fail(function(error){
+                        alert('등록중 에러가 발생하였습니다.');
+                        console.log(JSON.stringify(error));
+                    })
                 }
             }
 

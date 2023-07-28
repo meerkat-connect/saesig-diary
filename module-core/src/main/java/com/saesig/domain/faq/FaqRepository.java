@@ -11,4 +11,7 @@ public interface FaqRepository extends JpaRepository<Faq, Long> {
     @Query(value = "SELECT f FROM Faq f left join fetch f.createdBy",
             countQuery = "SELECT count(f) FROM Faq f")
     Page<Faq> findAllWithMember(Pageable pageable);
+
+    @Query("SELECT MAX(ord) From Faq")
+    Long getMaxOrd();
 }

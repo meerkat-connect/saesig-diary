@@ -3,6 +3,13 @@
       layout:decorate="~{layout/main}">
 
 <div layout:fragment="content">
+    <style>
+        .dt-center {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
     <div class="page-body">
         <div class="row">
             <!-- 필터 부분 -->
@@ -83,8 +90,8 @@
                             <h5><strong>FAQ 검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn btn-primary m-r-5" id="deleteBtn">삭제</button>
-                            <button type="button" class="btn btn-primary" id="insertBtn">등록</button>
+                            <button type="button" class="btn btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
+                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>
                         </div>
                     </div>
                     <div class="card-block-small">
@@ -124,11 +131,12 @@
     <script th:inline="javascript">
         const faqController = {
             faqListTable: null,
-
+            selectedRow : [],
             init: function () {
 
                 if (!!this.faqListTable) {
                     this.faqListTable.destroy();
+                    this.selectedRow = [];
                 }
 
                 this.faqListTable = $('#faqListTable').DataTable({
@@ -193,7 +201,7 @@
                     },
                 })
 
-                this.faqListTable.on('select', function(e, dt, type, indexes) {
+                this.faqListTable.on('select', function (e, dt, type, indexes) {
                     let rowData = faqController.faqListTable.rows(indexes).data().toArray();
                     const selectedFaqId = rowData[0].id;
 
@@ -223,6 +231,8 @@
                     $('#contentPanel').html(response);
                 }).fail(function (error) {
                 });
+            }).on('click', '#deleteBtn', function () {
+
             });
         })
     </script>
