@@ -1,14 +1,13 @@
 package com.saesig.faq;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.role.DataTablesResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -51,9 +50,9 @@ public class FaqController {
         return faqService.findById(id);
     }
 
-    @GetMapping("/admin/faqs/{id}/form")
+    @GetMapping({"/admin/faqs/{id}/form", "/admin/faqs/form"})
     public String findByIdView(@PathVariable(required = false) Optional<Long> id, Model model) {
-        if(id.isPresent()) {
+        if (id.isPresent()) {
             FaqResponseDto byId = faqService.findById(id.get());
             model.addAttribute("faq", byId);
         } else {
@@ -64,4 +63,17 @@ public class FaqController {
         model.addAttribute("faqCategories", enumFactory.get("faqCategory"));
         return "faq/form";
     }
+
+    @PostMapping(value = "/admin/faqs", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Long insert(@RequestBody FaqInsertDto faqInsertDto) {
+        return faqService.insert(faqInsertDto);
+    }
+
+    @PutMapping(value = "/admin/faqs/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Long update(@PathVariable Long id, @RequestBody FaqUpdateDto faqUpdateDto) {
+        return faqService.update(id, faqUpdateDto);
+    }
+
 }

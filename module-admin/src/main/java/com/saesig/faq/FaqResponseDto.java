@@ -1,12 +1,11 @@
 package com.saesig.faq;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.saesig.domain.faq.Faq;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
-import com.saesig.domain.faq.Faq;
-import com.saesig.domain.faq.FaqCategory;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +16,7 @@ public class FaqResponseDto {
     private Long id;
     private String title;
     private String content;
-    private FaqCategory category;
+    private String category;
     private Long ord;
     private Character isEnabled;
     private String createdBy;
@@ -30,7 +29,7 @@ public class FaqResponseDto {
         this.id = faq.getId();
         this.title = faq.getTitle();
         this.content = faq.getContent();
-        this.category = faq.getCategory();
+        this.category = faq.getCategory().getValue();
         this.ord = faq.getOrd();
         this.isEnabled = faq.getIsEnabled();
         this.createdAt = faq.getCreatedAt();

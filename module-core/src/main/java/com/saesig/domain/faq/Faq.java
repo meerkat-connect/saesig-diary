@@ -1,16 +1,15 @@
 package com.saesig.domain.faq;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import com.saesig.domain.common.BaseEntity;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor(access= AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
 @Entity
 @ToString
 public class Faq extends BaseEntity {
@@ -31,7 +30,22 @@ public class Faq extends BaseEntity {
     @Column
     private Long ord;
 
-    @Column(name="is_enabled")
+    @Column(name = "is_enabled")
     private Character isEnabled;
 
+    @Builder
+    public Faq(FaqCategory category, String title, String content, Long ord, Character isEnabled) {
+        this.category = category;
+        this.title = title;
+        this.content = content;
+        this.ord = ord;
+        this.isEnabled = isEnabled;
+    }
+
+    public void updateInfo(String title, String content, FaqCategory category, Character isEnabled) {
+        this.title = title;
+        this.content = content;
+        this.category = category;
+        this.isEnabled = isEnabled;
+    }
 }
