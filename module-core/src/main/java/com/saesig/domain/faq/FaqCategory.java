@@ -1,8 +1,11 @@
 package com.saesig.domain.faq;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import com.saesig.global.enumCode.EnumMapperType;
+
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public enum FaqCategory implements EnumMapperType {
@@ -17,5 +20,13 @@ public enum FaqCategory implements EnumMapperType {
 
     public String getKey() {
         return name();
+    }
+
+    @JsonCreator
+    public static FaqCategory from(String sub) {
+        return Stream.of(FaqCategory.values())
+                .filter(category -> category.toString().equals(sub.toUpperCase()))
+                .findFirst()
+                .orElse(null);
     }
 }
