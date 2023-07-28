@@ -51,5 +51,17 @@ class FaqRepositoryTest {
 
     }
 
+    @Test
+    @DisplayName("max ord 조회")
+    void max_ord_조회(){
+        //given
+
+        //when
+        Long maxOrd = faqRepository.getMaxOrd();
+
+        //then
+        assertThat(maxOrd).isNotNull();
+    }
+
 
 }
