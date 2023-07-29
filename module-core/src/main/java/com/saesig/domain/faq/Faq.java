@@ -49,7 +49,15 @@ public class Faq extends BaseEntity {
         this.isEnabled = isEnabled;
     }
 
-    public void delete(){
+    public void delete() {
         this.isEnabled = 'N';
+    }
+
+    public void moveUp() {
+        this.ord = this.ord - 1;
+    }
+
+    public void moveDown() {
+        this.ord = this.ord + 1;
     }
 }

@@ -26,7 +26,7 @@
                                         </div>
                                         <div class="col-12">
                                             <select name="searchType" id="searchType" class="form-select form-control form-control-round custom-select">
-                                                <option value="">- 전체 - </option>
+                                                <option value="">- 전체 -</option>
                                                 <option th:each="faqCategory : ${faqCategories}" th:value="${faqCategory.key}" th:text="${faqCategory.value}">value</option>
                                             </select>
                                         </div>
@@ -51,7 +51,7 @@
                                         </div>
                                         <div class="col-12">
                                             <select name="isEnabled" id="isEnabled" class="form-select form-control form-control-round custom-select">
-                                                <option value="">- 전체 - </option>
+                                                <option value="">- 전체 -</option>
                                                 <option value="Y">사용</option>
                                                 <option value="N">사용안함</option>
                                             </select>
@@ -152,7 +152,7 @@
 
                     ajax: {
                         async: false,
-                        url: `/admin/faqs?`+ $('#searchForm').serialize(),
+                        url: `/admin/faqs?` + $('#searchForm').serialize(),
                         method: 'get',
                         "dataSrc": function (res) {
                             return res.data;
@@ -234,7 +234,7 @@
             $("body").on('click', '#insertBtn', function () {
                 $.ajax({
                     type: 'get',
-                    url: `/admin/faqs/form` ,
+                    url: `/admin/faqs/form`,
                     dataType: 'html'
                 }).done(function (response) {
                     $('#contentPanel').html(response);
@@ -242,7 +242,7 @@
                 });
             }).on('click', '#deleteBtn', function () {
                 faqController.delete();
-            }).on('click', '#searchBtn', function() {
+            }).on('click', '#searchBtn', function () {
                 faqController.init();
             });
 
@@ -273,7 +273,7 @@
                     })
                     faqController.selectedRow = allSelectedRow;
                 } else {
-                    const allSelectedRow = $('input[name=tableCheckbox]').each(function () {
+                    $('input[name=tableCheckbox]').each(function () {
                         this.checked = false;
                     })
                     faqController.selectedRow = [];

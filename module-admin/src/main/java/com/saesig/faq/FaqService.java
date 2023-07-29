@@ -61,4 +61,21 @@ public class FaqService {
             faq.delete();
         }
     }
+
+    @Transactional
+    public void move(Long id, String mode) {
+        Faq faq = faqRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("FAQ 아이디가 존재하지 않습니다."));
+
+        if ("up".equals(mode)) {
+            // 위로 이동
+            faq.moveUp();
+            Faq by = faqRepository.findBy(faq.getOrd() - 1);
+            by.moveDown();
+        } else {
+            // 아래로 이동
+            faq.moveDown();
+            Faq by = faqRepository.findBy(faq.getOrd() + 1);
+            by.moveUp();
+        }
+    }
 }

@@ -18,4 +18,6 @@ public interface FaqRepository extends JpaRepository<Faq, Long>, JpaSpecificatio
     Long getMaxOrd();
 
     Page<Faq> findAllBy(Specification<Faq> spec, Pageable pageable);
+
+    Faq findBy(Long ord);
 }

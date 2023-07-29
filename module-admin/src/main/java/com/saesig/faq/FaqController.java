@@ -16,21 +16,25 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/admin/faqs")
 public class FaqController {
     private final FaqService faqService;
     private final EnumMapperFactory enumFactory;
 
 
-    @GetMapping("/admin/faqs/view")
-    public String faqView(Model model)
-    {
+    @GetMapping("/view")
+    public String faqView(Model model) {
         model.addAttribute("faqCategories", enumFactory.get("faqCategory"));
         return "faq/view";
     }
 
-    @GetMapping("/admin/faqs")
+    @GetMapping("")
     @ResponseBody
     public Map<String, Object> findAll(HttpServletRequest request) {
+        String content = request.getParameter("content");
+        String title = request.getParameter("title");
+        String category = request.getParameter("category");
+
         Integer start = Integer.valueOf(request.getParameter("start"));
         Integer length = Integer.valueOf(request.getParameter("length"));
         Integer pageNum = start / length;
@@ -46,13 +50,13 @@ public class FaqController {
         return result;
     }
 
-    @GetMapping("/admin/faqs/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
     public FaqResponseDto findById(@PathVariable Long id) {
         return faqService.findById(id);
     }
 
-    @GetMapping({"/admin/faqs/{id}/form", "/admin/faqs/form"})
+    @GetMapping({"/{id}/form", "/form"})
     public String findByIdView(@PathVariable(required = false) Optional<Long> id, Model model) {
         if (id.isPresent()) {
             FaqResponseDto byId = faqService.findById(id.get());
@@ -66,22 +70,29 @@ public class FaqController {
         return "faq/form";
     }
 
-    @PostMapping(value = "/admin/faqs", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Long insert(@RequestBody FaqInsertDto faqInsertDto) {
         return faqService.insert(faqInsertDto);
     }
 
-    @PutMapping(value = "/admin/faqs/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Long update(@PathVariable Long id, @RequestBody FaqUpdateDto faqUpdateDto) {
         return faqService.update(id, faqUpdateDto);
     }
 
-    @DeleteMapping("/admin/faqs")
+    @DeleteMapping("")
     @ResponseBody
     public void delete(@RequestParam Long[] deleteIds) {
         faqService.delete(deleteIds);
     }
+
+    @PostMapping("/{id}/move")
+    @ResponseBody
+    public void move(@PathVariable Long id, @RequestParam String mode) {
+        faqService.move(id,mode);
+    }
+
 
 }
