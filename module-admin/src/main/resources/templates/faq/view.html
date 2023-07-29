@@ -16,67 +16,56 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-block-small">
-                        <!-- 키워드 filter -->
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong>
+                        <form id="searchForm" name="searchForm">
+                            <!-- 키워드 filter -->
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>유형</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="searchType" id="searchType" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 - </option>
+                                                <option th:each="faqCategory : ${faqCategories}" th:value="${faqCategory.key}" th:text="${faqCategory.value}">value</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="input-group input-group-sm input-group-dropdown mb-0">
-                                        <select name="filterKeywordSelect" class="form-select form-control">
-                                            <option value="opt1">선택</option>
-                                            <option value="opt2">Type 2</option>
-                                            <option value="opt3">Type 3</option>
-                                        </select>
-                                        <input type="text" class="form-control" aria-label="Text input with dropdown button" name="filterKeywordInput" id="filterKeywordInput"/>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>제목</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" name="title" id="title"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>사용여부</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="isEnabled" id="isEnabled" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 - </option>
+                                                <option value="Y">사용</option>
+                                                <option value="N">사용안함</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>회원가입 수단</strong>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <select name="filterStatusSelect"
-                                                class="form-select form-select-sm form-control-sm">
-                                            <option value="opt1">전체</option>
-                                            <option value="opt2">Type 2</option>
-                                            <option value="opt3">Type 3</option>
-                                            <option value="opt4">Type 4</option>
-                                            <option value="opt5">Type 5</option>
-                                            <option value="opt6">Type 6</option>
-                                            <option value="opt7">Type 7</option>
-                                            <option value="opt8">Type 8</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <!-- //키워드 filter -->
+                            <!-- 키워드 filter-btn -->
+                            <div class="mt-1 p-t-20 text-center border-top">
+                                <button type="reset" class="btn btn-gray m-r-5">초기화</button>
+                                <button type="button" class="btn btn-primary" id="searchBtn">검색</button>
                             </div>
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>회원상태</strong>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <select name="filterStatusSelect"
-                                                class="form-select form-select-sm form-control-sm">
-                                            <option value="opt1">전체</option>
-                                            <option value="opt2">Type 2</option>
-                                            <option value="opt3">Type 3</option>
-                                            <option value="opt4">Type 4</option>
-                                            <option value="opt5">Type 5</option>
-                                            <option value="opt6">Type 6</option>
-                                            <option value="opt7">Type 7</option>
-                                            <option value="opt8">Type 8</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- //키워드 filter -->
-                        <!-- 키워드 filter-btn -->
-                        <div class="mt-1 p-t-20 text-center border-top">
-                            <button class="btn btn-gray m-r-5">초기화</button>
-                            <button class="btn btn-primary">검색</button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -131,7 +120,7 @@
     <script th:inline="javascript">
         const faqController = {
             faqListTable: null,
-            selectedRow : [],
+            selectedRow: [],
             init: function () {
 
                 if (!!this.faqListTable) {
@@ -139,6 +128,7 @@
                     this.selectedRow = [];
                 }
 
+                console.log($('#searchForm').serialize())
                 this.faqListTable = $('#faqListTable').DataTable({
                     select: {
                         style: 'single'
@@ -162,7 +152,7 @@
 
                     ajax: {
                         async: false,
-                        url: `/admin/faqs/`,
+                        url: `/admin/faqs?`+ $('#searchForm').serialize(),
                         method: 'get',
                         "dataSrc": function (res) {
                             return res.data;
@@ -171,8 +161,8 @@
 
                     columns: [
                         {
-                            render: function () {
-                                return '<input type="checkbox" name="input_field">';
+                            render: function (data, type, row) {
+                                return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
                             }
                         },
                         {data: 'category'},
@@ -216,6 +206,25 @@
                 }).on('deselect', function (e, dt, type, indexes) {
                     let rowData = faqController.faqListTable.rows(indexes).data().toArray();
                 });
+            },
+            delete: function () {
+                if (this.selectedRow.length === 0) {
+                    alert('선택할 항목을 선택해 주십시오.');
+                } else {
+                    if (confirm('삭제하시겠습니까?')) {
+                        $.ajax({
+                            type: 'delete',
+                            data: {deleteIds: faqController.selectedRow.join(",")},
+                            url: '/admin/faqs'
+                        }).done(function () {
+                            alert('삭제 되었습니다.');
+                            //     datatables 초기화
+                        }).fail(function (error) {
+                            alert('삭제하는데 실패하였습니다.');
+                            console.log(JSON.stringify(error));
+                        });
+                    }
+                }
             }
         };
 
@@ -225,13 +234,50 @@
             $("body").on('click', '#insertBtn', function () {
                 $.ajax({
                     type: 'get',
-                    url: `/admin/faqs/form`,
+                    url: `/admin/faqs/form` ,
                     dataType: 'html'
                 }).done(function (response) {
                     $('#contentPanel').html(response);
                 }).fail(function (error) {
                 });
             }).on('click', '#deleteBtn', function () {
+                faqController.delete();
+            }).on('click', '#searchBtn', function() {
+                faqController.init();
+            });
+
+            $('input[name=tableCheckbox]').on('change', function () {
+                const $this = $(this)
+                if ($this.is(':checked')) {
+                    faqController.selectedRow.push($this.data('id'));
+                    if (faqController.selectedRow.length === $('input[name=tableCheckbox]').length) {
+                        $('#allCheckBox').prop('checked', true);
+                    }
+                } else {
+                    faqController.selectedRow = $.grep(faqController.selectedRow, function (i) {
+                        return i != $this.data(id);
+                    })
+
+                    if (faqController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
+                }
+            })
+
+            $('#allCheckBox').on('change', function () {
+                const $this = $(this);
+
+                if ($this.is(':checked')) {
+                    const allSelectedRow = [];
+                    $('input[name=tableCheckbox]').each(function () {
+                        this.checked = true;
+                        allSelectedRow.push($(this).data('id'));
+                    })
+                    faqController.selectedRow = allSelectedRow;
+                } else {
+                    const allSelectedRow = $('input[name=tableCheckbox]').each(function () {
+                        this.checked = false;
+                    })
+                    faqController.selectedRow = [];
+                }
 
             });
         })

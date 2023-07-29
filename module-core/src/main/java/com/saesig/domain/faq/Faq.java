@@ -48,4 +48,8 @@ public class Faq extends BaseEntity {
         this.category = category;
         this.isEnabled = isEnabled;
     }
+
+    public void delete(){
+        this.isEnabled = 'N';
+    }
 }

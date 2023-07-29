@@ -53,4 +53,12 @@ public class FaqService {
 
         return faq.getId();
     }
+
+    @Transactional
+    public void delete(Long[] deleteIds) {
+        for (Long deleteId : deleteIds) {
+            Faq faq = faqRepository.findById(deleteId).orElseThrow(() -> new IllegalArgumentException("FAQ 아이디가 존재하지 않습니다."));
+            faq.delete();
+        }
+    }
 }

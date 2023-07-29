@@ -22,11 +22,13 @@ public class FaqController {
 
 
     @GetMapping("/admin/faqs/view")
-    public String faqView() {
+    public String faqView(Model model)
+    {
+        model.addAttribute("faqCategories", enumFactory.get("faqCategory"));
         return "faq/view";
     }
 
-    @GetMapping("/admin/faqs/")
+    @GetMapping("/admin/faqs")
     @ResponseBody
     public Map<String, Object> findAll(HttpServletRequest request) {
         Integer start = Integer.valueOf(request.getParameter("start"));
@@ -74,6 +76,12 @@ public class FaqController {
     @ResponseBody
     public Long update(@PathVariable Long id, @RequestBody FaqUpdateDto faqUpdateDto) {
         return faqService.update(id, faqUpdateDto);
+    }
+
+    @DeleteMapping("/admin/faqs")
+    @ResponseBody
+    public void delete(@RequestParam Long[] deleteIds) {
+        faqService.delete(deleteIds);
     }
 
 }
