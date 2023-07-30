@@ -25,7 +25,7 @@
                                             <strong>유형</strong>
                                         </div>
                                         <div class="col-12">
-                                            <select name="searchType" id="searchType" class="form-select form-control form-control-round custom-select">
+                                            <select name="category" id="category" class="form-select form-control form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option th:each="faqCategory : ${faqCategories}" th:value="${faqCategory.key}" th:text="${faqCategory.value}">value</option>
                                             </select>
@@ -119,17 +119,15 @@
 
     <script th:inline="javascript">
         const faqController = {
-            faqListTable: null,
+
             selectedRow: [],
             init: function () {
+                let faqListTable = null;
 
-                if (!!this.faqListTable) {
-                    this.faqListTable.destroy();
-                    this.selectedRow = [];
-                }
+                if (faqListTable != null) faqListTable.destroy();
+                this.selectedRow = [];
 
-                console.log($('#searchForm').serialize())
-                this.faqListTable = $('#faqListTable').DataTable({
+                faqListTable = $('#faqListTable').DataTable({
                     select: {
                         style: 'single'
                     },
@@ -141,6 +139,7 @@
                     lengthChange: false,
                     responsive: true,
                     searching: false,
+                    destroy: true,
                     ordering: false,
                     paging: true,
                     info: true,
@@ -155,6 +154,7 @@
                         url: `/admin/faqs?` + $('#searchForm').serialize(),
                         method: 'get',
                         "dataSrc": function (res) {
+                            res.data[0].isFirst = true;
                             return res.data;
                         }
                     },
@@ -169,7 +169,12 @@
                         {data: 'title'},
                         {
                             render: function (data, type, row) {
-                                return `<button class="btn btn-sm">▲</button> &nbsp; <button class="btn btn-sm">▼</button>`
+                                if (!!row.isFirst) {
+                                    return `<button class="btn btn-sm" data-id="${row.id}" id="ordDownBtn">▼</button>`;
+                                } else {
+                                    return `<button class="btn btn-sm" data-id="${row.id}" id="ordUpBtn">▲</button> &nbsp;
+                                            <button class="btn btn-sm" data-id="${row.id}" id="ordDownBtn">▼</button>`
+                                }
                             }
                         },
                         {data: 'createdBy'},
@@ -191,8 +196,8 @@
                     },
                 })
 
-                this.faqListTable.on('select', function (e, dt, type, indexes) {
-                    let rowData = faqController.faqListTable.rows(indexes).data().toArray();
+                faqListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = faqListTable.rows(indexes).data().toArray();
                     const selectedFaqId = rowData[0].id;
 
                     $.ajax({
@@ -204,7 +209,7 @@
                     }).fail(function (error) {
                     });
                 }).on('deselect', function (e, dt, type, indexes) {
-                    let rowData = faqController.faqListTable.rows(indexes).data().toArray();
+                    let rowData = faqListTable.rows(indexes).data().toArray();
                 });
             },
             delete: function () {
@@ -218,12 +223,31 @@
                             url: '/admin/faqs'
                         }).done(function () {
                             alert('삭제 되었습니다.');
-                            //     datatables 초기화
+                            faqController.init();
                         }).fail(function (error) {
                             alert('삭제하는데 실패하였습니다.');
                             console.log(JSON.stringify(error));
                         });
                     }
+                }
+            },
+
+            changeOrder: function (id, mode) {
+                if (confirm('순서를 변경하시겠습니까?')) {
+                    $.ajax({
+                        type: 'post',
+                        data: {
+                            id: id,
+                            mode: mode
+                        },
+                        url: `/admin/faqs/${id}/move`
+                    }).done(function () {
+                        alert('순서가 변경되었습니다.');
+                        faqController.init();
+                    }).fail(function (error) {
+                        alert('순서를 변경하는데 실패하였습니다.');
+                        console.log(JSON.stringify(error));
+                    });
                 }
             }
         };
@@ -244,6 +268,12 @@
                 faqController.delete();
             }).on('click', '#searchBtn', function () {
                 faqController.init();
+            }).on('click', '#ordUpBtn', function () {
+                const id = $(this).data('id');
+                faqController.changeOrder(id, 'up')
+            }).on('click', '#ordDownBtn', function () {
+                const id = $(this).data('id');
+                faqController.changeOrder(id, 'down')
             });
 
             $('input[name=tableCheckbox]').on('change', function () {

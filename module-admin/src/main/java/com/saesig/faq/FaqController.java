@@ -3,13 +3,11 @@ package com.saesig.faq;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -30,18 +28,8 @@ public class FaqController {
 
     @GetMapping("")
     @ResponseBody
-    public Map<String, Object> findAll(HttpServletRequest request) {
-        String content = request.getParameter("content");
-        String title = request.getParameter("title");
-        String category = request.getParameter("category");
-
-        Integer start = Integer.valueOf(request.getParameter("start"));
-        Integer length = Integer.valueOf(request.getParameter("length"));
-        Integer pageNum = start / length;
-
-        PageRequest of = PageRequest.of(pageNum, length);
-        DataTablesResponseDto dataTablesResponseDto = faqService.findAll(of);
-
+    public Map<String, Object> findAll(@ModelAttribute FaqRequestDto request) {
+        DataTablesResponseDto dataTablesResponseDto = faqService.findAll(request);
         Map<String, Object> result = new HashMap<>();
         result.put("data", dataTablesResponseDto.getList());
         result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());

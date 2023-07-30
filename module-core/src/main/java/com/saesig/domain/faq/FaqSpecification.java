@@ -19,7 +19,7 @@ public class FaqSpecification {
                 criteriaBuilder.equal(root.get("isEnabled"), isEnabled);
     }
 
-    public static Specification<Faq> hasCategory(FaqCategory category) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category"), category.getValue());
+    public static Specification<Faq> hasCategory(String category) {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category"), FaqCategory.valueOf(category));
     }
 }

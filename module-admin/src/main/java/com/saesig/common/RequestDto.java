@@ -9,4 +9,10 @@ public class RequestDto {
     private Integer start;
     private Integer length;
     private Integer pageNum;
+
+    public RequestDto(Integer start, Integer length, Integer pageNum) {
+        this.start = start;
+        this.length = length;
+        this.pageNum = pageNum;
+    }
 }
