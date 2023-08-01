@@ -1,8 +1,7 @@
 package saesigDiary.domain.role;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import saesigDiary.domain.common.BaseEntity;
 
 import javax.persistence.*;
@@ -12,8 +11,11 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@DynamicUpdate
+@ToString(exclude = "parentResource")
 public class Resource extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -34,11 +36,49 @@ public class Resource extends BaseEntity {
     @Column
     private Integer ord;
 
-    @ManyToOne
-    @JoinColumn(name = "upperId")
-    private Role parentResource;
+    @Column
+    private String type;
 
-    @OneToMany(mappedBy = "parentResource")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "upper_id")
+    private Resource parentResource;
+
+    @OneToMany(mappedBy = "parentResource", fetch = FetchType.LAZY)
     private List<Resource> childResources = new ArrayList<>();
 
+    @Builder
+    public Resource(Long id, String name, String url, String httpMethod, Character isEnabled, Integer depth, Integer ord, String type, Resource parentResource, List<Resource> childResources) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.httpMethod = httpMethod;
+        this.isEnabled = isEnabled;
+        this.depth = depth;
+        this.ord = ord;
+        this.type = type;
+        this.parentResource = parentResource;
+        this.childResources = childResources;
+    }
+
+    public void updateInfo(String name, String url, String httpMethod, Character isEnabled, String type) {
+        this.name = name;
+        this.url =url;
+        this.httpMethod = httpMethod;
+        this.isEnabled = isEnabled;
+        this.type = type;
+    }
+
+    public void move(Long upperId, Integer depth, Integer ord) {
+        parentResource.getParentResource().changeParentId(upperId);
+        this.depth = depth;
+        this.ord = ord;
+    }
+
+    public void changeOrd(Integer ord) {
+        this.ord = ord;
+    }
+
+    public void changeParentId(Long upperId) {
+        this.getParentResource().changeParentId(upperId);
+    }
 }
