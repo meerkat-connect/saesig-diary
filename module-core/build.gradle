@@ -6,8 +6,8 @@ dependencies {
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
     api 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     api 'org.springframework.boot:spring-boot-starter-jdbc'
+    api 'org.springframework.boot:spring-boot-starter-security'
 
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
