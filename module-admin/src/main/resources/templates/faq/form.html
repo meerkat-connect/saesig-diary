@@ -1,0 +1,143 @@
+<div class="card">
+    <!-- 기본정보 -->
+    <form th:object="${faq}" method="post" id="faqForm" name="faqForm">
+        <input type="hidden" th:field="*{id}">
+        <div class="card-header p-b-0">
+            <h3 class="sub-title"><strong>기본정보</strong></h3>
+        </div>
+        <div class="card-block-small p-t-0">
+            <div class="row">
+                <div class="col-lg-6 mb-3">
+                    <div class="mb-0 form-group">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>FAQ 유형</strong></label>
+                        <div class="col-12">
+                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{category}">
+                                <option th:each="faqCategory : ${faqCategories}" th:value="${faqCategory.key}" th:text="${faqCategory.value}">value</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="mb-0 form-group">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled"><strong>사용여부</strong></label>
+                        <select th:field="*{isEnabled}" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                            <option value="Y">사용</option>
+                            <option value="N">사용 안함</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{title}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요.">
+                    </div>
+                </div>
+
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
+                    <div class="col-sm-12">
+                        <textarea rows="5" cols="5" th:field="*{content}" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-3">
+                    <div class="mb-0 form-group">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성자</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" th:field="*{createdBy}" class="form-control form-control-sm form-control-round" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mb-3">
+                    <div class="mb-0 form-group">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성일시</strong></label>
+                        <div class="col-12">
+                            <input type="datetime-local" th:field="*{createdAt}" class="form-control form-control-sm form-control-round" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 버튼영역 -->
+        <div class="card-block-small">
+            <button type="button" class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
+            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+        </div>
+        <!-- // -->
+    </form>
+</div>
+
+<script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
+<script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
+
+<script>
+    $(function () {
+        const faqFormController = {
+            save: function () {
+                const id = $('#id').val();
+                if (!!id) {
+                    // 수정
+                    this.update();
+                } else {
+                    // 저장
+                    this.insert();
+                }
+            },
+
+            update: function () {
+                if (confirm('수정하시겠습니까?')) {
+                    const id = $('#id').val();
+                    const formData = $('#faqForm').serializeObject();
+                    formData.content = ckeditorApp.getEditorData('content');
+
+                    $.ajax({
+                        type: 'put',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: `/admin/faqs/${id}`
+                    }).done(function(response){
+                        alert('수정 되었습니다.');
+                        console.log(response);
+                    }).fail(function(error){
+                        alert('수정중 에러가 발생하였습니다.');
+                        console.log(JSON.stringify(error));
+                    })
+                }
+            },
+
+            insert: function () {
+                if (confirm('저장하시겠습니까?')) {
+                    const formData = $('#faqForm').serializeObject();
+                    formData.content = ckeditorApp.getEditorData('content');
+
+                    $.ajax({
+                        type: 'post',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: '/admin/faqs'
+                    }).done(function(response){
+                        alert('등록 되었습니다.');
+                        console.log(response);
+                    }).fail(function(error){
+                        alert('등록중 에러가 발생하였습니다.');
+                        console.log(JSON.stringify(error));
+                    })
+                }
+            }
+
+        }
+
+        $('body').on('click', '#saveBtn', function (event) {
+            faqFormController.save();
+        }).on('click', '#cancelBtn', function (event) {
+
+        });
+    });
+
+
+</script>
+
+

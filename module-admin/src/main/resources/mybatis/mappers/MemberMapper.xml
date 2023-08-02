@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="saesigDiary.member.MemberMapper">
+<mapper namespace="com.saesig.member.MemberMapper">
 
-    <select id="selectMemberList" resultType="saesigDiary.member.MemberDto">
+    <select id="selectMemberList" resultType="com.saesig.member.MemberDto">
         SELECT
             id
              , email
@@ -23,7 +23,7 @@
         FROM member
     </select>
 
-    <select id="findAll" resultType="saesigDiary.member.MemberDto">
+    <select id="findAll" resultType="com.saesig.member.MemberDto">
         SELECT
             id
             , email
@@ -31,7 +31,7 @@
         FROM member
     </select>
 
-    <select id="findByEmail" resultType="saesigDiary.member.MemberDto">
+    <select id="findByEmail" resultType="com.saesig.member.MemberDto">
         SELECT
             id
             , email

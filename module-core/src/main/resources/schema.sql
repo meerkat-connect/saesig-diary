@@ -116,6 +116,36 @@ CREATE TABLE `role_resource`
 ALTER TABLE `role_resource`
     ADD CONSTRAINT `PK_ROLE_RESOURCE` PRIMARY KEY (`id`);
 
+CREATE TABLE IF NOT EXISTS `chatting_room`
+(
+   `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '채팅방 회원 일련번호',
+   `title`       varchar(20)           NOT NULL COMMENT '채팅방 제목',
+   `chat_id`     BIGINT                NOT NULL COMMENT '채팅방 일련번호',
+   `member_id`  BIGINT                 NOT NULL  COMMENT '회원 일련번호',
+   `created_at`  DATETIME              DEFAULT NOW() COMMENT  '등록일',
+   `created_by`  BIGINT                 COMMENT '등록자 일련번호'
+);
+
+ALTER TABLE `chatting_room`
+    ADD CONSTRAINT `PK_CHATTING_ROOM` PRIMARY KEY (`id`);
+
+CREATE TABLE `faq`
+(
+    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT 'FAQ 일련번호',
+    `category`    VARCHAR(20)           NOT NULL COMMENT '유형',
+    `title`       VARCHAR(300)          NOT NULL COMMENT '제목',
+    `content`     LONGTEXT              NOT NULL COMMENT '내용',
+    `ord`         BIGINT                NOT NULL COMMENT '순서',
+    `is_enabled`  CHAR(1)               NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호'
+);
+
+ALTER TABLE `faq`
+    ADD CONSTRAINT `PK_FAQ` PRIMARY KEY (`id`);
+
 CREATE TABLE `send_template`
 (
     `id`          BIGINT       NOT NULL COMMENT '템플릿 일련번호',

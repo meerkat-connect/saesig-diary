@@ -164,9 +164,8 @@ div.dataTables_wrapper div.dataTables_info {
     text-align: center;
     box-sizing: border-box;
     margin: 0 2px 0 0;
-    /*padding-top: 6px;*/
+    padding-top: 6px;
     color: #F3F3F3;
-    padding: 0.4em 0em;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.next{
@@ -186,14 +185,12 @@ div.dataTables_wrapper div.dataTables_info {
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.next:active {
-    box-shadow: none;
-    border: none !important;
+    border: none;
     background: none !important;
     background-color: white !important;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.previous:active {
-    box-shadow: none;
-    border: none !important;
+    border: none;
     background: none !important;
     background-color: white !important;
 }
@@ -218,7 +215,6 @@ div.dataTables_wrapper div.dataTables_info {
 
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-    color: white !important;
     border: white !important;
     background: none !important;
     background-color: #FF8031 !important;
@@ -228,11 +224,6 @@ div.dataTables_wrapper div.dataTables_info {
     border: none;
     background: none !important;
     background-color: #FF8031 !important;
-}
-
-.dataTables_paginate {
-    text-align: center !important;
-    width: 100% !important;
 }
 
 .ck-content {

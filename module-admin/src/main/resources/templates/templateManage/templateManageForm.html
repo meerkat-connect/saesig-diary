@@ -1,5 +1,4 @@
-<form id ="templateManageForm">
-    <!-- INSERT -->
+<form id ="templateManageForm" th:object="${template}" method="post">
     <div class="card-header p-b-0">
         <h3 class="sub-title"><strong>기본정보</strong></h3>
     </div>
@@ -7,22 +6,26 @@
     <!-- Tab Container Start -->
     <div class="card-block-small p-t-0">
         <div class="row mb-3">
-            <div class="col-lg-6">
-                <div class="mb-2 form-group required">
-                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송수단</strong></div>
-                    <div class="col-sm-12">
-                        <select class="form-select form-select-sm" id="sendMethod" name="sendMethod">
-                            <option value="" >- 선택 -</option>
+            <div class="col-lg-6 col-md-6 mb-3">
+                <div class="mb-0 form-group row">
+                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송수단</strong>
+                    </div>
+                    <div class="col-12">
+                        <select class="form-select form-control form-control-round custom-select" th:field="*{method}">
+                            <option value="">- 선택 -</option>
+                            <option th:each="item : ${searchSendMethod}" th:value="${item.key}" th:text="${item.value}">value</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="mb-2 form-group required">
-                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong></div>
-                    <div class="col-sm-12">
-                        <select class="form-select form-select-sm" id="sendType" name="sendType">
-                            <option value="" >- 선택 -</option>
+            <div class="col-lg-6 col-md-6 mb-3">
+                <div class="mb-0 form-group row">
+                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong>
+                    </div>
+                    <div class="col-12">
+                        <select class="form-select form-control form-control-round custom-select" th:field="*{category}">
+                            <option value="">- 선택 -</option>
+                            <option th:each="item : ${searchSendCategory}" th:value="${item.key}" th:text="${item.value}">value</option>
                         </select>
                     </div>
                 </div>
@@ -35,13 +38,13 @@
                     <div class="form-radio">
                         <div class="radio radio-inline">
                             <label class="mb-0 form-label">
-                                <input type="radio" name="useYn" id="useY" value="Y" checked/>
+                                <input type="radio" name="isEnabled" value="Y" th:field="*{isEnabled}" checked="checked"/>
                                 <i class="helper"></i>사용
                             </label>
                         </div>
                         <div class="radio radio-inline">
                             <label class="mb-0 form-label">
-                                <input type="radio" name="useYn" id="useN" value="N"/>
+                                <input type="radio" name="isEnabled" value="N" th:field="*{isEnabled}"/>
                                 <i class="helper"></i>사용안함
                             </label>
                         </div>
@@ -54,7 +57,7 @@
                 <div class="mb-0 form-group required">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
                     <div class="col-12">
-                        <input type="text" class="form-control form-control-sm" id="title" name="title" placeholder="제목">
+                        <input type="text" class="form-control form-control-round" id="title" placeholder="제목" th:field="*{title}">
                     </div>
                 </div>
             </div>
@@ -64,7 +67,7 @@
                 <div class="mb-0 form-group row ">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
                     <div class="col-12">
-                        <textarea class="form-control form-control-sm" name="content" id="content"></textarea>
+                        <textarea class="form-control" id="content" th:field="*{content}"></textarea>
                     </div>
                 </div>
             </div>
@@ -80,20 +83,16 @@
 </form>
 
 <script type="text/javascript">
-    var validator= $("#templateManageForm").validate({
-        rules: {
-            clsfCd		:	{ required: true }
-            ,oxprNm		:	{ required: true }
-            ,ttl		:	{ required: true }
-            ,url		:	{ required: true }
-        },
-        messages: {
-            clsfCd		:   { required: "분류를 선택해주십시오." }
-            ,oxprNm		:   { required: "언론사를 입력해주십시오." }
-            ,ttl		:   { required: "제목을 입력해주십시오." }
-            ,url		:   { required: "링크주소를 입력해주십시오." }
-        }
-    })
+    var validator = $(document).ready(function(){
+        $("#templateManageForm").validate({
+            rules: {
+                method		:	{ required: true }
+            },
+            messages: {
+                method		:   { required: "분류를 선택해주십시오." }
+            }
+        })
+    });
 
     function fn_cancel() {
         $("#contentPanel").hide();
@@ -101,28 +100,28 @@
 
     function fn_save(){
         if(!($("#templateManageForm").valid())) return;
-
-        if(!confirm("저장하시겠습니까?")) return;
-
-        var data =  $("#templateManageForm").serialize();
-
-        if(displayWorkProgress()){
-            $.ajax({
-                url : "/mng/mmnws/insertMmnws.do",
-                type: 'POST',
-                cache : false,
-                dataType: 'json',
-                data : data,
-                success : function (data){
-                    if(data.result=="success"){
-                        alert(data.msg);
-                        $("#contentPanel").hide();
-                    }else{
-                        alert(data.msg);
-                    }
-                    closeWorkProgress();
-                }
-            });
-        }
+        //
+        // if(!confirm("저장하시겠습니까?")) return;
+        //
+        // var data =  $("#templateManageForm").serialize();
+        //
+        // if(displayWorkProgress()){
+        //     $.ajax({
+        //         url : "/mng/mmnws/insertMmnws.do",
+        //         type: 'POST',
+        //         cache : false,
+        //         dataType: 'json',
+        //         data : data,
+        //         success : function (data){
+        //             if(data.result=="success"){
+        //                 alert(data.msg);
+        //                 $("#contentPanel").hide();
+        //             }else{
+        //                 alert(data.msg);
+        //             }
+        //             closeWorkProgress();
+        //         }
+        //     });
+        // }
     }
 </script>
