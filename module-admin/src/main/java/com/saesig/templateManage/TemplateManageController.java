@@ -1,5 +1,8 @@
 package com.saesig.templateManage;
 
+import com.saesig.config.auth.LoginMember;
+import com.saesig.config.auth.SessionMember;
+import com.saesig.domain.common.Constant;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,17 +35,9 @@ public class TemplateManageController {
     @GetMapping("/templateManage/selectTemplateList.do")
     @ResponseBody
     public Map<String, Object> selectTemplateList(TemplateManageDto tmd) throws Exception {
-        // TODO: 2023-06-23 : need paging
         Map<String, Object> result = new HashMap<>();
 
         List<TemplateManageDto> list = templateManageService.selectTemplateList(tmd);
-
-//        if (list.size() > 0) {
-//            result.put("totalCount", (list.get(0).getTotalCount()));
-//        } else {
-//            result.put("totalCount", 0);
-//        }
-
         result.put("data", list);
 
         return result;
@@ -66,22 +61,40 @@ public class TemplateManageController {
         }
     }
 
-    @PostMapping("/templateManage/insertTemplate.do")
+    @PostMapping("/templateManage/insertForm.do")
     @ResponseBody
-    public Map<String, Object> insertTemplate(TemplateManageDto tmd) throws Exception {
-        // TODO: 2023-06-23 : need validation check, need user object
+    public Map<String, Object> insertForm(@LoginMember SessionMember member, TemplateManageDto tmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
+        tmd.setMember(member);
         int retVal = 0;
-
-//        retVal = templateManageService.insertTemplate(tmd);
+        retVal = templateManageService.insertForm(tmd);
 
         if (retVal > 0) {
-//            resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
-            resultMap.put("msg", "등록에 성공하였습니다.");
+            resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
+            resultMap.put("msg", "저장에 성공하였습니다.");
         } else {
-//            resultMap.put("result", Constant.REST_API_RESULT_FAIL);
-            resultMap.put("msg", "등록에 실패했습니다.");
+            resultMap.put("result", Constant.REST_API_RESULT_FAIL);
+            resultMap.put("msg", "저장에 실패했습니다.");
+        }
+
+        return resultMap;
+    }
+
+    @PostMapping("/templateManage/updateForm.do")
+    @ResponseBody
+    public Map<String, Object> updateForm(@LoginMember SessionMember member, TemplateManageDto tmd) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        tmd.setMember(member);
+        int retVal = 0;
+        retVal = templateManageService.updateForm(tmd);
+        if (retVal > 0) {
+            resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
+            resultMap.put("msg", "수정에 성공하였습니다.");
+        } else {
+            resultMap.put("result", Constant.REST_API_RESULT_FAIL);
+            resultMap.put("msg", "수정에 실패했습니다.");
         }
 
         return resultMap;

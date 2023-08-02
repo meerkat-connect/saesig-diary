@@ -9,4 +9,8 @@ public interface TemplateManageMapper {
     List<TemplateManageDto> selectTemplateList(TemplateManageDto tmd);
 
     TemplateManageDto selectTemplate(Long id);
+
+    int insertForm(TemplateManageDto tmd);
+
+    int updateForm(TemplateManageDto tmd);
 }

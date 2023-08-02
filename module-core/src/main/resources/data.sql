@@ -1,39 +1,6 @@
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
 VALUES (1, 'email@email.com', '1qaz2wsx!@', 'EMAIL', '서정도1', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (1, 'EMAIL', '템플릿1', '템플릿 내용1', 'batch', 'Y', '정기 쿠폰 발행', NOW(), 1, NOW(), 1);
-
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (2, 'EMAIL', '템플릿2', '템플릿 내용2', 'now', 'Y', '-', NOW(), 1, NOW(), 1);
-
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (3, 'EMAIL', '템플릿3', '템플릿 내용3', 'immediate', 'Y', '회원탈퇴 완료', NOW(), 1, NOW(), 1);
-
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (4, 'EMAIL', '템플릿4', '템플릿 내용4', 'batch', 'N', '회원가입 완료', NOW(), 1, NOW(), 1);
-
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (5, 'EMAIL', '템플릿5', '템플릿 내용5', 'now', 'Y', '예약 취소', NOW(), 1, NOW(), 1);
-
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (6, 'EMAIL', '템플릿6', '템플릿 내용6', 'immediate', 'Y', '정기 쿠폰 발행', NOW(), 1, NOW(), 1);
-
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (7, 'EMAIL', '템플릿7', '템플릿 내용7', 'batch', 'N', '회원가입 완료', NOW(), 1, NOW(), 1);
-
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (8, 'EMAIL', '템플릿8', '템플릿 내용8', 'immediate', 'N', '예약 취소', NOW(), 1, NOW(), 1);
-
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (9, 'EMAIL', '템플릿9', '템플릿 내용9', 'batch', 'Y', '예약 취소', NOW(), 1, NOW(), 1);
-
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (10, 'EMAIL', '템플릿10', '템플릿 내용10', 'now', 'Y', '정기 쿠폰 발행', NOW(), 1, NOW(), 1);
-
-INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
-VALUES (11, 'EMAIL', '템플릿11', '템플릿 내용11', 'immediate', 'Y', '정기 쿠폰 발행', NOW(), 1, NOW(), 1);
-
 INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
 VALUES (2, 'email@email.com', '1qaz2wsx!@', 'EMAIL', '서정도2', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
@@ -103,4 +70,51 @@ VALUES (4, 1, 4, NOW(), 1, NOW(), 1);
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
 VALUES (5, 1, 5, NOW(), 1, NOW(), 1);
 
+INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
+VALUES (1, 'TYPE_A', 'Lorem ipsum dolor sit amet', 'content1',  1, 'Y', NOW(), 1, NOW(), 1);
 
+INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
+VALUES (2, 'TYPE_A', 'Pellentesque erat arcu', 'content2', 2, 'Y', NOW(), 1, NOW(), 1);
+
+INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
+VALUES (3, 'TYPE_C', 'Nam vitae tellus lectus. Sed porttit', 'content3', 3, 'Y', NOW(), 1, NOW(), 1);
+
+INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
+VALUES (4, 'TYPE_D', 'nec massa eu faucibus', 'content4', 4, 'Y', NOW(), 1, NOW(), 1);
+
+INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
+VALUES (5, 'TYPE_E', 'Fusce eget turpis lorem', 'content5', 5, 'Y', NOW(), 1, NOW(), 1);
+
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (1, 'EMAIL', '템플릿1', '템플릿 내용1', 'batch', 'Y', '정기 쿠폰 발행', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (2, 'EMAIL', '템플릿2', '템플릿 내용2', 'now', 'Y', '-', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (3, 'EMAIL', '템플릿3', '템플릿 내용3', 'immediate', 'Y', '회원탈퇴 완료', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (4, 'EMAIL', '템플릿4', '템플릿 내용4', 'batch', 'N', '회원가입 완료', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (5, 'EMAIL', '템플릿5', '템플릿 내용5', 'now', 'Y', '예약 취소', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (6, 'EMAIL', '템플릿6', '템플릿 내용6', 'immediate', 'Y', '정기 쿠폰 발행', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (7, 'EMAIL', '템플릿7', '템플릿 내용7', 'batch', 'N', '회원가입 완료', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (8, 'EMAIL', '템플릿8', '템플릿 내용8', 'immediate', 'N', '예약 취소', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (9, 'EMAIL', '템플릿9', '템플릿 내용9', 'batch', 'Y', '예약 취소', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (10, 'EMAIL', '템플릿10', '템플릿 내용10', 'now', 'Y', '정기 쿠폰 발행', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
+VALUES (11, 'EMAIL', '템플릿11', '템플릿 내용11', 'immediate', 'Y', '정기 쿠폰 발행', NOW(), 1, NOW(), 1);

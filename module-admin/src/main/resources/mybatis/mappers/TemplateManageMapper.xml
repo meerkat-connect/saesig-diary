@@ -18,4 +18,45 @@
         where
             id = #{id}
     </select>
+
+    <insert id="insertForm">
+        INSERT INTO send_template(
+            method
+            , title
+            , content
+            , category
+            , is_enabled
+            , time_point
+            , created_at
+            , created_by
+            , modified_at
+            , modified_by
+        )VALUES (
+            #{method}
+            , #{title}
+            , #{content}
+            , #{category}
+            , #{isEnabled}
+            , '-'
+            , NOW()
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+        )
+    </insert>
+
+    <update id="updateForm">
+        UPDATE send_template
+        SET
+            method      = #{method}
+          , title       = #{title}
+          , content     = #{content}
+          , category    = #{category}
+          , is_enabled  = #{isEnabled}
+          , modified_at = NOW()
+          , modified_by = #{member.id}
+        WHERE
+            id = #{id}
+    </update>
+
 </mapper>

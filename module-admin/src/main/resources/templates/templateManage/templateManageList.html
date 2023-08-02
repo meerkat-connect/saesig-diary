@@ -1,10 +1,15 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main}">
 
 <div layout:fragment="content">
-
+    <style>
+        .dt-center {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
     <!-- Page-body start -->
     <div class="page-body">
         <div class="row">
@@ -19,7 +24,7 @@
                                     <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송수단</strong>
                                     </div>
                                     <div class="col-sm-12">
-                                        <select name="filterStatusSelect" class="form-select form-control form-control-round custom-select">
+                                        <select name="filterStatusSelect" class="form-select form-control form-control-round">
                                             <option value="">- 전체 -</option>
                                             <option th:each="item : ${searchSendMethod}" th:value="${item.key}" th:text="${item.value}">value</option>
                                         </select>
@@ -42,7 +47,7 @@
                                 <div class="mb-0 form-group row">
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchTitle"><strong>제목</strong></label>
                                     <div class="col-12">
-                                        <input type="text" class="form-control form-control-sm" name="searchTitle" id="searchTitle"/>
+                                        <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" name="searchTitle" id="searchTitle"/>
                                     </div>
                                 </div>
                             </div>
@@ -89,6 +94,7 @@
                                 <table id="listTable" class="display" style="width:100%">
                                     <thead>
                                     <tr>
+                                        <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
                                         <th>No.</th>
                                         <th>발송수단</th>
                                         <th>제목</th>
@@ -110,14 +116,14 @@
 
             <!-- Content Area -->
             <div class="col-12">
-                <div id="contentPanel" class="card"></div>
+                <div id="contentPanel"></div>
             </div>
 
         </div>
     </div>
 
     <script th:inline="javascript">
-        const faqController = {
+        const listController = {
 
             selectedRow: [],
             init: function () {
@@ -134,19 +140,6 @@
                         // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
                         {className: "dt-center", targets: "_all"}
                     ],
-                    /*pagingType: 'full_numbers',
-                    lengthChange: false,
-                    responsive: true,
-                    searching: false,
-                    destroy: true,
-                    ordering: false,
-                    paging: true,
-                    info: true,
-                    pageLength: 10,
-                    bPaginate: true,
-                    bAutoWidth: true,
-                    serverSide: true,
-                    processing: true,*/
 
                     stateSave: true,
                     lengthChange: false,
@@ -154,6 +147,7 @@
                     ordering: false,
                     paging: true,
                     info: true,
+                    destroy: true,
                     processing: true,
                     pageLength: 10,
 
@@ -210,7 +204,7 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/templateManage/templateManageForm.html?id=${selectId}`,/*`/admin/faqs/${selectedFaqId}/form`,*/
+                        url: `/templateManage/templateManageForm.html?id=${selectId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
@@ -228,11 +222,11 @@
                     if (confirm('삭제하시겠습니까?')) {
                         $.ajax({
                             type: 'delete',
-                            data: {deleteIds: faqController.selectedRow.join(",")},
+                            data: {deleteIds: listController.selectedRow.join(",")},
                             url: '/admin/faqs'
                         }).done(function () {
                             alert('삭제 되었습니다.');
-                            faqController.init();
+                            listController.init();
                         }).fail(function (error) {
                             alert('삭제하는데 실패하였습니다.');
                             console.log(JSON.stringify(error));
@@ -243,7 +237,7 @@
         };
 
         $(function () {
-            faqController.init();
+            listController.init();
 
             $("body").on('click', '#insertBtn', function () {
                 $.ajax({
@@ -255,30 +249,24 @@
                 }).fail(function (error) {
                 });
             }).on('click', '#deleteBtn', function () {
-                faqController.delete();
+                listController.delete();
             }).on('click', '#searchBtn', function () {
-                faqController.init();
-            }).on('click', '#ordUpBtn', function () {
-                const id = $(this).data('id');
-                faqController.changeOrder(id, 'up')
-            }).on('click', '#ordDownBtn', function () {
-                const id = $(this).data('id');
-                faqController.changeOrder(id, 'down')
-            });
+                listController.init();
+            })
 
             $('input[name=tableCheckbox]').on('change', function () {
                 const $this = $(this)
                 if ($this.is(':checked')) {
-                    faqController.selectedRow.push($this.data('id'));
-                    if (faqController.selectedRow.length === $('input[name=tableCheckbox]').length) {
+                    listController.selectedRow.push($this.data('id'));
+                    if (listController.selectedRow.length === $('input[name=tableCheckbox]').length) {
                         $('#allCheckBox').prop('checked', true);
                     }
                 } else {
-                    faqController.selectedRow = $.grep(faqController.selectedRow, function (i) {
+                    listController.selectedRow = $.grep(listController.selectedRow, function (i) {
                         return i != $this.data(id);
                     })
 
-                    if (faqController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
+                    if (listController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
                 }
             })
 
@@ -291,12 +279,12 @@
                         this.checked = true;
                         allSelectedRow.push($(this).data('id'));
                     })
-                    faqController.selectedRow = allSelectedRow;
+                    listController.selectedRow = allSelectedRow;
                 } else {
                     $('input[name=tableCheckbox]').each(function () {
                         this.checked = false;
                     })
-                    faqController.selectedRow = [];
+                    listController.selectedRow = [];
                 }
 
             });
