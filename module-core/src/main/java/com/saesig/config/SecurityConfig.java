@@ -1,5 +1,7 @@
 package com.saesig.config;
 
+import com.saesig.config.auth.CustomUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -8,9 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -53,7 +57,17 @@ public class SecurityConfig {
                 .and()
                 .formLogin()
                 .loginPage("/admin/login")
-                .loginProcessingUrl("/admin/login");
+                .loginProcessingUrl("/login_proc")
+                .defaultSuccessUrl("/admin/faqs/view")
+//                .loginProcessingUrl("/admin/login");
+//                .usernameParameter("username")
+//                .passwordParameter("password")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/")
+                .and()
+                .userDetailsService(customUserDetailsService)
+        ;
 
         return httpSecurity.build();
     }

@@ -64,7 +64,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <form class="md-float-material form-material">
+                <form class="md-float-material form-material" id="loginForm" name="loginForm" th:action="@{/login_proc}" method="post">
                     <div class="text-center">
                         <img th:src="@{/files/assets/images/logo.png}" alt="logo.png">
                     </div>
@@ -76,11 +76,11 @@
                                 </div>
                             </div>
                             <div class="form-group form-primary">
-                                <input type="text" name="email" class="form-control form-control-round" required="" >
+                                <input type="text" name="username" id="username" class="form-control form-control-round" required="" >
                                 <span class="form-bar"></span>
                             </div>
                             <div class="form-group form-primary">
-                                <input type="password" name="password" class="form-control form-control-round" required="" >
+                                <input type="password" name="password" id="password" class="form-control form-control-round" required="" >
                                 <span class="form-bar"></span>
                             </div>
                             <!--<div class="row m-t-25 text-left">
@@ -100,7 +100,7 @@
                             <div class="row m-t-30">
                                 <div class="col-md-12">
                                     <div class="d-grid">
-                                        <button type="button" class="btn btn-primary btn-md btn-block m-b-20"> 로그인 </button>
+                                        <button class="btn btn-primary btn-md btn-block m-b-20"> 로그인 </button>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +165,6 @@
 </div>
 <![endif]-->
 
-
 <script type="text/javascript" th:src="@{/files/bower_components/jquery/dist/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/files/bower_components/jquery-ui/jquery-ui.min.js}"></script>
 <script type="text/javascript" th:src="@{/files/bower_components/popper.js/dist/umd/popper.min.js}"></script>
@@ -178,5 +177,14 @@
 <script type="text/javascript" th:src="@{/files/bower_components/i18next-browser-languagedetector/i18nextBrowserLanguageDetector.min.js}"></script>
 <script type="text/javascript" th:src="@{/files/bower_components/jquery-i18next/jquery-i18next.min.js}"></script>
 <script type="text/javascript" th:src="@{/files/assets/js/common-pages.js}"></script>
+
+<script>
+    $(function(){
+        $('#username').focus();
+        $('#username').val('email1@email.com');
+        $('#password').val('1qaz2wsx!@');
+    })
+</script>
+
 </body>
 </html>
