@@ -1,6 +1,7 @@
 package com.saesig.templateManage;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,4 +14,7 @@ public interface TemplateManageMapper {
     int insertForm(TemplateManageDto tmd);
 
     int updateForm(TemplateManageDto tmd);
+
+    int deleteItems(@Param("ids") Long[] ids);
 }
+

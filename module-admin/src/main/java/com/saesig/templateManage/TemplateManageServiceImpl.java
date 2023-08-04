@@ -28,7 +28,14 @@ public class TemplateManageServiceImpl implements TemplateManageService{
     }
 
     @Override
+    @Transactional
     public int updateForm(TemplateManageDto tmd) throws Exception {
         return templateManageMapper.updateForm(tmd);
+    }
+
+    @Override
+    @Transactional
+    public int deleteItems(Long[] ids) throws Exception {
+        return templateManageMapper.deleteItems(ids);
     }
 }

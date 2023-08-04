@@ -59,4 +59,12 @@
             id = #{id}
     </update>
 
+    <delete id="deleteItems">
+        DELETE FROM send_template
+        WHERE id IN
+        <foreach item="item" collection="ids" open="("  separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
 </mapper>

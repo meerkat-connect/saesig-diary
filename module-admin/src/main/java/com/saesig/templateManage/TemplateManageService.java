@@ -10,4 +10,6 @@ public interface TemplateManageService {
     int insertForm(TemplateManageDto tmd) throws Exception;
 
     int updateForm(TemplateManageDto tmd) throws Exception;
+
+    int deleteItems(Long[] ids) throws Exception;
 }

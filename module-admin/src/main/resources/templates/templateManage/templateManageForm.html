@@ -63,7 +63,7 @@
                     <div class="mb-0 form-group row ">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
                         <div class="col-12">
-                            <textarea class="form-control" id="content" th:field="*{content}"></textarea>
+                            <textarea rows="10" cols="10" th:field="*{content}" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
                         </div>
                     </div>
                 </div>
@@ -72,15 +72,14 @@
     </form>
 
     <div class="card-block-small">
-        <button type="button" class="btn btn-disabled m-r-5" id="cancelInsertMmnws" onclick="fn_cancel()">취소</button>
-        <th:block sec:authorize-url="/mng/mmnws/insertMmnws.do">
-            <button type="button" class="btn btn-primary" id="insertMmnws" onclick="fn_save()">저장</button>
-        </th:block>
+        <button type="button" class="btn btn-gray m-r-5" onclick="fn_cancel()">취소</button>
+        <button type="button" class="btn btn-primary" onclick="fn_save()">저장</button>
     </div>
 </div>
 <!-- Tab Container End -->
 
 <!--<script type="text/javascript" th:src="@{/js/custom-design.js}"></script>-->
+<script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
 <script type="text/javascript">
     var formId = $("#id").val();
 

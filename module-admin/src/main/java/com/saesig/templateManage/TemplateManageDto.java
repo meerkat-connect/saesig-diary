@@ -13,6 +13,7 @@ public class TemplateManageDto {
     private SessionMember member;
 
     private Long id;
+    private Long[] ids;
     private String method;
     private String title;
     private String content;
