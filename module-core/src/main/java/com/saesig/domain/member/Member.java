@@ -51,7 +51,7 @@ public class Member extends BaseEntity {
     @Column(name="marketing_service_agreement")
     private Character marketingServiceAgreement;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     List<MemberRole> memberRoles = new ArrayList<>();
 
     
