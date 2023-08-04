@@ -1,5 +1,6 @@
 package com.saesig.config;
 
+import com.saesig.config.auth.CustomAuthenticationProvider;
 import com.saesig.config.auth.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -7,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @RequiredArgsConstructor
@@ -15,11 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private final CustomAuthenticationProvider customAuthenticationProvider;
 
     /*
      * 사용 지양 -> HttpSecurity 구성시 ignore할 경로를 지정해주는 것이 지향됨
@@ -48,9 +44,11 @@ public class SecurityConfig {
     }
 
     @Bean
+
     @Order(2)
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain mainFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers("/admin/login").permitAll()
                 .antMatchers("/admin/**").authenticated()
@@ -58,16 +56,12 @@ public class SecurityConfig {
                 .formLogin()
                 .loginPage("/admin/login")
                 .loginProcessingUrl("/login_proc")
-                .defaultSuccessUrl("/admin/faqs/view")
-//                .loginProcessingUrl("/admin/login");
-//                .usernameParameter("username")
-//                .passwordParameter("password")
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
                 .and()
                 .userDetailsService(customUserDetailsService)
-        ;
+                .authenticationProvider(customAuthenticationProvider);
 
         return httpSecurity.build();
     }
