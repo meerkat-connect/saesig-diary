@@ -75,6 +75,7 @@
                                     <h3 class="text-center">로그인</h3>
                                 </div>
                             </div>
+                            <p th:if="${error}" class="text-muted text-center p-b-5" th:text="${exceptionMessage}">exceptionMessage</p>
                             <div class="form-group form-primary">
                                 <input type="text" name="username" id="username" class="form-control form-control-round" required="" >
                                 <span class="form-bar"></span>
@@ -122,9 +123,7 @@
     </div>
 </section>
 
-
-<!--[if lt IE 10]>
-<div class="ie-warning">
+<!--<div class="ie-warning">
     <h1>Warning!!</h1>
     <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
     <div class="iew-container">
@@ -162,8 +161,7 @@
         </ul>
     </div>
     <p>Sorry for the inconvenience!</p>
-</div>
-<![endif]-->
+</div>-->
 
 <script type="text/javascript" th:src="@{/files/bower_components/jquery/dist/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/files/bower_components/jquery-ui/jquery-ui.min.js}"></script>
@@ -180,9 +178,9 @@
 
 <script>
     $(function(){
-        $('#username').focus();
+     /*   $('#username').focus();
         $('#username').val('email1@email.com');
-        $('#password').val('1qaz2wsx!@');
+        $('#password').val('1qaz2wsx!@');*/
     })
 </script>
 
