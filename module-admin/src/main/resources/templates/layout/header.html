@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="header">
     <nav class="navbar header-navbar pcoded-header">
         <div class="navbar-wrapper">
@@ -33,10 +34,17 @@
                     <li class="user-profile header-notification">
                         <div class="dropdown-primary dropdown">
                             <div class="dropdown-toggle" data-bs-toggle="dropdown">
-                                <span>John Doe</span>
+                                <span th:if="${session.user != null}" th:text="${session.user.nickname}">John Doe</span>
                                 <i class="feather icon-chevron-down"></i>
                             </div>
                             <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                <li sec:authorize="isAuthenticated()">
+                                    This content is only shown to authenticated users.
+                                </li>
+                                <!--/*
+                                Logged user: <span sec:authentication="name">Bob</span>
+                                Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+                                */-->
                                 <li>
                                     <a href="auth-normal-sign-in.html">
                                         <i class="feather icon-log-out"></i> Logout
