@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers("/admin/login").permitAll()
+                .antMatchers("/admin/").permitAll()
                 .antMatchers("/admin/**").authenticated()
                 .and()
                 .formLogin()
@@ -62,16 +63,16 @@ public class SecurityConfig {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/admin/login")
-                .logoutSuccessHandler(logoutSuccessHandler())
-                .and()
+                .logoutSuccessHandler(logoutSuccessHandler());
+     /*           .and()
                 .userDetailsService(customUserDetailsService)
-                .authenticationProvider(customAuthenticationProvider);
+                .authenticationProvider(customAuthenticationProvider); //Provider 중복 등록되는 이슈 파악*/
         return httpSecurity.build();
     }
 
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new CustomLoginSuccessHandler("/admin/faqs/view");
+        return new CustomLoginSuccessHandler("/admin");
     }
 
     @Bean
