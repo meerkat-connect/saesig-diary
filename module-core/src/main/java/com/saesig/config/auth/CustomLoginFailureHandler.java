@@ -13,13 +13,13 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
-        String exceptionMessage = "login failure";
+        String failureMessage = "login failure";
 
         if(exception instanceof BadCredentialsException) {
-            exceptionMessage = "invalid password.";
+            failureMessage = "invalid password.";
         }
 
-        setDefaultFailureUrl("/admin/login?error=true&exceptionMessage=" + exceptionMessage);
+        setDefaultFailureUrl("/admin/login?failureMessage=" + failureMessage);
 
         super.onAuthenticationFailure(request, response, exception);
     }
