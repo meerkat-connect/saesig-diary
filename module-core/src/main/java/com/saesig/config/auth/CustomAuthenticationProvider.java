@@ -32,7 +32,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("패스워드가 일치하지 않습니다.");
         }
 
-        httpSession.setAttribute("user", new SessionMember(user.getMember()));
+        httpSession.setAttribute("member", new SessionMember(user.getMember()));
 
         return new UsernamePasswordAuthenticationToken(user.getMember(), null, user.getAuthorities());
     }
