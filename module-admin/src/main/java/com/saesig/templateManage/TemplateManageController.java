@@ -5,7 +5,6 @@ import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.common.Constant;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
