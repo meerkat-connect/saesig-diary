@@ -1,15 +1,19 @@
 package com.saesig.config.auth;
 
+import com.saesig.domain.role.Resource;
 import com.saesig.domain.role.ResourceRepository;
+import com.saesig.domain.role.RoleResource;
 import com.saesig.domain.role.RoleResourceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -17,20 +21,23 @@ public class SecurityResourceService {
     private final ResourceRepository resourceRepository;
     private final RoleResourceRepository roleResourceRepository;
 
-    public Map<RequestMatcher, List<ConfigAttribute>> getResourceList() {
-        LinkedHashMap<RequestMatcher, List<ConfigAttribute>> resultMap = new LinkedHashMap<>();
+    public LinkedHashMap<RequestMatcher, List<ConfigAttribute>> getResourceList() {
+        LinkedHashMap<RequestMatcher, List<ConfigAttribute>> result = new LinkedHashMap<>();
 
-        /*LinkedHashMap<RequestMatcher, List<ConfigAttribute>> result = new LinkedHashMap<>();
-        List<Resources> resourcesList = resourcesRepository.findAllResources();
-        resourcesList.forEach(re ->{
-            List<ConfigAttribute> configAttributeList =  new ArrayList<>();
-            re.getRoleSet().forEach(role -> {
-                configAttributeList.add(new SecurityConfig(role.getRoleName()));
-            });
-            result.put(new AntPathRequestMatcher(re.getResourceName()),configAttributeList);
+        List<Resource> resources = resourceRepository.findAll();
+        resources.forEach(resource -> {
+            List<ConfigAttribute> configAttributes = new ArrayList<>();
 
+            Long resourceId = resource.getId();
+            List<RoleResource> roleResources = roleResourceRepository.findAllByResourceId(resourceId);
+
+            for (RoleResource roleResource : roleResources) {
+                configAttributes.add(new SecurityConfig(roleResource.getRole().getName()));
+            }
+
+            result.put(new AntPathRequestMatcher(resource.getUrl()), configAttributes);
         });
-        return result;*/
-        return resultMap;
+
+        return result;
     }
 }
