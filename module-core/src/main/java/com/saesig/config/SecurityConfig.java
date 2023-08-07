@@ -16,19 +16,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final CustomUserDetailsService customUserDetailsService;
-    private final CustomAuthenticationProvider customAuthenticationProvider;
-
-    /*
-     * 사용 지양 -> HttpSecurity 구성시 ignore할 경로를 지정해주는 것이 지향됨
-     * 공식 문서에서 해당 설정을 하는 경우 CSRF, XSS, Clickjacking 등에서 보호되지 않는다고 명시되어 있음
-     *
-     */
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring()
-//                .antMatchers("/static/**/*", "/templates/**", "/h2-console/**", "/example/**/*");
-//    }
 
     @Bean
     @Order(1)
@@ -64,9 +51,6 @@ public class SecurityConfig {
                 .logout()
                 .logoutSuccessUrl("/admin/login")
                 .logoutSuccessHandler(logoutSuccessHandler());
-     /*           .and()
-                .userDetailsService(customUserDetailsService)
-                .authenticationProvider(customAuthenticationProvider); //Provider 중복 등록되는 이슈 파악*/
         return httpSecurity.build();
     }
 
