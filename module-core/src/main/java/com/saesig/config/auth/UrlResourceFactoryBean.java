@@ -10,17 +10,13 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public class UrlResourceFactoryBean implements FactoryBean<LinkedHashMap<RequestMatcher, List<ConfigAttribute>>> {
-//    private SecurityResourceService securityResourceService;
-    private final LinkedHashMap<RequestMatcher, List<ConfigAttribute>> resourceMap;
-
-/*    public void setSecurityResourceService(SecurityResourceService securityResourceService) {
-        this.securityResourceService = securityResourceService;
-    }*/
+    private final SecurityResourceService securityResourceService;
+    private LinkedHashMap<RequestMatcher, List<ConfigAttribute>> resourceMap;
 
     @Override
-    public LinkedHashMap<RequestMatcher, List<ConfigAttribute>> getObject() throws Exception {
-        if(resourceMap == null) {
-//            resourceMap = securityResourceService.getResourceList();
+    public LinkedHashMap<RequestMatcher, List<ConfigAttribute>> getObject() {
+        if (resourceMap == null) {
+            resourceMap = securityResourceService.getResourceList();
         }
 
         return resourceMap;
@@ -30,9 +26,5 @@ public class UrlResourceFactoryBean implements FactoryBean<LinkedHashMap<Request
     public Class<?> getObjectType() {
         return LinkedHashMap.class;
     }
-
-    @Override
-    public boolean isSingleton() {
-        return true;
-    }
+    
 }
