@@ -1,31 +1,60 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en-us" class="no-js">
 <head>
     <meta charset="utf-8">
+    <title>404 페이지 </title>
+    <meta name="description" content="Flat able 404 Error page design">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Codedthemes">
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/files/extra-pages/404/1/css/style.css" />
 </head>
 <body>
-<div class="container" style="max-width: 600px">
-    <div class="py-5 text-center">
-        <h2>500 error</h2>
+
+<a href="#" class="logo-link" title="back home">
+    <img src="img/logo.png" class="logo" alt="Company's logo">
+</a>
+<div class="content">
+    <div class="content-box">
+        <div class="big-content">
+
+            <div class="list-square">
+                <span class="square"></span>
+                <span class="square"></span>
+                <span class="square"></span>
+            </div>
+
+            <div class="list-line">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </div>
+
+            <i class="fa fa-search" aria-hidden="true"></i>
+
+            <div class="clear"></div>
+        </div>
+
+        <h1>Oops! Error 404 not found.</h1>
+        <p>The page you were looking for doesn't exist.<br>
+            We think the page may have moved.</p>
     </div>
-    <div>
-        <p>error</p>
-    </div>
+</div>
+<footer class="light">
     <ul>
-        <li>error</li>
-        <ul>
-            <li th:text="|timestamp: ${timestamp}|"></li>
-            <li th:text="|path: ${path}|"></li>
-            <li th:text="|status: ${status}|"></li>
-            <li th:text="|message: ${message}|"></li>
-            <li th:text="|error: ${error}|"></li>
-            <li th:text="|exception: ${exception}|"></li>
-            <li th:text="|errors: ${errors}|"></li>
-            <li th:text="|trace: ${trace}|"></li>
-        </ul>
-        </li>
+        <li><a href="#">Support</a></li>
+        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
     </ul>
-    <hr class="my-4">
-</div> <!-- /container -->
+</footer>
+
+
+<script type="text/javascript" src="/files/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/files/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+
 </body>
 </html>
