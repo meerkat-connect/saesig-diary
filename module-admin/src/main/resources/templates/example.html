@@ -2,13 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main}">
+
 <div layout:fragment="content">
-    <!-- CKEditor 사용시에, 아래 3줄 추가 필요-->
-    <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
-    <script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
-    <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
-    <!-- CKEditor 사용시에, 위 3줄 추가 필요-->
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+
     <!-- Page-body start -->
+    <style>
+        .custom-select-ul > li:hover {
+            background: #f8f7f7;
+            color: #ff8031 !important;
+        }
+
+    </style>
     <div class="page-body">
         <div class="row">
             <!-- 필터 부분 -->
@@ -20,19 +25,18 @@
                             <div class="col-lg-3 col-md-6 mb-3">
                                 <div class="mb-0 form-group row">
                                     <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
-                                    <div class="input-group input-group-sm input-group-dropdown mb-0">
-                                        <select name="filterKeywordSelect" class="form-select form-control">
-                                            <option value="opt1">primary</option>
+                                    <div class="input-group input-group-dropdown mb-0">
+                                        <input type="text" class="form-control form-control-round" name="filterKeywordInput" id="filterKeywordInput"/>
+                                        <select name="filterStatusSelect" class="form-select form-control form-control-round custom-select" >
+                                            <option value="opt1">Select One Value Only</option>
                                             <option value="opt2">Type 2</option>
                                             <option value="opt3">Type 3</option>
-                                            <option value="opt4">Type 4</option>
-                                            <option value="opt5">Type 5</option>
-                                            <option value="opt6">Type 6</option>
-                                            <option value="opt7">Type 7</option>
-                                            <option value="opt8">Type 8</option>
                                         </select>
-                                        <input type="text" class="form-control" aria-label="Text input with dropdown button" name="filterKeywordInput"
-                                               id="filterKeywordInput"/>
+                                        <!--  <select name="filterKeywordSelect" class="form-select form-control form-control-round" >
+                                              <option value="opt1">primary</option>
+                                              <option value="opt2">Type 2</option>
+                                              <option value="opt3">Type 3</option>
+                                          </select>-->
                                     </div>
                                 </div>
                             </div>
@@ -40,15 +44,10 @@
                                 <div class="mb-0 form-group row">
                                     <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>분류</strong></div>
                                     <div class="col-sm-12">
-                                        <select name="filterCategorySelect" class="form-select form-select-sm form-control-sm">
-                                            <option value="opt1">Select One Value Only</option>
+                                        <select name="filterCategorySelect" class="form-select form-control form-control-round custom-select">
+                                            <option value="opt1">전체</option>
                                             <option value="opt2">Type 2</option>
                                             <option value="opt3">Type 3</option>
-                                            <option value="opt4">Type 4</option>
-                                            <option value="opt5">Type 5</option>
-                                            <option value="opt6">Type 6</option>
-                                            <option value="opt7">Type 7</option>
-                                            <option value="opt8">Type 8</option>
                                         </select>
                                     </div>
                                 </div>
@@ -57,15 +56,46 @@
                                 <div class="mb-0 form-group row">
                                     <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>상태</strong></div>
                                     <div class="col-sm-12">
-                                        <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm">
+                                        <select name="filterStatusSelect" class="form-select form-control form-control-round custom-select">
                                             <option value="opt1">Select One Value Only</option>
                                             <option value="opt2">Type 2</option>
                                             <option value="opt3">Type 3</option>
-                                            <option value="opt4">Type 4</option>
-                                            <option value="opt5">Type 5</option>
-                                            <option value="opt6">Type 6</option>
-                                            <option value="opt7">Type 7</option>
-                                            <option value="opt8">Type 8</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>상태</strong></div>
+                                    <div class="col-sm-12">
+                                        <select name="filterStatusSelect" class="form-select form-control form-control-round custom-select">
+                                            <option value="opt1">Select One Value Only</option>
+                                            <option value="opt2">Type 2</option>
+                                            <option value="opt3">Type 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>커스텀 셀렉트</strong></div>
+                                    <div class="col-sm-12">
+                                        <select name="filterStatusSelect" class="form-select form-control form-control-round custom-select">
+                                            <option value="opt1">Select One Value Only</option>
+                                            <option value="opt2">Type 2</option>
+                                            <option value="opt3">Type 3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>상태</strong></div>
+                                    <div class="col-sm-12">
+                                        <select name="filterStatusSelect" class="form-select form-control form-control-round custom-select">
+                                            <option value="opt1">Select One Value Only</option>
+                                            <option value="opt2">Type 2</option>
+                                            <option value="opt3">Type 3</option>
                                         </select>
                                     </div>
                                 </div>
@@ -73,8 +103,8 @@
                         </div>
                         <!-- //키워드 filter -->
                         <!-- 키워드 filter-btn -->
-                        <div class="mt-1 p-t-20 text-center border-top">
-                            <button class="btn btn-disabled m-r-5">초기화</button>
+                        <div class="mt-1 p-t-20 text-center">
+                            <button class="btn btn-gray m-r-5">초기화</button>
                             <button class="btn btn-primary">검색</button>
                         </div>
                     </div>
@@ -90,213 +120,101 @@
                             <h5><strong>1:1 문의 검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn-inverse">삭제</button>
+                            <button type="button" class="btn btn-transparent" data-bs-toggle="modal" data-bs-target="#managerSearchPopup" >모달</button>
                         </div>
                     </div>
                     <div class="card-block-small">
                         <div class="dt-responsive table-responsive">
-                            <div id="order-table_wrapper"
-                                 class="dataTables_wrapper dt-bootstrap4">
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-sm-12 col-md-6">
-                                        <div class="dataTables_length" id="order-table_length">
-                                            <label>Show <select name="order-table_length"
-                                                                aria-controls="order-table"
-                                                                class="form-select form-select-sm form-control form-control-sm">
-                                                <option value="10">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select> entries</label></div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-6">
-                                        <div id="order-table_filter" class="dataTables_filter">
-                                            <label>Search:<input type="search"
-                                                                 class="form-control form-control-sm"
-                                                                 placeholder=""
-                                                                 aria-controls="order-table"></label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <table id="order-table"
-                                               class="table table-striped table-bordered nowrap dataTable"
-                                               role="grid" aria-describedby="order-table_info">
-                                            <thead>
-                                            <tr role="row">
-                                                <th class="sorting" tabindex="0"
-                                                    aria-controls="order-table" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Name: activate to sort column ascending"
-                                                    style="width: 101.125px;">Name
-                                                </th>
-                                                <th class="sorting" tabindex="0"
-                                                    aria-controls="order-table" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Position: activate to sort column ascending"
-                                                    style="width: 160.281px;">Position
-                                                </th>
-                                                <th class="sorting" tabindex="0"
-                                                    aria-controls="order-table" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Office: activate to sort column ascending"
-                                                    style="width: 67.7031px;">Office
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0"
-                                                    aria-controls="order-table" rowspan="1"
-                                                    colspan="1" aria-sort="descending"
-                                                    aria-label="Age: activate to sort column ascending"
-                                                    style="width: 27.7344px;">Age
-                                                </th>
-                                                <th class="sorting" tabindex="0"
-                                                    aria-controls="order-table" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    style="width: 73.4219px;">Start date
-                                                </th>
-                                                <th class="sorting" tabindex="0"
-                                                    aria-controls="order-table" rowspan="1"
-                                                    colspan="1"
-                                                    aria-label="Salary: activate to sort column ascending"
-                                                    style="width: 45.75px;">Salary
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
+                            <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <table id="exampleTable" class="display" style="width:100%;">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Office</th>
+                                        <th>Age</th>
+                                        <th>Start date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tiger Nixon</td>
+                                        <td>System Architect</td>
+                                        <td>Edinburgh</td>
+                                        <td>61</td>
+                                        <td>2011-04-25</td>
+                                    </tr>
 
-
-                                            <tr role="row" class="odd">
-                                                <td>Ashton Cox</td>
-                                                <td>Junior Technical Author</td>
-                                                <td>San Francisco</td>
-                                                <td class="sorting_1">66</td>
-                                                <td>2009/01/12</td>
-                                                <td>$86,000</td>
-                                            </tr>
-                                            <tr role="row" class="even">
-                                                <td>Michael Silva</td>
-                                                <td>Marketing Designer</td>
-                                                <td>London</td>
-                                                <td class="sorting_1">66</td>
-                                                <td>2012/11/27</td>
-                                                <td>$198,500</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td>Paul Byrd</td>
-                                                <td>Chief Financial Officer (CFO)</td>
-                                                <td>New York</td>
-                                                <td class="sorting_1">64</td>
-                                                <td>2010/06/09</td>
-                                                <td>$725,000</td>
-                                            </tr>
-                                            <tr role="row" class="even">
-                                                <td>Garrett Winters</td>
-                                                <td>Accountant</td>
-                                                <td>Tokyo</td>
-                                                <td class="sorting_1">63</td>
-                                                <td>2011/07/25</td>
-                                                <td>$170,750</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td class="sorting_1">61</td>
-                                                <td>2011/04/25</td>
-                                                <td>$320,800</td>
-                                            </tr>
-                                            <tr role="row" class="even">
-                                                <td>Brielle Williamson</td>
-                                                <td>Integration Specialist</td>
-                                                <td>New York</td>
-                                                <td class="sorting_1">61</td>
-                                                <td>2012/12/02</td>
-                                                <td>$372,000</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td>Herrod Chandler</td>
-                                                <td>Sales Assistant</td>
-                                                <td>San Francisco</td>
-                                                <td class="sorting_1">59</td>
-                                                <td>2012/08/06</td>
-                                                <td>$137,500</td>
-                                            </tr>
-                                            <tr role="row" class="even">
-                                                <td>Gloria Little</td>
-                                                <td>Systems Administrator</td>
-                                                <td>New York</td>
-                                                <td class="sorting_1">59</td>
-                                                <td>2009/04/10</td>
-                                                <td>$237,500</td>
-                                            </tr>
-                                            <tr role="row" class="odd">
-                                                <td>Rhona Davidson</td>
-                                                <td>Integration Specialist</td>
-                                                <td>Tokyo</td>
-                                                <td class="sorting_1">55</td>
-                                                <td>2010/10/14</td>
-                                                <td>$327,900</td>
-                                            </tr>
-                                            <tr role="row" class="even">
-                                                <td>Haley Kennedy</td>
-                                                <td>Senior Marketing Designer</td>
-                                                <td>London</td>
-                                                <td class="sorting_1">43</td>
-                                                <td>2012/12/18</td>
-                                                <td>$313,500</td>
-                                            </tr>
-                                            </tbody>
-                                            <tfoot>
-                                            <tr>
-                                                <th rowspan="1" colspan="1">Name</th>
-                                                <th rowspan="1" colspan="1">Position</th>
-                                                <th rowspan="1" colspan="1">Office</th>
-                                                <th rowspan="1" colspan="1">Age</th>
-                                                <th rowspan="1" colspan="1">Start date</th>
-                                                <th rowspan="1" colspan="1">Salary</th>
-                                            </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-12 col-md-5">
-                                        <div class="dataTables_info" id="order-table_info"
-                                             role="status" aria-live="polite">Showing 1 to 10 of
-                                            20 entries
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-12 col-md-7">
-                                        <div class="dataTables_paginate paging_simple_numbers"
-                                             id="order-table_paginate">
-                                            <ul class="pagination">
-                                                <li class="paginate_button page-item previous disabled"
-                                                    id="order-table_previous"><a href="#"
-                                                                                 aria-controls="order-table"
-                                                                                 data-dt-idx="0"
-                                                                                 tabindex="0"
-                                                                                 class="page-link">Previous</a>
-                                                </li>
-                                                <li class="paginate_button page-item active"><a
-                                                        href="#" aria-controls="order-table"
-                                                        data-dt-idx="1" tabindex="0"
-                                                        class="page-link">1</a></li>
-                                                <li class="paginate_button page-item "><a
-                                                        href="#" aria-controls="order-table"
-                                                        data-dt-idx="2" tabindex="0"
-                                                        class="page-link">2</a></li>
-                                                <li class="paginate_button page-item next"
-                                                    id="order-table_next"><a href="#"
-                                                                             aria-controls="order-table"
-                                                                             data-dt-idx="3"
-                                                                             tabindex="0"
-                                                                             class="page-link">Next</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Office</th>
+                                        <th>Age</th>
+                                        <th>Start date</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -325,16 +243,7 @@
                     </div>
                     <div class="card-block-small p-t-0">
                         <p>
-                            Nullam quis risus eget urna mollis ornare vel eu leo. Cum
-                            sociis natoque penatibus et magnis dis parturient montes,
-                            nascetur ridiculus mus.<br/>
-                            Nullam id dolor id nibh ultricies vehicula. Cum sociis
-                            natoque penatibus et magnis dis parturient montes, nascetur
-                            ridiculus mus. Donec ullamcorper nulla non metus auctor
-                            fringilla.
-                            Duis mollis, est non commodo luctus, nisi erat porttitor
-                            ligula, eget lacinia odio sem nec elit. Donec ullamcorper
-                            nulla non metus auctor fringilla.
+                            문의 내용
                         </p>
                         <div class="mt-2 row">
                             <ul>
@@ -354,49 +263,24 @@
                         <div class="mb-3 form-group row required">
                             <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>상태</strong></div>
                             <div class="col-sm-12">
-                                <select name="answerStatus" class="form-select form-select-sm form-control-sm" id="answerStatus">
+                                <select name="answerStatus" class="form-select form-control form-control-round" id="answerStatus">
                                     <option value="0">답변대기</option>
                                     <option value="1">답변완료</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="mb-3 form-group row">
+                        <div class="mb-3 form-group row required">
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                    for="answerTitle"><strong>답변 제목</strong></label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control form-control-sm"
-                                       name="answerTitle" id="answerTitle"
-                                       placeholder="Text Input Validation"/>
+                                <input type="text" class="form-control form-control-round" name="answerTitle" id="answerTitle" placeholder="Text Input Validation"/>
                             </div>
                         </div>
                         <div class="mb-3 form-group row">
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                    for="answerContents"><strong>답변 내용</strong></label>
                             <div class="col-sm-12">
-                                                                <textarea rows="5" cols="5" class="form-control form-control-sm"
-                                                                          placeholder="Default textarea"
-                                                                          id="answerContents"
-                                                                          name="answerContents" mekc-ck-editor></textarea>
-                            </div>
-                        </div>
-                        <div class="mb-3 form-group row">
-                            <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>담당자 지정</strong></div>
-                            <div class="col-sm-12 btn-group-sm">
-                                <button type="button" class="btn btn-inverse" data-bs-toggle="modal" data-bs-target="#managerSearchPopup">담당자 검색</button>
-                            </div>
-                            <div class="m-0 row">
-                                <div class="col-12 row border rounded p-t-10 p-b-10 m-0 mt-2">
-                                    <div class="col-auto">
-                                                                    <span class="label label-inverse">
-                                                                        Label Badge <a href="javascript:void(0)" class="text-white">X</a>
-                                                                    </span>
-                                        <span class="label label-inverse">
-                                                                        Label Badge <a href="javascript:void(0)" class="text-white">X</a>
-                                                                    </span><span class="label label-inverse">
-                                                                        Label Badge <a href="javascript:void(0)" class="text-white">X</a>
-                                                                    </span>
-                                    </div>
-                                </div>
+                                <textarea rows="5" cols="5" class="form-control" id="answerContents" name="answerContents" placeholder="Text Input Validation"></textarea>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -405,9 +289,7 @@
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                            for="answerManager"><strong>답변자</strong></label>
                                     <div class="col-sm-12">
-                                        <input type="text" class="form-control form-control-sm"
-                                               name="answerManager" id="answerManager"
-                                               placeholder="Text Input Validation"/>
+                                        <input type="text" class="form-control form-control-round" name="answerManager" id="answerManager" placeholder="Text Input Validation"/>
                                     </div>
                                 </div>
                             </div>
@@ -416,15 +298,120 @@
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                            for="answerDate"><strong>답변일자</strong></label>
                                     <div class="col-sm-12">
-                                        <input type="text" class="form-control form-control-sm" name="answerDate" id="answerDate"
-                                               placeholder="Text Input Validation"/>
+                                        <input type="text" class="form-control form-control-round" name="answerDate" id="answerDate" placeholder="Text Input Validation"/></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-0 form-group row">
+                            <div class="col-12 mb-3">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="atchFile"><strong>첨부파일</strong></label>
+                                    <div class="form-control form-control-round" style="position:relative;">
+                                        <input type="file" style="display:none;" id="fileInput">
+                                        파일등록 (<span class="current-file-length">0</span> / <span class="max-file-length">6</span>)
+                                        <button class="file-open-btn">파일선택</button>
                                     </div>
+
+                                    <div class="mt-2 row">
+                                        <div class="col-auto">
+                                            <div id="atchFileUploadSuccess">
+                                                <span class="label label-yellow" id="42008"> 슬랙 (1).png
+                                                    <a class="text-yellow" href="javascript:void(0)" name="42008" onclick="deleteFile(this.name, this.dataset.idntfcKey)" data-idntfc-key="155254744532866413812830686042667176820">X
+                                                    </a>
+                                                </span>
+
+                                                <span class="label label-yellow" id="42027"> 환경·경제 통합분석을 위한 환경가치 종합연구_통합분석 시스템 구축.pdf
+                                                    <a class="text-yellow" href="javascript:void(0)" name="42027" onclick="deleteFile(this.name, this.dataset.idntfcKey)" data-idntfc-key="187729746533770933651671500955560289682">X
+                                                    </a>
+                                                </span>
+                                            </div>
+                                            <input type="hidden" id="atchFilegrpid" name="atchFilegrpid" value="20799">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-0 form-group row">
+                            <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>답변공개</strong></div>
+                            <div class="col-12 mb-3">
+                                <div class="form-radio">
+                                    <div class="radio radio-inline">
+                                        <label class="mb-0 form-label'" style="">
+                                            <input type="radio" name="rlsYn" id="rlsYn1" value="Y" checked="">
+                                            <i class="helper"></i>공개
+                                        </label>
+                                    </div>
+                                    <div class="radio radio-inline">
+                                        <label class="mb-0 form-label" style="">
+                                            <input type="radio" name="rlsYn" id="rlsYn2" value="N">
+                                            <i class="helper"></i>비공개
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-0 form-group required">
+                            <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>분류</strong></div>
+                            <div class="border-checkbox-section">
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds1" name="clsfCds" value="228101" data-cd-name="공기">
+                                    <label class="form-label border-checkbox-label" for="clsfCds1">공기</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds2" name="clsfCds" value="228102" data-cd-name="기후변화">
+                                    <label class="form-label border-checkbox-label" for="clsfCds2">기후변화</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds3" name="clsfCds" value="228103" data-cd-name="물" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds3">물</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds4" name="clsfCds" value="228104" data-cd-name="생명윤리" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds4">생명윤리</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds5" name="clsfCds" value="228105" data-cd-name="생태계" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds5">생태계</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds6" name="clsfCds" value="228106" data-cd-name="에너지" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds6">에너지</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds7" name="clsfCds" value="228107" data-cd-name="연구" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds7">연구</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds8" name="clsfCds" value="228108" data-cd-name="정책" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds8">정책</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds9" name="clsfCds" value="228109" data-cd-name="지속가능발전" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds9">지속가능발전</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds10" name="clsfCds" value="228110" data-cd-name="토양" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds10">토양</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds11" name="clsfCds" value="228111" data-cd-name="통계" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds11">통계</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds12" name="clsfCds" value="228112" data-cd-name="폐기물" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds12">폐기물</label>
+                                </div>
+                                <div class="border-checkbox-group">
+                                    <input type="checkbox" class="border-checkbox " id="clsfCds13" name="clsfCds" value="228113" data-cd-name="환경보건" checked="">
+                                    <label class="form-label border-checkbox-label" for="clsfCds13">환경보건</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-block-small">
-                        <button class="btn btn-disabled m-r-5">취소</button>
+                        <button class="btn btn-gray m-r-5">취소</button>
                         <button class="btn btn-primary">저장</button>
                     </div>
                 </div>
@@ -460,8 +447,7 @@
                                                 <option value="opt7">Type 7</option>
                                                 <option value="opt8">Type 8</option>
                                             </select>
-                                            <input type="text" class="form-control" aria-label="Text input with dropdown button" name="popupFilterKeywordInput"
-                                                   id="popupFilterKeywordInput"/>
+                                            <input type="text" class="form-control" aria-label="Text input with dropdown button" name="popupFilterKeywordInput" id="popupFilterKeywordInput"/>
                                         </div>
                                     </div>
                                 </div>
@@ -584,5 +570,34 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        $(function () {
+            $('.file-span').on('click',function() {
+                $(this).parent().find('input').click();
+            })
+
+            $('#exampleTable').DataTable({
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0
+                }],
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                },
+
+                lengthChange: false,
+                searching: false,
+                ordering: false,
+                paging: true,
+                info: false,
+                pageLength: 5,
+            });
+        })
+    </script>
 </div>
+
 </html>

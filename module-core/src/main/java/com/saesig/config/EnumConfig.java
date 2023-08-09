@@ -3,6 +3,7 @@ package com.saesig.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.saesig.domain.faq.FaqCategory;
+import com.saesig.domain.policy.PolicyCategory;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.global.enumCode.ExampleEnum;
 
@@ -16,6 +17,7 @@ public class EnumConfig {
 
         factory.put("exampleEnum", ExampleEnum.class);
         factory.put("faqCategory", FaqCategory.class);
+        factory.put("policyCategory", PolicyCategory.class);
         // 해당 라인에 새롭게 추가한 Enum 클래스들 추가
 
 
