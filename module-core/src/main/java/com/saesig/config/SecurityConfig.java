@@ -29,7 +29,17 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain ignoringSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .requestMatchers(matchers -> matchers.antMatchers("/static/**/*", "/templates/**", "/h2-console/**"))
+                .requestMatchers(matchers -> matchers.antMatchers(
+                        "/static/**/*",
+                        "/templates/**",
+                        "/h2-console/**",
+                        "/**/*.js",
+                        "/**/*.css",
+                        "/css/**/*",
+                        "/fonts/**/*",
+                        "/images/**/*",
+                        "/files/**/*",
+                        "/favicon.ico"))
                 .csrf()
                 .disable()
                 .headers()
@@ -45,9 +55,8 @@ public class SecurityConfig {
         httpSecurity
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers("/admin/login").permitAll()
-                .antMatchers("/admin").permitAll()
-                .antMatchers("/admin/**").authenticated()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/admin/login")
