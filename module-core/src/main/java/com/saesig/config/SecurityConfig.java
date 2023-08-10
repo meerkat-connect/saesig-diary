@@ -4,6 +4,7 @@ import com.saesig.config.auth.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.RoleVoter;
@@ -22,6 +23,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
+@Profile("!local")
 public class SecurityConfig {
     private final SecurityResourceService securityResourceService;
 
@@ -74,7 +76,7 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())
                 .authenticationEntryPoint(new CustomEntryPoint());
-//                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/?timeout=true"))
+//                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/admin/login"));
         return httpSecurity.build();
     }
 
