@@ -34,7 +34,7 @@
                     <li class="user-profile header-notification">
                         <div class="dropdown-primary dropdown">
                             <div class="dropdown-toggle" data-bs-toggle="dropdown">
-                                <span th:if="${session.user != null}" th:text="${session.user.nickname}">John Doe</span>
+                                <span th:if="${session.member != null}" th:text="${session.member.nickname}">John Doe</span>
                                 <i class="feather icon-chevron-down"></i>
                             </div>
                             <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
@@ -46,9 +46,11 @@
                                 Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
                                 */-->
                                 <li>
-                                    <a href="auth-normal-sign-in.html">
-                                        <i class="feather icon-log-out"></i> Logout
-                                    </a>
+                                    <form th:action="@{/logout}" method="post">
+                                        <button>
+                                            <i class="feather icon-log-out"></i> Logout
+                                        </button>
+                                    </form>
                                 </li>
                             </ul>
                         </div>
