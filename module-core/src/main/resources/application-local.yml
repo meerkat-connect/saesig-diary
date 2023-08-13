@@ -5,10 +5,10 @@ spring:
       on-profile: local
 
   datasource:
-    jdbc-url: ENC(XDuOfsJUWRovzOS5LjfBEcxhXWnLABmB/7eIYP0uBVQSo8f8Jbi6Pg==)
+    jdbc-url: ENC(0SIVOUq3nPqZpySfAmPv5HiCJq/cA4X+cThawAS48Fdi4HxmSaPCDg==)
     driver-class-name: org.h2.Driver
-    username: ENC(Cobw7rxXgtpI+8MddkLPdA==)
-    password: ENC(gjCAJH5mJZ2sDNyZ5rvR9Q==)
+    username: ENC(pOYIaEb0HWP+CrJw6QOOLA==)
+    password: ENC(zu7yt2tvASOJs0QweZw/rA==)
 
   h2:
     console: true
