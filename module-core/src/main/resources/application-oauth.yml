@@ -1,0 +1,27 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            provider: google
+            client-id: ENC(O4ukpw99vYmKLfG5hauK16imSSTjjtxRIEkoeGfQNtutyjIPysDN3UholpABUgD23BpJh0aaalIRHy68Cxnh/GGfrR377OXQ2E6VN5YA8wIEDen/3tQTcQ==)
+            client-secret: ENC(dmGJwFpkR4UkcqytU0fdX/rgFiH2i6txoytCdZuPGucQfpEJdkhf1QlkRqzCRRqi)
+            scope: profile, email, openid
+          naver:
+            client-id:
+            client-secret:
+            scope: name, profile_image, email
+            redirect-uri:
+            authorization-grant-type: authorization_code
+            client-name: naver
+          kakao:
+
+        provider:
+          naver:
+            authorization-uri:
+            token-uri:
+            user-info-uri:
+            user-name-attribute: response
+
+
