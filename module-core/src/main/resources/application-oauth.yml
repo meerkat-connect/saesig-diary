@@ -6,7 +6,7 @@ spring:
           google:
             client-id: ENC(O4ukpw99vYmKLfG5hauK16imSSTjjtxRIEkoeGfQNtutyjIPysDN3UholpABUgD23BpJh0aaalIRHy68Cxnh/GGfrR377OXQ2E6VN5YA8wIEDen/3tQTcQ==)
             client-secret: ENC(dmGJwFpkR4UkcqytU0fdX/rgFiH2i6txoytCdZuPGucQfpEJdkhf1QlkRqzCRRqi)
-            scope: profile, email, openid
+            scope: profile, email
           kakao:
             client-id: ENC(g55H21gzMhGT2qv5WI291wzAerWK6EKeAd0TnXN5slPtj2mIF8rgTojPsE4gjIOR)
             client-secret: ENC(OLL3NkO11lmWPW5i7FeQamJp6ttZgvi9sY/3FB8tN+GiMLB4G0U6NAfEAVWJr1vI)
