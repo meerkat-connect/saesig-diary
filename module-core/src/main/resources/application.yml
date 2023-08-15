@@ -20,6 +20,8 @@ decorator:
     p6spy:
       enable-logging: true
 
+file.dir: C:/saesigDiary/file/
+
 --- #local
 spring:
   config:
@@ -81,6 +83,6 @@ decorator:
     p6spy:
       enable-logging: false
 
----
+--- #defaults
 
 
