@@ -1,4 +1,7 @@
 package com.saesig.sendHistory;
 
-public interface SendHistoryServiceImpl {
+import org.springframework.stereotype.Service;
+
+@Service
+public class SendHistoryServiceImpl implements SendHistoryService {
 }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.sendHistory.SendHistoryMapper">
+
+    <select id="selectTemplateList" resultType="com.saesig.sendHistory.SendHistoryDto">
+        SELECT
+            *
+        FROM
+            SEND_TEMPLATE
+    </select>
+
+    <select id="selectTemplate" resultType="com.saesig.sendHistory.SendHistoryDto">
+        SELECT
+            *
+        FROM
+            SEND_TEMPLATE
+        where
+            id = #{id}
+    </select>
+
+    <insert id="insertForm">
+        INSERT INTO send_template(
+                                   method
+                                 , title
+                                 , content
+                                 , category
+                                 , is_enabled
+                                 , time_point
+                                 , created_at
+                                 , created_by
+                                 , modified_at
+                                 , modified_by
+        )VALUES (
+                    #{method}
+                , #{title}
+                , #{content}
+                , #{category}
+                , #{isEnabled}
+                , '-'
+                , NOW()
+                , #{member.id}
+                , NOW()
+                , #{member.id}
+                )
+    </insert>
+
+    <update id="updateForm">
+        UPDATE send_template
+        SET
+            method      = #{method}
+          , title       = #{title}
+          , content     = #{content}
+          , category    = #{category}
+          , is_enabled  = #{isEnabled}
+          , modified_at = NOW()
+          , modified_by = #{member.id}
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="deleteItems">
+        DELETE FROM send_template
+        WHERE id IN
+        <foreach item="item" collection="ids" open="("  separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

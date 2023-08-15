@@ -1,4 +1,4 @@
 package com.saesig.sendHistory;
 
-public class SendHistoryService {
+public interface SendHistoryService {
 }

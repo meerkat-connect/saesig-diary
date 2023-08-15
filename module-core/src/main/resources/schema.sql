@@ -163,3 +163,20 @@ CREATE TABLE `send_template`
 
 ALTER TABLE `send_template`
     ADD CONSTRAINT `PK_SEND_TEMPLATE` PRIMARY KEY (`id`);
+
+CREATE TABLE `send_history` (
+    `id`	            BIGINT	    NOT NULL	COMMENT '발송이력 일련번호',
+    `send_template_id`	BIGINT	    NOT NULL	COMMENT '템플릿 일련번호',
+    `recipient_id`	    BIGINT	    NOT NULL	COMMENT '수신자 일련번호',
+    `recipient_email`	VARCHAR(50)	NOT NULL	COMMENT '수신자 이메일',
+    `sender_id`	        BIGINT	    NOT NULL	COMMENT '발신자 일련번호',
+    `sender_email`	    VARCHAR(50)	NOT NULL	COMMENT '발신자 이메일',
+    `sended_at`	        DATETIME	NOT NULL	COMMENT '발송일시',
+    `created_at`	    DATETIME	NOT NULL	COMMENT '등록일',
+    `created_by`	    BIGINT	    NOT NULL	COMMENT '등록자 일련번호',
+    `modified_at`	    DATETIME	NOT NULL	COMMENT '수정일',
+    `modified_by`	    BIGINT	    NOT NULL	COMMENT '수정자 일련번호'
+);
+
+ALTER TABLE `send_history`
+    ADD CONSTRAINT `PK_SEND_HISTORY` PRIMARY KEY (`id`);
