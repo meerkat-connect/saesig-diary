@@ -3,11 +3,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.saesig.sendHistory.SendHistoryMapper">
 
-    <select id="selectTemplateList" resultType="com.saesig.sendHistory.SendHistoryDto">
+    <select id="selectSendHistoryList" resultType="com.saesig.sendHistory.SendHistoryDto">
         SELECT
-            *
+            A.ID
+            , B.METHOD
+            , B.TITLE
+            , B.CATEGORY
+            , C.NICKNAME
+            , A.RECIPIENT_EMAIL
+            , A.SENDED_AT
         FROM
-            SEND_TEMPLATE
+            SEND_HISTORY A
+        LEFT OUTER JOIN SEND_TEMPLATE B ON A.SEND_TEMPLATE_ID = B.ID
+        LEFT OUTER JOIN MEMBER C ON A.RECIPIENT_ID = C.ID
     </select>
 
     <select id="selectTemplate" resultType="com.saesig.sendHistory.SendHistoryDto">

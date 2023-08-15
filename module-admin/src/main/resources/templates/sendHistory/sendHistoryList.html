@@ -85,11 +85,7 @@
                 <div class="card">
                     <div class="row p-20 p-b-0">
                         <div class="col-12 col-md-6 mb-2 mb-md-0">
-                            <h5><strong>템플릿 검색결과</strong></h5>
-                        </div>
-                        <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
-                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>
+                            <h5><strong>검색결과</strong></h5>
                         </div>
                     </div>
                     <div class="card-block-small">
@@ -98,14 +94,13 @@
                                 <table id="listTable" class="display" style="width:100%">
                                     <thead>
                                     <tr>
-                                        <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
                                         <th>No.</th>
                                         <th>발송수단</th>
                                         <th>제목</th>
-                                        <th>발송시점</th>
                                         <th>발송유형</th>
-                                        <th>사용여부</th>
-                                        <th>등록일</th>
+                                        <th>수신자</th>
+                                        <th>수신주소</th>
+                                        <th>발송일시</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -164,7 +159,7 @@
 
                     ajax: {
                         async: false,
-                        url:'/templateManage/selectTemplateList.do',
+                        url:'/sendHistory/selectSendHistoryList.do',
                         method: 'get',
                         "dataSrc": function (res) {
                             res.data[0].isFirst = true;
@@ -173,11 +168,6 @@
                     },
 
                     columns: [
-                        {
-                            render: function (data, type, row) {
-                                return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
-                            }
-                        },
                         {data : 'id'}, // 페이징 후 No. 변경
                         {
                             render: function (data, type, row) {
@@ -185,18 +175,14 @@
                             }
                         },
                         {data : 'title'},
-                        {data : 'timePoint'},
                         {
                             render: function (data, type, row) {
                                 return row.category === 'batch' ? '배치' : row.category === 'now' ? '즉시' : '직접';
                             }
                         },
-                        {
-                            render: function (data, type, row) {
-                                return row.isEnabled === 'Y' ? '사용' : '사용안함';
-                            }
-                        },
-                        {data : 'createdAt'},
+                        {data : 'nickname'},
+                        {data : 'recipientEmail'},
+                        {data : 'sendedAt'},
                     ],
 
                     language: {

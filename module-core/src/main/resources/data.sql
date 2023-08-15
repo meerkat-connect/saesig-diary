@@ -118,3 +118,21 @@ VALUES (10, 'EMAIL', '템플릿10', '템플릿 내용10', 'now', 'Y', '정기 �
 
 INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
 VALUES (11, 'EMAIL', '템플릿11', '템플릿 내용11', 'immediate', 'Y', '정기 쿠폰 발행', NOW(), 1, NOW(), 1);
+
+INSERT INTO send_history(id, send_template_id, content, recipient_id, recipient_email, sender_id, sender_email, sended_at, created_at, created_by, modified_at, modified_by)
+VALUES (1, 1, '템플릿내용1', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com', NOW(), NOW(), 1, NOW(), 1);
+
+INSERT INTO send_history(id, send_template_id, content, recipient_id, recipient_email, sender_id, sender_email, sended_at, created_at, created_by, modified_at, modified_by)
+VALUES (2, 2, '템플릿내용2', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com', NOW(), NOW(), 1, NOW(), 1);
+
+INSERT INTO send_history(id, send_template_id, content, recipient_id, recipient_email, sender_id, sender_email, sended_at, created_at, created_by, modified_at, modified_by)
+VALUES (3, 3, '템플릿내용3', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com', NOW(), NOW(), 1, NOW(), 1);
+
+INSERT INTO send_history(id, send_template_id, content, recipient_id, recipient_email, sender_id, sender_email, sended_at, created_at, created_by, modified_at, modified_by)
+VALUES (4, 4, '템플릿내용4', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com', NOW(), NOW(), 1, NOW(), 1);
+
+INSERT INTO send_history(id, send_template_id, content, recipient_id, recipient_email, sender_id, sender_email, sended_at, created_at, created_by, modified_at, modified_by)
+VALUES (5, 5, '템플릿내용5', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com', NOW(), NOW(), 1, NOW(), 1);
+
+INSERT INTO send_history(id, send_template_id, content, recipient_id, recipient_email, sender_id, sender_email, sended_at, created_at, created_by, modified_at, modified_by)
+VALUES (6, 6, '템플릿내용6', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com', NOW(), NOW(), 1, NOW(), 1);

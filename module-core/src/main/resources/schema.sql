@@ -167,6 +167,7 @@ ALTER TABLE `send_template`
 CREATE TABLE `send_history` (
     `id`	            BIGINT	    NOT NULL	COMMENT '발송이력 일련번호',
     `send_template_id`	BIGINT	    NOT NULL	COMMENT '템플릿 일련번호',
+    `content`           TEXT        NOT NULL    COMMENT '발송내용',
     `recipient_id`	    BIGINT	    NOT NULL	COMMENT '수신자 일련번호',
     `recipient_email`	VARCHAR(50)	NOT NULL	COMMENT '수신자 이메일',
     `sender_id`	        BIGINT	    NOT NULL	COMMENT '발신자 일련번호',
