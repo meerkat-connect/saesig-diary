@@ -4,7 +4,23 @@ spring:
       client:
         registration:
           google:
-            provider: google
             client-id: ENC(O4ukpw99vYmKLfG5hauK16imSSTjjtxRIEkoeGfQNtutyjIPysDN3UholpABUgD23BpJh0aaalIRHy68Cxnh/GGfrR377OXQ2E6VN5YA8wIEDen/3tQTcQ==)
             client-secret: ENC(dmGJwFpkR4UkcqytU0fdX/rgFiH2i6txoytCdZuPGucQfpEJdkhf1QlkRqzCRRqi)
             scope: profile, email, openid
+          kakao:
+            client-id: ENC(g55H21gzMhGT2qv5WI291wzAerWK6EKeAd0TnXN5slPtj2mIF8rgTojPsE4gjIOR)
+            client-secret: ENC(OLL3NkO11lmWPW5i7FeQamJp6ttZgvi9sY/3FB8tN+GiMLB4G0U6NAfEAVWJr1vI)
+            redirect-uri: ENC(7ZFE3RCv4aoueK+AZmahL6LZDbc9xj2soX/9t8PWojlrVNcVPR1RrWlgW+YMRnuEaI9WwCqnLmf4mxLcpa6zPoNLmYkfwCyx)
+            scope: profile_nickname, account_email
+            client-name: kakao
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
+
