@@ -1,4 +1,4 @@
-package com.saesig.mail;
+package com.saesig.api.mail;
 
 import lombok.Data;
 

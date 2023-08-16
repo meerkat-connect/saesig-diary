@@ -1,4 +1,4 @@
-package com.saesig.file;
+package com.saesig.api.file;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

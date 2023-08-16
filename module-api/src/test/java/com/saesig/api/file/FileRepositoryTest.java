@@ -1,5 +1,7 @@
-package com.saesig.file;
+package com.saesig.api.file;
 
+import com.saesig.api.file.FileGroupRepository;
+import com.saesig.api.file.FileRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

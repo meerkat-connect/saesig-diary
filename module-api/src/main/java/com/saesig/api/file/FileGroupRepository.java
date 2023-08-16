@@ -1,4 +1,4 @@
-package com.saesig.file;
+package com.saesig.api.file;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.saesig.domain.file.FileGroup;
