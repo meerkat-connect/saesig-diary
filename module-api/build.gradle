@@ -20,6 +20,8 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation group: 'javax.mail', name: 'mail', version: '1.4.7'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+
 }
 
 def querydslDir = "$buildDir/generated/querydsl"
