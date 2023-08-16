@@ -1,5 +1,6 @@
-package com.saesig.config.auth;
+package com.saesig.config.auth.formLogin;
 
+import com.saesig.config.auth.SessionMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;

@@ -1,4 +1,4 @@
-package com.saesig.config.auth;
+package com.saesig.config.auth.formLogin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;

@@ -1,6 +1,7 @@
 package com.saesig.config;
 
 import com.saesig.config.auth.*;
+import com.saesig.config.auth.formLogin.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package com.saesig.config.auth;
+package com.saesig.config.auth.formLogin;
 
 import com.saesig.domain.member.Member;
 import com.saesig.domain.member.MemberRepository;

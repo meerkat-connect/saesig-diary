@@ -1,4 +1,4 @@
-package com.saesig.config.auth;
+package com.saesig.config.auth.formLogin;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
