@@ -22,6 +22,14 @@ decorator:
 
 file.dir: C:/saesigDiary/file/
 
+springdoc:
+  packages-to-scan: com.saesig.api
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+      operationsSorter: alpha
+      displayRequestDuration: true
+
 --- #local
 spring:
   config:
