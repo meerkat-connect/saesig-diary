@@ -1,3 +1,4 @@
+#default
 application:
   title: 새식일기
   version: 1.0v
@@ -14,15 +15,72 @@ spring:
       max-file-size: 5MB
       max-request-size: 10MB
 
-logging:
-  level:
-#    root: debug
-#    org:
-#      hibernate: debug
-    sql: debug
-
 decorator:
   datasource:
     p6spy:
       enable-logging: true
+
+--- #local
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    jdbc-url: ENC(0SIVOUq3nPqZpySfAmPv5HiCJq/cA4X+cThawAS48Fdi4HxmSaPCDg==)
+    driver-class-name: org.h2.Driver
+    username: ENC(pOYIaEb0HWP+CrJw6QOOLA==)
+    password: ENC(zu7yt2tvASOJs0QweZw/rA==)
+
+  h2:
+    console: true
+
+  sql:
+    init:
+      mode: always
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      format_sql: true
+    generate-ddl: false
+    database-platform: org.hibernate.dialect.MariaDBDialect
+
+  database:
+#    platform: mariadb
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+    data:
+      mongodb:
+        host: localhost
+        port: 27017
+        authentication-database: admin
+        database: sample
+
+file.dir: C:/saesigDiary/file/
+
+
+--- #dev
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+
+--- #prod
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
+
+---
+
 
