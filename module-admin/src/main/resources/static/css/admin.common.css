@@ -84,6 +84,10 @@ strong {
     background : #ff8031;
 }
 
+.border-checkbox-section .border-checkbox-group-inverse .border-checkbox-label:before{
+    border: 2px solid #ff8031;
+}
+
 .btn-primary:hover {
     background-color: #FF6200 !important;
     border-color: #FF6200 !important;

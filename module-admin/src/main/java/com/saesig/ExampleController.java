@@ -15,4 +15,9 @@ public class ExampleController {
         return "tabExample";
     }
 
+    @GetMapping("/oldTabExample")
+    public String oldTabExample() {
+        return "oldTabExample";
+    }
+
 }
