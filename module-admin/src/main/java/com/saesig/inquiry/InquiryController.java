@@ -1,7 +1,10 @@
-package saesigDiary.inquiry;
+package com.saesig.inquiry;
 
+import com.saesig.config.auth.LoginMember;
+import com.saesig.config.auth.SessionMember;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -12,14 +15,16 @@ import java.util.Map;
 public class InquiryController {
 
     @Autowired
-    private InquirySerivce inquiryService;
+    private InquiryService inquiryService;
 
-    @GetMapping({"/inquiry", "/inquiry/inquiryList.html"})
-    public String example() {
+    @GetMapping({"/admin/inquiry/view", "/admin/inquiry/inquiryList.html"})
+    public String view(Model model, @LoginMember SessionMember user) {
+        String currentNickName = user.getNickname();
+        model.addAttribute("loginSession", currentNickName);
         return "inquiry/inquiryList";
     }
 
-    @RequestMapping(value = "/inquiry/getInquiryList.do")
+    @RequestMapping(value = "/admin/inquiry/getInquiryList.do")
     @ResponseBody
     public Map<String,Object> getInquiryList(@RequestParam Map<String, Object> param) throws Exception {
         List<InquiryDto> result = inquiryService.getInquiryList(param);
@@ -32,7 +37,7 @@ public class InquiryController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/inquiry/getFilterData.do")
+    @RequestMapping(value = "/admin/inquiry/getFilterData.do")
     @ResponseBody
     public Map<String, Object> getInquiryEnum() throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
@@ -56,14 +61,14 @@ public class InquiryController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/inquiry/insertAnswer.do")
+    @RequestMapping(value = "/admin/inquiry/insertAnswer.do")
     @ResponseBody
     public boolean insertAnswer(@RequestBody InquiryAnswerDto param) throws Exception {
         boolean result = inquiryService.InsertAnswer(param);
         return result;
     }
 
-    @RequestMapping(value = "/inquiry/getAnswerById.do")
+    @RequestMapping(value = "/admin/inquiry/getAnswerById.do")
     @ResponseBody
     public List<InquiryAnswerDto> getAnswerById(@RequestBody Long id) throws Exception {
         return inquiryService.selectAnswerById(id);

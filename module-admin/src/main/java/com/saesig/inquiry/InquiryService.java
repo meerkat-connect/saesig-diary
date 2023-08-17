@@ -1,9 +1,9 @@
-package saesigDiary.inquiry;
+package com.saesig.inquiry;
 
 import java.util.List;
 import java.util.Map;
 
-public interface InquirySerivce {
+public interface InquiryService {
 
     public List<InquiryDto> getInquiryList(Map<String, Object> param) throws Exception;
 

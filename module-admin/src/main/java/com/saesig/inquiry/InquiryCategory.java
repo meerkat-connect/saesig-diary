@@ -1,4 +1,4 @@
-package saesigDiary.inquiry;
+package com.saesig.inquiry;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

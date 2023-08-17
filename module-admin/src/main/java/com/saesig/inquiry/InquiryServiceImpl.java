@@ -1,4 +1,4 @@
-package saesigDiary.inquiry;
+package com.saesig.inquiry;
 
 
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class InquirySerivceImpl implements InquirySerivce {
+public class InquiryServiceImpl implements InquiryService {
 
     private final InquiryMapper inquiryMapper;
 

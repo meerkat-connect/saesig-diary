@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="saesigDiary.inquiry.InquiryMapper">
+<mapper namespace="com.saesig.inquiry.InquiryMapper">
 
-    <select id="getInquiryList" resultType="saesigDiary.inquiry.InquiryDto" parameterType="hashMap">
+    <select id="getInquiryList" resultType="com.saesig.inquiry.InquiryDto" parameterType="hashMap">
         select
         i.id,
         i.category,
@@ -49,13 +49,13 @@
         INSERT INTO inquiry_answer (inquiry_id,title,content,created_at,created_by) VALUES (#{inquiryId}, #{title},#{content}, now(),#{createdBy})
     </insert>
 
-    <update id="updateInquiryAnswerStatus" parameterType="saesigDiary.inquiry.InquiryAnswerDto">
+    <update id="updateInquiryAnswerStatus" parameterType="com.saesig.inquiry.InquiryAnswerDto">
         UPDATE inquiry
         SET status = 'COMPLETE'
         WHERE id = #{inquiryId}
     </update>
 
-    <select id="selectAnswerById" parameterType="java.lang.Long" resultType="saesigDiary.inquiry.InquiryAnswerDto">
+    <select id="selectAnswerById" parameterType="java.lang.Long" resultType="com.saesig.inquiry.InquiryAnswerDto">
         SELECT
             i.id,
             i.inquiry_id,

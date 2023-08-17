@@ -1,4 +1,4 @@
-package saesigDiary.inquiry;
+package com.saesig.inquiry;
 
 import org.apache.ibatis.annotations.Mapper;
 
