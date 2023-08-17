@@ -6,10 +6,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @Slf4j
-public class MemberController {
+public class MemberApiController {
 
     @GetMapping("/oauth2/login")
     public String login() {
+        return "oauth/login";
+    }
+
+    @GetMapping("/test")
+    public String test() {
         return "oauth/login";
     }
 }
