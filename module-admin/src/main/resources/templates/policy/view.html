@@ -45,6 +45,8 @@
                     </div>
                     <div class="card-block-small p-t-0">
                         <div class="mb-3 form-group row required">
+                            <input type="hidden" name="id" value="">
+                            <input type="hidden" name="category" value="">
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                    for="title"><strong>제목</strong></label>
                             <div class="col-sm-12">
@@ -79,8 +81,8 @@
                         </div>
                     </div>
                     <div class="card-block-small">
-                        <button class="btn btn-gray m-r-5">취소</button>
-                        <button class="btn btn-primary">저장</button>
+                        <button class="btn btn-gray m-r-5" onclick="policy.resetData()">취소</button>
+                        <button class="btn btn-primary" onclick="policy.chagePolicyData()" >저장</button>
                     </div>
                 </div>
             </div>
@@ -108,9 +110,12 @@
             ,getPolicyData : function (select_type){
                 const _this = this;
                 $.ajax({
-                    type: 'select',
-                    data: {select_type: select_type},
-                    url: '/admin/policy'
+                    type: "post",
+                    async: false,
+                    enctype: 'multipart/form-data',
+                    url: '/admin/policy/getPolicyByType.do',
+                    dataType: 'json',
+                    data: {select_type: select_type}
                 }).done(function (response) {
                     _this.setPolicyData(response)
                 }).fail(function (error) {
@@ -120,6 +125,46 @@
             }
 
             ,setPolicyData : function (response) {
+                console.log(response.id)
+                $("input[name=id]").val(response.id)
+                $("input[name=category]").val(response.category)
+                $("input[name=title]").val(response.title)
+                $("input[name=content]").val(response.content)
+                $("input[name=modified_name]").val(response.modifiedName)
+                $("input[name=modified_date]").val(response.modifiedAt)
+                ckeditorApp.editorList['content'].setData(response.content)
+            }
+            
+            ,chagePolicyData : function () {
+                let param = {}
+                param.id = $("input[name=id]").val();
+                param.category = $("input[name=category]").val();
+                param.title = $("input[name=title]").val();
+                param.content = ckeditorApp.getEditorData('content');
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    enctype: 'multipart/form-data',
+                    url: "/admin/policy/changePolicy.do",
+                    dataType: 'json',
+                    data: JSON.stringify(param), // 객체를 JSON 문자열로 변환하여 전달
+                    contentType: 'application/json', // 전달하는 데이터의 타입을 명시
+                    cache: false,
+                    success: function (result) {
+                        if (result){
+                            alert("변경이 완료되었습니다.")
+                            window.location.reload();
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e)
+                    }
+                })
+            }
+
+            ,resetData : function () {
+                $('#category').val('');
+                $('#info_card_con').hide();
             }
         }
 

@@ -85,3 +85,9 @@ VALUES (4, 'TYPE_D', 'nec massa eu faucibus', 'content4', 4, 'Y', NOW(), 1, NOW(
 
 INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
 VALUES (5, 'TYPE_E', 'Fusce eget turpis lorem', 'content5', 5, 'Y', NOW(), 1, NOW(), 1);
+
+INSERT INTO policy(id,category,title,content,is_enabled,modified_at, modified_by, created_at, created_by)
+VALUES (1,'TYPE_A','약관 제목', '약관 내용','Y',NOW(), 1, NOW(), 1);
+
+INSERT INTO policy(id,category,title,content,is_enabled,modified_at, modified_by, created_at, created_by)
+VALUES (2,'TYPE_B','정책 제목', '정책 내용','Y',NOW(), 1, NOW(), 1);
