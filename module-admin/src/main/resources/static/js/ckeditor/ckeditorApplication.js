@@ -1,15 +1,17 @@
 var ckeditorApp = {
+    editorList : {},
+
     init : function () {
         this.setckeditor()
     }
 
     ,setckeditor : function (){
-        let editorList = {};
+        const _this = ckeditorApp;
+
         const ckEditorList = $("#pcoded").find("[mekc-ck-editor]");
         if( ckEditorList.length > 0 ){
-            console.log(this);
             ckEditorList.each( function(){
-                editorList[$(this).attr('id')] = {}
+                _this.editorList[$(this).attr('id')] = {}
                 ClassicEditor
                     .create( this,
                         {extraPlugins: [MyCustomUploadAdapterPlugin],
@@ -18,15 +20,15 @@ var ckeditorApp = {
                         }
                     )
                     .then( newEditor => {
-                        editorList[$(this).attr('id')] = newEditor;
+                        _this.editorList[$(this).attr('id')] = newEditor;
                     });
             })
         }
     }
 
     ,getEditorData : function (id) {
-        if (editorList[id] != undefined){
-            return editorList[id].getData(id)
+        if (this.editorList[id] != undefined){
+            return this.editorList[id].getData(id)
         }
     }
 }

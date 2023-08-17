@@ -1,20 +1,20 @@
 CREATE TABLE `member`
 (
     `id`                          BIGINT AUTO_INCREMENT NOT NULL COMMENT '회원 일련번호',
-    `email`                       VARCHAR(50)  NOT NULL COMMENT '이메일',
-    `password`                    VARCHAR(100) NOT NULL COMMENT '비밀번호',
-    `signup_method`               VARCHAR(20) NULL COMMENT '가입 수단',
-    `nickname`                    VARCHAR(50) NULL COMMENT '닉네임',
-    `status`                      VARCHAR(20)  NOT NULL COMMENT '상태',
-    `joined_at`                   DATETIME     NOT NULL COMMENT '가입일',
-    `modified_at`                 DATETIME     NOT NULL COMMENT '수정일',
-    `modified_by`                 BIGINT       NOT NULL COMMENT '수정자 일련번호',
-    `created_at`                  DATETIME     NOT NULL COMMENT '등록일',
-    `created_by`                  BIGINT       NOT NULL COMMENT '등록자 일련번호',
-    `service_agreement`           CHAR(1)      NOT NULL COMMENT '서비스 이용약관 동의 여부',
-    `privacy_agreement`           CHAR(1)      NOT NULL COMMENT '개인정보 수집 및 이용동의',
-    `location_service_agreement`  CHAR(1)      NOT NULL DEFAULT 'N' COMMENT '위치 기반 서비스 이용동의',
-    `marketing_service_agreement` CHAR(1)      NOT NULL DEFAULT 'N' COMMENT '마케팅 서비스 이용동의'
+    `email`                       VARCHAR(50)           NOT NULL COMMENT '이메일',
+    `password`                    VARCHAR(100)          NOT NULL COMMENT '비밀번호',
+    `signup_method`               VARCHAR(20)           NULL COMMENT '가입 수단',
+    `nickname`                    VARCHAR(50)           NULL COMMENT '닉네임',
+    `status`                      VARCHAR(20)           NOT NULL COMMENT '상태',
+    `joined_at`                   DATETIME              NOT NULL COMMENT '가입일',
+    `modified_at`                 DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by`                 BIGINT                NOT NULL COMMENT '수정자 일련번호',
+    `created_at`                  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`                  BIGINT                NOT NULL COMMENT '등록자 일련번호',
+    `service_agreement`           CHAR(1)               NOT NULL COMMENT '서비스 이용약관 동의 여부',
+    `privacy_agreement`           CHAR(1)               NOT NULL COMMENT '개인정보 수집 및 이용동의',
+    `location_service_agreement`  CHAR(1)               NOT NULL DEFAULT 'N' COMMENT '위치 기반 서비스 이용동의',
+    `marketing_service_agreement` CHAR(1)               NOT NULL DEFAULT 'N' COMMENT '마케팅 서비스 이용동의'
 );
 
 ALTER TABLE `member`
@@ -23,16 +23,16 @@ ALTER TABLE `member`
 CREATE TABLE `file`
 (
     `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '파일 일련번호',
-    `group_id`    BIGINT       NOT NULL COMMENT '파일 그룹 일련번호',
-    `saved_name`  VARCHAR(500) NOT NULL COMMENT '저장 파일 이름',
-    `origin_name` VARCHAR(500) NOT NULL COMMENT '원본 파일 이름',
-    `extension`   VARCHAR(20)  NOT NULL COMMENT '확장자',
-    `size`        BIGINT       NOT NULL COMMENT '크기',
-    `ord`         INTEGER NULL COMMENT '순서',
-    `modified_at` DATETIME     NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT       NOT NULL COMMENT '수정자 아이디',
-    `created_at`  DATETIME     NOT NULL COMMENT '등록일',
-    `created_by`  BIGINT       NOT NULL COMMENT '등록자 아이디'
+    `group_id`    BIGINT                NOT NULL COMMENT '파일 그룹 일련번호',
+    `saved_name`  VARCHAR(500)          NOT NULL COMMENT '저장 파일 이름',
+    `origin_name` VARCHAR(500)          NOT NULL COMMENT '원본 파일 이름',
+    `extension`   VARCHAR(20)           NOT NULL COMMENT '확장자',
+    `size`        BIGINT                NOT NULL COMMENT '크기',
+    `ord`         INTEGER               NULL COMMENT '순서',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 아이디',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 아이디'
 );
 
 ALTER TABLE `file`
@@ -41,11 +41,11 @@ ALTER TABLE `file`
 CREATE TABLE `file_group`
 (
     `id`             BIGINT AUTO_INCREMENT NOT NULL COMMENT '파일 그룹 일련번호',
-    `directory_path` VARCHAR(200) NULL COMMENT '디렉토리 경로명',
-    `modified_at`    DATETIME NOT NULL COMMENT '수정일',
-    `modified_by`    BIGINT   NOT NULL COMMENT '수정자 아이디',
-    `created_at`     DATETIME NOT NULL COMMENT '등록일',
-    `created_by`     BIGINT   NOT NULL COMMENT '등록자 아이디'
+    `directory_path` VARCHAR(200)          NULL COMMENT '디렉토리 경로명',
+    `modified_at`    DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by`    BIGINT                NOT NULL COMMENT '수정자 아이디',
+    `created_at`     DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`     BIGINT                NOT NULL COMMENT '등록자 아이디'
 );
 
 ALTER TABLE `file_group`
@@ -73,15 +73,15 @@ ALTER TABLE `resource`
 
 CREATE TABLE `role`
 (
-    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '자원 일련번호',
-    `name`        VARCHAR(100) NULL COMMENT '이름',
-    `upper_id`    BIGINT NULL COMMENT '상위 역할 일련번호',
-    `is_enabled`  CHAR(1)  NOT NULL DEFAULT 'Y' COMMENT '사용여부',
-    `description` VARCHAR(500) NULL COMMENT '권한설명',
-    `modified_at` DATETIME NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT   NOT NULL COMMENT '수정자 일련번호',
-    `created_at`  DATETIME NOT NULL COMMENT '등록일',
-    `created_by`  BIGINT   NOT NULL COMMENT '등록자 일련번호'
+    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '역할 일련번호',
+    `name`        VARCHAR(100)          NULL COMMENT '이름',
+    `upper_id`    BIGINT                NULL COMMENT '상위 역할 일련번호',
+    `is_enabled`  CHAR(1)               NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+    `description` VARCHAR(500)          NULL COMMENT '역할 설명',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호'
 );
 
 ALTER TABLE `role`
@@ -90,12 +90,12 @@ ALTER TABLE `role`
 CREATE TABLE `member_role`
 (
     `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '회원 역할 일련번호',
-    `member_id`   BIGINT   NOT NULL COMMENT '회원 일련번호',
-    `role_id`     BIGINT   NOT NULL COMMENT '자원 일련번호',
-    `modified_at` DATETIME NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT   NOT NULL COMMENT '수정자 일련번호',
-    `created_at`  DATETIME NOT NULL COMMENT '등록일',
-    `created_by`  BIGINT   NOT NULL COMMENT '등록자 일련번호'
+    `member_id`   BIGINT                NOT NULL COMMENT '회원 일련번호',
+    `role_id`     BIGINT                NOT NULL COMMENT '자원 일련번호',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호'
 );
 
 ALTER TABLE `member_role`
@@ -105,17 +105,46 @@ ALTER TABLE `member_role`
 CREATE TABLE `role_resource`
 (
     `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '역할 자원 일련번호',
-    `role_id`     BIGINT   NOT NULL COMMENT '역할 일련번호',
-    `resource_id` BIGINT   NOT NULL COMMENT '자원 일련번호',
-    `modified_at` DATETIME NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT   NOT NULL COMMENT '수정자 일련번호',
-    `created_at`  DATETIME NOT NULL COMMENT '등록일',
-    `created_by`  BIGINT   NOT NULL COMMENT '등록자 일련번호'
+    `role_id`     BIGINT                NOT NULL COMMENT '역할 일련번호',
+    `resource_id` BIGINT                NOT NULL COMMENT '자원 일련번호',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호'
 );
 
 ALTER TABLE `role_resource`
     ADD CONSTRAINT `PK_ROLE_RESOURCE` PRIMARY KEY (`id`);
 
+CREATE TABLE IF NOT EXISTS `chatting_room`
+(
+    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '채팅방 회원 일련번호',
+    `title`       varchar(20)           NOT NULL COMMENT '채팅방 제목',
+    `chat_id`     BIGINT                NOT NULL COMMENT '채팅방 일련번호',
+    `member_id`  BIGINT                 NOT NULL  COMMENT '회원 일련번호',
+    `created_at`  DATETIME              DEFAULT NOW() COMMENT  '등록일',
+    `created_by`  BIGINT                 COMMENT '등록자 일련번호'
+    );
+
+ALTER TABLE `chatting_room`
+    ADD CONSTRAINT `PK_CHATTING_ROOM` PRIMARY KEY (`id`);
+
+CREATE TABLE `faq`
+(
+    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT 'FAQ 일련번호',
+    `category`    VARCHAR(20)           NOT NULL COMMENT '유형',
+    `title`       VARCHAR(300)          NOT NULL COMMENT '제목',
+    `content`     LONGTEXT              NOT NULL COMMENT '내용',
+    `ord`         BIGINT                NOT NULL COMMENT '순서',
+    `is_enabled`  CHAR(1)               NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호'
+);
+
+ALTER TABLE `faq`
+    ADD CONSTRAINT `PK_FAQ` PRIMARY KEY (`id`);
 
 CREATE TABLE `inquiry`
 (

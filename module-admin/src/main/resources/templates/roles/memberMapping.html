@@ -1,0 +1,308 @@
+<div class="row mb-3">
+    <div class="col-12 col-xl-4">
+        <h5 class="mb-3">
+            <strong>역할구조</strong>
+        </h5>
+        <div class="card">
+            <div class="card-block-small" id="jstree">
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-xl-8">
+        <h5 class="mb-3">
+            <strong>사용자 정보</strong>
+        </h5>
+        <div class="card">
+            <form id="userSearchForm" name="userSearchForm" onsubmit="return false;" th:action="@{/admin/roles/userMapping/users}">
+                <div class="card-block-small">
+                    <div class="col-12 col-lg-6 mb-3">
+                        <div class="mb-0 form-group row">
+                            <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                            <div class="input-group input-group-dropdown mb-0">
+                                <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
+                                <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select">
+                                    <option value="">- 선택 -</option>
+                                    <option value="U.NM">이메일</option>
+                                    <option value="ACNT">닉네임</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-1 p-t-20 text-center border-top">
+                        <button type="button" class="btn btn-gray m-r-5">초기화</button>
+                        <button type="button" class="btn btn-primary">검색</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card">
+            <form id="mappingUserForm" name="mappingUserForm" method="get" action="">
+                <input type="hidden" name="seCd" id="seCd" value="A"/>
+                <div class="row p-20 p-b-0">
+                    <div class="col-12 col-md-6 mb-2 mb-md-0">
+                        <h5><strong>사용자 검색 결과</strong></h5>
+                    </div>
+                    <div class="col-12 col-md-6 text-right">
+                        <button type="button" id="addMemberBtn" class="btn btn-primary">사용자추가</button>
+                    </div>
+                </div>
+                <div class="card-block-small">
+                    <div class="dt-responsive table-responsive">
+                        <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <table id="mappedUserTable" class="display" style="width:100%; display:none;">
+                                <thead>
+                                <tr>
+                                    <th>회원 일련번호</th>
+                                    <th>이메일</th>
+                                    <th>닉네임</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="memberListModalContainer" data-bs-backdrop="static" aria-hidden="true"></div>
+
+<link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
+<link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
+<script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
+<script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
+<script th:inline="javascript">
+
+    $(function () {
+        let mappedUserTable = null;
+
+        const memberMappingController =  {
+            findMappedMembers : function(roleId) {
+                if(!!mappedUserTable) mappedUserTable.destroy();
+
+                mappedUserTable = $('#mappedUserTable').DataTable({
+                    "columnDefs": [
+                        {className: "dt-center", targets: "_all"}
+                    ],
+
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    ordering: false,
+                    paging: true,
+                    info: true,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
+                    serverSide: true,
+                    processing: true,
+
+                    ajax: {
+                        async: false,
+                        url: `/admin/roles/${roleId}/members/`,
+                        method: 'get',
+                        "dataSrc": function (res) {
+                            return res.data;
+                        }
+                    },
+
+                    columns: [
+                        {data: 'id'},
+                        {data: 'email'},
+                        {data: 'nickname'}
+                    ],
+
+                    language: {
+                        search : '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
+                        infoEmpty : '데이터 0 부터 0 까지 0 총데이터',
+                        lengthMenu : '보기',
+                        loadingRecords : '로딩중..',
+                    },
+
+                    rowCallback : function(row, data, dataIndex) {
+                        // row id 얻기
+                        var rowId = data.id;
+                        /*if ($.inArray(rowId, rows_selected) !== -1) { // row 선택됐을때 실행할(rowId가 rows_selected 배열에 있으면)
+                            $(row).find('input[type="checkbox"]').prop(
+                                'checked', true);
+                            $(row).addClass('selected');
+                        }*/
+                    }
+                });
+
+                $('#mappedUserTable').show();
+            }
+        };
+
+        const roleController = {
+            roles: [],
+            parentNode: null,
+            selectedNode: null,
+            $jstree: $('#jstree'),
+
+            init: function () {
+                const _this = this;
+                parentNode = selectedNode = null;
+
+                $.ajax({
+                    url: '/admin/roles',
+                    type: 'get',
+                    async: false
+                }).done(function (response) {
+                    response.forEach(function (element, index) {
+                        _this.roles[index] = {
+                            id: element.id,
+                            parent: element.parentId ?? '#',
+                            text: element.name,
+                            description: element.description,
+                            isEnabled: element.isEnabled,
+                            name: element.name,
+                        };
+                    });
+                }).fail(function (error) {
+                    alert("역할 목록을 조회하는데 실패하였습니다.");
+                });
+
+                _this.renderJsTree();
+            },
+
+            renderJsTree: function () {
+                const _this = this;
+
+                _this.$jstree.jstree({
+                    "core": {
+                        "animation": 50,
+                        "strings": {
+                            loading: "Loading ..."
+                        },
+                        "themes": {
+                            "responsive": true,
+                        },
+                        'data': _this.roles,
+                    },
+                    "types": {
+                        "default": {
+                            "icon": "icofont icofont-user-alt-3"
+                        }
+                    },
+                    'contextmenu': {
+                        'items': {
+                            "regist": {
+                                "separator_before": false,
+                                "separator_after": false,
+                                "label": "하위 등록",
+                                "action": function (obj) {
+                                    $('#roleForm')[0].reset();
+                                    $('#id').val('');
+                                    $('#upperId').val(_this.selectedNode.original.id);
+                                    $('#upperName').val(_this.selectedNode.original.name);
+                                }
+                            }
+                        }
+                    },
+                    'plugins': ['types', 'contextmenu']
+                }).bind("select_node.jstree", function (event, data) {
+                    _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
+                    _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
+                    memberMappingController.findMappedMembers(_this.selectedNode.original.id);
+                });
+            },
+
+
+            save: function () {
+                const id = $('#roleForm #id').val();
+                !!id ? this.update(id) : this.insert(id);
+            },
+
+            update: function () {
+                const _this = this;
+
+                if (confirm('역할 정보를 수정하시겠습니까?')) {
+                    const formData = $('#roleForm').serializeObject();
+                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
+
+                    $.ajax({
+                        url: `/admin/roles/${formData.id}`,
+                        type: 'put',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json'
+                    }).done(function (response) {
+                        alert('역할이 수정되었습니다.');
+                        _this.$jstree.jstree().destroy();
+                        _this.init();
+                        _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
+                    }).fail(function (error) {
+                        alert('역할을 수정하는데 실패하였습니다.')
+                        console.log(JSON.stringify(error));
+                    })
+                }
+            },
+
+            insert: function () {
+                const _this = this;
+
+                if (confirm('역할 정보를 등록하시겠습니까?')) {
+                    const formData = $('#roleForm').serializeObject();
+                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
+
+                    $.ajax({
+                        url: '/admin/roles',
+                        type: 'post',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json'
+                    }).done(function () {
+                        alert('역할이 등록되었습니다.');
+                        _this.$jstree.jstree().destroy();
+                        _this.init();
+                        _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
+                    }).fail(function (error) {
+                        alert('역할을 등록하는데 실패하였습니다.');
+                        console.log(JSON.stringify(error));
+                    });
+                }
+            },
+
+            print: function () {
+                const parentNodeOriginal = this.parentNode.original;
+                const selectedNodeOriginal = this.selectedNode.original;
+
+                $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
+                $('#upperName').val(parentNodeOriginal ? parentNodeOriginal.name : '');
+                $('#id').val(selectedNodeOriginal.id);
+                $('#name').val(selectedNodeOriginal.name);
+                $('#description').val(selectedNodeOriginal.description);
+                adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
+            },
+
+            insertRootForm() {
+                $('#roleForm')[0].reset();
+                $('#id').val('');
+                $('#upperId').val();
+                $('#upperName').val();
+            }
+        };
+        let memberListModal;
+
+        roleController.init();
+
+        $('#addMemberBtn').on('click', function () {
+            if (!!roleController.selectedNode) {
+                $("#memberListModalContainer").load('/admin/roles/memberListModal', function (response, status, xhr) {
+                    if (status == "success") {
+                        memberListModal = new bootstrap.Modal($('#memberListModalContainer'));
+                        memberListModal.show();
+                    }
+                });
+            } else {
+                alert('역할을 선택하여 주십시오.');
+            }
+        })
+    });
+
+</script>
+
+

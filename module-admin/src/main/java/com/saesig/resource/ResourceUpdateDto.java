@@ -1,0 +1,13 @@
+package com.saesig.resource;
+
+import lombok.Getter;
+
+@Getter
+public class ResourceUpdateDto {
+    private Long id;
+    private String url;
+    private String name;
+    private String httpMethod;
+    private String type;
+    private Character isEnabled;
+}

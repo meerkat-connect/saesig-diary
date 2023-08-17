@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="saesigDiary.websocketnetty.chatting.ChattingMapper">
-    <select id="getMemberList" resultType="saesigDiary.websocketnetty.chatting.ChatMemberDto">
+    <select id="getMemberList" resultType="com.saesig.webSocketNetty.chatting.ChatMemberDto">
         SELECT
             id
              , email
@@ -11,7 +11,7 @@
         FROM member
     </select>
 
-    <select id="getMemberData" resultType="saesigDiary.websocketnetty.chatting.ChatMemberDto">
+    <select id="getMemberData" resultType="com.saesig.webSocketNetty.chatting.ChatMemberDto">
         SELECT
             id
              , email
@@ -20,7 +20,7 @@
         FROM member where id = #{memberId}
     </select>
 
-    <select id="getChattingRoomList" resultType="saesigDiary.websocketnetty.chatting.ChattingRoomDto">
+    <select id="getChattingRoomList" resultType="com.saesig.webSocketNetty.chatting.ChattingRoomDto">
         SELECT
             title,
             chat_id,
@@ -32,13 +32,13 @@
         INSERT INTO chatting_room (chat_id, title,member_id, created_by) VALUES (#{chatId}, #{title},#{memberId}, #{createdByMemberId})
     </insert>
 
-    <select id="getChatMemberData" resultType="saesigDiary.websocketnetty.chatting.ChatReadDto">
+    <select id="getChatMemberData" resultType="com.saesig.webSocketNetty.chatting.ChatReadDto">
         SELECT
             member_id,chat_id
         FROM chatting_room where chat_id = #{chatId}
     </select>
 
-    <select id="getTargetMemberData" resultType="saesigDiary.websocketnetty.chatting.ChatMemberDto">
+    <select id="getTargetMemberData" resultType="com.saesig.webSocketNetty.chatting.ChatMemberDto">
         SELECT
             m.id
              , m.email
