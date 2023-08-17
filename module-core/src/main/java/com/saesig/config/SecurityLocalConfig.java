@@ -1,5 +1,7 @@
 package com.saesig.config;
 
+import com.saesig.config.auth.oauth.CustomOAuth2LoginFailHandler;
+import com.saesig.config.auth.oauth.CustomOAuth2LoginSuccessHandler;
 import com.saesig.config.auth.oauth.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Profile("local")
 public class SecurityLocalConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2LoginFailHandler customOAuth2LoginFailHandler;
+    private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
 
     @Bean
     public SecurityFilterChain localSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -27,10 +31,11 @@ public class SecurityLocalConfig {
                 .and()
                 .requestMatchers(matchers -> matchers.antMatchers("/**/*"))
                 .oauth2Login()
-                .defaultSuccessUrl("/")
                 .userInfoEndpoint()
-                .userService(customOAuth2UserService);
-
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(customOAuth2LoginSuccessHandler)
+                .failureHandler(customOAuth2LoginFailHandler);
 
         return httpSecurity.build();
     }
