@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content">
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
+
+    <!-- Page-body start -->
+    <style>
+        .custom-select-ul > li:hover {
+            background: #f8f7f7;
+            color: #ff8031 !important;
+        }
+
+    </style>
+    <div class="page-body">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header p-b-0">
+                        <h4 class="sub-title"><strong>약관 및 정책</strong></h4>
+                    </div>
+                    <div class="card-block-small p-t-0">
+                    <div class="mb-3 form-group row required">
+                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>분류</strong></div>
+                        <div class="col-sm-12">
+                            <select name="category" id="category" class="form-select form-control form-control-round custom-select">
+                                <option value="">- 전체 -</option>
+                                <option th:each="policyCategory : ${policyCategories}" th:value="${policyCategory.key}" th:text="${policyCategory.value}">value</option>
+                            </select>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6" id="info_card_con" style="display: none">
+                <div class="card">
+                    <div class="card-header p-b-0">
+                        <h4 class="sub-title" id="info_title"><strong>약관 정보</strong></h4>
+                    </div>
+                    <div class="card-block-small p-t-0">
+                        <div class="mb-3 form-group row required">
+                            <input type="hidden" name="id" value="">
+                            <input type="hidden" name="category" value="">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                   for="title"><strong>제목</strong></label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control form-control-round" name="title" id="title" placeholder="약관 제목"/>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-group row">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                   for="content"><strong>답변 내용</strong></label>
+                            <div class="col-sm-12">
+                                <textarea rows="5" cols="5" class="form-control" id="content" name="content" placeholder="Text Input Validation" mekc-ck-editor></textarea>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                           for="modified_name"><strong>수정자</strong></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control form-control-round" name="modified_name" id="modified_name" placeholder="관리자 명(id)"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                           for="modified_date"><strong>수정일자</strong></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control form-control-round" name="modified_date" id="modified_date" placeholder="YYYY-MM-dd hh:mm:ss"/></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-block-small">
+                        <button class="btn btn-gray m-r-5" onclick="policy.resetData()">취소</button>
+                        <button class="btn btn-primary" onclick="policy.chagePolicyData()" >저장</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page-body end -->
+    <script>
+        const policy = {
+            init : function (){
+             this.registEvent();
+            },
+
+            registEvent : function () {
+                const _this = this;
+                $('#category').on('change',function(){
+                    if ($(this).val() == null || $(this).val() == '' || $(this).val() == undefined){
+                        $('#info_card_con').hide();
+                    }else{
+                        $('#info_card_con').show();
+                        _this.getPolicyData($(this).val())
+                    }
+                })
+            }
+
+            ,getPolicyData : function (select_type){
+                const _this = this;
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    enctype: 'multipart/form-data',
+                    url: '/admin/policy/getPolicyByType.do',
+                    dataType: 'json',
+                    data: {select_type: select_type}
+                }).done(function (response) {
+                    _this.setPolicyData(response)
+                }).fail(function (error) {
+                    alert('데이터를 불러오는데에 실패하였습니다.');
+                    console.log(JSON.stringify(error));
+                });
+            }
+
+            ,setPolicyData : function (response) {
+                console.log(response.id)
+                $("input[name=id]").val(response.id)
+                $("input[name=category]").val(response.category)
+                $("input[name=title]").val(response.title)
+                $("input[name=content]").val(response.content)
+                $("input[name=modified_name]").val(response.modifiedName)
+                $("input[name=modified_date]").val(response.modifiedAt)
+                ckeditorApp.editorList['content'].setData(response.content)
+            }
+            
+            ,chagePolicyData : function () {
+                let param = {}
+                param.id = $("input[name=id]").val();
+                param.category = $("input[name=category]").val();
+                param.title = $("input[name=title]").val();
+                param.content = ckeditorApp.getEditorData('content');
+                $.ajax({
+                    type: "post",
+                    async: false,
+                    enctype: 'multipart/form-data',
+                    url: "/admin/policy/changePolicy.do",
+                    dataType: 'json',
+                    data: JSON.stringify(param), // 객체를 JSON 문자열로 변환하여 전달
+                    contentType: 'application/json', // 전달하는 데이터의 타입을 명시
+                    cache: false,
+                    success: function (result) {
+                        if (result){
+                            alert("변경이 완료되었습니다.")
+                            window.location.reload();
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e)
+                    }
+                })
+            }
+
+            ,resetData : function () {
+                $('#category').val('');
+                $('#info_card_con').hide();
+            }
+        }
+
+        $(function (){
+            policy.init()
+        })
+
+    </script>
+</div>
+
+</html>

@@ -118,13 +118,13 @@ ALTER TABLE `role_resource`
 
 CREATE TABLE IF NOT EXISTS `chatting_room`
 (
-    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '채팅방 회원 일련번호',
-    `title`       varchar(20)           NOT NULL COMMENT '채팅방 제목',
-    `chat_id`     BIGINT                NOT NULL COMMENT '채팅방 일련번호',
-    `member_id`  BIGINT                 NOT NULL  COMMENT '회원 일련번호',
-    `created_at`  DATETIME              DEFAULT NOW() COMMENT  '등록일',
-    `created_by`  BIGINT                 COMMENT '등록자 일련번호'
-    );
+   `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '채팅방 회원 일련번호',
+   `title`       varchar(20)           NOT NULL COMMENT '채팅방 제목',
+   `chat_id`     BIGINT                NOT NULL COMMENT '채팅방 일련번호',
+   `member_id`  BIGINT                 NOT NULL  COMMENT '회원 일련번호',
+   `created_at`  DATETIME              DEFAULT NOW() COMMENT  '등록일',
+   `created_by`  BIGINT                 COMMENT '등록자 일련번호'
+);
 
 ALTER TABLE `chatting_room`
     ADD CONSTRAINT `PK_CHATTING_ROOM` PRIMARY KEY (`id`);
@@ -184,3 +184,20 @@ ALTER TABLE `inquiry_answer`
     ADD CONSTRAINT `PK_INQUIRY_ANSWER` PRIMARY KEY (
                                                     `id`
         );
+
+CREATE TABLE `policy`
+(
+    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '약관 일련번호',
+    `category`    VARCHAR(20)           NOT NULL COMMENT '분류',
+    `title`       VARCHAR(300)          NOT NULL COMMENT '제목',
+    `content`     LONGTEXT              NOT NULL COMMENT '내용',
+    `is_enabled`  CHAR(1)               NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호'
+);
+
+ALTER TABLE `policy`
+    ADD CONSTRAINT `PK_POLICY` PRIMARY KEY (`id`);
+
