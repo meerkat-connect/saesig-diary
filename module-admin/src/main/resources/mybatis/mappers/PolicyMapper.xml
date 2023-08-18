@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.policy.PolicyMapper">
+
+    <select id="getPolicyByType" resultType="com.saesig.policy.PolicyDto">
+        SELECT
+             p.id
+            ,p.category
+            ,p.title
+            ,p.content
+            ,p.is_enabled
+            ,p.created_at
+            ,p.created_by
+            ,p.modified_at
+            ,p.modified_by
+            ,m.nickname as modified_name
+        FROM policy p LEFT JOIN member m ON p.modified_by = m.id
+        WHERE category = #{type}
+    </select>
+
+    <update id="updatePolicy" parameterType="com.saesig.policy.PolicyDto">
+        UPDATE policy
+        SET
+        title = #{title},
+        content = #{content},
+        modified_at = now(),
+        modified_by = #{modifiedBy}
+        WHERE id = #{id} and category = #{category}
+    </update>
+
+</mapper>
