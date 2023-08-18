@@ -3,6 +3,7 @@ package com.saesig.config.auth.oauth;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,8 +47,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         log.info("userNameAttributeName= {} ", userNameAttributeName);
 
         OAuthAttributes oAuthAttributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+
         // save or update
-//        httpSession.setAttribute("user", new SessionMember())
+        Member member = saveMember(oAuthAttributes);
+
+        httpSession.setAttribute("member", new SessionMember(member));
 
         return new DefaultOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN")),
@@ -54,10 +59,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 oAuthAttributes.getNameAttributeKey());
     }
 
-    private Member saveOrUpdate(OAuthAttributes attributes){
-        Member user = memberRepository.findByEmail(attributes.getEmail())
-                .orElse(attributes.toEntity());
-
-        return memberRepository.save(user);
+    private Member saveMember(OAuthAttributes attributes){
+        Optional<Member> user = memberRepository.findByEmail(attributes.getEmail());
+        if(user.isPresent()) {
+            throw new OAuth2AuthenticationException("이메일이 중복됩니다.");
+        }else {
+            return memberRepository.save(attributes.toEntity());
+        }
     }
 }
