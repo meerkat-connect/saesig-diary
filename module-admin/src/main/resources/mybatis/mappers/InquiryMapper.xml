@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.inquiry.InquiryMapper">
+
+    <select id="getInquiryList" resultType="com.saesig.inquiry.InquiryDto" parameterType="hashMap">
+        select
+        i.id,
+        i.category,
+        i.incoming_email,
+        i.status,
+        i.title,
+        i.content,
+        i.is_deleted,
+        FORMATDATETIME(i.created_at, 'yyyy-MM-dd') as created_at,
+        i.created_by,
+        i.modified_at,
+        i.modified_by,
+        m.nickname,
+        m.email as memberId
+        from inquiry i
+        LEFT JOIN member m ON i.created_by = m.id
+        where 1=1
+        and is_deleted = 'N'
+        <if test="searchStatus != '' and searchStatus != null and searchStatus != 'all'">
+            and i.status = #{searchStatus}
+        </if>
+        <if test="searchCategory != '' and searchCategory != null and searchCategory != 'all'">
+            and i.category = #{searchCategory}
+        </if>
+        <if test="searchTitle != '' and searchTitle != null">
+            and i.title = #{searchTitle}
+        </if>
+        <if test="searchKeywordSelect != '' and searchKeyword != '' and searchKeywordSelect != null and searchKeyword != null">
+            and ${searchKeywordSelect} = #{searchKeyword}
+        </if>
+<!--        <if test="orderColumn != ''">-->
+<!--            ORDER BY i.${orderColumn}-->
+<!--            <if test="orderColumnSort = ASC">-->
+<!--                ASC-->
+<!--            </if>-->
+<!--            <if test="orderColumnSort != ASC">-->
+<!--                DESC-->
+<!--            </if>-->
+<!--        </if>-->
+    </select>
+
+    <insert id="insertAnswer">
+        INSERT INTO inquiry_answer (inquiry_id,title,content,created_at,created_by) VALUES (#{inquiryId}, #{title},#{content}, now(),#{createdBy})
+    </insert>
+
+    <update id="updateInquiryAnswerStatus" parameterType="com.saesig.inquiry.InquiryAnswerDto">
+        UPDATE inquiry
+        SET status = 'COMPLETE'
+        WHERE id = #{inquiryId}
+    </update>
+
+    <select id="selectAnswerById" parameterType="java.lang.Long" resultType="com.saesig.inquiry.InquiryAnswerDto">
+        SELECT
+            i.id,
+            i.inquiry_id,
+            i.title,
+            i.content,
+            i.created_at,
+            i.created_by,
+            i.modified_at,
+            i.modified_by,
+            M.nickName as createdByStr
+            FROM inquiry_answer I LEFT JOIN member M on I.created_by = M.id WHERE inquiry_id = #{id} ORDER BY created_at DESC
+    </select>
+
+
+</mapper>
