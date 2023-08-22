@@ -69,6 +69,11 @@ spring:
     activate:
       on-profile: dev
 
+  datasource:
+    jdbc-url: ENC(hba7Y+MC4DSevlLypKBISwedLzbr29GrCC6yaCnS2tMeeoZC2aDkZEWwMU4EtO12f0+64kLYC89lArUgj7gGW2njBEMGB9X4IZPQQb8l41CACCI8k4AKLPHTKAusawgA)
+    driver-class-name: ENC(DlK7u7h1xKX9kq7OHe060lR1cw6DNABmbBjQ6n/ITfo=)
+    username: ENC(dwo/ZZXd0UWdQzRWY39Kmw==)
+    password: ENC(Dg+d3+AOsL04p8sCO8pTuPOd1OmSkm9+)
 
 --- #prod
 spring:
