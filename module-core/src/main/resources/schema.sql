@@ -41,7 +41,7 @@ ALTER TABLE `file`
 CREATE TABLE `file_group`
 (
     `id`             BIGINT AUTO_INCREMENT NOT NULL COMMENT '파일 그룹 일련번호',
-    `directory_path` VARCHAR(200)          NULL COMMENT '디렉토리 경로명',
+    `path` VARCHAR(200)          NULL COMMENT '경로명',
     `modified_at`    DATETIME              NOT NULL COMMENT '수정일',
     `modified_by`    BIGINT                NOT NULL COMMENT '수정자 아이디',
     `created_at`     DATETIME              NOT NULL COMMENT '등록일',
