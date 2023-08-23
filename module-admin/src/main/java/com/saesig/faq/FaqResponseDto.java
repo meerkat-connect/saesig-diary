@@ -2,6 +2,7 @@ package com.saesig.faq;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.saesig.domain.faq.Faq;
+import com.saesig.domain.faq.FaqCategory;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -16,7 +17,7 @@ public class FaqResponseDto {
     private Long id;
     private String title;
     private String content;
-    private String category;
+    private FaqCategory category ;
     private Long ord;
     private Character isEnabled;
     private String createdBy;
@@ -29,7 +30,7 @@ public class FaqResponseDto {
         this.id = faq.getId();
         this.title = faq.getTitle();
         this.content = faq.getContent();
-        this.category = faq.getCategory().getValue();
+        this.category = faq.getCategory();
         this.ord = faq.getOrd();
         this.isEnabled = faq.getIsEnabled();
         this.createdAt = faq.getCreatedAt();

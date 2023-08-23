@@ -1,12 +1,14 @@
 package com.saesig.domain.faq;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.saesig.global.enumCode.EnumMapperType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import com.saesig.global.enumCode.EnumMapperType;
 
 import java.util.stream.Stream;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @RequiredArgsConstructor
 public enum FaqCategory implements EnumMapperType {
     TYPE_A("유형 A"),

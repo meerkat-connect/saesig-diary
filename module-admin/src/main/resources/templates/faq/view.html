@@ -165,7 +165,11 @@
                                 return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
                             }
                         },
-                        {data: 'category'},
+                        {
+                            render: function (data, type, row) {
+                                return `${row.category.value}`;
+                            }
+                        },
                         {data: 'title'},
                         {
                             render: function (data, type, row) {

@@ -11,7 +11,7 @@
                     <div class="mb-0 form-group">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>FAQ 유형</strong></label>
                         <div class="col-12">
-                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{category}">
+                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{category.key}">
                                 <option th:each="faqCategory : ${faqCategories}" th:value="${faqCategory.key}" th:text="${faqCategory.value}">value</option>
                             </select>
                         </div>
@@ -68,7 +68,6 @@
     </form>
 </div>
 
-<script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
 <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
 
 <script>
