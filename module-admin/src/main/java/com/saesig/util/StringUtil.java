@@ -1,16 +1,9 @@
 package com.saesig.util;
 
-import java.io.UnsupportedEncodingException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
-import org.springframework.util.Base64Utils;
 public class StringUtil {
     public static boolean isSqlInjectionSafe(String dataString){
         String sqlTypes =

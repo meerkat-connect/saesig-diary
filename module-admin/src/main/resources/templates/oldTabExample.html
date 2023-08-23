@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content">
+    <div class="page-body">
+        <div class="col-12">
+            <div id="contentPanel" class="card">
+                <div class="card-header p-b-0">
+                    <ul class="nav nav-tabs tabs" role="tablist">
+                        <li class="nav-item active">
+                            <a class="nav-link active" data-bs-toggle="tab" id="expertApplyInfoForm"><strong>전문가 신청정보</strong></a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" data-bs-toggle="tab" id="expertInfoForm"><strong>회원정보</strong></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" id="expertReviewHistoryForm"><strong>후기이력</strong></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" id="expertStatusChangeHistoryForm"><strong>상태변경이력</strong></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content tabs p-t-20" id="tab_content_area">
+                    <div class="card-header p-t-0 p-b-0">
+                        <h3 class="sub-title"><strong>강의요청서</strong></h3>
+                    </div>
+                    <div class="card-block-small p-t-0">
+                        <div class="mb-2 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestTitle"><strong>제목</strong></label>
+                                    <div class="col-12">
+                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestTitle" id="lectureRequestTitle" value="123" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestStartDate"><strong>강의 시작 일시</strong></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestStartDate" id="lectureRequestStartDate" value="2023-07-18 14:35" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-2 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestEndDate"><strong>강의 종료 일시</strong></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestEndDate" id="lectureRequestEndDate" value="2023-07-20 14:35" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestAddress"><strong>강의장소(지역)</strong></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestAddress" id="lectureRequestAddress" value="충북 청주시 서원구 1순환로 627" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-2 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestDetailAddress"><strong>상세주소</strong></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestDetailAddress" id="lectureRequestDetailAddress" value="1" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestRequesterName"><strong>신청자</strong></label>
+                                    <div class="col-sm-12">
+
+                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestRequesterName" id="lectureRequestRequesterName" value="관리자" readonly="">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-2 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestRequesterPhoneNum"><strong>신청자 휴대전화</strong></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestRequesterPhoneNum" id="lectureRequestRequesterPhoneNum" value="01000000000"
+                                               readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestRequesterEmail"><strong>신청자 이메일</strong></label>
+                                    <div class="col-sm-12">
+                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestRequesterEmail" id="lectureRequestRequesterEmail" value="ㄴsafdas@chol.com"
+                                               readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-2 form-group row">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestRequestContents"><strong>요청내용</strong></label>
+                            <div class="col-12">
+                                <textarea rows="5" cols="5" class="form-control form-control-sm form-control-round" id="lectureRequestRequestContents" name="lectureRequestRequestContents" readonly="">asfd</textarea>
+                            </div>
+                        </div>
+                        <div class="mb-0 form-group row">
+                            <div class="mb-0 form-group">
+                                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>첨부파일</strong></label>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        선택된 파일 없음
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-header p-t-0 p-b-0">
+                        <div class="sub-title row m-l-0 m-r-0 align-items-center">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0 p-l-0">
+                                <strong>전문가 상태</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-block-small p-t-0">
+                        <div class="mb-0 form-group row">
+                            <div class="col-12 p-t-5 p-b-5 stts-div">
+                                신청 (2023-07-18)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-block-small mb-4 stts-btn">
+                        <button type="button" class="btn btn-primary m-r-5" onclick="updateExpertStts('aprv')">승인</button>
+                        <button type="button" class="btn btn-inverse" data-bs-toggle="modal" data-bs-target="#updateRecordExpertCompanionReasonPopup">반려</button>
+                    </div>
+
+                    <div class="card-header p-t-0 p-b-0">
+                        <h3 class="sub-title"><strong>전문분야정보</strong></h3>
+                    </div>
+                    <div class="card-block-small p-t-0 exprtField">
+                        <div class="mb-2 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>전문가 유형</strong></div>
+                                    <div class="col-12">
+                                        <div class="form-radio bg-form">
+                                            <div class="radio radio-inline"><label class="mb-0 form-label">
+                                                <input type="radio" name="exprtTypeCd" id="exprtTypeCd1" value="133101" checked=""><i class="helper"></i>환경교육사</label></div>
+                                            <div class="radio radio-inline"><label class="mb-0 form-label">
+                                                <input type="radio" name="exprtTypeCd" id="exprtTypeCd2" value="133102"><i class="helper"></i>교사</label></div>
+                                            <div class="radio radio-inline"><label class="mb-0 form-label">
+                                                <input type="radio" name="exprtTypeCd" id="exprtTypeCd3" value="133103"><i class="helper"></i>대학교수</label></div>
+                                            <div class="radio radio-inline"><label class="mb-0 form-label">
+                                                <input type="radio" name="exprtTypeCd" id="exprtTypeCd4" value="133104"><i class="helper"></i>국가환경교육지원단</label></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>전문분야</strong></div>
+                                    <div class="border-checkbox-section bg-form">
+                                        <div class="border-checkbox-group border-checkbox-group-inverse">
+                                            <input class="border-checkbox" type="checkbox" name="expertRequestInfoExpertFieldInfoExpertField" id="expertRequestInfoExpertFieldInfoExpertField1"
+                                                   checked="checked">
+                                            <label class="form-label form-label-sm border-checkbox-label" for="expertRequestInfoExpertFieldInfoExpertField1">
+                                                강의
+                                            </label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse">
+                                            <input class="border-checkbox" type="checkbox" name="expertRequestInfoExpertFieldInfoExpertField" id="expertRequestInfoExpertFieldInfoExpertField2">
+                                            <label class="form-label form-label-sm border-checkbox-label" for="expertRequestInfoExpertFieldInfoExpertField2">
+                                                기획
+                                            </label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse">
+                                            <input class="border-checkbox" type="checkbox" name="expertRequestInfoExpertFieldInfoExpertField" id="expertRequestInfoExpertFieldInfoExpertField3">
+                                            <label class="form-label form-label-sm border-checkbox-label" for="expertRequestInfoExpertFieldInfoExpertField3">
+                                                사업자문 및 컨설팅
+                                            </label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse">
+                                            <input class="border-checkbox" type="checkbox" name="expertRequestInfoExpertFieldInfoExpertField" id="expertRequestInfoExpertFieldInfoExpertField4">
+                                            <label class="form-label form-label-sm border-checkbox-label" for="expertRequestInfoExpertFieldInfoExpertField4">
+                                                기타
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-2 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>전문분야(대상)</strong></div>
+                                    <div class="border-checkbox-section bg-form">
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtTrgtCd1" name="exprtTrgtCd"
+                                                                                                                value="135101" data-cd-name="유아기(~7)" checked=""><label
+                                                class="form-label border-checkbox-label" for="exprtTrgtCd1">유아기(~7)</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtTrgtCd2" name="exprtTrgtCd"
+                                                                                                                value="135102" data-cd-name="아동기(8~13)"><label class="form-label border-checkbox-label"
+                                                                                                                                                               for="exprtTrgtCd2">아동기(8~13)</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtTrgtCd3" name="exprtTrgtCd"
+                                                                                                                value="135103" data-cd-name="청소년기(중학교)"><label class="form-label border-checkbox-label"
+                                                                                                                                                               for="exprtTrgtCd3">청소년기(중학교)</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtTrgtCd4" name="exprtTrgtCd"
+                                                                                                                value="135104" data-cd-name="청년기(성인전기)"><label class="form-label border-checkbox-label"
+                                                                                                                                                               for="exprtTrgtCd4">청년기(성인전기)</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtTrgtCd5" name="exprtTrgtCd"
+                                                                                                                value="135105" data-cd-name="중장년기(성인중기)"><label class="form-label border-checkbox-label"
+                                                                                                                                                                for="exprtTrgtCd5">중장년기(성인중기)</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtTrgtCd6" name="exprtTrgtCd"
+                                                                                                                value="135106" data-cd-name="노년(성인후기)"><label class="form-label border-checkbox-label"
+                                                                                                                                                              for="exprtTrgtCd6">노년(성인후기)</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtTrgtCd7" name="exprtTrgtCd"
+                                                                                                                value="135107" data-cd-name="전 연령"><label class="form-label border-checkbox-label"
+                                                                                                                                                          for="exprtTrgtCd7">전 연령</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>전문분야(환경주제)</strong></div>
+                                    <div class="border-checkbox-section bg-form">
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtSbjctCd1" name="exprtSbjctCd"
+                                                                                                                value="126101" data-cd-name="환경전반" checked=""><label
+                                                class="form-label border-checkbox-label" for="exprtSbjctCd1">환경전반</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtSbjctCd2" name="exprtSbjctCd"
+                                                                                                                value="126102" data-cd-name="지구환경"><label class="form-label border-checkbox-label"
+                                                                                                                                                          for="exprtSbjctCd2">지구환경</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtSbjctCd3" name="exprtSbjctCd"
+                                                                                                                value="126103" data-cd-name="지역(생태)환경"><label class="form-label border-checkbox-label"
+                                                                                                                                                              for="exprtSbjctCd3">지역(생태)환경</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtSbjctCd4" name="exprtSbjctCd"
+                                                                                                                value="126104" data-cd-name="생활환경"><label class="form-label border-checkbox-label"
+                                                                                                                                                          for="exprtSbjctCd4">생활환경</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtSbjctCd5" name="exprtSbjctCd"
+                                                                                                                value="126105" data-cd-name="문화환경"><label class="form-label border-checkbox-label"
+                                                                                                                                                          for="exprtSbjctCd5">문화환경</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-0 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>주요활동지역</strong></div>
+                                    <div class="border-checkbox-section bg-form">
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd1" name="exprtActvtRgnCd"
+                                                                                                                value="11" data-cd-name="서울특별시" checked=""><label
+                                                class="form-label border-checkbox-label" for="exprtActvtRgnCd1">서울특별시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse">
+                                            <input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd2" name="exprtActvtRgnCd"
+                                                   value="26" data-cd-name="부산광역시">
+                                            <label class="form-label border-checkbox-label"
+                                                   for="exprtActvtRgnCd2">부산광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd3" name="exprtActvtRgnCd"
+                                                                                                                value="27" data-cd-name="대구광역시"><label class="form-label border-checkbox-label"
+                                                                                                                                                       for="exprtActvtRgnCd3">대구광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd4" name="exprtActvtRgnCd"
+                                                                                                                value="28" data-cd-name="인천광역시"><label class="form-label border-checkbox-label"
+                                                                                                                                                       for="exprtActvtRgnCd4">인천광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd5" name="exprtActvtRgnCd"
+                                                                                                                value="29" data-cd-name="광주광역시"><label class="form-label border-checkbox-label"
+                                                                                                                                                       for="exprtActvtRgnCd5">광주광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd6" name="exprtActvtRgnCd"
+                                                                                                                value="30" data-cd-name="대전광역시"><label class="form-label border-checkbox-label"
+                                                                                                                                                       for="exprtActvtRgnCd6">대전광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd7" name="exprtActvtRgnCd"
+                                                                                                                value="31" data-cd-name="울산광역시"><label class="form-label border-checkbox-label"
+                                                                                                                                                       for="exprtActvtRgnCd7">울산광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd8" name="exprtActvtRgnCd"
+                                                                                                                value="36" data-cd-name="세종특별자치시"><label class="form-label border-checkbox-label"
+                                                                                                                                                         for="exprtActvtRgnCd8">세종특별자치시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd9" name="exprtActvtRgnCd"
+                                                                                                                value="50" data-cd-name="제주특별자치도"><label class="form-label border-checkbox-label"
+                                                                                                                                                         for="exprtActvtRgnCd9">제주특별자치도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd10" name="exprtActvtRgnCd"
+                                                                                                                value="41" data-cd-name="경기도"><label class="form-label border-checkbox-label"
+                                                                                                                                                     for="exprtActvtRgnCd10">경기도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd11" name="exprtActvtRgnCd"
+                                                                                                                value="51" data-cd-name="강원특별자치도"><label class="form-label border-checkbox-label"
+                                                                                                                                                         for="exprtActvtRgnCd11">강원특별자치도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd12" name="exprtActvtRgnCd"
+                                                                                                                value="43" data-cd-name="충청북도"><label class="form-label border-checkbox-label"
+                                                                                                                                                      for="exprtActvtRgnCd12">충청북도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd13" name="exprtActvtRgnCd"
+                                                                                                                value="44" data-cd-name="충청남도"><label class="form-label border-checkbox-label"
+                                                                                                                                                      for="exprtActvtRgnCd13">충청남도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd14" name="exprtActvtRgnCd"
+                                                                                                                value="45" data-cd-name="전라북도"><label class="form-label border-checkbox-label"
+                                                                                                                                                      for="exprtActvtRgnCd14">전라북도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd15" name="exprtActvtRgnCd"
+                                                                                                                value="46" data-cd-name="전라남도"><label class="form-label border-checkbox-label"
+                                                                                                                                                      for="exprtActvtRgnCd15">전라남도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd16" name="exprtActvtRgnCd"
+                                                                                                                value="47" data-cd-name="경상북도"><label class="form-label border-checkbox-label"
+                                                                                                                                                      for="exprtActvtRgnCd16">경상북도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtRgnCd17" name="exprtActvtRgnCd"
+                                                                                                                value="48" data-cd-name="경상남도"><label class="form-label border-checkbox-label"
+                                                                                                                                                      for="exprtActvtRgnCd17">경상남도</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>가능 활동범위</strong></div>
+                                    <div class="border-checkbox-section bg-form">
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd1"
+                                                                                                                name="exprtActvtScopeCd" value="11" data-cd-name="서울특별시" checked=""><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd1">서울특별시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd2"
+                                                                                                                name="exprtActvtScopeCd" value="26" data-cd-name="부산광역시"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd2">부산광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd3"
+                                                                                                                name="exprtActvtScopeCd" value="27" data-cd-name="대구광역시"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd3">대구광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd4"
+                                                                                                                name="exprtActvtScopeCd" value="28" data-cd-name="인천광역시"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd4">인천광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd5"
+                                                                                                                name="exprtActvtScopeCd" value="29" data-cd-name="광주광역시"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd5">광주광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd6"
+                                                                                                                name="exprtActvtScopeCd" value="30" data-cd-name="대전광역시"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd6">대전광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd7"
+                                                                                                                name="exprtActvtScopeCd" value="31" data-cd-name="울산광역시"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd7">울산광역시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd8"
+                                                                                                                name="exprtActvtScopeCd" value="36" data-cd-name="세종특별자치시"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd8">세종특별자치시</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd9"
+                                                                                                                name="exprtActvtScopeCd" value="50" data-cd-name="제주특별자치도"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd9">제주특별자치도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd10"
+                                                                                                                name="exprtActvtScopeCd" value="41" data-cd-name="경기도"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd10">경기도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd11"
+                                                                                                                name="exprtActvtScopeCd" value="51" data-cd-name="강원특별자치도"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd11">강원특별자치도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd12"
+                                                                                                                name="exprtActvtScopeCd" value="43" data-cd-name="충청북도"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd12">충청북도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd13"
+                                                                                                                name="exprtActvtScopeCd" value="44" data-cd-name="충청남도"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd13">충청남도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd14"
+                                                                                                                name="exprtActvtScopeCd" value="45" data-cd-name="전라북도"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd14">전라북도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd15"
+                                                                                                                name="exprtActvtScopeCd" value="46" data-cd-name="전라남도"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd15">전라남도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd16"
+                                                                                                                name="exprtActvtScopeCd" value="47" data-cd-name="경상북도"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd16">경상북도</label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse"><input type="checkbox" class="border-checkbox " id="exprtActvtScopeCd17"
+                                                                                                                name="exprtActvtScopeCd" value="48" data-cd-name="경상남도"><label
+                                                class="form-label border-checkbox-label" for="exprtActvtScopeCd17">경상남도</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header p-t-0 p-b-0">
+                        <h3 class="sub-title"><strong>정보공개 범위</strong></h3>
+                    </div>
+                    <div class="card-block-small p-t-0">
+                        <div class="mb-2 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>연락처 공개범위</strong>
+                                    </div>
+                                    <div class="border-checkbox-section">
+                                        <div class="border-checkbox-group border-checkbox-group-inverse">
+                                            <input class="border-checkbox" type="checkbox" name="expertRequestInfoInfoOpenRegionContactOpenRegion1"
+                                                   id="expertRequestInfoInfoOpenRegionContactOpenRegion1" checked="checked">
+                                            <label class="form-label form-label-sm border-checkbox-label" for="expertRequestInfoInfoOpenRegionContactOpenRegion1">
+                                                휴대전화
+                                            </label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse">
+                                            <input class="border-checkbox" type="checkbox" name="expertRequestInfoInfoOpenRegionContactOpenRegion2"
+                                                   id="expertRequestInfoInfoOpenRegionContactOpenRegion2">
+                                            <label class="form-label form-label-sm border-checkbox-label" for="expertRequestInfoInfoOpenRegionContactOpenRegion2">
+                                                이메일
+                                            </label>
+                                        </div>
+                                        <div class="border-checkbox-group border-checkbox-group-inverse">
+                                            <input class="border-checkbox" type="checkbox" name="expertRequestInfoInfoOpenRegionContactOpenRegion3"
+                                                   id="expertRequestInfoInfoOpenRegionContactOpenRegion3">
+                                            <label class="form-label form-label-sm border-checkbox-label" for="expertRequestInfoInfoOpenRegionContactOpenRegion3">
+                                                전화번호
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>자격취득사항 공개</strong></div>
+                                    <div class="col-12">
+                                        <div class="form-radio">
+                                            <div class="radio radio-inline"><label class="mb-0 form-label'" style="">
+                                                <input type="radio" name="qlfcRlsYn" id="qlfcRlsYn1" value="Y" checked=""><i class="helper"></i>공개
+                                            </label></div>
+                                            <div class="radio radio-inline"><label class="mb-0 form-label" style="">
+                                                <input type="radio" name="qlfcRlsYn" id="qlfcRlsYn2" value="N"><i class="helper"></i>비공개
+                                            </label></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-0 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>재직사항 공개</strong></div>
+                                    <div class="col-12">
+                                        <div class="form-radio">
+                                            <div class="radio radio-inline"><label class="mb-0 form-label'" style="">
+                                                <input type="radio" name="hdofRlsYn" id="hdofRlsYn1" value="Y" checked=""><i class="helper"></i>공개
+                                            </label></div>
+                                            <div class="radio radio-inline"><label class="mb-0 form-label" style="">
+                                                <input type="radio" name="hdofRlsYn" id="hdofRlsYn2" value="N"><i class="helper"></i>비공개
+                                            </label></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>환경교육 경력(실적)사항 공개</strong></div>
+                                    <div class="col-12">
+                                        <div class="form-radio">
+                                            <div class="radio radio-inline"><label class="mb-0 form-label'" style="">
+                                                <input type="radio" name="careerRlsYn" id="careerRlsYn1" value="Y" checked=""><i class="helper"></i>공개
+                                            </label></div>
+                                            <div class="radio radio-inline"><label class="mb-0 form-label" style="">
+                                                <input type="radio" name="careerRlsYn" id="careerRlsYn2" value="N"><i class="helper"></i>비공개
+                                            </label></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header p-t-0 p-b-0">
+                        <h3 class="sub-title"><strong>강의요청 및 홍보 메세지 수신 여부</strong></h3>
+                    </div>
+                    <div class="card-block-small p-t-0">
+                        <div class="mb-0 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>기업/단체 강의요청 및 알림톡 수신여부</strong></div>
+                                    <div class="col-12">
+                                        <div class="form-radio">
+                                            <div class="radio radio-inline"><label class="mb-0 form-label'" style="">
+                                                <input type="radio" name="entLctrDmndRcptnYn" id="entLctrDmndRcptnYn1" value="Y" checked=""><i class="helper"></i>받음
+                                            </label></div>
+                                            <div class="radio radio-inline"><label class="mb-0 form-label" style="">
+                                                <input type="radio" name="entLctrDmndRcptnYn" id="entLctrDmndRcptnYn2" value="N"><i class="helper"></i>받지않음
+                                            </label></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>환경보전협회 강의요청 안내 및 홍보 메시지 수신여부</strong></div>
+                                    <div class="col-12">
+                                        <div class="form-radio">
+                                            <div class="radio radio-inline"><label class="mb-0 form-label'" style="">
+                                                <input type="radio" name="lctrGdncRcptnYn" id="lctrGdncRcptnYn1" value="Y" checked=""><i class="helper"></i>받음
+                                            </label></div>
+                                            <div class="radio radio-inline"><label class="mb-0 form-label" style="">
+                                                <input type="radio" name="lctrGdncRcptnYn" id="lctrGdncRcptnYn2" value="N"><i class="helper"></i>받지않음
+                                            </label></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header p-t-0 p-b-0">
+                        <h3 class="sub-title"><strong>약관동의여부</strong></h3>
+                    </div>
+                    <div class="card-block-small p-t-0">
+                        <div class="mb-2 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>서비스 이용약관</strong>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    동의
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>개인정보 수집 이용</strong></div>
+                                    <div class="col-12">
+                                        동의
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-0 row">
+                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                <div class="mb-0 form-group">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>개인정보 제3자 제공 동의</strong></div>
+                                    <div class="col-12">
+                                        동의
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 전문가 해지 사유 모달 -->
+                    <div class="modal fade" id="updateRecordExpertTerminationReasonPopup" data-bs-backdrop="static">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content type_2">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">전문가 해지 사유</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card m-b-10">
+                                        <div class="card-block-small">
+                                            <div class="mb-0 form-group row">
+                                                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="updateRecordExpertTerminationReasonPopupReason"><strong>사유</strong></label>
+                                                <div class="col-12">
+                                                    <textarea rows="5" cols="5" class="form-control form-control-sm" placeholder="사유 입력" id="updateRecordExpertTerminationReasonPopupReason"
+                                                              name="updateRecordExpertTerminationReasonPopupReason"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " onclick="updateExpertStts('cncl')">등록</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 전문가 반려 사유 모달 -->
+                    <div class="modal fade" id="updateRecordExpertCompanionReasonPopup" data-bs-backdrop="static">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content type_2">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">전문가 반려 사유</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card m-b-10">
+                                        <div class="card-block-small">
+                                            <div class="mb-0 form-group row">
+                                                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="updateRecordExpertCompanionReasonPopupReason"><strong>사유</strong></label>
+                                                <div class="col-12">
+                                                    <textarea rows="5" cols="5" class="form-control form-control-sm" placeholder="Default textarea" id="updateRecordExpertCompanionReasonPopupReason"
+                                                              name="updateRecordExpertCompanionReasonPopupReason"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " onclick="updateExpertStts('rjct')">등록</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 개인정보 파일 다운로드 사유 모달 -->
+                    <div class="modal fade" id="fileDownPopup" data-bs-backdrop="static">
+                        <input type="hidden" name="fileid" id="fileid">
+                        <input type="hidden" name="fileIdntfcKey" id="fileIdntfcKey">
+                        <input type="hidden" name="prcsSeCd" id="prcsSeCd">
+
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content type_2">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">개인정보 파일 다운로드 사유</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card m-b-10">
+                                        <div class="card-block-small">
+                                            <div class="mb-0 form-group row">
+                                                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="updateRecordExpertFileDownloadReasonPopupReason"><strong>사유</strong></label>
+                                                <div class="col-12">
+                                                    <textarea rows="5" cols="5" class="form-control form-control-sm" placeholder="사유 입력" id="updateRecordExpertFileDownloadReasonPopupReason"
+                                                              name="updateRecordExpertFileDownloadReasonPopupReason"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary waves-effect waves-light " onclick="fileDownRsnIns()">등록</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header p-b-0">
+                        <ul class="nav nav-tabs md-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#home3" role="tab" aria-selected="false">Home</a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#profile3" role="tab" aria-selected="false">Profile</a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#messages3" role="tab" aria-selected="true">Messages</a>
+                                <div class="slide"></div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#settings3" role="tab" aria-selected="false">Settings</a>
+                                <div class="slide"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-block">
+                        <div class="row m-b-30">
+                            <div class="col-lg-12">
+                                <div class="tab-content card-block">
+                                    <div class="tab-pane" id="home3" role="tabpanel">
+                                        <h3 class="sub-title"><strong>강의요청서</strong></h3>
+                                        <div class="mb-2 row">
+                                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                                <div class="mb-0 form-group">
+                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestTitle"><strong>제목</strong></label>
+                                                    <div class="col-12">
+                                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestTitle" id="lectureRequestTitle" value="123" readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-0 form-group">
+                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestStartDate"><strong>강의 시작 일시</strong></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestStartDate" id="lectureRequestStartDate" value="2023-07-18 14:35" readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2 row">
+                                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                                <div class="mb-0 form-group">
+                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestEndDate"><strong>강의 종료 일시</strong></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestEndDate" id="lectureRequestEndDate" value="2023-07-20 14:35" readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-0 form-group">
+                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestAddress"><strong>강의장소(지역)</strong></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestAddress" id="lectureRequestAddress" value="충북 청주시 서원구 1순환로 627" readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2 row">
+                                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                                <div class="mb-0 form-group">
+                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestDetailAddress"><strong>상세주소</strong></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestDetailAddress" id="lectureRequestDetailAddress" value="1" readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-0 form-group">
+                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestRequesterName"><strong>신청자</strong></label>
+                                                    <div class="col-sm-12">
+
+                                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestRequesterName" id="lectureRequestRequesterName" value="관리자" readonly="">
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2 row">
+                                            <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                                                <div class="mb-0 form-group">
+                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestRequesterPhoneNum"><strong>신청자 휴대전화</strong></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestRequesterPhoneNum" id="lectureRequestRequesterPhoneNum" value="01000000000"
+                                                               readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="mb-0 form-group">
+                                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestRequesterEmail"><strong>신청자 이메일</strong></label>
+                                                    <div class="col-sm-12">
+                                                        <input type="text" class="form-control form-control-sm form-control-round" name="lectureRequestRequesterEmail" id="lectureRequestRequesterEmail" value="ㄴsafdas@chol.com"
+                                                               readonly="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mb-2 form-group row">
+                                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lectureRequestRequestContents"><strong>요청내용</strong></label>
+                                            <div class="col-12">
+                                                <textarea rows="5" cols="5" class="form-control form-control-sm form-control-round" id="lectureRequestRequestContents" name="lectureRequestRequestContents" readonly="">asfd</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="mb-0 form-group row">
+                                            <div class="mb-0 form-group">
+                                                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>첨부파일</strong></label>
+                                                <div class="row">
+                                                    <div class="col-auto">
+                                                        선택된 파일 없음
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <p class="m-0">1. This is Photoshop's version of
+                                            Lorem IpThis is Photoshop's version of Lorem
+                                            Ipsum. Proin gravida nibh vel velit auctor
+                                            aliquet. Aenean sollicitudin, lorem quis
+                                            bibendum auctor, nisi elit consequat ipsum,
+                                            nec sagittis sem nibh id elit. Lorem ipsum
+                                            dolor sit amet, consectetuer adipiscing
+                                            elit. Aenean commodo ligula eget dolor.
+                                            Aenean mas Cum sociis natoque penatibus et
+                                            magnis dis.....</p>
+                                    </div>
+
+                                    <div class="tab-pane" id="profile3" role="tabpanel">
+                                        <p class="m-0">2.Cras consequat in enim ut
+                                            efficitur. Nulla posuere elit quis auctor
+                                            interdum praesent sit amet nulla vel enim
+                                            amet. Donec convallis tellus neque, et
+                                            imperdiet felis amet.</p>
+                                    </div>
+                                    <div class="tab-pane active" id="messages3" role="tabpanel">
+                                        <p class="m-0">3. This is Photoshop's version of
+                                            Lorem IpThis is Photoshop's version of Lorem
+                                            Ipsum. Proin gravida nibh vel velit auctor
+                                            aliquet. Aenean sollicitudin, lorem quis
+                                            bibendum auctor, nisi elit consequat ipsum,
+                                            nec sagittis sem nibh id elit. Lorem ipsum
+                                            dolor sit amet, consectetuer adipiscing
+                                            elit. Aenean commodo ligula eget dolor.
+                                            Aenean mas Cum sociis natoque penatibus et
+                                            magnis dis.....</p>
+                                    </div>
+                                    <div class="tab-pane" id="settings3" role="tabpanel">
+                                        <p class="m-0">4.Cras consequat in enim ut
+                                            efficitur. Nulla posuere elit quis auctor
+                                            interdum praesent sit amet nulla vel enim
+                                            amet. Donec convallis tellus neque, et
+                                            imperdiet felis amet.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

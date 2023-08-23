@@ -4,6 +4,7 @@
 <mapper namespace="com.saesig.member.MemberMapper">
 
     <select id="selectMemberList" resultType="com.saesig.member.MemberDto">
+        <include refid="PaginationMapper.header"/>
         SELECT
             id
              , email
@@ -20,7 +21,9 @@
              , privacy_agreement
              , location_service_agreement
              , marketing_service_agreement
-        FROM member
+        FROM
+            member
+        <include refid="PaginationMapper.footer"/>
     </select>
 
     <select id="findAll" resultType="com.saesig.member.MemberDto">

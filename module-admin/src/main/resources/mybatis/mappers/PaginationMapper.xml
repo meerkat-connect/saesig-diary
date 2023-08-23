@@ -4,8 +4,8 @@
     <sql id="header">
         WITH
             SEARCH_ORG
-        AS
-            (
+                AS
+                    (
     </sql>
 
     <sql id="footer">
@@ -13,42 +13,42 @@
         , recordsTotal
         AS
         (
-            SELECT
-                COUNT(1) AS recordsTotal
-            FROM
-                SEARCH_ORG A1
+        SELECT
+        COUNT(1) AS recordsTotal
+        FROM
+        SEARCH_ORG A1
         )
         SELECT
-            A1.*,
+        A1.*,
         <choose>
-        		<when test="orderDirection.name() == 'desc'">
-                    B1.recordsTotal - (ROW_NUMBER() OVER(ORDER BY A1.${orderField} DESC)) + 1 AS rowNumber,
-                </when>
-                <when test="orderDirection.name() == 'asc'">
-                    B1.recordsTotal - (ROW_NUMBER() OVER(ORDER BY A1.${orderField} ASC)) + 1 AS rowNumber,
-                </when>
-                <otherwise>
-                    B1.recordsTotal - (ROW_NUMBER() OVER(ORDER BY A1.${orderField})) + 1 AS rowNumber,
-                </otherwise>
+            <when test="orderDirection.name() == 'desc'">
+                B1.recordsTotal - (ROW_NUMBER() OVER(ORDER BY A1.${orderField} DESC)) + 1 AS rowNumber,
+            </when>
+            <when test="orderDirection.name() == 'asc'">
+                B1.recordsTotal - (ROW_NUMBER() OVER(ORDER BY A1.${orderField} ASC)) + 1 AS rowNumber,
+            </when>
+            <otherwise>
+                B1.recordsTotal - (ROW_NUMBER() OVER(ORDER BY A1.${orderField})) + 1 AS rowNumber,
+            </otherwise>
         </choose>
-            B1.recordsTotal
-            , IFNULL(#{pageNumber}, 1) AS pageNumber
-            , CEILING(CONVERT(B1.recordsTotal, FLOAT) / IFNULL(#{length}, 10)) AS totalPage
-            , #{length} AS pageSize
+        B1.recordsTotal
+        , IFNULL(#{pageNumber}, 1) AS pageNumber
+        , CEILING(CONVERT(B1.recordsTotal, FLOAT) / IFNULL(#{length}, 10)) AS totalPage
+        , #{length} AS pageSize
         FROM
-            SEARCH_ORG A1
+        SEARCH_ORG A1
         CROSS JOIN recordsTotal B1
         ORDER BY
         <choose>
-                <when test="orderDirection.name() == 'desc'">
-                    A1.${orderField} DESC
-                </when>
-                <when test="orderDirection.name() == 'asc'">
-                    A1.${orderField} ASC
-                </when>
-                <otherwise>
-                    A1.${orderField}
-                </otherwise>
+            <when test="orderDirection.name() == 'desc'">
+                A1.${orderField} DESC
+            </when>
+            <when test="orderDirection.name() == 'asc'">
+                A1.${orderField} ASC
+            </when>
+            <otherwise>
+                A1.${orderField}
+            </otherwise>
         </choose>
         <if test="length != 0">
             LIMIT #{start}, #{length}
