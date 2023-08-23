@@ -14,10 +14,10 @@ public class FileGroup extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "directory_path")
-    private String directoryPath;
+    @Column(name = "path")
+    private String path;
 
-    public FileGroup(String directoryPath) {
-        this.directoryPath = directoryPath;
+    public FileGroup(String path) {
+        this.path = path;
     }
 }

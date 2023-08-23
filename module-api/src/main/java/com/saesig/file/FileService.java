@@ -29,7 +29,7 @@ public class FileService {
     }
 
     @Transactional
-    public List<FileDto> storeFiles(List<MultipartFile> multipartFiles) throws Exception {
+    public List<FileDto> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
         List<FileDto> storedFiles = new ArrayList<>();
 
         for (MultipartFile multipartFile : multipartFiles) {
@@ -65,7 +65,7 @@ public class FileService {
         return FileDto.builder()
                 .savedName(savedFile.getSavedName())
                 .originName(savedFile.getOriginName())
-                .path(savedFileGroup.getDirectoryPath())
+                .path(savedFileGroup.getPath())
                 .build();
     }
 
@@ -76,7 +76,7 @@ public class FileService {
         return FileDto.builder()
                 .originName(file.getOriginName())
                 .savedName(file.getOriginName())
-                .path(file.getFileGroup().getDirectoryPath())
+                .path(file.getFileGroup().getPath())
                 .build();
     }
 

@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class FileRepositoryTest {
 
     @Value("${file.dir}")
-    private String directoryPath;
+    private String path;
 
     @Autowired
     private FileRepository fileRepository;
@@ -34,7 +34,7 @@ class FileRepositoryTest {
         String extenstion = "txt";
 
         //when
-        FileGroup fileGroup = new FileGroup(directoryPath);
+        FileGroup fileGroup = new FileGroup(path);
         FileGroup savedFileGroup = fileGroupRepository.save(fileGroup);
         FileGroup fileGroupById = fileGroupRepository.findById(savedFileGroup.getId()).get();
 
