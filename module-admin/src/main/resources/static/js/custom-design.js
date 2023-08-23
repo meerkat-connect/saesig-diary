@@ -4,5 +4,6 @@
         $(this).parent().find('input').click();
     });
 
-    $('.custom-select').niceSelect();
+    $('select').niceSelect();
+
 }(jQuery));
