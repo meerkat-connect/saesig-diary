@@ -29,7 +29,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송수단</strong>
                                         </div>
                                         <div class="col-sm-12">
-                                            <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                            <select id="searchMethod" name="searchMethod" class="form-select form-select-sm form-control-sm form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option th:each="item : ${searchSendMethod}" th:value="${item.key}" th:text="${item.value}">value</option>
                                             </select>
@@ -41,7 +41,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong>
                                         </div>
                                         <div class="col-sm-12">
-                                            <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                            <select id="searchCategory" name="searchCategory" class="form-select form-select-sm form-control-sm form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option th:each="item : ${searchSendCategory}" th:value="${item.key}" th:text="${item.value}">value</option>
                                             </select>
@@ -52,7 +52,7 @@
                                     <div class="mb-0 form-group row">
                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchTitle"><strong>제목</strong></label>
                                         <div class="col-12">
-                                            <input type="text" class="form-select form-select-sm form-control-sm form-control-round" aria-label="Text input with dropdown button" name="searchTitle" id="searchTitle"/>
+                                            <input type="text" class="form-control-sm form-control-round" aria-label="Text input with dropdown button" id="searchTitle" name="searchTitle"/>
                                         </div>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>사용여부</strong>
                                         </div>
                                         <div class="col-sm-12">
-                                            <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                            <select name="searchIsEnabled" class="form-select form-select-sm form-control-sm form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option value="Y">사용</option>
                                                 <option value="N">사용안함</option>
@@ -74,7 +74,7 @@
                             <!-- 키워드 filter-btn -->
                             <div class="mt-1 p-t-20 text-center border-top">
                                 <button class="btn btn-gray m-r-5">초기화</button>
-                                <button class="btn btn-primary" onclick="search();">검색</button>
+                                <button class="btn btn-primary" onclick="listController.init();">검색</button>
                             </div>
                         </div>
                     </div>
@@ -174,6 +174,7 @@
                             }
                         },
                         "dataSrc": function (res) {
+                            console.log(res)
                             return res.data;
                         }
                     },

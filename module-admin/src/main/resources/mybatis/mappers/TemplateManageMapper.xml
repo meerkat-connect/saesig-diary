@@ -6,9 +6,33 @@
     <select id="selectTemplateList" resultType="com.saesig.templateManage.TemplateManageDto">
         <include refid="PaginationMapper.header"/>
         SELECT
-            *
+            id
+            , method
+            , title
+            , time_point
+            , category
+            , is_enabled
+            , created_at
         FROM
             SEND_TEMPLATE
+        WHERE
+            1 = 1
+        <!-- 발송수단 -->
+        <if test="searchMethod != null and searchMethod != ''">
+            AND method = #{searchMethod}
+        </if>
+        <!-- 발송유형 -->
+        <if test="searchCategory != null and searchCategory != ''">
+            AND category = #{searchCategory}
+        </if>
+        <!-- 제목 -->
+        <if test="searchTitle != null and searchTitle != ''">
+            AND title LIKE CONCAT('%',#{searchKeyword},'%')
+        </if>
+        <!-- 사용여부 -->
+        <if test="searchIsEnabled != null and searchIsEnabled != ''">
+            AND is_enabled = #{searchIsEnabled}
+        </if>
         <include refid="PaginationMapper.footer"/>
     </select>
 

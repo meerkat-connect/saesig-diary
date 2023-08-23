@@ -1,7 +1,7 @@
 package com.saesig.templateManage;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.saesig.common.RequestDto;
+import com.saesig.common.mybatis.RequestDto;
 import com.saesig.config.auth.SessionMember;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,4 +27,12 @@ public class TemplateManageDto extends RequestDto {
     private String createdBy;
     private String modifiedAt;
     private String modifiedBy;
+
+    // FILTER
+    // 발송수단, 발송유형, 제목, 사용여부
+    private String searchMethod;
+    private String searchCategory;
+    private String searchTitle;
+    private String searchIsEnabled;
+
 }

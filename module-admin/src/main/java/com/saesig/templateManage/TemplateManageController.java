@@ -1,7 +1,6 @@
 package com.saesig.templateManage;
 
-import com.saesig.common.DataTablesDto;
-import com.saesig.common.RequestDto;
+import com.saesig.common.mybatis.DataTablesDto;
 import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.common.Constant;
@@ -41,8 +40,13 @@ public class TemplateManageController {
 
         dtd.setDraw(tmd.getDraw());
         dtd.setData(list);
-        dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
-        dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+        if(list.size() == 0) {
+            dtd.setRecordsFiltered(0);
+            dtd.setRecordsTotal(0);
+        }else {
+            dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
+            dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+        }
 
         return dtd;
     }
