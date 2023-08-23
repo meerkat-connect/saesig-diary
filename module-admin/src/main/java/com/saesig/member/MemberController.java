@@ -1,10 +1,10 @@
 package com.saesig.member;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.saesig.common.mybatis.DataTablesDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.saesig.mail.MailContorller;
 
@@ -12,31 +12,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Controller
 public class MemberController {
 
-    @Autowired
-    private MemberSerivce memberService;
+    private final MemberSerivce memberService;
 
     @GetMapping({"/member", "/member/memberList.html"})
     public String example() {
         return "member/memberList";
     }
 
-    @RequestMapping(value = "/member/selectMemberList.do")
+    @GetMapping(value = "/member/selectMemberList.do")
     @ResponseBody
-    public Map<String, Object> selectMemberList(MemberDto memberDto) throws Exception {
-        Map<String, Object> resultMap = new HashMap<>();
-        List<MemberDto> list = memberService.selectMemberList(memberDto);
+    public DataTablesDto selectMemberList(MemberDto mbd) throws Exception {
+        DataTablesDto dtd = new DataTablesDto();
 
-//        if (list.size() > 0) {
-//            resultMap.put("totalCount", (result.get(0).getTotalCount()));
-//        } else {
-//            resultMap.put("totalCount", 0);
-//        }
-        resultMap.put("list", list);
+        List<MemberDto> list = memberService.selectMemberList(mbd);
 
-        return resultMap;
+        dtd.setDraw(mbd.getDraw());
+        dtd.setData(list);
+        dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
+        dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+
+        return dtd;
     }
 
     @PostMapping("/sendMail.do")

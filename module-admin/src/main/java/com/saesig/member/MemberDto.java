@@ -1,22 +1,30 @@
 package com.saesig.member;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.saesig.common.mybatis.RequestDto;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 @Data
-public class MemberDto {
+public class MemberDto extends RequestDto {
+
     private Long id;
     private String email;
     private String password;
-    private String signup_method;
+    private String signupMethod;
     private String nickname;
     private String status;
-    private String joined_at;
-    private String modified_at;
-    private String modified_by;
-    private String created_at;
-    private String created_by;
-    private String service_agreement;
-    private String privacy_agreement;
-    private String location_service_agreement;
-    private String marketing_service_agreement;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime joinedAt;
+    private String modifiedAt;
+    private String modifiedBy;
+    private String createdAt;
+    private String createdBy;
+    private String serviceAgreement;
+    private String privacyAgreement;
+    private String locationServiceAgreement;
+    private String marketingServiceAgreement;
 }

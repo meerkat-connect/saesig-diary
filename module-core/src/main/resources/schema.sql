@@ -57,15 +57,12 @@ DROP TABLE IF EXISTS `adopt_report`;
 
 CREATE TABLE `adopt_report`
 (
-    `id`          BIGINT        AUTO_INCREMENT NOT NULL COMMENT '신고 일련번호',
-    `adopt_id`    BIGINT        NOT NULL COMMENT '분양 일련번호',
-    `category`    VARCHAR(20)   NOT NULL COMMENT '유형',
-    `content`     VARCHAR(1000) NULL COMMENT '내용',
-    `member_id`   BIGINT        NOT NULL COMMENT '신고자 회원 일련번호',
-    `modified_at` DATETIME      NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT        NOT NULL COMMENT '수정자 일련번호',
-    `created_at`  DATETIME      NOT NULL COMMENT '등록일',
-    `created_by`  BIGINT        NOT NULL COMMENT '등록자 일련번호'
+    `id`             BIGINT AUTO_INCREMENT NOT NULL COMMENT '파일 그룹 일련번호',
+    `path` VARCHAR(200)          NOT NULL COMMENT '경로명',
+    `modified_at`    DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by`    BIGINT                NOT NULL COMMENT '수정자 아이디',
+    `created_at`     DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`     BIGINT                NOT NULL COMMENT '등록자 아이디'
 );
 
 DROP TABLE IF EXISTS `resource`;

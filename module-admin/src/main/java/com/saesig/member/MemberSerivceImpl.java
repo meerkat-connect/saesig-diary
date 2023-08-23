@@ -5,9 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-@Service
 @RequiredArgsConstructor
+@Service
 public class MemberSerivceImpl implements MemberSerivce{
 
     private final MemberMapper memberMapper;
