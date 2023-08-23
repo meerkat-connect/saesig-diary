@@ -1,5 +1,7 @@
 package com.saesig.templateManage;
 
+import com.saesig.common.DataTablesDto;
+import com.saesig.common.RequestDto;
 import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.common.Constant;
@@ -32,13 +34,17 @@ public class TemplateManageController {
 
     @GetMapping("/templateManage/selectTemplateList.do")
     @ResponseBody
-    public Map<String, Object> selectTemplateList(TemplateManageDto tmd) throws Exception {
-        Map<String, Object> result = new HashMap<>();
+    public DataTablesDto selectTemplateList(TemplateManageDto tmd) throws Exception {
+        DataTablesDto dtd = new DataTablesDto();
 
         List<TemplateManageDto> list = templateManageService.selectTemplateList(tmd);
-        result.put("data", list);
 
-        return result;
+        dtd.setDraw(tmd.getDraw());
+        dtd.setData(list);
+        dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
+        dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+
+        return dtd;
     }
 
     @GetMapping("/templateManage/templateManageForm.html")

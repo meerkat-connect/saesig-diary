@@ -1,6 +1,7 @@
 package com.saesig.templateManage;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.saesig.common.RequestDto;
 import com.saesig.config.auth.SessionMember;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
-public class TemplateManageDto {
+public class TemplateManageDto extends RequestDto {
 
     private SessionMember member;
 

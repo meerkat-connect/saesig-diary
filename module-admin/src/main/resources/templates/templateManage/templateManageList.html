@@ -14,67 +14,74 @@
     <div class="page-body">
         <div class="row">
             <!-- 필터 부분 -->
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-block-small">
-                        <!-- 키워드 filter -->
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송수단</strong>
+            <form id="searchForm" name="searchForm" onsubmit="return false;">
+                <input type="hidden" id="rowPerPage" name="rowPerPage" value="10">
+                <input type="hidden" id="orderField" name="orderField" value="id">
+                <input type="hidden" id="orderDirection" name="orderDirection" value="desc">
+
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-block-small">
+                            <!-- 키워드 filter -->
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송수단</strong>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option th:each="item : ${searchSendMethod}" th:value="${item.key}" th:text="${item.value}">value</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm form-control-round custom-select">
-                                            <option value="">- 전체 -</option>
-                                            <option th:each="item : ${searchSendMethod}" th:value="${item.key}" th:text="${item.value}">value</option>
-                                        </select>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option th:each="item : ${searchSendCategory}" th:value="${item.key}" th:text="${item.value}">value</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchTitle"><strong>제목</strong></label>
+                                        <div class="col-12">
+                                            <input type="text" class="form-select form-select-sm form-control-sm form-control-round" aria-label="Text input with dropdown button" name="searchTitle" id="searchTitle"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>사용여부</strong>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option value="Y">사용</option>
+                                                <option value="N">사용안함</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm form-control-round custom-select">
-                                            <option value="">- 전체 -</option>
-                                            <option th:each="item : ${searchSendCategory}" th:value="${item.key}" th:text="${item.value}">value</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <!-- //키워드 filter -->
+                            <!-- 키워드 filter-btn -->
+                            <div class="mt-1 p-t-20 text-center border-top">
+                                <button class="btn btn-gray m-r-5">초기화</button>
+                                <button class="btn btn-primary" onclick="search();">검색</button>
                             </div>
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchTitle"><strong>제목</strong></label>
-                                    <div class="col-12">
-                                        <input type="text" class="form-select form-select-sm form-control-sm form-control-round" aria-label="Text input with dropdown button" name="searchTitle" id="searchTitle"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>사용여부</strong>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <select name="filterStatusSelect" class="form-select form-select-sm form-control-sm form-control-round custom-select">
-                                            <option value="">- 전체 -</option>
-                                            <option value="Y">사용</option>
-                                            <option value="N">사용안함</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- //키워드 filter -->
-                        <!-- 키워드 filter-btn -->
-                        <div class="mt-1 p-t-20 text-center border-top">
-                            <button class="btn btn-gray m-r-5">초기화</button>
-                            <button class="btn btn-primary" onclick="search();">검색</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
             <!-- //필터 부분 -->
+
 
             <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
             <div class="col-12">
@@ -147,18 +154,26 @@
                     lengthChange: false,
                     searching: false,
                     ordering: false,
-                    paging: true,
                     info: true,
                     destroy: true,
+                    serverSide: true,
                     processing: true,
                     pageLength: 10,
 
                     ajax: {
                         async: false,
-                        url:'/templateManage/selectTemplateList.do',
-                        method: 'get',
+                        method: 'GET',
+                        url: '/templateManage/selectTemplateList.do',
+                        data: function(d) {
+                            var formData  = $('#searchForm').serializeArray();
+                            for(var i = 0; i < formData.length; i++) {
+                                var formName = formData[i].name;
+                                var formVal = $("#"+formName).val();
+
+                                d[formName] = formVal;
+                            }
+                        },
                         "dataSrc": function (res) {
-                            res.data[0].isFirst = true;
                             return res.data;
                         }
                     },
@@ -169,7 +184,7 @@
                                 return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
                             }
                         },
-                        {data : 'id'}, // 페이징 후 No. 변경
+                        {data : 'rowNumber'}, // 페이징 후 No. 변경
                         {
                             render: function (data, type, row) {
                                 return row.method === 'EMAIL' ? '이메일' : 'SMS';

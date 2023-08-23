@@ -4,10 +4,12 @@
 <mapper namespace="com.saesig.templateManage.TemplateManageMapper">
 
     <select id="selectTemplateList" resultType="com.saesig.templateManage.TemplateManageDto">
+        <include refid="PaginationMapper.header"/>
         SELECT
             *
         FROM
             SEND_TEMPLATE
+        <include refid="PaginationMapper.footer"/>
     </select>
 
     <select id="selectTemplate" resultType="com.saesig.templateManage.TemplateManageDto">
