@@ -75,6 +75,8 @@ spring:
     username: ENC(dwo/ZZXd0UWdQzRWY39Kmw==)
     password: ENC(Dg+d3+AOsL04p8sCO8pTuPOd1OmSkm9+)
 
+file.dir: /saesig/dev/file/
+
 --- #prod
 spring:
   config:
