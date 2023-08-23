@@ -1,4 +1,4 @@
-package com.saesig.common;
+package com.saesig.common.mybatis;
 
 import lombok.Data;
 import org.springframework.util.CollectionUtils;

@@ -1,6 +1,6 @@
 package com.saesig.member;
 
-import com.saesig.common.DataTablesDto;
+import com.saesig.common.mybatis.DataTablesDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

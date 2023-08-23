@@ -1,7 +1,7 @@
 package com.saesig.member;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.saesig.common.RequestDto;
+import com.saesig.common.mybatis.RequestDto;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
