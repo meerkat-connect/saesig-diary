@@ -65,9 +65,3 @@ project(':module-api') {
     }
 }
 
-project(':module-core') {
-    dependencies {
-        implementation project(':module-core')
-    }
-}
-
