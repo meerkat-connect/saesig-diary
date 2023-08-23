@@ -4,8 +4,8 @@
     <sql id="header">
         WITH
             SEARCH_ORG
-                AS
-                    (
+        AS
+        (
     </sql>
 
     <sql id="footer">
@@ -14,9 +14,9 @@
         AS
         (
         SELECT
-        COUNT(1) AS recordsTotal
+            COUNT(1) AS recordsTotal
         FROM
-        SEARCH_ORG A1
+            SEARCH_ORG A1
         )
         SELECT
         A1.*,

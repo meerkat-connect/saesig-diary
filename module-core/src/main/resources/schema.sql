@@ -249,37 +249,37 @@ CREATE TABLE `faq`
 
 DROP TABLE IF EXISTS `send_history`;
 
-CREATE TABLE `send_history`
-(
-    `id`               BIGINT      AUTO_INCREMENT NOT NULL COMMENT '발송이력 일련번호',
-    `send_template_id` BIGINT      NOT NULL COMMENT '템플릿 일련번호',
-    `content`          TEXT        NOT NULL COMMENT '발송내용',
-    `recipient_id`     BIGINT      NOT NULL COMMENT '수신자 일련번호',
-    `recipient_email`  VARCHAR(50) NOT NULL COMMENT '수신자 이메일',
-    `sender_id`        BIGINT      NOT NULL COMMENT '발신자 일련번호',
-    `sender_email`     VARCHAR(50) NOT NULL COMMENT '발신자 이메일',
-    `sended_at`        DATETIME    NOT NULL COMMENT '발송일시',
-    `created_at`       DATETIME    NOT NULL COMMENT '등록일',
-    `created_by`       BIGINT      NOT NULL COMMENT '등록자 일련번호',
-    `modified_at`      DATETIME    NOT NULL COMMENT '수정일',
-    `modified_by`      BIGINT      NOT NULL COMMENT '수정자 일련번호'
+CREATE TABLE `send_history` (
+    `id`	            BIGINT AUTO_INCREMENT NOT NULL	COMMENT '발송이력 일련번호',
+    `send_template_id`	BIGINT	              NOT NULL	COMMENT '템플릿 일련번호',
+    `content`           TEXT                  NOT NULL  COMMENT '발송내용',
+    `recipient_id`	    BIGINT	              NOT NULL	COMMENT '수신자 일련번호',
+    `recipient_email`	VARCHAR(50)	          NOT NULL	COMMENT '수신자 이메일',
+    `sender_id`	        BIGINT	              NOT NULL	COMMENT '발신자 일련번호',
+    `sender_email`	    VARCHAR(50)	          NOT NULL	COMMENT '발신자 이메일',
+    `sended_at`	        DATETIME	          NOT NULL	COMMENT '발송일시',
+    `created_at`	    DATETIME	          NOT NULL	COMMENT '등록일',
+    `created_by`	    BIGINT	              NOT NULL	COMMENT '등록자 일련번호',
+    `modified_at`	    DATETIME	          NOT NULL	COMMENT '수정일',
+    `modified_by`	    BIGINT	              NOT NULL	COMMENT '수정자 일련번호'
 );
+
 
 DROP TABLE IF EXISTS `send_template`;
 
 CREATE TABLE `send_template`
 (
-    `id`          BIGINT       AUTO_INCREMENT NOT NULL COMMENT '템플릿 일련번호',
-    `method`      VARCHAR(20)  NOT NULL COMMENT '발송 수단',
-    `title`       VARCHAR(300) NOT NULL COMMENT '제목',
-    `content`     TEXT         NOT NULL COMMENT '내용',
-    `category`    VARCHAR(20)  NOT NULL COMMENT '발송 유형',
-    `is_enabled`  CHAR(1)      NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
-    `time_point`  VARCHAR(20)  NOT NULL COMMENT '발송 시점',
-    `created_at`  DATETIME     NOT NULL COMMENT '등록일',
-    `created_by`  BIGINT       NOT NULL COMMENT '등록자 일련번호',
-    `modified_at` DATETIME     NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT       NOT NULL COMMENT '수정자 일련번호'
+    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '템플릿 일련번호',
+    `method`      VARCHAR(20)           NOT NULL COMMENT '발송 수단',
+    `title`       VARCHAR(300)          NOT NULL COMMENT '제목',
+    `content`     TEXT                  NOT NULL COMMENT '내용',
+    `category`    VARCHAR(20)           NOT NULL COMMENT '발송 유형',
+    `is_enabled`  CHAR(1)               NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
+    `time_point`  VARCHAR(20)           NOT NULL COMMENT '발송 시점',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호'
 );
 
 DROP TABLE IF EXISTS `blocked_member`;
@@ -659,132 +659,3 @@ ALTER TABLE `role_resource`
                            `id`
             );
 
-ALTER TABLE `role_resource`
-    ADD CONSTRAINT `FK_resource_TO_role_resource_1` FOREIGN KEY (
-                                                                 `resource_id`
-        )
-        REFERENCES `resource` (
-                               `id`
-            );
-
-ALTER TABLE `file`
-    ADD CONSTRAINT `FK_file_group_TO_file_1` FOREIGN KEY (
-                                                          `group_id`
-        )
-        REFERENCES `file_group` (
-                                 `id`
-            );
-
-ALTER TABLE `member_role`
-    ADD CONSTRAINT `FK_member_TO_member_role_1` FOREIGN KEY (
-                                                             `member_id`
-        )
-        REFERENCES `member` (
-                             `id`
-            );
-
-ALTER TABLE `member_role`
-    ADD CONSTRAINT `FK_role_TO_member_role_1` FOREIGN KEY (
-                                                           `role_id`
-        )
-        REFERENCES `role` (
-                           `id`
-            );
-
-ALTER TABLE `adopt_interest`
-    ADD CONSTRAINT `FK_adopt_TO_adopt_interest_1` FOREIGN KEY (
-                                                               `adopt_id`
-        )
-        REFERENCES `adopt` (
-                            `id`
-            );
-
-ALTER TABLE `animal_division2`
-    ADD CONSTRAINT `FK_animal_division1_TO_animal_division2_1` FOREIGN KEY (
-                                                                            `animal_division1_id`
-        )
-        REFERENCES `animal_division1` (
-                                       `id`
-            );
-
-ALTER TABLE `inquiry_answer`
-    ADD CONSTRAINT `FK_inquiry_TO_inquiry_answer_1` FOREIGN KEY (
-                                                                 `inquiry_id`
-        )
-        REFERENCES `inquiry` (
-                              `id`
-            );
-
-ALTER TABLE `send_history`
-    ADD CONSTRAINT `FK_send_template_TO_send_history_1` FOREIGN KEY (
-                                                                     `send_template_id`
-        )
-        REFERENCES `send_template` (
-                                    `id`
-            );
-
-ALTER TABLE `blocked_member`
-    ADD CONSTRAINT `FK_member_TO_blocked_member_1` FOREIGN KEY (
-                                                                `member_id`
-        )
-        REFERENCES `member` (
-                             `id`
-            );
-
-ALTER TABLE `diary_report`
-    ADD CONSTRAINT `FK_diary_TO_diary_report_1` FOREIGN KEY (
-                                                             `diary_id`
-        )
-        REFERENCES `diary` (
-                            `id`
-            );
-
-ALTER TABLE `post`
-    ADD CONSTRAINT `FK_board_TO_post_1` FOREIGN KEY (
-                                                     `board_id`
-        )
-        REFERENCES `board` (
-                            `id`
-            );
-
-ALTER TABLE `diary_interest`
-    ADD CONSTRAINT `FK_diary_TO_diary_interest_1` FOREIGN KEY (
-                                                               `diary_id`
-        )
-        REFERENCES `diary` (
-                            `id`
-            );
-
-ALTER TABLE `diary_tag`
-    ADD CONSTRAINT `FK_diary_TO_diary_tag_1` FOREIGN KEY (
-                                                          `diary_id`
-        )
-        REFERENCES `diary` (
-                            `id`
-            );
-
-ALTER TABLE `diary_tag`
-    ADD CONSTRAINT `FK_tag_TO_diary_tag_1` FOREIGN KEY (
-                                                        `tag_id`
-        )
-        REFERENCES `tag` (
-                          `id`
-            );
-
-ALTER TABLE `adopt_vaccine`
-    ADD CONSTRAINT `FK_adopt_TO_adopt_vaccine_1` FOREIGN KEY (
-                                                              `adopt_id`
-        )
-        REFERENCES `adopt` (
-                            `id`
-            );
-
-ALTER TABLE `adopt_vaccine`
-    ADD CONSTRAINT `FK_vaccine_TO_adopt_vaccine_1` FOREIGN KEY (
-                                                                `vaccine_id`
-        )
-        REFERENCES `vaccine` (
-                              `id`
-            );
-
-SET foreign_key_checks = 1;

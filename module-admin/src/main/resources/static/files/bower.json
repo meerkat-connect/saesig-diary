@@ -295,7 +295,10 @@
         "bower_components/jquery.cookie/jquery.cookie.js"
       ],
       "jquery-validation": [
-        "bower_components/jquery-validation/dist/jquery.validate.js"
+        "bower_components/jquery-validation/dist/jquery.validate.js",
+        "bower_components/jquery-validation/dist/jquery.validate.min.js",
+        "bower_components/jquery-validation/dist/jquery.additional-methods.js",
+        "bower_components/jquery-validation/dist/jquery.additional-methods.min.js"
       ],
       "handsontable": [
         "bower_components/handsontable/dist/handsontable.full.min.css",
