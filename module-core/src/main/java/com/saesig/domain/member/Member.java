@@ -40,16 +40,16 @@ public class Member extends BaseEntity {
     private LocalDateTime joinedAt;
 
     @Column(name="service_agreement")
-    private Character serviceAgreement;
+    private String serviceAgreement;
 
     @Column(name="location_service_agreement")
-    private Character locationServiceAgreement;
+    private String locationServiceAgreement;
 
     @Column(name="privacy_agreement")
-    private Character privacyAgreement;
+    private String privacyAgreement;
 
     @Column(name="marketing_service_agreement")
-    private Character marketingServiceAgreement;
+    private String marketingServiceAgreement;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     List<MemberRole> memberRoles = new ArrayList<>();
