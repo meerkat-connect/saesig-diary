@@ -8,6 +8,10 @@
             border-top-left-radius: 50px !important;
             border-bottom-left-radius: 50px !important;
         }
+
+        .table-responsive {
+            overflow-y: hidden;
+        }
     </style>
     <!--    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>-->
     <script th:inline="javascript">
@@ -46,8 +50,8 @@
                 })
                 $('#answerDate').val();
 
-                $('#answerInsert').on('click',function () {
-                    _this.answerInsert();
+                $('#newsInsert').on('click',function () {
+                    _this.newsInsert();
                 })
 
 
@@ -106,10 +110,10 @@
                             data: result.data,
                             columns: [
                                 {data: null},
-                                {data: "categoryStr"},
+                                {data: "category"},
                                 {data: "title"},
                                 {data: "nickname"},
-                                {data: "statusStr"},
+                                {data: "isNotice"},
                                 {data: "createdAt"}
                             ],
                             columnDefs: [{
@@ -128,7 +132,7 @@
                                 , {'targets': 2, 'width': 'auto'}
                                 , {'targets': 3, 'width': '70px'}
                                 , {'targets': 4, 'width': '70px'}
-                                , {'targets': 5, 'width': '70px'}
+                                , {'targets': 4, 'width': '70px'}
                             ],
                             destroy: true,
                             language: {
@@ -179,95 +183,61 @@
                 row.css('background-color', '#F8F7F7')
                 const targetId = $(el).closest('tr').find('[name=rowCheckbox]').val();
                 const targetData = this.NewsData.find(e => e.id === parseInt(targetId));
-                $('.NewsTitle').text('[' + targetData.categoryStr + '] ' + targetData.title)
-                $('.NewsCreatedMemberName').text(targetData.nickname + '(' + targetData.memberId + ')')
-                $('.NewsCreatedDate').text(targetData.modifiedAt)
-                $('.NewsContentCon').text(targetData.content)
                 $('.targetNewsCon').attr('mekc-news-id', targetId)
-                $('#answerTitle').val('RE: '+targetData.title)
-                $('#answerDate').val(_this.getDateStr())
-                $('#answerStatus').val('0')
+                $('#title').val('RE: '+targetData.title)
+                $('#created_at').val(_this.getDateStr())
                 $('select').niceSelect('update');
-                $('#answerContents').val('')
-                $('#answerManagerId').val('1')
-                $('#answerManager').val('이동헌')
-
-                $.ajax({
-                    type: "post",
-                    async: false,
-                    enctype: 'multipart/form-data',
-                    url: "/admin/news/getAnswerById.do",
-                    dataType: 'json',
-                    data: JSON.stringify(targetId), // 객체를 JSON 문자열로 변환하여 전달
-                    contentType: 'application/json', // 전달하는 데이터의 타입을 명시
-                    cache: false,
-                    success: function (result) {
-                        if (result.length != 0){
-                            $('#answerStatus').val('1')
-                            $('select').niceSelect('update');
-                            $('#answerTitle').val(result[0]['title'])
-                            $('#answerContents').val(result[0]['content'])
-                            $('#answerManagerId').val(result[0]['createdBy'])
-                            $('#answerDate').val(_this.getDateStr(result[0]['createdAt']))
-                            if(result.length > 1){
-                                $('#answerManager').val(result[0]['createdByStr']+'(수정됨)')
-                            }else{
-                                $('#answerManager').val(result[0]['createdByStr'])
-                            }
-                        }
-                    },
-                    error: function (e) {
-                        console.log(e)
-                    }
-                })
+                $('#content').val('')
+                $('#created_name').val('이동헌')
             },
 
-            answerInsert : function () {
+            newsInsert : function () {
                 param = {};
                 param.status = null;
                 param.title = null;
                 param.content = null;
-                param.createdBy = null;
+                param.createdBy = 1;
+                param.modifiedBy = 1;
                 param.createdAt = null;
                 param.newsId = null;
+                param.isNotice = null;
 
-                param.newsId = $(document).find("[mekc-news-id]").attr("mekc-news-id")
-                if (param.newsId == '' || param.newsId == undefined || param.newsId == null){
-                    alert("답변할 문의를 선택해 주세요")
+                if ($('#category').val() != '' && $('#category').val() != null && $('#category').val() != undefined) {
+                    param.category = $('#category').val()
+                }else{
+                    alert("카테고리를 입력해주세요");
                     return false;
                 }
-                if ($('#answerStatus').val() != '' && $('#answerStatus').val() != null && $('#answerStatus').val() != undefined) {
-                    param.status = $('#answerStatus').val()
-                }
-                if ($('#answerTitle').val() != '' && $('#answerTitle').val() != null && $('#answerTitle').val() != undefined) {
-                    param.title = $('#answerTitle').val()
+                if ($('#title').val() != '' && $('#title').val() != null && $('#title').val() != undefined) {
+                    param.title = $('#title').val()
                 }else{
                     alert("제목을 입력해주세요");
                     return false;
                 }
-                if ($('#answerContents').val() != '' && $('#answerContents').val() != null && $('#answerContents').val() != undefined) {
-                    param.content = $('#answerContents').val()
+                if ($('#content').val() != '' && $('#content').val() != null && $('#content').val() != undefined) {
+                    param.content = $('#content').val()
                 }else{
                     alert("답변 내용을 입력해주세요")
                 }
-                if ($('#answerManagerId').val() != '' && $('#answerManagerId').val() != null && $('#answerManagerId').val() != undefined) {
-                    param.createdBy = $('#answerManagerId').val();
+                if ($('#isNotice').val() != '' && $('#isNotice').val() != null && $('#isNotice').val() != undefined){
+                    param.isNotice = $('#isNotice').val()
                 }else{
-                    alert("답변자의 정보가 정확하지 않습니다.")
+                    param.isNotice = 'N';
                 }
 
                 $.ajax({
                     type: "post",
                     async: false,
                     enctype: 'multipart/form-data',
-                    url: "/admin/news/insertAnswer.do",
+                    url: "/admin/news/insertNews.do",
                     dataType: 'json',
                     data: JSON.stringify(param), // 객체를 JSON 문자열로 변환하여 전달
                     contentType: 'application/json', // 전달하는 데이터의 타입을 명시
                     cache: false,
                     success: function (result) {
                         if (result){
-                            ("#answerStatus").val(1)
+                            alert("등록이 완료되었습니다.");
+                            window.location.reload();
                         }
                     },
                     error: function (e) {
@@ -298,7 +268,6 @@
             newsList.init();
         });
 
-        const loginSession = [[${loginSession}]]
     </script>
 
     <!-- Page-body start -->
@@ -309,49 +278,24 @@
                 <div class="card-block-small">
                     <!-- 키워드 filter -->
                     <div class="row">
-                        <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="col-lg-6 col-md-12 mb-3">
                             <div class="mb-0 form-group row">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
-                                <div class="input-group input-group-dropdown mb-0">
-                                    <select name="searchKeywordSelect" id="searchKeywordSelect"
-                                            class="form-select form-control custom-select form-control-round">
-                                        <option value="m.email">아이디</option>
-                                        <option value="nickname">닉네임</option>
-                                    </select>
-                                    <input type="text" class="form-control form-control-round" name="searchKeyword"
-                                           id="searchKeyword"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="mb-0 form-group row">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>문의유형</strong></div>
+                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>유형</strong></div>
                                 <div class="col-sm-12">
                                     <select name="searchCategory" id="searchCategory"
                                             class="form-select form-control form-control-round custom-select">
-                                        <option value="all">전체</option>
+                                        <option value="">- 전체 -</option>
+                                        <option th:each="newsCategory : ${newsCategories}" th:value="${newsCategory.key}" th:text="${newsCategory.value}">value</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="col-lg-6 col-md-12 mb-3">
                             <div class="mb-0 form-group row">
                                 <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>제목</strong></div>
                                 <div class="input-group input-group-dropdown mb-0">
                                     <input type="text" class="form-control form-control-round" name="searchTitle"
                                            id="searchTitle"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="mb-0 form-group row">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>답변 상태</strong></div>
-                                <div class="col-sm-12">
-                                    <select name="searchStatus"
-                                            class="form-select form-control form-control-round custom-select"
-                                            id="searchStatus">
-                                        <option value="all">전체</option>
-                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -371,9 +315,10 @@
                 <div class="card">
                     <div class="row p-20 p-b-0">
                         <div class="col-12 col-md-6 mb-2 mb-md-0">
-                            <h5><strong>1:1 문의 검색결과</strong></h5>
+                            <h5><strong>검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
+                            <button class="btn btn-primary" id="insertBtn">등록</button>
                             <button type="button" class="btn btn-inverse">삭제</button>
                         </div>
                     </div>
@@ -397,7 +342,7 @@
                                     <th class="" tabindex="0"
                                         rowspan="1"
                                         colspan="1">
-                                        문의유형
+                                        유형
                                     </th>
                                     <th class="" tabindex="0"
                                         rowspan="1"
@@ -412,7 +357,7 @@
                                     <th class="" tabindex="0"
                                         rowspan="1"
                                         colspan="1">
-                                        답변상태
+                                        고정글여부
                                     </th>
                                     <th class="" tabindex="0"
                                         rowspan="1"
@@ -431,36 +376,6 @@
             <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
         </div>
         <div class="row">
-<!--            <div class="col-12 col-lg-6 targetNewsCon" mekc-news-id="">-->
-<!--                <div class="card">-->
-<!--                    <div class="card-header p-b-0">-->
-<!--                        <h4 class="sub-title"><strong>문의</strong></h4>-->
-<!--                    </div>-->
-<!--                    <div class="card-block-small p-t-0">-->
-<!--                        <p class="NewsTitleCon">-->
-<!--                            <strong class="NewsTitle"></strong>-->
-<!--                        </p>-->
-<!--                        <p>-->
-<!--                            <span class="NewsCreatedMemberName"></span><br/>-->
-<!--                            <span class="NewsCreatedDate"></span>-->
-<!--                        </p>-->
-<!--                    </div>-->
-<!--                    <div class="card-header p-t-0 p-b-0">-->
-<!--                        <h4 class="sub-title"><strong>문의 내용</strong></h4>-->
-<!--                    </div>-->
-<!--                    <div class="card-block-small p-t-0">-->
-<!--                        <p class="NewsContentCon">-->
-
-<!--                        </p>-->
-<!--                        &lt;!&ndash;                        <div class="mt-2 row"> 첨부파일이라 주석처리 해놓음.&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            <ul>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <li><a href="javascript:void(0)"><i class="ion-paperclip f-18"></i> Cum sociis natoque.pptx</a></li>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                                <li><a href="javascript:void(0)"><i class="ion-paperclip f-18"></i> Cum sociis natoque.xlsx</a></li>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                            </ul>&ndash;&gt;-->
-<!--                        &lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="col-12">
                 <div class="card">
                     <div class="card-header p-b-0">
@@ -482,36 +397,51 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="mb-3 form-group row required">
+                            <div class="col-sm-12">
+                                <div class="mb-0 form-group row">
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                        <strong>고정글 여부</strong>
+                                    </div>
+                                    <div class="col-12">
+                                        <select name="isNotice" id="isNotice" class="form-select form-control form-control-round custom-select">
+                                            <option value="N">사용안함</option>
+                                            <option value="Y">사용</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="mb-3 form-group row">
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                   for="answerTitle"><strong>답변 제목</strong></label>
+                                   for="title"><strong>제목</strong></label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control form-control-round"
-                                       name="answerTitle" id="answerTitle"
+                                       name="title" id="title"
                                        placeholder="Text Input Validation"/>
                             </div>
                         </div>
                         <div class="mb-3 form-group row">
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                   for="answerContents"><strong>답변 내용</strong></label>
+                                   for="content"><strong>내용</strong></label>
                             <div class="col-sm-12">
                                                                 <textarea rows="5" cols="5"
                                                                           class="form-control form-control-sm"
                                                                           placeholder="Default textarea"
-                                                                          id="answerContents"
-                                                                          name="answerContents"></textarea>
+                                                                          id="content"
+                                                                          name="content"></textarea>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <div class="col-12 col-lg-6 mb-3 mb-lg-0">
                                 <div class="mb-0 form-group">
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                           for="answerManager"><strong>답변자(세션생성시 수정)</strong></label>
+                                           for="created_name"><strong>작성자</strong></label>
                                     <div class="col-sm-12">
                                         <input type="hidden" name="answerManagerId" id="answerManagerId" value="1"
                                                placeholder="Text Input Validation" readonly/>
                                         <input type="text" class="form-control form-control-round"
-                                               name="answerManager" id="answerManager" value=""
+                                               name="created_name" id="created_name" value=""
                                                placeholder="Text Input Validation" readonly/>
                                     </div>
                                 </div>
@@ -519,11 +449,11 @@
                             <div class="col-12 col-lg-6">
                                 <div class="mb-0 form-group">
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                           for="answerDate"><strong>답변일자</strong></label>
+                                           for="created_at"><strong>작성일시</strong></label>
                                     <div class="col-sm-12">
                                         <input type="text"
                                                class="form-control form-control-round"
-                                               name="answerDate" id="answerDate" placeholder="Text Input Validation"
+                                               name="created_at" id="created_at" placeholder="Text Input Validation"
                                                readonly/>
                                     </div>
                                 </div>
@@ -532,7 +462,7 @@
                     </div>
                     <div class="card-block-small">
                         <button class="btn btn-disabled m-r-5" id="answerCancel">취소</button>
-                        <button class="btn btn-primary" id="answerInsert">저장</button>
+                        <button class="btn btn-primary" id="newsInsert">저장</button>
                     </div>
                 </div>
             </div>

@@ -19,14 +19,15 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public boolean InsertAnswer(NewsAnswerDto param) throws Exception {
-        newsMapper.insertAnswer(param);
-        newsMapper.updateNewsAnswerStatus(param);
+    public boolean InsertNews(NewsDto param) throws Exception {
+        newsMapper.insertNews(param);
         return true;
     }
 
     @Override
-    public List<NewsAnswerDto> selectAnswerById(Long id) throws Exception {
-        return newsMapper.selectAnswerById(id);
+    public boolean UpdateNews(NewsDto param) throws Exception {
+        newsMapper.updateNews(param);
+        return true;
     }
+
 }

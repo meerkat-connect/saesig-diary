@@ -7,8 +7,8 @@ public interface NewsService {
 
     public List<NewsDto> getNewsList(Map<String, Object> param) throws Exception;
 
-    public boolean InsertAnswer(NewsAnswerDto param) throws Exception;
+    public boolean InsertNews(NewsDto param) throws Exception;
 
-    public List<NewsAnswerDto> selectAnswerById(Long id) throws Exception;
+    public boolean UpdateNews(NewsDto param) throws Exception;
 
 }

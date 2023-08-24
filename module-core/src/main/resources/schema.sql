@@ -207,6 +207,7 @@ CREATE TABLE `news`
     `category`    VARCHAR(20)           NOT NULL COMMENT '분류',
     `title`       VARCHAR(300)          NOT NULL COMMENT '제목',
     `content`     LONGTEXT              NOT NULL COMMENT '내용',
+    `is_notice`   VARCHAR(4)            NOT NULL DEFAULT 'N' COMMENT '고정글여부',
     `is_enabled`  CHAR(1)               NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
     `created_at`  DATETIME              NOT NULL COMMENT '등록일',
     `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호',

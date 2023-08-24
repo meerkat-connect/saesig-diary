@@ -10,9 +10,9 @@ public interface NewsMapper {
 
     public List<NewsDto> getNewsList(Map<String, Object> param);
 
-    public void insertAnswer(NewsAnswerDto param);
+    public void insertNews(NewsDto param);
 
-    public void updateNewsAnswerStatus(NewsAnswerDto param);
+    public void updateNews(NewsDto param);
 
     public List<NewsAnswerDto> selectAnswerById(Long id);
 }

@@ -7,12 +7,10 @@ import lombok.Data;
 public class NewsDto {
     private Long id;
     private NewsCategory category;
-    private String categoryStr;
-    private String incomingEmail;
-    private String statusStr;
     private String title;
     private String content;
-    private String isDeleted;
+    private String isEnabled;
+    private String isNotice;
     private String createdAt;
     private Long createdBy;
     private String modifiedAt;

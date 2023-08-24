@@ -52,16 +52,18 @@ public class NewsController {
         return resultMap;
     }
 
-    @RequestMapping(value = "/admin/news/insertAnswer.do")
+    @RequestMapping(value = "/admin/news/insertNews.do")
     @ResponseBody
-    public boolean insertAnswer(@RequestBody NewsAnswerDto param) throws Exception {
-        boolean result = newsService.InsertAnswer(param);
+    public boolean insertNews(@RequestBody NewsDto param) throws Exception {
+        boolean result = newsService.InsertNews(param);
         return result;
     }
 
-    @RequestMapping(value = "/admin/news/getAnswerById.do")
+    @RequestMapping(value = "/admin/news/UpdateNews.do")
     @ResponseBody
-    public List<NewsAnswerDto> getAnswerById(@RequestBody Long id) throws Exception {
-        return newsService.selectAnswerById(id);
+    public boolean UpdateNews(@RequestBody NewsDto param) throws Exception {
+        boolean result = newsService.UpdateNews(param);
+        return result;
     }
+
 }
