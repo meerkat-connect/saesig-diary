@@ -1,5 +1,6 @@
 package com.saesig.config;
 
+import com.saesig.domain.news.NewsCategory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.saesig.domain.faq.FaqCategory;
@@ -18,8 +19,8 @@ public class EnumConfig {
         factory.put("exampleEnum", ExampleEnum.class);
         factory.put("faqCategory", FaqCategory.class);
         factory.put("policyCategory", PolicyCategory.class);
+        factory.put("newsCategory", NewsCategory.class);
         // 해당 라인에 새롭게 추가한 Enum 클래스들 추가
-
 
         return factory;
     }
