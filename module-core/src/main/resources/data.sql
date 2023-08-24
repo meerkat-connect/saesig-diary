@@ -28,21 +28,6 @@ VALUES (9, 'email9@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm4
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
 VALUES (10, 'wjm358@naver.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'SOCIAL', '원종민', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (10, 'email10@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'SOCIAL', '서정도10', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
-
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (11, 'email11@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'SOCIAL', '서정도11', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
-
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (12, 'email12@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'SOCIAL', '서정도12', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
-
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (13, 'email13@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'SOCIAL', '서정도13', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
-
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (14, 'email14@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'SOCIAL', '서정도14', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
-
 INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'ROLE_USER', NULL, 'Y', '사용자 역할', NOW(), 1, NOW(), 1);
 
