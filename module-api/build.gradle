@@ -1,19 +1,8 @@
-buildscript {
-    ext {
-        queryDslVersion = '5.0.0'
-    }
-}
-
 plugins {
-    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
 }
 
 dependencies {
     implementation project(':module-core')
-
-    //querydsl
-    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
@@ -21,20 +10,3 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation group: 'javax.mail', name: 'mail', version: '1.4.7'
 }
-
-def querydslDir = "$buildDir/generated/querydsl"
-querydsl {
-    jpa = true
-    querydslSourcesDir = querydslDir
-}
-sourceSets {
-    main.java.srcDir querydslDir
-}
-configurations {
-    querydsl.extendsFrom compileClasspath
-}
-
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
-
