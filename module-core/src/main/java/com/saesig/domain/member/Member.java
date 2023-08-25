@@ -1,9 +1,9 @@
 package com.saesig.domain.member;
 
 
-import lombok.*;
 import com.saesig.domain.common.BaseEntity;
 import com.saesig.domain.role.MemberRole;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,6 +26,9 @@ public class Member extends BaseEntity {
     @Column
     private String password;
 
+    @Column(name = "prev_password")
+    private String prevPassword;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "signup_method")
     private SignupMethod signupMethod;
@@ -36,23 +39,26 @@ public class Member extends BaseEntity {
     @Column
     private String nickname;
 
-    @Column(name="joined_at")
+    @Column(name = "password_modified_at")
+    private LocalDateTime passwordModifiedAt;
+
+    @Column(name = "joined_at")
     private LocalDateTime joinedAt;
 
-    @Column(name="service_agreement")
+    @Column(name = "service_agreement")
     private String serviceAgreement;
 
-    @Column(name="location_service_agreement")
+    @Column(name = "location_service_agreement")
     private String locationServiceAgreement;
 
-    @Column(name="privacy_agreement")
+    @Column(name = "privacy_agreement")
     private String privacyAgreement;
 
-    @Column(name="marketing_service_agreement")
+    @Column(name = "marketing_service_agreement")
     private String marketingServiceAgreement;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     List<MemberRole> memberRoles = new ArrayList<>();
 
-    
+
 }
