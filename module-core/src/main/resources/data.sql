@@ -142,3 +142,6 @@ VALUES (5, 5, '템플릿내용5', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com
 
 INSERT INTO send_history(id, send_template_id, content, recipient_id, recipient_email, sender_id, sender_email, sended_at, created_at, created_by, modified_at, modified_by)
 VALUES (6, 6, '템플릿내용6', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com', NOW(), NOW(), 1, NOW(), 1);
+
+INSERT INTO adopt(id, adopt_member_id, hits, title, content, gender, age, age_category, status, is_deleted, is_castrated, responsibility_cost, etc_content, animal_division1_id, animal_division2_id, image_file_group_id, sido, sigungu, modified_at, modified_by, created_at, created_by)
+VALUES(1, 1, 0, 'title','content', 'MAN', 13, 'ASD', 'COMPLETE', 'N', 'N', 1000, 'etc_content', 1,1, NULL, 'sido','signgu',  NOW(), 1, NOW(), 1);

@@ -1,0 +1,227 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content">
+    <style>
+        .dt-center {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+    <div class="page-body">
+        <div class="row">
+            <!-- 필터 부분 -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <form id="searchForm" name="searchForm">
+                            <!-- 키워드 filter -->
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                                        <div class="input-group input-group-dropdown mb-0">
+                                            <select name="searchType" id="searchType" class="form-select form-control form-control-round">
+                                                <option value="">- 전체 -</option>
+                                                <option value="email">아이디</option>
+                                                <option value="nickname">닉네임</option>
+                                            </select>
+                                            <input type="text" class="form-control form-control-round" name="searchKeyword" id="searchKeyword"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>가입수단</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="signupMethod" id="signupMethod" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option th:each="sM: ${signupMethod}" th:value="${sM.key}" th:text="${sM.value}">value</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>회원상태</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="memberStatus" id="memberStatus" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option th:each="mS : ${memberStatus}" th:value="${mS.key}" th:text="${mS.value}">value</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //키워드 filter -->
+
+                            <!-- 키워드 filter-btn -->
+                            <div class="mt-1 p-t-20 text-center border-top">
+                                <button type="reset" class="btn btn-gray m-r-5">초기화</button>
+                                <button type="button" class="btn btn-primary" id="searchBtn">검색</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- //필터 부분 -->
+
+            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="row p-20 p-b-0">
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <h5><strong>검색결과</strong></h5>
+                        </div>
+                        <div class="col-12 col-md-6 text-right">
+                            <button type="button" class="btn btn btn-transparent m-r-5" id="deleteBtn">이메일 발송</button>
+                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>
+                        </div>
+                    </div>
+                    <div class="card-block-small">
+                        <div class="dt-responsive table-responsive">
+                            <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <table id="faqListTable" class="display" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
+                                        <th>아이디</th>
+                                        <th>닉네임</th>
+                                        <th>가입수단</th>
+                                        <th>회원상태</th>
+                                        <th>입양기록</th>
+                                        <th>분양기록</th>
+                                        <th>가입일</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
+
+            <!-- Content Area -->
+            <div class="col-12">
+                <div id="contentPanel">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    $(function () {
+        const memberController = {
+            selectedRow: [],
+
+            init: function () {
+                let faqListTable = null;
+
+                if (faqListTable != null) faqListTable.destroy();
+                this.selectedRow = [];
+
+                faqListTable = $('#faqListTable').DataTable({
+                    select: {
+                        style: 'single'
+                    },
+                    "columnDefs": [
+                        // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: true,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
+                    serverSide: true,
+                    processing: true,
+
+                    ajax: {
+                        async: false,
+                        url: `/admin/members?` + $('#searchForm').serialize(),
+                        method: 'get',
+                        "dataSrc": function (res) {
+                            res.data[0].isFirst = true;
+                            return res.data;
+                        }
+                    },
+
+                    columns: [
+                        {
+                            render: function (data, type, row) {
+                                return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
+                            }
+                        },
+                        {data: 'email'},
+                        {data: 'nickname'},
+                        {
+                            render: function (data, type, row) {
+                                return `${row.signupMethod.value}`
+                            }
+                        },
+                        {
+                            render: function (data, type, row) {
+                                return `${row.memberStatus.value}`
+                            }
+                        },
+                        {data: 'adoptCount'},
+                        {data: 'receiveCount'},
+                        {data: 'createdAt'},
+                    ],
+
+                    language: {
+                        search: '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
+                        infoEmpty: '데이터 0 부터 0 까지 / 총데이터 : 0',
+                        lengthMenu: '보기',
+                        loadingRecords: '로딩중..',
+                    },
+                })
+
+                faqListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = faqListTable.rows(indexes).data().toArray();
+                    const selectedMemberId = rowData[0].id;
+
+                    $.ajax({
+                        type: 'get',
+                        url: `/admin/members/${selectedMemberId}/form`,
+                        dataType: 'html'
+                    }).done(function (response) {
+                        $('#contentPanel').html(response);
+                    }).fail(function (error) {
+                    });
+                }).on('deselect', function (e, dt, type, indexes) {
+                    let rowData = faqListTable.rows(indexes).data().toArray();
+                });
+            }
+        };
+
+        memberController.init();
+
+        $('body').on('click', '#insertBtn', function () {
+        }).on('click', '#sendMailBtn', function () {
+
+        });
+
+    });
+</script>
+</html>
