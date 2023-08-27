@@ -5,7 +5,7 @@ application:
 
 spring:
   profiles:
-    include: oauth, apiKey
+    include: oauth, apiKey, s3
     group:
       local: local
       prod : prod
@@ -19,6 +19,12 @@ decorator:
   datasource:
     p6spy:
       enable-logging: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 --- #local
 spring:

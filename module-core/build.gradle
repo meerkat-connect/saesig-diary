@@ -17,6 +17,7 @@ dependencies {
     api "com.querydsl:querydsl-jpa:${queryDslVersion}"
     api "com.querydsl:querydsl-apt:${queryDslVersion}"
 
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'com.h2database:h2'
     implementation 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-web'
