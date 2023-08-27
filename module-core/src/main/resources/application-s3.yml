@@ -1,0 +1,13 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: ENC(+NO6iiF62br1wkOHlvO4TENwd6v47nxkQZGgabd59gs=)
+      secretKey: ENC(e1znlgYn8s1Q9oPQ1yq5Dq1SMZtzKBj2rXDWePl6WtSUv65SD3rtm6goMJGNIqXtaOh5fISU5jo=)
+
+    region:
+      static: ENC(HIvxV7V1QYPbdPymR7evUlY1gStn44Is)
+    stack:
+      auto: false
+    s3:
+      bucket: ENC(CarBwKvR7lkZZ1lQvNqJ0EdZY3SIkFoN)
+
