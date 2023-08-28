@@ -14,6 +14,10 @@
         }
     </style>
     <!--    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>-->
+<!--    <script type="text/javascript" th:src="@{/js/custom-design.js}"></script>-->
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
     <script th:inline="javascript">
         const newsList = {
             NewsData: null,
@@ -52,6 +56,22 @@
 
                 $('#newsInsert').on('click',function () {
                     _this.newsInsert();
+                })
+
+                $('#newsCancel').on('click',function (){
+                    $('#contentCard').hide()
+                })
+
+                $('#insertBtn').on('click',function (){
+                    $('#contentCard').find('input').val('')
+                    $('#contentCard').find('textarea').each(function (){
+                        ckeditorApp.editorList[$(this).attr('id')].setData('');
+                        $(this).val('')
+                    })
+                    $('#contentCard').find('select').each(function () {
+                        $(this).val($($(this).find('option')[0]).val());
+                    })
+                    $('select').niceSelect('update');
                 })
 
 
@@ -132,7 +152,7 @@
                                 , {'targets': 2, 'width': 'auto'}
                                 , {'targets': 3, 'width': '70px'}
                                 , {'targets': 4, 'width': '70px'}
-                                , {'targets': 4, 'width': '70px'}
+                                , {'targets': 5, 'width': '70px'}
                             ],
                             destroy: true,
                             language: {
@@ -177,6 +197,7 @@
             },
 
             selectItem: function (el) {
+                $('#contentCard').show()
                 let _this = this;
                 const row = $(el).closest('tr');
                 row.closest('tbody').find('tr').css('background-color', 'white');
@@ -184,11 +205,24 @@
                 const targetId = $(el).closest('tr').find('[name=rowCheckbox]').val();
                 const targetData = this.NewsData.find(e => e.id === parseInt(targetId));
                 $('.targetNewsCon').attr('mekc-news-id', targetId)
-                $('#title').val('RE: '+targetData.title)
-                $('#created_at').val(_this.getDateStr())
-                $('select').niceSelect('update');
-                $('#content').val('')
+                // $('#title').val(targetData.title)
+                // $('#created_at').val(_this.getDateStr())
+                // $('#content').text(targetData.content)
                 $('#created_name').val('이동헌')
+                $(Object.keys(targetData)).each(function (){
+                    if ($(document).find("#"+this).length > 0){
+                        const element = $(document).find('#'+this)[0];
+                        if (element.tagName == 'INPUT'){
+                            $(element).val(targetData[this])
+                        }else if (element.tagName == 'SELECT'){
+                            $(element).val(targetData[this])
+                            $('select').niceSelect('update');
+                        }else if (element.tagName == 'TEXTAREA'){
+                            $(element).text(targetData[this])
+                            ckeditorApp.editorList[this].setData(targetData.content)
+                        }
+                    }
+                })
             },
 
             newsInsert : function () {
@@ -375,7 +409,7 @@
             </div>
             <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
         </div>
-        <div class="row">
+        <div class="row" style="display: none" id="contentCard">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header p-b-0">
@@ -425,11 +459,11 @@
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                    for="content"><strong>내용</strong></label>
                             <div class="col-sm-12">
-                                                                <textarea rows="5" cols="5"
-                                                                          class="form-control form-control-sm"
-                                                                          placeholder="Default textarea"
-                                                                          id="content"
-                                                                          name="content"></textarea>
+                                <textarea rows="5" cols="5"
+                                          class="form-control form-control-sm"
+                                          placeholder="Default textarea"
+                                          id="content"
+                                          name="content" mekc-ck-editor></textarea>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -439,10 +473,10 @@
                                            for="created_name"><strong>작성자</strong></label>
                                     <div class="col-sm-12">
                                         <input type="hidden" name="answerManagerId" id="answerManagerId" value="1"
-                                               placeholder="Text Input Validation" readonly/>
+                                                readonly/>
                                         <input type="text" class="form-control form-control-round"
                                                name="created_name" id="created_name" value=""
-                                               placeholder="Text Input Validation" readonly/>
+                                               placeholder="작성자(ID)" readonly/>
                                     </div>
                                 </div>
                             </div>
@@ -453,7 +487,7 @@
                                     <div class="col-sm-12">
                                         <input type="text"
                                                class="form-control form-control-round"
-                                               name="created_at" id="created_at" placeholder="Text Input Validation"
+                                               name="createdAt" id="createdAt" placeholder="YYYY-mm-dd"
                                                readonly/>
                                     </div>
                                 </div>
@@ -461,7 +495,7 @@
                         </div>
                     </div>
                     <div class="card-block-small">
-                        <button class="btn btn-disabled m-r-5" id="answerCancel">취소</button>
+                        <button class="btn btn-disabled m-r-5" id="newsCancel">취소</button>
                         <button class="btn btn-primary" id="newsInsert">저장</button>
                     </div>
                 </div>
