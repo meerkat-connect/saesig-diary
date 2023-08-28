@@ -5,7 +5,8 @@ cloud:
       secretKey: ENC(e1znlgYn8s1Q9oPQ1yq5Dq1SMZtzKBj2rXDWePl6WtSUv65SD3rtm6goMJGNIqXtaOh5fISU5jo=)
 
     region:
-      static: ENC(HIvxV7V1QYPbdPymR7evUlY1gStn44Is)
+      static: ap-northeast-2
+      auto: false
     stack:
       auto: false
     s3:
