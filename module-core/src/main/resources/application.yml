@@ -25,6 +25,23 @@ management:
     web:
       exposure:
         include: "*"
+  endpoint:
+    health:
+#      show-details: always
+      show-components: always
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+    env:
+      enabled: true
+
+info:
+  app:
+    name: hello-actuator
+    company: mekc-saesig
+
 
 --- #local
 spring:
