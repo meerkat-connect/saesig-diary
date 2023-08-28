@@ -1,5 +1,7 @@
 package com.saesig.member;
 
+import com.querydsl.core.Tuple;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.saesig.SaesigDiaryApplication;
 import com.saesig.domain.adopt.AdoptStatus;
@@ -54,7 +56,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 입양 횟수 조회")
-    void 회원_입양_횟수_조회(){
+    void 회원_입양_횟수_조회() {
         Long memberId = 1L;
         QMember qMember = QMember.member;
         QAdopt qAdopt = QAdopt.adopt;
@@ -83,6 +85,32 @@ class MemberServiceTest {
                 .fetchOne();
 
         assertThat(adoptCount).isNotNegative();
+    }
+
+    @Test
+    @DisplayName("querydsl subquery 회원 조회")
+    void querydsl_subquery_회원_조회() {
+        //given
+        Long memberId = 1L;
+        QMember qMember = QMember.member;
+        QAdopt qAdopt = QAdopt.adopt;
+
+        //when
+        Tuple tuple = jpaQueryFactory.select(
+                        qMember,
+                        JPAExpressions.select(qAdopt.count())
+                                .from(qAdopt)
+                                .where(qAdopt.createdBy.id.eq(qMember.id)),
+                        JPAExpressions.select(qAdopt.count())
+                                .from(qAdopt)
+                                .where(qAdopt.status.eq(AdoptStatus.COMPLETE)
+                                        .and(qAdopt.adoptMember.id.eq(qMember.id)))
+                ).from(qMember)
+                .where(qMember.id.eq(memberId))
+                .fetchOne();
+        //then
+        assertThat(tuple).isNotNull();
+
     }
 
 }
