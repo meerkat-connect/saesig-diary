@@ -1,7 +1,7 @@
 package com.saesig.file;
 
-import com.saesig.file.FileDto;
-import com.saesig.file.FileService;
+import com.saesig.global.file.FileDto;
+import com.saesig.global.file.FileService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

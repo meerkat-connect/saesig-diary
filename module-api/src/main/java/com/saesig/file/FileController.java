@@ -1,5 +1,7 @@
 package com.saesig.file;
 
+import com.saesig.global.file.FileDto;
+import com.saesig.global.file.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

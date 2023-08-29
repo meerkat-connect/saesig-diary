@@ -1,11 +1,11 @@
-package com.saesig.file;
+package com.saesig.global.file;
 
+import com.saesig.domain.file.FileGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import com.saesig.domain.file.FileGroup;
 
 import java.io.File;
 import java.io.IOException;

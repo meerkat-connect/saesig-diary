@@ -1,7 +1,7 @@
-package com.saesig.file;
+package com.saesig.global.file;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.saesig.domain.file.File;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 

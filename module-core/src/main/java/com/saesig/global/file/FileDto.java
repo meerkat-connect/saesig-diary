@@ -1,4 +1,4 @@
-package com.saesig.file;
+package com.saesig.global.file;
 
 import lombok.Builder;
 import lombok.Getter;
