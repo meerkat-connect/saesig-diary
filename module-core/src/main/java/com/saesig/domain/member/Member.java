@@ -57,7 +57,7 @@ public class Member extends BaseEntity {
     @Column(name = "marketing_service_agreement")
     private String marketingServiceAgreement;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     List<MemberRole> memberRoles = new ArrayList<>();
 
 
