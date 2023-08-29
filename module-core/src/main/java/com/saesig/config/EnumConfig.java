@@ -2,6 +2,7 @@ package com.saesig.config;
 
 import com.saesig.domain.templateManage.SendCategory;
 import com.saesig.domain.templateManage.SendMethod;
+import com.saesig.domain.news.NewsCategory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.saesig.domain.faq.FaqCategory;
@@ -22,6 +23,7 @@ public class EnumConfig {
         factory.put("policyCategory", PolicyCategory.class);
         factory.put("sendMethod", SendMethod.class);
         factory.put("sendCategory", SendCategory.class);
+        factory.put("newsCategory", NewsCategory.class);
         // 해당 라인에 새롭게 추가한 Enum 클래스들 추가
 
 
