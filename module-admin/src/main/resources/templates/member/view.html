@@ -89,7 +89,7 @@
                     <div class="card-block-small">
                         <div class="dt-responsive table-responsive">
                             <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                <table id="faqListTable" class="display" style="width:100%">
+                                <table id="memberListTable" class="display" style="width:100%">
                                     <thead>
                                     <tr>
                                         <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
@@ -120,19 +120,17 @@
             </div>
         </div>
     </div>
-</div>
-<script th:inline="javascript">
-    $(function () {
+    <script th:inline="javascript">
         const memberController = {
             selectedRow: [],
 
             init: function () {
-                let faqListTable = null;
+                let memberListTable = null;
 
-                if (faqListTable != null) faqListTable.destroy();
+                if (memberListTable != null) memberListTable.destroy();
                 this.selectedRow = [];
 
-                faqListTable = $('#faqListTable').DataTable({
+                memberListTable = $('#memberListTable').DataTable({
                     select: {
                         style: 'single'
                     },
@@ -179,7 +177,7 @@
                         },
                         {
                             render: function (data, type, row) {
-                                return `${row.memberStatus.value}`
+                                return `${row.status.value}`
                             }
                         },
                         {data: 'adoptCount'},
@@ -197,8 +195,8 @@
                     },
                 })
 
-                faqListTable.on('select', function (e, dt, type, indexes) {
-                    let rowData = faqListTable.rows(indexes).data().toArray();
+                memberListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = memberListTable.rows(indexes).data().toArray();
                     const selectedMemberId = rowData[0].id;
 
                     $.ajax({
@@ -210,18 +208,20 @@
                     }).fail(function (error) {
                     });
                 }).on('deselect', function (e, dt, type, indexes) {
-                    let rowData = faqListTable.rows(indexes).data().toArray();
+                    let rowData = memberListTable.rows(indexes).data().toArray();
                 });
             }
         };
 
-        memberController.init();
+        $(function () {
+            memberController.init();
 
-        $('body').on('click', '#insertBtn', function () {
-        }).on('click', '#sendMailBtn', function () {
+            $('body').on('click', '#insertBtn', function () {
+            }).on('click', '#sendMailBtn', function () {
+
+            });
 
         });
-
-    });
-</script>
+    </script>
+</div>
 </html>

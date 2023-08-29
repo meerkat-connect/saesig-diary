@@ -1,4 +1,12 @@
 package com.saesig.member;
 
-public class MemberRequestDto {
+import com.saesig.common.RequestDto;
+import lombok.Getter;
+
+@Getter
+public class MemberRequestDto extends RequestDto {
+
+    public MemberRequestDto(Integer start, Integer length, Integer pageNum) {
+        super(start, length, pageNum);
+    }
 }

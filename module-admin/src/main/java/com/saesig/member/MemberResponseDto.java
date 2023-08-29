@@ -18,8 +18,8 @@ public class MemberResponseDto {
     private String nickname;
     private SignupMethod signupMethod;
     private MemberStatus status;
-    private int adoptCount;
-    private int receiveCount;
+    private Long adoptCount;
+    private Long receiveCount;
     @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDateTime createdAt;
 
