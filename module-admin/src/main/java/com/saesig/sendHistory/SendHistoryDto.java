@@ -1,21 +1,23 @@
 package com.saesig.sendHistory;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.saesig.common.mybatis.RequestDto;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Data
-public class SendHistoryDto {
+public class SendHistoryDto extends RequestDto {
 
     // history
-    private String id;
+    private Long id;
     private String sendTemplateId;
     private String recipientId;
-    private String nickname;
+    private String recipientNickname;
     private String recipientEmail;
     private String senderId;
+    private String senderNickname;
     private String senderEmail;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -30,4 +32,11 @@ public class SendHistoryDto {
     private String title;
     private String content;
     private String category;
+
+    // search
+    private String searchCategory;
+    private String searchTitle;
+    private String searchBgngDt;
+    private String searchEndDt;
+
 }

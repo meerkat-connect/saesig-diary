@@ -1,16 +1,15 @@
 package com.saesig.sendHistory;
 
+import com.saesig.common.mybatis.DataTablesDto;
 import com.saesig.global.enumCode.EnumMapperFactory;
-import com.saesig.templateManage.TemplateManageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Controller
@@ -21,19 +20,41 @@ public class SendHistoryController {
     private final EnumMapperFactory enumMapperFactory;
 
     @GetMapping({"/sendHistory","/sendHistory/sendHistoryList.html"})
-    public String sendHistoryList(TemplateManageDto tmd, Model model) throws Exception {
+    public String sendHistoryList(Model model) throws Exception {
+        model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
+        model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
 
         return "/sendHistory/sendHistoryList";
     }
 
     @GetMapping("/sendHistory/selectSendHistoryList.do")
     @ResponseBody
-    public Map<String, Object> selectSendHistoryList(SendHistoryDto shd) throws Exception {
-        Map<String, Object> result = new HashMap<>();
+    public DataTablesDto selectSendHistoryList(SendHistoryDto shd) throws Exception {
+        DataTablesDto dtd = new DataTablesDto();
 
         List<SendHistoryDto> list = sendHistoryService.selectSendHistoryList(shd);
-        result.put("data", list);
 
-        return result;
+        dtd.setDraw(shd.getDraw());
+        dtd.setData(list);
+        if(list.size() == 0) {
+            dtd.setRecordsFiltered(0);
+            dtd.setRecordsTotal(0);
+        }else {
+            dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
+            dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+        }
+
+        return dtd;
+    }
+
+    @GetMapping("/sendHistory/sendHistoryForm.html")
+    public String templateManageForm(Long id, Model model) throws Exception {
+        model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
+        model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
+
+        SendHistoryDto sendHistory = sendHistoryService.selectSendHistory(id);
+        model.addAttribute("sendHistory", sendHistory);
+
+        return "/sendHistory/sendHistoryForm";
     }
 }

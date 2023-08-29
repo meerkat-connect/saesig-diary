@@ -13,71 +13,71 @@
     <!-- Page-body start -->
     <div class="page-body">
         <div class="row">
-            <!-- 필터 부분 -->
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-block-small">
-                        <!-- 키워드 filter -->
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
-                                    <div class="input-group input-group-sm input-group-dropdown mb-0">
-                                        <select class="form-select form-control form-control-round custom-select">
-                                            <option value="opt1">primary</option>
-                                            <option value="opt2">Type 2</option>
-                                            <option value="opt3">Type 3</option>
-                                            <option value="opt4">Type 4</option>
-                                            <option value="opt5">Type 5</option>
-                                            <option value="opt6">Type 6</option>
-                                            <option value="opt7">Type 7</option>
-                                            <option value="opt8">Type 8</option>
-                                        </select>
-                                        <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" name="filterKeywordInput"
-                                               id="filterKeywordInput"/>
+            <form id="searchForm" name="searchForm" onsubmit="return false;">
+                <input type="hidden" id="rowPerPage" name="rowPerPage" value="10">
+                <input type="hidden" id="orderField" name="orderField" value="SENDED_AT">
+                <input type="hidden" id="orderDirection" name="orderDirection" value="desc">
+
+                <!-- 필터 부분 -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-block-small">
+                            <!-- 키워드 filter -->
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                                        <div class="input-group input-group-dropdown mb-0">
+                                            <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
+                                            <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 선택 -</option>
+                                                <option value="email">아이디</option>
+                                                <option value="nickName">닉네임</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <select id="searchCategory" name="searchCategory" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option th:each="item : ${searchSendCategory}" th:value="${item.key}" th:text="${item.value}">value</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchTitle"><strong>제목</strong></label>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" name="searchTitle" id="searchTitle"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchPeriod"><strong>발송일</strong></label>
+                                        <div class="col-sm-12">
+                                            <input type="text"  class="form-control form-control-round" aria-label="Text input with dropdown button" value="" name="searchPeriod" id="searchPeriod" autocomplete="off">
+                                            <input type="hidden" id="searchBgngDt"name="searchBgngDt" >
+                                            <input type="hidden" id="searchEndDt"name="searchEndDt" >
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <select name="filterStatusSelect" class="form-select form-control form-control-round custom-select">
-                                            <option value="">- 전체 -</option>
-                                            <option th:each="item : ${searchSendCategory}" th:value="${item.key}" th:text="${item.value}">value</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <!-- //키워드 filter -->
+                            <!-- 키워드 filter-btn -->
+                            <div class="mt-1 p-t-20 text-center border-top">
+                                <button class="btn btn-gray m-r-5">초기화</button>
+                                <button class="btn btn-primary" onclick="search();">검색</button>
                             </div>
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchTitle"><strong>제목</strong></label>
-                                    <div class="col-12">
-                                        <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" name="searchTitle" id="searchTitle"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-6 mb-3">
-                                <div class="mb-0 form-group row">
-                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchPeriod"><strong>발송일</strong></label>
-                                    <div class="col-sm-12">
-                                        <input type="text"  class="form-control form-control-round" aria-label="Text input with dropdown button" value="" name="searchPeriod" id="searchPeriod" autocomplete="off">
-                                        <input type="hidden" id="searchBgngDt"name="searchBgngDt" >
-                                        <input type="hidden" id="searchEndDt"name="searchEndDt" >
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- //키워드 filter -->
-                        <!-- 키워드 filter-btn -->
-                        <div class="mt-1 p-t-20 text-center border-top">
-                            <button class="btn btn-gray m-r-5">초기화</button>
-                            <button class="btn btn-primary" onclick="search();">검색</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
             <!-- //필터 부분 -->
 
             <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
@@ -85,7 +85,7 @@
                 <div class="card">
                     <div class="row p-20 p-b-0">
                         <div class="col-12 col-md-6 mb-2 mb-md-0">
-                            <h5><strong>검색결과</strong></h5>
+                            <h5><strong>발송이력 검색결과</strong></h5>
                         </div>
                     </div>
                     <div class="card-block-small">
@@ -151,16 +151,25 @@
                     lengthChange: false,
                     searching: false,
                     ordering: false,
-                    paging: true,
                     info: true,
                     destroy: true,
+                    serverSide: true,
                     processing: true,
                     pageLength: 10,
 
                     ajax: {
                         async: false,
                         url:'/sendHistory/selectSendHistoryList.do',
-                        method: 'get',
+                        method: 'GET',
+                        data: function(d) {
+                            var formData  = $('#searchForm').serializeArray();
+                            for(var i = 0; i < formData.length; i++) {
+                                var formName = formData[i].name;
+                                var formVal = $("#"+formName).val();
+
+                                d[formName] = formVal;
+                            }
+                        },
                         "dataSrc": function (res) {
                             res.data[0].isFirst = true;
                             return res.data;
@@ -180,7 +189,7 @@
                                 return row.category === 'batch' ? '배치' : row.category === 'now' ? '즉시' : '직접';
                             }
                         },
-                        {data : 'nickname'},
+                        {data : 'recipientNickname'},
                         {data : 'recipientEmail'},
                         {data : 'sendedAt'},
                     ],
@@ -214,7 +223,7 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/templateManage/templateManageForm.html?id=${selectId}`,
+                        url: `/sendHistory/sendHistoryForm.html?id=${selectId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
@@ -225,26 +234,6 @@
                 }).on('deselect', function (e, dt, type, indexes) {
                     let rowData = listTable.rows(indexes).data().toArray();
                 });
-            },
-
-            delete: function () {
-                if (this.selectedRow.length === 0) {
-                    alert('선택할 항목을 선택해 주십시오.');
-                } else {
-                    if (confirm('삭제하시겠습니까?')) {
-                        $.ajax({
-                            type: 'delete',
-                            data: {ids: listController.selectedRow.join(",")},
-                            url: `/templateManage/deleteItems.do`,
-                        }).done(function () {
-                            alert('삭제 되었습니다.');
-                            listController.init();
-                        }).fail(function (error) {
-                            alert('삭제하는데 실패하였습니다.');
-                            console.log(JSON.stringify(error));
-                        });
-                    }
-                }
             }
         };
 
@@ -253,57 +242,9 @@
 
             listController.init();
 
-            $("body").on('click', '#insertBtn', function () {
-                $.ajax({
-                    type: 'get',
-                    url: `/templateManage/templateManageForm.html`,
-                    dataType: 'html'
-                }).done(function (response) {
-                    $('#contentPanel').html(response);
-                    const offset = $("#contentPanel").offset();
-                    $('html, body').animate({scrollTop: offset.top}, 0);
-                }).fail(function (error) {
-                });
-            }).on('click', '#deleteBtn', function () {
-                listController.delete();
-            }).on('click', '#searchBtn', function () {
+            $("body").on('click', '#searchBtn', function () {
                 listController.init();
             })
-
-            $('input[name=tableCheckbox]').on('change', function () {
-                const $this = $(this)
-                if ($this.is(':checked')) {
-                    listController.selectedRow.push($this.data('id'));
-                    if (listController.selectedRow.length === $('input[name=tableCheckbox]').length) {
-                        $('#allCheckBox').prop('checked', true);
-                    }
-                } else {
-                    listController.selectedRow = $.grep(listController.selectedRow, function (i) {
-                        return i != $this.data(id);
-                    })
-
-                    if (listController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
-                }
-            })
-
-            $('#allCheckBox').on('change', function () {
-                const $this = $(this);
-
-                if ($this.is(':checked')) {
-                    const allSelectedRow = [];
-                    $('input[name=tableCheckbox]').each(function () {
-                        this.checked = true;
-                        allSelectedRow.push($(this).data('id'));
-                    })
-                    listController.selectedRow = allSelectedRow;
-                } else {
-                    $('input[name=tableCheckbox]').each(function () {
-                        this.checked = false;
-                    })
-                    listController.selectedRow = [];
-                }
-
-            });
         })
     </script>
 

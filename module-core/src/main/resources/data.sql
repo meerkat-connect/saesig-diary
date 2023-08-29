@@ -142,3 +142,36 @@ VALUES (5, 5, '템플릿내용5', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com
 
 INSERT INTO send_history(id, send_template_id, content, recipient_id, recipient_email, sender_id, sender_email, sended_at, created_at, created_by, modified_at, modified_by)
 VALUES (6, 6, '템플릿내용6', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com', NOW(), NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (1, '유형1', '제목1', '내용1', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (2, '유형2', '제목2', '내용2', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (3, '유형3', '제목3', '내용3', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (4, '유형4', '제목4', '내용4', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (5, '유형5', '제목5', '내용5', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (6, '유형6', '제목6', '내용6', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (7, '유형7', '제목7', '내용7', '4', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (8, '유형8', '제목8', '내용8', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (9, '유형9', '제목9', '내용9', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (10, '유형10', '제목10', '내용10', '3', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (11, '유형11', '제목11', '내용11', '2', 'N', NOW(), 1, NOW(), 1);

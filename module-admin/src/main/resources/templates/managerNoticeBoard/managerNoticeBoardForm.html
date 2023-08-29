@@ -1,0 +1,100 @@
+<div class="card">
+    <form id ="managerNoticeBoardForm" th:object="${managerNoticeBoard}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="card-header p-b-0">
+            <h3 class="sub-title"><strong>기본정보</strong></h3>
+        </div>
+
+        <!-- Tab Container Start -->
+        <div class="card-block-small p-t-0">
+            <div class="row">
+                <div class="col-lg-6 mb-3">
+                    <div class="mb-0 form-group required">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>유형</strong></label>
+                        <div class="col-12">
+                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{category}">
+                                <option value="">- 선택 -</option>
+                                <option th:each="item2 : ${searchSendCategory}" th:value="${item2.key}" th:text="${item2.value}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" th:field="*{title}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요.">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="mb-0 form-group row ">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
+                        <div class="col-12">
+                            <textarea rows="10" cols="10" th:field="*{content}" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="card-block-small">
+        <button type="button" class="btn btn-gray m-r-5" onclick="fn_cancel()">취소</button>
+        <button type="button" class="btn btn-primary" onclick="fn_save()">저장</button>
+    </div>
+</div>
+<!-- Tab Container End -->
+
+<!--<script type="text/javascript" th:src="@{/js/custom-design.js}"></script>-->
+<script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
+<script type="text/javascript">
+    var formId = $("#id").val();
+
+    var validator = $(document).ready(function(){
+        $("#managerNoticeBoardForm").validate({
+            rules: {
+                category		:	{ required: true }
+            },
+            messages: {
+                category		:   { required: "유형을 선택해주십시오." }
+            }
+        })
+    });
+
+    function fn_cancel() {
+        listController.init();
+        $("#contentPanel").children().remove();
+    }
+
+    function fn_save(){
+        if(!($("#managerNoticeBoardForm").valid())) return;
+
+        if(formId === '') {
+            if(!confirm("저장하시겠습니까?")) return;
+        }else {
+            if(!confirm("수정하시겠습니까?")) return;
+        }
+
+        const data = $("#managerNoticeBoardForm").serialize();
+
+        $.ajax({
+            url : formId === '' ? "/managerNoticeBoard/insertForm.do" : "/managerNoticeBoard/updateForm.do",
+            type: 'POST',
+            cache : false,
+            dataType: 'json',
+            data : data,
+            success : function (data){
+                if(data.result === "success"){
+                    alert(data.msg);
+                    listController.init();
+                    $("#contentPanel").children().remove();
+                }else{
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+</script>

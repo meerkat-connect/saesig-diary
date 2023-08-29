@@ -16,7 +16,7 @@
             <!-- 필터 부분 -->
             <form id="searchForm" name="searchForm" onsubmit="return false;">
                 <input type="hidden" id="rowPerPage" name="rowPerPage" value="10">
-                <input type="hidden" id="orderField" name="orderField" value="id">
+                <input type="hidden" id="orderField" name="orderField" value="created_at">
                 <input type="hidden" id="orderDirection" name="orderDirection" value="desc">
 
                 <div class="col-12">
@@ -26,19 +26,20 @@
                             <div class="row">
                                 <div class="col-lg-3 col-md-6 mb-3">
                                     <div class="mb-0 form-group row">
-                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송수단</strong>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <select id="searchMethod" name="searchMethod" class="form-select form-select-sm form-control-sm form-control-round custom-select">
-                                                <option value="">- 전체 -</option>
-                                                <option th:each="item : ${searchSendMethod}" th:value="${item.key}" th:text="${item.value}">value</option>
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                                        <div class="input-group input-group-dropdown mb-0">
+                                            <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
+                                            <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 선택 -</option>
+                                                <option value="email">아이디</option>
+                                                <option value="nickName">닉네임</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6 mb-3">
                                     <div class="mb-0 form-group row">
-                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong>
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>유형</strong>
                                         </div>
                                         <div class="col-sm-12">
                                             <select id="searchCategory" name="searchCategory" class="form-select form-select-sm form-control-sm form-control-round custom-select">
@@ -58,14 +59,11 @@
                                 </div>
                                 <div class="col-lg-3 col-md-6 mb-3">
                                     <div class="mb-0 form-group row">
-                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>사용여부</strong>
-                                        </div>
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchPeriod"><strong>등록일</strong></label>
                                         <div class="col-sm-12">
-                                            <select name="searchIsEnabled" class="form-select form-select-sm form-control-sm form-control-round custom-select">
-                                                <option value="">- 전체 -</option>
-                                                <option value="Y">사용</option>
-                                                <option value="N">사용안함</option>
-                                            </select>
+                                            <input type="text"  class="form-control form-control-round" aria-label="Text input with dropdown button" value="" name="searchPeriod" id="searchPeriod" autocomplete="off">
+                                            <input type="hidden" id="searchBgngDt"name="searchBgngDt" >
+                                            <input type="hidden" id="searchEndDt"name="searchEndDt" >
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +86,7 @@
                 <div class="card">
                     <div class="row p-20 p-b-0">
                         <div class="col-12 col-md-6 mb-2 mb-md-0">
-                            <h5><strong>템플릿 검색결과</strong></h5>
+                            <h5><strong>관리자게시판 검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
                             <button type="button" class="btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
@@ -103,11 +101,10 @@
                                     <tr>
                                         <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
                                         <th>No.</th>
-                                        <th>발송수단</th>
+                                        <th>유형</th>
                                         <th>제목</th>
-                                        <th>발송시점</th>
-                                        <th>발송유형</th>
-                                        <th>사용여부</th>
+                                        <th>작성자</th>
+                                        <th>조회수</th>
                                         <th>등록일</th>
                                     </tr>
                                     </thead>
@@ -131,6 +128,10 @@
 
     <script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
     <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script th:inline="javascript">
         const listController = {
 
@@ -163,7 +164,7 @@
                     ajax: {
                         async: false,
                         method: 'GET',
-                        url: '/templateManage/selectTemplateList.do',
+                        url: '/managerNoticeBoard/selectManagerNoticeBoardList.do',
                         data: function(d) {
                             var formData  = $('#searchForm').serializeArray();
                             for(var i = 0; i < formData.length; i++) {
@@ -186,24 +187,11 @@
                             }
                         },
                         {data : 'rowNumber'}, // 페이징 후 No. 변경
-                        {
-                            render: function (data, type, row) {
-                                return row.method === 'EMAIL' ? '이메일' : 'SMS';
-                            }
-                        },
+                        {data : 'category'},
                         {data : 'title'},
-                        {data : 'timePoint'},
-                        {
-                            render: function (data, type, row) {
-                                return row.category === 'batch' ? '배치' : row.category === 'now' ? '즉시' : '직접';
-                            }
-                        },
-                        {
-                            render: function (data, type, row) {
-                                return row.isEnabled === 'Y' ? '사용' : '사용안함';
-                            }
-                        },
-                        {data : 'createdAt'},
+                        {data : 'nickName'},
+                        {data : 'hits'},
+                        {data : 'createdAt'}
                     ],
 
                     language: {
@@ -235,7 +223,7 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/templateManage/templateManageForm.html?id=${selectId}`,
+                        url: `/managerNoticeBoard/managerNoticeBoardForm.html?id=${selectId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
@@ -256,7 +244,7 @@
                         $.ajax({
                             type: 'delete',
                             data: {ids: listController.selectedRow.join(",")},
-                            url: `/templateManage/deleteItems.do`,
+                            url: `/managerNoticeBoard/deleteItems.do`,
                         }).done(function () {
                             alert('삭제 되었습니다.');
                             listController.init();
@@ -270,12 +258,14 @@
         };
 
         $(function () {
+            initDateRangePicker("searchPeriod", "searchBgngDt", "searchEndDt");
+
             listController.init();
 
             $("body").on('click', '#insertBtn', function () {
                 $.ajax({
                     type: 'get',
-                    url: `/templateManage/templateManageForm.html`,
+                    url: `/managerNoticeBoard/managerNoticeBoardForm.html`,
                     dataType: 'html'
                 }).done(function (response) {
                     $('#contentPanel').html(response);
