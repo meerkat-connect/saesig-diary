@@ -1,29 +1,32 @@
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (1, 'email1@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'EMAIL', '서정도1', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (1, 'email1@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'EMAIL', '서정도1', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (2, 'email2@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'EMAIL', '서정도2', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (2, 'email2@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'EMAIL', '서정도2', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (3, 'email3@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'EMAIL', '서정도3', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (3, 'email3@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'EMAIL', '서정도3', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (4, 'email4@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'EMAIL', '서정도4', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (4, 'email4@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'EMAIL', '서정도4', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (5, 'email5@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'SOCIAL', '서정도5', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (5, 'email5@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'SOCIAL', '서정도5', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (6, 'email6@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'SOCIAL', '서정도6', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (6, 'email6@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6',  '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'SOCIAL', '서정도6', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (7, 'email7@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'SOCIAL', '서정도7', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (7, 'email7@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'SOCIAL', '서정도7', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (8, 'email8@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'SOCIAL', '서정도8', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (8, 'email8@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'SOCIAL', '서정도8', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
-INSERT INTO member(id, email, password, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (9, 'email9@email.com', '$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', 'SOCIAL', '서정도9', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (9, 'email9@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'SOCIAL', '서정도9', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (10, 'wjm358@naver.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'SOCIAL', '원종민', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'ROLE_USER', NULL, 'Y', '사용자 역할', NOW(), 1, NOW(), 1);
@@ -88,11 +91,6 @@ VALUES (4, 'TYPE_D', 'nec massa eu faucibus', 'content4', 4, 'Y', NOW(), 1, NOW(
 INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
 VALUES (5, 'TYPE_E', 'Fusce eget turpis lorem', 'content5', 5, 'Y', NOW(), 1, NOW(), 1);
 
-INSERT INTO policy(id,category,title,content,is_enabled,modified_at, modified_by, created_at, created_by)
-VALUES (1,'TYPE_A','약관 제목', '약관 내용','Y',NOW(), 1, NOW(), 1);
-
-INSERT INTO policy(id,category,title,content,is_enabled,modified_at, modified_by, created_at, created_by)
-VALUES (2,'TYPE_B','정책 제목', '정책 내용','Y',NOW(), 1, NOW(), 1);
 
 INSERT INTO send_template(id, method, title, content, category, is_enabled, time_point, created_at, created_by, modified_at, modified_by)
 VALUES (1, 'EMAIL', '템플릿1', '템플릿 내용1', 'batch', 'Y', '정기 쿠폰 발행', NOW(), 1, NOW(), 1);
@@ -144,6 +142,7 @@ VALUES (5, 5, '템플릿내용5', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com
 
 INSERT INTO send_history(id, send_template_id, content, recipient_id, recipient_email, sender_id, sender_email, sended_at, created_at, created_by, modified_at, modified_by)
 VALUES (6, 6, '템플릿내용6', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com', NOW(), NOW(), 1, NOW(), 1);
+
 
 INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
 VALUES (1, '유형1', '제목1', '내용1', '1', 'N', NOW(), 1, NOW(), 1);
