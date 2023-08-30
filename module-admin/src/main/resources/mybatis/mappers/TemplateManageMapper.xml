@@ -27,7 +27,7 @@
         </if>
         <!-- 제목 -->
         <if test="searchTitle != null and searchTitle != ''">
-            AND title LIKE CONCAT('%',#{searchKeyword},'%')
+            AND title LIKE CONCAT('%',#{searchTitle},'%')
         </if>
         <!-- 사용여부 -->
         <if test="searchIsEnabled != null and searchIsEnabled != ''">

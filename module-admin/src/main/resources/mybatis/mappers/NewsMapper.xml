@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.news.NewsMapper">
+
+    <select id="getNewsList" resultType="com.saesig.news.NewsDto" parameterType="hashMap">
+        select
+        n.id,
+        n.category,
+        n.title,
+        n.content,
+        n.is_enabled,
+        FORMATDATETIME(n.created_at, 'yyyy-MM-dd') as created_at,
+        n.created_by,
+        n.modified_at,
+        n.is_notice,
+        m.modified_by,
+        m.nickname,
+        m.email as memberId
+        from news n
+        LEFT JOIN member m ON n.created_by = m.id
+        where 1=1
+        and is_enabled = 'Y'
+        <if test="searchStatus != '' and searchStatus != null and searchStatus != 'all'">
+            and n.status = #{searchStatus}
+        </if>
+        <if test="searchCategory != '' and searchCategory != null and searchCategory != 'all'">
+            and n.category = #{searchCategory}
+        </if>
+        <if test="searchTitle != '' and searchTitle != null">
+            and n.title = #{searchTitle}
+        </if>
+        <if test="searchKeywordSelect != '' and searchKeyword != '' and searchKeywordSelect != null and searchKeyword != null">
+            and ${searchKeywordSelect} = #{searchKeyword}
+        </if>
+<!--        <if test="orderColumn != ''">-->
+<!--            ORDER BY i.${orderColumn}-->
+<!--            <if test="orderColumnSort = ASC">-->
+<!--                ASC-->
+<!--            </if>-->
+<!--            <if test="orderColumnSort != ASC">-->
+<!--                DESC-->
+<!--            </if>-->
+<!--        </if>-->
+    </select>
+
+    <insert id="insertNews">
+        INSERT INTO news (category, title, content, created_at, created_by, modified_at, modified_by,is_notice)
+        VALUES (#{category}, #{title}, #{content}, now(), #{createdBy}, now(), #{modifiedBy}, #{isNotice})
+    </insert>
+
+    <update id="updateNews" parameterType="com.saesig.news.NewsDto">
+        UPDATE news
+        SET category    = #{category},
+            title       = #{title},
+            content     = #{content},
+            is_enabled  = #{isEnabled},
+            is_notice  = #{isNotice},
+            created_at  = #{createdAt},
+            created_by  = #{createdBy},
+            modified_at = #{modifiedAt},
+            modified_by = #{modifiedBy}
+        WHERE id = #{id}
+    </update>
+
+
+</mapper>

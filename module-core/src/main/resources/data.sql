@@ -37,6 +37,9 @@ VALUES (2, 'ROLE_ADMIN', NULL, 'Y', '관리자 역할', NOW(), 1, NOW(), 1);
 INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
 VALUES (3, 'ROLE_GUEST', NULL, 'Y', '게스트 역할', NOW(), 1, NOW(), 1);
 
+INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
+VALUES (4, 'ROLE_ANONYMOUS', NULL, 'Y', '익명 역할', NOW(), 1, NOW(), 1);
+
 INSERT INTO member_role(id, member_id,role_id, modified_at, modified_by, created_at, created_by)
 VALUES(1, 1, 2, NOW(),1,NOW(),1);
 
@@ -61,6 +64,9 @@ VALUES (6, '회원관리 목록화면', '/admin/members/view.html', 'GET', 'Y', 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, modified_at, modified_by, created_at, created_by)
 VALUES (7, 'DashBoard', '/admin', 'GET', 'Y', 'MENU', 1, 1, NULL, NOW(), 1, NOW(), 1);
 
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, modified_at, modified_by, created_at, created_by)
+VALUES (8, 'Google Oauth', '/api/member/oauth2ClientCallback/google', 'GET', 'Y', 'MENU', 1, 1, NULL, NOW(), 1, NOW(), 1);
+
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
 VALUES (1, 1, 1, NOW(), 1, NOW(), 1);
 
@@ -75,6 +81,9 @@ VALUES (4, 1, 4, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
 VALUES (5, 1, 5, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (6, 4, 8, NOW(), 1, NOW(), 1);
 
 INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'TYPE_A', 'Lorem ipsum dolor sit amet', 'content1',  1, 'Y', NOW(), 1, NOW(), 1);
@@ -142,6 +151,40 @@ VALUES (5, 5, '템플릿내용5', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com
 
 INSERT INTO send_history(id, send_template_id, content, recipient_id, recipient_email, sender_id, sender_email, sended_at, created_at, created_by, modified_at, modified_by)
 VALUES (6, 6, '템플릿내용6', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com', NOW(), NOW(), 1, NOW(), 1);
+
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (1, '유형1', '제목1', '내용1', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (2, '유형2', '제목2', '내용2', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (3, '유형3', '제목3', '내용3', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (4, '유형4', '제목4', '내용4', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (5, '유형5', '제목5', '내용5', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (6, '유형6', '제목6', '내용6', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (7, '유형7', '제목7', '내용7', '4', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (8, '유형8', '제목8', '내용8', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (9, '유형9', '제목9', '내용9', '1', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (10, '유형10', '제목10', '내용10', '3', 'N', NOW(), 1, NOW(), 1);
+
+INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
+VALUES (11, '유형11', '제목11', '내용11', '2', 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO adopt(id, adopt_member_id, hits, title, content, gender, age, age_category, status, is_deleted, is_castrated, responsibility_cost, etc_content, animal_division1_id, animal_division2_id, image_file_group_id, sido, sigungu, modified_at, modified_by, created_at, created_by)
 VALUES(1, 1, 0, 'title','content', 'MAN', 13, 'ASD', 'COMPLETE', 'N', 'N', 1000, 'etc_content', 1,1, NULL, 'sido','signgu',  NOW(), 1, NOW(), 1);

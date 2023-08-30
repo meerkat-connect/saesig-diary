@@ -24,7 +24,7 @@ public class TemplateManageController {
 
 
     @GetMapping({"/templateManage","/templateManage/templateManageList.html"})
-    public String templateManageList(TemplateManageDto tmd, Model model) throws Exception {
+    public String templateManageList(Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
 

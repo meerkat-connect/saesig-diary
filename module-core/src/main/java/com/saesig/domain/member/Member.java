@@ -60,5 +60,9 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     List<MemberRole> memberRoles = new ArrayList<>();
 
-
+    @Builder
+    public Member(String email, String nickname) {
+        this.email = email;
+        this.nickname = nickname;
+    }
 }

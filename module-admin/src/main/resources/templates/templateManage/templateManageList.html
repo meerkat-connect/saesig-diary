@@ -52,7 +52,7 @@
                                     <div class="mb-0 form-group row">
                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchTitle"><strong>제목</strong></label>
                                         <div class="col-12">
-                                            <input type="text" class="form-control-sm form-control-round" aria-label="Text input with dropdown button" id="searchTitle" name="searchTitle"/>
+                                            <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" id="searchTitle" name="searchTitle"/>
                                         </div>
                                     </div>
                                 </div>
@@ -174,7 +174,7 @@
                             }
                         },
                         "dataSrc": function (res) {
-                            console.log(res)
+                            res.data[0].isFirst = true;
                             return res.data;
                         }
                     },

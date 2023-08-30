@@ -4,75 +4,62 @@
 <mapper namespace="com.saesig.sendHistory.SendHistoryMapper">
 
     <select id="selectSendHistoryList" resultType="com.saesig.sendHistory.SendHistoryDto">
+        <include refid="PaginationMapper.header"/>
         SELECT
             A.ID
             , B.METHOD
             , B.TITLE
             , B.CATEGORY
-            , C.NICKNAME
+            , C.NICKNAME AS RECIPIENT_NICKNAME
             , A.RECIPIENT_EMAIL
             , A.SENDED_AT
         FROM
             SEND_HISTORY A
         LEFT OUTER JOIN SEND_TEMPLATE B ON A.SEND_TEMPLATE_ID = B.ID
         LEFT OUTER JOIN MEMBER C ON A.RECIPIENT_ID = C.ID
+        <!-- 키워드 -->
+        <if test="searchType != null and searchType != '' and searchType == 'email'">
+            AND C.EMAIL LIKE CONCAT('%',#{searchName},'%')
+        </if>
+        <if test="searchType != null and searchType != '' and searchType == 'nickName'">
+            AND C.NICKNAME LIKE CONCAT('%',#{searchName},'%')
+        </if>
+        <!-- 발송유형 -->
+        <if test="searchCategory != null and searchCategory != ''">
+            AND B.category = #{searchCategory}
+        </if>
+        <!-- 제목 -->
+        <if test="searchTitle != null and searchTitle != ''">
+            AND B.title LIKE CONCAT('%',#{searchTitle},'%')
+        </if>
+        <!-- 발송일(시작일, 종료일) -->
+        <if test="searchBgngDt != null and searchBgngDt != ''">
+            AND DATE(A.SENDED_AT) <![CDATA[>=]]> #{searchBgngDt}
+        </if>
+        <if test="searchEndDt != null and searchEndDt != ''">
+            AND DATE(A.SENDED_AT) <![CDATA[<=]]> #{searchEndDt}
+        </if>
+        <include refid="PaginationMapper.footer"/>
     </select>
 
-    <select id="selectTemplate" resultType="com.saesig.sendHistory.SendHistoryDto">
+    <select id="selectSendHistory" resultType="com.saesig.sendHistory.SendHistoryDto">
         SELECT
-            *
+            B.method
+            , B.category
+            , RECIPIENT.NICKNAME AS RECIPIENT_NICKNAME
+            , A.RECIPIENT_EMAIL
+            , SENDER.NICKNAME AS SENDER_NICKNAME
+            , A.SENDER_EMAIL
+            , A.SENDED_AT
+            , B.TITLE
+            , A.CONTENT
         FROM
-            SEND_TEMPLATE
-        where
-            id = #{id}
-    </select>
-
-    <insert id="insertForm">
-        INSERT INTO send_template(
-                                   method
-                                 , title
-                                 , content
-                                 , category
-                                 , is_enabled
-                                 , time_point
-                                 , created_at
-                                 , created_by
-                                 , modified_at
-                                 , modified_by
-        )VALUES (
-                    #{method}
-                , #{title}
-                , #{content}
-                , #{category}
-                , #{isEnabled}
-                , '-'
-                , NOW()
-                , #{member.id}
-                , NOW()
-                , #{member.id}
-                )
-    </insert>
-
-    <update id="updateForm">
-        UPDATE send_template
-        SET
-            method      = #{method}
-          , title       = #{title}
-          , content     = #{content}
-          , category    = #{category}
-          , is_enabled  = #{isEnabled}
-          , modified_at = NOW()
-          , modified_by = #{member.id}
+            SEND_HISTORY A
+        LEFT OUTER JOIN SEND_TEMPLATE B ON A.SEND_TEMPLATE_ID = B.ID
+        LEFT OUTER JOIN MEMBER RECIPIENT ON A.RECIPIENT_ID = RECIPIENT.ID
+        LEFT OUTER JOIN MEMBER SENDER ON A.SENDER_ID = SENDER.ID
         WHERE
-            id = #{id}
-    </update>
-
-    <delete id="deleteItems">
-        DELETE FROM send_template
-        WHERE id IN
-        <foreach item="item" collection="ids" open="("  separator="," close=")">
-            #{item}
-        </foreach>
-    </delete>
+            A.ID = #{id}
+    </select>
 
 </mapper>

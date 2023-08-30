@@ -6,6 +6,11 @@ import com.saesig.domain.member.MemberStatus;
 import com.saesig.domain.member.SignupMethod;
 import com.saesig.domain.templateManage.SendCategory;
 import com.saesig.domain.templateManage.SendMethod;
+import com.saesig.domain.news.NewsCategory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import com.saesig.domain.faq.FaqCategory;
+import com.saesig.domain.policy.PolicyCategory;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.global.enumCode.ExampleEnum;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +26,10 @@ public class EnumConfig {
 
         factory.put("exampleEnum", ExampleEnum.class);
         factory.put("faqCategory", FaqCategory.class);
+        factory.put("policyCategory", PolicyCategory.class);
         factory.put("sendMethod", SendMethod.class);
         factory.put("sendCategory", SendCategory.class);
+        factory.put("newsCategory", NewsCategory.class);
         factory.put("memberStatus", MemberStatus.class);
         factory.put("signupMethod", SignupMethod.class);
         factory.put("adoptStatus", AdoptStatus.class);

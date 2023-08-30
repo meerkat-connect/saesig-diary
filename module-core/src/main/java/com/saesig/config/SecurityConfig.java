@@ -1,6 +1,12 @@
 package com.saesig.config;
 
-import com.saesig.config.auth.*;
+import com.saesig.config.auth.SecurityResourceService;
+import com.saesig.config.auth.UrlBasedFilterInvocationSecurityMetadataSource;
+import com.saesig.config.auth.UrlResourceFactoryBean;
+import com.saesig.config.auth.formLogin.*;
+import com.saesig.config.auth.oauth.CustomOAuth2LoginFailHandler;
+import com.saesig.config.auth.oauth.CustomOAuth2LoginSuccessHandler;
+import com.saesig.config.auth.oauth.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,10 +29,12 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
-@Profile("!local")
+@Profile("prod")
 public class SecurityConfig {
     private final SecurityResourceService securityResourceService;
-
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2LoginFailHandler customOAuth2LoginFailHandler;
+    private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
     @Bean
     @Order(1)
     public SecurityFilterChain ignoringSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -77,6 +85,27 @@ public class SecurityConfig {
                 .accessDeniedHandler(accessDeniedHandler())
                 .authenticationEntryPoint(new CustomEntryPoint());
 //                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/admin/login"));
+        return httpSecurity.build();
+    }
+
+    @Bean
+    @Order(3)
+    public SecurityFilterChain oauthFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .csrf()
+                .disable()
+                .headers()
+                .frameOptions()
+                .disable()
+                .and()
+                .requestMatchers(matchers -> matchers.antMatchers("/**/*"))
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(customOAuth2LoginSuccessHandler)
+                .failureHandler(customOAuth2LoginFailHandler);
+
         return httpSecurity.build();
     }
 

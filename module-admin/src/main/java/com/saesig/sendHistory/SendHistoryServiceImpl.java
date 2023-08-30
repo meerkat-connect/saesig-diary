@@ -12,7 +12,12 @@ public class SendHistoryServiceImpl implements SendHistoryService {
     private SendHistoryMapper sendHistoryMapper;
 
     @Override
-    public List<SendHistoryDto> selectSendHistoryList(SendHistoryDto shd) {
+    public List<SendHistoryDto> selectSendHistoryList(SendHistoryDto shd) throws Exception {
         return sendHistoryMapper.selectSendHistoryList(shd);
+    }
+
+    @Override
+    public SendHistoryDto selectSendHistory(Long id) throws Exception {
+        return sendHistoryMapper.selectSendHistory(id);
     }
 }

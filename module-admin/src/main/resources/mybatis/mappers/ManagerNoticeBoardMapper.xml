@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.manageNoticeBoard.ManagerNoticeBoardMapper">
+
+    <select id="selectManagerNoticeBoardList" resultType="com.saesig.manageNoticeBoard.ManagerNoticeBoardDto">
+        <include refid="PaginationMapper.header"/>
+        SELECT
+            A.ID
+            , A.CATEGORY
+            , A.TITLE
+            , A.HITS
+            , B.NICKNAME
+            , A.CREATED_BY
+            , A.CREATED_AT
+        FROM
+            MANAGER_NOTICE_BOARD A
+        LEFT OUTER JOIN MEMBER B ON A.CREATED_BY = B.ID
+        WHERE
+            1 = 1
+        AND A.IS_DELETED = 'N'
+        <!-- 키워드 -->
+        <if test="searchType != null and searchType != '' and searchType == 'email'">
+            AND B.EMAIL LIKE CONCAT('%',#{searchName},'%')
+        </if>
+        <if test="searchType != null and searchType != '' and searchType == 'nickName'">
+            AND B.NICKNAME LIKE CONCAT('%',#{searchName},'%')
+        </if>
+        <!-- 유형 -->
+        <if test="searchCategory != null and searchCategory != ''">
+            AND A.CATEGORY = #{searchCategory}
+        </if>
+        <!-- 제목 -->
+        <if test="searchTitle != null and searchTitle != ''">
+            AND A.TITLE LIKE CONCAT('%',#{searchTitle},'%')
+        </if>
+        <!-- 등록일(시작일, 종료일) -->
+        <if test="searchBgngDt != null and searchBgngDt != ''">
+            AND DATE(A.CREATED_AT) <![CDATA[>=]]> #{searchBgngDt}
+        </if>
+        <if test="searchEndDt != null and searchEndDt != ''">
+            AND DATE(A.CREATED_AT) <![CDATA[<=]]> #{searchEndDt}
+        </if>
+        <include refid="PaginationMapper.footer"/>
+    </select>
+
+    <select id="selectManagerNoticeBoard" resultType="com.saesig.manageNoticeBoard.ManagerNoticeBoardDto">
+        SELECT
+            ID
+            ,CATEGORY
+            , TITLE
+            , CONTENT
+        FROM
+            MANAGER_NOTICE_BOARD
+        where
+            id = #{id}
+    </select>
+
+    <insert id="insertForm">
+        INSERT INTO MANAGER_NOTICE_BOARD(
+              category
+            , title
+            , content
+            , created_at
+            , created_by
+            , modified_at
+            , modified_by
+        )VALUES (
+            #{category}
+            , #{title}
+            , #{content}
+            , NOW()
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+        )
+    </insert>
+
+    <update id="updateForm">
+        UPDATE MANAGER_NOTICE_BOARD
+        SET
+          category    = #{category}
+          , title       = #{title}
+          , content     = #{content}
+          , modified_at = NOW()
+          , modified_by = #{member.id}
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="deleteItems">
+        UPDATE MANAGER_NOTICE_BOARD
+        SET
+            is_deleted = 'Y'
+        WHERE
+            id = #{id}
+        WHERE id IN
+        <foreach item="item" collection="ids" open="("  separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>
