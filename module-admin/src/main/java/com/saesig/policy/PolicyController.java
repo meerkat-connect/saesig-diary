@@ -2,9 +2,6 @@ package com.saesig.policy;
 
 import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
-import com.saesig.member.MemberSerivce;
-import com.saesig.policy.PolicyDto;
-import com.saesig.policy.PolicyService;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +24,15 @@ public class PolicyController {
 
     @RequestMapping(value = "/getPolicyByType.do")
     @ResponseBody
-    public PolicyDto getInquiryList(@RequestParam String select_type) throws Exception {
-        PolicyDto result = policyService.getPolicyByType(select_type);
-        return result;
+    public PolicyDto getInquiryList(@RequestParam String select_type) {
+        return policyService.getPolicyByType(select_type);
     }
 
     @RequestMapping(value = "/changePolicy.do")
     @ResponseBody
-    public boolean ChangePolicy(@RequestBody PolicyDto param, @LoginMember SessionMember user) throws Exception {
+    public boolean ChangePolicy(@RequestBody PolicyDto param, @LoginMember SessionMember user) {
         param.setModifiedBy(user.getId());
-        boolean result = policyService.ChangePolicy(param);
-        return result;
+        return policyService.ChangePolicy(param);
     }
 
 }

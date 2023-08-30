@@ -1,12 +1,8 @@
 package com.saesig.policy;
 
 
-import com.saesig.policy.PolicyDto;
-import com.saesig.policy.PolicyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +15,7 @@ public class PolicySerivceImpl implements PolicyService {
     };
 
     @Override
-    public boolean ChangePolicy(PolicyDto param) throws Exception {
+    public boolean ChangePolicy(PolicyDto param) {
         policyMapper.updatePolicy(param);
         return true;
     }
