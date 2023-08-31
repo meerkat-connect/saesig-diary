@@ -1,11 +1,11 @@
 package com.saesig.api.file;
 
-import com.saesig.api.file.FileGroupRepository;
+import com.saesig.domain.file.FileGroup;
+import com.saesig.global.file.FileGroupRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import com.saesig.domain.file.FileGroup;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 

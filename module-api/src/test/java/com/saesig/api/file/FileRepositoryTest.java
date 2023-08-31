@@ -1,15 +1,15 @@
 package com.saesig.api.file;
 
-import com.saesig.api.file.FileGroupRepository;
-import com.saesig.api.file.FileRepository;
+import com.saesig.domain.file.File;
+import com.saesig.domain.file.FileGroup;
+import com.saesig.global.file.FileGroupRepository;
+import com.saesig.global.file.FileRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import com.saesig.domain.file.File;
-import com.saesig.domain.file.FileGroup;
 
 import java.util.UUID;
 
