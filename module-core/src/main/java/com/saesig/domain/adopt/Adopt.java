@@ -1,5 +1,7 @@
 package com.saesig.domain.adopt;
 
+import com.saesig.domain.animalDivision.AnimalDivision1;
+import com.saesig.domain.animalDivision.AnimalDivision2;
 import com.saesig.domain.common.BaseEntity;
 import com.saesig.domain.member.Member;
 import lombok.AccessLevel;
@@ -57,11 +59,13 @@ public class Adopt extends BaseEntity {
     @Column(name = "etc_content")
     private String etcContent;
 
-    @Column(name = "animal_division1_id")
-    private Long animalDivision1Id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "animal_division1_id")
+    private AnimalDivision1 animalDivision1Id;
 
-    @Column(name = "animal_division2_id")
-    private Long animalDivision2Id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "animal_division2_id")
+    private AnimalDivision2 animalDivision2Id;
 
     @Column(name = "image_file_group_id")
     private Long imageFileGroupId;
