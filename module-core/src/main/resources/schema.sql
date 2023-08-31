@@ -486,22 +486,6 @@ CREATE TABLE `adopt_vaccine`
     `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호'
 );
 
-DROP TABLE IF EXISTS `manager_notice_board`;
-
-CREATE TABLE `manager_notice_board` (
-    `id`	        BIGINT	        NOT NULL	COMMENT '관리자게시판 일련번호',
-    `category`	    VARCHAR(20)	    NOT NULL	COMMENT '유형',
-    `title`	        VARCHAR(200)	NOT NULL	COMMENT '제목',
-    `content`	    LONGTEXT	    NOT NULL	COMMENT '내용',
-    `hits`	        INTEGER	        NOT NULL	DEFAULT 0	COMMENT '조회수',
-    `is_deleted`	VARCHAR(1)	    NOT NULL	DEFAULT 'N'	COMMENT '삭제여부',
-    `modified_at`	DATETIME	    NOT NULL	COMMENT '수정일',
-    `modified_by`	BIGINT	        NOT NULL	COMMENT '수정자 일련번호',
-    `created_at`	DATETIME	    NOT NULL	COMMENT '등록일',
-    `created_by`	BIGINT	        NOT NULL	COMMENT '등록자 일련번호'
-);
-
-
 ALTER TABLE `member`
     ADD CONSTRAINT `PK_MEMBER` PRIMARY KEY (
                                             `id`
@@ -806,9 +790,45 @@ ALTER TABLE `adopt_vaccine`
                               `id`
             );
 
+
+DROP TABLE IF EXISTS `manager_notice_board`;
+
+CREATE TABLE `manager_notice_board`
+(
+    `id`          BIGINT       NOT NULL COMMENT '관리자게시판 일련번호',
+    `category`    VARCHAR(20)  NOT NULL COMMENT '유형',
+    `title`       VARCHAR(200) NOT NULL COMMENT '제목',
+    `content`     LONGTEXT     NOT NULL COMMENT '내용',
+    `hits`        INTEGER      NOT NULL DEFAULT 0 COMMENT '조회수',
+    `is_deleted`  VARCHAR(1)   NOT NULL DEFAULT 'N' COMMENT '삭제여부',
+    `modified_at` DATETIME     NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT       NOT NULL COMMENT '수정자 일련번호',
+    `created_at`  DATETIME     NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT       NOT NULL COMMENT '등록자 일련번호'
+);
+
 ALTER TABLE `manager_notice_board`
     ADD CONSTRAINT `PK_MANAGER_NOTICE_BOARD` PRIMARY KEY (
-                                                         `id`
+                                                          `id`
         );
+
+
+CREATE TABLE `news`
+(
+    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '약관 일련번호',
+    `category`    VARCHAR(20)           NOT NULL COMMENT '분류',
+    `title`       VARCHAR(300)          NOT NULL COMMENT '제목',
+    `content`     LONGTEXT              NOT NULL COMMENT '내용',
+    `is_notice`   VARCHAR(4)            NOT NULL DEFAULT 'N' COMMENT '고정글여부',
+    `is_enabled`  CHAR(1)               NOT NULL DEFAULT 'Y' COMMENT '사용 여부',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호'
+);
+
+ALTER TABLE `news`
+    ADD CONSTRAINT `PK_NEWS` PRIMARY KEY (`id`);
+
 
 SET foreign_key_checks = 1;
