@@ -201,7 +201,7 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/admin/members/${selectedMemberId}/form`,
+                        url: `/admin/members/${selectedMemberId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);

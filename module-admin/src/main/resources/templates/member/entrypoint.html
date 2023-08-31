@@ -1,0 +1,87 @@
+<div class="card">
+    <div class="card-header p-b-0">
+        <ul class="nav nav-tabs md-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" role="tab" id="memberInfoTab" aria-selected="false">회원정보</a>
+                <div class="slide"></div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" role="tab" id="adoptedTab" aria-selected="false">입양기록</a>
+                <div class="slide"></div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" role="tab" id="adoptTab" aria-selected="true">분양기록</a>
+                <div class="slide"></div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" role="tab" id="reportTab"  aria-selected="false">신고</a>
+                <div class="slide"></div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" role="tab" id="blockTab" aria-selected="false">차단</a>
+                <div class="slide"></div>
+            </li>
+        </ul>
+    </div>
+    <div class="card-block">
+        <div class="row m-b-30">
+            <div class="col-lg-12">
+                <div class="tab-content card-block" id="tabContentArea">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    $(function () {
+        const memberEntryPoint = {
+            id : /*[[${id}]]*/ null,
+            detailUrl : null,
+            adoptTabUrl : null,
+            adoptedTabUrl : null,
+            reportTabUrl : null,
+            blockTab : null,
+
+            init : function() {
+                this.addTabEvent();
+                this.clickTab();
+
+                this.detailUrl = `/admin/members/${this.id}/detail`;
+                this.adoptTabUrl = `/admin/members/${this.id}/adopt`;
+                this.adoptedTabUrl = `/admin/members/${this.id}/adopted`;
+                this.reportTabUrl = `/admin/members/${this.id}/report`;
+                this.blockTab = `/admin/members/${this.id}/block`;
+
+                $('#tabContentArea').load(this.detailUrl);
+            },
+
+            clickTab: function (tabId) {
+                if(tabId == 'memberInfoTab') {
+                    $('#tabContentArea').load(this.detailUrl);
+                } else if(tabId == 'adoptTab') {
+                    $('#tabContentArea').load(this.adoptTabUrl);
+                } else if(tabId == 'adoptedTab') {
+                    $('#tabContentArea').load(this.adoptedTabUrl);
+                } else if(tabId == 'reportTab') {
+                    $('#tabContentArea').load(this.reportTabUrl);
+                } else if (tabId === 'blockTab') {
+                    $('#tabContentArea').load(this.blockTab);
+                }
+
+                $('#'+tabId).parent().addClass('active');
+            },
+
+            addTabEvent : function () {
+                $('.nav-tabs a').on('show.bs.tab', function (event) {
+                    var tabId = event.currentTarget.attributes.id.value;
+                    memberEntryPoint.clickTab(tabId);
+                });
+            },
+
+        };
+
+        memberEntryPoint.init();
+    });
+
+</script>

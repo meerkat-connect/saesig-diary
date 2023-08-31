@@ -5,10 +5,7 @@ import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +18,7 @@ public class MemberController {
     private final EnumMapperFactory enumMapperFactory;
 
     @GetMapping("/view")
-    public String memberListView(Model model) {
+    public String listView(Model model) {
         model.addAttribute("memberStatus", enumMapperFactory.get("memberStatus"));
         model.addAttribute("signupMethod", enumMapperFactory.get("signupMethod"));
 
@@ -40,4 +37,38 @@ public class MemberController {
         return result;
     }
 
+    @GetMapping("/{id}")
+    public String detailEntryPoint(@PathVariable Long id, Model model) {
+        model.addAttribute("id", id);
+        return "member/entryPoint";
+    }
+
+    @GetMapping("/{id}/detail")
+    public String detailView(@PathVariable Long id) {
+        return "member/tab/detail";
+    }
+
+    // 분양 화면
+    @GetMapping("/{id}/adopt")
+    public String adoptView(@PathVariable Long id) {
+        return "member/tab/adopt";
+    }
+
+    // 입양 화면
+    @GetMapping("/{id}/adopted")
+    public String adoptedView(@PathVariable Long id) {
+        return "member/tab/adopted";
+    }
+
+    // 신고 화면
+    @GetMapping("/{id}/report")
+    public String reportView(@PathVariable Long id) {
+        return "member/tab/report";
+    }
+
+    // 차단 화면
+    @GetMapping("/{id}/block")
+    public String blockView(@PathVariable Long id) {
+        return "member/tab/block";
+    }
 }
