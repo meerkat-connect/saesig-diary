@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.saesigManage.SaesigManageMapper">
+
+    <select id="selectAdoptList" resultType="com.saesig.saesigManage.AdoptListDto" parameterType="hashMap">
+        SELECT a.*, ad1.category as animalDivision1Category, ad2.category as animalDivision2Category,reportCnt ,likeCnt
+        from adopt a
+            LEFT JOIN (select adopt_id,count(*) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
+            LEFT JOIN (select adopt_id,count(*) as likeCnt from adopt_interest group by adopt_id) ai ON a.id = ai.adopt_id
+            LEFT JOIN animal_division1 ad1 ON a.animal_division1_id = ad1.id
+            LEFT JOIN animal_division2 ad2 ON a.animal_division2_id = ad2.id
+        ORDER BY a.id DESC
+    </select>
+
+    <select id="selectAdoptById" resultType="com.saesig.saesigManage.AdoptListDto" parameterType="hashMap">
+        SELECT a.*, ad1.category as animalDivision1Category, ad2.category as animalDivision2Category,reportCnt ,likeCnt
+        from adopt a
+                 LEFT JOIN (select adopt_id,count(*) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
+                 LEFT JOIN (select adopt_id,count(*) as likeCnt from adopt_interest group by adopt_id) ai ON a.id = ai.adopt_id
+                 LEFT JOIN animal_division1 ad1 ON a.animal_division1_id = ad1.id
+                 LEFT JOIN animal_division2 ad2 ON a.animal_division2_id = ad2.id
+        WHERE a.id = #{id}
+        ORDER BY a.id DESC
+    </select>
+
+</mapper>

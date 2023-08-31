@@ -1,0 +1,333 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content">
+    <style>
+        .dt-center {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+    <div class="page-body">
+        <div class="row">
+            <!-- 필터 부분 -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <form id="searchForm" name="searchForm">
+                            <!-- 키워드 filter -->
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>유형</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="category" id="category" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option th:each="faqCategory : ${faqCategories}" th:value="${faqCategory.key}" th:text="${faqCategory.value}">value</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>제목</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" name="title" id="title"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>사용여부</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="isEnabled" id="isEnabled" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option value="Y">사용</option>
+                                                <option value="N">사용안함</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //키워드 filter -->
+                            <!-- 키워드 filter-btn -->
+                            <div class="mt-1 p-t-20 text-center border-top">
+                                <button type="reset" class="btn btn-gray m-r-5">초기화</button>
+                                <button type="button" class="btn btn-primary" id="searchBtn">검색</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- //필터 부분 -->
+
+            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="row p-20 p-b-0">
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <h5><strong>검색결과</strong></h5>
+                        </div>
+                        <div class="col-12 col-md-6 text-right">
+                            <button type="button" class="btn btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
+                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>
+                        </div>
+                    </div>
+                    <div class="card-block-small">
+                        <div class="dt-responsive table-responsive">
+                            <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <table id="faqListTable" class="display" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
+                                        <th>No</th>
+                                        <th>분양상태</th>
+                                        <th>제목</th>
+                                        <th>반려동물</th>
+                                        <th>품종</th>
+                                        <th>성별</th>
+                                        <th>나이</th>
+                                        <th>신고</th>
+                                        <th>채팅</th>
+                                        <th>좋아요</th>
+                                        <th>조회수</th>
+                                        <th>삭제여부</th>
+                                        <th>등록일</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
+
+            <!-- Content Area -->
+            <div class="col-12">
+                <div id="contentPanel">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        const faqController = {
+
+            selectedRow: [],
+            init: function () {
+                let faqListTable = null;
+
+                if (faqListTable != null) faqListTable.destroy();
+                this.selectedRow = [];
+
+                faqListTable = $('#faqListTable').DataTable({
+                    select: {
+                        style: 'single'
+                    },
+                    "columnDefs": [
+                        // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: true,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
+                    serverSide: true,
+                    processing: true,
+
+                    ajax: {
+                        async: false,
+                        url: `/admin/saesigManage/selectAdoptList.do?` + $('#searchForm').serialize(),
+                        method: 'get',
+                        "dataSrc": function (res) {
+                            res.data[0].isFirst = true;
+                            return res.data;
+                        }
+                    },
+
+                    columns: [
+                        {
+                            render: function (data, type, row) {
+                                return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
+                            }
+                        },
+                        {data: 'id'},
+                        {render: function (data, type, row) {
+                                return `${row.status.value}`;
+                            }},
+                        {data:'title'},
+                        {data:'animalDivision1Category'},
+                        {data:'animalDivision2Category'},
+                        {render : function (data,type,row){
+                            if (row.gender == 'MAN'){
+                                return '수컷';
+                            }else{
+                                return '암컷';
+                            }
+                            }},
+                        {data:'age'},
+                        {data:'reportCnt'},
+                        {data:'chattingCnt'},
+                        {data:'likeCnt'},
+                        {data:'hit'},
+                        {data:'isDeleted'},
+                        {data:'createdAt'}
+
+                    ],
+
+                    language: {
+                        search: '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
+                        infoEmpty: '데이터 0 부터 0 까지 / 총데이터 : 0',
+                        lengthMenu: '보기',
+                        loadingRecords: '로딩중..',
+                    },
+                })
+
+                faqListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = faqListTable.rows(indexes).data().toArray();
+                    const selectedAdoptId = rowData[0].id;
+
+                    $.ajax({
+                        type: 'get',
+                        url: `/admin/saesigManage/${selectedAdoptId}/infoForm`,
+                        dataType: 'html'
+                    }).done(function (response) {
+                        console.log(response)
+                        $('#contentPanel').html(response);
+                    }).fail(function (error) {
+                        console.log(error)
+                    });
+                }).on('deselect', function (e, dt, type, indexes) {
+                    let rowData = faqListTable.rows(indexes).data().toArray();
+                });
+            },
+            delete: function () {
+                if (this.selectedRow.length === 0) {
+                    alert('선택할 항목을 선택해 주십시오.');
+                } else {
+                    if (confirm('삭제하시겠습니까?')) {
+                        $.ajax({
+                            type: 'delete',
+                            data: {deleteIds: faqController.selectedRow.join(",")},
+                            url: '/admin/faqs'
+                        }).done(function () {
+                            alert('삭제 되었습니다.');
+                            faqController.init();
+                        }).fail(function (error) {
+                            alert('삭제하는데 실패하였습니다.');
+                            console.log(JSON.stringify(error));
+                        });
+                    }
+                }
+            },
+
+            changeOrder: function (id, mode) {
+                if (confirm('순서를 변경하시겠습니까?')) {
+                    $.ajax({
+                        type: 'post',
+                        data: {
+                            id: id,
+                            mode: mode
+                        },
+                        url: `/admin/faqs/${id}/move`
+                    }).done(function () {
+                        alert('순서가 변경되었습니다.');
+                        faqController.init();
+                    }).fail(function (error) {
+                        alert('순서를 변경하는데 실패하였습니다.');
+                        console.log(JSON.stringify(error));
+                    });
+                }
+            }
+        };
+
+        $(function () {
+            faqController.init();
+
+            $("body").on('click', '#insertBtn', function () {
+                $.ajax({
+                    type: 'get',
+                    url: `/admin/faqs/form`,
+                    dataType: 'html'
+                }).done(function (response) {
+                    $('#contentPanel').html(response);
+                }).fail(function (error) {
+                });
+            }).on('click', '#deleteBtn', function () {
+                faqController.delete();
+            }).on('click', '#searchBtn', function () {
+                faqController.init();
+            }).on('click', '#ordUpBtn', function () {
+                const id = $(this).data('id');
+                faqController.changeOrder(id, 'up')
+            }).on('click', '#ordDownBtn', function () {
+                const id = $(this).data('id');
+                faqController.changeOrder(id, 'down')
+            });
+
+            $('input[name=tableCheckbox]').on('change', function () {
+                const $this = $(this)
+                if ($this.is(':checked')) {
+                    faqController.selectedRow.push($this.data('id'));
+                    if (faqController.selectedRow.length === $('input[name=tableCheckbox]').length) {
+                        $('#allCheckBox').prop('checked', true);
+                    }
+                } else {
+                    faqController.selectedRow = $.grep(faqController.selectedRow, function (i) {
+                        return i != $this.data(id);
+                    })
+
+                    if (faqController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
+                }
+            })
+
+            $('#allCheckBox').on('change', function () {
+                const $this = $(this);
+
+                if ($this.is(':checked')) {
+                    const allSelectedRow = [];
+                    $('input[name=tableCheckbox]').each(function () {
+                        this.checked = true;
+                        allSelectedRow.push($(this).data('id'));
+                    })
+                    faqController.selectedRow = allSelectedRow;
+                } else {
+                    $('input[name=tableCheckbox]').each(function () {
+                        this.checked = false;
+                    })
+                    faqController.selectedRow = [];
+                }
+
+            });
+        })
+    </script>
+
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
+</div>
+
+
+</html>
