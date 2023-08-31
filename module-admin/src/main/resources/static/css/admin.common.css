@@ -101,7 +101,16 @@ strong {
     padding: 10px 0 !important;
 }
 
-.nav-tabs{ border-bottom: 0;}
+.nav-tabs{ border-bottom: 0; flex-wrap:nowrap;}
+
+.md-tabs .nav-item {
+    width:100%;
+}
+
+.nav-tabs .slide {
+    width: inherit;
+    position: relative;
+}
 
 .nav-main {
     margin-left:2rem; width:30%;
