@@ -42,7 +42,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>유형</strong>
                                         </div>
                                         <div class="col-sm-12">
-                                            <select id="searchCategory" name="searchCategory" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                            <select id="searchCategory" name="searchCategory" class="form-select form-control form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option th:each="item : ${searchSendCategory}" th:value="${item.key}" th:text="${item.value}">value</option>
                                             </select>
@@ -82,49 +82,120 @@
 
 
             <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-block-small">
-                        <div class="banner-wrap">
-                            <div class="banner-area">
-                                <div class="tit">
-                                    <strong>배너 위치</strong>
+            <div class="row mb-3">
+                <div class="col-12 col-xl-4">
+                    <div class="row">
+                        <h5 class="col-12 col-md-6 mb-3">
+                            <strong>배너 위치</strong>
+                        </h5>
+                    </div>
+                    <div class="card">
+                        <div class="card-block-small tree-view">
+                            <div class="mb-0 form-group row">
+                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>배너 위치 선택</strong>
                                 </div>
-                                <div class="card-block-small">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-6 mb-3">
-                                            <div class="input-group input-group-dropdown mb-0">
-                                                <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
-                                                <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select">
-                                                    <option value="">- 선택 -</option>
-                                                    <option value="email">아이디</option>
-                                                    <option value="nickName">닉네임</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-sm-12">
+                                    <select id="searchCategory" name="searchCategory" class="form-select form-control form-control-round custom-select">
+                                        <option value="">- 선택 -</option>
+                                        <option value="">메인</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-6">
-                <div class="card">
-                    <input type="hidden" class="js-single" />
-                    <div class="card-block-small">
-                        <div class="banner-wrap">
-                            <div class="banner-area">
-                                <div class="tit">
-                                    <strong>배너 목록</strong>
-                                    <div class="btn-area">
-                                        <button type="button" class="btn btn-primary">등록</button>
-                                    </div>
+                <div class="col-12 col-xl-8">
+                    <div class="row align-items-center">
+                        <h5 class="col mb-3">
+                            <strong>배너 목록</strong>
+                        </h5>
+                        <div class="col-auto text-right">
+                            <button type="button" id='exprtSearchBtn' class="btn btn-primary btn-sm" onclick="roleController.insertRootForm()">등록</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-block-small">
+                            <div class="banner-wrap">
+                                <div class="banner-area">
+                                    <!--<div class="banner-list">-->
+                                        <div class="banner">
+                                            <div class="row align-items-center">
+                                                <div class="col stit">
+                                            <span>
+                                                <strong>환영합니다!</strong>
+                                            </span>
+                                                </div>
+                                                <img class="img-fluid col-auto" src="/files/assets/images/pngegg.png">
+                                            </div>
+
+                                            <img class="img-fluid col-12" src="/files/assets/images/logo2.png" alt="banner image">
+
+                                            <div class="row align-items-center mt-3">
+                                                <div class="col">
+                                                    <button class="btn btn-gray m-r-5">삭제</button>
+                                                    <button class="btn btn-primary">수정</button>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <div class="">
+                                                        <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
+                                                        <label for="isEnabled" class="v-middle">사용여부</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="banner">
+                                            <div class="row align-items-center">
+                                                <div class="col stit">
+                                            <span>
+                                                <strong>환영합니다!</strong>
+                                            </span>
+                                                </div>
+                                                <img class="img-fluid col-auto" src="/files/assets/images/pngegg.png">
+                                            </div>
+
+                                            <img class="img-fluid col-12" src="/files/assets/images/fafvicon2.png" alt="banner image">
+
+                                            <div class="row align-items-center mt-3">
+                                                <div class="col">
+                                                    <button class="btn btn-gray m-r-5">삭제</button>
+                                                    <button class="btn btn-primary">수정</button>
+                                                </div>
+                                                <div class="col-auto mb-3">
+                                                    <div class="">
+                                                        <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
+                                                        <label for="isEnabled" class="v-middle">사용여부</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="banner">
+                                            <div class="row align-items-center">
+                                                <div class="col stit">
+                                            <span>
+                                                <strong>환영합니다!</strong>
+                                            </span>
+                                                </div>
+                                                <img class="img-fluid h-50 col-auto" src="/files/assets/images/pngegg.png">
+                                            </div>
+
+                                            <img class="img-fluid col-12" src="/files/assets/images/logo2.png" alt="banner image">
+
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <button class="btn btn-gray m-r-5">삭제</button>
+                                                    <button class="btn btn-primary">수정</button>
+                                                </div>
+                                                <div class="col-auto mb-3 mt-3">
+                                                    <div class="">
+                                                        <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
+                                                        <label for="isEnabled" class="v-middle">사용여부</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!--</div>-->
                                 </div>
-                                <div class="banner-list" id="banner"></div>
-                                <!-- paging -->
-                                <div class="paging"></div>
                             </div>
                         </div>
                     </div>
@@ -140,6 +211,7 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
     <script th:inline="javascript">
         const listController = {
 
