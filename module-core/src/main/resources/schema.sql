@@ -1,5 +1,3 @@
-SET foreign_key_checks = 0;
-
 DROP TABLE IF EXISTS `member`;
 
 CREATE TABLE `member`
@@ -842,6 +840,3 @@ ALTER TABLE `news`
 
 ALTER TABLE `chatting_room`
     ADD CONSTRAINT `PK_CHATTING_ROOM` PRIMARY KEY (`id`);
-
-
-SET foreign_key_checks = 1;
