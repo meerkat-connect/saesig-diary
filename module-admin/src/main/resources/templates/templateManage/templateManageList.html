@@ -163,7 +163,7 @@
                     ajax: {
                         async: false,
                         method: 'GET',
-                        url: '/templateManage/selectTemplateList.do',
+                        url: '/admin/templateManage/selectTemplateList.do',
                         data: function(d) {
                             var formData  = $('#searchForm').serializeArray();
                             for(var i = 0; i < formData.length; i++) {
@@ -235,7 +235,7 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/templateManage/templateManageForm.html?id=${selectId}`,
+                        url: `/admin/templateManage/templateManageForm.html?id=${selectId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
@@ -256,7 +256,7 @@
                         $.ajax({
                             type: 'delete',
                             data: {ids: listController.selectedRow.join(",")},
-                            url: `/templateManage/deleteItems.do`,
+                            url: `/admin/templateManage/deleteItems.do`,
                         }).done(function () {
                             alert('삭제 되었습니다.');
                             listController.init();
@@ -275,7 +275,7 @@
             $("body").on('click', '#insertBtn', function () {
                 $.ajax({
                     type: 'get',
-                    url: `/templateManage/templateManageForm.html`,
+                    url: `/admin/templateManage/templateManageForm.html`,
                     dataType: 'html'
                 }).done(function (response) {
                     $('#contentPanel').html(response);

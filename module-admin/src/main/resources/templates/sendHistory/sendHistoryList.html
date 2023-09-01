@@ -159,7 +159,7 @@
 
                     ajax: {
                         async: false,
-                        url:'/sendHistory/selectSendHistoryList.do',
+                        url:'/admin/sendHistory/selectSendHistoryList.do',
                         method: 'GET',
                         data: function(d) {
                             var formData  = $('#searchForm').serializeArray();
@@ -223,7 +223,7 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/sendHistory/sendHistoryForm.html?id=${selectId}`,
+                        url: `/admin/sendHistory/sendHistoryForm.html?id=${selectId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);

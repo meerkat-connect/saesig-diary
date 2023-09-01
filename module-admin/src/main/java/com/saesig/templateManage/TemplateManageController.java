@@ -23,7 +23,7 @@ public class TemplateManageController {
     private final EnumMapperFactory enumMapperFactory;
 
 
-    @GetMapping({"/templateManage","/templateManage/templateManageList.html"})
+    @GetMapping({"/admin/templateManage","/admin/templateManage/templateManageList.html"})
     public String templateManageList(Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
@@ -31,7 +31,7 @@ public class TemplateManageController {
         return "/templateManage/templateManageList";
     }
 
-    @GetMapping("/templateManage/selectTemplateList.do")
+    @GetMapping("/admin/templateManage/selectTemplateList.do")
     @ResponseBody
     public DataTablesDto selectTemplateList(TemplateManageDto tmd) throws Exception {
         DataTablesDto dtd = new DataTablesDto();
@@ -51,7 +51,7 @@ public class TemplateManageController {
         return dtd;
     }
 
-    @GetMapping("/templateManage/templateManageForm.html")
+    @GetMapping("/admin/templateManage/templateManageForm.html")
     public String templateManageForm(Long id, Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
@@ -69,7 +69,7 @@ public class TemplateManageController {
         }
     }
 
-    @PostMapping("/templateManage/insertForm.do")
+    @PostMapping("/admin/templateManage/insertForm.do")
     @ResponseBody
     public Map<String, Object> insertForm(@LoginMember SessionMember member, TemplateManageDto tmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
@@ -89,7 +89,7 @@ public class TemplateManageController {
         return resultMap;
     }
 
-    @PostMapping("/templateManage/updateForm.do")
+    @PostMapping("/admin/templateManage/updateForm.do")
     @ResponseBody
     public Map<String, Object> updateForm(@LoginMember SessionMember member, TemplateManageDto tmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
@@ -108,7 +108,7 @@ public class TemplateManageController {
         return resultMap;
     }
 
-    @DeleteMapping("/templateManage/deleteItems.do")
+    @DeleteMapping("/admin/templateManage/deleteItems.do")
     @ResponseBody
     public Map<String, Object> deleteItems(@LoginMember SessionMember member, @RequestParam Long[] ids) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
