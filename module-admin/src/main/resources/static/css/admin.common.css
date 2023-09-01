@@ -324,3 +324,6 @@ div.dataTables_wrapper div.dataTables_info {
         margin-top: 20px
     }
 }
+
+.form-group.required .col-form-label::after{content:" *";color:red;}
+.sub-title.required strong::after{content:" *";color:red;font-weight:400;}
