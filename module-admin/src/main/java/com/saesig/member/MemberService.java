@@ -32,9 +32,17 @@ public class MemberService {
         Integer pageNum = request.getStart() / request.getLength();
         PageRequest of = PageRequest.of(pageNum, request.getLength(), Sort.by(Sort.Direction.DESC, "created_at"));
 
-        Page<AdoptedListDto> adoptionHistorys = memberAdminRepository.findAdoptedList(id, request,of);
+        Page<AdoptedListResponseDto> adoptedList = memberAdminRepository.findAdoptedList(id, request,of);
 
-        return new DataTablesResponseDto(adoptionHistorys, adoptionHistorys.getContent());
+        return new DataTablesResponseDto(adoptedList, adoptedList.getContent());
     }
+
+    public DataTablesResponseDto findAdoptionList(Long id, RequestDto request) {
+        Integer pageNum = request.getStart() / request.getLength();
+        PageRequest of = PageRequest.of(pageNum, request.getLength(), Sort.by(Sort.Direction.DESC, "created_at"));
+
+        Page<AdoptionListResponseDto> adoptionsList = memberAdminRepository.findAdoptionList(id, request,of);
+
+        return new DataTablesResponseDto(adoptionsList, adoptionsList.getContent());}
 
 }
