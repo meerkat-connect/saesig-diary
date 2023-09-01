@@ -28,4 +28,9 @@ public class BannerController {
     public String bannerList(Model model) throws Exception {
         return "/banner/bannerList";
     }
+
+    @GetMapping(value = "/admin/banner/bannerInsertPopup.html")
+    public String bannerInsertPopup() throws Exception {
+        return "/banner/bannerFormPopup";
+    }
 }

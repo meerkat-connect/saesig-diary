@@ -73,9 +73,8 @@
                                 <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>배너 위치 선택</strong>
                                 </div>
                                 <div class="col-sm-12">
-                                    <select id="searchCategory" name="searchCategory" class="form-select form-control form-control-round custom-select">
-                                        <option value="">- 선택 -</option>
-                                        <option value="">메인</option>
+                                    <select id="selectBannerLocation" name="selectBannerLocation" class="form-select form-control form-control-round custom-select">
+                                        <option value="main">메인</option>
                                     </select>
                                 </div>
                             </div>
@@ -89,7 +88,7 @@
                             <strong>배너 목록</strong>
                         </h5>
                         <div class="col-auto text-right">
-                            <button type="button" id='exprtSearchBtn' class="btn btn-primary btn-sm" onclick="roleController.insertRootForm()">등록</button>
+                            <button type="button" id='exprtSearchBtn' class="btn btn-primary btn-sm" onclick="fn_openBannerInsertModal()">등록</button>
                         </div>
                     </div>
                     <div class="card">
@@ -118,7 +117,7 @@
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="">
-                                                        <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
+                                                        <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,7 +141,7 @@
                                                     <button class="btn btn-gray m-r-5">삭제</button>
                                                     <button class="btn btn-primary">수정</button>
                                                 </div>
-                                                <div class="col-auto mb-3">
+                                                <div class="col-auto">
                                                     <div class="">
                                                         <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
                                                     </div>
@@ -163,12 +162,12 @@
                                                 <img src="/files/assets/images/fafvicon4.png" alt="banner image">
                                             </div>
 
-                                            <div class="row align-items-center">
+                                            <div class="row align-items-center mt-3">
                                                 <div class="col">
                                                     <button class="btn btn-gray m-r-5">삭제</button>
                                                     <button class="btn btn-primary">수정</button>
                                                 </div>
-                                                <div class="col-auto mb-3 mt-3">
+                                                <div class="col-auto">
                                                     <div class="">
                                                         <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
                                                     </div>
@@ -182,19 +181,43 @@
                     </div>
                 </div>
             </div>
-            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
-
-            <!-- Content Area -->
-            <div class="col-12">
-                <div id="contentPanel"></div>
-            </div>
+            <!-- 배너 위치, 배너목록 부분 -->
 
         </div>
     </div>
 
+    <div class="modal fade" id="bannerInsertPopup" data-bs-backdrop="static"></div>
+    <div class="modal fade" id="bannerUpdatePopup" data-bs-backdrop="static"></div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
     <script th:inline="javascript">
         var columns = document.querySelectorAll(".column");
+
+        var updatePopupUrl = "/admin/banner/bannerUpdatePopup.html";
+        var updateAddModal;
+
+        var insertPopupUrl = "/admin/banner/bannerInsertPopup.html";
+        var insertAddModal;
+
+        fn_openBannerInsertModal = () => {
+            $("#bannerInsertPopup").load(insertPopupUrl, function(response, status, xhr) {
+                if (status == "success") {
+                    insertAddModal = new bootstrap.Modal($('#bannerInsertPopup'));
+                    insertAddModal.show();
+                }
+            });
+        }
+
+        fn_openBannerUpdateModal = (bannerid) => {
+            var url = updatePopupUrl+"?bannerid="+bannerid;
+
+            $("#bannerUpdatePopup").load(url, function(response, status, xhr) {
+                if (status == "success") {
+                    updateAddModal = new bootstrap.Modal($('#bannerUpdatePopup'));
+                    updateAddModal.show();
+                }
+            });
+        }
 
         const listController = {
             init : function() {

@@ -270,7 +270,9 @@ div.dataTables_wrapper div.dataTables_info {
 /*.banner-wrap {display:flex;}*/
 /*.banner-wrap .banner-area {flex:1;padding:0 30px 0 10px;}*/
 /*.banner-wrap .banner-select {width:calc((100% - 111px) / 3 + 41px);padding:0 10px 0 30px;border-left:1px solid #ededed;}*/
+.banner-wrap .banner-select .banner-list .text-center {border: 1px solid #dee2e6; border-radius: 20px;}
 .banner-wrap .banner-select .banner-list .text-center > img {max-width: 100%; !important;}
+.banner-wrap .banner-select .banner-list .banner {border: 1px solid #dee2e6; border-radius: 20px; padding: 20px}
 .banner-wrap .banner-area .banner-list {display:flex;flex-wrap:wrap;}
 .banner-wrap .banner-area .banner-list .banner {width:calc(50% - 15px);}
 .banner-wrap .banner-area .banner-list .nodata.banner {}
@@ -279,6 +281,7 @@ div.dataTables_wrapper div.dataTables_info {
 .banner-wrap .tit {display:flex;justify-content:space-between;align-items:center;height:48px;padding-bottom:10px;border-bottom: 1px solid #ededed;}
 .banner-wrap .tit strong {font-size: 16px;color: #2c3e50;}
 .banner-wrap .banner-list .banner {margin-top:30px;}
+.banner-wrap .banner-list .banner:first-child {margin-top:5px;}
 .banner-wrap .banner-list .banner .stit {display:flex;justify-content:space-between;align-items:center;height:24px;margin-bottom:8px;}
 .banner-wrap .banner-list .banner .stit span {flex:1;;line-height:1.2rem;display:-webkit-inline-box!important;-webkit-box-orient:vertical!important;overflow:hidden!important;text-overflow:ellipsis!important;vertical-align:top;-webkit-line-clamp:2;}
 .banner-wrap .paging {margin-top:30px}
