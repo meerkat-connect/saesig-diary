@@ -188,3 +188,10 @@ VALUES (11, '유형11', '제목11', '내용11', '2', 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO adopt(id, adopt_member_id, hits, title, content, gender, age, age_category, status, is_deleted, is_castrated, responsibility_cost, etc_content, animal_division1_id, animal_division2_id, image_file_group_id, sido, sigungu, modified_at, modified_by, created_at, created_by)
 VALUES(1, 1, 0, 'title','content', 'MAN', 13, 'ASD', 'COMPLETE', 'N', 'N', 1000, 'etc_content', 1,1, NULL, 'sido','signgu',  NOW(), 1, NOW(), 1);
+
+INSERT INTO animal_division1(category) VALUES ('개');
+INSERT INTO animal_division1(category) VALUES ('고양이');
+INSERT INTO animal_division2(animal_division1_id,category) VALUES (1,'골든리트리버');
+INSERT INTO animal_division2(animal_division1_id,category) VALUES (1,'레브라도리트리버');
+INSERT INTO animal_division2(animal_division1_id,category) VALUES (2,'코리안 숏 헤어');
+INSERT INTO animal_division2(animal_division1_id,category) VALUES (2,'샴');
