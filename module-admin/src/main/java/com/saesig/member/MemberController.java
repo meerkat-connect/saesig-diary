@@ -1,5 +1,6 @@
 package com.saesig.member;
 
+import com.saesig.common.RequestDto;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -56,9 +57,23 @@ public class MemberController {
 
     // 입양 화면
     @GetMapping("/{id}/adopted")
-    public String adoptedView(@PathVariable Long id) {
+    public String adoptedView(@PathVariable Long id, Model model) {
+        model.addAttribute("memberId", id);
         return "member/tab/adopted";
     }
+
+    @GetMapping("/{id}/adopted/list")
+    @ResponseBody
+    public Map<String,Object> findAdoptedList(@PathVariable Long id, @ModelAttribute RequestDto request) {
+        DataTablesResponseDto dataTablesResponseDto = memberService.findAdoptedList(id, request);
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", dataTablesResponseDto.getList());
+        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
+        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
+
+        return result;
+    }
+
 
     // 신고 화면
     @GetMapping("/{id}/report")

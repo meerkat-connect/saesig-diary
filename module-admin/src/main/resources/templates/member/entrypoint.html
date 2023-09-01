@@ -57,13 +57,13 @@
             },
 
             clickTab: function (tabId) {
-                if(tabId == 'memberInfoTab') {
+                if(tabId === 'memberInfoTab') {
                     $('#tabContentArea').load(this.detailUrl);
-                } else if(tabId == 'adoptTab') {
+                } else if(tabId === 'adoptTab') {
                     $('#tabContentArea').load(this.adoptTabUrl);
-                } else if(tabId == 'adoptedTab') {
+                } else if(tabId === 'adoptedTab') {
                     $('#tabContentArea').load(this.adoptedTabUrl);
-                } else if(tabId == 'reportTab') {
+                } else if(tabId === 'reportTab') {
                     $('#tabContentArea').load(this.reportTabUrl);
                 } else if (tabId === 'blockTab') {
                     $('#tabContentArea').load(this.blockTab);

@@ -5,8 +5,11 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.saesig.common.RequestDto;
 import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.domain.adopt.QAdopt;
+import com.saesig.domain.animalDivision.QAnimalDivision1;
+import com.saesig.domain.animalDivision.QAnimalDivision2;
 import com.saesig.domain.member.QMember;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -63,5 +66,34 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
     private BooleanExpression statusEq(String status) {
         return hasText(status) ? null : QMember.member.email.eq(status);
+    }
+
+    @Override
+    public Page<AdoptedListDto> findAdoptedList(Long id, RequestDto request, Pageable pageable) {
+        QMember qMember = QMember.member;
+        QAdopt qAdopt = QAdopt.adopt;
+        QAnimalDivision1 qAnimalDivision1 = QAnimalDivision1.animalDivision1;
+        QAnimalDivision2 qAnimalDivision2 = QAnimalDivision2.animalDivision2;
+
+        //when
+        QueryResults<AdoptedListDto> adoptedList = queryFactory.select(
+                        Projections.fields(AdoptedListDto.class,
+                                qAdopt.title
+                                , qAdopt.gender
+                                , qAdopt.animalDivision1.category
+                                , qAdopt.animalDivision2.category
+                                , qAdopt.adoptMember.nickname
+                                , qAdopt.modifiedAt
+                        )
+                ).from(qAdopt)
+                .innerJoin(qAnimalDivision1).on(qAdopt.animalDivision1.id.eq(qAnimalDivision1.id))
+                .innerJoin(qAnimalDivision2).on(qAdopt.animalDivision2.id.eq(qAnimalDivision2.id))
+                .innerJoin(qMember).on(qAdopt.adoptMember.id.eq(qMember.id))
+                .where(qAdopt.status.eq(AdoptStatus.COMPLETE).and(qMember.id.eq(id)))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        return new PageImpl<>(adoptedList.getResults(), pageable, adoptedList.getTotal());
     }
 }

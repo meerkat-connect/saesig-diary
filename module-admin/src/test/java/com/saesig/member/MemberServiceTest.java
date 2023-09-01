@@ -1,11 +1,15 @@
 package com.saesig.member;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.saesig.SaesigDiaryApplication;
 import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.domain.adopt.QAdopt;
+import com.saesig.domain.animalDivision.QAnimalDivision1;
+import com.saesig.domain.animalDivision.QAnimalDivision2;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.member.QMember;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,6 +21,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityManager;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -110,7 +116,40 @@ class MemberServiceTest {
                 .fetchOne();
         //then
         assertThat(tuple).isNotNull();
-
     }
+
+    @Test
+    @DisplayName("querydsl 입양 목록 조회")
+    void querydsl_입양_목록_조회(){
+        //given
+        Long memberId = 1L;
+        QMember qMember = QMember.member;
+        QAdopt qAdopt = QAdopt.adopt;
+        QAnimalDivision1 qAnimalDivision1 = QAnimalDivision1.animalDivision1;
+        QAnimalDivision2 qAnimalDivision2 = QAnimalDivision2.animalDivision2;
+
+        //when
+        QueryResults<AdoptedListDto> adoptedList = jpaQueryFactory.select(
+                        Projections.fields(AdoptedListDto.class,
+                                qAdopt.title
+                                , qAdopt.gender
+                                , qAdopt.animalDivision1.category
+                                , qAdopt.animalDivision2.category
+                                , qAdopt.adoptMember.nickname
+                                , qAdopt.modifiedAt
+                        )
+                ).from(qAdopt)
+                .innerJoin(qAnimalDivision1).on(qAdopt.animalDivision1.id.eq(qAnimalDivision1.id))
+                .innerJoin(qAnimalDivision2).on(qAdopt.animalDivision2.id.eq(qAnimalDivision2.id))
+                .innerJoin(qMember).on(qAdopt.adoptMember.id.eq(qMember.id))
+                .where(qAdopt.status.eq(AdoptStatus.COMPLETE).and(qMember.id.eq(memberId)))
+                .fetchResults();
+
+        List<AdoptedListDto> results = adoptedList.getResults();
+
+        //then
+        assertThat(results.size()).isNotNegative();
+    }
+
 
 }

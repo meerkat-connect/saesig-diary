@@ -134,6 +134,14 @@ strong {
     font-weight: 400;
 }
 
+table.dataTable tbody tr {
+    height:60px;
+}
+
+table.dataTable td.dt-center, table.dataTable td.dataTables_empty {
+    vertical-align: middle;
+}
+
 div.dataTables_wrapper div.dataTables_info {
     width: auto;
 }
