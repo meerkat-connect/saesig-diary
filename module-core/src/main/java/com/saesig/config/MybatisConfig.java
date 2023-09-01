@@ -1,6 +1,7 @@
 package com.saesig.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.h2.tools.Server;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
@@ -10,6 +11,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -25,6 +27,18 @@ public class MybatisConfig {
     ApplicationContext applicationContext;
 
     @Bean
+    @Profile("local")
+    @ConfigurationProperties("spring.datasource")
+    public DataSource localDataSource() throws Exception {
+        Server tcpServer = Server.createTcpServer("-tcp", "-ifNotExists", "-tcpAllowOthers", "-tcpPort", "9092");
+        if(!tcpServer.isRunning(true)) {
+            tcpServer.start();
+        }
+        return new com.zaxxer.hikari.HikariDataSource();
+    }
+
+    @Bean
+    @Profile("!local")
     @ConfigurationProperties("spring.datasource")
     public DataSource dataSource() throws Exception {
         return DataSourceBuilder.create().build();
