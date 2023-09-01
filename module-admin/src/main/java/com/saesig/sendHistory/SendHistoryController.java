@@ -19,7 +19,7 @@ public class SendHistoryController {
 
     private final EnumMapperFactory enumMapperFactory;
 
-    @GetMapping({"/sendHistory","/sendHistory/sendHistoryList.html"})
+    @GetMapping({"/admin/sendHistory","/admin/sendHistory/sendHistoryList.html"})
     public String sendHistoryList(Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
@@ -27,7 +27,7 @@ public class SendHistoryController {
         return "/sendHistory/sendHistoryList";
     }
 
-    @GetMapping("/sendHistory/selectSendHistoryList.do")
+    @GetMapping("/admin/sendHistory/selectSendHistoryList.do")
     @ResponseBody
     public DataTablesDto selectSendHistoryList(SendHistoryDto shd) throws Exception {
         DataTablesDto dtd = new DataTablesDto();
@@ -47,7 +47,7 @@ public class SendHistoryController {
         return dtd;
     }
 
-    @GetMapping("/sendHistory/sendHistoryForm.html")
+    @GetMapping("/admin/sendHistory/sendHistoryForm.html")
     public String templateManageForm(Long id, Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));

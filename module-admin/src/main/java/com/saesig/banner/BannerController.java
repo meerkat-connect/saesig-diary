@@ -24,7 +24,7 @@ public class BannerController {
     private final EnumMapperFactory enumMapperFactory;
 
 
-    @GetMapping({"/banner","/banner/bannerList.html"})
+    @GetMapping({"/admin/banner","/admin/banner/bannerList.html"})
     public String bannerList(Model model) throws Exception {
         return "/banner/bannerList";
     }

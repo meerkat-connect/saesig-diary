@@ -2,6 +2,7 @@ package com.saesig.news;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class NewsServiceImpl implements NewsService {
 
+    @Autowired
     private final NewsMapper newsMapper;
 
     @Override

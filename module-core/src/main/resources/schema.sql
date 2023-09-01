@@ -486,6 +486,16 @@ CREATE TABLE `adopt_vaccine`
     `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호'
 );
 
+CREATE TABLE IF NOT EXISTS `chatting_room`
+(
+    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '채팅방 회원 일련번호',
+    `title`       varchar(20)           NOT NULL COMMENT '채팅방 제목',
+    `chat_id`     BIGINT                NOT NULL COMMENT '채팅방 일련번호',
+    `member_id`  BIGINT                 NOT NULL  COMMENT '회원 일련번호',
+    `created_at`  DATETIME              DEFAULT NOW() COMMENT  '등록일',
+    `created_by`  BIGINT                 COMMENT '등록자 일련번호'
+    );
+
 ALTER TABLE `member`
     ADD CONSTRAINT `PK_MEMBER` PRIMARY KEY (
                                             `id`
@@ -829,6 +839,9 @@ CREATE TABLE `news`
 
 ALTER TABLE `news`
     ADD CONSTRAINT `PK_NEWS` PRIMARY KEY (`id`);
+
+ALTER TABLE `chatting_room`
+    ADD CONSTRAINT `PK_CHATTING_ROOM` PRIMARY KEY (`id`);
 
 
 SET foreign_key_checks = 1;
