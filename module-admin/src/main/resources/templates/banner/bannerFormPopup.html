@@ -1,0 +1,52 @@
+<form id="bannerInsertFrm">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content type_2">
+            <div class="modal-header">
+                <h4 class="modal-title">배너 등록</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card m-b-10">
+                    <div class="card-block-small">
+                        <div class="mb-2 form-group row required">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="bannerInsertTitle"><strong>제목</strong></label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control form-control-sm" name="bannerTtl" id="bannerTtl" placeholder="제목" />
+                            </div>
+                        </div>
+                        <div class="mb-0 form-group row required">
+                            <div class="mb-0 form-group">
+                                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>배너 이미지</strong></label>
+                                <p class="text-warning m-b-0">* 10MB 미만의 JPG, PNG, GIF파일만 업로드 가능(권장사이즈 : 가로 1005px, 세로 285px)</p>
+                                <div class="col-sm-12 mb-2">
+                                    <input type="file" class="form-control form-control-sm" id="bannerFile" name="bannerFile"/>
+                                    <input type="hidden" name="bannerFilegrpid" id="bannerFilegrpid" value="0">
+                                    <input type="hidden" name="bannerFileid" id="bannerFileid" value="0">
+                                </div>
+                                <div class="mb-2 row">
+                                    <div class="col-auto">
+                                        <div id="fileUploadSuccess">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-0 form-group row">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                   for="bannerInsertLinkUrl"><strong>링크 URL</strong></label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control form-control-sm" name="url" id="url" placeholder="링크 URL" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-gray m-r-5" data-bs-dismiss="modal" aria-label="Close">취소</button>
+                <button type="button" class="btn btn-primary" onclick="insertBanner();">저장</button>
+            </div>
+        </div>
+    </div>
+</form>
