@@ -250,9 +250,10 @@ div.dataTables_wrapper div.dataTables_info {
 }
 
 /* banner-wrap */
-.banner-wrap {display:flex;}
-.banner-wrap .banner-area {flex:1;padding:0 30px 0 10px;}
-.banner-wrap .banner-select {width:calc((100% - 111px) / 3 + 41px);padding:0 10px 0 30px;border-left:1px solid #ededed;}
+/*.banner-wrap {display:flex;}*/
+/*.banner-wrap .banner-area {flex:1;padding:0 30px 0 10px;}*/
+/*.banner-wrap .banner-select {width:calc((100% - 111px) / 3 + 41px);padding:0 10px 0 30px;border-left:1px solid #ededed;}*/
+.banner-wrap .banner-select .banner-list .text-center > img {max-width: 100%; !important;}
 .banner-wrap .banner-area .banner-list {display:flex;flex-wrap:wrap;}
 .banner-wrap .banner-area .banner-list .banner {width:calc(50% - 15px);}
 .banner-wrap .banner-area .banner-list .nodata.banner {}
