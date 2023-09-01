@@ -61,11 +61,11 @@ public class Adopt extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_division1_id")
-    private AnimalDivision1 animalDivision1Id;
+    private AnimalDivision1 animalDivision1;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "animal_division2_id")
-    private AnimalDivision2 animalDivision2Id;
+    private AnimalDivision2 animalDivision2;
 
     @Column(name = "image_file_group_id")
     private Long imageFileGroupId;
