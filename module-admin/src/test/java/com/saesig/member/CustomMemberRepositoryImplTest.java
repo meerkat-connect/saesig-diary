@@ -21,14 +21,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = SaesigDiaryApplication.class)
 @ActiveProfiles("local")
-class MemberServiceTest {
+class CustomMemberRepositoryImplTest {
     @Autowired
     EntityManager em;
     JPAQueryFactory jpaQueryFactory;
@@ -120,7 +119,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("querydsl 입양 목록 조회")
-    void querydsl_입양_목록_조회(){
+    void querydsl_입양_목록_조회() {
         //given
         Long memberId = 1L;
         QMember qMember = QMember.member;
@@ -129,8 +128,41 @@ class MemberServiceTest {
         QAnimalDivision2 qAnimalDivision2 = QAnimalDivision2.animalDivision2;
 
         //when
-        QueryResults<AdoptedListDto> adoptedList = jpaQueryFactory.select(
-                        Projections.fields(AdoptedListDto.class,
+        QueryResults<AdoptedListResponseDto> adoptedList = jpaQueryFactory.select(
+                        Projections.fields(AdoptedListResponseDto.class,
+                                qAdopt.title
+                                , qAdopt.gender
+                                , qAdopt.animalDivision1.category
+                                , qAdopt.animalDivision2.category
+                                , qAdopt.createdBy.nickname
+                                , qAdopt.modifiedAt
+                        )
+                ).from(qAdopt)
+                .innerJoin(qAnimalDivision1).on(qAdopt.animalDivision1.id.eq(qAnimalDivision1.id))
+                .innerJoin(qAnimalDivision2).on(qAdopt.animalDivision2.id.eq(qAnimalDivision2.id))
+                .innerJoin(qMember).on(qAdopt.createdBy.id.eq(qMember.id))
+                .where(qAdopt.status.eq(AdoptStatus.COMPLETE).and(qMember.id.eq(memberId)))
+                .fetchResults();
+
+        List<AdoptedListResponseDto> results = adoptedList.getResults();
+
+        //then
+        assertThat(results.size()).isNotNegative();
+    }
+
+    @Test
+    @DisplayName("querydsl 분양 목록 조회")
+    void 분양_목록_조회() {
+        //given
+        Long memberId = 1L;
+        QMember qMember = QMember.member;
+        QAdopt qAdopt = QAdopt.adopt;
+        QAnimalDivision1 qAnimalDivision1 = QAnimalDivision1.animalDivision1;
+        QAnimalDivision2 qAnimalDivision2 = QAnimalDivision2.animalDivision2;
+
+        //when
+        QueryResults<AdoptionListResponseDto> adoptionList = jpaQueryFactory.select(
+                        Projections.fields(AdoptionListResponseDto.class,
                                 qAdopt.title
                                 , qAdopt.gender
                                 , qAdopt.animalDivision1.category
@@ -141,15 +173,13 @@ class MemberServiceTest {
                 ).from(qAdopt)
                 .innerJoin(qAnimalDivision1).on(qAdopt.animalDivision1.id.eq(qAnimalDivision1.id))
                 .innerJoin(qAnimalDivision2).on(qAdopt.animalDivision2.id.eq(qAnimalDivision2.id))
-                .innerJoin(qMember).on(qAdopt.adoptMember.id.eq(qMember.id))
-                .where(qAdopt.status.eq(AdoptStatus.COMPLETE).and(qMember.id.eq(memberId)))
+                .leftJoin(qMember).on(qAdopt.adoptMember.id.eq(qMember.id))
+                .where(qAdopt.status.ne(AdoptStatus.STOP).and(qAdopt.createdBy.id.eq(memberId)))
                 .fetchResults();
 
-        List<AdoptedListDto> results = adoptedList.getResults();
+        List<AdoptionListResponseDto> results = adoptionList.getResults();
 
         //then
         assertThat(results.size()).isNotNegative();
     }
-
-
 }
