@@ -4,7 +4,7 @@
 <div class="card-block-small p-t-0">
     <div class="dt-responsive table-responsive">
         <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
-            <table id="adoptedTable" class="display" style="width:100%">
+            <table id="adoptionTable" class="display" style="width:100%">
                 <thead>
                 <tr>
                     <th>제목</th>
@@ -22,18 +22,18 @@
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
     $(function () {
-        // 제목, 반려동물, 품종, 성별, 분양자, 입양완료일시
+        // 제목, 반려동물, 품종, 성별, 분양자, 분양완료일시
         const adoptionController = {
             memberId: /*[[${memberId}]]*/null,
 
             init: function () {
-                let adoptionController = null;
+                let adoptionTable = null;
 
-                if (adoptionController != null) adoptionController.destroy();
+                if (adoptionTable != null) adoptionTable.destroy();
 
-                adoptionController = $('#adoptionController').DataTable({
+                adoptionTable = $('#adoptionTable').DataTable({
                     "columnDefs": [
                         {className: "dt-center", targets: "_all"}
                     ],
@@ -54,7 +54,7 @@
 
                     ajax: {
                         async: false,
-                        url: `/admin/members/${adoptedController.memberId}/adoption/list?` + $('#searchForm').serialize(),
+                        url: `/admin/members/${adoptionController.memberId}/adoption/list?` + $('#searchForm').serialize(),
                         method: 'get',
                         "dataSrc": function (res) {
                             return res.data;

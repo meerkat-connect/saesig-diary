@@ -18,5 +18,5 @@ public class AdoptionListResponseDto {
     private String adoptedMemberName;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime adoptedCompletedAt;
+    private LocalDateTime adoptionCompletedAt;
 }

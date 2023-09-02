@@ -84,8 +84,8 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                                 , qAdopt.gender
                                 , qAdopt.animalDivision1.category.as("animalDivision1")
                                 , qAdopt.animalDivision2.category.as("animalDivision2")
-                                , qAdopt.createdBy.nickname.as("adoptMemberName")
-                                , qAdopt.modifiedAt.as("adoptionCompletedAt")
+                                , qAdopt.createdBy.nickname.as("adoptionMemberName")
+                                , qAdopt.modifiedAt.as("adoptedCompletedAt")
                         )
                 ).from(qAdopt)
                 .innerJoin(qAnimalDivision1).on(qAdopt.animalDivision1.id.eq(qAnimalDivision1.id))
@@ -112,10 +112,10 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                         Projections.fields(AdoptionListResponseDto.class,
                                 qAdopt.title
                                 , qAdopt.gender
-                                , qAdopt.animalDivision1.category
-                                , qAdopt.animalDivision2.category
+                                , qAdopt.animalDivision1.category.as("animalDivision1")
+                                , qAdopt.animalDivision2.category.as("animalDivision2")
                                 , qAdopt.adoptMember.nickname.as("adoptedMemberName")
-                                , qAdopt.modifiedAt.as("adoption_at")
+                                , qAdopt.modifiedAt.as("adoptionCompletedAt")
                         )
                 ).from(qAdopt)
                 .innerJoin(qAnimalDivision1).on(qAdopt.animalDivision1.id.eq(qAnimalDivision1.id))
@@ -128,4 +128,5 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
         return new PageImpl<>(adoptionList.getResults(), pageable, adoptionList.getTotal());
     }
+
 }
