@@ -129,4 +129,9 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
         return new PageImpl<>(adoptionList.getResults(), pageable, adoptionList.getTotal());
     }
 
+    @Override
+    public Page<ReportResponseDto> findReportList(Long id, RequestDto request, PageRequest of) {
+
+        return null;
+    }
 }

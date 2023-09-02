@@ -43,6 +43,15 @@ public class MemberService {
 
         Page<AdoptionListResponseDto> adoptionsList = memberAdminRepository.findAdoptionList(id, request,of);
 
-        return new DataTablesResponseDto(adoptionsList, adoptionsList.getContent());}
+        return new DataTablesResponseDto(adoptionsList, adoptionsList.getContent());
+    }
 
+    public DataTablesResponseDto findReportList(Long id, RequestDto request) {
+        Integer pageNum = request.getStart() / request.getLength();
+        PageRequest of = PageRequest.of(pageNum, request.getLength(), Sort.by(Sort.Direction.DESC, "created_at"));
+
+        Page<ReportResponseDto> adoptionsList = memberAdminRepository.findReportList(id, request,of);
+
+        return new DataTablesResponseDto(adoptionsList, adoptionsList.getContent());
+    }
 }

@@ -97,6 +97,18 @@ public class MemberController {
         return "member/tab/report";
     }
 
+    @GetMapping("/{id}/report/list")
+    @ResponseBody
+    public Map<String,Object> findReportList(@PathVariable Long id, @ModelAttribute RequestDto request) {
+        DataTablesResponseDto dataTablesResponseDto = memberService.findReportList(id, request);
+        Map<String, Object> result = new HashMap<>();
+        result.put("data", dataTablesResponseDto.getList());
+        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
+        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
+
+        return result;
+    }
+
     // 차단 화면
     @GetMapping("/{id}/block")
     public String blockView(@PathVariable Long id) {
