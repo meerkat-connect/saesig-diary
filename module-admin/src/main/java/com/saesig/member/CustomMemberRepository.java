@@ -12,5 +12,7 @@ public interface CustomMemberRepository {
 
     Page<AdoptionListResponseDto> findAdoptionList(Long id, RequestDto request, PageRequest pageable);
 
-    Page<ReportResponseDto> findReportList(Long id, RequestDto request, PageRequest of);
+    Page<ReportResponseDto> findReportList(Long id, RequestDto request, PageRequest pageable);
+
+    Page<BlockResponseDto> findBlockList(Long id, RequestDto request, PageRequest pageable);
 }

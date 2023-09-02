@@ -4,12 +4,14 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.saesig.common.RequestDto;
 import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.domain.adopt.QAdopt;
 import com.saesig.domain.animalDivision.QAnimalDivision1;
 import com.saesig.domain.animalDivision.QAnimalDivision2;
+import com.saesig.domain.member.QBlockedMember;
 import com.saesig.domain.member.QMember;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -121,7 +123,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .innerJoin(qAnimalDivision1).on(qAdopt.animalDivision1.id.eq(qAnimalDivision1.id))
                 .innerJoin(qAnimalDivision2).on(qAdopt.animalDivision2.id.eq(qAnimalDivision2.id))
                 .leftJoin(qMember).on(qAdopt.adoptMember.id.eq(qMember.id))
-                .where(qAdopt.status.ne(AdoptStatus.STOP))
+                .where(qAdopt.status.ne(AdoptStatus.STOP).and(qAdopt.createdBy.id.eq(id)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
@@ -133,5 +135,32 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     public Page<ReportResponseDto> findReportList(Long id, RequestDto request, PageRequest of) {
 
         return null;
+    }
+
+    @Override
+    public Page<BlockResponseDto> findBlockList(Long id, RequestDto request, PageRequest pageable) {
+        QBlockedMember qBlockedMember = QBlockedMember.blockedMember;
+
+        QueryResults<BlockResponseDto> blockList = queryFactory.select(
+                        Projections.fields(
+                                BlockResponseDto.class,
+                                new CaseBuilder()
+                                        .when(qBlockedMember.blockedMemberInfo.id.eq(id))
+                                        .then("차단받음")
+                                        .otherwise("차단함")
+                                        .as("category"),
+                                qBlockedMember.blockingMemberInfo.nickname.as("blockingMemberName"),
+                                qBlockedMember.blockedMemberInfo.nickname.as("blockedMemberName"),
+                                qBlockedMember.createdAt.as("blockedAt")
+                        ))
+                .from(qBlockedMember)
+                .where(qBlockedMember.blockingMemberInfo.id.eq(id)
+                        .or(qBlockedMember.blockedMemberInfo.id.eq(id)))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+
+        return new PageImpl<>(blockList.getResults(), pageable, blockList.getTotal());
     }
 }

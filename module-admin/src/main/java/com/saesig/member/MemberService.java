@@ -54,4 +54,13 @@ public class MemberService {
 
         return new DataTablesResponseDto(adoptionsList, adoptionsList.getContent());
     }
+
+    public DataTablesResponseDto findBlockList(Long id, RequestDto request) {
+        Integer pageNum = request.getStart() / request.getLength();
+        PageRequest of = PageRequest.of(pageNum, request.getLength(), Sort.by(Sort.Direction.DESC, "created_at"));
+
+        Page<BlockResponseDto> blockList = memberAdminRepository.findBlockList(id, request,of);
+
+        return new DataTablesResponseDto(blockList, blockList.getContent());
+    }
 }

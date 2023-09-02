@@ -28,6 +28,12 @@ VALUES (9, 'email9@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm4
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
 VALUES (10, 'wjm358@naver.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'SOCIAL', '원종민', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
+INSERT INTO blocked_member(id, member_id, blocked_member_id, modified_at, modified_by, created_at, created_by)
+VALUES(1, 1, 10, NOW(), 1, NOW(), 1 );
+
+INSERT INTO blocked_member(id, member_id, blocked_member_id, modified_at, modified_by, created_at, created_by)
+VALUES(2, 10, 1, NOW(), 1, NOW(), 1 );
+
 INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'ROLE_USER', NULL, 'Y', '사용자 역할', NOW(), 1, NOW(), 1);
 

@@ -21,8 +21,7 @@ public class BlockedMember extends BaseEntity {
     private Member blockingMemberInfo;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "block_member_id")
+    @JoinColumn(name = "blocked_member_id")
     private Member blockedMemberInfo;
-
 
 }
