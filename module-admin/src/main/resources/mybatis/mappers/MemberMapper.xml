@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.member.MemberMapper">
+
+    <select id="findReportList" resultType="com.saesig.member.ReportResponseDto">
+        SELECT m.nickname, m.email, ar.category, ar.content, ar.created_at
+        FROM adopt_report ar
+        INNER JOIN member m
+        UNION
+        SELECT m.nickname, m.email, dr.category, dr.content, dr.created_at
+        FROM diary_report dr
+        INNER JOIN member m
+    </select>
+</mapper>
