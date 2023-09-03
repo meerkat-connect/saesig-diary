@@ -28,6 +28,12 @@ VALUES (9, 'email9@email.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm4
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, status, joined_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
 VALUES (10, 'wjm358@naver.com', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', '{bcrypt}$2a$10$qlVoO2ynDB1hCxQnEFf1iu5aQgtQoJhm47V6iJmIwV0oc2u134HD6', NOW(), 'SOCIAL', '원종민', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
+INSERT INTO blocked_member(id, member_id, blocked_member_id, modified_at, modified_by, created_at, created_by)
+VALUES(1, 1, 10, NOW(), 1, NOW(), 1 );
+
+INSERT INTO blocked_member(id, member_id, blocked_member_id, modified_at, modified_by, created_at, created_by)
+VALUES(2, 10, 1, NOW(), 1, NOW(), 1 );
+
 INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'ROLE_USER', NULL, 'Y', '사용자 역할', NOW(), 1, NOW(), 1);
 
@@ -186,12 +192,23 @@ VALUES (10, '유형10', '제목10', '내용10', '3', 'N', NOW(), 1, NOW(), 1);
 INSERT INTO manager_notice_board(id, category, title, content, hits, is_deleted, modified_at, modified_by, created_at, created_by)
 VALUES (11, '유형11', '제목11', '내용11', '2', 'N', NOW(), 1, NOW(), 1);
 
+INSERT INTO animal_division1(id, category)
+VALUES (1, '개');
+
+INSERT INTO animal_division1(id, category)
+VALUES (2, '고양이');
+
+INSERT INTO animal_division2(id, animal_division1_id, category)
+VALUES (1,1, '골든리트리버');
+
+INSERT INTO animal_division2(id, animal_division1_id, category)
+VALUES (2, 1, '레브라도리트리버');
+
+INSERT INTO animal_division2(id, animal_division1_id, category)
+VALUES (3, 2, '코리안 숏 헤어');
+
+INSERT INTO animal_division2(id, animal_division1_id, category)
+VALUES (4, 2, '샴');
+
 INSERT INTO adopt(id, adopt_member_id, hits, title, content, gender, age, age_category, status, is_deleted, is_castrated, responsibility_cost, etc_content, animal_division1_id, animal_division2_id, image_file_group_id, sido, sigungu, modified_at, modified_by, created_at, created_by)
 VALUES(1, 1, 0, 'title','content', 'MAN', 13, 'ASD', 'COMPLETE', 'N', 'N', 1000, 'etc_content', 1,1, NULL, 'sido','signgu',  NOW(), 1, NOW(), 1);
-
-INSERT INTO animal_division1(category) VALUES ('개');
-INSERT INTO animal_division1(category) VALUES ('고양이');
-INSERT INTO animal_division2(animal_division1_id,category) VALUES (1,'골든리트리버');
-INSERT INTO animal_division2(animal_division1_id,category) VALUES (1,'레브라도리트리버');
-INSERT INTO animal_division2(animal_division1_id,category) VALUES (2,'코리안 숏 헤어');
-INSERT INTO animal_division2(animal_division1_id,category) VALUES (2,'샴');

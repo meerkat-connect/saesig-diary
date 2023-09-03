@@ -1,5 +1,3 @@
-SET foreign_key_checks = 0;
-
 DROP TABLE IF EXISTS `member`;
 
 CREATE TABLE `member`
@@ -293,7 +291,7 @@ CREATE TABLE `blocked_member`
     `member_id`         BIGINT                NOT NULL COMMENT '회원 일련번호',
     `blocked_member_id` BIGINT                NOT NULL COMMENT '차단 대상 회원 일련번호',
     `modified_at`       DATETIME              NOT NULL COMMENT '수정일',
-    `mofified_at`       BIGINT                NOT NULL COMMENT '수정자 일련번호',
+    `modified_by`       BIGINT                NOT NULL COMMENT '수정자 일련번호',
     `created_at`        DATETIME              NOT NULL COMMENT '등록일',
     `created_by`        BIGINT                NOT NULL COMMENT '등록자 일련번호'
 );
@@ -842,6 +840,3 @@ ALTER TABLE `news`
 
 ALTER TABLE `chatting_room`
     ADD CONSTRAINT `PK_CHATTING_ROOM` PRIMARY KEY (`id`);
-
-
-SET foreign_key_checks = 1;

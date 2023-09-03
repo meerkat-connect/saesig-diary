@@ -3,10 +3,10 @@ package com.saesig.member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
-public class AdoptedListDto {
+public class AdoptedListResponseDto {
     private String title;
 
     private String animalDivision1;
@@ -15,9 +15,9 @@ public class AdoptedListDto {
 
     private String gender;
 
-    private String adoptMemberName;
+    private String adoptionMemberName;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date adoptedAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime adoptedCompletedAt;
 
 }

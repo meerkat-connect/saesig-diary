@@ -10,7 +10,7 @@
                 <div class="slide"></div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" role="tab" id="adoptTab" aria-selected="true">분양기록</a>
+                <a class="nav-link" data-bs-toggle="tab" role="tab" id="adoptionTab" aria-selected="true">분양기록</a>
                 <div class="slide"></div>
             </li>
             <li class="nav-item">
@@ -38,7 +38,7 @@
         const memberEntryPoint = {
             id : /*[[${id}]]*/ null,
             detailUrl : null,
-            adoptTabUrl : null,
+            adoptionTab : null,
             adoptedTabUrl : null,
             reportTabUrl : null,
             blockTab : null,
@@ -48,7 +48,7 @@
                 this.clickTab();
 
                 this.detailUrl = `/admin/members/${this.id}/detail`;
-                this.adoptTabUrl = `/admin/members/${this.id}/adopt`;
+                this.adoptionTab = `/admin/members/${this.id}/adoption  `;
                 this.adoptedTabUrl = `/admin/members/${this.id}/adopted`;
                 this.reportTabUrl = `/admin/members/${this.id}/report`;
                 this.blockTab = `/admin/members/${this.id}/block`;
@@ -59,8 +59,8 @@
             clickTab: function (tabId) {
                 if(tabId === 'memberInfoTab') {
                     $('#tabContentArea').load(this.detailUrl);
-                } else if(tabId === 'adoptTab') {
-                    $('#tabContentArea').load(this.adoptTabUrl);
+                } else if(tabId === 'adoptionTab') {
+                    $('#tabContentArea').load(this.adoptionTab);
                 } else if(tabId === 'adoptedTab') {
                     $('#tabContentArea').load(this.adoptedTabUrl);
                 } else if(tabId === 'reportTab') {
