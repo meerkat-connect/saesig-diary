@@ -12,8 +12,8 @@
     </style>
     <!-- Page-body start -->
     <div class="page-body">
-        <div class="row">
             <!-- 필터 부분 -->
+            <!--
             <form id="searchForm" name="searchForm" onsubmit="return false;">
                 <input type="hidden" id="rowPerPage" name="rowPerPage" value="10">
                 <input type="hidden" id="orderField" name="orderField" value="created_at">
@@ -22,7 +22,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-block-small">
-                            <!-- 키워드 filter -->
+                            &lt;!&ndash; 키워드 filter &ndash;&gt;
                             <div class="row">
                                 <div class="col-lg-3 col-md-6 mb-3">
                                     <div class="mb-0 form-group row">
@@ -46,8 +46,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- //키워드 filter -->
-                            <!-- 키워드 filter-btn -->
+                            &lt;!&ndash; //키워드 filter &ndash;&gt;
+                            &lt;!&ndash; 키워드 filter-btn &ndash;&gt;
                             <div class="mt-1 p-t-20 text-center border-top">
                                 <button class="btn btn-gray m-r-5">초기화</button>
                                 <button class="btn btn-primary" onclick="listController.init();">검색</button>
@@ -56,22 +56,38 @@
                     </div>
                 </div>
             </form>
+            -->
             <!-- //필터 부분 -->
 
 
             <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
             <div class="row mb-3">
-                <div class="col-12 col-xl-6">
-                    <div class="row">
-                        <h5 class="col-12 col-md-6 mb-3">
-                            <strong>배너 위치</strong>
-                        </h5>
-                    </div>
+                <div class="col-6">
                     <div class="card">
                         <div class="card-block-small tree-view">
+                            <div class="row mb-3">
+                                <h5 class="col-12 col-md-6 mb-3">
+                                    <strong>제목 검색</strong>
+                                </h5>
+                            </div>
                             <div class="mb-0 form-group row">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>배너 위치 선택</strong>
+                                <div class="col-12">
+                                    <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" id="searchTitle" name="searchTitle" placeholder="제목"/>
                                 </div>
+                            </div>
+                            <div class="mt-1 p-t-20 text-center mb-5">
+                                <button class="btn btn-gray m-r-5">초기화</button>
+                                <button class="btn btn-primary" onclick="listController.init();">검색</button>
+                            </div>
+                            <div class="row align-items-center mb-3">
+                                <h5 class="col mb-3">
+                                    <strong>배너 목록</strong>
+                                </h5>
+                                <div class="col-auto text-right">
+                                    <button type="button" id='exprtSearchBtn' class="btn btn-primary btn-sm" onclick="fn_openBannerInsertModal()">등록</button>
+                                </div>
+                            </div>
+                            <div class="mb-0 form-group row">
                                 <div class="col-sm-12">
                                     <select id="selectBannerLocation" name="selectBannerLocation" class="form-select form-control form-control-round custom-select">
                                         <option value="main">메인</option>
@@ -82,17 +98,14 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-xl-6">
-                    <div class="row align-items-center">
-                        <h5 class="col mb-3">
-                            <strong>배너 목록</strong>
-                        </h5>
-                        <div class="col-auto text-right">
-                            <button type="button" id='exprtSearchBtn' class="btn btn-primary btn-sm" onclick="fn_openBannerInsertModal()">등록</button>
-                        </div>
-                    </div>
+                <div class="col-6">
                     <div class="card">
                         <div class="card-block-small">
+                            <div class="row align-items-center">
+                                <h5 class="col mb-3">
+                                    <strong>배너 수정/등록</strong>
+                                </h5>
+                            </div>
                             <div class="banner-wrap">
                                 <div class="banner-select">
                                     <div class="banner-list column">
@@ -183,7 +196,6 @@
             </div>
             <!-- 배너 위치, 배너목록 부분 -->
 
-        </div>
     </div>
 
     <div class="modal fade" id="bannerInsertPopup" data-bs-backdrop="static"></div>
