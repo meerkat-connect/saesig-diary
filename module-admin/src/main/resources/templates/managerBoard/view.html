@@ -28,12 +28,12 @@
                                     <div class="mb-0 form-group row">
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
                                         <div class="input-group input-group-dropdown mb-0">
-                                            <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
-                                            <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select">
+                                            <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select left-select">
                                                 <option value="">- 선택 -</option>
                                                 <option value="email">아이디</option>
                                                 <option value="nickName">닉네임</option>
                                             </select>
+                                            <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
                                         </div>
                                     </div>
                                 </div>
@@ -42,7 +42,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>유형</strong>
                                         </div>
                                         <div class="col-sm-12">
-                                            <select id="searchCategory" name="searchCategory" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                            <select id="searchCategory" name="searchCategory" class="form-select form-control form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option th:each="item : ${searchSendCategory}" th:value="${item.key}" th:text="${item.value}">value</option>
                                             </select>
@@ -164,7 +164,7 @@
                     ajax: {
                         async: false,
                         method: 'GET',
-                        url: '/managerNoticeBoard/selectManagerNoticeBoardList.do',
+                        url: '/admin/managerBoard/selectManagerBoardList.do',
                         data: function(d) {
                             var formData  = $('#searchForm').serializeArray();
                             for(var i = 0; i < formData.length; i++) {
@@ -223,7 +223,7 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/managerNoticeBoard/managerNoticeBoardForm.html?id=${selectId}`,
+                        url: `/admin/managerBoard/form?id=${selectId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
@@ -244,7 +244,7 @@
                         $.ajax({
                             type: 'delete',
                             data: {ids: listController.selectedRow.join(",")},
-                            url: `/managerNoticeBoard/deleteItems.do`,
+                            url: `/admin/managerBoard/deleteItems.do`,
                         }).done(function () {
                             alert('삭제 되었습니다.');
                             listController.init();
@@ -265,7 +265,7 @@
             $("body").on('click', '#insertBtn', function () {
                 $.ajax({
                     type: 'get',
-                    url: `/managerNoticeBoard/managerNoticeBoardForm.html`,
+                    url: `/admin/managerBoard/form`,
                     dataType: 'html'
                 }).done(function (response) {
                     $('#contentPanel').html(response);

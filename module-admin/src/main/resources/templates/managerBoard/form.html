@@ -48,7 +48,6 @@
 </div>
 <!-- Tab Container End -->
 
-<!--<script type="text/javascript" th:src="@{/js/custom-design.js}"></script>-->
 <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
 <script type="text/javascript">
     var formId = $("#id").val();
@@ -81,7 +80,7 @@
         const data = $("#managerNoticeBoardForm").serialize();
 
         $.ajax({
-            url : formId === '' ? "/managerNoticeBoard/insertForm.do" : "/managerNoticeBoard/updateForm.do",
+            url : formId === '' ? "/admin/managerBoard/insertForm.do" : "/admin/managerBoard/updateForm.do",
             type: 'POST',
             cache : false,
             dataType: 'json',

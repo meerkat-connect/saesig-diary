@@ -1,4 +1,4 @@
-package com.saesig.manageNoticeBoard;
+package com.saesig.managerBoard;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.saesig.common.mybatis.RequestDto;
@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
-public class ManagerNoticeBoardDto extends RequestDto {
+public class ManagerBoardDto extends RequestDto {
 
     private SessionMember member;
 

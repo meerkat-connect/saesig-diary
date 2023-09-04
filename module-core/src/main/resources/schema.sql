@@ -351,7 +351,7 @@ CREATE TABLE `board`
     `id`           BIGINT AUTO_INCREMENT NOT NULL COMMENT '게시판 일련번호',
     `name`         VARCHAR(200)          NOT NULL COMMENT '이름',
     `description`  VARCHAR(2000)         NULL COMMENT '내용',
-    `use_category` VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '분류 사용 여부',
+    `use_category` VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '유형 사용 여부',
     `use_board`    VARCHAR(1)            NOT NULL DEFAULT 'Y' COMMENT '게시판 사용 여부',
     `use_fix`      VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '공지 사용 여부',
     `modified_at`  DATETIME              NOT NULL COMMENT '수정일',
@@ -401,6 +401,7 @@ CREATE TABLE `post`
 (
     `id`                   BIGINT AUTO_INCREMENT NOT NULL COMMENT '게시글 일련번호',
     `board_id`             BIGINT                NOT NULL COMMENT '게시판 일련번호',
+    `category`             VARCHAR(20)           NOT NULL COMMENT '유형',
     `title`                VARCHAR(200)          NOT NULL COMMENT '제목',
     `content`              LONGTEXT              NOT NULL COMMENT '내용',
     `attach_file_group_id` BIGINT                NULL COMMENT '첨부 파일 그룹 일련번호',
@@ -797,29 +798,6 @@ ALTER TABLE `adopt_vaccine`
         REFERENCES `vaccine` (
                               `id`
             );
-
-
-DROP TABLE IF EXISTS `manager_notice_board`;
-
-CREATE TABLE `manager_notice_board`
-(
-    `id`          BIGINT       NOT NULL COMMENT '관리자게시판 일련번호',
-    `category`    VARCHAR(20)  NOT NULL COMMENT '유형',
-    `title`       VARCHAR(200) NOT NULL COMMENT '제목',
-    `content`     LONGTEXT     NOT NULL COMMENT '내용',
-    `hits`        INTEGER      NOT NULL DEFAULT 0 COMMENT '조회수',
-    `is_deleted`  VARCHAR(1)   NOT NULL DEFAULT 'N' COMMENT '삭제여부',
-    `modified_at` DATETIME     NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT       NOT NULL COMMENT '수정자 일련번호',
-    `created_at`  DATETIME     NOT NULL COMMENT '등록일',
-    `created_by`  BIGINT       NOT NULL COMMENT '등록자 일련번호'
-);
-
-ALTER TABLE `manager_notice_board`
-    ADD CONSTRAINT `PK_MANAGER_NOTICE_BOARD` PRIMARY KEY (
-                                                          `id`
-        );
-
 
 CREATE TABLE `news`
 (

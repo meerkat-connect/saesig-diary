@@ -1,4 +1,4 @@
-package com.saesig.manageNoticeBoard;
+package com.saesig.managerBoard;
 
 import com.saesig.common.mybatis.DataTablesDto;
 import com.saesig.config.auth.LoginMember;
@@ -17,27 +17,28 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 @Controller
-public class ManagerNoticeBoardController {
+@RequestMapping("/admin/managerBoard")
+public class ManagerBoardController {
 
-    private final ManagerNoticeBoardService managerNoticeBoardService;
+    private final ManagerBoardService managerBoardService;
 
     private final EnumMapperFactory enumMapperFactory;
 
 
-    @GetMapping({"/managerNoticeBoard","/managerNoticeBoard/managerNoticeBoardList.html"})
+    @GetMapping({"view"})
     public String managerNoticeBoardList(Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
 
-        return "/managerNoticeBoard/managerNoticeBoardList";
+        return "/managerBoard/view";
     }
 
-    @GetMapping("/managerNoticeBoard/selectManagerNoticeBoardList.do")
+    @GetMapping("selectManagerBoardList.do")
     @ResponseBody
-    public DataTablesDto selectManagerNoticeBoardList(ManagerNoticeBoardDto mnbd) throws Exception {
+    public DataTablesDto selectManagerNoticeBoardList(ManagerBoardDto mnbd) throws Exception {
         DataTablesDto dtd = new DataTablesDto();
 
-        List<ManagerNoticeBoardDto> list = managerNoticeBoardService.selectManagerNoticeBoardList(mnbd);
+        List<ManagerBoardDto> list = managerBoardService.selectManagerBoardList(mnbd);
 
         dtd.setDraw(mnbd.getDraw());
         dtd.setData(list);
@@ -52,32 +53,32 @@ public class ManagerNoticeBoardController {
         return dtd;
     }
 
-    @GetMapping("/managerNoticeBoard/managerNoticeBoardForm.html")
+    @GetMapping("form")
     public String managerNoticeBoardForm(Long id, Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
 
         if (!Objects.isNull(id)){
-            ManagerNoticeBoardDto managerNoticeBoard = managerNoticeBoardService.selectManagerNoticeBoard(id);
+            ManagerBoardDto managerNoticeBoard = managerBoardService.selectManagerBoard(id);
             model.addAttribute("managerNoticeBoard", managerNoticeBoard);
 
-            return "/managerNoticeBoard/managerNoticeBoardForm";
+            return "/managerBoard/form";
         }else {
-            ManagerNoticeBoardDto managerNoticeBoard = new ManagerNoticeBoardDto();
+            ManagerBoardDto managerNoticeBoard = new ManagerBoardDto();
             model.addAttribute("managerNoticeBoard", managerNoticeBoard);
 
-            return "/managerNoticeBoard/managerNoticeBoardForm";
+            return "/managerBoard/form";
         }
     }
 
-    @PostMapping("/managerNoticeBoard/insertForm.do")
+    @PostMapping("insertForm.do")
     @ResponseBody
-    public Map<String, Object> insertForm(@LoginMember SessionMember member, ManagerNoticeBoardDto mnbd) throws Exception {
+    public Map<String, Object> insertForm(@LoginMember SessionMember member, ManagerBoardDto mnbd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
         mnbd.setMember(member);
         int retVal = 0;
-        retVal = managerNoticeBoardService.insertForm(mnbd);
+        retVal = managerBoardService.insertForm(mnbd);
 
         if (retVal > 0) {
             resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
@@ -90,14 +91,14 @@ public class ManagerNoticeBoardController {
         return resultMap;
     }
 
-    @PostMapping("/managerNoticeBoard/updateForm.do")
+    @PostMapping("updateForm.do")
     @ResponseBody
-    public Map<String, Object> updateForm(@LoginMember SessionMember member, ManagerNoticeBoardDto mnbd) throws Exception {
+    public Map<String, Object> updateForm(@LoginMember SessionMember member, ManagerBoardDto mnbd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
         mnbd.setMember(member);
         int retVal = 0;
-        retVal = managerNoticeBoardService.updateForm(mnbd);
+        retVal = managerBoardService.updateForm(mnbd);
         if (retVal > 0) {
             resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
             resultMap.put("msg", "수정에 성공하였습니다.");
@@ -109,13 +110,13 @@ public class ManagerNoticeBoardController {
         return resultMap;
     }
 
-    @DeleteMapping("/managerNoticeBoard/deleteItems.do")
+    @DeleteMapping("deleteItems.do")
     @ResponseBody
     public Map<String, Object> deleteItems(@RequestParam Long[] ids) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
         int retVal = 0;
-        retVal = managerNoticeBoardService.deleteItems(ids);
+        retVal = managerBoardService.deleteItems(ids);
         if (retVal > 0) {
             resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
             resultMap.put("msg", "삭제에 성공하였습니다.");
