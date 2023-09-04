@@ -2,32 +2,15 @@
 <th:block th:fragment="nav">
   <nav class="pcoded-navbar">
     <div class="pcoded-inner-navbar main-menu">
-      <div class="pcoded-navigatio-lavel">Navigation</div>
+      <div class="pcoded-navigatio-lavel">회원관리</div>
       <ul class="pcoded-item pcoded-left-item">
-        <li class="pcoded-hasmenu">
-          <a href="javascript:void(0)">
+        <li>
+          <a href="/admin/members/view">
             <span class="pcoded-micon"><i class="feather icon-home"></i></span>
-            <span class="pcoded-mtext">Dashboard</span>
+            <span class="pcoded-mtext">회원관리</span>
           </a>
-          <ul class="pcoded-submenu">
-            <li class="">
-              <a href="index.html">
-                <span class="pcoded-mtext">Default</span>
-              </a>
-            </li>
-            <li class="">
-              <a href="dashboard-crm.html">
-                <span class="pcoded-mtext">CRM</span>
-              </a>
-            </li>
-            <li class=" ">
-              <a href="dashboard-analytics.html">
-                <span class="pcoded-mtext">Analytics</span>
-              </a>
-            </li>
-          </ul>
         </li>
-        <li class="pcoded-hasmenu">
+    <!--    <li class="pcoded-hasmenu">
           <a href="javascript:void(0)">
             <span class="pcoded-micon"><i class="feather icon-sidebar"></i></span>
             <span class="pcoded-mtext">Page layouts</span>
@@ -104,41 +87,30 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li>-->
         <li class="">
-          <a href="navbar-light.html">
-            <span class="pcoded-micon"><i class="feather icon-menu"></i></span>
-            <span class="pcoded-mtext">Navigation</span>
-          </a>
-        </li>
-        <li class="pcoded-hasmenu">
           <a href="javascript:void(0)">
-            <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
-            <span class="pcoded-mtext">Widget</span>
+            <span class="pcoded-micon"><i class="feather icon-menu"></i></span>
+            <span class="pcoded-mtext">휴면회원관리</span>
           </a>
-          <ul class="pcoded-submenu">
-            <li class="">
-              <a href="widget-statistic.html">
-                <span class="pcoded-mtext">Statistic</span>
-              </a>
-            </li>
-            <li class=" ">
-              <a href="widget-data.html">
-                <span class="pcoded-mtext">Data</span>
-              </a>
-            </li>
-            <li class="">
-              <a href="widget-chart.html">
-                <span class="pcoded-mtext">Chart Widget</span>
-              </a>
-            </li>
-
-          </ul>
         </li>
       </ul>
-      <div class="pcoded-navigatio-lavel">UI Element</div>
+
+      <div class="pcoded-navigatio-lavel">새식일기</div>
       <ul class="pcoded-item pcoded-left-item">
-        <li class="pcoded-hasmenu">
+        <li class="">
+          <a href="/admin/saesigManage/view">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">새식관리</span>
+          </a>
+        </li>
+        <li class="">
+          <a href="javascript:void(0)">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">일기관리</span>
+          </a>
+        </li>
+<!--        <li class="pcoded-hasmenu">
           <a href="javascript:void(0)">
             <span class="pcoded-micon"><i class="feather icon-box"></i></span>
             <span class="pcoded-mtext">Basic Components</span>
@@ -393,8 +365,111 @@
               </a>
             </li>
           </ul>
+        </li>-->
+      </ul>
+
+      <div class="pcoded-navigatio-lavel">서비스관리</div>
+      <ul class="pcoded-item pcoded-left-item">
+        <li class="">
+          <a href="/admin/inquiry/view">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">문의관리</span>
+          </a>
+        </li>
+        <li class="">
+          <a href="/admin/faqs/view">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">FAQ관리</span>
+          </a>
+        </li>
+        <li class="">
+          <a href="/admin/news/view">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">새식소식</span>
+          </a>
+        </li>
+        <li class="">
+          <a href="/admin/policy/view">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">약관 및 정책관리</span>
+          </a>
         </li>
       </ul>
+
+      <div class="pcoded-navigatio-lavel">통합관리</div>
+      <ul class="pcoded-item pcoded-left-item">
+        <li class="">
+          <a href="/admin/banner">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">배너관리</span>
+          </a>
+        </li>
+        <li class="">
+          <a href="javascript:void(0)">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">팝업관리</span>
+          </a>
+        </li>
+        <li class="pcoded-hasmenu">
+          <a href="javascript:void(0)">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">메시지관리</span>
+          </a>
+          <ul class="pcoded-submenu">
+            <li class="">
+              <a href="/admin/sendHistory">
+                <span class="pcoded-mtext">발송이력</span>
+              </a>
+            </li>
+            <li class="">
+              <a href="/admin/templateManage">
+                <span class="pcoded-mtext">템플릿관리</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="">
+          <a href="/admin/managerBoard">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">관리자 게시판</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="pcoded-navigatio-lavel">시스템관리</div>
+      <ul class="pcoded-item pcoded-left-item">
+        <li class="">
+          <a href="/admin/resources/view">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">메뉴관리</span>
+          </a>
+        </li>
+        <li class="">
+          <a href="/admin/roles/view">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">권한관리</span>
+          </a>
+        </li>
+<!--        <li class="pcoded-hasmenu">
+          <a href="javascript:void(0)">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">코드관리</span>
+          </a>
+        </li>-->
+        <!--<li class="pcoded-hasmenu">
+          <a href="javascript:void(0)">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">로그관리</span>
+          </a>
+        </li>-->
+        <!--<li class="pcoded-hasmenu">
+          <a href="javascript:void(0)">
+            <span class="pcoded-micon"><i class="feather icon-home"></i></span>
+            <span class="pcoded-mtext">설정</span>
+          </a>
+        </li>-->
+      </ul>
+
     </div>
   </nav>
 </th:block>
