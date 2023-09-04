@@ -62,12 +62,12 @@
 
             <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
             <div class="row mb-3">
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                     <div class="card">
                         <div class="card-block-small tree-view">
                             <div class="row mb-3">
                                 <h5 class="col-12 col-md-6 mb-3">
-                                    <strong>제목 검색</strong>
+                                    <strong>검색</strong>
                                 </h5>
                             </div>
                             <div class="mb-0 form-group row">
@@ -84,7 +84,7 @@
                                     <strong>배너 목록</strong>
                                 </h5>
                                 <div class="col-auto text-right">
-                                    <button type="button" id='exprtSearchBtn' class="btn btn-primary btn-sm" onclick="fn_openBannerInsertModal()">등록</button>
+                                    <button type="button" id='exprtSearchBtn' class="btn btn-transparent btn-sm" onclick="fn_openBannerInsertModal()"><img class="plusIcon">배너등록</button>
                                 </div>
                             </div>
                             <div class="mb-0 form-group row">
@@ -94,39 +94,24 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-6">
-                    <div class="card">
-                        <div class="card-block-small">
-                            <div class="row align-items-center">
-                                <h5 class="col mb-3">
-                                    <strong>배너 수정/등록</strong>
-                                </h5>
-                            </div>
                             <div class="banner-wrap">
                                 <div class="banner-select">
                                     <div class="banner-list column">
                                         <div class="banner">
-                                            <div class="row align-items-center">
-                                                <div class="col stit">
-                                            <span>
-                                                <strong>환영합니다!</strong>
-                                            </span>
+                                            <div class="col-12 col-lg-1">
+                                                <img class="img-fluid" src="/files/assets/images/bannerSelecter.png">
+                                            </div>
+                                            <div class="col-12 col-lg-3 banner-thumbnail">
+                                                <img class="img-fluid" src="/files/assets/images/logo2.png" alt="banner image">
+                                            </div>
+                                            <div class="col-12 col-lg-6 m-l-20">
+                                                <div class="col m-b-30 banner-status on">
+                                                    <span>게시중</span>
+                                                    <span>첫번째 순서</span>
                                                 </div>
-                                                <img class="img-fluid col-auto" src="/files/assets/images/pngegg.png">
-                                            </div>
-
-                                            <div class="text-center">
-                                                <img src="/files/assets/images/logo2.png" alt="banner image">
-                                            </div>
-
-                                            <div class="row align-items-center mt-3">
-                                                <div class="col">
-                                                    <button class="btn btn-gray m-r-5">삭제</button>
-                                                    <button class="btn btn-primary">수정</button>
+                                                <div class="col m-b-30 stit">
+                                                    <span>새식일기를 방문해주셔서 감사합니다 새로운 식구들과 함께해요~</span>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="">
@@ -134,61 +119,59 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="banner">
-                                            <div class="row align-items-center">
-                                                <div class="col stit">
-                                            <span>
-                                                <strong>환영합니다!</strong>
-                                            </span>
-                                                </div>
-                                                <img class="img-fluid col-auto" src="/files/assets/images/pngegg.png">
-                                            </div>
-
-                                            <div class="text-center">
-                                                <img src="/files/assets/images/fafvicon2.png" alt="banner image">
-                                            </div>
-
-                                            <div class="row align-items-center mt-3">
-                                                <div class="col">
-                                                    <button class="btn btn-gray m-r-5">삭제</button>
+                                            <div class="col-12 col-lg-1 m-l-30">
+                                                <div class="row">
+                                                    <button class="btn btn-gray mb-2">삭제</button>
                                                     <button class="btn btn-primary">수정</button>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <div class="">
-                                                        <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="banner">
-                                            <div class="row align-items-center">
-                                                <div class="col stit">
-                                            <span>
-                                                <strong>환영합니다!</strong>
-                                            </span>
+                                            <div class="col-12 col-lg-1">
+                                                <img class="img-fluid" src="/files/assets/images/bannerSelecter.png">
+                                            </div>
+
+                                            <div class="col-12 col-lg-3 banner-thumbnail">
+                                                <img class="img-fluid" src="/files/assets/images/fafvicon4.png" alt="banner image">
+                                            </div>
+
+                                            <div class="col-12 col-lg-6 m-l-20">
+                                                <div class="col m-b-30 banner-status off">
+                                                    <span>게시안됨</span>
+                                                    <span>두번째 순서</span>
                                                 </div>
-                                                <img class="img-fluid col-auto" src="/files/assets/images/pngegg.png">
-                                            </div>
-
-                                            <div class="text-center">
-                                                <img src="/files/assets/images/fafvicon4.png" alt="banner image">
-                                            </div>
-
-                                            <div class="row align-items-center mt-3">
-                                                <div class="col">
-                                                    <button class="btn btn-gray m-r-5">삭제</button>
-                                                    <button class="btn btn-primary">수정</button>
+                                                <div class="col m-b-30 stit">
+                                                    <span>새식일기를 방문해주셔서 감사합니다 새로운 식구들과 함께해요~</span>
                                                 </div>
                                                 <div class="col-auto">
                                                     <div class="">
-                                                        <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled" checked/>
+                                                        <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled"/>
                                                     </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-1 m-l-30">
+                                                <div class="row">
+                                                    <button class="btn btn-gray mb-2">삭제</button>
+                                                    <button class="btn btn-primary">수정</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-block-small">
+                            <div class="row align-items-center">
+                                <h5 class="col mb-3">
+                                    <strong>배너 수정/등록</strong>
+                                </h5>
                             </div>
                         </div>
                     </div>
