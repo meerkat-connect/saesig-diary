@@ -317,7 +317,7 @@
                                 <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>유형</strong></div>
                                 <div class="col-sm-12">
                                     <select name="searchCategory" id="searchCategory"
-                                            class="form-select form-control form-control-round custom-select">
+                                            class="form-select form-control form-control-round custom-select left-select">
                                         <option value="">- 전체 -</option>
                                         <option th:each="newsCategory : ${newsCategories}" th:value="${newsCategory.key}" th:text="${newsCategory.value}">value</option>
                                     </select>

@@ -5,9 +5,9 @@ import java.util.Map;
 
 public interface SaesigManageService {
 
-    List<AdoptListDto> selectAdoptList(Map<String, Object> param) throws Exception;
+    List<AdoptListDto> selectAdoptList(AdoptListDto param) throws Exception;
 
     AdoptListDto selectAdoptById(Long id) throws Exception;
 
-
+    public List<animalDivisionCategoryDto> selectAnimalDivision(Integer id) throws Exception;
 }

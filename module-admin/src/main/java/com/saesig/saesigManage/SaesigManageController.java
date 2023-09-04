@@ -1,10 +1,7 @@
 package com.saesig.saesigManage;
 
-import com.saesig.faq.FaqRequestDto;
-import com.saesig.faq.FaqResponseDto;
-import com.saesig.faq.FaqService;
+import com.saesig.common.mybatis.DataTablesDto;
 import com.saesig.global.enumCode.EnumMapperFactory;
-import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,18 +21,22 @@ public class SaesigManageController {
 
 
     @GetMapping("/view")
-    public String faqView(Model model) {
+    public String faqView(Model model) throws Exception {
         model.addAttribute("adoptStatus", enumFactory.get("adoptStatus"));
+        model.addAttribute("animal_division1", saesigManageService.selectAnimalDivision(null));
         return "saesigManage/view";
     }
 
     @GetMapping("/selectAdoptList.do")
     @ResponseBody
-    public Map<String,Object> selectAdoptList(@RequestParam Map<String, Object> param) throws Exception {
-        List<AdoptListDto> result = saesigManageService.selectAdoptList(param);
-        Map<String,Object> resultMap = new HashMap<>();
-        resultMap.put("data",result);
-        return resultMap;
+    public DataTablesDto selectAdoptList(AdoptListDto ald) throws Exception {
+        DataTablesDto dtd = new DataTablesDto();
+        List<AdoptListDto> list = saesigManageService.selectAdoptList(ald);
+        dtd.setDraw(ald.getDraw());
+        dtd.setData(list);
+        dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
+        dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+        return dtd;
     }
 
     @GetMapping({"/{id}/infoForm", "/form"})
@@ -57,7 +58,6 @@ public class SaesigManageController {
     @ResponseBody
     public Map<String, Object> getNewsEnum() throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
-
         Map<String,Map<String,String>> NewsStatusMap = new HashMap<>();
         Map<String,Map<String,String>> NewsCategoryMap = new HashMap<>();
         resultMap.put("NewsStatus",NewsStatusMap);
@@ -65,5 +65,10 @@ public class SaesigManageController {
         return resultMap;
     }
 
-
+    @GetMapping("/{id}/getAnimalDivision2List.do")
+    public String getAnimalDivision2List(@PathVariable(required = false) Integer id, Model model) throws Exception {
+        List<animalDivisionCategoryDto> animalDivision2List = saesigManageService.selectAnimalDivision(id);
+        model.addAttribute("animal_division2", animalDivision2List);
+        return "saesigManage/view :: #searchAnimalDivision2Category";
+    }
 }

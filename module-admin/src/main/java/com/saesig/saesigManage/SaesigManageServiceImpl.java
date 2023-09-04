@@ -14,7 +14,7 @@ public class SaesigManageServiceImpl implements SaesigManageService{
     private final SaesigManageMapper saesigManageMapper;
 
     @Override
-    public List<AdoptListDto> selectAdoptList(Map<String, Object> param) throws Exception {
+    public List<AdoptListDto> selectAdoptList(AdoptListDto param) throws Exception {
         return saesigManageMapper.selectAdoptList(param);
     }
 
@@ -22,4 +22,14 @@ public class SaesigManageServiceImpl implements SaesigManageService{
     public AdoptListDto selectAdoptById(Long id) throws Exception {
         return saesigManageMapper.selectAdoptById(id);
     }
+
+    @Override
+    public List<animalDivisionCategoryDto> selectAnimalDivision(Integer id) throws Exception {
+        if (id != null){
+            return saesigManageMapper.selectAnimalDivision2List(id);
+        }else{
+            return saesigManageMapper.selectAnimalDivision1List();
+        }
+
+    };
 }

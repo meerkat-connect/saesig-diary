@@ -17,43 +17,115 @@
                 <div class="card">
                     <div class="card-block-small">
                         <form id="searchForm" name="searchForm">
+                            <input type="hidden" id="rowPerPage" name="rowPerPage" value="10">
+                            <input type="hidden" id="orderField" name="orderField" value="id">
+                            <input type="hidden" id="orderDirection" name="orderDirection" value="desc">
                             <!-- 키워드 filter -->
                             <div class="row">
                                 <div class="col-lg-3 col-md-6 mb-3">
                                     <div class="mb-0 form-group row">
-                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
-                                            <strong>유형</strong>
-                                        </div>
-                                        <div class="col-12">
-                                            <select name="category" id="category" class="form-select form-control form-control-round custom-select">
-                                                <option value="">- 전체 -</option>
-                                                <option th:each="faqCategory : ${faqCategories}" th:value="${faqCategory.key}" th:text="${faqCategory.value}">value</option>
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                                        <div class="input-group input-group-dropdown mb-0">
+                                            <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select left-select">
+                                                <option value="all">- 선택 -</option>
+                                                <option value="email">아이디</option>
+                                                <option value="nickName">닉네임</option>
                                             </select>
+                                            <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-lg-3 col-md-6 mb-3">
                                     <div class="mb-0 form-group row">
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
                                             <strong>제목</strong>
                                         </div>
                                         <div class="col-12">
-                                            <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" name="title" id="title"/>
+                                            <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" name="searchTitle" id="searchTitle"/>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-lg-3 col-md-6 mb-3">
                                     <div class="mb-0 form-group row">
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
-                                            <strong>사용여부</strong>
+                                            <strong>분양상태</strong>
                                         </div>
                                         <div class="col-12">
-                                            <select name="isEnabled" id="isEnabled" class="form-select form-control form-control-round custom-select">
-                                                <option value="">- 전체 -</option>
-                                                <option value="Y">사용</option>
-                                                <option value="N">사용안함</option>
+                                            <select name="searchStatus" id="searchStatus" class="form-select form-control form-control-round custom-select">
+                                                <option value="all">- 전체 -</option>
+                                                <option th:each="adoptStatus : ${adoptStatus}" th:value="${adoptStatus.key}" th:text="${adoptStatus.value}">value</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>반려동물</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="searchAnimalDivision1Category" id="searchAnimalDivision1Category" class="form-select form-control form-control-round custom-select">
+                                                <option value="all">- 전체 -</option>
+                                                <option th:each="dto : ${animal_division1}"
+                                                        th:value="${dto.animalDivision1Id}"
+                                                        th:text="${dto.animalDivision1Category}">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>품종</strong>
+                                        </div>
+                                        <div class="col-12" id="searchAnimalDivision2CategoryCon">
+                                            <select name="searchAnimalDivision2Category" id="searchAnimalDivision2Category" class="form-select form-control form-control-round custom-select">
+                                                <option value="all">- 전체 -</option>
+                                                <option th:each="dto : ${animal_division2}"
+                                                        th:value="${dto.animalDivision2Id}"
+                                                        th:text="${dto.animalDivision2Category}">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>성별</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="searchGender" id="searchGender" class="form-select form-control form-control-round custom-select">
+                                                <option value="all">- 전체 -</option>
+                                                <option value="Y">Y</option>
+                                                <option value="N">N</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>신고</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="searchReportCnt" id="searchReportCnt" class="form-select form-control form-control-round custom-select">
+                                                <option value="all">- 전체 -</option>
+                                                <option value="Y">Y</option>
+                                                <option value="N">N</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>삭제여부</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="searchIsDeleted" id="searchIsDeleted" class="form-select form-control form-control-round custom-select">
+                                                <option value="all">- 전체 -</option>
+                                                <option value="Y">Y</option>
+                                                <option value="N">N</option>
                                             </select>
                                         </div>
                                     </div>
@@ -80,13 +152,13 @@
                         </div>
                         <div class="col-12 col-md-6 text-right">
                             <button type="button" class="btn btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
-                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>
+<!--                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>-->
                         </div>
                     </div>
                     <div class="card-block-small">
                         <div class="dt-responsive table-responsive">
                             <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                <table id="faqListTable" class="display" style="width:100%">
+                                <table id="adoptListTable" class="display" style="width:100%">
                                     <thead>
                                     <tr>
                                         <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
@@ -125,16 +197,17 @@
     </div>
 
     <script th:inline="javascript">
-        const faqController = {
+        const memberList = [[${animal_division1}]];
+        const adoptController = {
 
             selectedRow: [],
             init: function () {
-                let faqListTable = null;
+                let adoptListTable = null;
 
-                if (faqListTable != null) faqListTable.destroy();
+                if (adoptListTable != null) adoptListTable.destroy();
                 this.selectedRow = [];
 
-                faqListTable = $('#faqListTable').DataTable({
+                adoptListTable = $('#adoptListTable').DataTable({
                     select: {
                         style: 'single'
                     },
@@ -155,16 +228,25 @@
                     bAutoWidth: true,
                     serverSide: true,
                     processing: true,
-
                     ajax: {
                         async: false,
+                        method: 'GET',
                         url: `/admin/saesigManage/selectAdoptList.do?` + $('#searchForm').serialize(),
-                        method: 'get',
+                        data: function(d) {
+                            var formData  = $('#searchForm').serializeArray();
+                            for(var i = 0; i < formData.length; i++) {
+                                var formName = formData[i].name;
+                                var formVal = $("#"+formName).val();
+
+                                d[formName] = formVal;
+                            }
+                        },
                         "dataSrc": function (res) {
-                            res.data[0].isFirst = true;
                             return res.data;
                         }
                     },
+
+
 
                     columns: [
                         {
@@ -190,7 +272,7 @@
                         {data:'reportCnt'},
                         {data:'chattingCnt'},
                         {data:'likeCnt'},
-                        {data:'hit'},
+                        {data:'hits'},
                         {data:'isDeleted'},
                         {data:'createdAt'}
 
@@ -206,8 +288,8 @@
                     },
                 })
 
-                faqListTable.on('select', function (e, dt, type, indexes) {
-                    let rowData = faqListTable.rows(indexes).data().toArray();
+                adoptListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = adoptListTable.rows(indexes).data().toArray();
                     const selectedAdoptId = rowData[0].id;
 
                     $.ajax({
@@ -221,8 +303,24 @@
                         console.log(error)
                     });
                 }).on('deselect', function (e, dt, type, indexes) {
-                    let rowData = faqListTable.rows(indexes).data().toArray();
+                    let rowData = adoptListTable.rows(indexes).data().toArray();
                 });
+
+                $('#animalDivision1Category').on('change',function (){
+                    if ($(this).val() != ''){
+                        $.ajax({
+                            type: 'get',
+                            url: `/admin/saesigManage/`+$(this).val()+'/getAnimalDivision2List.do',
+                            dataType: 'html'
+                        }).done(function (data) {
+                            $('#searchAnimalDivision2CategoryCon').empty();
+                            $('#searchAnimalDivision2Category').append(data);
+                            $('#searchAnimalDivision2Category').niceSelect()
+                        }).fail(function (error) {
+                            console.log(error)
+                        });
+                    }
+                })
             },
             delete: function () {
                 if (this.selectedRow.length === 0) {
@@ -231,11 +329,11 @@
                     if (confirm('삭제하시겠습니까?')) {
                         $.ajax({
                             type: 'delete',
-                            data: {deleteIds: faqController.selectedRow.join(",")},
-                            url: '/admin/faqs'
+                            data: {deleteIds: adoptController.selectedRow.join(",")},
+                            url: '/admin/adopts'
                         }).done(function () {
                             alert('삭제 되었습니다.');
-                            faqController.init();
+                            adoptController.init();
                         }).fail(function (error) {
                             alert('삭제하는데 실패하였습니다.');
                             console.log(JSON.stringify(error));
@@ -252,10 +350,10 @@
                             id: id,
                             mode: mode
                         },
-                        url: `/admin/faqs/${id}/move`
+                        url: `/admin/adopts/${id}/move`
                     }).done(function () {
                         alert('순서가 변경되었습니다.');
-                        faqController.init();
+                        adoptController.init();
                     }).fail(function (error) {
                         alert('순서를 변경하는데 실패하였습니다.');
                         console.log(JSON.stringify(error));
@@ -265,42 +363,42 @@
         };
 
         $(function () {
-            faqController.init();
+            adoptController.init();
 
             $("body").on('click', '#insertBtn', function () {
                 $.ajax({
                     type: 'get',
-                    url: `/admin/faqs/form`,
+                    url: `/admin/adopts/form`,
                     dataType: 'html'
                 }).done(function (response) {
                     $('#contentPanel').html(response);
                 }).fail(function (error) {
                 });
             }).on('click', '#deleteBtn', function () {
-                faqController.delete();
+                adoptController.delete();
             }).on('click', '#searchBtn', function () {
-                faqController.init();
+                adoptController.init();
             }).on('click', '#ordUpBtn', function () {
                 const id = $(this).data('id');
-                faqController.changeOrder(id, 'up')
+                adoptController.changeOrder(id, 'up')
             }).on('click', '#ordDownBtn', function () {
                 const id = $(this).data('id');
-                faqController.changeOrder(id, 'down')
+                adoptController.changeOrder(id, 'down')
             });
 
             $('input[name=tableCheckbox]').on('change', function () {
                 const $this = $(this)
                 if ($this.is(':checked')) {
-                    faqController.selectedRow.push($this.data('id'));
-                    if (faqController.selectedRow.length === $('input[name=tableCheckbox]').length) {
+                    adoptController.selectedRow.push($this.data('id'));
+                    if (adoptController.selectedRow.length === $('input[name=tableCheckbox]').length) {
                         $('#allCheckBox').prop('checked', true);
                     }
                 } else {
-                    faqController.selectedRow = $.grep(faqController.selectedRow, function (i) {
+                    adoptController.selectedRow = $.grep(adoptController.selectedRow, function (i) {
                         return i != $this.data(id);
                     })
 
-                    if (faqController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
+                    if (adoptController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
                 }
             })
 
@@ -313,12 +411,12 @@
                         this.checked = true;
                         allSelectedRow.push($(this).data('id'));
                     })
-                    faqController.selectedRow = allSelectedRow;
+                    adoptController.selectedRow = allSelectedRow;
                 } else {
                     $('input[name=tableCheckbox]').each(function () {
                         this.checked = false;
                     })
-                    faqController.selectedRow = [];
+                    adoptController.selectedRow = [];
                 }
 
             });

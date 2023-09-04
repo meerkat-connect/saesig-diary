@@ -19,8 +19,8 @@ public class InquiryController {
 
     @GetMapping({"/admin/inquiry/view", "/admin/inquiry/inquiryList.html"})
     public String view(Model model, @LoginMember SessionMember user) {
-        String currentNickName = user.getNickname();
-        model.addAttribute("loginSession", currentNickName);
+//        String currentNickName = user.getNickname();
+//        model.addAttribute("loginSession", currentNickName);
         return "inquiry/inquiryList";
     }
 

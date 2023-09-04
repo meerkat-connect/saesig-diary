@@ -1,6 +1,7 @@
 package com.saesig.saesigManage;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.saesig.common.mybatis.RequestDto;
 import com.saesig.domain.adopt.AdoptStatus;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,7 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
-public class AdoptListDto {
+public class AdoptListDto extends RequestDto {
     private Long id;
     private Long adoptMemberId;
     private Long hits;
@@ -21,7 +22,7 @@ public class AdoptListDto {
     private AdoptStatus status;
     private String isDeleted;
     private String isCastrated;
-    private BigDecimal responsibilityCost;
+    private int responsibilityCost;
     private String etcContent;
     private Long animalDivision1Id;
     private Long animalDivision2Id;
@@ -40,8 +41,20 @@ public class AdoptListDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
     private Long createdBy;
+    private String createdName;
+    private String createdMail;
     private Long reportCnt;
     private Long chattingCnt;
     private Long likeCnt;
-    private Long hit;
+
+    //searchParam
+    private String searchKeyword;
+    private String searchTitle;
+    private String searchStatus;
+    private String searchAnimalDivision1Category;
+    private String searchAnimalDivision2Category;
+    private String searchGender;
+    private String searchReportCnt;
+    private String searchIsDeleted;
+
 }

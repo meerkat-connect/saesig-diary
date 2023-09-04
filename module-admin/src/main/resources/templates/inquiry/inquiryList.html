@@ -3,12 +3,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main}">
 <div layout:fragment="content">
-    <style>
-        .nice-select.form-select.form-control.custom-select.form-control-round {
-            border-top-left-radius: 50px !important;
-            border-bottom-left-radius: 50px !important;
-        }
-    </style>
 <!--    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>-->
     <script th:inline="javascript">
         const inquiryList = {
@@ -314,7 +308,8 @@
                                 <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
                                 <div class="input-group input-group-dropdown mb-0">
                                     <select name="searchKeywordSelect" id="searchKeywordSelect"
-                                            class="form-select form-control custom-select form-control-round">
+                                            class="form-select form-control custom-select form-control-round left-select">
+                                        <option value="">- 선택 -</option>
                                         <option value="m.email">아이디</option>
                                         <option value="nickname">닉네임</option>
                                     </select>

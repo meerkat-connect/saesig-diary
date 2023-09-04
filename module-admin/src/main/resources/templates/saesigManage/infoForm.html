@@ -2,7 +2,7 @@
     <div class="card-header p-b-0 nav-main">
         <ul class="nav nav-tabs md-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#home3" role="tab" aria-selected="false">새식정보</a>
+                <a class="nav-link active" data-bs-toggle="tab" href="#home3" role="tab" aria-selected="true">새식정보</a>
                 <div class="slide"></div>
             </li>
             <li class="nav-item">
@@ -10,13 +10,13 @@
                 <div class="slide"></div>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#messages3" role="tab" aria-selected="true">신고(0)</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#messages3" role="tab" aria-selected="false">신고(0)</a>
                 <div class="slide"></div>
             </li>
         </ul>
     </div>
     <!-- 기본정보 -->
-    <form th:object="${adopt}" method="post" id="faqForm" name="faqForm">
+    <form th:object="${adopt}" method="post" id="adoptForm" name="adoptForm">
         <input type="hidden" th:field="*{id}">
         <div class="card-header p-b-0">
             <h3 class="sub-title"><strong>기본정보</strong></h3>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                     <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="animalDivision1Category"><strong>책임비</strong></label>
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="responsibilityCost"><strong>책임비</strong></label>
                         <div class="col-sm-12">
                             <input type="text" th:field="*{responsibilityCost}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
                         </div>
@@ -65,48 +65,89 @@
                 </div>
                 <div class="col-lg-3 mb-3">
                     <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="animalDivision2Category"><strong>분양희망지역</strong></label>
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="sido-sigungu"><strong>분양희망지역</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" th:value="*{strings.concat(sido, ' ', sigungu)}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
+                            <input type="text"  th:value="*{sido+' '+sigungu}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
 
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 mb-3">
                     <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="gender"><strong>성별</strong></label>
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="likeCnt"><strong>좋아요 수</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" th:field="*{gender}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
+                            <input type="text" th:field="*{likeCnt}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 mb-3">
                     <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="age"><strong>나이</strong></label>
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="hits"><strong>조회수</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" th:field="*{age}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
+                            <input type="text" th:field="*{hits}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 mb-3">
-                    <div class="mb-0 form-group">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>반려동물</strong></label>
-                        <div class="col-12">
-                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{status.key}">
-                                <option th:each="status : ${AdoptStatus}" th:value="${status.key}" th:text="${status.value}">value</option>
-                            </select>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdBy"><strong>작성자</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" th:value="*{createdName+'('+createdMail+')'}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 mb-3">
-                    <div class="mb-0 form-group">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isDeleted"><strong>사용여부</strong></label>
-                        <select th:field="*{isDeleted}" class="form-select form-select-sm form-control-sm form-control-round custom-select">
-                            <option value="Y">사용</option>
-                            <option value="N">사용 안함</option>
-                        </select>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>등록일시</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text"  th:field="*{createdAt}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
+
+                        </div>
                     </div>
                 </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="modifiedAt"><strong>최종 수정 일시</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text"  th:field="*{modifiedAt}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="likeCnt"><strong>좋아요 수</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" th:field="*{likeCnt}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="col-lg-3 mb-3">-->
+<!--                    <div class="row form-group required mb-3">-->
+<!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="hits"><strong>조회수</strong></label>-->
+<!--                        <div class="col-sm-12">-->
+<!--                            <input type="text" th:field="*{hits}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-6 mb-3">-->
+<!--                    <div class="mb-0 form-group">-->
+<!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>반려동물</strong></label>-->
+<!--                        <div class="col-12">-->
+<!--                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{status.key}">-->
+<!--                                <option th:each="status : ${AdoptStatus}" th:value="${status.key}" th:text="${status.value}">value</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-6 mb-3">-->
+<!--                    <div class="mb-0 form-group">-->
+<!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isDeleted"><strong>사용여부</strong></label>-->
+<!--                        <select th:field="*{isDeleted}" class="form-select form-select-sm form-control-sm form-control-round custom-select">-->
+<!--                            <option value="Y">사용</option>-->
+<!--                            <option value="N">사용 안함</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="row form-group required mb-3">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
                     <div class="col-sm-12">
@@ -125,7 +166,7 @@
                     <div class="mb-0 form-group">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성자</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" th:field="*{createdBy}" class="form-control form-control-sm form-control-round" readonly>
+                            <input type="text" th:value="*{createdName+'('+createdMail+')'}" class="form-control form-control-sm form-control-round" readonly>
                         </div>
                     </div>
                 </div>
@@ -134,7 +175,7 @@
                     <div class="mb-0 form-group">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성일시</strong></label>
                         <div class="col-12">
-                            <input type="datetime-local" th:field="*{createdAt}" class="form-control form-control-sm form-control-round" readonly>
+                            <input type="text" th:field="*{createdAt}" class="form-control form-control-sm form-control-round" readonly>
                         </div>
                     </div>
                 </div>
@@ -153,7 +194,7 @@
 
 <script>
     $(function () {
-        const faqFormController = {
+        const adoptFormController = {
             save: function () {
                 const id = $('#id').val();
                 if (!!id) {
@@ -168,7 +209,7 @@
             update: function () {
                 if (confirm('수정하시겠습니까?')) {
                     const id = $('#id').val();
-                    const formData = $('#faqForm').serializeObject();
+                    const formData = $('#adoptForm').serializeObject();
                     formData.content = ckeditorApp.getEditorData('content');
 
                     $.ajax({
@@ -176,7 +217,7 @@
                         data: JSON.stringify(formData),
                         contentType: 'application/json',
                         dataType: 'json',
-                        url: `/admin/faqs/${id}`
+                        url: `/admin/adopts/${id}`
                     }).done(function(response){
                         alert('수정 되었습니다.');
                         console.log(response);
@@ -189,7 +230,7 @@
 
             insert: function () {
                 if (confirm('저장하시겠습니까?')) {
-                    const formData = $('#faqForm').serializeObject();
+                    const formData = $('#adoptForm').serializeObject();
                     formData.content = ckeditorApp.getEditorData('content');
 
                     $.ajax({
@@ -197,7 +238,7 @@
                         data: JSON.stringify(formData),
                         contentType: 'application/json',
                         dataType: 'json',
-                        url: '/admin/faqs'
+                        url: '/admin/adopts'
                     }).done(function(response){
                         alert('등록 되었습니다.');
                         console.log(response);
@@ -211,7 +252,7 @@
         }
 
         $('body').on('click', '#saveBtn', function (event) {
-            faqFormController.save();
+            adoptFormController.save();
         }).on('click', '#cancelBtn', function (event) {
 
         });
