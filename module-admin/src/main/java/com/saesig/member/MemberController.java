@@ -45,7 +45,10 @@ public class MemberController {
     }
 
     @GetMapping("/{id}/detail")
-    public String detailView(@PathVariable Long id) {
+    public String detailView(@PathVariable Long id, Model model)
+    {
+        model.addAttribute("memberId", id);
+
         return "member/tab/detail";
     }
 
@@ -93,7 +96,9 @@ public class MemberController {
 
     // 신고 화면
     @GetMapping("/{id}/report")
-    public String reportView(@PathVariable Long id) {
+    public String reportView(@PathVariable Long id, Model model)
+    {
+        model.addAttribute("memberId", id);
         return "member/tab/report";
     }
 

@@ -13,21 +13,26 @@ import com.saesig.domain.animalDivision.QAnimalDivision1;
 import com.saesig.domain.animalDivision.QAnimalDivision2;
 import com.saesig.domain.member.QBlockedMember;
 import com.saesig.domain.member.QMember;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.List;
 
 import static com.querydsl.jpa.JPAExpressions.select;
 import static org.springframework.util.StringUtils.hasText;
 
 public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     private final JPAQueryFactory queryFactory;
+    private final EntityManager em;
 
     public CustomMemberRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
+        this.em = em;
     }
 
     @Override
@@ -133,8 +138,21 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
     @Override
     public Page<ReportResponseDto> findReportList(Long id, RequestDto request, PageRequest of) {
+        String nativeQuery = "SELECT m.nickname, m.email, ar.category, ar.content, ar.created_at as reported_at " +
+                "FROM adopt_report ar INNER JOIN member m " +
+                "UNION " +
+                "SELECT m.nickname, m.email, dr.category, dr.content, dr.created_at as reported_at " +
+                "FROM diary_report dr INNER JOIN member m " +
+                "LIMIT :limit OFFSET :offset";
 
-        return null;
+        Query queryResult = em.createNativeQuery(nativeQuery)
+                .setParameter("offset", of.getOffset())
+                .setParameter("limit",of.getPageSize());
+
+        JpaResultMapper jpaResultMapper = new JpaResultMapper();
+        List<ReportResponseDto> list = jpaResultMapper.list(queryResult, ReportResponseDto.class);
+
+        return new PageImpl<>(list, of, list.size());
     }
 
     @Override

@@ -1,10 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div class="card-header p-t-0 p-b-0">
+    <h3 class="sub-title"><strong>차단</strong></h3>
+</div>
+<div class="card-block-small p-t-0">
+    <div class="dt-responsive table-responsive">
+        <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <table id="reportTable" class="display" style="width:100%">
+                <thead>
+                <tr>
+                    <th>신고자</th>
+                    <th>신고유형</th>
+                    <th>내용</th>
+                    <th>신고일시</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-</body>
-</html>
+<script th:inline="javascript">
+    $(function () {
+        const reportController = {
+            memberId: /*[[${memberId}]]*/null,
+
+            init: function () {
+                let reportTable = null;
+
+                if (reportTable != null) reportTable.destroy();
+
+                reportTable = $('#reportTable').DataTable({
+                    "columnDefs": [
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    info: false,
+                    destroy: true,
+                    ordering: false,
+                    paging: true,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true, // 자동 컬럼 폭을 계산하여 반영
+                    serverSide: true,
+                    processing: true, // 값을 가져오는 등의 처리 상황에서 대기가 발생할 때, "processing"인디케이터를 보여준다.
+
+                    ajax: {
+                        async: false,
+                        url: `/admin/members/${reportController.memberId}/report/list?` + $('#searchForm').serialize(),
+                        method: 'get',
+                        "dataSrc": function (res) {
+                            return res.data;
+                        }
+                    },
+
+                    /* 신고자, 신고유형, 내용, 신고일시 */
+                    columns: [
+                        {
+                            render: function (data, type, row) {
+                                return `${row.nickname}(${row.email})`;
+                            }
+                        },
+                        {data: 'category'},
+                        {
+                            render: function (data, type, row) {
+                                return row.content;
+                            }
+                        },
+                        {data: 'reportedAt'},
+                    ],
+                    language: {
+                        search: '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        loadingRecords: '로딩중..',
+                    },
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
+
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
+                    }
+                })
+            }
+        }
+        reportController.init();
+    })
+</script>
