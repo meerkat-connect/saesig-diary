@@ -6,11 +6,12 @@ import lombok.Data;
 @Data
 public class NewsDto {
     private Long id;
+    private Long[] ids;
     private NewsCategory category;
     private String title;
     private String content;
-    private String isEnabled;
-    private String isNotice;
+    private String isDeleted;
+    private String isFixed;
     private String createdAt;
     private Long createdBy;
     private String modifiedAt;

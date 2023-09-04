@@ -1,6 +1,7 @@
 package com.saesig.news;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -14,5 +15,7 @@ public interface NewsMapper {
 
     public void updateNews(NewsDto param);
 
-    public List<NewsAnswerDto> selectAnswerById(Long id);
+    int deleteNews(@Param("ids") Long[] ids);
+
+    List<NewsAnswerDto> selectAnswerById(Long id);
 }

@@ -32,4 +32,9 @@ public class NewsServiceImpl implements NewsService {
         return true;
     }
 
+    @Override
+    public int DeleteNews(Long[] ids) throws Exception {
+        return newsMapper.deleteNews(ids);
+    };
+
 }

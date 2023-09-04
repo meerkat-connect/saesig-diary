@@ -63,6 +63,7 @@
                 })
 
                 $('#insertBtn').on('click',function (){
+                    $('#contentCard').show()
                     $('#contentCard').find('input').val('')
                     $('#contentCard').find('textarea').each(function (){
                         ckeditorApp.editorList[$(this).attr('id')].setData('');
@@ -72,6 +73,10 @@
                         $(this).val($($(this).find('option')[0]).val());
                     })
                     $('select').niceSelect('update');
+                })
+
+                $('#deleteBtn').on('click',function (){
+                    newsList.delete();
                 })
 
 
@@ -133,7 +138,7 @@
                                 {data: "category"},
                                 {data: "title"},
                                 {data: "nickname"},
-                                {data: "isNotice"},
+                                {data: "isFixed"},
                                 {data: "createdAt"}
                             ],
                             columnDefs: [{
@@ -196,6 +201,32 @@
                 return param
             },
 
+            delete: function () {
+                let checkList = '';
+                $('#newsListTable').find('tbody').find('input[type=checkbox]:checked').each(function (){
+                    if (checkList == ''){
+                        checkList += $(this).val()
+                    }else{
+                        checkList += ','
+                        checkList += $(this).val()
+                    }
+
+                })
+                if (confirm('삭제하시겠습니까?')) {
+                    $.ajax({
+                        type: 'delete',
+                        data: {ids: checkList},
+                        url: `/admin/news/deleteNews.do`,
+                    }).done(function () {
+                        alert('삭제 되었습니다.');
+                        newsList.init();
+                    }).fail(function (error) {
+                        alert('삭제하는데 실패하였습니다.');
+                        console.log(JSON.stringify(error));
+                    });
+                }
+            },
+
             selectItem: function (el) {
                 $('#contentCard').show()
                 let _this = this;
@@ -209,6 +240,7 @@
                 // $('#created_at').val(_this.getDateStr())
                 // $('#content').text(targetData.content)
                 $('#created_name').val('이동헌')
+                $('input[name=id]').val(targetId)
                 $(Object.keys(targetData)).each(function (){
                     if ($(document).find("#"+this).length > 0){
                         const element = $(document).find('#'+this)[0];
@@ -233,9 +265,10 @@
                 param.createdBy = 1;
                 param.modifiedBy = 1;
                 param.createdAt = null;
-                param.newsId = null;
-                param.isNotice = null;
+                param.id = $('input[name=id]').val();
+                param.isFixed = null;
 
+                $('#content').val(ckeditorApp.editorList['content'].getData())
                 if ($('#category').val() != '' && $('#category').val() != null && $('#category').val() != undefined) {
                     param.category = $('#category').val()
                 }else{
@@ -251,19 +284,27 @@
                 if ($('#content').val() != '' && $('#content').val() != null && $('#content').val() != undefined) {
                     param.content = $('#content').val()
                 }else{
-                    alert("답변 내용을 입력해주세요")
+                    alert("내용을 입력해주세요")
                 }
-                if ($('#isNotice').val() != '' && $('#isNotice').val() != null && $('#isNotice').val() != undefined){
-                    param.isNotice = $('#isNotice').val()
+                if ($('#isFixed').val() != '' && $('#isFixed').val() != null && $('#isFixed').val() != undefined){
+                    param.isFixed = $('#isFixed').val()
                 }else{
-                    param.isNotice = 'N';
+                    param.isFixed = 'N';
                 }
+
+                let url = '';
+                if (param.id != '' && param.id != null && param.id != undefined){
+                    url = '/admin/news/UpdateNews.do'
+                }else{
+                    url = '/admin/news/insertNews.do'
+                }
+
 
                 $.ajax({
                     type: "post",
                     async: false,
                     enctype: 'multipart/form-data',
-                    url: "/admin/news/insertNews.do",
+                    url: url,
                     dataType: 'json',
                     data: JSON.stringify(param), // 객체를 JSON 문자열로 변환하여 전달
                     contentType: 'application/json', // 전달하는 데이터의 타입을 명시
@@ -353,7 +394,7 @@
                         </div>
                         <div class="col-12 col-md-6 text-right">
                             <button class="btn btn-primary" id="insertBtn">등록</button>
-                            <button type="button" class="btn btn-inverse">삭제</button>
+                            <button type="button" class="btn btn-inverse" id="deleteBtn">삭제</button>
                         </div>
                     </div>
                     <div class="card-block-small">
@@ -415,6 +456,7 @@
                     <div class="card-header p-b-0">
                         <h4 class="sub-title"><strong>기본정보</strong></h4>
                     </div>
+                    <input type="hidden" name="id" value=""/>
                     <div class="card-block-small p-t-0">
                         <div class="mb-3 form-group row required">
                             <div class="col-sm-12">
@@ -438,7 +480,7 @@
                                         <strong>고정글 여부</strong>
                                     </div>
                                     <div class="col-12">
-                                        <select name="isNotice" id="isNotice" class="form-select form-control form-control-round custom-select">
+                                        <select name="isFixed" id="isFixed" class="form-select form-control form-control-round custom-select">
                                             <option value="N">사용안함</option>
                                             <option value="Y">사용</option>
                                         </select>
@@ -483,7 +525,7 @@
                             <div class="col-12 col-lg-6">
                                 <div class="mb-0 form-group">
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                           for="created_at"><strong>작성일시</strong></label>
+                                           for="createdAt"><strong>작성일시</strong></label>
                                     <div class="col-sm-12">
                                         <input type="text"
                                                class="form-control form-control-round"

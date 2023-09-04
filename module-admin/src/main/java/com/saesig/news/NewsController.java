@@ -2,6 +2,7 @@ package com.saesig.news;
 
 import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
+import com.saesig.domain.common.Constant;
 import com.saesig.domain.news.NewsCategory;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +65,24 @@ public class NewsController {
     public boolean UpdateNews(@RequestBody NewsDto param) throws Exception {
         boolean result = newsService.UpdateNews(param);
         return result;
+    }
+
+    @DeleteMapping("/admin/news/deleteNews.do")
+    @ResponseBody
+    public Map<String, Object> deleteItems(@LoginMember SessionMember member, @RequestParam Long[] ids) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        int retVal = 0;
+        retVal = newsService.DeleteNews(ids);
+        if (retVal > 0) {
+            resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
+            resultMap.put("msg", "삭제에 성공하였습니다.");
+        } else {
+            resultMap.put("result", Constant.REST_API_RESULT_FAIL);
+            resultMap.put("msg", "삭제에 실패했습니다.");
+        }
+
+        return resultMap;
     }
 
 }

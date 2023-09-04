@@ -11,4 +11,6 @@ public interface NewsService {
 
     public boolean UpdateNews(NewsDto param) throws Exception;
 
+    public int DeleteNews(Long[] ids) throws Exception;
+
 }
