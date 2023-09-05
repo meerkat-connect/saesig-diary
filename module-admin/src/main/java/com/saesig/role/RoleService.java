@@ -33,7 +33,7 @@ public class RoleService {
     @Transactional
     public Long insert(RoleInsertDto roleInsertDto) {
         Role findByName = roleRepository.findByName(roleInsertDto.getName());
-        if (idDuplicatedRoleName(roleInsertDto.getName(), findByName.getName())) {
+        if (findByName != null && idDuplicatedRoleName(roleInsertDto.getName(), findByName.getName())) {
             throw new IllegalArgumentException("역할명이 중복됩니다.");
         }
 

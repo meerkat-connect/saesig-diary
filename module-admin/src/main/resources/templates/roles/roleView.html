@@ -5,7 +5,7 @@
                 <strong>역할구조</strong>
             </h5>
             <div class="col-12 col-md-6 mb-3 text-right">
-                <button type="button" id='exprtSearchBtn' class="btn btn-primary btn-sm" onclick="roleController.insertRootForm()">루트 역할 등록</button>
+                <button type="button" id='rootRoleInsertBtn' class="btn btn-primary btn-sm">루트 역할 등록</button>
             </div>
         </div>
         <div class="card">
@@ -228,5 +228,8 @@
         $('#saveBtn').on('click', function () {
             roleController.save();
         });
+        $('#rootRoleInsertBtn').on('click',function(){
+            roleController.insertRootForm();
+        })
     });
 </script>
