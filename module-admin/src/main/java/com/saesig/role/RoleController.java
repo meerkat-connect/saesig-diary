@@ -1,5 +1,8 @@
 package com.saesig.role;
 
+import com.saesig.domain.member.Member;
+import com.saesig.domain.role.MemberRole;
+import com.saesig.domain.role.RoleResourceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,14 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import com.saesig.domain.member.Member;
-import com.saesig.domain.role.MemberRole;
-import com.saesig.domain.role.RoleResourceResponseDto;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -67,27 +65,20 @@ public class RoleController {
     //모달에서 사용되는 URL
     @GetMapping("/memberMapping/members")
     @ResponseBody
-    public Map<String, Object> findAllMembers(HttpServletRequest request) {
-        Map<String, Object> result = new HashMap<>();
-
+    public DataTablesResponseDto findAllMembers(HttpServletRequest request) {
         Integer start = Integer.valueOf(request.getParameter("start"));
         Integer length = Integer.valueOf(request.getParameter("length"));
         Integer pageNum = start / length;
         PageRequest of = PageRequest.of(pageNum, length);
         Page<Member> members = roleService.findAllMemberUsingPageable(of);
-        DataTablesResponseDto dataTablesResponseDto = new DataTablesResponseDto(members, members.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
 
-        result.put("data", dataTablesResponseDto.getList());
-        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
-        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
-
-        return result;
+        return new DataTablesResponseDto(members, members.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
     }
 
     //역할에 매핑된 사용자 조회
     @GetMapping("/{id}/members")
     @ResponseBody
-    public Map<String, Object> findMappedMembersById(
+    public DataTablesResponseDto findMappedMembersById(
             HttpServletRequest request
             , @PathVariable Long id
             , @RequestParam(required = false) String searchType
@@ -99,13 +90,7 @@ public class RoleController {
         PageRequest of = PageRequest.of(pageNum, length);
         Page<MemberRole> findMappedMembersById = roleService.findMappedMembersById(id, of);
 
-        Map<String, Object> result = new HashMap<>();
-        DataTablesResponseDto dataTablesResponseDto = new DataTablesResponseDto(findMappedMembersById, findMappedMembersById.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
-        result.put("data", dataTablesResponseDto.getList());
-        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
-        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
-//        result.put("error", "에러 발생시 사용할 메시지");
-        return result;
+        return new DataTablesResponseDto(findMappedMembersById, findMappedMembersById.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
     }
 
     @GetMapping("/memberListModal")

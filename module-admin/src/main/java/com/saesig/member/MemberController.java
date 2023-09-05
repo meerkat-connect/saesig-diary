@@ -8,9 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin/members")
@@ -28,14 +25,8 @@ public class MemberController {
 
     @GetMapping("")
     @ResponseBody
-    public Map<String, Object> findAll(@ModelAttribute MemberRequestDto request) {
-        DataTablesResponseDto dataTablesResponseDto = memberService.findAll(request);
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", dataTablesResponseDto.getList());
-        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
-        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
-
-        return result;
+    public DataTablesResponseDto findAll(@ModelAttribute MemberRequestDto request) {
+        return memberService.findAll(request);
     }
 
     @GetMapping("/{id}")
@@ -45,8 +36,7 @@ public class MemberController {
     }
 
     @GetMapping("/{id}/detail")
-    public String detailView(@PathVariable Long id, Model model)
-    {
+    public String detailView(@PathVariable Long id, Model model) {
         model.addAttribute("memberId", id);
 
         return "member/tab/detail";
@@ -54,23 +44,15 @@ public class MemberController {
 
     // 분양 화면
     @GetMapping("/{id}/adoption")
-    public String adoptionView(@PathVariable Long id, Model model)
-    {
+    public String adoptionView(@PathVariable Long id, Model model) {
         model.addAttribute("memberId", id);
         return "member/tab/adoption";
     }
 
     @GetMapping("/{id}/adoption/list")
     @ResponseBody
-    public Map<String,Object> findAdoptionList(@PathVariable Long id, @ModelAttribute RequestDto request)
-    {
-        DataTablesResponseDto dataTablesResponseDto = memberService.findAdoptionList(id, request);
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", dataTablesResponseDto.getList());
-        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
-        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
-
-        return result;
+    public DataTablesResponseDto findAdoptionList(@PathVariable Long id, @ModelAttribute RequestDto request) {
+        return memberService.findAdoptionList(id, request);
     }
 
 
@@ -83,35 +65,22 @@ public class MemberController {
 
     @GetMapping("/{id}/adopted/list")
     @ResponseBody
-    public Map<String,Object> findAdoptedList(@PathVariable Long id, @ModelAttribute RequestDto request) {
-        DataTablesResponseDto dataTablesResponseDto = memberService.findAdoptedList(id, request);
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", dataTablesResponseDto.getList());
-        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
-        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
-
-        return result;
+    public DataTablesResponseDto findAdoptedList(@PathVariable Long id, @ModelAttribute RequestDto request) {
+        return memberService.findAdoptedList(id, request);
     }
 
 
     // 신고 화면
     @GetMapping("/{id}/report")
-    public String reportView(@PathVariable Long id, Model model)
-    {
+    public String reportView(@PathVariable Long id, Model model) {
         model.addAttribute("memberId", id);
         return "member/tab/report";
     }
 
     @GetMapping("/{id}/report/list")
     @ResponseBody
-    public Map<String,Object> findReportList(@PathVariable Long id, @ModelAttribute RequestDto request) {
-        DataTablesResponseDto dataTablesResponseDto = memberService.findReportList(id, request);
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", dataTablesResponseDto.getList());
-        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
-        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
-
-        return result;
+    public DataTablesResponseDto findReportList(@PathVariable Long id, @ModelAttribute RequestDto request) {
+        return memberService.findReportList(id, request);
     }
 
     // 차단 화면
@@ -123,13 +92,7 @@ public class MemberController {
 
     @GetMapping("/{id}/block/list")
     @ResponseBody
-    public Map<String,Object> findBlockList(@PathVariable Long id, @ModelAttribute RequestDto request) {
-        DataTablesResponseDto dataTablesResponseDto = memberService.findBlockList(id, request);
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", dataTablesResponseDto.getList());
-        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
-        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
-
-        return result;
+    public DataTablesResponseDto findBlockList(@PathVariable Long id, @ModelAttribute RequestDto request) {
+        return memberService.findBlockList(id, request);
     }
 }

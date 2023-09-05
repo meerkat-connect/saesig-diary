@@ -10,15 +10,14 @@ import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class DataTablesResponseDto{
+public class DataTablesResponseDto {
     private Long recordsTotal;
     private Long recordsFiltered;
+    List<?> data = new ArrayList<>();
 
-    List<?> list = new ArrayList<>();
-
-    public DataTablesResponseDto(Page<?> pageInfo, List<?> list) {
+    public DataTablesResponseDto(Page<?> pageInfo, List<?> data) {
         this.recordsTotal = pageInfo.getTotalElements();
         this.recordsFiltered = pageInfo.getTotalElements();
-        this.list = list;
+        this.data = data;
     }
 }

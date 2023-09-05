@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -28,14 +26,8 @@ public class FaqController {
 
     @GetMapping("")
     @ResponseBody
-    public Map<String, Object> findAll(@ModelAttribute FaqRequestDto request) {
-        DataTablesResponseDto dataTablesResponseDto = faqService.findAll(request);
-        Map<String, Object> result = new HashMap<>();
-        result.put("data", dataTablesResponseDto.getList());
-        result.put("recordsTotal", dataTablesResponseDto.getRecordsTotal());
-        result.put("recordsFiltered", dataTablesResponseDto.getRecordsFiltered());
-
-        return result;
+    public DataTablesResponseDto findAll(@ModelAttribute FaqRequestDto request) {
+        return faqService.findAll(request);
     }
 
     @GetMapping("/{id}")
@@ -79,7 +71,7 @@ public class FaqController {
     @PostMapping("/{id}/move")
     @ResponseBody
     public void move(@PathVariable Long id, @RequestParam String mode) {
-        faqService.move(id,mode);
+        faqService.move(id, mode);
     }
 
 
