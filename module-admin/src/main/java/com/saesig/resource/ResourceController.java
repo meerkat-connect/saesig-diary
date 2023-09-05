@@ -25,7 +25,7 @@ public class ResourceController {
         return resourceService.findAll();
     }
 
-    @PostMapping(value = "/resources", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Long addResource(@RequestBody ResourceInsertDto resourceInsertDto) {
         return resourceService.insert(resourceInsertDto);

@@ -97,8 +97,22 @@
                                                         <div class="form-radio">
                                                             <div class="radio radio-inline">
                                                                 <label class="mb-0">
+                                                                    <input type="radio" id="type3" name="type"  value="DIRECTORY">
+                                                                    <i class="helper"></i>디렉토리
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="radio radio-inline">
+                                                                <label class="mb-0">
                                                                     <input type="radio" id="type1" name="type"  value="MENU">
                                                                     <i class="helper"></i>메뉴
+                                                                </label>
+                                                            </div>
+
+                                                            <div class="radio radio-inline">
+                                                                <label class="mb-0">
+                                                                    <input type="radio" id="type4" name="type"  value="DETAIL_MENU">
+                                                                    <i class="helper"></i>상세 메뉴
                                                                 </label>
                                                             </div>
 
@@ -147,11 +161,12 @@
             parentNode: null,
             selectedNode: null,
             $jstree: $('#jstree'),
+            _this: null,
 
             init: function () {
                 parentNode = null;
                 selectedNode = null;
-                const _this = this;
+                _this = this;
 
                 $.ajax({
                     url: '/admin/resources',
@@ -180,8 +195,6 @@
             },
 
             renderJsTree: function () {
-                const _this = this;
-
                 _this.$jstree.jstree({
                     "core": {
                         "animation": 50,
@@ -195,12 +208,19 @@
                         'check_callback' : true
                     },
                     "types": {
+                        "DIRECTORY": {
+                          "icon" : "icofont icofont icofont-folder"
+                        },
                         "MENU": {
-                            "icon": "icofont icofont-folder"
+                            "icon": "icofont icofont-file-alt"
+                        },
+                        "DETAIL_MENU": {
+                            "icon" : "icofont icofont-copy-black"
                         },
                         "FUNCTION": {
-                            "icon": "icofont icofont-file-alt"
+                            "icon": "icofont icofont-tools-alt-2"
                         }
+
                     },
                     'contextmenu': {
                         'items': {
