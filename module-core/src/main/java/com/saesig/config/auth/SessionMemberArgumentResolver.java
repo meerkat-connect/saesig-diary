@@ -1,5 +1,7 @@
 package com.saesig.config.auth;
 
+import com.saesig.domain.member.Member;
+import com.saesig.domain.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpSession;
 @Component
 public class SessionMemberArgumentResolver implements HandlerMethodArgumentResolver {
     private final HttpSession httpSession;
+    private final MemberRepository memberRepository;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -25,6 +28,13 @@ public class SessionMemberArgumentResolver implements HandlerMethodArgumentResol
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        return httpSession.getAttribute("member");
+        //예제용 더미 데이터
+        Object testMember = httpSession.getAttribute("testMember");
+        if(testMember == null) {
+            Member member = memberRepository.findById(1L).get();
+            httpSession.setAttribute("testMember", new SessionMember(member));
+        }
+
+        return httpSession.getAttribute("testMember");
     }
 }
