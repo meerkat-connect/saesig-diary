@@ -11,10 +11,16 @@
                     <div class="card-block-small">
                         <ul>
                             <li class="d-inline-block m-r-10">
-                                메뉴 : <i class="icofont icofont-folder"></i>
+                                디렉토리 : <i class="icofont  icofont-folder"></i>
                             </li>
                             <li class="d-inline-block m-r-10">
-                                기능 : <i class="icofont icofont-file-alt"></i>
+                                메뉴 : <i class="icofont icofont-file-alt"></i>
+                            </li>
+                            <li class="d-inline-block m-r-10">
+                                상세 메뉴 : <i class="icofont icofont-copy-black"></i>
+                            </li>
+                            <li class="d-inline-block m-r-10">
+                                기능 : <i class="icofont icofont-tools-alt-2"></i>
                             </li>
                         </ul>
                     </div>
@@ -64,7 +70,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="mb-3 form-group row">
+                                                    <div class="mb-3 form-group row required">
                                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="httpMethod"><strong>Http Method Type</strong></label>
                                                         <div class="col-sm-12">
                                                             <select name="httpMethod" id="httpMethod" class="form-select form-control form-control-round">
@@ -78,21 +84,21 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="mb-3 form-group row">
+                                                    <div class="mb-3 form-group row required">
                                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="name"><strong>자원명</strong></label>
                                                         <div class="col-sm-12">
                                                             <input type="text" class="form-control form-control-round" name="name" id="name"/>
                                                         </div>
                                                     </div>
 
-                                                    <div class="mb-3 form-group row">
+                                                    <div class="mb-3 form-group row required">
                                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>URL</strong></label>
                                                         <div class="col-sm-12">
                                                             <input type="text" class="form-control form-control-round" name="url" id="url"/>
                                                         </div>
                                                     </div>
 
-                                                    <div class="mb-3 form-group row">
+                                                    <div class="mb-3 form-group row required">
                                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="type1"><strong>자원 유형 (메뉴 / 기능) </strong></label>
                                                         <div class="form-radio">
                                                             <div class="radio radio-inline">
@@ -209,7 +215,7 @@
                     },
                     "types": {
                         "DIRECTORY": {
-                          "icon" : "icofont icofont icofont-folder"
+                          "icon" : "icofont  icofont-folder"
                         },
                         "MENU": {
                             "icon": "icofont icofont-file-alt"

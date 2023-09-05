@@ -19,12 +19,12 @@
                         <div class="mb-0 form-group row">
                             <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
                             <div class="input-group input-group-dropdown mb-0">
-                                <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
-                                <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select">
+                                <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select left-select">
                                     <option value="">- 선택 -</option>
                                     <option value="U.NM">이메일</option>
                                     <option value="ACNT">닉네임</option>
                                 </select>
+                                <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
                             </div>
                         </div>
                     </div>
@@ -85,14 +85,14 @@
                     "columnDefs": [
                         {className: "dt-center", targets: "_all"}
                     ],
-
+                    stripeClasses: [],
                     pagingType: 'full_numbers',
                     lengthChange: false,
                     responsive: true,
                     searching: false,
                     ordering: false,
                     paging: true,
-                    info: true,
+                    info: false,
                     pageLength: 10,
                     bPaginate: true,
                     bAutoWidth: true,
@@ -117,20 +117,16 @@
                     language: {
                         search : '검색',
                         emptyTable: '데이터가 없습니다.',
-                        info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
-                        infoEmpty : '데이터 0 부터 0 까지 0 총데이터',
                         lengthMenu : '보기',
                         loadingRecords : '로딩중..',
                     },
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
 
-                    rowCallback : function(row, data, dataIndex) {
-                        // row id 얻기
-                        var rowId = data.id;
-                        /*if ($.inArray(rowId, rows_selected) !== -1) { // row 선택됐을때 실행할(rowId가 rows_selected 배열에 있으면)
-                            $(row).find('input[type="checkbox"]').prop(
-                                'checked', true);
-                            $(row).addClass('selected');
-                        }*/
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
                     }
                 });
 
