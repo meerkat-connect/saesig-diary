@@ -32,10 +32,15 @@ public class SaesigManageController {
     public DataTablesDto selectAdoptList(AdoptListDto ald) throws Exception {
         DataTablesDto dtd = new DataTablesDto();
         List<AdoptListDto> list = saesigManageService.selectAdoptList(ald);
-        dtd.setDraw(ald.getDraw());
         dtd.setData(list);
-        dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
-        dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+        dtd.setDraw(ald.getDraw());
+        if (list.size() > 0){
+            dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
+            dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+        }else{
+            dtd.setRecordsFiltered(0);
+            dtd.setRecordsTotal(0);
+        }
         return dtd;
     }
 

@@ -27,7 +27,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
                                         <div class="input-group input-group-dropdown mb-0">
                                             <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select left-select">
-                                                <option value="all">- 선택 -</option>
+                                                <option value="">- 선택 -</option>
                                                 <option value="email">아이디</option>
                                                 <option value="nickName">닉네임</option>
                                             </select>
@@ -52,7 +52,7 @@
                                         </div>
                                         <div class="col-12">
                                             <select name="searchStatus" id="searchStatus" class="form-select form-control form-control-round custom-select">
-                                                <option value="all">- 전체 -</option>
+                                                <option value="">- 전체 -</option>
                                                 <option th:each="adoptStatus : ${adoptStatus}" th:value="${adoptStatus.key}" th:text="${adoptStatus.value}">value</option>
                                             </select>
                                         </div>
@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="col-12">
                                             <select name="searchAnimalDivision1Category" id="searchAnimalDivision1Category" class="form-select form-control form-control-round custom-select">
-                                                <option value="all">- 전체 -</option>
+                                                <option value="">- 전체 -</option>
                                                 <option th:each="dto : ${animal_division1}"
                                                         th:value="${dto.animalDivision1Id}"
                                                         th:text="${dto.animalDivision1Category}">
@@ -80,7 +80,7 @@
                                         </div>
                                         <div class="col-12" id="searchAnimalDivision2CategoryCon">
                                             <select name="searchAnimalDivision2Category" id="searchAnimalDivision2Category" class="form-select form-control form-control-round custom-select">
-                                                <option value="all">- 전체 -</option>
+                                                <option value="">- 전체 -</option>
                                                 <option th:each="dto : ${animal_division2}"
                                                         th:value="${dto.animalDivision2Id}"
                                                         th:text="${dto.animalDivision2Category}">
@@ -95,9 +95,9 @@
                                         </div>
                                         <div class="col-12">
                                             <select name="searchGender" id="searchGender" class="form-select form-control form-control-round custom-select">
-                                                <option value="all">- 전체 -</option>
-                                                <option value="Y">Y</option>
-                                                <option value="N">N</option>
+                                                <option value="">- 전체 -</option>
+                                                <option value="MAN">수컷</option>
+                                                <option value="WOMAN">암컷</option>
                                             </select>
                                         </div>
                                     </div>
@@ -109,9 +109,9 @@
                                         </div>
                                         <div class="col-12">
                                             <select name="searchReportCnt" id="searchReportCnt" class="form-select form-control form-control-round custom-select">
-                                                <option value="all">- 전체 -</option>
-                                                <option value="Y">Y</option>
-                                                <option value="N">N</option>
+                                                <option value="">- 전체 -</option>
+                                                <option value="1">Y</option>
+                                                <option value="0">N</option>
                                             </select>
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
                                         </div>
                                         <div class="col-12">
                                             <select name="searchIsDeleted" id="searchIsDeleted" class="form-select form-control form-control-round custom-select">
-                                                <option value="all">- 전체 -</option>
+                                                <option value="">- 전체 -</option>
                                                 <option value="Y">Y</option>
                                                 <option value="N">N</option>
                                             </select>
@@ -197,7 +197,6 @@
     </div>
 
     <script th:inline="javascript">
-        const memberList = [[${animal_division1}]];
         const adoptController = {
 
             selectedRow: [],
@@ -231,22 +230,23 @@
                     ajax: {
                         async: false,
                         method: 'GET',
-                        url: `/admin/saesigManage/selectAdoptList.do?` + $('#searchForm').serialize(),
+                        url: '/admin/saesigManage/selectAdoptList.do',
                         data: function(d) {
                             var formData  = $('#searchForm').serializeArray();
                             for(var i = 0; i < formData.length; i++) {
                                 var formName = formData[i].name;
                                 var formVal = $("#"+formName).val();
-
                                 d[formName] = formVal;
                             }
                         },
                         "dataSrc": function (res) {
-                            return res.data;
+                            if (res.data.length > 0){
+                                return res.data;
+                            }else{
+                                return false;
+                            }
                         }
                     },
-
-
 
                     columns: [
                         {
@@ -286,6 +286,14 @@
                         lengthMenu: '보기',
                         loadingRecords: '로딩중..',
                     },
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
+
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
+                    }
                 })
 
                 adoptListTable.on('select', function (e, dt, type, indexes) {
@@ -306,7 +314,7 @@
                     let rowData = adoptListTable.rows(indexes).data().toArray();
                 });
 
-                $('#animalDivision1Category').on('change',function (){
+                $('#searchAnimalDivision1Category').on('change',function (){
                     if ($(this).val() != ''){
                         $.ajax({
                             type: 'get',
@@ -314,7 +322,7 @@
                             dataType: 'html'
                         }).done(function (data) {
                             $('#searchAnimalDivision2CategoryCon').empty();
-                            $('#searchAnimalDivision2Category').append(data);
+                            $('#searchAnimalDivision2CategoryCon').append(data);
                             $('#searchAnimalDivision2Category').niceSelect()
                         }).fail(function (error) {
                             console.log(error)
