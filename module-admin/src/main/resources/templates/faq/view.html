@@ -174,10 +174,10 @@
                         {
                             render: function (data, type, row) {
                                 if (!!row.isFirst) {
-                                    return `<button class="btn btn-sm" data-id="${row.id}" id="ordDownBtn">▼</button>`;
+                                    return `<button class="btn btn-sm btn-transparent" data-id="${row.id}" id="ordDownBtn">▼</button>`;
                                 } else {
-                                    return `<button class="btn btn-sm" data-id="${row.id}" id="ordUpBtn">▲</button> &nbsp;
-                                            <button class="btn btn-sm" data-id="${row.id}" id="ordDownBtn">▼</button>`
+                                    return `<button class="btn btn-sm btn-transparent" data-id="${row.id}" id="ordUpBtn">▲</button> &nbsp;
+                                            <button class="btn btn-sm btn-transparent" data-id="${row.id}" id="ordDownBtn">▼</button>`
                                 }
                             }
                         },
