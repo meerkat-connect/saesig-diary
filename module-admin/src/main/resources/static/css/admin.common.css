@@ -326,3 +326,11 @@ div.dataTables_wrapper div.dataTables_info {
     border-top-left-radius: 50px !important;
     border-bottom-left-radius: 50px !important;
 }
+
+.page-body table.dataTable.no-footer {
+    border-bottom: 1px solid #D8D8D8;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+    border-bottom: 2px solid #171A19;
+}
