@@ -334,3 +334,44 @@ div.dataTables_wrapper div.dataTables_info {
 table.dataTable thead th, table.dataTable thead td {
     border-bottom: 2px solid #171A19;
 }
+
+.modal-content-2 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border-radius: 26px;
+    outline: 0;
+}
+
+.modal-content-2 .btn-close{
+    color: #fff;
+}
+
+.modal-header-v2 {
+    display: flex;
+    color: #fff;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #dee2e6;
+    background-color: #FF8031 !important;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+
+.modal-footer-v2 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: flex-end;
+    padding: .75rem;
+    margin-bottom: 20px;
+    border-bottom-right-radius: calc(.3rem - 1px);
+    border-bottom-left-radius: calc(.3rem - 1px);
+}
