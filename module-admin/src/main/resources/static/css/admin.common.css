@@ -334,3 +334,9 @@ div.dataTables_wrapper div.dataTables_info {
 table.dataTable thead th, table.dataTable thead td {
     border-bottom: 2px solid #171A19;
 }
+
+table.dataTable tbody tr.selected > *{
+    --dt-row-selected: #F8F7F7 !important;
+    --dt-row-selected-text: 0,0,0 !important;
+    background-color: #F8F7F7 !important;
+}
