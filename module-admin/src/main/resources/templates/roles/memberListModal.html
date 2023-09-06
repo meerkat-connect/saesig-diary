@@ -14,12 +14,12 @@
                             <div class="mb-0 form-group">
                                 <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
                                 <div class="input-group input-group-sm input-group-dropdown mb-0">
-                                    <input type="text" class="form-control form-control-round" name="searchKeyword" id="searchKeyword"/>
-                                    <select name="searchType" class="form-select form-control form-control-sm form-control-primary form-bg-primary form-control-round">
+                                    <select name="searchType" class="form-select form-control form-control-round left-select custom-select">
                                         <option value="opt1">primary</option>
                                         <option value="opt2">Type 2</option>
                                         <option value="opt3">Type 3</option>
                                     </select>
+                                    <input type="text" class="form-control form-control-round" name="searchKeyword" id="searchKeyword"/>
                                 </div>
                             </div>
                         </div>
@@ -55,29 +55,26 @@
     </div>
 </div>
 
-<script>
+<script th:inline="javascript">
     $(function () {
         let memberListTable;
+        let selectedRow = [];
+
         if (!!memberListTable) memberListTable.destroy();
 
         memberListTable = $('#memberListTable').DataTable({
             "columnDefs": [
-                // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
                 {className: "dt-center", targets: "_all"}
             ],
 
-            /*select: {
-                style: 'multi',
-                selector: 'td:first-child'
-            },*/
-
+            stripeClasses: [],
             pagingType: 'full_numbers',
             lengthChange: false,
             responsive: true,
             searching: false,
             ordering: false,
             paging: true,
-            info: true,
+            info: false,
             pageLength: 10,
             bPaginate: true,
             bAutoWidth: true,
@@ -96,7 +93,7 @@
             columns: [
                 {
                     render: function (data, type, row) {
-                        return '<input type="checkbox" name="input_field">';
+                        return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
                     }
                 },
                 {data: 'id'},
@@ -107,8 +104,6 @@
             language: {
                 search: '검색',
                 emptyTable: '데이터가 없습니다.',
-                info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
-                infoEmpty: '데이터 0 부터 0 까지 / 총데이터 : 0',
                 lengthMenu: '보기',
                 loadingRecords: '로딩중..',
             },
@@ -133,11 +128,47 @@
                 }).done(function(response){
                     alert('매핑 등록에 성공하였습니다.');
                     mappedUserTable.ajax.reload(null, false);
+                    memberListModal.hide();
                 }).fail(function(error){
                     alert('역할을 매핑하는데 실패하였습니다.');
                     console.log(JSON.stringify(error));
                 })
             }
+        });
+
+        $('input[name=tableCheckbox]').on('change', function () {
+            const $this = $(this)
+            if ($this.is(':checked')) {
+                selectedRow.push($this.data('id'));
+                if (selectedRow.length === $('input[name=tableCheckbox]').length) {
+                    $('#allCheckBox').prop('checked', true);
+                }
+            } else {
+                selectedRow = $.grep(selectedRow, function (i) {
+                    return i != $this.data(id);
+                })
+
+                if (selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
+            }
         })
+
+        $('#allCheckBox').on('change', function () {
+            const $this = $(this);
+
+            if ($this.is(':checked')) {
+                const allSelectedRow = [];
+                $('input[name=tableCheckbox]').each(function () {
+                    this.checked = true;
+                    allSelectedRow.push($(this).data('id'));
+                })
+                selectedRow = allSelectedRow;
+            } else {
+                $('input[name=tableCheckbox]').each(function () {
+                    this.checked = false;
+                })
+                selectedRow = [];
+            }
+
+        });
     })
 </script>

@@ -73,216 +73,213 @@
 <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
 <script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
 <script th:inline="javascript">
+    var memberMappingController =  {
+        findMappedMembers : function(roleId) {
+            if(!!mappedUserTable) mappedUserTable.destroy();
 
-    $(function () {
-        let mappedUserTable = null;
+            mappedUserTable = $('#mappedUserTable').DataTable({
+                "columnDefs": [
+                    {className: "dt-center", targets: "_all"}
+                ],
+                stripeClasses: [],
+                pagingType: 'full_numbers',
+                lengthChange: false,
+                responsive: true,
+                searching: false,
+                ordering: false,
+                paging: true,
+                info: false,
+                pageLength: 10,
+                bPaginate: true,
+                bAutoWidth: true,
+                serverSide: true,
+                processing: true,
 
-        const memberMappingController =  {
-            findMappedMembers : function(roleId) {
-                if(!!mappedUserTable) mappedUserTable.destroy();
+                ajax: {
+                    async: false,
+                    url: `/admin/roles/${roleId}/members/`,
+                    method: 'get',
+                    "dataSrc": function (res) {
+                        return res.data;
+                    }
+                },
 
-                mappedUserTable = $('#mappedUserTable').DataTable({
-                    "columnDefs": [
-                        {className: "dt-center", targets: "_all"}
-                    ],
-                    stripeClasses: [],
-                    pagingType: 'full_numbers',
-                    lengthChange: false,
-                    responsive: true,
-                    searching: false,
-                    ordering: false,
-                    paging: true,
-                    info: false,
-                    pageLength: 10,
-                    bPaginate: true,
-                    bAutoWidth: true,
-                    serverSide: true,
-                    processing: true,
+                columns: [
+                    {data: 'id'},
+                    {data: 'email'},
+                    {data: 'nickname'}
+                ],
 
-                    ajax: {
-                        async: false,
-                        url: `/admin/roles/${roleId}/members/`,
-                        method: 'get',
-                        "dataSrc": function (res) {
-                            return res.data;
-                        }
+                language: {
+                    search : '검색',
+                    emptyTable: '데이터가 없습니다.',
+                    lengthMenu : '보기',
+                    loadingRecords : '로딩중..',
+                },
+                drawCallback: function () {
+                    var $api = this.api();
+                    var pages = $api.page.info().pages;
+
+                    if (pages === 0) {
+                        $(".paginate_button").hide();
+                    }
+                }
+            });
+
+            $('#mappedUserTable').show();
+        }
+    };
+    var roleController = {
+        roles: [],
+        parentNode: null,
+        selectedNode: null,
+        $jstree: $('#jstree'),
+
+        init: function () {
+            const _this = this;
+            parentNode = selectedNode = null;
+
+            $.ajax({
+                url: '/admin/roles',
+                type: 'get',
+                async: false
+            }).done(function (response) {
+                response.forEach(function (element, index) {
+                    _this.roles[index] = {
+                        id: element.id,
+                        parent: element.parentId ?? '#',
+                        text: element.name,
+                        description: element.description,
+                        isEnabled: element.isEnabled,
+                        name: element.name,
+                    };
+                });
+            }).fail(function (error) {
+                alert("역할 목록을 조회하는데 실패하였습니다.");
+            });
+
+            _this.renderJsTree();
+        },
+
+        renderJsTree: function () {
+            const _this = this;
+
+            _this.$jstree.jstree({
+                "core": {
+                    "animation": 50,
+                    "strings": {
+                        loading: "Loading ..."
                     },
-
-                    columns: [
-                        {data: 'id'},
-                        {data: 'email'},
-                        {data: 'nickname'}
-                    ],
-
-                    language: {
-                        search : '검색',
-                        emptyTable: '데이터가 없습니다.',
-                        lengthMenu : '보기',
-                        loadingRecords : '로딩중..',
+                    "themes": {
+                        "responsive": true,
                     },
-                    drawCallback: function () {
-                        var $api = this.api();
-                        var pages = $api.page.info().pages;
-
-                        if (pages === 0) {
-                            $(".paginate_button").hide();
+                    'data': _this.roles,
+                },
+                "types": {
+                    "default": {
+                        "icon": "icofont icofont-user-alt-3"
+                    }
+                },
+                'contextmenu': {
+                    'items': {
+                        "regist": {
+                            "separator_before": false,
+                            "separator_after": false,
+                            "label": "하위 등록",
+                            "action": function (obj) {
+                                $('#roleForm')[0].reset();
+                                $('#id').val('');
+                                $('#upperId').val(_this.selectedNode.original.id);
+                                $('#upperName').val(_this.selectedNode.original.name);
+                            }
                         }
                     }
-                });
+                },
+                'plugins': ['types', 'contextmenu']
+            }).bind("select_node.jstree", function (event, data) {
+                _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
+                _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
+                memberMappingController.findMappedMembers(_this.selectedNode.original.id);
+            });
+        },
 
-                $('#mappedUserTable').show();
+
+        save: function () {
+            const id = $('#roleForm #id').val();
+            !!id ? this.update(id) : this.insert(id);
+        },
+
+        update: function () {
+            const _this = this;
+
+            if (confirm('역할 정보를 수정하시겠습니까?')) {
+                const formData = $('#roleForm').serializeObject();
+                formData.isEnabled = formData.isEnabled ? "Y" : "N";
+
+                $.ajax({
+                    url: `/admin/roles/${formData.id}`,
+                    type: 'put',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json'
+                }).done(function (response) {
+                    alert('역할이 수정되었습니다.');
+                    _this.$jstree.jstree().destroy();
+                    _this.init();
+                    _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
+                }).fail(function (error) {
+                    alert('역할을 수정하는데 실패하였습니다.')
+                    console.log(JSON.stringify(error));
+                })
             }
-        };
+        },
 
-        const roleController = {
-            roles: [],
-            parentNode: null,
-            selectedNode: null,
-            $jstree: $('#jstree'),
+        insert: function () {
+            const _this = this;
 
-            init: function () {
-                const _this = this;
-                parentNode = selectedNode = null;
+            if (confirm('역할 정보를 등록하시겠습니까?')) {
+                const formData = $('#roleForm').serializeObject();
+                formData.isEnabled = formData.isEnabled ? "Y" : "N";
 
                 $.ajax({
                     url: '/admin/roles',
-                    type: 'get',
-                    async: false
-                }).done(function (response) {
-                    response.forEach(function (element, index) {
-                        _this.roles[index] = {
-                            id: element.id,
-                            parent: element.parentId ?? '#',
-                            text: element.name,
-                            description: element.description,
-                            isEnabled: element.isEnabled,
-                            name: element.name,
-                        };
-                    });
+                    type: 'post',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json'
+                }).done(function () {
+                    alert('역할이 등록되었습니다.');
+                    _this.$jstree.jstree().destroy();
+                    _this.init();
+                    _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
                 }).fail(function (error) {
-                    alert("역할 목록을 조회하는데 실패하였습니다.");
+                    alert('역할을 등록하는데 실패하였습니다.');
+                    console.log(JSON.stringify(error));
                 });
-
-                _this.renderJsTree();
-            },
-
-            renderJsTree: function () {
-                const _this = this;
-
-                _this.$jstree.jstree({
-                    "core": {
-                        "animation": 50,
-                        "strings": {
-                            loading: "Loading ..."
-                        },
-                        "themes": {
-                            "responsive": true,
-                        },
-                        'data': _this.roles,
-                    },
-                    "types": {
-                        "default": {
-                            "icon": "icofont icofont-user-alt-3"
-                        }
-                    },
-                    'contextmenu': {
-                        'items': {
-                            "regist": {
-                                "separator_before": false,
-                                "separator_after": false,
-                                "label": "하위 등록",
-                                "action": function (obj) {
-                                    $('#roleForm')[0].reset();
-                                    $('#id').val('');
-                                    $('#upperId').val(_this.selectedNode.original.id);
-                                    $('#upperName').val(_this.selectedNode.original.name);
-                                }
-                            }
-                        }
-                    },
-                    'plugins': ['types', 'contextmenu']
-                }).bind("select_node.jstree", function (event, data) {
-                    _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
-                    _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
-                    memberMappingController.findMappedMembers(_this.selectedNode.original.id);
-                });
-            },
-
-
-            save: function () {
-                const id = $('#roleForm #id').val();
-                !!id ? this.update(id) : this.insert(id);
-            },
-
-            update: function () {
-                const _this = this;
-
-                if (confirm('역할 정보를 수정하시겠습니까?')) {
-                    const formData = $('#roleForm').serializeObject();
-                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
-
-                    $.ajax({
-                        url: `/admin/roles/${formData.id}`,
-                        type: 'put',
-                        data: JSON.stringify(formData),
-                        contentType: 'application/json'
-                    }).done(function (response) {
-                        alert('역할이 수정되었습니다.');
-                        _this.$jstree.jstree().destroy();
-                        _this.init();
-                        _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
-                    }).fail(function (error) {
-                        alert('역할을 수정하는데 실패하였습니다.')
-                        console.log(JSON.stringify(error));
-                    })
-                }
-            },
-
-            insert: function () {
-                const _this = this;
-
-                if (confirm('역할 정보를 등록하시겠습니까?')) {
-                    const formData = $('#roleForm').serializeObject();
-                    formData.isEnabled = formData.isEnabled ? "Y" : "N";
-
-                    $.ajax({
-                        url: '/admin/roles',
-                        type: 'post',
-                        data: JSON.stringify(formData),
-                        contentType: 'application/json'
-                    }).done(function () {
-                        alert('역할이 등록되었습니다.');
-                        _this.$jstree.jstree().destroy();
-                        _this.init();
-                        _this.$jstree.jstree(true)._open_to(_this.selectedNode.id);
-                    }).fail(function (error) {
-                        alert('역할을 등록하는데 실패하였습니다.');
-                        console.log(JSON.stringify(error));
-                    });
-                }
-            },
-
-            print: function () {
-                const parentNodeOriginal = this.parentNode.original;
-                const selectedNodeOriginal = this.selectedNode.original;
-
-                $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
-                $('#upperName').val(parentNodeOriginal ? parentNodeOriginal.name : '');
-                $('#id').val(selectedNodeOriginal.id);
-                $('#name').val(selectedNodeOriginal.name);
-                $('#description').val(selectedNodeOriginal.description);
-                adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
-            },
-
-            insertRootForm() {
-                $('#roleForm')[0].reset();
-                $('#id').val('');
-                $('#upperId').val();
-                $('#upperName').val();
             }
-        };
-        let memberListModal;
+        },
 
+        print: function () {
+            const parentNodeOriginal = this.parentNode.original;
+            const selectedNodeOriginal = this.selectedNode.original;
+
+            $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
+            $('#upperName').val(parentNodeOriginal ? parentNodeOriginal.name : '');
+            $('#id').val(selectedNodeOriginal.id);
+            $('#name').val(selectedNodeOriginal.name);
+            $('#description').val(selectedNodeOriginal.description);
+            adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
+        },
+
+        insertRootForm() {
+            $('#roleForm')[0].reset();
+            $('#id').val('');
+            $('#upperId').val();
+            $('#upperName').val();
+        }
+    };
+    var memberListModal;
+    var mappedUserTable = null;
+
+    $(function () {
         roleController.init();
 
         $('#addMemberBtn').on('click', function () {
