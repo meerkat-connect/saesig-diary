@@ -39,11 +39,11 @@ public class Member extends BaseEntity {
     @Column
     private String nickname;
 
+    @Column(name = "last_logged_at")
+    private LocalDateTime lastLoggedAt;
+
     @Column(name = "password_modified_at")
     private LocalDateTime passwordModifiedAt;
-
-    @Column(name = "joined_at")
-    private LocalDateTime joinedAt;
 
     @Column(name = "service_agreement")
     private String serviceAgreement;
