@@ -1,5 +1,6 @@
 package com.saesig.domain.member;
 
+import com.saesig.domain.common.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity(name = "dormant_member")
-public class DormantMember {
+public class DormantMember extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
