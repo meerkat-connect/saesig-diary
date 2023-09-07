@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
       layout:decorate="~{layout/main}">
 
 <div layout:fragment="content">
@@ -12,58 +12,11 @@
     </style>
     <!-- Page-body start -->
     <div class="page-body">
-            <!-- 필터 부분 -->
-            <!--
-            <form id="searchForm" name="searchForm" onsubmit="return false;">
-                <input type="hidden" id="rowPerPage" name="rowPerPage" value="10">
-                <input type="hidden" id="orderField" name="orderField" value="created_at">
-                <input type="hidden" id="orderDirection" name="orderDirection" value="desc">
-
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-block-small">
-                            &lt;!&ndash; 키워드 filter &ndash;&gt;
-                            <div class="row">
-                                <div class="col-lg-3 col-md-6 mb-3">
-                                    <div class="mb-0 form-group row">
-                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchTitle"><strong>제목</strong></label>
-                                        <div class="col-12">
-                                            <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" id="searchTitle" name="searchTitle"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 mb-3">
-                                    <div class="mb-0 form-group row">
-                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>사용여부</strong>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <select id="searchCategory" name="searchCategory" class="form-select form-control form-control-round custom-select">
-                                                <option value="">- 전체 -</option>
-                                                <option value="Y">사용</option>
-                                                <option value="N">미사용</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            &lt;!&ndash; //키워드 filter &ndash;&gt;
-                            &lt;!&ndash; 키워드 filter-btn &ndash;&gt;
-                            <div class="mt-1 p-t-20 text-center border-top">
-                                <button class="btn btn-gray m-r-5">초기화</button>
-                                <button class="btn btn-primary" onclick="listController.init();">검색</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            -->
-            <!-- //필터 부분 -->
-
 
             <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
             <div class="row mb-3">
-                <div class="col-12 col-lg-6">
-                    <div class="card">
+                <div class="col-12 col-lg-6 mb-3">
+                    <div class="card banner-card">
                         <div class="card-block-small tree-view">
                             <div class="row mb-3">
                                 <h5 class="col-12 col-md-6 mb-3">
@@ -84,7 +37,7 @@
                                     <strong>배너 목록</strong>
                                 </h5>
                                 <div class="col-auto text-right">
-                                    <button type="button" id='exprtSearchBtn' class="btn btn-transparent btn-sm" onclick="fn_openBannerInsertModal()"><img class="plusIcon">배너등록</button>
+                                    <button type="button" id='exprtSearchBtn' class="btn btn-transparent btn-sm" onclick="openForm()"><img class="plusIcon">배너등록</button>
                                 </div>
                             </div>
                             <div class="mb-0 form-group row">
@@ -120,7 +73,7 @@
                                             <div class="col col-lg-1 m-l-30 banner-btn-area">
                                                 <div class="row banner-btn">
                                                     <button class="btn btn-gray mb-2">삭제</button>
-                                                    <button class="btn btn-primary mb-2">수정</button>
+                                                    <button class="btn btn-primary mb-2" onclick="fn_openBannerInsertForm()">수정</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -144,13 +97,17 @@
                                                     <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled"/>
                                                 </div>
                                             </div>
-                                            <div class="col col-lg-1 m-l-30 banner-btn-area">
+                                            <div class="col-1 col-lg-1 m-l-30 banner-btn-area">
                                                 <div class="row banner-btn">
                                                     <button class="btn btn-gray mb-2">삭제</button>
                                                     <button class="btn btn-primary mb-2">수정</button>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!--<div class="nodata text-center">
+                                            <p>등록된 배너가 없습니다.<br>새로운 배너를 등록해주세요.</p>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -158,14 +115,19 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-lg-6">
-                    <div class="card">
+                <div class="col-12 col-lg-6 mb-3">
+                    <div class="card banner-card">
                         <div class="card-block-small">
                             <div class="row align-items-center">
                                 <h5 class="col mb-3">
                                     <strong>배너 수정/등록</strong>
                                 </h5>
                             </div>
+                            <div class="row form-area">
+                            </div>
+                            <!--<div class="form nodata text-center">
+                                <p>좌측 리스트에 대한 상세 내용이<br>여기에 표기됩니다.</p>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -174,36 +136,21 @@
 
     </div>
 
-    <div class="modal fade" id="bannerInsertPopup" data-bs-backdrop="static"></div>
-    <div class="modal fade" id="bannerUpdatePopup" data-bs-backdrop="static"></div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
     <script th:inline="javascript">
         var columns = document.querySelectorAll(".column");
 
-        var updatePopupUrl = "/admin/banner/bannerUpdatePopup.html";
-        var updateAddModal;
-
-        var insertPopupUrl = "/admin/banner/bannerInsertPopup.html";
-        var insertAddModal;
-
-        fn_openBannerInsertModal = () => {
-            $("#bannerInsertPopup").load(insertPopupUrl, function(response, status, xhr) {
-                if (status == "success") {
-                    insertAddModal = new bootstrap.Modal($('#bannerInsertPopup'));
-                    insertAddModal.show();
-                }
-            });
-        }
-
-        fn_openBannerUpdateModal = (bannerid) => {
-            var url = updatePopupUrl+"?bannerid="+bannerid;
-
-            $("#bannerUpdatePopup").load(url, function(response, status, xhr) {
-                if (status == "success") {
-                    updateAddModal = new bootstrap.Modal($('#bannerUpdatePopup'));
-                    updateAddModal.show();
-                }
+        openForm = () => {
+            $.ajax({
+                type: 'get',
+                url: `/admin/banner/form`,
+                dataType: 'html'
+            }).done(function (response) {
+                $('.form-area').html("<script type='text/javascript' src='/files/bower_components/switchery/dist/switchery.min.js'>"+"</"+"script>");
+                $('.form-area').append("<link rel='stylesheet' type='text/css' href='/files/bower_components/switchery/dist/switchery.min.css'>");
+                $('.form-area').append("<link rel='stylesheet' type='text/css' href='files/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css'>");
+                $('.form-area').append(response);
+            }).fail(function (error) {
             });
         }
 
