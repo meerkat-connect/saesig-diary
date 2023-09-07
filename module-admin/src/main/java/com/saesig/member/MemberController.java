@@ -38,7 +38,7 @@ public class MemberController {
     @GetMapping("/{id}/detail")
     public String detailView(@PathVariable Long id, Model model) {
         model.addAttribute("memberId", id);
-
+        model.addAttribute("memberDetail", memberService.findById(id));
         return "member/tab/detail";
     }
 

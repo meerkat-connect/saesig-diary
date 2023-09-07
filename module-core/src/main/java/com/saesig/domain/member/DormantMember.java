@@ -1,24 +1,26 @@
 package com.saesig.domain.member;
 
-
 import com.saesig.domain.common.BaseEntity;
-import com.saesig.domain.role.MemberRole;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
-@Entity(name = "member")
-@ToString(exclude = "memberRoles")
-public class Member extends BaseEntity {
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity(name = "dormant_member")
+public class DormantMember extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Column
     private String email;
@@ -56,13 +58,4 @@ public class Member extends BaseEntity {
 
     @Column(name = "marketing_service_agreement")
     private String marketingServiceAgreement;
-
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    List<MemberRole> memberRoles = new ArrayList<>();
-
-    @Builder
-    public Member(String email, String nickname) {
-        this.email = email;
-        this.nickname = nickname;
-    }
 }

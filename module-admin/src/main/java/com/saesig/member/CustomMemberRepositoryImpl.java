@@ -12,6 +12,7 @@ import com.saesig.domain.adopt.QAdopt;
 import com.saesig.domain.animalDivision.QAnimalDivision1;
 import com.saesig.domain.animalDivision.QAnimalDivision2;
 import com.saesig.domain.member.QBlockedMember;
+import com.saesig.domain.member.QDormantMember;
 import com.saesig.domain.member.QMember;
 import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.Optional;
 
 import static com.querydsl.jpa.JPAExpressions.select;
 import static org.springframework.util.StringUtils.hasText;
@@ -147,7 +149,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
         Query queryResult = em.createNativeQuery(nativeQuery)
                 .setParameter("offset", of.getOffset())
-                .setParameter("limit",of.getPageSize());
+                .setParameter("limit", of.getPageSize());
 
         JpaResultMapper jpaResultMapper = new JpaResultMapper();
         List<ReportResponseDto> list = jpaResultMapper.list(queryResult, ReportResponseDto.class);
@@ -180,5 +182,28 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
 
         return new PageImpl<>(blockList.getResults(), pageable, blockList.getTotal());
+    }
+
+    @Override
+    public Optional<MemberDetailResponseDto> findDetailById(Long id) {
+        QMember qMember = QMember.member;
+        QDormantMember qDormantMember = QDormantMember.dormantMember;
+
+        MemberDetailResponseDto memberDetail = queryFactory.select(
+                        Projections.fields(
+                                MemberDetailResponseDto.class,
+                                qMember.nickname
+                                , qMember.email
+                                , qMember.signupMethod
+                                , qMember.createdAt
+                                , qMember.lastLoggedAt
+                                , qDormantMember.createdAt.as("dormancyConvertedAt")
+                        ))
+                .from(qMember)
+                .leftJoin(qDormantMember)
+                .on(qMember.id.eq(qDormantMember.member.id))
+                .where(qMember.id.eq(id)).fetchOne();
+
+        return Optional.ofNullable(memberDetail);
     }
 }

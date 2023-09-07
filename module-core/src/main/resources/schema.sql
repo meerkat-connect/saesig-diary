@@ -4,21 +4,21 @@ CREATE TABLE `member`
 (
     `id`                          BIGINT AUTO_INCREMENT NOT NULL COMMENT '회원 일련번호',
     `email`                       VARCHAR(50)           NOT NULL COMMENT '이메일',
-    `password`                    VARCHAR(200)          NOT NULL COMMENT '비밀번호',
+    `password`                    VARCHAR(200)          NULL COMMENT '비밀번호',
     `prev_password`               VARCHAR(200)          NULL COMMENT '비밀번호',
     `signup_method`               VARCHAR(20)           NULL COMMENT '가입 수단',
     `nickname`                    VARCHAR(50)           NULL COMMENT '닉네임',
     `status`                      VARCHAR(20)           NOT NULL COMMENT '상태',
-    `joined_at`                   DATETIME              NOT NULL COMMENT '가입일',
+    `last_logged_at`              DATETIME              NOT NULL COMMENT '마지막 접속일',
     `service_agreement`           VARCHAR(1)            NOT NULL COMMENT '서비스 이용약관 동의 여부',
     `location_service_agreement`  VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '위치 기반 서비스 이용동의',
     `privacy_agreement`           VARCHAR(1)            NOT NULL COMMENT '개인정보 수집 및 이용동의',
     `password_modified_at`        DATETIME              NOT NULL COMMENT '비밀번호 마지막 수정일',
     `marketing_service_agreement` VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '마케팅 서비스 이용동의',
     `modified_at`                 DATETIME              NOT NULL COMMENT '수정일',
-    `modified_by`                 BIGINT                NULL COMMENT '수정자 일련번호',
+    `modified_by`                 BIGINT                NOT NULL COMMENT '수정자 일련번호',
     `created_at`                  DATETIME              NOT NULL COMMENT '등록일',
-    `created_by`                  BIGINT                NULL COMMENT '등록자 일련번호'
+    `created_by`                  BIGINT                NOT NULL COMMENT '등록자 일련번호'
 );
 
 DROP TABLE IF EXISTS `adopt`;
@@ -495,6 +495,33 @@ CREATE TABLE IF NOT EXISTS `chatting_room`
     `created_at`  DATETIME              DEFAULT NOW() COMMENT  '등록일',
     `created_by`  BIGINT                 COMMENT '등록자 일련번호'
     );
+
+CREATE TABLE `dormant_member` (
+    `id`                          BIGINT       NOT NULL COMMENT '휴면 회원 일련번호',
+    `member_id`                   BIGINT       NOT NULL COMMENT '회원 일련번호',
+    `email`                       VARCHAR(50)  NOT NULL COMMENT '이메일',
+    `password`                    VARCHAR(200) NULL COMMENT '비밀번호',
+    `prev_password`               VARCHAR(200) NULL COMMENT '비밀번호',
+    `signup_method`               VARCHAR(20)  NULL COMMENT '가입 수단',
+    `nickname`                    VARCHAR(50)  NULL COMMENT '닉네임',
+    `status`                      VARCHAR(20)  NOT NULL COMMENT '상태',
+    `last_logged_at`              DATETIME     NOT NULL COMMENT '마지막 접속일',
+    `service_agreement`           VARCHAR(1)   NOT NULL COMMENT '서비스 이용약관 동의 여부',
+    `location_service_agreement`  VARCHAR(1)   NOT NULL DEFAULT 'N' COMMENT '위치 기반 서비스 이용동의',
+    `privacy_agreement`           VARCHAR(1)   NOT NULL COMMENT '개인정보 수집 및 이용동의',
+    `password_modified_at`        DATETIME     NOT NULL COMMENT '비밀번호 마지막 수정일',
+    `marketing_service_agreement` VARCHAR(1)   NOT NULL DEFAULT 'N' COMMENT '마케팅 서비스 이용동의',
+    `modified_at`                 DATETIME     NOT NULL COMMENT '수정일',
+    `modified_by`                 BIGINT       NOT NULL COMMENT '수정자 일련번호',
+    `created_at`                  DATETIME     NOT NULL COMMENT '등록일',
+    `created_by`                  BIGINT       NOT NULL COMMENT '등록자 일련번호'
+    );
+
+ALTER TABLE `dormant_member`
+    ADD CONSTRAINT `PK_DORMANT_MEMBER` PRIMARY KEY (
+                                                    `id`
+        );
+
 
 ALTER TABLE `member`
     ADD CONSTRAINT `PK_MEMBER` PRIMARY KEY (
