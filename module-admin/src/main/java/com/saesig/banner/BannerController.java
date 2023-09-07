@@ -1,22 +1,14 @@
 package com.saesig.banner;
 
-import com.saesig.common.mybatis.DataTablesDto;
-import com.saesig.config.auth.LoginMember;
-import com.saesig.config.auth.SessionMember;
-import com.saesig.domain.common.Constant;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/admin/banner")
 public class BannerController {
 
     private final BannerService bannerService;
@@ -24,13 +16,13 @@ public class BannerController {
     private final EnumMapperFactory enumMapperFactory;
 
 
-    @GetMapping({"/admin/banner","/admin/banner/bannerList.html"})
+    @GetMapping("view")
     public String bannerList(Model model) throws Exception {
         return "/banner/bannerList";
     }
 
-    @GetMapping(value = "/admin/banner/bannerInsertPopup.html")
+    @GetMapping("form")
     public String bannerInsertPopup() throws Exception {
-        return "/banner/bannerFormPopup";
+        return "/banner/form";
     }
 }
