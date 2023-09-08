@@ -12,9 +12,10 @@ import java.util.stream.Stream;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @RequiredArgsConstructor
 public enum SignupMethod implements EnumMapperType {
-    EMAIL("email")
-    , SOCIAL("social")
-    , SMS("sms");
+    EMAIL("이메일")
+    , NAVER("네이버")
+    , GOOGLE("구글")
+    , KAKAO("카카오");
 
     @Getter
     private final String value;

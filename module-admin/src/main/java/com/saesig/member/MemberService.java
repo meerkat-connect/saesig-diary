@@ -22,9 +22,10 @@ public class MemberService {
         return new DataTablesResponseDto(members, members.getContent());
     }
 
-    public MemberResponseDto findById(Long id) {
-//        Faq faq = faqRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("FAQ 아이디가 존재하지 않습니다."));
-        return null;
+    public MemberDetailResponseDto findById(Long id) {
+        return memberAdminRepository
+                .findDetailById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
     }
 
     public DataTablesResponseDto findAdoptedList(Long id, RequestDto request) {
@@ -32,7 +33,7 @@ public class MemberService {
         Integer pageNum = request.getStart() / request.getLength();
         PageRequest of = PageRequest.of(pageNum, request.getLength(), Sort.by(Sort.Direction.DESC, "created_at"));
 
-        Page<AdoptedListResponseDto> adoptedList = memberAdminRepository.findAdoptedList(id, request,of);
+        Page<AdoptedListResponseDto> adoptedList = memberAdminRepository.findAdoptedList(id, request, of);
 
         return new DataTablesResponseDto(adoptedList, adoptedList.getContent());
     }
@@ -41,7 +42,7 @@ public class MemberService {
         Integer pageNum = request.getStart() / request.getLength();
         PageRequest of = PageRequest.of(pageNum, request.getLength(), Sort.by(Sort.Direction.DESC, "created_at"));
 
-        Page<AdoptionListResponseDto> adoptionsList = memberAdminRepository.findAdoptionList(id, request,of);
+        Page<AdoptionListResponseDto> adoptionsList = memberAdminRepository.findAdoptionList(id, request, of);
 
         return new DataTablesResponseDto(adoptionsList, adoptionsList.getContent());
     }
@@ -50,7 +51,7 @@ public class MemberService {
         Integer pageNum = request.getStart() / request.getLength();
         PageRequest of = PageRequest.of(pageNum, request.getLength(), Sort.by(Sort.Direction.DESC, "created_at"));
 
-        Page<ReportResponseDto> adoptionsList = memberAdminRepository.findReportList(id, request,of);
+        Page<ReportResponseDto> adoptionsList = memberAdminRepository.findReportList(id, request, of);
 
         return new DataTablesResponseDto(adoptionsList, adoptionsList.getContent());
     }
@@ -59,7 +60,7 @@ public class MemberService {
         Integer pageNum = request.getStart() / request.getLength();
         PageRequest of = PageRequest.of(pageNum, request.getLength(), Sort.by(Sort.Direction.DESC, "created_at"));
 
-        Page<BlockResponseDto> blockList = memberAdminRepository.findBlockList(id, request,of);
+        Page<BlockResponseDto> blockList = memberAdminRepository.findBlockList(id, request, of);
 
         return new DataTablesResponseDto(blockList, blockList.getContent());
     }
