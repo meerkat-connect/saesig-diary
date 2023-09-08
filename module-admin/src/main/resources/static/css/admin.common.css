@@ -1,3 +1,7 @@
+input {
+    outline: none !important;
+}
+
 .pcoded .pcoded-navbar .pcoded-item > li > a:hover{color:#FF8031 !important;}
 .pcoded .pcoded-navbar[active-item-theme="theme1"] .pcoded-item li:hover > a {color:#FF8031 !important;}
 
@@ -18,6 +22,10 @@ textarea {
     padding: .5rem 2.25rem .5rem 1.5rem !important;
 }
 
+.sub-title {
+    font-size:24px !important;
+    border-bottom : 0px;
+}
 .label-yellow {
     border-radius: 20px;
     border: 1px solid #FF8031;
@@ -27,11 +35,6 @@ textarea {
     display:inline-block;
     font-size:14px;
     text-transform: none;
-}
-
-
-strong {
-    font-weight:600;
 }
 
 .text-yellow {
@@ -113,7 +116,7 @@ strong {
     padding: 10px 0 !important;
 }
 
-.nav-tabs{ border-bottom: 0; flex-wrap:nowrap;}
+.nav-tabs{ flex-wrap:nowrap;}
 
 .md-tabs .nav-item {
     width:100%;
