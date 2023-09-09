@@ -28,7 +28,6 @@
 <div class="modal fade" id="memberListModalContainer" data-bs-backdrop="static" aria-hidden="true"></div>
 
 <link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
-<link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
 <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
 
 <script th:inline="javascript">
@@ -36,9 +35,10 @@
         const roleController = {
             roles: [],
             $jstree: $('#jstree'),
+            _this: null,
 
             init: function () {
-                const _this = this;
+                _this = this;
 
                 $.ajax({
                     url: '/admin/roles',
@@ -63,8 +63,6 @@
             },
 
             renderJsTree: function () {
-                const _this = this;
-
                 _this.$jstree.jstree({
                     "core": {
                         "animation": 50,
@@ -88,7 +86,6 @@
                     },
                     'plugins': ['types']
                 }).bind('move_node.jstree', function (evt, data) {
-                    console.log(data);
                     if (data.rslt.ot != data.rslt.rt) {
                         console.log("Node was moved to a different tree-instance");
                     } else {
@@ -106,9 +103,10 @@
             $jstree: $('#jstree2'),
             changedNode: null,
             selectedRoleId: null,
+            _this : null,
 
             init: function (roleId) {
-                const _this = this;
+                _this = this;
                 _this.changedNode = new Map();
                 _this.selectedRoleId = roleId;
 
@@ -137,7 +135,6 @@
             },
 
             renderJsTree: function () {
-                const _this = this;
                 _this.$jstree.jstree('destroy');
 
                 _this.$jstree.jstree({
