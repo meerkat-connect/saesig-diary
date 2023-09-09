@@ -1,5 +1,6 @@
-input {
+* {
     outline: none !important;
+    box-shadow: none !important;
 }
 
 .pcoded .pcoded-navbar .pcoded-item > li > a:hover{color:#FF8031 !important;}
