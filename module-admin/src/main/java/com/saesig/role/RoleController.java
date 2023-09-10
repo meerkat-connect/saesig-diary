@@ -1,5 +1,7 @@
 package com.saesig.role;
 
+import com.saesig.config.auth.LoginMember;
+import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.role.MemberRole;
 import com.saesig.domain.role.RoleResourceResponseDto;
@@ -99,8 +101,10 @@ public class RoleController {
     }
 
     @PostMapping("/memberMapping/members")
-    public ResponseEntity<Object> addCheckedMembers(@RequestParam Long roleId, @RequestParam Long[] memberIds) {
-        roleService.addCheckedMembers(roleId, memberIds);
+    public ResponseEntity<Object> addCheckedMembers(@RequestParam Long roleId
+            , @RequestParam Long[] memberIds
+            , @LoginMember SessionMember member) {
+        roleService.addCheckedMembers(roleId, memberIds, member);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

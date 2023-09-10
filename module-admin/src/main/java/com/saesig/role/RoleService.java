@@ -1,5 +1,6 @@
 package com.saesig.role;
 
+import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.member.MemberRepository;
 import com.saesig.domain.role.*;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +23,7 @@ public class RoleService {
     private final MemberRoleRepository memberRoleRepository;
     private final RoleResourceRepository roleResourceRepository;
     private final ResourceRepository resourceRepository;
+    private final MemberRoleMapper memberRoleMapper;
 
     @Transactional(readOnly = true)
     public List<RoleResponseDto> findAll() {
@@ -47,7 +51,7 @@ public class RoleService {
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("자원 아이디가 존재하지 않습니다."));
 
-        if(!roleById.getName().equals(roleUpdateDto.getName())) {
+        if (!roleById.getName().equals(roleUpdateDto.getName())) {
             Role findByName = roleRepository.findByName(roleUpdateDto.getName());
             if (findByName != null && idDuplicatedRoleName(roleUpdateDto.getName(), findByName.getName())) {
                 throw new IllegalArgumentException("역할명이 중복됩니다.");
@@ -90,16 +94,23 @@ public class RoleService {
     }
 
     @Transactional
-    public void addCheckedMembers(Long roleId, Long[] memberIds) {
+    public void addCheckedMembers(Long roleId, Long[] memberIds, SessionMember member) {
         Role role = roleRepository.findById(roleId).orElseThrow(() -> new IllegalArgumentException("역할 아이디가 존재하지 않습니다."));
 
-        for (Long memberId : memberIds) {
-            // 중복 제거 필요
+        List<MemberRole> memberRoles = memberRoleRepository.findAll(roleId, List.of(memberIds));
+        List<Long> filteredIds = new ArrayList<>(Arrays.asList(memberIds)); // List.of로 생성시 추가 ,삭제 불가
 
-            Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("회원 아이디가 존재하지 않습니다."));
-            MemberRole newMemberRole = MemberRole.builder().member(member).role(role).build();
-            memberRoleRepository.save(newMemberRole);
+        for (MemberRole memberRole : memberRoles) {
+            for (Long memberId : memberIds) {
+                if (memberRole.getMember().getId().equals(memberId)) {
+                    filteredIds.remove(memberId);
+                    break;
+                }
+            }
         }
+
+        if(filteredIds.size() > 0)
+            memberRoleMapper.insertMemberRoles(roleId, filteredIds, member.getId());
     }
 
     public List<RoleResourceResponseDto> findMappedResources(Long roleId) {
