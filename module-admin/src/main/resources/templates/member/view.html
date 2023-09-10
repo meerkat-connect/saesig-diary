@@ -92,7 +92,15 @@
                                 <table id="memberListTable" class="display" style="width:100%">
                                     <thead>
                                     <tr>
-                                        <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
+                                        <th>
+                                            <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox " id="checkboxAll" name="rowCheckbox" value="All">
+                                                    <label class="form-label border-checkbox-label" for="checkboxAll"></label>
+                                                </div>
+                                            </div>
+                                            <!--<input type="checkbox" id="allCheckBox" name="allCheckBox">-->
+                                        </th>
                                         <th>아이디</th>
                                         <th>닉네임</th>
                                         <th>가입수단</th>
@@ -165,7 +173,13 @@
                     columns: [
                         {
                             render: function (data, type, row) {
-                                return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
+                                return `
+                                    <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
+                                                    <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
+                                                </div>
+                                            </div>`;
                             }
                         },
                         {data: 'email'},
