@@ -14,7 +14,7 @@ public interface FaqRepository extends JpaRepository<Faq, Long>, JpaSpecificatio
             countQuery = "SELECT count(f) FROM Faq f")
     Page<Faq> findAllWithMember(Pageable pageable);
 
-    @Query("SELECT MAX(ord) From Faq")
+    @Query("SELECT IFNULL(MAX(ord),0) + 1 From Faq")
     Long getMaxOrd();
 
     Page<Faq> findAll(Specification<Faq> spec, Pageable pageable);
