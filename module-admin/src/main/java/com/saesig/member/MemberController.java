@@ -4,6 +4,7 @@ import com.saesig.common.RequestDto;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,17 @@ public class MemberController {
     @ResponseBody
     public DataTablesResponseDto findAll(@ModelAttribute MemberRequestDto request) {
         return memberService.findAll(request);
+    }
+
+    @GetMapping("/insert")
+    public String insertForm() {
+        return "member/insert";
+    }
+
+    @PostMapping(value ="/insert", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String insertMember(@RequestBody MemberInsertDto memberInsertDto) {
+        return null;
     }
 
     @GetMapping("/{id}")

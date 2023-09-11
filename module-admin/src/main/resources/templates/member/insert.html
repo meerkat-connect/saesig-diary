@@ -1,0 +1,90 @@
+<div class="card">
+    <div class="card-header p-b-0">
+        <h3 class="sub-title"><strong>기본정보</strong></h3>
+    </div>
+
+    <form id="memberInsertForm" name="memberInsertForm">
+        <div class="card-block">
+            <div class="row">
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="email"><strong>아이디</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-sm form-control-round" id="email" name="email">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="signupMethod"><strong>가입수단</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-sm form-control-round" id="signupMethod" name="signupMethod" value="EMAIL" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="nickname"><strong>닉네임</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-sm form-control-round" id="nickname" name="nickname">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="password"><strong>비밀번호</strong></label>
+                        <div class="col-sm-12">
+                            <input type="password" class="form-control form-control-sm form-control-round" id="password" name="password">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="passwordCheck"><strong>비밀번호 확인</strong></label>
+                        <div class="col-sm-12">
+                            <input type="password" class="form-control form-control-sm form-control-round" id="passwordCheck" name="passwordCheck">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-block-small">
+            <button type="button" class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
+            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+        </div>
+    </form>
+
+
+    <script>
+        $(function () {
+            const $form = $('#memberInsertForm');
+            $form.validate({
+                rules: {
+                    password: 'required',
+                    passwordCheck: {
+                        required: true,
+                        equalTo: "#password"
+                    },
+                    nickname: 'required',
+                    email: 'required',
+                },
+                messages: {
+                    password: '비밀번호를 입력해 주십시오.',
+                    passwordCheck: {
+                        required: '비밀번호 확인을 입력해 주십시오.',
+                        equalTo: '비밀번호가 일치하지 않습니다.'
+                    },
+                    nickname:  '닉네임을 입력해 주십시오.',
+                    email: '이메일을 입력해 주십시오.'
+                }
+            })
+
+            $('#saveBtn').on('click', function () {
+                if($form.valid()) {
+                }
+            });
+        })
+
+    </script>
+</div>

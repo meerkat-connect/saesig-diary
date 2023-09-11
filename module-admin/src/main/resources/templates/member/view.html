@@ -95,8 +95,8 @@
                                         <th>
                                             <div class="border-checkbox-section">
                                                 <div class="border-checkbox-group">
-                                                    <input type="checkbox" class="border-checkbox " id="checkboxAll" name="rowCheckbox" value="All">
-                                                    <label class="form-label border-checkbox-label" for="checkboxAll"></label>
+                                                    <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
+                                                    <label class="form-label border-checkbox-label" for="allCheckBox"></label>
                                                 </div>
                                             </div>
                                             <!--<input type="checkbox" id="allCheckBox" name="allCheckBox">-->
@@ -140,10 +140,10 @@
 
                 memberListTable = $('#memberListTable').DataTable({
                     select: {
+                        selector: 'td:not(:first-child)',
                         style: 'single'
                     },
                     "columnDefs": [
-                        // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
                         {className: "dt-center", targets: "_all"}
                     ],
                     stripeClasses: [],
@@ -229,10 +229,54 @@
             memberController.init();
 
             $('body').on('click', '#insertBtn', function () {
+                $.ajax({
+                    type: 'get',
+                    url: '/admin/members/insert',
+                    dataType: 'html'
+                }).done(function (response) {
+                    $('#contentPanel').html(response);
+                }).fail(function(error){
+                    alert('페이지를 불러오는데 실패하였습니다.');
+                    console.log(JSON.stringify(error));
+                });
             }).on('click', '#sendMailBtn', function () {
 
             });
 
+            $('input[name=tableCheckbox]').on('change', function (e) {
+                const $this = $(this);
+                if ($this.is(':checked')) {
+                    memberController.selectedRow.push($this.data('id'));
+                    if (memberController.selectedRow.length === $('input[name=tableCheckbox]').length) {
+                        $('#allCheckBox').prop('checked', true);
+                    }
+                } else {
+                    memberController.selectedRow = $.grep(memberController.selectedRow, function (i) {
+                        return i != $this.data('id');
+                    })
+
+                    if (memberController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
+                }
+            })
+
+            $('#allCheckBox').on('change', function (e) {
+                const $this = $(this);
+
+                if ($this.is(':checked')) {
+                    const allSelectedRow = [];
+                    $('input[name=tableCheckbox]').each(function () {
+                        this.checked = true;
+                        allSelectedRow.push($(this).data('id'));
+                    })
+                    memberController.selectedRow = allSelectedRow;
+                } else {
+                    $('input[name=tableCheckbox]').each(function () {
+                        this.checked = false;
+                    })
+                    memberController.selectedRow = [];
+                }
+
+            });
         });
     </script>
 </div>
