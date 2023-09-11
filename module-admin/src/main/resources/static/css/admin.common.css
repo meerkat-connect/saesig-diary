@@ -343,6 +343,24 @@ table.dataTable thead th, table.dataTable thead td {
     border-bottom: 2px solid #171A19;
 }
 
+.left-arrow-icon {
+    display: inline-block;
+    min-height: 20px;
+    width: 10px;
+    background-image: url("/files/assets/icon/simple-arrow-icon/left_arrow.png");
+    background-size: cover;
+    cursor: pointer;
+}
+
+.right-arrow-icon {
+    display: inline-block;
+    min-height: 20px;
+    width: 10px;
+    background-image: url("/files/assets/icon/simple-arrow-icon/right_arrow.png");
+    background-size: cover;
+    cursor: pointer;
+}
+
 table.dataTable tbody tr.selected > *{
     --dt-row-selected: #F8F7F7 !important;
     --dt-row-selected-text: 0,0,0 !important;

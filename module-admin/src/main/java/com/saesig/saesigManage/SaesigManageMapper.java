@@ -17,4 +17,8 @@ public interface SaesigManageMapper {
 
     public List<animalDivisionCategoryDto> selectAnimalDivision2List(Integer id);
 
+    public List<ChattingDto> selectChattingListByAdoptId(ChattingDto cd);
+
+    public List<ReportingDto> selectReportingListByAdoptId(ReportingDto rd);
+
 }

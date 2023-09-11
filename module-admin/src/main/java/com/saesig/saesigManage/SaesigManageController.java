@@ -21,7 +21,7 @@ public class SaesigManageController {
 
 
     @GetMapping("/view")
-    public String faqView(Model model) throws Exception {
+    public String AdoptView(Model model) throws Exception {
         model.addAttribute("adoptStatus", enumFactory.get("adoptStatus"));
         model.addAttribute("animal_division1", saesigManageService.selectAnimalDivision(null));
         return "saesigManage/view";
@@ -45,7 +45,7 @@ public class SaesigManageController {
     }
 
     @GetMapping({"/{id}/infoForm", "/form"})
-    public String findByIdView(@PathVariable(required = false) Optional<Long> id, Model model) throws Exception {
+    public String infoForm(@PathVariable(required = false) Optional<Long> id, Model model) throws Exception {
         if (id.isPresent()) {
             AdoptListDto byId = saesigManageService.selectAdoptById(id.get());
             model.addAttribute("adopt", byId);
@@ -56,6 +56,19 @@ public class SaesigManageController {
 
         model.addAttribute("adoptStatus", enumFactory.get("adoptStatus"));
         return "saesigManage/infoForm";
+    }
+
+    @GetMapping({"/{id}/chattingForm"})
+    public String chattingForm(@PathVariable(required = false) Optional<Long> id, Model model) throws Exception {
+        if (id.isPresent()) {
+            AdoptListDto byId = saesigManageService.selectAdoptById(id.get());
+            model.addAttribute("adopt", byId);
+        } else {
+            AdoptListDto byId = new AdoptListDto();
+            model.addAttribute("adopt", byId);
+        }
+        model.addAttribute("adoptStatus", enumFactory.get("adoptStatus"));
+        return "saesigManage/chattingForm";
     }
 
 
@@ -76,4 +89,37 @@ public class SaesigManageController {
         model.addAttribute("animal_division2", animalDivision2List);
         return "saesigManage/view :: #searchAnimalDivision2Category";
     }
+
+    @GetMapping("/{id}/selectChattingListByAdoptId")
+    public DataTablesDto selectChattingListByAdoptId(ChattingDto cd) throws Exception {
+        DataTablesDto dtd = new DataTablesDto();
+        List<ChattingDto> list = saesigManageService.selectChattingListByAdoptId(cd);
+        dtd.setData(list);
+        dtd.setDraw(cd.getDraw());
+        if (list.size() > 0){
+            dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
+            dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+        }else{
+            dtd.setRecordsFiltered(0);
+            dtd.setRecordsTotal(0);
+        }
+        return dtd;
+    }
+
+    @GetMapping("/{id}/selectReportingListByAdoptId")
+    public DataTablesDto selectReportingListByAdoptId(ReportingDto rd) throws Exception {
+        DataTablesDto dtd = new DataTablesDto();
+        List<ReportingDto> list = saesigManageService.selectReportingListByAdoptId(rd);
+        dtd.setData(list);
+        dtd.setDraw(rd.getDraw());
+        if (list.size() > 0){
+            dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
+            dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+        }else{
+            dtd.setRecordsFiltered(0);
+            dtd.setRecordsTotal(0);
+        }
+        return dtd;
+    }
+
 }

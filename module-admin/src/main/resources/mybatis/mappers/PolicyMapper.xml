@@ -9,7 +9,6 @@
             ,p.category
             ,p.title
             ,p.content
-            ,p.is_enabled
             ,p.created_at
             ,p.created_by
             ,p.modified_at

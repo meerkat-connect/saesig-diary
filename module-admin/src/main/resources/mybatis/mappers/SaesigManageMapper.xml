@@ -9,7 +9,7 @@
         from adopt a
             LEFT JOIN (select adopt_id, IFNULL(count(*),0) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
             LEFT JOIN (select adopt_id, IFNULL(count(*),0) as likeCnt from adopt_interest group by adopt_id) ai ON a.id = ai.adopt_id
-            LEFT JOIN (select adopt_id, IFNULL(count(*),0) as chattingCnt from (select * from chatting_room group by chat_id) cr group by adopt_id) ch ON a.id = ch.adopt_id
+            LEFT JOIN (select adopt_id, IFNULL(count(*),0) as chattingCnt from (select ADOPT_ID, CHAT_ID from chatting_room group by chat_id) cr group by adopt_id) ch ON a.id = ch.adopt_id
             LEFT JOIN animal_division1 ad1 ON a.animal_division1_id = ad1.id
             LEFT JOIN animal_division2 ad2 ON a.animal_division2_id = ad2.id
             LEFT JOIN member m ON a.created_by = m.id
@@ -67,5 +67,13 @@
         SELECT animal_division1_id as animalDivision1Id, id as animalDivision2Id, category as animalDivision2Category  FROM animal_division2 where animal_division1_id = #{id}
     </select>
 
+    <select id="selectChattingListByAdoptId" resultType="com.saesig.saesigManage.ChattingDto" parameterType="com.saesig.saesigManage.ChattingDto">
+        SELECT cr.*, m.nickname, m.email, a.status
+        FROM chatting_room cr
+            LEFT JOIN adopt a ON a.id = cr.adopt_id
+            LEFT JOIN member m ON m.id = cr.member_id
+        WHERE cr.adopt_id = #{adoptId}
+        and cr.member_id != a.created_by
+    </select>
 
 </mapper>
