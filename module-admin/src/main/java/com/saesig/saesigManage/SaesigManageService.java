@@ -10,4 +10,8 @@ public interface SaesigManageService {
     AdoptListDto selectAdoptById(Long id) throws Exception;
 
     public List<animalDivisionCategoryDto> selectAnimalDivision(Integer id) throws Exception;
+
+    public List<ChattingDto> selectChattingListByAdoptId(ChattingDto cd) throws Exception;
+
+    public List<ReportingDto> selectReportingListByAdoptId(ReportingDto rd) throws Exception;
 }

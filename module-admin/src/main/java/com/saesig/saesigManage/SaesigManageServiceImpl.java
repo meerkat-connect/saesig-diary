@@ -32,4 +32,14 @@ public class SaesigManageServiceImpl implements SaesigManageService{
         }
 
     };
+
+    @Override
+    public List<ChattingDto> selectChattingListByAdoptId(ChattingDto cd) throws Exception {
+        return saesigManageMapper.selectChattingListByAdoptId(cd);
+    };
+
+    @Override
+    public List<ReportingDto> selectReportingListByAdoptId(ReportingDto rd) throws Exception {
+        return saesigManageMapper.selectReportingListByAdoptId(rd);
+    };
 }
