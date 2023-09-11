@@ -62,7 +62,7 @@
                             <!-- //키워드 filter -->
                             <!-- 키워드 filter-btn -->
                             <div class="mt-1 p-t-20 text-center border-top">
-                                <button type="reset" class="btn btn-gray m-r-5">초기화</button>
+                                <button type="reset" class="btn btn-gray m-r-5" id="initBtn">초기화</button>
                                 <button type="button" class="btn btn-primary" id="searchBtn">검색</button>
                             </div>
                         </form>
@@ -126,8 +126,8 @@
 
     <script th:inline="javascript">
         const faqController = {
-
             selectedRow: [],
+
             init: function () {
                 let faqListTable = null;
 
@@ -293,6 +293,9 @@
             }).on('click', '#ordDownBtn', function () {
                 const id = $(this).data('id');
                 faqController.changeOrder(id, 'down')
+            }).on('click', '#initBtn', function() {
+                $('#searchForm .custom-select').val('');
+                $('#searchForm .custom-select').niceSelect('update');
             });
 
             $('input[name=tableCheckbox]').on('change', function () {
