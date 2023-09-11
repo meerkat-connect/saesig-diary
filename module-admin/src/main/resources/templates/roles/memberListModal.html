@@ -13,7 +13,7 @@
                         <div class="col-12 col-lg-6 mb-2 mb-lg-0">
                             <div class="mb-0 form-group">
                                 <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
-                                <div class="input-group input-group-sm input-group-dropdown mb-0">
+                                <div class="input-group input-group-dropdown mb-0">
                                     <select name="searchType" class="form-select form-control form-control-round left-select custom-select">
                                         <option value="opt1">primary</option>
                                         <option value="opt2">Type 2</option>
@@ -34,16 +34,27 @@
                 <div class="card-block-small">
                     <div class="row">
                         <div class="col-12">
-                            <table id="memberListTable" class="display" style="width:100%;">
-                                <thead>
-                                <tr>
-                                    <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
-                                    <th>회원 일련번호</th>
-                                    <th>이메일</th>
-                                    <th>닉네임</th>
-                                </tr>
-                                </thead>
-                            </table>
+                            <div class="dt-responsive table-responsive">
+                                <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <table id="memberListTable" class="display" style="width:100%;">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                <div class="border-checkbox-section">
+                                                    <div class="border-checkbox-group">
+                                                        <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
+                                                        <label class="form-label border-checkbox-label" for="allCheckBox"></label>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th>회원 일련번호</th>
+                                            <th>이메일</th>
+                                            <th>닉네임</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,7 +104,12 @@
             columns: [
                 {
                     render: function (data, type, row) {
-                        return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
+                        return `<div class="border-checkbox-section">
+                                    <div class="border-checkbox-group">
+                                        <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
+                                        <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
+                                    </div>
+                                </div>`;
                     }
                 },
                 {data: 'id'},
@@ -110,7 +126,6 @@
         });
 
         $('#checkedMembersAddBtn').on('click', function () {
-
             if (confirm('선택하신 사용자를 역할에 매핑하시겠습니까?')) {
                 const checkedMembers = memberListTable.rows(function (idx, data, node) {
                     return $(node).find('input[type="checkbox"]').prop('checked');
