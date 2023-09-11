@@ -206,15 +206,19 @@ div.dataTables_wrapper div.dataTables_info {
     padding: 0.4em 0em;
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.next{
+.dataTables_wrapper .dataTables_paginate .paginate_button.next,
+.dataTables_wrapper .dataTables_paginate .paginate_button.last
+{
     display: inline;
+    color: #171A19;
     margin-right: 5px;
     border: none ;
     outline-color: white;
     background: none ;
-    text-decoration: underline ;
+    text-decoration: underline !important;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button.next:hover{
+.dataTables_wrapper .dataTables_paginate .paginate_button.next:hover,
+.dataTables_wrapper .dataTables_paginate .paginate_button.last:hover{
     color: #404E67 !important;
     border: none ;
     outline-color: white ;
@@ -222,30 +226,31 @@ div.dataTables_wrapper div.dataTables_info {
     text-decoration: underline ;
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.next:active {
-    box-shadow: none;
-    border: none !important;
-    background: none !important;
-    background-color: white !important;
-}
-.dataTables_wrapper .dataTables_paginate .paginate_button.previous:active {
+.dataTables_wrapper .dataTables_paginate .paginate_button.first:active,
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous:active,
+.dataTables_wrapper .dataTables_paginate .paginate_button.next:active,
+.dataTables_wrapper .dataTables_paginate .paginate_button.last:active
+{
     box-shadow: none;
     border: none !important;
     background: none !important;
     background-color: white !important;
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.previous{
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous,
+.dataTables_wrapper .dataTables_paginate .paginate_button.first{
     display: inline;
+    color: #171A19;
     margin-left: 5px;
     border: none !important;
     outline-color: white ;
     background: none ;
-    text-decoration: underline ;
+    text-decoration: underline !important;
 }
 
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.previous:hover{
+.dataTables_wrapper .dataTables_paginate .paginate_button.previous:hover,
+.dataTables_wrapper .dataTables_paginate .paginate_button.first:hover{
     border: none ;
     color: #404E67 !important;
     outline-color: white ;
