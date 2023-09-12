@@ -11,7 +11,7 @@
                     <div class="mb-0 form-group required">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>FAQ 유형</strong></label>
                         <div class="col-12">
-                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{category.key}">
+                            <select class="form-select form-control-round custom-select" th:field="*{category}">
                                 <option th:each="faqCategory : ${faqCategories}" th:value="${faqCategory.key}" th:text="${faqCategory.value}">value</option>
                             </select>
                         </div>
@@ -20,7 +20,7 @@
                 <div class="col-lg-6 mb-3">
                     <div class="mb-0 form-group">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled"><strong>사용여부</strong></label>
-                        <select th:field="*{isEnabled}" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                        <select th:field="*{isEnabled}" class="form-select form-control-round custom-select">
                             <option value="Y">사용</option>
                             <option value="N">사용 안함</option>
                         </select>
@@ -29,14 +29,14 @@
                 <div class="col-lg-12 form-group required mb-3">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
                     <div class="col-sm-12">
-                        <input type="text" th:field="*{title}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요.">
+                        <input type="text" th:field="*{title}" class="form-control form-control-round" placeholder="제목을 입력해주세요.">
                     </div>
                 </div>
 
                 <div class="col-lg-12 form-group required mb-3">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
                     <div class="col-sm-12">
-                        <textarea rows="5" cols="5" th:field="*{content}" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
+                        <textarea rows="5" cols="5" th:field="*{content}" class="form-control form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
                     </div>
                 </div>
 
@@ -44,7 +44,7 @@
                     <div class="mb-0 form-group">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성자</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" th:field="*{createdBy}" class="form-control form-control-sm form-control-round" readonly>
+                            <input type="text" th:field="*{createdBy}" class="form-control form-control-round" readonly>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <div class="mb-0 form-group">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성일시</strong></label>
                         <div class="col-12">
-                            <input type="datetime-local" th:field="*{createdAt}" class="form-control form-control-sm form-control-round" readonly>
+                            <input type="datetime-local" th:field="*{createdAt}" class="form-control form-control-round" readonly>
                         </div>
                     </div>
                 </div>
