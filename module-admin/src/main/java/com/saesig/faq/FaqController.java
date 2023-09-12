@@ -3,7 +3,9 @@ package com.saesig.faq;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -64,8 +66,9 @@ public class FaqController {
 
     @DeleteMapping("")
     @ResponseBody
-    public void delete(@RequestParam Long[] deleteIds) {
+    public ResponseEntity<Object> delete(@RequestParam Long[] deleteIds) {
         faqService.delete(deleteIds);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PostMapping("/{id}/move")

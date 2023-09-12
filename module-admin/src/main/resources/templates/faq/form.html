@@ -132,7 +132,7 @@
         $('body').on('click', '#saveBtn', function (event) {
             faqFormController.save();
         }).on('click', '#cancelBtn', function (event) {
-
+            $('#contentPanel').html('');
         });
     });
 

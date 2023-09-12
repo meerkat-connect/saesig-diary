@@ -34,7 +34,7 @@ public class FaqService {
         Specification<Faq> spec = (root, query, criteriaBuilder) -> null;
 
         if (!StringUtils.isEmpty(faqRequestDto.getTitle())) {
-            spec = spec.and(FaqSpecification.hasContent(faqRequestDto.getTitle()));
+            spec = spec.and(FaqSpecification.hasTitle(faqRequestDto.getTitle()));
         }
 
         if (!StringUtils.isEmpty(faqRequestDto.getCategory())) {
