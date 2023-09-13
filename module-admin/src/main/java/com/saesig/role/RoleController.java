@@ -1,9 +1,9 @@
 package com.saesig.role;
 
+import com.saesig.common.RequestDto;
 import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.member.Member;
-import com.saesig.domain.role.MemberRole;
 import com.saesig.domain.role.RoleResourceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -80,19 +80,8 @@ public class RoleController {
     //역할에 매핑된 사용자 조회
     @GetMapping("/{id}/members")
     @ResponseBody
-    public DataTablesResponseDto findMappedMembersById(
-            HttpServletRequest request
-            , @PathVariable Long id
-            , @RequestParam(required = false) String searchType
-            , @RequestParam(required = false) String searchKeyword) {
-        Integer start = Integer.valueOf(request.getParameter("start"));
-        Integer length = Integer.valueOf(request.getParameter("length"));
-        Integer pageNum = start / length;
-
-        PageRequest of = PageRequest.of(pageNum, length);
-        Page<MemberRole> findMappedMembersById = roleService.findMappedMembersById(id, of);
-
-        return new DataTablesResponseDto(findMappedMembersById, findMappedMembersById.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
+    public DataTablesResponseDto findMappedMembersById(@PathVariable Long id, RequestDto request) {
+        return roleService.findMappedMembersById(id, request);
     }
 
     @GetMapping("/memberListModal")

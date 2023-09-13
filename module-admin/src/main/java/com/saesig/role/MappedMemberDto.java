@@ -3,8 +3,10 @@ package com.saesig.role;
 import lombok.Getter;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.role.MemberRole;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MappedMemberDto {
     private Long id;
     private String email;

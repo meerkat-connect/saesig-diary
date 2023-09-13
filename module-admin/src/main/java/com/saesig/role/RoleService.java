@@ -1,15 +1,23 @@
 package com.saesig.role;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.saesig.common.RequestDto;
 import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.member.MemberRepository;
+import com.saesig.domain.member.QMember;
 import com.saesig.domain.role.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +32,13 @@ public class RoleService {
     private final RoleResourceRepository roleResourceRepository;
     private final ResourceRepository resourceRepository;
     private final MemberRoleMapper memberRoleMapper;
+    private final EntityManager em;
+    private JPAQueryFactory queryFactory;
+
+    @PostConstruct
+    public void init() {
+        queryFactory = new JPAQueryFactory(em);
+    }
 
     @Transactional(readOnly = true)
     public List<RoleResponseDto> findAll() {
@@ -89,8 +104,39 @@ public class RoleService {
         return memberRepository.findAll(pageable);
     }
 
-    public Page<MemberRole> findMappedMembersById(Long roleId, Pageable pageable) {
-        return memberRoleRepository.findByRoleId(roleId, pageable);
+    public DataTablesResponseDto findMappedMembersById(Long roleId, RequestDto request) {
+        Integer pageNum = request.getStart() / request.getLength();
+        PageRequest of = PageRequest.of(pageNum, request.getLength(), Sort.by(Sort.Direction.DESC, "createdAt"));
+        QMemberRole qMemberRole = QMemberRole.memberRole;
+        QMember qMember = QMember.member;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        String searchType = request.getSearchType();
+        if (StringUtils.hasText(searchType)) {
+            if ("email".equals(searchType)) {
+                builder.and(qMember.email.eq(request.getSearchName()));
+            } else if ("nickname".equals(searchType)) {
+                builder.and(qMember.nickname.eq(request.getSearchName()));
+            }
+        }
+        builder.and(qMemberRole.role.id.eq(roleId));
+
+        QueryResults<MappedMemberDto> mappedMembers = queryFactory.select(
+                        Projections.fields(
+                                MappedMemberDto.class,
+                                qMember.id, qMember.email, qMember.nickname
+                        )
+                ).from(qMemberRole)
+                .innerJoin(qMember)
+                .on(qMemberRole.member.id.eq(qMember.id))
+                .where(builder)
+                .offset(of.getOffset())
+                .limit(of.getPageSize())
+                .fetchResults();
+
+        PageImpl<MappedMemberDto> mappedMemberDtos = new PageImpl<>(mappedMembers.getResults(), of, mappedMembers.getTotal());
+
+        return new DataTablesResponseDto(mappedMemberDtos, mappedMemberDtos.getContent());
     }
 
     @Transactional
@@ -109,7 +155,7 @@ public class RoleService {
             }
         }
 
-        if(filteredIds.size() > 0)
+        if (filteredIds.size() > 0)
             memberRoleMapper.insertMemberRoles(roleId, filteredIds, member.getId());
     }
 
