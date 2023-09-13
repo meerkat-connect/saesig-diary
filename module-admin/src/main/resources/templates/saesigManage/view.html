@@ -161,7 +161,15 @@
                                 <table id="adoptListTable" class="display" style="width:100%">
                                     <thead>
                                     <tr>
-                                        <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
+                                        <th>
+                                            <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
+                                                    <label class="form-label border-checkbox-label" for="allCheckBox"></label>
+                                                </div>
+                                            </div>
+                                            <!--<input type="checkbox" id="allCheckBox" name="allCheckBox">-->
+                                        </th>
                                         <th>No</th>
                                         <th>분양상태</th>
                                         <th>제목</th>
@@ -206,6 +214,7 @@
 
                 adoptListTable = $('#adoptListTable').DataTable({
                     select: {
+                        selector: 'td:not(:first-child)',
                         style: 'single'
                     },
                     "columnDefs": [
@@ -220,7 +229,7 @@
                     destroy: true,
                     ordering: false,
                     paging: true,
-                    info: true,
+                    info: false,
                     pageLength: 10,
                     bPaginate: true,
                     bAutoWidth: true,
@@ -250,7 +259,12 @@
                     columns: [
                         {
                             render: function (data, type, row) {
-                                return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
+                                return ` <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
+                                                    <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
+                                                </div>
+                                            </div>`;
                             }
                         },
                         {data: 'id'},
@@ -301,7 +315,7 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/admin/saesigManage/${selectedAdoptId}/infoForm`,
+                        url: `/admin/saesigManage/detailForm.html?id=+${selectedAdoptId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         console.log(response)
@@ -348,25 +362,6 @@
                     }
                 }
             },
-
-            changeOrder: function (id, mode) {
-                if (confirm('순서를 변경하시겠습니까?')) {
-                    $.ajax({
-                        type: 'post',
-                        data: {
-                            id: id,
-                            mode: mode
-                        },
-                        url: `/admin/adopts/${id}/move`
-                    }).done(function () {
-                        alert('순서가 변경되었습니다.');
-                        adoptController.init();
-                    }).fail(function (error) {
-                        alert('순서를 변경하는데 실패하였습니다.');
-                        console.log(JSON.stringify(error));
-                    });
-                }
-            }
         };
 
         $(function () {
@@ -385,13 +380,7 @@
                 adoptController.delete();
             }).on('click', '#searchBtn', function () {
                 adoptController.init();
-            }).on('click', '#ordUpBtn', function () {
-                const id = $(this).data('id');
-                adoptController.changeOrder(id, 'up')
-            }).on('click', '#ordDownBtn', function () {
-                const id = $(this).data('id');
-                adoptController.changeOrder(id, 'down')
-            });
+            })
 
             $('input[name=tableCheckbox]').on('change', function () {
                 const $this = $(this)
@@ -402,7 +391,7 @@
                     }
                 } else {
                     adoptController.selectedRow = $.grep(adoptController.selectedRow, function (i) {
-                        return i != $this.data(id);
+                        return i != $this.data('id');
                     })
 
                     if (adoptController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
@@ -434,5 +423,6 @@
     <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
 </div>
 </html>

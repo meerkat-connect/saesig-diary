@@ -14,4 +14,6 @@ public interface SaesigManageService {
     public List<ChattingDto> selectChattingListByAdoptId(ChattingDto cd) throws Exception;
 
     public List<ReportingDto> selectReportingListByAdoptId(ReportingDto rd) throws Exception;
+
+    public AdoptListDto selectAdoptCntByAdoptId(AdoptListDto param) throws Exception;
 }

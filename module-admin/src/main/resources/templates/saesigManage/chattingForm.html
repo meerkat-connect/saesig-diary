@@ -1,166 +1,102 @@
-<div class="card">
-    <div class="card-header p-b-0 nav-main">
-        <ul class="nav nav-tabs md-tabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#home3" role="tab" aria-selected="false">새식정보</a>
-                <div class="slide"></div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#profile3" role="tab" aria-selected="false">채팅(0)</a>
-                <div class="slide"></div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#messages3" role="tab" aria-selected="true">신고(0)</a>
-                <div class="slide"></div>
-            </li>
-        </ul>
-    </div>
-    <!-- 기본정보 -->
-    <form th:object="${chattingForm}" method="post" id="chattingForm" name="chattingForm">
-        <input type="hidden" th:field="*{id}">
-        <div class="card-header p-b-0">
-            <h3 class="sub-title"><strong>기본정보</strong></h3>
-        </div>
-        <div class="card-block-small p-t-0">
-            <div class="row p-20 p-b-0">
-                <div class="col-12 col-md-6 mb-2 mb-md-0">
-                    <h5><strong>검색결과</strong></h5>
-                </div>
-                <div class="col-12 col-md-6 text-right">
-                    <button type="button" class="btn btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
-                    <!--                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>-->
-                </div>
-            </div>
-            <div class="card-block-small">
-                <div class="dt-responsive table-responsive">
-                    <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                        <table id="chattingListTable" class="display" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>대화상대</th>
-                                <th>분양상태</th>
-                                <th>내용</th>
-                                <th>상태변경일시</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- // -->
-    </form>
+<div class="card-header p-b-0">
+    <h3 class="sub-title"><strong>입양기록</strong></h3>
 </div>
+<div class="card-block-small p-t-0">
+    <div class="dt-responsive table-responsive">
+        <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <table id="chattingListTable" class="display" style="width:100%">
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>대화상대</th>
+                    <th>분양상태</th>
+                    <th>내용</th>
+                    <th>상태변경일시</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    <!-- // -->
 
-<script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
-
-<script>
+<script th:inline="javascript">
     $(function () {
-        adoptListTable = $('#chattingListTable').DataTable({
-            select: {
-                style: 'single'
-            },
-            "columnDefs": [
-                {className: "dt-center", targets: "_all"}
-            ],
-            stripeClasses: [],
-            pagingType: 'full_numbers',
-            lengthChange: false,
-            responsive: true,
-            searching: false,
-            destroy: true,
-            ordering: false,
-            paging: true,
-            info: true,
-            pageLength: 10,
-            bPaginate: true,
-            bAutoWidth: true,
-            serverSide: true,
-            processing: true,
-            ajax: {
-                async: false,
-                method: 'GET',
-                url: '/admin/saesigManage/selectChattingListByAdoptId.do',
-                data: function(d) {
-                    var formData  = $('#searchForm').serializeArray();
-                    for(var i = 0; i < formData.length; i++) {
-                        var formName = formData[i].name;
-                        var formVal = $("#"+formName).val();
-                        d[formName] = formVal;
-                    }
-                },
-                "dataSrc": function (res) {
-                    if (res.data.length > 0){
-                        return res.data;
-                    }else{
-                        return false;
-                    }
-                }
-            },
-
-            columns: [
-                {data: 'id'},
-                {render: function (data, type, row) {
-                        return `${row.status.value}`;
-                    }},
-                {data:'title'},
-                {data:'animalDivision1Category'},
-                {data:'animalDivision2Category'},
-                {render : function (data,type,row){
-                        if (row.gender == 'MAN'){
-                            return '수컷';
-                        }else{
-                            return '암컷';
+        const chattingController = {
+            init : function (){
+                let chattingListTable = null;
+                if (chattingListTable != null) chattingListTable.destroy()
+                chattingListTable = $('#chattingListTable').DataTable({
+                    "columnDefs": [
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: false,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
+                    serverSide: true,
+                    processing: true,
+                    ajax: {
+                        async: false,
+                        method: 'GET',
+                        url: '/admin/saesigManage/selectChattingListByAdoptId.do',
+                        data: function(d) {
+                            d['adoptId'] = 1
+                        },
+                        "dataSrc": function (res) {
+                            console.log(res)
+                            if (res.data.length > 0){
+                                return res.data;
+                            }else{
+                                return false;
+                            }
                         }
-                    }},
-                {data:'age'},
-                {data:'reportCnt'},
-                {data:'chattingCnt'},
-                {data:'likeCnt'},
-                {data:'hits'},
-                {data:'isDeleted'},
-                {data:'createdAt'}
+                    },
 
-            ],
+                    columns: [
+                        {data: 'id'},
+                        {data : 'nickname'},
+                        {render: function (data, type, row) {
+                                return `${row.adoptStatus.value}`;
+                            }},
+                        {render: function (data, type, row) {
+                                return `<button type="button" class="btn btn btn-transparent m-r-5" onclick="openChatReasonPop(`+row.id+`)">확인</button>`;
+                            }},
+                        {data : 'createdAt'}
+                    ],
+                    language: {
+                        search: '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        loadingRecords: '로딩중..',
+                    },
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
 
-            language: {
-                search: '검색',
-                emptyTable: '데이터가 없습니다.',
-                info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
-                infoEmpty: '데이터 0 부터 0 까지 / 총데이터 : 0',
-                lengthMenu: '보기',
-                loadingRecords: '로딩중..',
-            },
-            drawCallback: function () {
-                var $api = this.api();
-                var pages = $api.page.info().pages;
-
-                if (pages === 0) {
-                    $(".paginate_button").hide();
-                }
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
+                    }
+                })
             }
-        })
 
-        adoptListTable.on('select', function (e, dt, type, indexes) {
-            let rowData = adoptListTable.rows(indexes).data().toArray();
-            const selectedAdoptId = rowData[0].id;
+            ,openChatReasonPop : function(id){
 
-            $.ajax({
-                type: 'get',
-                url: `/admin/saesigManage/${selectedAdoptId}/infoForm`,
-                dataType: 'html'
-            }).done(function (response) {
-                console.log(response)
-                $('#contentPanel').html(response);
-            }).fail(function (error) {
-                console.log(error)
-            });
-        }).on('deselect', function (e, dt, type, indexes) {
-            let rowData = adoptListTable.rows(indexes).data().toArray();
-        });
+            }
+
+
+        }
+        chattingController.init();
     });
 
 

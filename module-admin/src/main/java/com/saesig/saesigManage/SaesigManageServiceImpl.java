@@ -42,4 +42,9 @@ public class SaesigManageServiceImpl implements SaesigManageService{
     public List<ReportingDto> selectReportingListByAdoptId(ReportingDto rd) throws Exception {
         return saesigManageMapper.selectReportingListByAdoptId(rd);
     };
+
+    @Override
+    public AdoptListDto selectAdoptCntByAdoptId(AdoptListDto param) throws Exception {
+        return saesigManageMapper.selectAdoptCntByAdoptId(param);
+    };
 }
