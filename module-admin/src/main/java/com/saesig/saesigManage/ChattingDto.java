@@ -15,6 +15,12 @@ public class ChattingDto extends RequestDto {
     private String chatId;
     private String adoptId;
     private String memberId;
+    private String nickname;
+    private String email;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime modifiedAt;
+    private Long modifiedBy;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;

@@ -1,20 +1,30 @@
 package com.saesig.saesigManage;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.saesig.common.mybatis.RequestDto;
+import com.saesig.domain.report.ReportCategory;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+
 
 @Data
 public class ReportingDto extends RequestDto {
     private Long id;
-    private String adopt_id;
-    private String category;
+    private String adoptId;
+    private ReportCategory category;
     private String content;
-    private String member_id;
-    private LocalDateTime modified_at;
-    private Long modified_by;
-    private LocalDateTime created_at;
-    private Long created_by;
+    private String memberId;
+    private String nickname;
+    private String email;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime modifiedAt;
+    private Long modifiedBy;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime createdAt;
+    private Long createdBy;
 
 }

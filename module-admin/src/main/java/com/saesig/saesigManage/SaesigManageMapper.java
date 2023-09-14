@@ -21,4 +21,6 @@ public interface SaesigManageMapper {
 
     public List<ReportingDto> selectReportingListByAdoptId(ReportingDto rd);
 
+    public AdoptListDto selectAdoptCntByAdoptId(AdoptListDto param);
+
 }

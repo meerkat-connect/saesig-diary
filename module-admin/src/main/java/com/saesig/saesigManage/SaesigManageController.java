@@ -44,10 +44,24 @@ public class SaesigManageController {
         return dtd;
     }
 
-    @GetMapping({"/{id}/infoForm", "/form"})
-    public String infoForm(@PathVariable(required = false) Optional<Long> id, Model model) throws Exception {
-        if (id.isPresent()) {
-            AdoptListDto byId = saesigManageService.selectAdoptById(id.get());
+    @GetMapping({"/detailForm.html"})
+    public String detailForm(AdoptListDto adoptListDto, Model model) throws Exception {
+        Long id = adoptListDto.getId();
+        if (id != 0) {
+            AdoptListDto byId = saesigManageService.selectAdoptCntByAdoptId(adoptListDto);
+            model.addAttribute("adopt", byId);
+        } else {
+            AdoptListDto byId = new AdoptListDto();
+            model.addAttribute("adopt", byId);
+        }
+        return "saesigManage/detailForm.html";
+    }
+
+    @GetMapping({"/infoForm.html"})
+    public String infoForm(AdoptListDto adoptListDto, Model model) throws Exception {
+        Long id = adoptListDto.getId();
+        if (id != 0) {
+            AdoptListDto byId = saesigManageService.selectAdoptById(id);
             model.addAttribute("adopt", byId);
         } else {
             AdoptListDto byId = new AdoptListDto();
@@ -58,17 +72,14 @@ public class SaesigManageController {
         return "saesigManage/infoForm";
     }
 
-    @GetMapping({"/{id}/chattingForm"})
-    public String chattingForm(@PathVariable(required = false) Optional<Long> id, Model model) throws Exception {
-        if (id.isPresent()) {
-            AdoptListDto byId = saesigManageService.selectAdoptById(id.get());
-            model.addAttribute("adopt", byId);
-        } else {
-            AdoptListDto byId = new AdoptListDto();
-            model.addAttribute("adopt", byId);
-        }
-        model.addAttribute("adoptStatus", enumFactory.get("adoptStatus"));
+    @GetMapping({"/chattingForm.html"})
+    public String chattingForm(AdoptListDto adoptListDto, Model model) throws Exception {
         return "saesigManage/chattingForm";
+    }
+
+    @GetMapping({"/reportForm.html"})
+    public String reportForm(AdoptListDto adoptListDto, Model model) throws Exception {
+        return "saesigManage/reportForm";
     }
 
 
@@ -90,7 +101,8 @@ public class SaesigManageController {
         return "saesigManage/view :: #searchAnimalDivision2Category";
     }
 
-    @GetMapping("/{id}/selectChattingListByAdoptId")
+    @GetMapping("/selectChattingListByAdoptId.do")
+    @ResponseBody
     public DataTablesDto selectChattingListByAdoptId(ChattingDto cd) throws Exception {
         DataTablesDto dtd = new DataTablesDto();
         List<ChattingDto> list = saesigManageService.selectChattingListByAdoptId(cd);
@@ -106,7 +118,8 @@ public class SaesigManageController {
         return dtd;
     }
 
-    @GetMapping("/{id}/selectReportingListByAdoptId")
+    @GetMapping("/selectReportListByAdoptId.do")
+    @ResponseBody
     public DataTablesDto selectReportingListByAdoptId(ReportingDto rd) throws Exception {
         DataTablesDto dtd = new DataTablesDto();
         List<ReportingDto> list = saesigManageService.selectReportingListByAdoptId(rd);
