@@ -1,181 +1,290 @@
 <!-- 기본정보 -->
 <form th:object="${adopt}" method="post" id="adoptForm" name="adoptForm">
-        <input type="hidden" th:field="*{id}">
-        <div class="card-header p-b-0">
-            <h3 class="sub-title"><strong>기본정보</strong>
-                <div class="col-0 col-md-0 text-right">
-                    <button type="button" class="btn btn-transparent" data-bs-toggle="modal" data-bs-target="#imageModalPop" >사진보기</button>
-                    <!--                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>-->
-                </div>
-            </h3>
-        </div>
-        <div class="card-block-small p-t-0">
-            <div class="row">
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="animalDivision1Category"><strong>반려동물</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text" th:field="*{animalDivision1Category}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="animalDivision2Category"><strong>품종</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text" th:field="*{animalDivision2Category}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="gender"><strong>성별</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text" th:field="*{gender}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="age"><strong>나이</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text" th:field="*{age}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="responsibilityCost"><strong>책임비</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text" th:field="*{responsibilityCost}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="sido-sigungu"><strong>분양희망지역</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text"  th:value="*{sido+' '+sigungu}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="likeCnt"><strong>좋아요 수</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text" th:field="*{likeCnt}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="hits"><strong>조회수</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text" th:field="*{hits}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdBy"><strong>작성자</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text" th:value="*{createdName+'('+createdMail+')'}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>등록일시</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text"  th:field="*{createdAt}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="modifiedAt"><strong>최종 수정 일시</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text"  th:field="*{modifiedAt}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 mb-3">
-                    <div class="row form-group required mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="likeCnt"><strong>좋아요 수</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text" th:field="*{likeCnt}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>
-                        </div>
-                    </div>
-                </div>
-<!--                <div class="col-lg-3 mb-3">-->
-<!--                    <div class="row form-group required mb-3">-->
-<!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="hits"><strong>조회수</strong></label>-->
-<!--                        <div class="col-sm-12">-->
-<!--                            <input type="text" th:field="*{hits}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-lg-6 mb-3">-->
-<!--                    <div class="mb-0 form-group">-->
-<!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>반려동물</strong></label>-->
-<!--                        <div class="col-12">-->
-<!--                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{status.key}">-->
-<!--                                <option th:each="status : ${AdoptStatus}" th:value="${status.key}" th:text="${status.value}">value</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col-lg-6 mb-3">-->
-<!--                    <div class="mb-0 form-group">-->
-<!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isDeleted"><strong>사용여부</strong></label>-->
-<!--                        <select th:field="*{isDeleted}" class="form-select form-select-sm form-control-sm form-control-round custom-select">-->
-<!--                            <option value="Y">사용</option>-->
-<!--                            <option value="N">사용 안함</option>-->
-<!--                        </select>-->
-<!--                    </div>-->
-<!--                </div>-->
+    <input type="hidden" th:field="*{id}">
+    <div class="card-header p-b-0">
+        <h3 class="sub-title"><strong>기본정보</strong>
+            <div class="col-0 col-md-0 text-right">
+                <button type="button" class="btn btn-transparent" data-bs-toggle="modal"
+                        data-bs-target="#imageModalPop">사진보기
+                </button>
+                <!--                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>-->
+            </div>
+        </h3>
+    </div>
+    <div class="card-block-small p-t-0">
+        <div class="row">
+            <div class="col-lg-3 mb-3">
                 <div class="row form-group required mb-3">
-                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="animalDivision1Category"><strong>반려동물</strong></label>
                     <div class="col-sm-12">
-                        <input type="text" th:field="*{title}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요.">
+                        <input type="text" th:field="*{animalDivision1Category}"
+                               class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요."
+                               readonly>
                     </div>
                 </div>
-
+            </div>
+            <div class="col-lg-3 mb-3">
                 <div class="row form-group required mb-3">
-                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="animalDivision2Category"><strong>품종</strong></label>
                     <div class="col-sm-12">
-                        <textarea rows="5" cols="5" th:field="*{content}" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
+                        <input type="text" th:field="*{animalDivision2Category}"
+                               class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요."
+                               readonly>
                     </div>
                 </div>
-
-                <div class="col-lg-6 mb-3">
-                    <div class="mb-0 form-group">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성자</strong></label>
-                        <div class="col-sm-12">
-                            <input type="text" th:value="*{createdName+'('+createdMail+')'}" class="form-control form-control-sm form-control-round" readonly>
-                        </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                           for="gender"><strong>성별</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{gender}" class="form-control form-control-sm form-control-round"
+                               placeholder="제목을 입력해주세요." readonly>
                     </div>
                 </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="age"><strong>나이</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{age}" class="form-control form-control-sm form-control-round"
+                               placeholder="제목을 입력해주세요." readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                           for="responsibilityCost"><strong>책임비</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{responsibilityCost}"
+                               class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요."
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                           for="sido-sigungu"><strong>분양희망지역</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:value="*{sido+' '+sigungu}"
+                               class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요."
+                               readonly>
 
-                <div class="col-lg-6 mb-3">
-                    <div class="mb-0 form-group">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성일시</strong></label>
-                        <div class="col-12">
-                            <input type="text" th:field="*{createdAt}" class="form-control form-control-sm form-control-round" readonly>
-                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="likeCnt"><strong>좋아요
+                        수</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{likeCnt}" class="form-control form-control-sm form-control-round"
+                               placeholder="제목을 입력해주세요." readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                           for="hits"><strong>조회수</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{hits}" class="form-control form-control-sm form-control-round"
+                               placeholder="제목을 입력해주세요." readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                           for="createdBy"><strong>작성자</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:value="*{createdName+'('+createdMail+')'}"
+                               class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요."
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>등록일시</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{createdAt}"
+                               class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요."
+                               readonly>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="modifiedAt"><strong>최종 수정
+                        일시</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{modifiedAt}"
+                               class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요."
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="likeCnt"><strong>좋아요
+                        수</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{likeCnt}" class="form-control form-control-sm form-control-round"
+                               placeholder="제목을 입력해주세요." readonly>
+                    </div>
+                </div>
+            </div>
+            <!--                <div class="col-lg-3 mb-3">-->
+            <!--                    <div class="row form-group required mb-3">-->
+            <!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="hits"><strong>조회수</strong></label>-->
+            <!--                        <div class="col-sm-12">-->
+            <!--                            <input type="text" th:field="*{hits}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div class="col-lg-6 mb-3">-->
+            <!--                    <div class="mb-0 form-group">-->
+            <!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>반려동물</strong></label>-->
+            <!--                        <div class="col-12">-->
+            <!--                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{status.key}">-->
+            <!--                                <option th:each="status : ${AdoptStatus}" th:value="${status.key}" th:text="${status.value}">value</option>-->
+            <!--                            </select>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div class="col-lg-6 mb-3">-->
+            <!--                    <div class="mb-0 form-group">-->
+            <!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isDeleted"><strong>사용여부</strong></label>-->
+            <!--                        <select th:field="*{isDeleted}" class="form-select form-select-sm form-control-sm form-control-round custom-select">-->
+            <!--                            <option value="Y">사용</option>-->
+            <!--                            <option value="N">사용 안함</option>-->
+            <!--                        </select>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <div class="row form-group required mb-3">
+                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
+                <div class="col-sm-12">
+                    <input type="text" th:field="*{title}" class="form-control form-control-sm form-control-round"
+                           placeholder="제목을 입력해주세요.">
+                </div>
+            </div>
+
+            <div class="row form-group required mb-3">
+                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
+                <div class="col-sm-12">
+                    <textarea rows="5" cols="5" th:field="*{content}"
+                              class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요."
+                              mekc-ck-editor></textarea>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-3">
+                <div class="mb-0 form-group">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성자</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:value="*{createdName+'('+createdMail+')'}"
+                               class="form-control form-control-sm form-control-round" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-3">
+                <div class="mb-0 form-group">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성일시</strong></label>
+                    <div class="col-12">
+                        <input type="text" th:field="*{createdAt}"
+                               class="form-control form-control-sm form-control-round" readonly>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- 버튼영역 -->
-        <div class="card-block-small">
-            <button type="button" class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
-            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+    </div>
+    <div class="card-header p-b-0">
+        <h3 class="sub-title"><strong>건강정보</strong></h3>
+    </div>
+    <div class="card-block-small p-t-0">
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="is_castrated"><strong>중성화
+                        여부</strong></label>
+                    <select th:field="*{isDeleted}"
+                            class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                        <option value="Y">중성화</option>
+                        <option value="N">비중성화</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-3">
+                <div class="mb-0 form-group">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="is_vaccine"><strong>백신 접종
+                        여부</strong></label>
+                    <div class="border-checkbox-section">
+                        <div class="border-checkbox-group" th:each="vaccineItem : ${vaccine}">
+                            <input class="border-checkbox " type="checkbox"
+                                   th:id="'vaccineCheckbox_' + ${vaccineItem.id}" th:value="${vaccineItem.id}"
+                                   th:checked="${#lists.contains(adopt.vaccineList, vaccineItem.id)}"/>
+                            <label class="form-label border-checkbox-label"
+                                   th:for="'vaccineCheckbox_' + ${vaccineItem.id}">[[${vaccineItem.name}]]</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group required mb-3">
+                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="etc_content"><strong>기타 질병 및
+                    특이사항</strong></label>
+                <div class="col-sm-12">
+                    <textarea rows="5" cols="5" th:field="*{etcContent}"
+                              class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요."
+                              mekc-ck-editor></textarea>
+                </div>
+            </div>
         </div>
-        <!-- // -->
-    </form>
+    </div>
+    <div class="card-header p-b-0">
+        <h3 class="sub-title"><strong>분양상태 정보</strong></h3>
+    </div>
+    <div class="card-block-small p-t-0">
+        <div class="row">
+            <div class="col-lg-6 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="is_castrated"><strong>중성화 여부</strong></label>
+                    <select th:field="*{isDeleted}" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                        <option value="Y">중성화</option>
+                        <option value="N">비중성화</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-3">
+                <div class="mb-0 form-group">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="is_vaccine"><strong>백신 접종 여부</strong></label>
+                    <div class="border-checkbox-section">
+                        <div class="border-checkbox-group" th:each="vaccineItem : ${vaccine}">
+                            <input class="border-checkbox " type="checkbox" th:id="'vaccineCheckbox_' + ${vaccineItem.id}" th:value="${vaccineItem.id}" th:checked="${#lists.contains(adopt.vaccineList, vaccineItem.id)}"/>
+                            <label class="form-label border-checkbox-label" th:for="'vaccineCheckbox_' + ${vaccineItem.id}">[[${vaccineItem.name}]]</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group required mb-3">
+                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="etc_content"><strong>기타 질병 및 특이사항</strong></label>
+                <div class="col-sm-12">
+                    <textarea rows="5" cols="5" th:field="*{etcContent}" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 버튼영역 -->
+    <div class="card-block-small">
+        <button type="button" class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
+        <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+    </div>
+    <!-- // -->
+</form>
 <div class="modal fade" id="imageModalPop" style="top: 23vh;">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content type_1">
@@ -192,13 +301,22 @@
                             <div class="col-12">
                                 <div class="col-12 img-box-con text-center ">
                                     <div class="col-1 text-left left-arrow-icon" id="prevSlide"></div>
-                                    <div class="col-10 swiper-container" style="overflow: hidden; display: inline-flex;">
-                                    <div class="swiper-wrapper">
-                                    <div class="swiper-slide"><img class="col-0 img-fluid" src="/files/assets/images/logo2.png" alt="banner image" draggable="false"></div>
-                                    <div class="swiper-slide"><img class="col-0 img-fluid" src="/files/assets/images/logo2.png" alt="banner image" draggable="false"></div>
-                                    <div class="swiper-slide"><img class="col-0 img-fluid" src="/files/assets/images/logo2.png" alt="banner image" draggable="false"></div>
-                                    <div class="swiper-slide"><img class="col-0 img-fluid" src="/files/assets/images/logo2.png" alt="banner image" draggable="false"></div>
-                                    </div>
+                                    <div class="col-10 swiper-container"
+                                         style="overflow: hidden; display: inline-flex;">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide"><img class="col-0 img-fluid"
+                                                                           src="/files/assets/images/logo2.png"
+                                                                           alt="banner image" draggable="false"></div>
+                                            <div class="swiper-slide"><img class="col-0 img-fluid"
+                                                                           src="/files/assets/images/logo2.png"
+                                                                           alt="banner image" draggable="false"></div>
+                                            <div class="swiper-slide"><img class="col-0 img-fluid"
+                                                                           src="/files/assets/images/logo2.png"
+                                                                           alt="banner image" draggable="false"></div>
+                                            <div class="swiper-slide"><img class="col-0 img-fluid"
+                                                                           src="/files/assets/images/logo2.png"
+                                                                           alt="banner image" draggable="false"></div>
+                                        </div>
                                     </div>
                                     <div class="col-1 text-right right-arrow-icon" id="nextSlide"></div>
                                 </div>
@@ -209,7 +327,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-dismiss="modal" aria-label="Close">닫기</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-dismiss="modal"
+                        aria-label="Close">닫기
+                </button>
             </div>
         </div>
     </div>
@@ -238,7 +358,6 @@
         });
 
 
-
         const adoptFormController = {
             save: function () {
                 const id = $('#id').val();
@@ -263,10 +382,10 @@
                         contentType: 'application/json',
                         dataType: 'json',
                         url: `/admin/adopts/${id}`
-                    }).done(function(response){
+                    }).done(function (response) {
                         alert('수정 되었습니다.');
                         console.log(response);
-                    }).fail(function(error){
+                    }).fail(function (error) {
                         alert('수정중 에러가 발생하였습니다.');
                         console.log(JSON.stringify(error));
                     })
@@ -284,10 +403,10 @@
                         contentType: 'application/json',
                         dataType: 'json',
                         url: '/admin/adopts'
-                    }).done(function(response){
+                    }).done(function (response) {
                         alert('등록 되었습니다.');
                         console.log(response);
-                    }).fail(function(error){
+                    }).fail(function (error) {
                         alert('등록중 에러가 발생하였습니다.');
                         console.log(JSON.stringify(error));
                     })

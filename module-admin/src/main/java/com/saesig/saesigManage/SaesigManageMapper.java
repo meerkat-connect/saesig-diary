@@ -1,8 +1,10 @@
 package com.saesig.saesigManage;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,5 +24,13 @@ public interface SaesigManageMapper {
     public List<ReportingDto> selectReportingListByAdoptId(ReportingDto rd);
 
     public AdoptListDto selectAdoptCntByAdoptId(AdoptListDto param);
+
+    public Long insertOpenChatReason(ChatOpenReasonDto param);
+
+    public Map<String, Object>checkPassword(@Param("id") Long id,@Param("password") String password);
+
+    public List<String> selectVaccineByAdoptId(Long id);
+
+    public List<VaccineDto> selectVaccineList();
 
 }

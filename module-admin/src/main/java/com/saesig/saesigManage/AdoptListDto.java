@@ -46,6 +46,7 @@ public class AdoptListDto extends RequestDto {
     private Long reportCnt;
     private Long chattingCnt;
     private Long likeCnt;
+    private String[] vaccineList;
 
     //searchParam
     private String searchKeyword;
