@@ -96,6 +96,18 @@
         WHERE a.id=#{id}
     </select>
 
+    <insert id="insertOpenChatReason">
+    INSERT INTO chat_open_reason(member_id, category, etc_reason, modified_at, modified_by, created_at, created_by) VALUES (#{memberId}, #{category}, #{etcReason},now(), #{memberId}, now(),#{memberId})
+    </insert>
+
+    <select id="selectVaccineByAdoptId" resultType="String" parameterType="hashMap">
+        SELECT vaccine_id FROM adopt_vaccine where adopt_id = #{id}
+    </select>
+
+    <select id="selectVaccineList" resultType="com.saesig.saesigManage.VaccineDto">
+        SELECT * FROM vaccine
+    </select>
+
 
 
 </mapper>

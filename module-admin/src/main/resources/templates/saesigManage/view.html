@@ -361,8 +361,134 @@
                         });
                     }
                 }
-            },
+            }
         };
+
+        const chattingController = {
+            targetId : null,
+            ChattingReasonModal : null,
+            ChattingContentModal : null,
+            init : function (){
+                let chattingListTable = null;
+                if (chattingListTable != null) chattingListTable.destroy()
+                chattingListTable = $('#chattingListTable').DataTable({
+                    "columnDefs": [
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: false,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
+                    serverSide: true,
+                    processing: true,
+                    ajax: {
+                        async: false,
+                        method: 'GET',
+                        url: '/admin/saesigManage/selectChattingListByAdoptId.do',
+                        data: function(d) {
+                            d['adoptId'] = 1
+                        },
+                        "dataSrc": function (res) {
+                            console.log(res)
+                            if (res.data.length > 0){
+                                return res.data;
+                            }else{
+                                return false;
+                            }
+                        }
+                    },
+
+                    columns: [
+                        {data: 'id'},
+                        {data : 'nickname'},
+                        {render: function (data, type, row) {
+                                return `${row.adoptStatus.value}`;
+                            }},
+                        {render: function (data, type, row) {
+                                return `<button type="button" class="btn btn btn-transparent m-r-5" onclick="chattingController.openChatReasonPop(`+row.id+`)">확인</button>`;
+                            }},
+                        {data : 'createdAt'}
+                    ],
+                    language: {
+                        search: '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        loadingRecords: '로딩중..',
+                    },
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
+
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
+                    }
+                })
+            },
+            openChatReasonPop : function (id) {
+                chattingController.targetId = id;
+                chattingController.ChattingReasonModal = new bootstrap.Modal($('#ChattingReasonModalPop'));
+                chattingController.ChattingReasonModal.show();
+                $('#ChattingReasonModalPop').find('select').niceSelect('update');
+                $('#ChattingReasonModalPop').find('#category').off('change');
+                $('#ChattingReasonModalPop').find('#category').on('change', function (){
+                    if ($(this).val() == 'ETC'){
+                        $('#etc_reason_con').show()
+                    }else{
+                        $('#etc_reason_con').hide()
+                    }
+                })
+
+            },
+            
+            submitOpenChatReason : function () {
+                if ($("#member_id").val() == '' || $("#member_id").val() == null || $("#member_id").val() == undefined){
+                    alert("잘못된 접근입니다.")
+                    return false;
+                }
+                if ($("#password").val() == '' || $("#password").val() == null || $("#password").val() == undefined){
+                    alert("비밀번호를 입력해주세요")
+                    return false;
+                }
+                if ($("#category").val() == '' || $("#category").val() == null || $("#category").val() == undefined){
+                    alert("열람사유를 선택해 주세요")
+                    return false;
+                }
+                if ($("#category").val()=="ETC"){
+                    if ($("#etc_reason").val() == '' || $("#etc_reason").val() == null || $("#etc_reason").val() == undefined){
+                        alert("열람사유가 기타일 경우 반드시 기타 사유를 작성해 주세요.")
+                        return false;
+                    }
+                }
+                if ($('#chatAgree').prop('checked')) {
+                    let param = {}
+                    param.memberId = $("#member_id").val();
+                    param.password = $("#password").val();
+                    param.category = $("#category").val();
+                    param.etcReason = $("#etc_reason").val();
+                    $.ajax({
+                        type: 'POST',
+                        data: param,
+                        url: '/admin/saesigManage/submitOpenChatReason.do'
+                    }).done(function () {
+                        chattingController.ChattingReasonModal.hide();
+                        chattingController.ChattingContentModal = new bootstrap.Modal($('#ChattingContentModalPop'));
+                        chattingController.ChattingContentModal.show();
+                    }).fail(function (error) {
+                        alert(error.code);
+                    });
+                }else{
+                    alert('채팅 이력 외부 유출 금지 조항에 동의해주세요')
+                }
+            }
+        }
 
         $(function () {
             adoptController.init();
@@ -414,7 +540,6 @@
                     })
                     adoptController.selectedRow = [];
                 }
-
             });
         })
     </script>

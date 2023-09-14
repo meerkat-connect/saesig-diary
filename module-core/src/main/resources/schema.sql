@@ -436,7 +436,7 @@ CREATE TABLE `chat_open_reason`
     `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '채팅이력 열람 사유 일련번호',
     `member_id`   BIGINT                NOT NULL COMMENT '열람자 일련번호',
     `category`    VARCHAR(20)           NOT NULL COMMENT '열람 사유 유형',
-    `etc_reason`  VARCHAR(1000)         NOT NULL COMMENT '기타 사유',
+    `etc_reason`  VARCHAR(1000)         COMMENT '기타 사유',
     `modified_at` DATETIME              NOT NULL COMMENT '수정일',
     `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호',
     `created_at`  DATETIME              NOT NULL COMMENT '등록일',

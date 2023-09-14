@@ -1,8 +1,14 @@
 package com.saesig.saesigManage;
 
 import com.saesig.common.mybatis.DataTablesDto;
+import com.saesig.config.auth.LoginMember;
+import com.saesig.config.auth.SessionMember;
+import com.saesig.config.auth.formLogin.CustomUserDetails;
+import com.saesig.config.auth.formLogin.CustomUserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +23,9 @@ import java.util.Optional;
 @RequestMapping("/admin/saesigManage")
 public class SaesigManageController {
     private final SaesigManageService saesigManageService;
+    private final CustomUserDetailsService customUserDetailsService;
     private final EnumMapperFactory enumFactory;
+    private final PasswordEncoder passwordEncoder;
 
 
     @GetMapping("/view")
@@ -60,8 +68,10 @@ public class SaesigManageController {
     @GetMapping({"/infoForm.html"})
     public String infoForm(AdoptListDto adoptListDto, Model model) throws Exception {
         Long id = adoptListDto.getId();
+        model.addAttribute("vaccine", saesigManageService.selectVaccineList());
         if (id != 0) {
             AdoptListDto byId = saesigManageService.selectAdoptById(id);
+            byId.setVaccineList(saesigManageService.selectVaccineByAdoptId(id).toArray(new String[0]));
             model.addAttribute("adopt", byId);
         } else {
             AdoptListDto byId = new AdoptListDto();
@@ -73,7 +83,8 @@ public class SaesigManageController {
     }
 
     @GetMapping({"/chattingForm.html"})
-    public String chattingForm(AdoptListDto adoptListDto, Model model) throws Exception {
+    public String chattingForm(AdoptListDto adoptListDto, Model model, @LoginMember SessionMember member) throws Exception {
+        model.addAttribute("member", member);
         return "saesigManage/chattingForm";
     }
 
@@ -133,6 +144,19 @@ public class SaesigManageController {
             dtd.setRecordsTotal(0);
         }
         return dtd;
+    }
+
+    @PostMapping("/submitOpenChatReason.do")
+    @ResponseBody
+    public Map<String, Object> submitOpenChatReason(ChatOpenReasonDto param, @LoginMember SessionMember member) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        CustomUserDetails user = (CustomUserDetails) customUserDetailsService.loadUserByUsername(member.getEmail());
+        if (!passwordEncoder.matches(param.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("패스워드가 일치하지 않습니다.");
+        }
+        Object result = saesigManageService.insertOpenChatReason(param);
+        resultMap.put("result",result);
+        return resultMap;
     }
 
 }

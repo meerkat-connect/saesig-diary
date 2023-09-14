@@ -16,4 +16,12 @@ public interface SaesigManageService {
     public List<ReportingDto> selectReportingListByAdoptId(ReportingDto rd) throws Exception;
 
     public AdoptListDto selectAdoptCntByAdoptId(AdoptListDto param) throws Exception;
+
+    public Long insertOpenChatReason(ChatOpenReasonDto param) throws Exception;
+
+    public boolean checkPassword(Long id, String password) throws Exception;
+
+    public List<String> selectVaccineByAdoptId(Long id) throws Exception;
+
+    public List<VaccineDto> selectVaccineList() throws Exception;
 }
