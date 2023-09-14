@@ -9,6 +9,33 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+        .dt-center > button {
+            min-width: 0 !important;
+        }
+        .up-arrow{
+            background-image : url('/css/images/order-up-arrow.png');
+        }
+        .down-arrow{
+            background-image: url('/css/images/order-down-arrow.png')
+        }
+
+        #ordUpBtn {
+            background-color: #333333;
+            border-color: #333333;
+        }
+
+        #ordDownBtn {
+            border-color: #D9D9D9;
+        }
+
+        .up-arrow, .down-arrow {
+            width: 12px;
+            height: 8px;
+            display: block;
+            position: relative;
+            left:10px;
+        }
+
     </style>
     <div class="page-body">
         <div class="row">
@@ -163,8 +190,12 @@
                         url: `/admin/faqs?` + $('#searchForm').serialize(),
                         method: 'get',
                         "dataSrc": function (res) {
-                            if(res.data[0])
-                                res.data[0].isFirst = true;
+                            if(res.recordsTotal > 0) {
+                                if(res.data[0].ord === 1) res.data[0].isFirst =true;
+                                console.log(res.data[res.recordsTotal-1].ord);
+                                if(res.data[res.recordsTotal-1].ord === res.recordsTotal) res.data[res.recordsTotal-1].isLast = true;
+                            }
+
                             return res.data;
                         }
                     },
@@ -190,10 +221,20 @@
                         {
                             render: function (data, type, row) {
                                 if (!!row.isFirst) {
-                                    return `<button class="btn btn-sm btn-transparent btn-icon" data-id="${row.id}" id="ordDownBtn">▼</button>`;
+                                    return `<button class="btn btn-sm btn-icon" data-id="${row.id}" id="ordDownBtn">
+                                                <i class="down-arrow"></i>
+                                            </button>`;
+                                } else if(!!row.isLast) {
+                                    return `<button class="btn btn-sm btn-icon" data-id="${row.id}" id="ordUpBtn">
+                                                <i class="up-arrow"></i>
+                                            </button>`;
                                 } else {
-                                    return `<button class="btn btn-sm btn-transparent btn-icon" data-id="${row.id}" id="ordUpBtn">▲</button> &nbsp;
-                                            <button class="btn btn-sm btn-transparent btn-icon" data-id="${row.id}" id="ordDownBtn">▼</button>`
+                                    return `<button class="btn btn-sm btn-icon" data-id="${row.id}" id="ordUpBtn">
+                                                <i class="up-arrow"></i>
+                                            </button> &nbsp;
+                                            <button class="btn btn-sm btn-icon" data-id="${row.id}" id="ordDownBtn">
+                                                <i class="down-arrow"></i>
+                                            </button>`
                                 }
                             }
                         },
@@ -207,11 +248,7 @@
                     ],
 
                     language: {
-                        search: '검색',
                         emptyTable: '데이터가 없습니다.',
-                        info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
-                        infoEmpty: '데이터 0 부터 0 까지 / 총데이터 : 0',
-                        lengthMenu: '보기',
                         loadingRecords: '로딩중..',
                     },
                 })

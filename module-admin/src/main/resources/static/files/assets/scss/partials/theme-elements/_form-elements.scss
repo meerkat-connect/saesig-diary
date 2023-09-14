@@ -467,14 +467,14 @@ $radio-bg-color: $primary-color, $warning-color, $default-color, $danger-color, 
             &:after {
                 content: "";
                 display: block;
-                width: 6px;
-                height: 12px;
+                width: 7px;
+                height: 13px;
                 opacity: 0.9;
                 border-right: 2px solid #eee;
                 border-top: 2px solid #eee;
                 position: absolute;
-                left: 4px;
-                top: 11px;
+                left: 5px;
+                top: 13px;
                 -webkit-transform: scaleX(-1) rotate(135deg);
                 transform: scaleX(-1) rotate(135deg);
                 -webkit-transform-origin: left top;
@@ -486,8 +486,8 @@ $radio-bg-color: $primary-color, $warning-color, $default-color, $danger-color, 
                 content: "";
                 display: block;
                 border: 2px solid $primary-color;
-                width: 20px;
-                height: 20px;
+                width: 24px;
+                height: 24px;
                 position: absolute;
                 left: 0;
             }
