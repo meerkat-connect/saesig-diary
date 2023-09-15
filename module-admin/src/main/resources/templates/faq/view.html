@@ -107,6 +107,7 @@
                         </div>
                         <div class="col-12 col-md-6 text-right">
                             <button type="button" class="btn btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
+                            <button type="button" class="btn btn btn-transparent m-r-5" id="reloadBtn">초기화</button>
                             <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>
                         </div>
                     </div>
@@ -300,12 +301,16 @@
                         url: `/admin/faqs/${id}/move`
                     }).done(function () {
                         alert('순서가 변경되었습니다.');
-                        faqController.init();
+                        faqController.reload();
                     }).fail(function (error) {
                         alert('순서를 변경하는데 실패하였습니다.');
                         console.log(JSON.stringify(error));
                     });
                 }
+            },
+
+            reload:function() {
+                $('#faqListTable').DataTable().ajax.reload(null,false);
             }
         };
 
@@ -334,6 +339,8 @@
             }).on('click', '#initBtn', function() {
                 $('#searchForm .custom-select').val('');
                 $('#searchForm .custom-select').niceSelect('update');
+            }).on('click','#reloadBtn', function() {
+                faqController.reload();
             });
 
             $('input[name=tableCheckbox]').on('change', function () {
