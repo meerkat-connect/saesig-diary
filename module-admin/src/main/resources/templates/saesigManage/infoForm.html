@@ -147,14 +147,6 @@
             <!--                    </div>-->
             <!--                </div>-->
             <!--                <div class="col-lg-6 mb-3">-->
-            <!--                    <div class="mb-0 form-group">-->
-            <!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>반려동물</strong></label>-->
-            <!--                        <div class="col-12">-->
-            <!--                            <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{status.key}">-->
-            <!--                                <option th:each="status : ${AdoptStatus}" th:value="${status.key}" th:text="${status.value}">value</option>-->
-            <!--                            </select>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
             <!--                </div>-->
             <!--                <div class="col-lg-6 mb-3">-->
             <!--                    <div class="mb-0 form-group">-->
@@ -250,30 +242,78 @@
     </div>
     <div class="card-block-small p-t-0">
         <div class="row">
-            <div class="col-lg-6 mb-3">
-                <div class="row form-group required mb-3">
-                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="is_castrated"><strong>중성화 여부</strong></label>
-                    <select th:field="*{isDeleted}" class="form-select form-select-sm form-control-sm form-control-round custom-select">
-                        <option value="Y">중성화</option>
-                        <option value="N">비중성화</option>
-                    </select>
+            <div class="col-lg-3 mb-3">
+                <div class="mb-0 form-group">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="status"><strong>분양상태</strong></label>
+                    <div class="col-12">
+                        <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{status.key}">
+                            <option th:each="status : ${adoptStatus}" th:value="${status.key}" th:text="${status.value}">value</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6 mb-3">
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="statusChangeCreatedAt"><strong>상태변경일시</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{statusChangeCreatedAt}"
+                               class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요."
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                           for="adoptMemberId"><strong>입양(예약)자</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{adoptMemberId}" class="form-control form-control-sm form-control-round"
+                               placeholder="제목을 입력해주세요." readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-header p-b-0" th:style="${adopt.stopCategory.key != 'NULL' ? 'display:block;' : 'display:none;'}">
+        <h3 class="sub-title"><strong>분양중지 정보</strong></h3>
+    </div>
+    <div class="card-block-small p-t-0" th:style="${adopt.stopCategory.key != 'NULL' ? 'display:block;' : 'display:none;'}">
+        <div class="row">
+            <div class="col-lg-3 mb-3" >
                 <div class="mb-0 form-group">
-                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="is_vaccine"><strong>백신 접종 여부</strong></label>
-                    <div class="border-checkbox-section">
-                        <div class="border-checkbox-group" th:each="vaccineItem : ${vaccine}">
-                            <input class="border-checkbox " type="checkbox" th:id="'vaccineCheckbox_' + ${vaccineItem.id}" th:value="${vaccineItem.id}" th:checked="${#lists.contains(adopt.vaccineList, vaccineItem.id)}"/>
-                            <label class="form-label border-checkbox-label" th:for="'vaccineCheckbox_' + ${vaccineItem.id}">[[${vaccineItem.name}]]</label>
-                        </div>
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="stopCatego1ry"><strong>중지유형</strong></label>
+                    <div class="col-12">
+                        <select class="form-select form-select-sm form-control-sm form-control-round custom-select" th:field="*{stopCategory.key}">
+                            <option th:each="stopCategory1 : ${adoptStopCategory}" th:value="${stopCategory1.key}" th:text="${stopCategory1.value}">value</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="stopChangeCreatedAt"><strong>분양중지일시</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{stopChangeCreatedAt}"
+                               class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요."
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                           for="stopMemberId"><strong>처리자</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{stopMemberId}" class="form-control form-control-sm form-control-round"
+                               placeholder="제목을 입력해주세요." readonly>
                     </div>
                 </div>
             </div>
             <div class="row form-group required mb-3">
-                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="etc_content"><strong>기타 질병 및 특이사항</strong></label>
+                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="stopReason"><strong>사유</strong></label>
                 <div class="col-sm-12">
-                    <textarea rows="5" cols="5" th:field="*{etcContent}" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
+                    <textarea rows="5" cols="5" th:field="*{stopReason}" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요."></textarea>
                 </div>
             </div>
         </div>

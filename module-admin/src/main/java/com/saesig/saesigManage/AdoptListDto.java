@@ -3,6 +3,7 @@ package com.saesig.saesigManage;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.saesig.common.mybatis.RequestDto;
 import com.saesig.domain.adopt.AdoptStatus;
+import com.saesig.domain.adopt.AdoptStopCategory;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,7 +33,7 @@ public class AdoptListDto extends RequestDto {
     private String sido;
     private String sigungu;
     private String stopReason;
-    private String stopCategory;
+    private AdoptStopCategory stopCategory;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime modifiedAt;
@@ -47,6 +48,14 @@ public class AdoptListDto extends RequestDto {
     private Long chattingCnt;
     private Long likeCnt;
     private String[] vaccineList;
+    private Long stopMemberId;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime stopChangeCreatedAt;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime statusChangeCreatedAt;
+
 
     //searchParam
     private String searchKeyword;
