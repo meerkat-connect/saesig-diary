@@ -107,7 +107,6 @@
                         </div>
                         <div class="col-12 col-md-6 text-right">
                             <button type="button" class="btn btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
-                            <button type="button" class="btn btn btn-transparent m-r-5" id="reloadBtn">초기화</button>
                             <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>
                         </div>
                     </div>
@@ -192,9 +191,10 @@
                         method: 'get',
                         "dataSrc": function (res) {
                             if(res.recordsTotal > 0) {
-                                if(res.data[0].ord === 1) res.data[0].isFirst =true;
-                                console.log(res.data[res.recordsTotal-1].ord);
-                                if(res.data[res.recordsTotal-1].ord === res.recordsTotal) res.data[res.recordsTotal-1].isLast = true;
+                                if(res.data[0].ord === 1)
+                                    res.data[0].isFirst =true;
+                                if(res.data[res.recordsTotal-1].ord === res.recordsTotal)
+                                    res.data[res.recordsTotal-1].isLast = true;
                             }
 
                             return res.data;
