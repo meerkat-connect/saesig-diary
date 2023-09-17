@@ -318,7 +318,6 @@
                         url: `/admin/saesigManage/detailForm.html?id=+${selectedAdoptId}`,
                         dataType: 'html'
                     }).done(function (response) {
-                        console.log(response)
                         $('#contentPanel').html(response);
                     }).fail(function (error) {
                         console.log(error)
@@ -397,7 +396,6 @@
                             d['adoptId'] = 1
                         },
                         "dataSrc": function (res) {
-                            console.log(res)
                             if (res.data.length > 0){
                                 return res.data;
                             }else{

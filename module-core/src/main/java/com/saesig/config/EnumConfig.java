@@ -1,9 +1,11 @@
 package com.saesig.config;
 
 import com.saesig.domain.adopt.AdoptStatus;
+import com.saesig.domain.adopt.AdoptStopCategory;
 import com.saesig.domain.faq.FaqCategory;
 import com.saesig.domain.member.MemberStatus;
 import com.saesig.domain.member.SignupMethod;
+import com.saesig.domain.report.ReportCategory;
 import com.saesig.domain.templateManage.SendCategory;
 import com.saesig.domain.templateManage.SendMethod;
 import com.saesig.domain.news.NewsCategory;
@@ -33,6 +35,8 @@ public class EnumConfig {
         factory.put("memberStatus", MemberStatus.class);
         factory.put("signupMethod", SignupMethod.class);
         factory.put("adoptStatus", AdoptStatus.class);
+        factory.put("reportCategry", ReportCategory.class);
+        factory.put("adoptStopCategory", AdoptStopCategory.class);
 
         // 해당 라인에 새롭게 추가한 Enum 클래스들 추가
 

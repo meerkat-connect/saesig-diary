@@ -5,6 +5,8 @@ import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
 import com.saesig.config.auth.formLogin.CustomUserDetails;
 import com.saesig.config.auth.formLogin.CustomUserDetailsService;
+import com.saesig.domain.adopt.AdoptStopCategory;
+import com.saesig.global.enumCode.EnumMapperValue;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import lombok.RequiredArgsConstructor;
@@ -69,9 +71,14 @@ public class SaesigManageController {
     public String infoForm(AdoptListDto adoptListDto, Model model) throws Exception {
         Long id = adoptListDto.getId();
         model.addAttribute("vaccine", saesigManageService.selectVaccineList());
+        model.addAttribute("adoptStatus", enumFactory.get("adoptStatus"));
+        model.addAttribute("adoptStopCategory", enumFactory.get("adoptStopCategory"));
         if (id != 0) {
             AdoptListDto byId = saesigManageService.selectAdoptById(id);
             byId.setVaccineList(saesigManageService.selectVaccineByAdoptId(id).toArray(new String[0]));
+            if (byId.getStopCategory() == null){
+                byId.setStopCategory(AdoptStopCategory.from(null));
+            }
             model.addAttribute("adopt", byId);
         } else {
             AdoptListDto byId = new AdoptListDto();

@@ -21,6 +21,80 @@
     </div>
 </div>
 
+<div class="modal fade" id="" >
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content type_1">
+            <div class="modal-header">
+                <h4 class="modal-title">채팅이력 열람 사유</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-block-small">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-0 form-group">
+                                    <div class="row form-group required mb-3">
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                               for="member_email"><strong>채팅 열람 계정</strong></label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control form-control-sm form-control-round" id="member_email" name="member_email"
+                                                   readonly>
+                                            <input type="hidden" id="member_id" name="member_name">
+                                        </div>
+                                    </div>
+                                    <div class="row form-group required mb-3">
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                               for="password"><strong>계정 비밀번호</strong></label>
+                                        <div class="col-sm-12">
+                                            <input type="password" class="form-control form-control-sm form-control-round" id="password" name="password">
+                                        </div>
+                                    </div>
+                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>열람사유</strong></div>
+                                    <div class="input-group input-group-dropdown mb-0">
+                                        <select class="form-select form-select-sm form-control-sm form-control-round custom-select" name="category" id="category">
+                                            <option value="">-선택-</option>
+                                            <option value="opt2">Type 2</option>
+                                            <option value="opt3">Type 3</option>
+                                            <option value="ETC">기타</option>
+                                        </select>
+                                    </div>
+                                    <div class="row form-group mb-3 required m-t-10" id="etc_reason_con" style="display: none;">
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
+                                               for="etc_reason"><strong>기타 사유</strong></label>
+                                        <div class="col-sm-12">
+                                            <textarea rows="5" cols="5"
+                                                      class="form-control form-control-sm form-control-round"
+                                                      placeholder="내용을 입력해주세요." name="reason" id="etc_reason"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group required mb-3 m-t-10">
+                                        <div class="border-checkbox-section">
+                                            <div class="border-checkbox-group">
+                                                <input type="checkbox" class="border-checkbox" name="chatAgree" id="chatAgree">
+                                                <label class="form-label border-checkbox-label" for="chatAgree">채팅 이력을 외부로 유출하지 않는 것에 동의합니다.</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn btn-transparent m-r-5" data-bs-dismiss="modal"
+                        aria-label="Close">취소
+                </button>
+                <button type="button" class="btn btn-primary waves-effect waves-light" onclick="chattingController.submitOpenChatReason()">확인
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script th:inline="javascript">
     $(function () {
         const reportController = {
@@ -53,7 +127,6 @@
                             d['adoptId'] = 1
                         },
                         "dataSrc": function (res) {
-                            console.log(res)
                             if (res.data.length > 0){
                                 return res.data;
                             }else{
@@ -66,9 +139,11 @@
                         {data: 'id'},
                         {data : 'memberId'},
                         {render: function (data, type, row) {
-                                return `${row.category.value}`;
+                                return `${row.category}`;
                             }},
-                        {data : 'content'},
+                        {render: function (data, type, row) {
+                                return `<button type="button" class="btn btn btn-transparent m-r-5" onclick="reportController.openReportPop(`+row.id+`)">확인</button>`;
+                            }},
                         {data : 'createdAt'}
                     ],
                     language: {
@@ -85,6 +160,10 @@
                         }
                     }
                 })
+            },
+
+            openReportPop : function (id) {
+                
             }
         }
         reportController.init();
