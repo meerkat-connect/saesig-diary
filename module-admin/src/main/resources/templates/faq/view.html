@@ -163,7 +163,7 @@
 
                 faqListTable = $('#faqListTable').DataTable({
                     select: {
-                        selector: 'td:not(:first-child)',
+                        selector: 'td:not(:first-child) td:not(:nth-child(4))',
                         style: 'single'
                     },
                     "columnDefs": [
@@ -193,8 +193,8 @@
                             if(res.recordsTotal > 0) {
                                 if(res.data[0].ord === 1)
                                     res.data[0].isFirst =true;
-                                if(res.data[res.recordsTotal-1].ord === res.recordsTotal)
-                                    res.data[res.recordsTotal-1].isLast = true;
+                                if(res.data[res.data.length-1].ord === res.recordsTotal)
+                                    res.data[res.data.length-1].isLast = true;
                             }
 
                             return res.data;
@@ -319,6 +319,8 @@
 
             $("body").on('click', '#insertBtn', function () {
                 $.ajax({
+                    cache: false,
+                    async: false,
                     type: 'get',
                     url: `/admin/faqs/form`,
                     dataType: 'html'

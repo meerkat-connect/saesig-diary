@@ -57,124 +57,106 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 mb-3">
-                    <div class="mb-0 form-group">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성일시</strong></label>
-                        <div class="col-12">
-                            <textarea id="testtest" name="testtest"></textarea>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
         <!-- 버튼영역 -->
         <div class="card-block-small">
             <button type="button" class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
-            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
-            <button type="button" class="btn btn-primary" onclick="$('#faqForm').valid()">폼 테스트</button>
+            <button type="submit" class="btn btn-primary" id="saveBtn">저장</button>
         </div>
         <!-- // -->
     </form>
 </div>
 
 <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
+<script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
 
-<script>
-    function CKEditorUpdate() {
-        for (instance in CKEDITOR.instances) {
-            CKEDITOR.instances[instance].updateElement();
-        }
-    }
-    $.validator.addMethod('ckRequired', function(value,element){
-        console.log('ckRequired');
-
-    });
-
-    const faqFormController = {
-
-        init: function() {
-            $('#faqForm').validate({
-                ignore:[],
-                rules: {
-                    category: {required:true},
-                    title: {required:true},
-                    content: {ckRequired: true},
-                    testtest: { ckRequired:true}
-                },
-                messages: {
-                    category:{required: '유형을 선택해 주십시오.'},
-                    title:{required: '제목을 입력해 주십시오.'},
-                    content: {ckRequired: '내용을 입력해 주십시오.'}
-                }
-            })
-        },
-
-        save: function () {
-            const id = $('#id').val();
-            if (!!id) {
-                // 수정
-                this.update();
-            } else {
-                // 저장
-                this.insert();
-            }
-        },
-
-        update: function () {
-            if (confirm('수정하시겠습니까?')) {
-                const id = $('#id').val();
-                const formData = $('#faqForm').serializeObject();
-                formData.content = ckeditorApp.getEditorData('content');
-
-                $.ajax({
-                    type: 'put',
-                    data: JSON.stringify(formData),
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    url: `/admin/faqs/${id}`
-                }).done(function(response){
-                    alert('수정 되었습니다.');
-                    console.log(response);
-                }).fail(function(error){
-                    alert('수정중 에러가 발생하였습니다.');
-                    console.log(JSON.stringify(error));
-                })
-            }
-        },
-
-        insert: function () {
-            if (confirm('저장하시겠습니까?')) {
-                const formData = $('#faqForm').serializeObject();
-                formData.content = ckeditorApp.getEditorData('content');
-
-                $.ajax({
-                    type: 'post',
-                    data: JSON.stringify(formData),
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    url: '/admin/faqs'
-                }).done(function(response){
-                    alert('등록 되었습니다.');
-                    console.log(response);
-                }).fail(function(error){
-                    alert('등록중 에러가 발생하였습니다.');
-                    console.log(JSON.stringify(error));
-                })
-            }
-        }
-    }
-
+<script th:inline="javascript">
     $(function () {
+        const faqFormController = {
 
+            init: function() {
+                $('#faqForm').validate({
+                    ignore:[],
+                    rules: {
+                        category: {required:true},
+                        title: {required:true},
+                        content: {ckRequired: true},
+                    },
+                    messages: {
+                        category:{required: '유형을 선택해 주십시오.'},
+                        title:{required: '제목을 입력해 주십시오.'},
+                        content: {ckRequired: '내용을 입력해 주십시오.'}
+                    },
+                    submitHandler:function() {
+                        if(confirm('저장하시겠습니까?')){
+                            faqFormController.save();
+                        }
+                    }
+                })
+            },
+
+            save: function () {
+                const id = $('#id').val();
+
+                if (!!id) {
+                    // 수정
+                    this.update();
+                } else {
+                    // 저장
+                    this.insert();
+                }
+            },
+
+            update: function () {
+                if (confirm('수정하시겠습니까?')) {
+                    const id = $('#id').val();
+                    const formData = $('#faqForm').serializeObject();
+                    formData.content = ckeditorApp.getEditorData('content');
+
+                    $.ajax({
+                        type: 'put',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: `/admin/faqs/${id}`
+                    }).done(function(response){
+                        alert('수정 되었습니다.');
+                        console.log(response);
+                    }).fail(function(error){
+                        alert('수정중 에러가 발생하였습니다.');
+                        console.log(JSON.stringify(error));
+                    })
+                }
+            },
+
+            insert: function () {
+                if (confirm('저장하시겠습니까?')) {
+                    const formData = $('#faqForm').serializeObject();
+                    formData.content = ckeditorApp.getEditorData('content');
+
+                    $.ajax({
+                        type: 'post',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        url: '/admin/faqs'
+                    }).done(function(response){
+                        alert('등록 되었습니다.');
+                        console.log(response);
+                    }).fail(function(error){
+                        alert('등록중 에러가 발생하였습니다.');
+                        console.log(JSON.stringify(error));
+                    })
+                }
+            }
+        }
 
         faqFormController.init();
 
-        $('body').on('click', '#saveBtn', function (event) {
-            faqFormController.save();
-        }).on('click', '#cancelBtn', function (event) {
+        $('#cancelBtn').on('click',function() {
             $('#contentPanel').html('');
-        });
+        })
     });
 
 
