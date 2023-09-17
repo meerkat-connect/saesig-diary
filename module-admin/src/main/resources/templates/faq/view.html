@@ -163,11 +163,10 @@
 
                 faqListTable = $('#faqListTable').DataTable({
                     select: {
-                        selector: 'td:not(:first-child) td:not(:nth-child(4))',
+                        selector: 'td:not(:first-child):not(:nth-child(4))',
                         style: 'single'
                     },
                     "columnDefs": [
-                        // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
                         {className: "dt-center", targets: "_all"}
                     ],
                     stripeClasses: [],
@@ -191,12 +190,11 @@
                         method: 'get',
                         "dataSrc": function (res) {
                             if(res.recordsTotal > 0) {
-                                if(res.data[0].ord === 1)
+                                if(res.data[0].ord ===  res.minOrd)
                                     res.data[0].isFirst =true;
-                                if(res.data[res.data.length-1].ord === res.recordsTotal)
+                                if(res.data[res.data.length-1].ord === res.maxOrd)
                                     res.data[res.data.length-1].isLast = true;
                             }
-
                             return res.data;
                         }
                     },
@@ -281,7 +279,7 @@
                             url: '/admin/faqs'
                         }).done(function () {
                             alert('삭제 되었습니다.');
-                            faqController.init();
+                            faqController.reload();
                         }).fail(function (error) {
                             alert('삭제하는데 실패하였습니다.');
                             console.log(JSON.stringify(error));

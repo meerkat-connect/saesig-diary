@@ -80,25 +80,23 @@
                     ignore:[],
                     rules: {
                         category: {required:true},
-                        title: {required:true},
-                        content: {ckRequired: true},
+                        // title: {required:true},
+                        // content: {ckRequired: true},
                     },
                     messages: {
                         category:{required: '유형을 선택해 주십시오.'},
-                        title:{required: '제목을 입력해 주십시오.'},
-                        content: {ckRequired: '내용을 입력해 주십시오.'}
+                        // title:{required: '제목을 입력해 주십시오.'},
+                        // content: {ckRequired: '내용을 입력해 주십시오.'}
                     },
                     submitHandler:function() {
-                        if(confirm('저장하시겠습니까?')){
-                            faqFormController.save();
-                        }
+                        faqFormController.save();
                     }
                 })
             },
 
             save: function () {
                 const id = $('#id').val();
-
+                console.log('save');
                 if (!!id) {
                     // 수정
                     this.update();
@@ -125,7 +123,9 @@
                         console.log(response);
                     }).fail(function(error){
                         alert('수정중 에러가 발생하였습니다.');
-                        console.log(JSON.stringify(error));
+                        if(error.responseJSON.message == "COM-4") {
+                            alert('입력값이 유효하지 않습니다.');
+                        }
                     })
                 }
             },
@@ -145,8 +145,9 @@
                         alert('등록 되었습니다.');
                         console.log(response);
                     }).fail(function(error){
-                        alert('등록중 에러가 발생하였습니다.');
-                        console.log(JSON.stringify(error));
+                        if(error.responseJSON.message == "COM-4") {
+                            alert('입력값이 유효하지 않습니다.');
+                        }
                     })
                 }
             }

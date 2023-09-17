@@ -1,7 +1,6 @@
 package com.saesig.faq;
 
 import com.saesig.global.enumCode.EnumMapperFactory;
-import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class FaqController {
 
     @GetMapping("")
     @ResponseBody
-    public DataTablesResponseDto findAll(@ModelAttribute FaqRequestDto request) {
+    public FaqDataTablesResponseDto findAll(@ModelAttribute FaqRequestDto request) {
         return faqService.findAll(request);
     }
 
@@ -54,7 +54,7 @@ public class FaqController {
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Long insert(@RequestBody FaqInsertDto faqInsertDto) {
+    public Long insert(@RequestBody @Valid FaqInsertDto faqInsertDto) {
         return faqService.insert(faqInsertDto);
     }
 
