@@ -1,6 +1,7 @@
 package com.saesig.member;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.saesig.domain.member.MemberStatus;
 import com.saesig.domain.member.SignupMethod;
 import lombok.Getter;
 
@@ -14,6 +15,8 @@ public class MemberDetailResponseDto {
 
     private SignupMethod signupMethod;
 
+    private MemberStatus status;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
@@ -23,4 +26,6 @@ public class MemberDetailResponseDto {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dormancyConvertedAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime deletedAt;
 }

@@ -18,15 +18,17 @@
                     <div class="row form-group mb-3">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="signupMethod"><strong>가입수단</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control form-control-sm form-control-round" id="signupMethod" name="signupMethod" value="EMAIL" readonly>
+                            <input type="hidden" value="EMAIL" name="signupMethod">
+                            <input type="text" class="form-control form-control-sm form-control-round" id="signupMethod" value="이메일" readonly>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-3">
                     <div class="row form-group required mb-3">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="nickname"><strong>닉네임</strong></label>
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" style="position:relative">
                             <input type="text" class="form-control form-control-sm form-control-round" id="nickname" name="nickname">
+                            <button type="button" class="file-open-btn" style="right:20px;" id="nicknameCheckBtn">중복 확인</button>
                         </div>
                     </div>
                 </div>
@@ -57,6 +59,7 @@
 
 
     <script>
+<!--isNicknameDuplicate-->
         $(function () {
             const $form = $('#memberInsertForm');
             $form.validate({
@@ -82,6 +85,7 @@
 
             $('#saveBtn').on('click', function () {
                 if($form.valid()) {
+
                 }
             });
         })

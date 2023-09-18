@@ -195,9 +195,11 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                                 qMember.nickname
                                 , qMember.email
                                 , qMember.signupMethod
+                                , qMember.status
                                 , qMember.createdAt
                                 , qMember.lastLoggedAt
                                 , qDormantMember.createdAt.as("dormancyConvertedAt")
+                                , qMember.deletedAt
                         ))
                 .from(qMember)
                 .leftJoin(qDormantMember)

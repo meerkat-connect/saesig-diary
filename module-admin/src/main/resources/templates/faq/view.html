@@ -3,40 +3,6 @@
       layout:decorate="~{layout/main}">
 
 <div layout:fragment="content">
-    <style>
-        .dt-center {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .dt-center > button {
-            min-width: 0 !important;
-        }
-        .up-arrow{
-            background-image : url('/css/images/order-up-arrow.png');
-        }
-        .down-arrow{
-            background-image: url('/css/images/order-down-arrow.png')
-        }
-
-        #ordUpBtn {
-            background-color: #333333;
-            border-color: #333333;
-        }
-
-        #ordDownBtn {
-            border-color: #D9D9D9;
-        }
-
-        .up-arrow, .down-arrow {
-            width: 12px;
-            height: 8px;
-            display: block;
-            position: relative;
-            left:10px;
-        }
-
-    </style>
     <div class="page-body">
         <div class="row">
             <!-- 필터 부분 -->
@@ -220,19 +186,19 @@
                         {
                             render: function (data, type, row) {
                                 if (!!row.isFirst) {
-                                    return `<button class="btn btn-sm btn-icon" data-id="${row.id}" id="ordDownBtn">
-                                                <i class="down-arrow"></i>
+                                    return `<button class="btn btn-sm btn-icon ord-down-btn" data-id="${row.id}">
+                                                <i class="ord-down-arrow"></i>
                                             </button>`;
                                 } else if(!!row.isLast) {
-                                    return `<button class="btn btn-sm btn-icon" data-id="${row.id}" id="ordUpBtn">
-                                                <i class="up-arrow"></i>
+                                    return `<button class="btn btn-sm btn-icon ord-up-btn" data-id="${row.id}">
+                                                <i class="ord-up-arrow"></i>
                                             </button>`;
                                 } else {
-                                    return `<button class="btn btn-sm btn-icon" data-id="${row.id}" id="ordUpBtn">
-                                                <i class="up-arrow"></i>
+                                    return `<button class="btn btn-sm btn-icon ord-up-btn" data-id="${row.id}">
+                                                <i class="ord-up-arrow"></i>
                                             </button> &nbsp;
-                                            <button class="btn btn-sm btn-icon" data-id="${row.id}" id="ordDownBtn">
-                                                <i class="down-arrow"></i>
+                                            <button class="btn btn-sm btn-icon ord-down-btn" data-id="${row.id}">
+                                                <i class="ord-down-arrow"></i>
                                             </button>`
                                 }
                             }
@@ -330,10 +296,10 @@
                 faqController.delete();
             }).on('click', '#searchBtn', function () {
                 faqController.init();
-            }).on('click', '#ordUpBtn', function () {
+            }).on('click', '.ord-up-btn', function () {
                 const id = $(this).data('id');
                 faqController.changeOrder(id, 'up')
-            }).on('click', '#ordDownBtn', function () {
+            }).on('click', '.ord-down-btn', function () {
                 const id = $(this).data('id');
                 faqController.changeOrder(id, 'down')
             }).on('click', '#initBtn', function() {

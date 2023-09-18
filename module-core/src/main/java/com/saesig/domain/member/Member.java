@@ -42,6 +42,9 @@ public class Member extends BaseEntity {
     @Column(name = "last_logged_at")
     private LocalDateTime lastLoggedAt;
 
+    @Column(name ="deleted_at")
+    private LocalDateTime deletedAt;
+
     @Column(name = "password_modified_at")
     private LocalDateTime passwordModifiedAt;
 
@@ -64,5 +67,11 @@ public class Member extends BaseEntity {
     public Member(String email, String nickname) {
         this.email = email;
         this.nickname = nickname;
+    }
+
+    public void setTemporaryPassword( String oldPassword, String newPassword) {
+        this.password = newPassword;
+        this.prevPassword = oldPassword;
+        this.passwordModifiedAt = LocalDateTime.now();
     }
 }

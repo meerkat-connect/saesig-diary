@@ -47,9 +47,17 @@ public class MemberController {
         return "member/entryPoint";
     }
 
+    @PatchMapping("/{id}")
+    @ResponseBody
+    public String updateMemberInfo(@PathVariable Long id) {
+        return null;
+    }
+
+
     @GetMapping("/{id}/detail")
     public String detailView(@PathVariable Long id, Model model) {
         model.addAttribute("memberId", id);
+        model.addAttribute("memberStatus", enumMapperFactory.get("memberStatus"));
         model.addAttribute("memberDetail", memberService.findById(id));
         return "member/tab/detail";
     }
@@ -106,5 +114,17 @@ public class MemberController {
     @ResponseBody
     public DataTablesResponseDto findBlockList(@PathVariable Long id, @ModelAttribute RequestDto request) {
         return memberService.findBlockList(id, request);
+    }
+
+    @PostMapping("/{id}/generateTemporaryPassword")
+    @ResponseBody
+    public Long generateTemporaryPassword(@PathVariable Long id) {
+        return memberService.generateTemporaryPassword(id);
+    }
+
+    @GetMapping("/isNicknameDuplicate")
+    @ResponseBody
+    public boolean isNicknameDuplicate(@RequestParam String nickname) {
+        return memberService.isNicknameDuplicate(nickname);
     }
 }

@@ -1,12 +1,16 @@
 package com.saesig.member;
 
 import com.saesig.common.RequestDto;
+import com.saesig.domain.member.Member;
 import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.security.SecureRandom;
 
 @RequiredArgsConstructor
 @Service
@@ -63,5 +67,35 @@ public class MemberService {
         Page<BlockResponseDto> blockList = memberAdminRepository.findBlockList(id, request, of);
 
         return new DataTablesResponseDto(blockList, blockList.getContent());
+    }
+
+    @Transactional
+    public Long generateTemporaryPassword(Long id) {
+        Member member = memberAdminRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+
+        String newPassword = generateTemporaryPassword(10);
+        member.setTemporaryPassword(member.getPassword(), newPassword);
+        memberAdminRepository.save(member);
+
+        return member.getId();
+    }
+
+    private String generateTemporaryPassword(int size) {
+        SecureRandom random = new SecureRandom();
+        StringBuffer buffer = new StringBuffer();
+        String chars[] = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,0,1,2,3,4,5,6,7,8,9,!,@,#,$,%,^,*,(,)".split(",");
+
+        for (int i = 0; i < size; i++) {
+            buffer.append(chars[random.nextInt(chars.length)]);
+        }
+
+        return buffer.toString();
+    }
+
+    public boolean isNicknameDuplicate(String nickname) {
+        return memberAdminRepository.existsByNickname(nickname);
     }
 }
