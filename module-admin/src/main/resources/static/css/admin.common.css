@@ -417,3 +417,40 @@ table.dataTable tbody tr.selected > *{
     margin-top: 7px;
     margin-left: 8px;
 }
+
+.dt-center {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dt-center > button {
+    min-width: 0 !important;
+}
+
+.ord-up-arrow {
+    background-image : url('/css/images/order-up-arrow.png');
+}
+
+.ord-down-arrow {
+    background-image: url('/css/images/order-down-arrow.png')
+}
+
+.ord-up-btn {
+    background-color: #333333;
+    border-color: #333333;
+}
+
+.ord-down-btn {
+    border-color: #D9D9D9;
+}
+
+.ord-up-arrow, .ord-down-arrow {
+    width: 12px;
+    height: 8px;
+    display: block;
+    position: relative;
+    left:10px;
+}
+
+
