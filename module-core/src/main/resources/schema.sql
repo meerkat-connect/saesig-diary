@@ -15,6 +15,7 @@ CREATE TABLE `member`
     `privacy_agreement`           VARCHAR(1)            NOT NULL COMMENT '개인정보 수집 및 이용동의',
     `password_modified_at`        DATETIME              NOT NULL COMMENT '비밀번호 마지막 수정일',
     `marketing_service_agreement` VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '마케팅 서비스 이용동의',
+    `deleted_at`                  DATETIME              NULL COMMENT '탈퇴일',
     `modified_at`                 DATETIME              NOT NULL COMMENT '수정일',
     `modified_by`                 BIGINT                NOT NULL COMMENT '수정자 일련번호',
     `created_at`                  DATETIME              NOT NULL COMMENT '등록일',
