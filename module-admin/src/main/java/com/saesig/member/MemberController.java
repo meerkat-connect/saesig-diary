@@ -30,15 +30,19 @@ public class MemberController {
         return memberService.findAll(request);
     }
 
+    @PostMapping(value ="", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public Long insertMember(@RequestBody MemberInsertDto memberInsertDto) {
+        if(isNicknameDuplicate(memberInsertDto.getNickname())) {
+            throw new IllegalArgumentException("닉네임이 중복됩니다.");
+        }
+
+        return memberService.insertMember(memberInsertDto);
+    }
+
     @GetMapping("/insert")
     public String insertForm() {
         return "member/insert";
-    }
-
-    @PostMapping(value ="/insert", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String insertMember(@RequestBody MemberInsertDto memberInsertDto) {
-        return null;
     }
 
     @GetMapping("/{id}")

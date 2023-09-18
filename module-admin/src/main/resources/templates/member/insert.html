@@ -53,7 +53,7 @@
 
         <div class="card-block-small">
             <button type="button" class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
-            <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+            <button type="submit" class="btn btn-primary" id="saveBtn">저장</button>
         </div>
     </form>
 
@@ -62,6 +62,7 @@
 <!--isNicknameDuplicate-->
         $(function () {
             const $form = $('#memberInsertForm');
+
             $form.validate({
                 rules: {
                     password: 'required',
@@ -80,15 +81,49 @@
                     },
                     nickname:  '닉네임을 입력해 주십시오.',
                     email: '이메일을 입력해 주십시오.'
+                },
+                submitHandler: function() {
+                    if(confirm('등록하시겠습니까?')) {
+                        const formData = $('#memberInsertForm').serializeObject();
+                        $.ajax({
+                            method: 'post',
+                            url: '/admin/members',
+                            contentType: 'application/json',
+                            data: JSON.stringify(formData)
+                        }).done(function (response) {
+                            alert('등록되었습니다.');
+
+                        }).fail(function (error) {
+                            alert(error.responseJSON.code);
+                        });
+                    }
                 }
             })
 
-            $('#saveBtn').on('click', function () {
-                if($form.valid()) {
-
-                }
+            $('#nicknameCheckBtn').on('click', function () {
+                isNicknameDuplicate($('#nickname').val())
             });
+
+            const isNicknameDuplicate = (nickname) => {
+                if(!nickname) {
+                    alert('닉네임을 입력해 주십시오.');
+                    return;
+                }
+
+                $.ajax({
+                    method: 'get',
+                    url: '/admin/members/isNicknameDuplicate',
+                    data: {nickname: $('#nickname').val()},
+                }).done(function (response) {
+                    if (response) {
+                        alert('중복되는 닉네임입니다.');
+                    } else {
+                        alert('사용가능한 닉네임입니다.');
+                    }
+                });
+            }
         })
+
 
     </script>
 </div>
