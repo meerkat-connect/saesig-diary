@@ -1,5 +1,7 @@
 package com.saesig.saesigManage;
 
+import com.saesig.config.auth.SessionMember;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +23,11 @@ public interface SaesigManageService {
 
     public boolean checkPassword(Long id, String password) throws Exception;
 
-    public List<String> selectVaccineByAdoptId(Long id) throws Exception;
+    public List<Integer> selectVaccineByAdoptId(Long id) throws Exception;
 
     public List<VaccineDto> selectVaccineList() throws Exception;
+
+    public Long updateAdoptInfo(AdoptListDto param, SessionMember member) throws Exception;
+
+    public Long insertAdoptStatusChangeLog(AdoptListDto param, SessionMember member) throws Exception;
 }

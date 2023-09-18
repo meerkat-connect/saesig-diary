@@ -16,6 +16,8 @@ public class ReportingDto extends RequestDto {
     private ReportCategory category;
     private String content;
     private String memberId;
+    private String memberNickname;
+    private String memberEmail;
     private String nickname;
     private String email;
     @JsonFormat(pattern = "yyyy-MM-dd")

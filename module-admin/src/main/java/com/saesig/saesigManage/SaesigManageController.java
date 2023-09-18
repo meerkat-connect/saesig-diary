@@ -75,7 +75,8 @@ public class SaesigManageController {
         model.addAttribute("adoptStopCategory", enumFactory.get("adoptStopCategory"));
         if (id != 0) {
             AdoptListDto byId = saesigManageService.selectAdoptById(id);
-            byId.setVaccineList(saesigManageService.selectVaccineByAdoptId(id).toArray(new String[0]));
+            List<Integer> vaccineList = saesigManageService.selectVaccineByAdoptId(id);
+            byId.setVaccineList(vaccineList.toArray(new Integer[vaccineList.size()]));
             if (byId.getStopCategory() == null){
                 byId.setStopCategory(AdoptStopCategory.from(null));
             }
@@ -98,18 +99,6 @@ public class SaesigManageController {
     @GetMapping({"/reportForm.html"})
     public String reportForm(AdoptListDto adoptListDto, Model model) throws Exception {
         return "saesigManage/reportForm";
-    }
-
-
-    @RequestMapping(value = "/admin/news/getFilterData.do")
-    @ResponseBody
-    public Map<String, Object> getNewsEnum() throws Exception {
-        Map<String, Object> resultMap = new HashMap<>();
-        Map<String,Map<String,String>> NewsStatusMap = new HashMap<>();
-        Map<String,Map<String,String>> NewsCategoryMap = new HashMap<>();
-        resultMap.put("NewsStatus",NewsStatusMap);
-        resultMap.put("NewsCategory",NewsCategoryMap);
-        return resultMap;
     }
 
     @GetMapping("/{id}/getAnimalDivision2List.do")
@@ -163,6 +152,16 @@ public class SaesigManageController {
         }
         Object result = saesigManageService.insertOpenChatReason(param);
         resultMap.put("result",result);
+        return resultMap;
+    }
+
+    @PostMapping("/updateAdoptInfo.do")
+    @ResponseBody
+    public Map<String, Object> submitOpenChatReason(AdoptListDto param, @LoginMember SessionMember member) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        Object result = saesigManageService.updateAdoptInfo(param,member);
+        resultMap.put("result",result);
+        Object statusUpdateResult = saesigManageService.insertAdoptStatusChangeLog(param,member);
         return resultMap;
     }
 

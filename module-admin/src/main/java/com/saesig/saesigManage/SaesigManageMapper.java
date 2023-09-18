@@ -29,8 +29,11 @@ public interface SaesigManageMapper {
 
     public Map<String, Object>checkPassword(@Param("id") Long id,@Param("password") String password);
 
-    public List<String> selectVaccineByAdoptId(Long id);
+    public List<Integer> selectVaccineByAdoptId(Long id);
 
     public List<VaccineDto> selectVaccineList();
+
+    public Long updateAdoptInfo(AdoptListDto param, @Param("sessionMemberId") Long sessionMemberId);
+    public Long insertAdoptStatusChangeLog(AdoptListDto param, @Param("sessionMemberId") Long sessionMemberId);
 
 }

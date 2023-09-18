@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 public class AdoptListDto extends RequestDto {
     private Long id;
     private Long adoptMemberId;
+    private String adoptMemberNickName;
+    private String adoptMemberEmail;
     private Long hits;
     private String title;
     private String content;
@@ -47,7 +49,7 @@ public class AdoptListDto extends RequestDto {
     private Long reportCnt;
     private Long chattingCnt;
     private Long likeCnt;
-    private String[] vaccineList;
+    private Integer[] vaccineList;
     private Long stopMemberId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

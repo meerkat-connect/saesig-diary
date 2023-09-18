@@ -203,10 +203,13 @@
     </div>
 
     <script th:inline="javascript">
+
+
         const adoptController = {
 
             selectedRow: [],
             init: function () {
+                ckeditorApp.setckeditor();
                 let adoptListTable = null;
 
                 if (adoptListTable != null) adoptListTable.destroy();
@@ -340,6 +343,11 @@
                             console.log(error)
                         });
                     }
+                })
+
+                $(document).on('click','#cancelBtn',function (){
+                    adoptListTable.row().deselect();
+                    $('#contentPanel').empty()
                 })
             },
             delete: function () {
@@ -487,6 +495,239 @@
                 }
             }
         }
+
+        const reportController = {
+            reportData : null,
+            targetId : null,
+            reportPopModal : null,
+
+            init : function (){
+                let reportListTable = null;
+                if (reportListTable != null) reportListTable.destroy()
+                reportListTable = $('#reportListTable').DataTable({
+                    "columnDefs": [
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: false,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
+                    serverSide: true,
+                    processing: true,
+                    ajax: {
+                        async: false,
+                        method: 'GET',
+                        url: '/admin/saesigManage/selectReportListByAdoptId.do',
+                        data: function(d) {
+                            d['adoptId'] = 1
+                        },
+                        "dataSrc": function (res) {
+                            reportController.reportData = res;
+                            if (res.data.length > 0){
+                                return res.data;
+                            }else{
+                                return false;
+                            }
+                        }
+                    },
+
+                    columns: [
+                        {data: 'id'},
+                        {data : 'memberEmail'},
+                        {render: function (data, type, row) {
+                                return `${row.category}`;
+                            }},
+                        {render: function (data, type, row) {
+                                return `<button type="button" class="btn btn btn-transparent m-r-5" onclick="reportController.openReportPop(`+row.id+`)">확인</button>`;
+                            }},
+                        {data : 'createdAt'}
+                    ],
+                    language: {
+                        search: '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        loadingRecords: '로딩중..',
+                    },
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
+
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
+                    }
+                })
+            },
+
+            openReportPop : function (id) {
+                reportController.targetId = id;
+                reportController.reportPopModal = new bootstrap.Modal($('#reportPop'));
+                reportController.reportPopModal.show();
+                let isFind = false;
+                let k = 0;
+                let data = reportController.reportData.data
+                while(isFind == false){
+                    if (data[k]['id'] == reportController.targetId) {
+                        $('#reportPop').find("#category").val(data[k]['category'])
+                        $('#reportPop').find("#reason").val(data[k]['content'])
+                        isFind = true
+                    }
+                    k = k+1
+                }
+            }
+        }
+
+        const adoptInfoController = {
+            init : function (){
+                ckeditorApp.setckeditor();
+                $('select').niceSelect('update')
+                const mySwiper = new Swiper('.swiper-container', {
+                    // 옵션 설정
+                    slidesPerView: 1, // 한 번에 표시할 슬라이드 수
+                    spaceBetween: 20, // 슬라이드 간 간격 (픽셀)
+                    loop: false, // 무한 루프 설정
+                    // 기타 옵션 및 콜백 함수 등 추가 가능
+                    pagination: {
+                        el: '.swiper-pagination', // 페이징 컨테이너 요소
+                        clickable: true, // 클릭하여 슬라이드로 이동
+                    },
+                });
+
+                document.getElementById('prevSlide').addEventListener('click', function () {
+                    mySwiper.slidePrev();
+                });
+                document.getElementById('nextSlide').addEventListener('click', function () {
+                    mySwiper.slideNext();
+                });
+
+                $('#status').on('change',function (){
+                    if ($(this).val() == "STOP"){
+                        $('.adoptStop').show()
+                    }else{
+                        $('.adoptStop').hide()
+                    }
+                })
+
+
+                const adoptFormController = {
+                    save: function () {
+                        const id = $('#id').val();
+                        if (!!id) {
+                            // 수정
+                            this.update();
+                        } else {
+                            // 저장
+                            this.insert();
+                        }
+                    },
+
+                    update: function () {
+                        if (confirm('수정하시겠습니까?')) {
+                            const id = $('#id').val();
+                            const formData = $('#adoptForm').serializeObject();
+                            formData.content = ckeditorApp.getEditorData('content');
+
+                            $.ajax({
+                                type: 'put',
+                                data: JSON.stringify(formData),
+                                contentType: 'application/json',
+                                dataType: 'json',
+                                url: `/admin/adopts/${id}`
+                            }).done(function (response) {
+                                alert('수정 되었습니다.');
+                                console.log(response);
+                            }).fail(function (error) {
+                                alert('수정중 에러가 발생하였습니다.');
+                                console.log(JSON.stringify(error));
+                            })
+                        }
+                    },
+
+                    insert: function () {
+                        if (confirm('저장하시겠습니까?')) {
+                            const formData = $('#adoptForm').serializeObject();
+                            formData.content = ckeditorApp.getEditorData('content');
+
+                            $.ajax({
+                                type: 'post',
+                                data: JSON.stringify(formData),
+                                contentType: 'application/json',
+                                dataType: 'json',
+                                url: '/admin/adopts'
+                            }).done(function (response) {
+                                alert('등록 되었습니다.');
+                                console.log(response);
+                            }).fail(function (error) {
+                                alert('등록중 에러가 발생하였습니다.');
+                                console.log(JSON.stringify(error));
+                            })
+                        }
+                    }
+
+                }
+
+                $('body').on('click', '#saveBtn', function (event) {
+                    adoptFormController.save();
+                }).on('click', '#cancelBtn', function (event) {
+
+                });
+
+
+            }
+        }
+
+        const tabController = {
+            currentTab :"",
+            adoptId : "",
+            chattingUrl :"",
+            reportUrl :"",
+            infoUrl :"",
+
+            initTab : function () {
+                this.currentTab = "";
+                this.chattingUrl = '/admin/saesigManage/chattingForm.html?id='+this.adoptId;
+                this.reportUrl ='/admin/saesigManage/reportForm.html?id='+this.adoptId;
+                this.infoUrl ='/admin/saesigManage/infoForm.html?id='+this.adoptId;
+                this.moveTab("info")
+            },
+
+            moveTab : (tabid)=>{
+
+                if(tabController.currentTab == tabid) return;
+
+                $(".nav-link").removeClass("active");
+                tabController.currentTab = tabid;
+
+                if(tabid=="chatting"){
+                    tabController.loadForm(tabController.chattingUrl);
+                }else if (tabid=="info"){
+                    tabController.loadForm(tabController.infoUrl);
+                }else{
+                    tabController.loadForm(tabController.reportUrl);
+                }
+                $("#"+tabController.currentTab+'Tab').addClass("active");
+            },
+
+            loadForm : function (url) {
+                $.ajax({
+                    type: 'get',
+                    url: url,
+                    dataType: 'html'
+                }).done(function (response) {
+                    $('#tab-content').html(response);
+                }).fail(function (error) {
+                    console.log(error)
+                });
+            }
+        }
+
 
         $(function () {
             adoptController.init();

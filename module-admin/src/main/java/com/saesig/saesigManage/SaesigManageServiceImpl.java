@@ -1,5 +1,7 @@
 package com.saesig.saesigManage;
 
+import com.saesig.config.auth.LoginMember;
+import com.saesig.config.auth.SessionMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +68,7 @@ public class SaesigManageServiceImpl implements SaesigManageService{
     };
 
     @Override
-    public List<String> selectVaccineByAdoptId(Long id) throws Exception{
+    public List<Integer> selectVaccineByAdoptId(Long id) throws Exception{
      return saesigManageMapper.selectVaccineByAdoptId(id);
     }
 
@@ -74,4 +76,14 @@ public class SaesigManageServiceImpl implements SaesigManageService{
     public List<VaccineDto> selectVaccineList() throws Exception{
         return saesigManageMapper.selectVaccineList();
     };
+
+    @Override
+    public Long updateAdoptInfo(AdoptListDto param, SessionMember member) throws Exception{
+        return saesigManageMapper.updateAdoptInfo(param,member.getId());
+    }
+
+   @Override
+   public Long insertAdoptStatusChangeLog(AdoptListDto param, SessionMember member) throws Exception{
+        return saesigManageMapper.insertAdoptStatusChangeLog(param, member.getId());
+   }
 }

@@ -2,15 +2,15 @@
   <div class="card-header p-b-0 nav-main">
     <ul class="nav nav-tabs md-tabs" role="tablist">
       <li class="nav-item">
-        <a class="nav-link active" data-bs-toggle="tab" href="javascript:void(0)" onclick="moveTab('info')"  role="tab" aria-selected="true" id="infoTab">새식정보</a>
+        <a class="nav-link active" data-bs-toggle="tab" href="javascript:void(0)" onclick="tabController.moveTab('info')"  role="tab" aria-selected="true" id="infoTab">새식정보</a>
         <div class="slide"></div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="javascript:void(0)" onclick="moveTab('chatting')" role="tab" aria-selected="false" id="chattingTab">채팅([[${adopt.chattingCnt}]])</a>
+        <a class="nav-link" data-bs-toggle="tab" href="javascript:void(0)" onclick="tabController.moveTab('chatting')" role="tab" aria-selected="false" id="chattingTab">채팅([[${adopt.chattingCnt}]])</a>
         <div class="slide"></div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="javascript:void(0)" onclick="moveTab('report')" role="tab" aria-selected="false" id="reportTab">신고([[${adopt.reportCnt}]])</a>
+        <a class="nav-link" data-bs-toggle="tab" href="javascript:void(0)" onclick="tabController.moveTab('report')" role="tab" aria-selected="false" id="reportTab">신고([[${adopt.reportCnt}]])</a>
         <div class="slide"></div>
       </li>
     </ul>
@@ -20,48 +20,9 @@
 </div>
 
 <script th:inline="javascript">
-
-  let currentTab ="";
-  const adoptId = [[${adopt.id}]]
-  const chattingUrl ='/admin/saesigManage/chattingForm.html?id='+adoptId;
-  const reportUrl ='/admin/saesigManage/reportForm.html?id='+adoptId;
-  const infoUrl ='/admin/saesigManage/infoForm.html?id='+adoptId;
-
   $(function(){
-    initTab();
+    tabController.adoptId = [[${adopt.id}]]
+    tabController.initTab();
   });
-
-  function initTab() {
-      moveTab("info")
-  }
-
-  var moveTab = (tabid)=>{
-
-    if(currentTab == tabid) return;
-
-    $(".nav-link").removeClass("active");
-    currentTab = tabid;
-
-    if(tabid=="chatting"){
-      loadForm(chattingUrl);
-    }else if (tabid=="info"){
-      loadForm(infoUrl);
-    }else{
-      loadForm(reportUrl);
-    }
-    $("#"+currentTab+'Tab').addClass("active");
-  }
-
-  const loadForm = function (url) {
-      $.ajax({
-      type: 'get',
-      url: url,
-      dataType: 'html'
-    }).done(function (response) {
-      $('#tab-content').html(response);
-    }).fail(function (error) {
-      console.log(error)
-    });
-  }
 
 </script>
