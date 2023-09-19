@@ -100,6 +100,7 @@ public class MemberService {
         return memberAdminRepository.existsByNickname(nickname);
     }
 
+    @Transactional
     public Long insertMember(MemberInsertDto memberInsertDto) {
         Member newMember = Member.builder().nickname(memberInsertDto.getNickname())
                 .email(memberInsertDto.getEmail())
@@ -115,5 +116,14 @@ public class MemberService {
         Member savedMember = memberAdminRepository.save(newMember);
 
         return savedMember.getId();
+    }
+
+    @Transactional
+    public Long updateMember(Long id, MemberUpdateDto memberUpdateDto) {
+        Member member = memberAdminRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("회원 아이디가 존재하지 않습니다."));
+        member.setNickname(memberUpdateDto.getNickname());
+        member.setStatus(MemberStatus.valueOf(memberUpdateDto.getStatus()));
+
+        return member.getId();
     }
 }

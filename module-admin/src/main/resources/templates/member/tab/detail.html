@@ -33,7 +33,7 @@
                 <div class="row form-group mb-3">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" ><strong>회원상태</strong></label>
                     <div class="col-sm-12">
-                        <select class="form-select form-control form-control-round custom-select" th:field="*{status.value}">
+                        <select class="form-select form-control form-control-round custom-select" id="status" name="status" th:value="*{status.value}">
                             <option th:each="ms : ${memberStatus}" th:value="${ms.key}" th:text="${ms.value}">value</option>
                         </select>
                     </div>
@@ -101,8 +101,18 @@
                 if (!$('#nickname').val()) {
                     alert('닉네임을 입력해 주십시오.');
                 } else {
+                    const formData = $('#detailForm').serializeObject();
+                    const memberId = $('#id').val();
+                    console.log(formData);
                     $.ajax({
                         method:'patch',
+                        url:`/admin/members/${memberId}`,
+                        contentType:'application/json',
+                        data: JSON.stringify(formData)
+                    }).done(function(response){
+                        alert('수정되었습니다..');
+                    }).fail(function(error){
+                        alert('수정에 실패했습니다.');
                     })
                 }
             });
