@@ -4,6 +4,7 @@ package com.saesig.domain.member;
 import com.saesig.domain.common.BaseEntity;
 import com.saesig.domain.role.MemberRole;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,12 +16,14 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @Entity(name = "member")
 @ToString(exclude = "memberRoles")
+@DynamicUpdate
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
+    @Setter
     private String email;
 
     @Column
@@ -31,6 +34,7 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "signup_method")
+    @Setter
     private SignupMethod signupMethod;
 
     @Enumerated(EnumType.STRING)
