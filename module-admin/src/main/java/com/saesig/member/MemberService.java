@@ -28,7 +28,7 @@ public class MemberService {
         return new DataTablesResponseDto(members, members.getContent());
     }
 
-    public MemberDetailResponseDto findById(Long id) {
+    public MemberDetailDto findById(Long id) {
         return memberAdminRepository
                 .findDetailById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));

@@ -18,5 +18,5 @@ public interface CustomMemberRepository {
 
     Page<BlockResponseDto> findBlockList(Long id, RequestDto request, PageRequest pageable);
 
-    Optional<MemberDetailResponseDto> findDetailById(Long id);
+    Optional<MemberDetailDto> findDetailById(Long id);
 }

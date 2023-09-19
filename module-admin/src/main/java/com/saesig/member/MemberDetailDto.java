@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class MemberDetailResponseDto {
+public class MemberDetailDto {
     private String nickname;
 
     private String email;

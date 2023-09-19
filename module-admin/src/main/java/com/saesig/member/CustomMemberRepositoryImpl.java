@@ -185,13 +185,13 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     }
 
     @Override
-    public Optional<MemberDetailResponseDto> findDetailById(Long id) {
+    public Optional<MemberDetailDto> findDetailById(Long id) {
         QMember qMember = QMember.member;
         QDormantMember qDormantMember = QDormantMember.dormantMember;
 
-        MemberDetailResponseDto memberDetail = queryFactory.select(
+        MemberDetailDto memberDetail = queryFactory.select(
                         Projections.fields(
-                                MemberDetailResponseDto.class,
+                                MemberDetailDto.class,
                                 qMember.nickname
                                 , qMember.email
                                 , qMember.signupMethod
