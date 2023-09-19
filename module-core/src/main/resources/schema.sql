@@ -17,9 +17,9 @@ CREATE TABLE `member`
     `marketing_service_agreement` VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '마케팅 서비스 이용동의',
     `deleted_at`                  DATETIME              NULL COMMENT '탈퇴일',
     `modified_at`                 DATETIME              NOT NULL COMMENT '수정일',
-    `modified_by`                 BIGINT                NOT NULL COMMENT '수정자 일련번호',
+    `modified_by`                 BIGINT                NULL COMMENT '수정자 일련번호',
     `created_at`                  DATETIME              NOT NULL COMMENT '등록일',
-    `created_by`                  BIGINT                NOT NULL COMMENT '등록자 일련번호'
+    `created_by`                  BIGINT                NULL COMMENT '등록자 일련번호'
 );
 
 DROP TABLE IF EXISTS `adopt`;
@@ -527,9 +527,9 @@ CREATE TABLE `dormant_member` (
     `password_modified_at`        DATETIME     NOT NULL COMMENT '비밀번호 마지막 수정일',
     `marketing_service_agreement` VARCHAR(1)   NOT NULL DEFAULT 'N' COMMENT '마케팅 서비스 이용동의',
     `modified_at`                 DATETIME     NOT NULL COMMENT '수정일',
-    `modified_by`                 BIGINT       NOT NULL COMMENT '수정자 일련번호',
+    `modified_by`                 BIGINT       NULL COMMENT '수정자 일련번호',
     `created_at`                  DATETIME     NOT NULL COMMENT '등록일',
-    `created_by`                  BIGINT       NOT NULL COMMENT '등록자 일련번호'
+    `created_by`                  BIGINT       NULL COMMENT '등록자 일련번호'
     );
 
 ALTER TABLE `dormant_member`
