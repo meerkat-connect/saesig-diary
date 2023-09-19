@@ -64,12 +64,20 @@ public class Member extends BaseEntity {
     List<MemberRole> memberRoles = new ArrayList<>();
 
     @Builder
-    public Member(String email, String nickname) {
+    public Member(Long id, String email, String password, SignupMethod signupMethod, MemberStatus status, String nickname, String serviceAgreement, String locationServiceAgreement, String privacyAgreement, String marketingServiceAgreement) {
+        this.id = id;
         this.email = email;
+        this.password = password;
+        this.signupMethod = signupMethod;
+        this.status = status;
         this.nickname = nickname;
+        this.serviceAgreement = serviceAgreement;
+        this.locationServiceAgreement = locationServiceAgreement;
+        this.privacyAgreement = privacyAgreement;
+        this.marketingServiceAgreement = marketingServiceAgreement;
     }
 
-    public void setTemporaryPassword( String oldPassword, String newPassword) {
+    public void setTemporaryPassword(String oldPassword, String newPassword) {
         this.password = newPassword;
         this.prevPassword = oldPassword;
         this.passwordModifiedAt = LocalDateTime.now();

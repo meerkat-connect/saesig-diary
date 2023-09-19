@@ -59,7 +59,6 @@
 
 
     <script>
-<!--isNicknameDuplicate-->
         $(function () {
             const $form = $('#memberInsertForm');
 
@@ -92,9 +91,8 @@
                             data: JSON.stringify(formData)
                         }).done(function (response) {
                             alert('등록되었습니다.');
-
                         }).fail(function (error) {
-                            alert(error.responseJSON.code);
+                            alert('등록에 실패하였습니다.');
                         });
                     }
                 }

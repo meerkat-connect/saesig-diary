@@ -2,6 +2,8 @@ package com.saesig.member;
 
 import com.saesig.common.RequestDto;
 import com.saesig.domain.member.Member;
+import com.saesig.domain.member.MemberStatus;
+import com.saesig.domain.member.SignupMethod;
 import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -75,7 +77,6 @@ public class MemberService {
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
-
         String newPassword = generateTemporaryPassword(10);
         member.setTemporaryPassword(member.getPassword(), newPassword);
         memberAdminRepository.save(member);
@@ -97,5 +98,22 @@ public class MemberService {
 
     public boolean isNicknameDuplicate(String nickname) {
         return memberAdminRepository.existsByNickname(nickname);
+    }
+
+    public Long insertMember(MemberInsertDto memberInsertDto) {
+        Member newMember = Member.builder().nickname(memberInsertDto.getNickname())
+                .email(memberInsertDto.getEmail())
+                .status(MemberStatus.NORMAL)
+                .signupMethod(SignupMethod.EMAIL)
+                .password(memberInsertDto.getPassword())
+                .serviceAgreement("Y")
+                .privacyAgreement("Y")
+                .locationServiceAgreement("N")
+                .marketingServiceAgreement("N")
+                .build();
+
+        Member savedMember = memberAdminRepository.save(newMember);
+
+        return savedMember.getId();
     }
 }

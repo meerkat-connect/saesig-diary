@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin/members")
@@ -32,11 +34,7 @@ public class MemberController {
 
     @PostMapping(value ="", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Long insertMember(@RequestBody MemberInsertDto memberInsertDto) {
-        if(isNicknameDuplicate(memberInsertDto.getNickname())) {
-            throw new IllegalArgumentException("닉네임이 중복됩니다.");
-        }
-
+    public Long insertMember(@RequestBody @Valid MemberInsertDto memberInsertDto) {
         return memberService.insertMember(memberInsertDto);
     }
 
