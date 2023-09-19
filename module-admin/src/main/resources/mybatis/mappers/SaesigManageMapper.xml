@@ -48,7 +48,7 @@
     </select>
 
     <select id="selectAdoptById" resultType="com.saesig.saesigManage.AdoptListDto" parameterType="hashMap">
-        SELECT a.*, ad1.category as animalDivision1Category, ad2.category as animalDivision2Category,IFNULL(reportCnt,0) as reportCnt , IFNULL(likeCnt,0) as likeCnt, m.nickname as createdName, m.email as createdMail, m1.nickname as adoptMemberNickName, m1.email as adoptMemberEmail, ah.created_at as statusChangeCreatedAt
+        SELECT a.*, ad1.category as animalDivision1Category, ad2.category as animalDivision2Category,IFNULL(reportCnt,0) as reportCnt , IFNULL(likeCnt,0) as likeCnt, m.nickname as createdName, m.email as createdMail, m1.nickname as adoptMemberNickName, m1.email as adoptMemberEmail, ah.created_at as statusChangeCreatedAt, a.status as beforeStatus
             from adopt a
             LEFT JOIN (select adopt_id,count(*) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
             LEFT JOIN (select adopt_id,count(*) as likeCnt from adopt_interest group by adopt_id) ai ON a.id = ai.adopt_id
@@ -111,7 +111,7 @@
     </select>
 
     <update id="updateAdoptInfo" parameterType="com.saesig.saesigManage.AdoptListDto">
-        UPDATE adopt SET title = #{title} , content = #{content},is_castrated = #{isCastrated}, etc_content = #{etcContent}, status = #{status}
+        UPDATE adopt SET title = #{title} , content = #{content},is_castrated = #{isCastrated}, etc_content = #{etcContent}, status = #{status}, modified_at = now(), modified_by = #{member.id}
     </update>
 
     <insert id="updateAdoptVaccine" parameterType="com.saesig.saesigManage.AdoptListDto">
@@ -119,13 +119,13 @@
         INSERT INTO adopt_vaccine(adopt_id,vaccine_id,modified_at,modified_by,created_at,created_by)
         VALUES
         <foreach collection="vaccineList" item="vaccine" separator=",">
-            (#{adopt_id}, #{vaccine}, now(), #{sessionMemberId}, now(), #{sessionMemberId})
+            (#{id}, #{vaccine}, now(), #{member.id}, now(), #{member.id})
         </foreach>
     </insert>
 
     <insert id="insertAdoptStatusChangeLog" parameterType="com.saesig.saesigManage.AdoptListDto">
         insert into adopt_history(adopt_id,before_status,after_status,member_id,modified_at,modified_by,created_at,created_by)
-        VALUES (#{adopt_id},(select after_status from adopt_history where adopt_id = #{adopt_id} order by id DESC LIMIT 0,1), #{status},#{sessionMemberId},now(), #{sessionMemberId}, now(), #{sessionMemberId})
+        VALUES (#{id},#{beforeStatus}, #{status},#{member.id},now(), #{member.id}, now(), #{member.id})
     </insert>
 
 

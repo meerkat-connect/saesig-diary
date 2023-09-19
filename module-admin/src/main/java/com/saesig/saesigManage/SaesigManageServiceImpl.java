@@ -78,12 +78,18 @@ public class SaesigManageServiceImpl implements SaesigManageService{
     };
 
     @Override
-    public Long updateAdoptInfo(AdoptListDto param, SessionMember member) throws Exception{
-        return saesigManageMapper.updateAdoptInfo(param,member.getId());
+    public Long updateAdoptInfo(AdoptListDto param) throws Exception{
+        return saesigManageMapper.updateAdoptInfo(param);
     }
 
    @Override
-   public Long insertAdoptStatusChangeLog(AdoptListDto param, SessionMember member) throws Exception{
-        return saesigManageMapper.insertAdoptStatusChangeLog(param, member.getId());
+   public Long insertAdoptStatusChangeLog(AdoptListDto param) throws Exception{
+        return saesigManageMapper.insertAdoptStatusChangeLog(param);
    }
+
+    @Override
+    public Long updateAdoptVaccine(AdoptListDto param) throws Exception{
+        return saesigManageMapper.updateAdoptVaccine(param);
+    }
+
 }

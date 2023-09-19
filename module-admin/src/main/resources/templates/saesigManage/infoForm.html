@@ -1,6 +1,7 @@
 <!-- 기본정보 -->
 <form th:object="${adopt}" method="post" id="adoptForm" name="adoptForm">
     <input type="hidden" th:field="*{id}">
+    <input type="hidden" id="beforeStatus" name="beforeStatus" th:field="*{beforeStatus}">
     <div class="card-header p-b-0">
         <h3 class="sub-title"><strong>기본정보</strong>
             <div class="col-0 col-md-0 text-right">
@@ -80,7 +81,7 @@
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="likeCnt"><strong>좋아요
                         수</strong></label>
                     <div class="col-sm-12">
-                        <input type="text" th:field="*{likeCnt}" class="form-control form-control-sm form-control-round"
+                        <input type="text" th:value="${likeCnt}" class="form-control form-control-sm form-control-round"
                                placeholder="제목을 입력해주세요." readonly>
                     </div>
                 </div>
@@ -110,7 +111,7 @@
                 <div class="row form-group required mb-3">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>등록일시</strong></label>
                     <div class="col-sm-12">
-                        <input type="text" th:field="*{createdAt}"
+                        <input type="text" th:value="${createdAt}"
                                class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요."
                                readonly>
 
@@ -217,7 +218,7 @@
                         여부</strong></label>
                     <div class="border-checkbox-section">
                         <div class="border-checkbox-group" th:each="vaccineItem : ${vaccine}">
-                            <input class="border-checkbox " type="checkbox"
+                            <input class="border-checkbox " type="checkbox" name="vaccineList"
                                    th:id="'vaccineCheckbox_' + ${vaccineItem.id}" th:value="${vaccineItem.id}"
                                    th:checked="${#lists.contains(''+adopt.vaccineList, ''+vaccineItem.id)}" />
                             <label class="form-label border-checkbox-label"
@@ -246,7 +247,7 @@
                 <div class="mb-0 form-group">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="status"><strong>분양상태</strong></label>
                     <div class="col-12">
-                        <select class="form-select form-select-sm form-control-sm form-control-round custom-select" id="status" name="status">
+                        <select class="form-select form-select-sm form-control-sm form-control-round custom-select" id="status" name="status" th:field="*{status}">
                             <option th:each="status : ${adoptStatus}" th:value="${status.key}" th:text="${status.value}">value</option>
                         </select>
                     </div>

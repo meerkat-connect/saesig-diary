@@ -2,6 +2,7 @@ package com.saesig.saesigManage;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.saesig.common.mybatis.RequestDto;
+import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.domain.adopt.AdoptStopCategory;
 import lombok.Data;
@@ -12,6 +13,8 @@ import java.time.LocalDateTime;
 
 @Data
 public class AdoptListDto extends RequestDto {
+    private SessionMember member;
+
     private Long id;
     private Long adoptMemberId;
     private String adoptMemberNickName;
@@ -22,6 +25,7 @@ public class AdoptListDto extends RequestDto {
     private String gender;
     private Integer age;
     private String ageCategory;
+    private AdoptStatus beforeStatus;
     private AdoptStatus status;
     private String isDeleted;
     private String isCastrated;

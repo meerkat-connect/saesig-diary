@@ -33,7 +33,9 @@ public interface SaesigManageMapper {
 
     public List<VaccineDto> selectVaccineList();
 
-    public Long updateAdoptInfo(AdoptListDto param, @Param("sessionMemberId") Long sessionMemberId);
-    public Long insertAdoptStatusChangeLog(AdoptListDto param, @Param("sessionMemberId") Long sessionMemberId);
+    public Long updateAdoptInfo(AdoptListDto param);
+    public Long insertAdoptStatusChangeLog(AdoptListDto param);
+
+    public Long updateAdoptVaccine(AdoptListDto param);
 
 }

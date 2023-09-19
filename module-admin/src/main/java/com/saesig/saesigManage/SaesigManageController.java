@@ -157,11 +157,17 @@ public class SaesigManageController {
 
     @PostMapping("/updateAdoptInfo.do")
     @ResponseBody
-    public Map<String, Object> submitOpenChatReason(AdoptListDto param, @LoginMember SessionMember member) throws Exception {
+    public Map<String, Object> updateAdoptInfo(AdoptListDto param, @LoginMember SessionMember member) throws Exception {
+        param.setMember(member);
         Map<String, Object> resultMap = new HashMap<>();
-        Object result = saesigManageService.updateAdoptInfo(param,member);
+        Object result = saesigManageService.updateAdoptInfo(param);
+        if (param.getVaccineList().length > 0){
+            Object vaccineResult = saesigManageService.updateAdoptVaccine(param);
+        }
+        if (!param.getBeforeStatus().getValue().equals(param.getStatus().getValue())){
+            Object statusUpdateResult = saesigManageService.insertAdoptStatusChangeLog(param);
+        }
         resultMap.put("result",result);
-        Object statusUpdateResult = saesigManageService.insertAdoptStatusChangeLog(param,member);
         return resultMap;
     }
 

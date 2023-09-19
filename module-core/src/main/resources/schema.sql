@@ -490,8 +490,8 @@ CREATE TABLE `adopt_history`
 (
     `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '분양 상태 일련번호',
     `adopt_id`    BIGINT                NOT NULL COMMENT '분양 일련번호',
-    `before_status`  BIGINT             NOT NULL COMMENT '분양 상태 변경 전 값',
-    `after_status`  BIGINT              NOT NULL COMMENT '분양 상태 변경 후 값',
+    `before_status`  VARCHAR(20)             NOT NULL COMMENT '분양 상태 변경 전 값',
+    `after_status`  VARCHAR(20)        NOT NULL COMMENT '분양 상태 변경 후 값',
     `reason`  varchar(1000)             COMMENT '수정 사유',
     `member_id`  varchar(1000)          NOT NULL COMMENT '변경회원 일련번호',
     `modified_at` DATETIME              NOT NULL COMMENT '수정일',

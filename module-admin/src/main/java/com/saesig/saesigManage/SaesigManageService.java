@@ -27,7 +27,9 @@ public interface SaesigManageService {
 
     public List<VaccineDto> selectVaccineList() throws Exception;
 
-    public Long updateAdoptInfo(AdoptListDto param, SessionMember member) throws Exception;
+    public Long updateAdoptInfo(AdoptListDto param) throws Exception;
 
-    public Long insertAdoptStatusChangeLog(AdoptListDto param, SessionMember member) throws Exception;
+    public Long insertAdoptStatusChangeLog(AdoptListDto param) throws Exception;
+
+    public Long updateAdoptVaccine(AdoptListDto param) throws Exception;
 }
