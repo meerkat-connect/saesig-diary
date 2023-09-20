@@ -1,6 +1,7 @@
 package com.saesig.api.mail;
 
 import com.saesig.config.ThymeleafConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -16,38 +17,41 @@ import java.util.Properties;
 
 @Controller
 public class MailContorller {
-
     private static ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ThymeleafConfig .class);
 
-    // 구글 이메일
-    static final String user_email= "eamil";
-    // 구글 비번
-    static final String user_pw = "앱 비밀번호";
+    @Value("${mail.user-email}")
+    private static String userEmail;
 
-    static final String smtp_host = "smtp.gmail.com";
-    static final int smtp_port = 465;  // TLS : 587, SSL : 465
+    @Value("${mail.user-pw}")
+    private static String userPw;
+
+    @Value("${mail.smtp-host}")
+    private static String smtpHost;
+
+    @Value("${mail.smtp-port}")
+    private static int smtpPort;
 
     public static void Send() throws Exception {
         Properties props = System.getProperties();
-        props.put("mail.smtp.host", smtp_host);
-        props.put("mail.smtp.port", smtp_port);
+        props.put("mail.smtp.host", smtpHost);
+        props.put("mail.smtp.port", smtpPort);
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.ssl.enable", "true");
-        props.put("mail.smtp.ssl.trust", smtp_host);
+        props.put("mail.smtp.ssl.trust", smtpHost);
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(user_email, user_pw);
+                        return new PasswordAuthentication(userEmail, userPw);
                     }
                 });
 
         try {
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(user_email));
+            message.setFrom(new InternetAddress(userEmail));
 
             Map<String, Object> variables = new HashMap<>();
-            variables.put("name", "안진한");
+            variables.put("name", "서정도");
 
             Context context = new Context();
             context.setVariables(variables);
@@ -59,7 +63,7 @@ public class MailContorller {
             // 받는 이메일
             message.setRecipients(
                     Message.RecipientType.TO,
-                    InternetAddress.parse("email, email")
+                    InternetAddress.parse("wonjjong.dev@gmail.com")
             );
 
             // 제목

@@ -99,6 +99,11 @@ mybatis:
 
 file.dir: C:/saesigDiary/file/
 
+mail:
+  user-email: ENC(Tq1mWDEq6K5WoBhsTofIJv8V0GE8ARF7q2jOvDFkG6AylXeuVRwWGg==)
+  user-pw: ENC(+dV0xeVvNJDt6FXGe+CSK44tFILZusEDLhnusUQ1kBY=)
+  smtp-host: ENC(meH2Z7E9nTd1nZ3TBSgc7nxUUbyhBM9c)
+  smtp-port: ENC(43i1ghYasA9lXsOmM2RBGw==)
 
 --- #dev
 spring:
