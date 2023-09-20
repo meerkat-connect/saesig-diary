@@ -140,14 +140,18 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
 
     @Override
     public Page<ReportResponseDto> findReportList(Long id, RequestDto request, PageRequest of) {
-        String nativeQuery = "SELECT m.nickname, m.email, ar.category, ar.content, ar.created_at as reported_at " +
-                "FROM adopt_report ar INNER JOIN member m " +
+        String nativeQuery = "" +
+                "SELECT m.nickname, m.email, ar.category, ar.content, ar.created_at as reported_at " +
+                "FROM adopt_report ar INNER JOIN member m ON ar.member_id = m.id INNER JOIN adopt a ON ar.adopt_id = a.id " +
+                "WHERE m.id = :id " +
                 "UNION " +
                 "SELECT m.nickname, m.email, dr.category, dr.content, dr.created_at as reported_at " +
-                "FROM diary_report dr INNER JOIN member m " +
+                "FROM diary_report dr INNER JOIN member m ON dr.member_id = m.id INNER JOIN diary d ON dr.diary_id = d.id " +
+                "WHERE m.id = :id " +
                 "LIMIT :limit OFFSET :offset";
 
         Query queryResult = em.createNativeQuery(nativeQuery)
+                .setParameter("id", id)
                 .setParameter("offset", of.getOffset())
                 .setParameter("limit", of.getPageSize());
 
