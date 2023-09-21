@@ -257,25 +257,25 @@
                 deleteRowArray = []
                 $(document).find('input[type=checkbox][data-id]:checked').each(function (){
                     deleteRowArray.push($(this).attr('data-id'))
-                    $.ajax({
-                        type : "DELETE",
-                        async:false,
-                        encrtpe : 'multipart/form-data',
-                        url: "/admin/inquiry/deleteInquiry.do",
-                        dataType : 'json',
-                        data : JSON.stringify(deleteRowArray),
-                        contentType:'application/json',
-                        ccache:false,
-                        success: function (result) {
-                            if (result){
-                                alert("삭제되었습니다.")
-                                window.reload()
-                            }
-                        },
-                        error: function (e) {
-                            console.log(e)
+                })
+                $.ajax({
+                    type : "DELETE",
+                    async:false,
+                    encrtpe : 'multipart/form-data',
+                    url: "/admin/inquiry/deleteInquiry.do",
+                    dataType : 'json',
+                    data : JSON.stringify(deleteRowArray),
+                    contentType:'application/json',
+                    ccache:false,
+                    success: function (result) {
+                        if (result){
+                            alert("삭제되었습니다.")
+                            window.location.reload()
                         }
-                    })
+                    },
+                    error: function (e) {
+                        console.log(e)
+                    }
                 })
             }
         }
