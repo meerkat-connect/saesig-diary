@@ -12,5 +12,6 @@ public class InquiryAnswerDto {
     private Long modifiedBy;
     private String createdAt;
     private Long createdBy;
-    private String createdByStr;
+    private String createdByNickName;
+    private String createdByEmail;
 }

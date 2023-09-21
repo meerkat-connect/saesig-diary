@@ -3,6 +3,8 @@ package com.saesig.config;
 import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.domain.adopt.AdoptStopCategory;
 import com.saesig.domain.faq.FaqCategory;
+import com.saesig.domain.inquiry.InquiryCategory;
+import com.saesig.domain.inquiry.InquiryStatus;
 import com.saesig.domain.member.MemberStatus;
 import com.saesig.domain.member.SignupMethod;
 import com.saesig.domain.report.ReportCategory;
@@ -28,6 +30,8 @@ public class EnumConfig {
 
         factory.put("exampleEnum", ExampleEnum.class);
         factory.put("faqCategory", FaqCategory.class);
+        factory.put("inquiryCategory", InquiryCategory.class);
+        factory.put("inquiryStatus", InquiryStatus.class);
         factory.put("policyCategory", PolicyCategory.class);
         factory.put("sendMethod", SendMethod.class);
         factory.put("sendCategory", SendCategory.class);

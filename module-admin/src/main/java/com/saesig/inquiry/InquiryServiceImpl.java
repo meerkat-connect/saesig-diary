@@ -15,7 +15,7 @@ public class InquiryServiceImpl implements InquiryService {
     private final InquiryMapper inquiryMapper;
 
     @Override
-    public List<InquiryDto> getInquiryList(Map<String, Object> param) throws Exception {
+    public List<InquiryDto> getInquiryList(InquiryDto param) throws Exception {
         return inquiryMapper.getInquiryList(param);
     }
 
@@ -30,4 +30,8 @@ public class InquiryServiceImpl implements InquiryService {
     public List<InquiryAnswerDto> selectAnswerById(Long id) throws Exception {
         return inquiryMapper.selectAnswerById(id);
     }
+    @Override
+    public Long deleteInquiry(Long[] ids) throws Exception{
+        return inquiryMapper.deleteInquiry(ids);
+    };
 }
