@@ -66,7 +66,7 @@
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                            for="modified_name"><strong>수정자</strong></label>
                                     <div class="col-sm-12">
-                                        <input type="text" class="form-control form-control-round" name="modified_name" id="modified_name" placeholder="관리자 명(id)"/>
+                                        <input type="text" class="form-control form-control-round" name="modified_name" id="modified_name" placeholder="관리자 명(id)" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
                                            for="modified_date"><strong>수정일자</strong></label>
                                     <div class="col-sm-12">
-                                        <input type="text" class="form-control form-control-round" name="modified_date" id="modified_date" placeholder="YYYY-MM-dd hh:mm:ss"/></div>
+                                        <input type="text" class="form-control form-control-round" name="modified_date" id="modified_date" placeholder="YYYY-MM-dd hh:mm:ss" disabled/></div>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +117,17 @@
                     dataType: 'json',
                     data: {select_type: select_type}
                 }).done(function (response) {
-                    _this.setPolicyData(response)
+                    if (response.id != null){
+                        _this.setPolicyData(response)
+                    }else{
+                        $("input[name=id]").val('')
+                        $("input[name=title]").val('')
+                        $("input[name=content]").val('')
+                        ckeditorApp.editorList['content'].setData('')
+                        $("input[name=modified_date]").val('')
+                        $('#modified_name').val(`[[${member.nickname}]]`+'('+`[[${member.email}]]`+')')
+                        $("input[name=category]").val(select_type)
+                    }
                 }).fail(function (error) {
                     alert('데이터를 불러오는데에 실패하였습니다.');
                     console.log(JSON.stringify(error));
