@@ -1,12 +1,14 @@
 package com.saesig.domain.adopt;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.saesig.global.enumCode.EnumMapperType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.stream.Stream;
 
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @RequiredArgsConstructor
 public enum AdoptStopCategory implements EnumMapperType {
     TYPE_0("관리자 분양중지"), TYPE_1("사용자 분양중지"), NULL("값 없음");

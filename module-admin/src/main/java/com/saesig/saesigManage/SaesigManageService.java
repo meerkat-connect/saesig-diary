@@ -32,4 +32,6 @@ public interface SaesigManageService {
     public Long insertAdoptStatusChangeLog(AdoptListDto param) throws Exception;
 
     public Long updateAdoptVaccine(AdoptListDto param) throws Exception;
+
+    public List<AdoptHistoryDto> selectHistoryByAdoptId(AdoptHistoryDto param) throws Exception;
 }

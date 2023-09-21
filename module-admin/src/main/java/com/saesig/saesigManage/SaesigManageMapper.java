@@ -38,4 +38,6 @@ public interface SaesigManageMapper {
 
     public Long updateAdoptVaccine(AdoptListDto param);
 
+    public List<AdoptHistoryDto> selectHistoryByAdoptId(AdoptHistoryDto param);
+
 }

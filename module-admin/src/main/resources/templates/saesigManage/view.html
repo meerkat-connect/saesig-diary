@@ -251,6 +251,7 @@
                             }
                         },
                         "dataSrc": function (res) {
+                            console.log(res)
                             if (res.data.length > 0){
                                 return res.data;
                             }else{
@@ -401,7 +402,7 @@
                         method: 'GET',
                         url: '/admin/saesigManage/selectChattingListByAdoptId.do',
                         data: function(d) {
-                            d['adoptId'] = 1
+                            d['adoptId'] = tabController.adoptId
                         },
                         "dataSrc": function (res) {
                             if (res.data.length > 0){
@@ -585,6 +586,7 @@
         }
 
         const adoptInfoController = {
+            adoptHistoryPop : null,
             init : function (){
                 ckeditorApp.setckeditor();
                 $('select').niceSelect('update')
@@ -688,6 +690,78 @@
                 });
 
 
+            }
+            ,openHistoryPop : function (id) {
+                adoptInfoController.adoptHistoryPop = new bootstrap.Modal($('#adoptStatusHistoryPop'));
+                adoptInfoController.adoptHistoryPop.show();
+                statusChangeHistoryTable = $('#statusChangeHistoryTable').DataTable({
+                    "columnDefs": [
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: false,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
+                    serverSide: true,
+                    processing: true,
+                    ajax: {
+                        async: false,
+                        method: 'GET',
+                        url: '/admin/saesigManage/selectHistoryByAdoptId.do',
+                        data: function(d) {
+                            d['adoptId'] = $('#id').val()
+                        },
+                        "dataSrc": function (res) {
+                            if (res.data.length > 0){
+                                return res.data;
+                            }else{
+                                return false;
+                            }
+                        }
+                    },
+
+                    columns: [
+                        {data: 'id'},
+                        {render: function (data, type, row) {
+                                return `${row.beforeStatus.value}`;
+                            }},
+                        {render: function (data, type, row) {
+                                return `${row.afterStatus.value}`;
+                            }},
+                        {render : function (data,type,row){
+                            if (row.reason == null){
+                                return '-'
+                            }else{
+                                return `${row.reason}`
+                            }
+                            }},
+                        {data : 'createdAt'},
+                        {render: function (data, type, row) {
+                                return `${row.nickname}`+'('+`${row.email}`+')';
+                            }}
+                    ],
+                    language: {
+                        search: '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        loadingRecords: '로딩중..',
+                    },
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
+
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
+                    }
+                })
             }
         }
 

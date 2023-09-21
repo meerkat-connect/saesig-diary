@@ -41,11 +41,9 @@ public class AdoptListDto extends RequestDto {
     private String stopReason;
     private AdoptStopCategory stopCategory;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime modifiedAt;
     private Long modifiedBy;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
     private Long createdBy;
     private String createdName;
@@ -56,10 +54,8 @@ public class AdoptListDto extends RequestDto {
     private Integer[] vaccineList;
     private Long stopMemberId;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime stopChangeCreatedAt;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime statusChangeCreatedAt;
 
 

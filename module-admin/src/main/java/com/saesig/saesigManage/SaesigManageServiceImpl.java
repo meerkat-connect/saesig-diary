@@ -92,4 +92,9 @@ public class SaesigManageServiceImpl implements SaesigManageService{
         return saesigManageMapper.updateAdoptVaccine(param);
     }
 
+    @Override
+    public List<AdoptHistoryDto> selectHistoryByAdoptId(AdoptHistoryDto param) throws Exception{
+        return saesigManageMapper.selectHistoryByAdoptId(param);
+    };
+
 }

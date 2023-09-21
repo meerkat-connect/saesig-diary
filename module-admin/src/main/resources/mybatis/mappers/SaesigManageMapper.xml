@@ -49,7 +49,7 @@
 
     <select id="selectAdoptById" resultType="com.saesig.saesigManage.AdoptListDto" parameterType="hashMap">
         SELECT a.*, ad1.category as animalDivision1Category, ad2.category as animalDivision2Category,IFNULL(reportCnt,0) as reportCnt , IFNULL(likeCnt,0) as likeCnt, m.nickname as createdName, m.email as createdMail, m1.nickname as adoptMemberNickName, m1.email as adoptMemberEmail, ah.created_at as statusChangeCreatedAt, a.status as beforeStatus
-            from adopt a
+            FROM adopt a
             LEFT JOIN (select adopt_id,count(*) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
             LEFT JOIN (select adopt_id,count(*) as likeCnt from adopt_interest group by adopt_id) ai ON a.id = ai.adopt_id
             LEFT JOIN (select adopt_id,created_at,after_status from adopt_history where adopt_id = #{id} order by id DESC LIMIT 0,1) ah ON a.id = ah.adopt_id
@@ -92,7 +92,7 @@
 
     <select id="selectAdoptCntByAdoptId" resultType="com.saesig.saesigManage.AdoptListDto" parameterType="com.saesig.saesigManage.AdoptListDto">
         SELECT a.id ,IFNULL(reportCnt,0) as reportCnt ,  IFNULL(chattingCnt,0) as chattingCnt
-            from adopt a
+            FROM adopt a
             LEFT JOIN (select adopt_id, IFNULL(count(*),0) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
             LEFT JOIN (select adopt_id, IFNULL(count(*),0) as chattingCnt from (select ADOPT_ID, CHAT_ID from chatting_room group by chat_id) cr group by adopt_id) ch ON a.id = ch.adopt_id
         WHERE a.id=#{id}
@@ -115,7 +115,7 @@
     </update>
 
     <insert id="updateAdoptVaccine" parameterType="com.saesig.saesigManage.AdoptListDto">
-        DELETE FROM adopt_vaccine where adopt_id = #{id};
+        DELETE FROM adopt_vaccine WHERE adopt_id = #{id};
         INSERT INTO adopt_vaccine(adopt_id,vaccine_id,modified_at,modified_by,created_at,created_by)
         VALUES
         <foreach collection="vaccineList" item="vaccine" separator=",">
@@ -124,10 +124,13 @@
     </insert>
 
     <insert id="insertAdoptStatusChangeLog" parameterType="com.saesig.saesigManage.AdoptListDto">
-        insert into adopt_history(adopt_id,before_status,after_status,member_id,modified_at,modified_by,created_at,created_by)
+        INSERT INTO adopt_history(adopt_id,before_status,after_status,member_id,modified_at,modified_by,created_at,created_by)
         VALUES (#{id},#{beforeStatus}, #{status},#{member.id},now(), #{member.id}, now(), #{member.id})
     </insert>
 
-
-
+    <select id="selectHistoryByAdoptId" parameterType="com.saesig.saesigManage.AdoptHistoryDto" resultType="com.saesig.saesigManage.AdoptHistoryDto">
+        <include refid="PaginationMapper.header"/>
+        SELECT ah.*, m.nickname, m.email FROM adopt_history ah LEFT JOIN member m ON ah.member_id = m.id WHERE adopt_id = #{adoptId}
+        <include refid="PaginationMapper.footer"/>
+    </select>
 </mapper>
