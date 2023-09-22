@@ -93,7 +93,7 @@ public class RoleController {
     public ResponseEntity<Object> addCheckedMembers(@RequestParam Long roleId
             , @RequestParam Long[] memberIds
             , @LoginMember SessionMember member) {
-        roleService.addCheckedMembers(roleId, memberIds, member);
+        roleService.addCheckedMembers(roleId, memberIds, member.getId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
