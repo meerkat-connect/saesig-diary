@@ -1,18 +1,18 @@
-package com.saesig.domain.report;
+package com.saesig.domain.inquiry;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.saesig.domain.adopt.AdoptStopCategory;
 import com.saesig.global.enumCode.EnumMapperType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @RequiredArgsConstructor
-public enum ReportCategory implements EnumMapperType {
-    TYPE_A("유형1");
+public enum InquiryStatus implements EnumMapperType{
+    INCOMPLETE("답변대기"), COMPLETE("답변완료");
 
     @Getter
     private final String value;
@@ -22,11 +22,10 @@ public enum ReportCategory implements EnumMapperType {
     }
 
     @JsonCreator
-    public static ReportCategory from(String sub) {
-        return Stream.of(ReportCategory.values())
+    public static InquiryStatus from(String sub) {
+        return Stream.of(InquiryStatus.values())
                 .filter(category -> category.toString().equals(sub.toUpperCase()))
                 .findFirst()
                 .orElse(null);
     }
-
 }

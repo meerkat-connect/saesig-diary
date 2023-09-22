@@ -17,15 +17,20 @@ public class PolicyController {
     @Autowired
     private PolicyService policyService;
     @GetMapping("/view")
-    public String policyView(Model model) {
+    public String policyView(Model model, @LoginMember SessionMember member) {
         model.addAttribute("policyCategories", enumFactory.get("policyCategory"));
+        model.addAttribute("member", member);
         return "policy/view";
     }
 
     @RequestMapping(value = "/getPolicyByType.do")
     @ResponseBody
     public PolicyDto getInquiryList(@RequestParam String select_type) {
-        return policyService.getPolicyByType(select_type);
+        PolicyDto result = policyService.getPolicyByType(select_type);
+        if (result == null){
+            result = new PolicyDto();
+        }
+        return result;
     }
 
     @RequestMapping(value = "/changePolicy.do")

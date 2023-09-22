@@ -13,10 +13,8 @@
 <!--    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>-->
     <script th:inline="javascript">
         const inquiryList = {
-            InquiryData: null,
             AnswerData : null,
             init: function () {
-                this.setFilter()
                 this.inquiryListLoad()
                 this.registEvent()
             },
@@ -54,173 +52,150 @@
 
             },
 
-            setFilter: function () {
-                $.ajax({
-                    type: "post",
-                    async: false,
-                    enctype: 'multipart/form-data',
-                    url: "/admin/inquiry/getFilterData.do",
-                    ContentType: 'application/json',
-                    dataType: 'json',
-                    cache: false,
-                    success: function (result) {
-                        const categoryList = Object.keys(result['InquiryCategory']);
-                        let categoryOption = '';
-                        for (let i = 0; i < categoryList.length; i++) {
-                            categoryOption += '<option value="' + categoryList[i] + '">' + result['InquiryCategory'][categoryList[i]]['title'] + '</option>'
-                        }
-                        $('#searchCategory').append(categoryOption)
-
-                        const statusList = Object.keys(result['InquiryStatus']);
-                        let statusOption = '';
-                        for (let i = 0; i < statusList.length; i++) {
-                            statusOption += '<option value="' + statusList[i] + '">' + result['InquiryStatus'][statusList[i]]['title'] + '</option>'
-                        }
-                        $('#searchStatus').append(statusOption)
-                        $('select').niceSelect('update');
-                    },
-                    error: function (e) {
-                        console.log(e)
-                    }
-                });
-            },
-
             inquiryListLoad: function () {
                 const _this = this;
-                let params = _this.getFilterParam();
                 let table = null
                 if (table != null) {
                     table.destroy();
                 }
-                $.ajax({
-                    type: "post",
-                    async: false,
-                    enctype: 'multipart/form-data',
-                    url: "/admin/inquiry/getInquiryList.do",
-                    dataType: 'json',
-                    data: params,
-                    cache: false,
-                    success: function (result) {
-                        _this.InquiryData = result.data;
-                        table = $("#inquiryListTable").DataTable({
-                            ordering: false,
-                            data: result.data,
-                            columns: [
-                                {data: null},
-                                {data: "categoryStr"},
-                                {data: "title"},
-                                {data: "nickname"},
-                                {data: "statusStr"},
-                                {data: "createdAt"}
-                            ],
-                            columnDefs: [{
-                                'targets': 0,
-                                'searchable': false,
-                                'orderable': false,
-                                'width': '30px',
-                                'className': 'dt-body-center',
-                                'render': function (data, type, full, meta) {
-                                    // return '<input type="checkbox" name="rowCheckbox" value="' + $('<div/>').text(data.id).html() + '">';
-                                    return '<div class="border-checkbox-section"><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="checkbox' + $('<div/>').text(data.id).html() + '" name="rowCheckbox" value="' + $('<div/>').text(data.id).html() + '"><label class="form-label border-checkbox-label" for="checkbox' + $('<div/>').text(data.id).html() + '"></label></div></div>'
-
-                                }
-                            }
-                                , {'targets': 1, 'width': '70px'}
-                                , {'targets': 2, 'width': 'auto'}
-                                , {'targets': 3, 'width': '70px'}
-                                , {'targets': 4, 'width': '70px'}
-                                , {'targets': 5, 'width': '70px'}
-                            ],
-                            destroy: true,
-                            language: {
-                                paginate: {
-                                    previous: 'Prev'
-                                }
-                            }
-                        })
+                table = $("#inquiryListTable").DataTable({
+                    select: {
+                        selector: 'td:not(:first-child)',
+                        style: 'single'
                     },
-                    error: function (e) {
-                        console.log(e)
-                    }
-                });
-            },
-
-            getFilterParam: function () {
-                let param = {};
-                param.orderColumn = null;
-                param.orderColumnSort = null;
-                param.searchCategory = null;
-                param.searchStatus = null;
-                param.searchTitle = null;
-                param.searchKeywordSelect = null;
-                param.searchKeyword = null;
-
-                if ($('#searchStatus').val() != '' && $('#searchStatus').val() != null && $('#searchStatus').val() != undefined) {
-                    param.searchStatus = $('#searchStatus').val()
-                }
-                if ($('#searchTitle').val() != '' && $('#searchTitle').val() != null && $('#searchTitle').val() != undefined) {
-                    param.searchTitle = $('#searchTitle').val()
-                }
-                if ($('#searchCategory').val() != '' && $('#searchCategory').val() != null && $('#searchCategory').val() != undefined && $('#searchCategory').val() != 'all') {
-                    param.searchCategory = $('#searchCategory').val()
-                }
-                if ($('#searchKeywordSelect').val() != '' && $('#searchKeywordSelect').val() != null && $('#searchKeywordSelect').val() != undefined) {
-                    param.searchKeywordSelect = $('#searchKeywordSelect').val()
-                }
-                if ($('#searchKeyword').val() != '' && $('#searchKeyword').val() != null && $('#searchKeyword').val() != undefined) {
-                    param.searchKeyword = $('#searchKeyword').val()
-                }
-                return param
-            },
-
-            selectItem: function (el) {
-                let _this = this;
-                const row = $(el).closest('tr');
-                row.closest('tbody').find('tr').css('background-color', 'white');
-                row.css('background-color', '#F8F7F7')
-                const targetId = $(el).closest('tr').find('[name=rowCheckbox]').val();
-                const targetData = this.InquiryData.find(e => e.id === parseInt(targetId));
-                $('.InquiryTitle').text('[' + targetData.categoryStr + '] ' + targetData.title)
-                $('.InquiryCreatedMemberName').text(targetData.nickname + '(' + targetData.memberId + ')')
-                $('.InquiryCreatedDate').text(targetData.modifiedAt)
-                $('.InquiryContentCon').text(targetData.content)
-                $('.targetInquiryCon').attr('mekc-inquiry-id', targetId)
-                $('#answerTitle').val('RE: '+targetData.title)
-                $('#answerDate').val(_this.getDateStr())
-                $('#answerStatus').val('0')
-                $('select').niceSelect('update');
-                $('#answerContents').val('')
-                $('#answerManagerId').val('1')
-                $('#answerManager').val('이동헌')
-
-                $.ajax({
-                    type: "post",
-                    async: false,
-                    enctype: 'multipart/form-data',
-                    url: "/admin/inquiry/getAnswerById.do",
-                    dataType: 'json',
-                    data: JSON.stringify(targetId), // 객체를 JSON 문자열로 변환하여 전달
-                    contentType: 'application/json', // 전달하는 데이터의 타입을 명시
-                    cache: false,
-                    success: function (result) {
-                        if (result.length != 0){
-                            $('#answerStatus').val('1')
-                            $('select').niceSelect('update');
-                            $('#answerTitle').val(result[0]['title'])
-                            $('#answerContents').val(result[0]['content'])
-                            $('#answerManagerId').val(result[0]['createdBy'])
-                            $('#answerDate').val(_this.getDateStr(result[0]['createdAt']))
-                            if(result.length > 1){
-                                $('#answerManager').val(result[0]['createdByStr']+'(수정됨)')
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: false,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
+                    serverSide: true,
+                    processing: true,
+                    ajax: {
+                        async: false,
+                        method: 'GET',
+                        url: '/admin/inquiry/getInquiryList.do',
+                        data: function(d) {
+                            var formData  = $('#searchForm').serializeArray();
+                            for(var i = 0; i < formData.length; i++) {
+                                var formName = formData[i].name;
+                                var formVal = $("#"+formName).val();
+                                d[formName] = formVal;
+                            }
+                        },
+                        "dataSrc": function (res) {
+                            console.log(res)
+                            if (res.data.length > 0){
+                                return res.data;
                             }else{
-                                $('#answerManager').val(result[0]['createdByStr'])
+                                return false;
                             }
                         }
                     },
-                    error: function (e) {
-                        console.log(e)
+                    columns: [
+                        {
+                            render: function (data, type, row) {
+                                return ` <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
+                                                    <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
+                                                </div>
+                                            </div>`;
+                            }
+                        },
+                        {render : function (data,type,row) {
+                                return `${row.category.value}`
+                            }},
+                        {data: "title"},
+                        {data: "nickname"},
+                        {render : function (data,type,row) {
+                                return `${row.status.value}`
+                            }},
+                        {data: "createdAt"}
+                    ],
+                    "columnDefs": [
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    language: {
+                        search: '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
+                        infoEmpty: '데이터 0 부터 0 까지 / 총데이터 : 0',
+                        lengthMenu: '보기',
+                        loadingRecords: '로딩중..',
+                    },
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
+
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
                     }
                 })
+
+                table.on('select', function (e, dt, type, indexes) {
+                    const targetData = table.rows(indexes).data().toArray();
+                    const targetId = targetData[0].id;
+                    $('.InquiryTitle').text('[' + targetData[0].category.value + '] ' + targetData[0].title)
+                    $('.InquiryCreatedMemberName').text(targetData[0].nickname + '(' + targetData[0].memberId + ')')
+                    $('.InquiryCreatedDate').text(targetData[0].modifiedAt)
+                    $('.InquiryContentCon').text(targetData[0].content)
+                    $('.targetInquiryCon').attr('mekc-inquiry-id', targetId)
+                    $('#answerTitle').val('RE: '+targetData[0].title)
+                    var currentDate = new Date();
+                    var yyyy = currentDate.getFullYear();
+                    var mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+                    var dd = String(currentDate.getDate()).padStart(2, '0');
+                    var formattedDate = yyyy + '-' + mm + '-' + dd;
+                    $('#answerDate').val(formattedDate)
+                    $('#answerStatus').val('0')
+                    $('select').niceSelect('update');
+                    $('#answerContents').val('')
+                    $('#answerManagerId').val([[${loginSession.id}]])
+                    $('#answerManager').val([[${loginSession.nickname}]])
+
+                    $.ajax({
+                        type: "post",
+                        async: false,
+                        enctype: 'multipart/form-data',
+                        url: "/admin/inquiry/getAnswerById.do",
+                        dataType: 'json',
+                        data: JSON.stringify(targetId), // 객체를 JSON 문자열로 변환하여 전달
+                        contentType: 'application/json', // 전달하는 데이터의 타입을 명시
+                        cache: false,
+                        success: function (result) {
+                            if (result.length != 0){
+                                $('#answerStatus').val('1')
+                                $('select').niceSelect('update');
+                                $('#answerTitle').val(result[0]['title'])
+                                $('#answerContents').val(result[0]['content'])
+                                $('#answerManagerId').val(result[0]['createdBy'])
+                                $('#answerDate').val(result[0]['createdAt'])
+                                if(result.length > 1){
+                                    $('#answerManager').val(result[0]['createdByNickName']+'(수정됨)')
+                                }else{
+                                    $('#answerManager').val(result[0]['createdByNickName'])
+                                }
+                            }
+                        },
+                        error: function (e) {
+                            console.log(e)
+                        }
+                    })
+                }).on('deselect', function (e, dt, type, indexes) {
+                    let rowData = table.rows(indexes).data().toArray();
+                });
+            },
+
+            selectItem: function (el) {
+
             },
 
             answerInsert : function () {
@@ -268,7 +243,8 @@
                     cache: false,
                     success: function (result) {
                         if (result){
-                            ("#answerStatus").val(1)
+                            alert("답변이 등록되었습니다.")
+                           $("#answerStatus").val(1)
                         }
                     },
                     error: function (e) {
@@ -276,37 +252,43 @@
                     }
                 })
             },
-            getDateStr : function (date = null, format = null) {
-                if (date == null){
-                    date = new Date();
-                }else{
-                    date = new Date(date)
-                }
-                const year = date.getFullYear();
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const day = String(date.getDate()).padStart(2, '0');
-
-                let str
-                if (format == null){
-                    str = `${year}-${month}-${day}`
-                }else{
-                    str = `${year}-${month}-${day}`
-                }
-                return str
+            
+            deleteInquiry : function () {
+                deleteRowArray = []
+                $(document).find('input[type=checkbox][data-id]:checked').each(function (){
+                    deleteRowArray.push($(this).attr('data-id'))
+                })
+                $.ajax({
+                    type : "DELETE",
+                    async:false,
+                    encrtpe : 'multipart/form-data',
+                    url: "/admin/inquiry/deleteInquiry.do",
+                    dataType : 'json',
+                    data : JSON.stringify(deleteRowArray),
+                    contentType:'application/json',
+                    ccache:false,
+                    success: function (result) {
+                        if (result){
+                            alert("삭제되었습니다.")
+                            window.location.reload()
+                        }
+                    },
+                    error: function (e) {
+                        console.log(e)
+                    }
+                })
             }
         }
         $(document).ready(function () {
             inquiryList.init();
         });
-
-        const loginSession = [[${loginSession}]]
     </script>
 
     <!-- Page-body start -->
     <div class="page-body">
         <div class="row">
             <!-- 필터 부분 -->
-            <form name="searchFrm" id="searchFrm" action="" onsubmit="return false;" class="card">
+            <form name="searchForm" id="searchForm" action="" onsubmit="return false;" class="card">
                 <div class="card-block-small">
                     <!-- 키워드 filter -->
                     <div class="row">
@@ -332,6 +314,7 @@
                                     <select name="searchCategory" id="searchCategory"
                                             class="form-select form-control form-control-round custom-select">
                                         <option value="all">전체</option>
+                                        <option th:each="category : ${categoryList}" th:value="${category.key}" th:text="${category.value}">value</option>
                                     </select>
                                 </div>
                             </div>
@@ -353,6 +336,7 @@
                                             class="form-select form-control form-control-round custom-select"
                                             id="searchStatus">
                                         <option value="all">전체</option>
+                                        <option th:each="status : ${statusList}" th:value="${status.key}" th:text="${status.value}">value</option>
                                     </select>
                                 </div>
                             </div>
@@ -376,56 +360,35 @@
                             <h5><strong>1:1 문의 검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn-inverse">삭제</button>
+                            <button type="button" class="btn btn-inverse" id="deleteBtn" onclick="inquiryList.deleteInquiry()">삭제</button>
                         </div>
                     </div>
                     <div class="card-block-small">
                         <div class="dt-responsive table-responsive">
-                            <table id="inquiryListTable"
-                                   class="col-12 hover nowrap row-border"
-                                   role="grid" style="width: 100%">
-                                <thead>
-                                <tr role="row">
-                                    <th class="" tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        <div class="border-checkbox-section mt20">
-                                            <div class="border-checkbox-group">
-                                                <input type="checkbox" class="border-checkbox " id="checkboxAll" name="rowCheckbox" value="All">
-                                                <label class="form-label border-checkbox-label" for="checkboxAll"></label>
+                            <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <table id="inquiryListTable" class="display" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox " id="checkboxAll" name="rowCheckbox" value="All">
+                                                    <label class="form-label border-checkbox-label" for="checkboxAll"></label>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </th>
-                                    <th class="" tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        문의유형
-                                    </th>
-                                    <th class="" tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        제목
-                                    </th>
-                                    <th tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        작성자
-                                    </th>
-                                    <th class="" tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        답변상태
-                                    </th>
-                                    <th class="" tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        등록일
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody style="border-bottom: 1px solid #dddddd">
-                                </tbody>
-                            </table>
+                                            <!--<input type="checkbox" id="allCheckBox" name="allCheckBox">-->
+                                        </th>
+                                        <th>문의유형</th>
+                                        <th>제목</th>
+                                        <th>작성자</th>
+                                        <th>답변상태</th>
+                                        <th>등록일</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -504,7 +467,7 @@
                             <div class="col-12 col-lg-6 mb-3 mb-lg-0">
                                 <div class="mb-0 form-group">
                                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                           for="answerManager"><strong>답변자(세션생성시 수정)</strong></label>
+                                           for="answerManager"><strong>답변자</strong></label>
                                     <div class="col-sm-12">
                                         <input type="hidden" name="answerManagerId" id="answerManagerId" value="1"
                                                placeholder="Text Input Validation" readonly/>

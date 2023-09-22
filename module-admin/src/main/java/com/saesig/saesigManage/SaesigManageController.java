@@ -171,4 +171,21 @@ public class SaesigManageController {
         return resultMap;
     }
 
+    @GetMapping("/selectHistoryByAdoptId.do")
+    @ResponseBody
+    public DataTablesDto selectHistoryByAdoptId(AdoptHistoryDto param) throws Exception{
+        DataTablesDto dtd = new DataTablesDto();
+        List<AdoptHistoryDto> list = saesigManageService.selectHistoryByAdoptId(param);
+        dtd.setData(list);
+        dtd.setDraw(param.getDraw());
+        if (list.size() > 0){
+            dtd.setRecordsFiltered(list.get(0).getRecordsTotal());
+            dtd.setRecordsTotal(list.get(0).getRecordsTotal());
+        }else{
+            dtd.setRecordsFiltered(0);
+            dtd.setRecordsTotal(0);
+        }
+        return dtd;
+    }
+
 }
