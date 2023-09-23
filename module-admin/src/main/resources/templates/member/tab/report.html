@@ -7,6 +7,7 @@
             <table id="reportTable" class="display" style="width:100%">
                 <thead>
                 <tr>
+                    <th>내용</th>
                     <th>신고자</th>
                     <th>신고유형</th>
                     <th>내용</th>
@@ -20,19 +21,60 @@
     </div>
 </div>
 
+<div class="modal fade" id="reportPopup">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content type_1">
+            <div class="modal-header">
+                <h4 class="modal-title">신고 내용</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-block-small">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-0 form-group">
+                                    <div class="row form-group mb-3">
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>신고유형</strong></label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control form-control-sm form-control-round" id="category" name="category" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row form-group mb-3 m-t-10" id="reason_con">
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content">
+                                            <strong>내용</strong>
+                                        </label>
+                                        <div class="col-sm-12">
+                                            <textarea rows="5" cols="5" class="form-control form-control-sm form-control-round" name="content" id="content" readonly></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script th:inline="javascript">
     $(function () {
         const reportController = {
             memberId: /*[[${memberId}]]*/null,
+            reportTable: null,
+            reportPopup: null,
 
             init: function () {
-                let reportTable = null;
 
-                if (reportTable != null) reportTable.destroy();
+                if (this.reportTable != null) this.reportTable.destroy();
 
-                reportTable = $('#reportTable').DataTable({
+                this.reportTable = $('#reportTable').DataTable({
                     "columnDefs": [
-                        {className: "dt-center", targets: "_all"}
+                        {className: "dt-center", targets: "_all"},
+                        {visible: false, targets: 0},
                     ],
                     stripeClasses: [],
                     pagingType: 'full_numbers',
@@ -58,17 +100,21 @@
                         }
                     },
 
-                    /* 신고자, 신고유형, 내용, 신고일시 */
                     columns: [
+                        {data: 'content'},
                         {
                             render: function (data, type, row) {
                                 return `${row.nickname}(${row.email})`;
                             }
                         },
-                        {data: 'category'},
                         {
                             render: function (data, type, row) {
-                                return row.content;
+                                return `${row.category.value}`;
+                            }
+                        },
+                        {
+                            render: function (data, type, row, meta) {
+                                return `<button class="btn btn-sm btn-transparent" onclick="reportController.showContentPopup(${meta.row})"> 확인 </button>`;
                             }
                         },
                         {data: 'reportedAt'},
@@ -87,8 +133,17 @@
                         }
                     }
                 })
+            },
+
+            showContentPopup: function (row) {
+                const data = this.reportTable.row(row).data();
+                this.reportPopup = new bootstrap.Modal($('#reportPopup'));
+                $('#reportPopup #category').val(data.category.value);
+                $('#reportPopup #content').val(data.content);
+                reportController.reportPopup.show();
             }
         }
         reportController.init();
     })
+
 </script>
