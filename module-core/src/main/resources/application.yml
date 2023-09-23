@@ -63,6 +63,22 @@ spring:
     activate:
       on-profile: local
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(Tq1mWDEq6K5WoBhsTofIJv8V0GE8ARF7q2jOvDFkG6AylXeuVRwWGg==)
+    password: ENC(+dV0xeVvNJDt6FXGe+CSK44tFILZusEDLhnusUQ1kBY=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+            protocols: TLSv1.2
+          transport: smtp
+
   datasource:
     jdbc-url: ENC(0SIVOUq3nPqZpySfAmPv5HiCJq/cA4X+cThawAS48Fdi4HxmSaPCDg==)
     driver-class-name: org.h2.Driver
@@ -98,12 +114,6 @@ mybatis:
         database: sample
 
 file.dir: C:/saesigDiary/file/
-
-mail:
-  user-email: ENC(Tq1mWDEq6K5WoBhsTofIJv8V0GE8ARF7q2jOvDFkG6AylXeuVRwWGg==)
-  user-pw: ENC(+dV0xeVvNJDt6FXGe+CSK44tFILZusEDLhnusUQ1kBY=)
-  smtp-host: ENC(meH2Z7E9nTd1nZ3TBSgc7nxUUbyhBM9c)
-  smtp-port: ENC(43i1ghYasA9lXsOmM2RBGw==)
 
 --- #dev
 spring:
