@@ -140,7 +140,7 @@ public class RoleService {
     }
 
     @Transactional
-    public void addCheckedMembers(Long roleId, Long[] memberIds, SessionMember member) {
+    public void addCheckedMembers(Long roleId, Long[] memberIds, Long sessionMemberId ) {
         Role role = roleRepository.findById(roleId).orElseThrow(() -> new IllegalArgumentException("역할 아이디가 존재하지 않습니다."));
 
         List<MemberRole> memberRoles = memberRoleRepository.findAll(roleId, List.of(memberIds));
@@ -152,11 +152,12 @@ public class RoleService {
                     filteredIds.remove(memberId);
                     break;
                 }
+
             }
         }
 
         if (filteredIds.size() > 0)
-            memberRoleMapper.insertMemberRoles(roleId, filteredIds, member.getId());
+            memberRoleMapper.insertMemberRoles(roleId, filteredIds, sessionMemberId);
     }
 
     public List<RoleResourceResponseDto> findMappedResources(Long roleId) {

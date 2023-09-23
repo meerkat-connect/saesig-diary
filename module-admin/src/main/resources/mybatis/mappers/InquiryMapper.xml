@@ -4,6 +4,7 @@
 <mapper namespace="com.saesig.inquiry.InquiryMapper">
 
     <select id="getInquiryList" resultType="com.saesig.inquiry.InquiryDto" parameterType="hashMap">
+        <include refid="PaginationMapper.header"/>
         select
         i.id,
         i.category,
@@ -34,6 +35,7 @@
         <if test='searchKeywordSelect != "" and searchKeyword != "" and searchKeywordSelect != null and searchKeyword != null'>
             and ${searchKeywordSelect} LIKE CONCAT('%',#{searchKeyword},'%')
         </if>
+        <include refid="PaginationMapper.footer"/>
     </select>
 
     <insert id="insertAnswer" parameterType="com.saesig.inquiry.InquiryDto">
@@ -61,5 +63,14 @@
             FROM inquiry_answer I LEFT JOIN member M on I.created_by = M.id WHERE inquiry_id = #{id} ORDER BY created_at DESC
     </select>
 
-
+    <update id="deleteInquiry">
+        UPDATE inquiry
+        SET
+        is_deleted = 'Y'
+        WHERE
+        id IN
+        <foreach item="item" collection="ids" open="("  separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>
