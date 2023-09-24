@@ -1,21 +1,32 @@
 package com.saesig.api.mail;
 
+import com.saesig.config.ThymeleafConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
+import javax.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class MailServiceImpl implements MailService {
+    private static ApplicationContext applicationContext = new AnnotationConfigApplicationContext(ThymeleafConfig.class);
+
     private final JavaMailSender mailSender;
     private static final String title = "미어캣 임시 비밀번호 안내 이메일입니다.";
     private static final String message = "안녕하세요. 미어캣 임시 비밀번호 안내 메일입니다. "
             +"\n" + "회원님의 임시 비밀번호는 아래와 같습니다. 로그인 후 반드시 비밀번호를 변경해주세요."+"\n";
-    private static final String fromAddress = "wonjjong.dev@gmail.com";
-
+    private static final String fromAddress = "meerkat@gmail.com";
     /** 이메일 생성 **/
     @Override
     public MailDto createMail(String tmpPassword, String memberEmail) {
@@ -41,8 +52,24 @@ public class MailServiceImpl implements MailService {
         mailMessage.setFrom(mailDto.getFromAddress());
         mailMessage.setReplyTo(mailDto.getFromAddress());
 
-        mailSender.send(mailMessage);
+        try{
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+            mailSender.send(mailMessage);
 
-        log.info("메일 전송 완료");
+            Map<String,Object> parameters = new HashMap<>();
+            Context context =new Context();
+
+            TemplateEngine templateEngine = applicationContext.getBean(TemplateEngine.class);
+            String template = templateEngine.process("mail/emailtemp", context);
+            mimeMessageHelper.setText(template, true);
+            mimeMessageHelper.setCc("meerkat@gmail.com");
+            mimeMessageHelper.setTo("wonjjong.dev@gmail.com");
+            mailSender.send(mimeMessage);
+            log.info("메일 전송 완료");
+        }
+        catch(Exception ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
     }
 }
