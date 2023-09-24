@@ -103,7 +103,6 @@
                 } else {
                     const formData = $('#detailForm').serializeObject();
                     const memberId = $('#id').val();
-                    console.log(formData);
                     $.ajax({
                         method:'patch',
                         url:`/admin/members/${memberId}`,

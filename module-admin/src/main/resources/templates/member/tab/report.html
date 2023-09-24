@@ -61,89 +61,89 @@
 </div>
 
 <script th:inline="javascript">
-    $(function () {
-        const reportController = {
-            memberId: /*[[${memberId}]]*/null,
-            reportTable: null,
-            reportPopup: null,
+    var reportController = {
+        memberId: /*[[${memberId}]]*/null,
+        reportTable: null,
+        reportPopup: null,
 
-            init: function () {
+        init: function () {
 
-                if (this.reportTable != null) this.reportTable.destroy();
+            if (this.reportTable != null) this.reportTable.destroy();
 
-                this.reportTable = $('#reportTable').DataTable({
-                    "columnDefs": [
-                        {className: "dt-center", targets: "_all"},
-                        {visible: false, targets: 0},
-                    ],
-                    stripeClasses: [],
-                    pagingType: 'full_numbers',
-                    lengthChange: false,
-                    responsive: true,
-                    searching: false,
-                    info: false,
-                    destroy: true,
-                    ordering: false,
-                    paging: true,
-                    pageLength: 10,
-                    bPaginate: true,
-                    bAutoWidth: true, // 자동 컬럼 폭을 계산하여 반영
-                    serverSide: true,
-                    processing: true, // 값을 가져오는 등의 처리 상황에서 대기가 발생할 때, "processing"인디케이터를 보여준다.
+            this.reportTable = $('#reportTable').DataTable({
+                "columnDefs": [
+                    {className: "dt-center", targets: "_all"},
+                    {visible: false, targets: 0},
+                ],
+                stripeClasses: [],
+                pagingType: 'full_numbers',
+                lengthChange: false,
+                responsive: true,
+                searching: false,
+                info: false,
+                destroy: true,
+                ordering: false,
+                paging: true,
+                pageLength: 10,
+                bPaginate: true,
+                bAutoWidth: true, // 자동 컬럼 폭을 계산하여 반영
+                serverSide: true,
+                processing: true, // 값을 가져오는 등의 처리 상황에서 대기가 발생할 때, "processing"인디케이터를 보여준다.
 
-                    ajax: {
-                        async: false,
-                        url: `/admin/members/${reportController.memberId}/report/list?` + $('#searchForm').serialize(),
-                        method: 'get',
-                        "dataSrc": function (res) {
-                            return res.data;
-                        }
-                    },
-
-                    columns: [
-                        {data: 'content'},
-                        {
-                            render: function (data, type, row) {
-                                return `${row.nickname}(${row.email})`;
-                            }
-                        },
-                        {
-                            render: function (data, type, row) {
-                                return `${row.category.value}`;
-                            }
-                        },
-                        {
-                            render: function (data, type, row, meta) {
-                                return `<button class="btn btn-sm btn-transparent" onclick="reportController.showContentPopup(${meta.row})"> 확인 </button>`;
-                            }
-                        },
-                        {data: 'reportedAt'},
-                    ],
-                    language: {
-                        search: '검색',
-                        emptyTable: '데이터가 없습니다.',
-                        loadingRecords: '로딩중..',
-                    },
-                    drawCallback: function () {
-                        var $api = this.api();
-                        var pages = $api.page.info().pages;
-
-                        if (pages === 0) {
-                            $(".paginate_button").hide();
-                        }
+                ajax: {
+                    async: false,
+                    url: `/admin/members/${reportController.memberId}/report/list?` + $('#searchForm').serialize(),
+                    method: 'get',
+                    "dataSrc": function (res) {
+                        return res.data;
                     }
-                })
-            },
+                },
 
-            showContentPopup: function (row) {
-                const data = this.reportTable.row(row).data();
-                this.reportPopup = new bootstrap.Modal($('#reportPopup'));
-                $('#reportPopup #category').val(data.category.value);
-                $('#reportPopup #content').val(data.content);
-                reportController.reportPopup.show();
-            }
+                columns: [
+                    {data: 'content'},
+                    {
+                        render: function (data, type, row) {
+                            return `${row.nickname}(${row.email})`;
+                        }
+                    },
+                    {
+                        render: function (data, type, row) {
+                            return `${row.category.value}`;
+                        }
+                    },
+                    {
+                        render: function (data, type, row, meta) {
+                            return `<button class="btn btn-sm btn-transparent" onclick="reportController.showContentPopup(${meta.row})"> 확인 </button>`;
+                        }
+                    },
+                    {data: 'reportedAt'},
+                ],
+                language: {
+                    search: '검색',
+                    emptyTable: '데이터가 없습니다.',
+                    loadingRecords: '로딩중..',
+                },
+                drawCallback: function () {
+                    var $api = this.api();
+                    var pages = $api.page.info().pages;
+
+                    if (pages === 0) {
+                        $(".paginate_button").hide();
+                    }
+                }
+            })
+        },
+
+        showContentPopup: function (row) {
+            const data = reportController.reportTable.row(row).data();
+            reportController.reportPopup = new bootstrap.Modal($('#reportPopup'));
+            $('#reportPopup #category').val(data.category.value);
+            $('#reportPopup #content').val(data.content);
+            reportController.reportPopup.show();
         }
+    }
+
+    $(function () {
         reportController.init();
     })
-
 </script>
