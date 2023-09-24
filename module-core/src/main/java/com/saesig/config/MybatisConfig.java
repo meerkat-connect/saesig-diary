@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.net.Socket;
 
 @Configuration
 @EnableTransactionManagement
@@ -31,18 +30,9 @@ public class MybatisConfig {
     @Profile("local")
     @ConfigurationProperties("spring.datasource")
     public DataSource localDataSource() throws Exception {
-        boolean result = false;
-
-        try {
-            (new Socket("127.0.0.1", 9092)).close();
-
-            result = true;
-        }
-        catch(Exception e) {
-        }
-
-        if(!result) {
-            Server tcpServer = Server.createTcpServer("-tcp", "-ifNotExists", "-tcpAllowOthers", "-tcpPort", "9092");
+        Server tcpServer = Server.createTcpServer("-tcp", "-ifNotExists", "-tcpAllowOthers", "-tcpPort", "9092");
+        if(!tcpServer.isRunning(true)) {
+            tcpServer.start();
         }
         return new com.zaxxer.hikari.HikariDataSource();
     }
