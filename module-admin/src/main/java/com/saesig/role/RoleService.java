@@ -5,7 +5,6 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.saesig.common.RequestDto;
-import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.member.MemberRepository;
 import com.saesig.domain.member.QMember;
@@ -114,9 +113,9 @@ public class RoleService {
         String searchType = request.getSearchType();
         if (StringUtils.hasText(searchType)) {
             if ("email".equals(searchType)) {
-                builder.and(qMember.email.eq(request.getSearchName()));
+                builder.and(qMember.email.eq(request.getSearchKeyword()));
             } else if ("nickname".equals(searchType)) {
-                builder.and(qMember.nickname.eq(request.getSearchName()));
+                builder.and(qMember.nickname.eq(request.getSearchKeyword()));
             }
         }
         builder.and(qMemberRole.role.id.eq(roleId));
@@ -140,7 +139,7 @@ public class RoleService {
     }
 
     @Transactional
-    public void addCheckedMembers(Long roleId, Long[] memberIds, Long sessionMemberId ) {
+    public void addCheckedMembers(Long roleId, Long[] memberIds, Long sessionMemberId) {
         Role role = roleRepository.findById(roleId).orElseThrow(() -> new IllegalArgumentException("역할 아이디가 존재하지 않습니다."));
 
         List<MemberRole> memberRoles = memberRoleRepository.findAll(roleId, List.of(memberIds));

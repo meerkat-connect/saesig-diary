@@ -11,9 +11,7 @@ import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.domain.adopt.QAdopt;
 import com.saesig.domain.animalDivision.QAnimalDivision1;
 import com.saesig.domain.animalDivision.QAnimalDivision2;
-import com.saesig.domain.member.QBlockedMember;
-import com.saesig.domain.member.QDormantMember;
-import com.saesig.domain.member.QMember;
+import com.saesig.domain.member.*;
 import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -42,7 +40,6 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
         QMember qMember = QMember.member;
         QAdopt qAdopt = QAdopt.adopt;
 
-        //when
         QueryResults<MemberResponseDto> members = queryFactory.select(
                         Projections.fields(MemberResponseDto.class,
                                 qMember.id, qMember.email, qMember.nickname, qMember.signupMethod, qMember.status, qMember.createdAt,
@@ -55,6 +52,9 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                                                 .and(qAdopt.adoptMember.id.eq(qMember.id))), "receiveCount")
                         )
                 ).from(qMember)
+                .where(searchEq(memberRequestDto.getSearchType(), memberRequestDto.getSearchKeyword()),
+                        signupMethodEq(memberRequestDto.getSignupMethod()),
+                        statusEq(memberRequestDto.getMemberStatus()))
                 .offset(pageable.getOffset()) //0부터 시작 (zero index)
                 .limit(pageable.getPageSize()) // 최대 2건 조회
                 .fetchResults();
@@ -62,21 +62,33 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
         return new PageImpl<>(members.getResults(), pageable, members.getTotal());
     }
 
-    private BooleanExpression nickNameEq(String nickName) {
-        return hasText(nickName) ? null : QMember.member.nickname.eq(nickName);
-    }
+    private BooleanExpression searchEq(String searchType, String searchKeyword) {
+        if(hasText(searchType)) {
+            if("email".equals(searchType)) {
+                return QMember.member.email.like("%" + searchKeyword + "%");
+            } else if("nickname".equals(searchType)){
+                return QMember.member.nickname.like("%" + searchKeyword + "%");
+            }
+        }
 
-    private BooleanExpression emailEq(String email) {
-        return hasText(email) ? null : QMember.member.email.eq(email);
+        return null;
     }
 
     private BooleanExpression signupMethodEq(String signupMethod) {
-        return hasText(signupMethod) ? null : QMember.member.email.eq(signupMethod);
+        return hasText(signupMethod) ? QMember.member.signupMethod.eq(SignupMethod.valueOf(signupMethod)) : null;
     }
 
     private BooleanExpression statusEq(String status) {
-        return hasText(status) ? null : QMember.member.email.eq(status);
+        return hasText(status) ? QMember.member.status.eq(MemberStatus.valueOf(status)) : null;
     }
+
+    /* public static BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f) {
+        try {
+            return new BooleanBuilder(f.get());
+        } catch (IllegalArgumentException e) {
+            return new BooleanBuilder();
+        }
+    }*/
 
     // 입양 기록 조회
     @Override

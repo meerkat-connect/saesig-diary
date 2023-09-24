@@ -10,8 +10,8 @@ public class FaqRequestDto extends RequestDto {
     private String category;
     private Character isEnabled;
 
-    public FaqRequestDto(Integer start, Integer length, Integer pageNum, String content, String title, String category, Character isEnabled) {
-        super(start, length, pageNum);
+    public FaqRequestDto(Integer start, Integer length, Integer pageNum, String searchType, String searchKeyword, String content, String title, String category, Character isEnabled) {
+        super(start, length, pageNum, searchType, searchKeyword);
         this.content = content;
         this.title = title;
         this.category = category;
