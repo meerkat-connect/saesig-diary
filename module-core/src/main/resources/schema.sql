@@ -175,9 +175,10 @@ CREATE TABLE `banner`
 (
     `id`                  BIGINT AUTO_INCREMENT NOT NULL COMMENT '배너 일련번호',
     `title`               VARCHAR(200)          NOT NULL COMMENT '제목',
-    `image_file_group_id` BIGINT                NOT NULL COMMENT '이미지 파일 그룹 일련번호',
+    `exposure_location`   VARCHAR(20)           NOT NULL COMMENT '배너 노출위치',
+    `image_file_group_id` BIGINT                NOT NULL DEFAULT 0 COMMENT '이미지 파일 그룹 일련번호',
     `url`                 VARCHAR(200)          NULL COMMENT '링크 URL',
-    `ord`                 BIGINT                NOT NULL COMMENT '순서',
+    `ord`                 BIGINT                NULL COMMENT '순서',
     `is_enabled`          VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '사용 여부',
     `created_at`          DATETIME              NOT NULL COMMENT '등록일',
     `created_by`          BIGINT                NOT NULL COMMENT '등록자 일련번호',

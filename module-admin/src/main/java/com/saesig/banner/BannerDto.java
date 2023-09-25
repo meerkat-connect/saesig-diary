@@ -7,20 +7,22 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class BannerDto extends RequestDto {
 
     private SessionMember member;
 
+    private List<BannerDto> bdList;
+
     private Long id;
-    private Long[] ids;
     private String title;
-    private String content;
-    private String category;
-    private String hits;
-    private char isDeleted;
-    private String nickName;
+    private String exposureLocation;
+    private Long imageFileGroupId = Long.valueOf(0);
+    private String url;
+    private Long ord;
+    private Character isEnabled;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
@@ -30,9 +32,5 @@ public class BannerDto extends RequestDto {
 
     // search
     // 키워드, 유형, 제목, 등록일
-    private String searchCategory;
     private String searchTitle;
-    private String searchBgngDt;
-    private String searchEndDt;
-
 }

@@ -1,44 +1,100 @@
-<form id="bannerInsertFrm">
+<form id="bannerForm" th:object="${banner}" method="POST">
+    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{ord}">
     <div class="col-lg-12 mt-3 mb-3">
         <div class="row mb-0 form-group required">
-            <label class="form-label col-sm-auto col-form-label p-t-0 pb-1" for="method"><strong>배너이미지</strong></label>
+            <label class="form-label col-sm-auto col-form-label p-t-0 pb-1" for="banneImg"><strong>배너이미지</strong></label>
             <p class="col-sm text-muted m-b-0">(권장사이즈 : 가로 170px, 세로 40px)</p>
             <div class="col-12 banner-preview text-center">
                 <img class="img-fluid col-12" src="/files/assets/images/noimg.png" alt="logo image" style="max-width:200px; height:auto;">
             </div>
         </div>
         <div class="col-12 text-center mt-3 mb-3">
-            <button type="button" class="btn btn-transparent btn-sm-1">파일선택</button>
+            <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('bannerFile').click()">파일선택</button>
+            <input type="file" name="bannerFile" id="bannerFile" style="display:none"/>
+            <input type="hidden" th:field="*{imageFileGroupId}">
         </div>
         <div class="row form-group required mb-3">
             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
             <div class="col-sm-12">
-                <input type="text" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요.">
+                <input type="text" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." th:field="*{title}">
             </div>
         </div>
         <div class="row form-group required mb-3">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>배너 노출위치</strong></label>
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>배너 노출위치</strong></label>
             <div class="col-sm-12">
-                <select id="selectBannerLocation" name="selectBannerLocation" class="form-select form-control form-control-round custom-select">
-                    <option value="main">메인</option>
+                <select id="selectBannerLocation" name="selectBannerLocation" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
+                    <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
                 </select>
             </div>
         </div>
         <div class="row form-group required mb-3">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>링크 URL</strong></label>
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>링크 URL</strong></label>
             <div class="col-sm-12">
-                <input type="text" class="form-control form-control-sm form-control-round" placeholder="https://example.com">
+                <input type="text" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{url}">
             </div>
         </div>
         <div class="row form-group required mb-3">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>배너 게시 여부</strong></label>
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled"><strong>배너 게시 여부</strong></label>
             <div class="col">
-                <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled"/>
+                <input type="checkbox" class="insert js-single-small2" name="isEnabled" id="isEnabled" th:checked="${banner.isEnabled} == 'Y'"/>
             </div>
         </div>
         <div class="mt-1 p-t-20 text-center">
-            <button class="btn btn-gray m-r-5">삭제</button>
-            <button class="btn btn-primary">수정</button>
+            <button class="btn btn-gray m-r-5" th:onclick="cancel()">취소</button>
+            <button type="button" class="btn btn-primary" onclick="save()">저장</button>
         </div>
     </div>
 </form>
+
+<script th:inline="javascript">
+    var formId = $("#id").val();
+
+    var validator = $(document).ready(function(){
+        $("#bannerForm").validate({
+            rules: {
+                method		:	{ required: true }
+            },
+            messages: {
+                method		:   { required: "분류를 선택해주십시오." }
+            }
+        })
+    });
+
+    function save(){
+        if(!($("#bannerForm").valid())) return;
+
+        if(formId === '') {
+            if(!confirm("저장하시겠습니까?")) return;
+        }else {
+            if(!confirm("수정하시겠습니까?")) return;
+        }
+
+        const data = $("#bannerForm").serializeObject();
+        data.isEnabled = data.isEnabled ? 'Y' : 'N'
+
+        $.ajax({
+            url : formId === '' ? "/admin/banner/insertForm.do" : "/admin/banner/updateForm.do",
+            type: 'POST',
+            cache : false,
+            dataType: 'json',
+            data : data,
+            success : function (data){
+                if(data.result === "success"){
+                    alert(data.msg);
+                    $('.form-area').children().remove();
+                    $('.form.nodata').show();
+                    listController.selectBannerList();
+                }else{
+                    alert(data.msg);
+                }
+            }
+        });
+    }
+
+    function cancel(){
+        $('.form-area').children().remove();
+        $('.form.nodata').show();
+        listController.selectBannerList();
+    }
+</script>

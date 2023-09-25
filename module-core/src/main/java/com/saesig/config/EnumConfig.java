@@ -2,6 +2,7 @@ package com.saesig.config;
 
 import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.domain.adopt.AdoptStopCategory;
+import com.saesig.domain.banner.ExposureLocation;
 import com.saesig.domain.faq.FaqCategory;
 import com.saesig.domain.inquiry.InquiryCategory;
 import com.saesig.domain.inquiry.InquiryStatus;
@@ -41,6 +42,7 @@ public class EnumConfig {
         factory.put("adoptStatus", AdoptStatus.class);
         factory.put("reportCategry", ReportCategory.class);
         factory.put("adoptStopCategory", AdoptStopCategory.class);
+        factory.put("exposureLocation", ExposureLocation.class);
 
         // 해당 라인에 새롭게 추가한 Enum 클래스들 추가
 

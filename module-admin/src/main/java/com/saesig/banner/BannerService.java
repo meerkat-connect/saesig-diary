@@ -1,15 +1,23 @@
 package com.saesig.banner;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BannerService {
-    List<BannerDto> selectManagerNoticeBoardList(BannerDto tmd) throws Exception;
 
-    BannerDto selectManagerNoticeBoard(Long id) throws Exception;
+    List<BannerDto> selectBannerList(BannerDto bd) throws Exception;;
 
-    int insertForm(BannerDto tmd) throws Exception;
+    BannerDto selectBanner(Long id) throws Exception;
 
-    int updateForm(BannerDto tmd) throws Exception;
+    int selectOrd() throws Exception;
 
-    int deleteItems(Long[] ids) throws Exception;
+    int changeIsEnabled(BannerDto bd) throws Exception;
+
+    int insertForm(BannerDto bd) throws Exception;
+
+    int updateForm(BannerDto bd) throws Exception;
+
+    int deleteItem(Long id) throws Exception;
+
+    int updateBannerSort(BannerDto bd) throws Exception;
 }

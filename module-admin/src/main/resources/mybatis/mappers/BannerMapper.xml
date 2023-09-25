@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.banner.BannerMapper">
+
+    <select id="selectBannerList" parameterType="com.saesig.banner.BannerDto" resultType="com.saesig.banner.BannerDto">
+        SELECT
+            *
+        FROM
+            banner
+        WHERE
+            1 = 1
+        ORDER BY ORD ASC NULLS LAST
+    </select>
+
+    <select id="selectBanner" parameterType="com.saesig.banner.BannerDto" resultType="com.saesig.banner.BannerDto">
+        SELECT
+            *
+        FROM
+            banner
+        WHERE
+            1 = 1
+        AND id = #{id}
+    </select>
+
+    <select id="selectOrd" resultType="int">
+        SELECT
+            IFNULL(MAX(ORD) + 1, 1) AS ORD
+        FROM
+            banner
+        WHERE
+            1 = 1
+          AND IS_ENABLED = 'Y'
+    </select>
+
+    <insert id="insertForm">
+        INSERT INTO banner(
+            id
+            , title
+            , exposure_location
+            , image_file_group_id
+            , url
+            , ord
+            , is_enabled
+            , created_at
+            , created_by
+            , modified_at
+            , modified_by
+        )VALUES (
+            #{id}
+            , #{title}
+            , #{exposureLocation}
+            , #{imageFileGroupId}
+            , #{url}
+            , #{ord}
+            , #{isEnabled}
+            , NOW()
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+        )
+    </insert>
+
+    <update id="updateForm">
+        UPDATE banner
+        SET
+            title                   = #{title}
+            , exposure_location     = #{exposureLocation}
+            , image_file_group_id   = #{imageFileGroupId}
+            , is_enabled            = #{isEnabled}
+            , modified_at           = NOW()
+            , modified_by           = #{member.id}
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="deleteItem">
+        DELETE FROM banner
+        WHERE id = #{id}
+    </delete>
+
+    <update id="changeIsEnabled">
+        UPDATE banner
+        SET
+            ord           = #{ord}
+            , is_enabled  = #{isEnabled}
+            , modified_at = NOW()
+            , modified_by = #{member.id}
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="updateBannerSort">
+        <foreach collection="bdList" item="item" index="index" separator=";">
+        UPDATE banner SET
+            ORD             = #{item.ord}
+            , modified_at   = NOW()
+            , modified_by   = #{member.id}
+        WHERE
+            id = #{item.id}
+        </foreach>
+    </update>
+
+</mapper>
