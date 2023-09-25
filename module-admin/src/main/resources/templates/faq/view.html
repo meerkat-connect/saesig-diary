@@ -77,32 +77,28 @@
                         </div>
                     </div>
                     <div class="card-block-small">
-                        <div class="dt-responsive table-responsive">
-                            <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                <table id="faqListTable" class="display" style="width:100%">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            <div class="border-checkbox-section">
-                                                <div class="border-checkbox-group">
-                                                    <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
-                                                    <label class="form-label border-checkbox-label" for="allCheckBox"></label>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <th>유형</th>
-                                        <th>제목</th>
-                                        <th>순서</th>
-                                        <th>작성자</th>
-                                        <th>사용여부</th>
-                                        <th>등록일</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <table id="faqListTable" class="display" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <div class="border-checkbox-section">
+                                        <div class="border-checkbox-group">
+                                            <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
+                                            <label class="form-label border-checkbox-label" for="allCheckBox"></label>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th>유형</th>
+                                <th>제목</th>
+                                <th>순서</th>
+                                <th>작성자</th>
+                                <th>사용여부</th>
+                                <th>등록일</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -140,13 +136,12 @@
                     lengthChange: false,
                     responsive: true,
                     searching: false,
+                    scrollX: true,
                     destroy: true,
                     ordering: false,
                     paging: true,
                     info: false,
                     pageLength: 10,
-                    bPaginate: true,
-                    bAutoWidth: true,
                     serverSide: true,
                     processing: true,
 
@@ -167,6 +162,7 @@
 
                     columns: [
                         {
+                            width:'40px',
                             render: function (data, type, row) {
                                 return `
                                     <div class="border-checkbox-section">
@@ -178,11 +174,12 @@
                             }
                         },
                         {
+                            width: '80px',
                             render: function (data, type, row) {
                                 return `${row.category.value}`;
                             }
                         },
-                        {data: 'title'},
+                        {data: 'title', width:'40%'},
                         {
                             render: function (data, type, row) {
                                 if (!!row.isFirst) {
@@ -216,6 +213,15 @@
                         emptyTable: '데이터가 없습니다.',
                         loadingRecords: '로딩중..',
                     },
+
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
+
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
+                    }
                 })
 
                 faqListTable.on('select', function (e, dt, type, indexes) {
