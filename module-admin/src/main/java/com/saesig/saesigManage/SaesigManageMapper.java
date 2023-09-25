@@ -12,32 +12,20 @@ import java.util.Map;
 public interface SaesigManageMapper {
 
     public List<AdoptListDto> selectAdoptList(AdoptListDto param);
-
     public AdoptListDto selectAdoptById(Long id);
-
     public List<animalDivisionCategoryDto> selectAnimalDivision1List();
-
     public List<animalDivisionCategoryDto> selectAnimalDivision2List(Integer id);
-
     public List<ChattingDto> selectChattingListByAdoptId(ChattingDto cd);
-
     public List<ReportingDto> selectReportingListByAdoptId(ReportingDto rd);
-
     public AdoptListDto selectAdoptCntByAdoptId(AdoptListDto param);
-
     public Long insertOpenChatReason(ChatOpenReasonDto param);
-
     public Map<String, Object>checkPassword(@Param("id") Long id,@Param("password") String password);
-
     public List<Integer> selectVaccineByAdoptId(Long id);
-
     public List<VaccineDto> selectVaccineList();
-
     public Long updateAdoptInfo(AdoptListDto param);
     public Long insertAdoptStatusChangeLog(AdoptListDto param);
-
     public Long updateAdoptVaccine(AdoptListDto param);
-
     public List<AdoptHistoryDto> selectHistoryByAdoptId(AdoptHistoryDto param);
+    public Long deleteAdopt(Long[] ids);
 
 }

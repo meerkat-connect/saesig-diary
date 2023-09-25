@@ -359,7 +359,7 @@
                         $.ajax({
                             type: 'delete',
                             data: {deleteIds: adoptController.selectedRow.join(",")},
-                            url: '/admin/adopts'
+                            url: '/admin/saesigManage/deleteAdopt.do'
                         }).done(function () {
                             alert('삭제 되었습니다.');
                             adoptController.init();
@@ -544,7 +544,7 @@
                         {data: 'id'},
                         {data : 'memberEmail'},
                         {render: function (data, type, row) {
-                                return `${row.category}`;
+                                return `${row.category.value}`;
                             }},
                         {render: function (data, type, row) {
                                 return `<button type="button" class="btn btn btn-transparent m-r-5" onclick="reportController.openReportPop(`+row.id+`)">확인</button>`;
@@ -576,7 +576,7 @@
                 let data = reportController.reportData.data
                 while(isFind == false){
                     if (data[k]['id'] == reportController.targetId) {
-                        $('#reportPop').find("#category").val(data[k]['category'])
+                        $('#reportPop').find("#category").val(data[k]['category']['value'])
                         $('#reportPop').find("#reason").val(data[k]['content'])
                         isFind = true
                     }
