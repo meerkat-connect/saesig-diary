@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface NewsService {
 
-    public List<NewsDto> getNewsList(Map<String, Object> param) throws Exception;
+    public List<NewsDto> getNewsList(NewsDto param) throws Exception;
 
     public boolean InsertNews(NewsDto param) throws Exception;
 

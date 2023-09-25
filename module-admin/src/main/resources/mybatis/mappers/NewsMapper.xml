@@ -4,6 +4,7 @@
 <mapper namespace="com.saesig.news.NewsMapper">
 
     <select id="getNewsList" resultType="com.saesig.news.NewsDto" parameterType="hashMap">
+        <include refid="PaginationMapper.header"/>
         select
         n.id,
         n.category,
@@ -22,27 +23,13 @@
         where 1=1
         and is_deleted = 'N'
         and board_id = 1
-<!--        <if test="searchStatus != '' and searchStatus != null and searchStatus != 'all'">-->
-<!--            and n.status = #{searchStatus}-->
-<!--        </if>-->
         <if test="searchCategory != '' and searchCategory != null and searchCategory != 'all'">
             and n.category = #{searchCategory}
         </if>
         <if test="searchTitle != '' and searchTitle != null">
             and n.title = #{searchTitle}
         </if>
-        <if test="searchKeywordSelect != '' and searchKeyword != '' and searchKeywordSelect != null and searchKeyword != null">
-            and ${searchKeywordSelect} = #{searchKeyword}
-        </if>
-<!--        <if test="orderColumn != ''">-->
-<!--            ORDER BY i.${orderColumn}-->
-<!--            <if test="orderColumnSort = ASC">-->
-<!--                ASC-->
-<!--            </if>-->
-<!--            <if test="orderColumnSort != ASC">-->
-<!--                DESC-->
-<!--            </if>-->
-<!--        </if>-->
+        <include refid="PaginationMapper.footer"/>
     </select>
 
     <insert id="insertNews">
