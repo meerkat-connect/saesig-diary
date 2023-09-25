@@ -123,7 +123,7 @@
                         console.log(response);
                     }).fail(function(error){
                         alert('수정중 에러가 발생하였습니다.');
-                        if(error.responseJSON.message == "COM-4") {
+                        if(error.responseJSON.code == "COM-4") {
                             alert('입력값이 유효하지 않습니다.');
                         }
                     })
@@ -145,7 +145,7 @@
                         alert('등록 되었습니다.');
                         console.log(response);
                     }).fail(function(error){
-                        if(error.responseJSON.message == "COM-4") {
+                        if(error.responseJSON.code == "COM-4") {
                             alert('입력값이 유효하지 않습니다.');
                         }
                     })

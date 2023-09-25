@@ -31,6 +31,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
+    @ExceptionHandler(NicknameDuplicateException.class)
+    public ResponseEntity<ErrorResponse> nicknameDuplicateExceptionHandler(NicknameDuplicateException ex) {
+        ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), ex.getDefaultMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex

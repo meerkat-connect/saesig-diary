@@ -23,8 +23,8 @@ public class ErrorResponse {
         this.code = code;
     }
 
-    public static ErrorResponse of(String code, String message) {
-        return new ErrorResponse(code, message);
+    public static ErrorResponse of(String message, String code) {
+        return new ErrorResponse(message,code);
     }
 
     public static ErrorResponse of(String code, String message, BindingResult bindingResult) {
