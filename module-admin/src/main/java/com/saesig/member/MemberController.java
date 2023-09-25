@@ -1,6 +1,8 @@
 package com.saesig.member;
 
 import com.saesig.common.RequestDto;
+import com.saesig.domain.member.Member;
+import com.saesig.error.NicknameDuplicateException;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -52,7 +55,15 @@ public class MemberController {
     @PatchMapping("/{id}")
     @ResponseBody
     public Long updateMember(@PathVariable Long id, @RequestBody @Valid MemberUpdateDto memberUpdateDto) {
-        return memberService.updateMember(id,memberUpdateDto);
+        Optional<Member> byNickname = memberService.findByNickname(memberUpdateDto.getNickname());
+        if(byNickname.isPresent()) {
+            Member member = byNickname.get();
+            if(member.getId() != id) {
+                throw new NicknameDuplicateException("닉네임이 중복됩니다.", "nickname");
+            }
+        }
+
+        return memberService.updateMember(id, memberUpdateDto);
     }
 
 
@@ -121,6 +132,7 @@ public class MemberController {
     @PostMapping("/{id}/generateTemporaryPassword")
     @ResponseBody
     public Long generateTemporaryPassword(@PathVariable Long id) {
+        //발송 시점 : 임시 비밀번호 발급인 경우 mail template 정보를 가져와서 내용을 replace
         return memberService.generateTemporaryPassword(id);
     }
 

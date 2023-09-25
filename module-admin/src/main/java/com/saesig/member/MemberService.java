@@ -9,15 +9,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class MemberService {
     private final MemberAdminRepository memberAdminRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     public DataTablesResponseDto findAll(MemberRequestDto memberRequestDto) {
         Integer pageNum = memberRequestDto.getStart() / memberRequestDto.getLength();
@@ -100,13 +104,18 @@ public class MemberService {
         return memberAdminRepository.existsByNickname(nickname);
     }
 
+    public Optional<Member> findByNickname(String nickname){
+        return memberAdminRepository.findByNickname(nickname);
+    }
+
     @Transactional
     public Long insertMember(MemberInsertDto memberInsertDto) {
+
         Member newMember = Member.builder().nickname(memberInsertDto.getNickname())
                 .email(memberInsertDto.getEmail())
                 .status(MemberStatus.NORMAL)
                 .signupMethod(SignupMethod.EMAIL)
-                .password(memberInsertDto.getPassword())
+                .password(passwordEncoder.encode(memberInsertDto.getPassword()))
                 .serviceAgreement("Y")
                 .privacyAgreement("Y")
                 .locationServiceAgreement("N")
@@ -126,4 +135,5 @@ public class MemberService {
 
         return member.getId();
     }
+
 }
