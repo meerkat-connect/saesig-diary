@@ -1,25 +1,21 @@
 package com.saesig.resource;
 
+import com.saesig.domain.role.Resource;
+import com.saesig.domain.role.ResourceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.saesig.domain.role.Resource;
-import com.saesig.domain.role.ResourceRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class ResourceService {
     private final ResourceRepository resourceRepository;
+    private final ResourceMapper resourceMapper;
 
     public List<ResourceResponseDto> findAll() {
-        return resourceRepository
-                .findAll()
-                .stream()
-                .map(ResourceResponseDto::new)
-                .collect(Collectors.toList());
+        return resourceMapper.findAll();
     }
 
     public ResourceResponseDto findById(Long resourceId) {
@@ -55,9 +51,6 @@ public class ResourceService {
         if (isNotSameParent(resourceMoveDto)) {
             resourceRepository.decreaseOrderOfOriginalParentResource(resourceMoveDto.getOriginalParentIdOfSelectedNode(), resourceMoveDto.getOriginalOrdOfSelectedNode());
             resourceRepository.increaseOrderOfNewParentResource(resourceMoveDto.getNewParentIdOfSelectedNode(), resourceMoveDto.getNewOrdOfSelectedNode());
-
-/*            Resource resource = resourceRepository.findById(resourceMoveDto.getIdOfSelectedNode()).get();
-            resource.move(resourceMoveDto.getNewParentIdOfSelectedNode(), resourceMoveDto.getDepthOfNewParentId(), resourceMoveDto.getNewOrdOfSelectedNode());*/
 
             resourceRepository.changeParentId(
                     resourceMoveDto.getIdOfSelectedNode()

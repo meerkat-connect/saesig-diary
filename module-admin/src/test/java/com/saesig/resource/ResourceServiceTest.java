@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = SaesigDiaryApplication.class)
 @ActiveProfiles("local")
-public class ResourceServiceTest {
+class ResourceServiceTest {
 
     @Autowired
     private ResourceService resourceService;
@@ -48,9 +48,8 @@ public class ResourceServiceTest {
         //then
         ResourceResponseDto byId1 = resourceService.findById(5L);
         List<ResourceResponseDto> findAll = resourceService.findAll();
-        findAll.forEach(resource -> resource.getParentUrl());
 
-        assertThat(byId.getParentId()).isNotEqualTo(byId1.getParentId());
+        assertThat(byId.getUpperId()).isNotEqualTo(byId1.getUpperId());
         findAll.forEach(System.out::println);
 
     }

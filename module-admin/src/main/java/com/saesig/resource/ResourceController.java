@@ -3,6 +3,7 @@ package com.saesig.resource;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +46,9 @@ public class ResourceController {
 
     @PostMapping(value = "/move", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public void moveResource(@RequestBody ResourceMoveDto resourceMoveDto) {
+    public ResponseEntity<Object> moveResource(@RequestBody ResourceMoveDto resourceMoveDto) {
         resourceService.move(resourceMoveDto);
+
+        return ResponseEntity.noContent().build();
     }
 }

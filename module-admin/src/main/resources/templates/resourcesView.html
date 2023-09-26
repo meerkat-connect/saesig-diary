@@ -53,13 +53,14 @@
                                             <input type="hidden" name="id" id="id"/>
                                             <input type="hidden" name="ord" id="ord">
                                             <input type="hidden" name="depth" id="depth">
+                                            <input type="hidden" name="upperId" id="upperId"/>
 
                                             <div class="card">
                                                 <div class="card-block-small">
                                                     <div class="mb-3 form-group row">
-                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperId"><strong>상위자원명</strong></label>
+                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperName"><strong>상위자원명</strong></label>
                                                         <div class="col-sm-12">
-                                                            <input type="text" class="form-control form-control-round" name="upperId" id="upperId" readonly/>
+                                                            <input type="text" class="form-control form-control-round" name="upperId" id="upperName" readonly/>
                                                         </div>
                                                     </div>
 
@@ -159,7 +160,6 @@
     </div>
 
     <link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
-    <link rel="stylesheet" type="text/css" th:href="@{/files/bower_components/jstree/dist/themes/default/style.css}"></link>
     <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
     <script>
         const resourceController = {
@@ -182,7 +182,7 @@
                     response.forEach(function (element, index) {
                         _this.resources[index] = {
                             id: element.id,
-                            parent: element.parentId ? element.parentId : '#',
+                            parent: element.id === 0 ? '#' : element.upperId,
                             text: element.name,
                             type: element.type,
                             httpMethod: element.httpMethod,
@@ -193,6 +193,7 @@
                             ord: element.ord
                         };
                     });
+                    console.log(_this.resources)
                 }).fail(function (error) {
                     alert("자원 목록을 조회하는데 실패하였습니다.");
                 });
@@ -208,7 +209,6 @@
                             loading: "Loading ..."
                         },
                         "themes": {
-                            "responsive": true,
                         },
                         'data': _this.resources,
                         'check_callback' : true
@@ -283,6 +283,8 @@
                 }).bind("dblclick.jstree", function (event) {
 
                 }).bind("open_node.jstree", function (event, data) {
+                }).bind('loaded.jstree',function(){
+                    _this.$jstree.jstree('open_all');
                 });
             },
 
@@ -345,7 +347,18 @@
                 const parentNodeOriginal = this.parentNode.original;
                 const selectedNodeOriginal = this.selectedNode.original;
 
+                if(selectedNodeOriginal.id === 0) {
+                    $('#saveBtn').prop('disabled',true);
+                    $('#httpMethod').prop('disabled',true);
+                    $('#name, #url').prop('readonly',true);
+                } else {
+                    $('#saveBtn').prop('disabled', false);
+                    $('#httpMethod').prop('disabled',false);
+                    $('#name, #url').prop('readonly',false);
+                }
+
                 $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
+                $('#upperName').val(parentNodeOriginal ? parentNodeOriginal.name : '')
                 $('#upperUrl').val(parentNodeOriginal ? parentNodeOriginal.url : '');
 
                 $('#ord').val(selectedNodeOriginal.ord);
@@ -355,7 +368,7 @@
                 $('#url').val(selectedNodeOriginal.url);
                 adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
                 $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true);
-                $(`#httpMethod option[value=${selectedNodeOriginal.httpMethod}]`).prop('selected',true);
+                $('#httpMethod').val(selectedNodeOriginal.httpMethod).niceSelect('update');
             },
 
             moveNode : function(param) {
@@ -367,6 +380,8 @@
                     dataType: 'json'
                 }).done(function(){
                     alert('자원이 이동되었습니다.')
+                    _this.$jstree.jstree().destroy();
+                    _this.init();
                 }).fail(function(error) {
                     alert('자원을 이동하는데 실패하였습니다.');
                     console.log(JSON.stringify(error));

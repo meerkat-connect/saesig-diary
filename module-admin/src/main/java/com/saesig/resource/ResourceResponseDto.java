@@ -1,32 +1,27 @@
 package com.saesig.resource;
 
 
-import lombok.Getter;
-import lombok.ToString;
 import com.saesig.domain.role.Resource;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class ResourceResponseDto {
     private Long id;
-
+    private Long upperId;
     private String name;
-
-    private String url;
-
-    private String httpMethod;
-
-    private Character isEnabled;
-
-    private Integer depth;
-
-    private Integer ord;
-
-    private Long parentId;
-
     private String type;
-
-    private String parentUrl;
+    private String httpMethod;
+    private Character isEnabled;
+    private String url;
+    private Integer depth;
+    private Integer ord;
+    private String treeOrd;
+    private String treeName;
 
     public ResourceResponseDto(Resource resource) {
         this.id = resource.getId();
@@ -40,9 +35,7 @@ public class ResourceResponseDto {
 
         if(this.depth > 1) {
             Resource parentResource = resource.getParentResource();
-            this.parentId = parentResource.getId();
-            this.parentUrl = parentResource.getUrl();
-
+            this.upperId = parentResource.getId();
         }
     }
 }
