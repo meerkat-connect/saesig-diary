@@ -49,14 +49,16 @@
 
     <select id="selectAdoptById" resultType="com.saesig.saesigManage.AdoptListDto" parameterType="hashMap">
         SELECT a.*, ad1.category as animalDivision1Category, ad2.category as animalDivision2Category,IFNULL(reportCnt,0) as reportCnt , IFNULL(likeCnt,0) as likeCnt, m.nickname as createdName, m.email as createdMail, m1.nickname as adoptMemberNickName, m1.email as adoptMemberEmail, ah.created_at as statusChangeCreatedAt, a.status as beforeStatus
+        ,m2.nickname as changeMemberNickName, m2.email as changeMemberEmail
             FROM adopt a
             LEFT JOIN (select adopt_id,count(*) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
             LEFT JOIN (select adopt_id,count(*) as likeCnt from adopt_interest group by adopt_id) ai ON a.id = ai.adopt_id
-            LEFT JOIN (select adopt_id,created_at,after_status from adopt_history where adopt_id = #{id} order by id DESC LIMIT 0,1) ah ON a.id = ah.adopt_id
+            LEFT JOIN (select adopt_id,created_at,after_status,member_id from adopt_history where adopt_id = #{id} order by id DESC LIMIT 0,1) ah ON a.id = ah.adopt_id
             LEFT JOIN animal_division1 ad1 ON a.animal_division1_id = ad1.id
             LEFT JOIN animal_division2 ad2 ON a.animal_division2_id = ad2.id
             LEFT JOIN member m ON a.created_by = m.id
             LEFT JOIN member m1 ON a.adopt_member_id = m1.id
+            LEFT JOIN member m2 ON ah.member_id = m2.id
             WHERE a.id = #{id}
         ORDER BY a.id DESC
     </select>
@@ -112,6 +114,7 @@
 
     <update id="updateAdoptInfo" parameterType="com.saesig.saesigManage.AdoptListDto">
         UPDATE adopt SET title = #{title} , content = #{content},is_castrated = #{isCastrated}, etc_content = #{etcContent}, status = #{status}, modified_at = now(), modified_by = #{member.id}
+        ,stop_reason = #{stopReason}, stop_category = #{stopCategory.name}
     </update>
 
     <insert id="updateAdoptVaccine" parameterType="com.saesig.saesigManage.AdoptListDto">
@@ -133,4 +136,11 @@
         SELECT ah.*, m.nickname, m.email FROM adopt_history ah LEFT JOIN member m ON ah.member_id = m.id WHERE adopt_id = #{adoptId}
         <include refid="PaginationMapper.footer"/>
     </select>
+
+    <update id="deleteAdopt">
+        UPDATE adopt SET is_deleted = 'Y' where id IN
+        <foreach item="item" collection="ids" open="("  separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>

@@ -10,32 +10,49 @@ import java.util.List;
 public class BannerServiceImpl implements BannerService {
 
     @Autowired
-    private BannerMapper managerNoticeBoardMapper;
+    private BannerMapper bannerMapper;
+
     @Override
-    public List<BannerDto> selectManagerNoticeBoardList(BannerDto mnbd) throws Exception {
-        return managerNoticeBoardMapper.selectManagerNoticeBoardList(mnbd);
+    public List<BannerDto> selectBannerList(BannerDto bd) throws Exception {
+        return bannerMapper.selectBannerList(bd);
     }
 
     @Override
-    public BannerDto selectManagerNoticeBoard(Long id) throws Exception {
-        return managerNoticeBoardMapper.selectManagerNoticeBoard(id);
+    public BannerDto selectBanner(Long id) throws Exception {
+        return bannerMapper.selectBanner(id);
     }
 
     @Override
-    @Transactional
-    public int insertForm(BannerDto mnbd) throws Exception {
-        return managerNoticeBoardMapper.insertForm(mnbd);
-    }
-
-    @Override
-    @Transactional
-    public int updateForm(BannerDto mnbd) throws Exception {
-        return managerNoticeBoardMapper.updateForm(mnbd);
+    public int selectOrd() throws Exception {
+        return bannerMapper.selectOrd();
     }
 
     @Override
     @Transactional
-    public int deleteItems(Long[] ids) throws Exception {
-        return managerNoticeBoardMapper.deleteItems(ids);
+    public int changeIsEnabled(BannerDto bd) throws Exception {
+        return bannerMapper.changeIsEnabled(bd);
+    }
+
+    @Override
+    @Transactional
+    public int insertForm(BannerDto bd) throws Exception {
+        return bannerMapper.insertForm(bd);
+    }
+
+    @Override
+    @Transactional
+    public int updateForm(BannerDto bd) throws Exception {
+        return bannerMapper.updateForm(bd);
+    }
+
+    @Override
+    @Transactional
+    public int deleteItem(Long id) throws Exception {
+        return bannerMapper.deleteItem(id);
+    }
+
+    @Override
+    public int updateBannerSort(BannerDto bd) throws Exception {
+        return bannerMapper.updateBannerSort(bd);
     }
 }

@@ -1,5 +1,7 @@
-package com.saesig.banner;
+package com.saesig.popupManage;
 
+import com.saesig.banner.BannerDto;
+import com.saesig.banner.BannerService;
 import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.common.Constant;
@@ -9,12 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/banner")
-public class BannerController {
+@RequestMapping("/admin/popup")
+public class PopupManageController {
+
 
     private final BannerService bannerService;
 
@@ -22,10 +28,10 @@ public class BannerController {
 
 
     @GetMapping("view")
-    public String bannerList(Model model) throws Exception {
+    public String popupList(Model model) throws Exception {
         model.addAttribute("exposureLocation", enumMapperFactory.get("exposureLocation"));
 
-        return "/banner/view";
+        return "/popupManage/view";
     }
 
     @GetMapping({"/{id}/form", "/form"})
@@ -36,12 +42,12 @@ public class BannerController {
             BannerDto banner = bannerService.selectBanner(id.get());
             model.addAttribute("banner", banner);
 
-            return "/banner/form";
+            return "/popupManage/form";
         }else {
             BannerDto banner = new BannerDto();
             model.addAttribute("banner", banner);
 
-            return "/banner/form";
+            return "/popupManage/form";
         }
     }
 
@@ -162,4 +168,5 @@ public class BannerController {
 
         return resultMap;
     }
+
 }

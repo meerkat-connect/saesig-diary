@@ -5,16 +5,22 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-@Mapper
-public interface BannerMapper {
-    List<BannerDto> selectManagerNoticeBoardList(BannerDto tmd);
+    @Mapper
+    public interface BannerMapper {
+        List<BannerDto> selectBannerList(BannerDto bd) throws Exception;
 
-    BannerDto selectManagerNoticeBoard(Long id);
+        BannerDto selectBanner(Long id) throws Exception;
 
-    int insertForm(BannerDto tmd);
+        int selectOrd() throws Exception;
 
-    int updateForm(BannerDto tmd);
+        int changeIsEnabled(BannerDto bd) throws Exception;
 
-    int deleteItems(@Param("ids") Long[] ids);
-}
+        int insertForm(BannerDto bd) throws Exception;
+
+        int updateForm(BannerDto bd) throws Exception;
+
+        int deleteItem(Long id) throws Exception;
+
+        int updateBannerSort(BannerDto bd) throws Exception;
+    }
 

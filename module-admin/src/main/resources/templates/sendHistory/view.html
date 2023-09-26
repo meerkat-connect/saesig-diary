@@ -28,12 +28,12 @@
                                     <div class="mb-0 form-group row">
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
                                         <div class="input-group input-group-dropdown mb-0">
-                                            <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
-                                            <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select">
+                                            <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select left-select">
                                                 <option value="">- 선택 -</option>
                                                 <option value="email">아이디</option>
                                                 <option value="nickName">닉네임</option>
                                             </select>
+                                            <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
                                         </div>
                                     </div>
                                 </div>
@@ -42,7 +42,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong>
                                         </div>
                                         <div class="col-sm-12">
-                                            <select id="searchCategory" name="searchCategory" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                            <select id="searchCategory" name="searchCategory" class="form-select form-control form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option th:each="item : ${searchSendCategory}" th:value="${item.key}" th:text="${item.value}">value</option>
                                             </select>
@@ -147,15 +147,20 @@
                         {className: "dt-center", targets: "_all"}
                     ],
 
-                    stateSave: true,
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
                     lengthChange: false,
+                    responsive: true,
                     searching: false,
-                    ordering: false,
-                    info: true,
                     destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: false,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
                     serverSide: true,
                     processing: true,
-                    pageLength: 10,
 
                     ajax: {
                         async: false,
@@ -197,23 +202,14 @@
                     language: {
                         search: '검색',
                         emptyTable: '데이터가 없습니다.',
-                        info: 'No. _START_ - _END_ / Total : _TOTAL_',
-                        infoEmpty: 'No. 0 - 0 / Total : 0',
-                        lengthMenu: 'No.',
+                        lengthMenu: '보기',
                         loadingRecords: '로딩중..',
                         paginate: {
                             first:      "처음",
                             last:       "마지막",
                             next:       "다음",
                             previous:   "이전"
-                        },
-                        select: {
-                            rows: {
-                                _: '',
-                                0: '',
-                                1: ''
-                            }
-                        },
+                        }
                     }
                 })
 

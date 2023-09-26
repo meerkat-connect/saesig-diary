@@ -16,7 +16,7 @@ public class NewsServiceImpl implements NewsService {
     private final NewsMapper newsMapper;
 
     @Override
-    public List<NewsDto> getNewsList(Map<String, Object> param) throws Exception {
+    public List<NewsDto> getNewsList(NewsDto param) throws Exception {
         return newsMapper.getNewsList(param);
     }
 

@@ -9,7 +9,7 @@ import java.util.Map;
 @Mapper
 public interface NewsMapper {
 
-    public List<NewsDto> getNewsList(Map<String, Object> param);
+    public List<NewsDto> getNewsList(NewsDto param);
 
     public void insertNews(NewsDto param);
 

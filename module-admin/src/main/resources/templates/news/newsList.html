@@ -23,7 +23,6 @@
             NewsData: null,
             AnswerData : null,
             init: function () {
-                this.setFilter()
                 this.newsListLoad()
                 this.registEvent()
             },
@@ -32,10 +31,6 @@
                 const _this = this;
                 $('#searchBtn').on('click', function () {
                     _this.newsListLoad()
-                })
-
-                $(document).on('click', '#newsListTable tbody tr', function () {
-                    _this.selectItem(this);
                 })
 
                 $('#checkboxAll').on('change',function () {
@@ -82,133 +77,118 @@
 
             },
 
-            setFilter: function () {
-                $.ajax({
-                    type: "post",
-                    async: false,
-                    enctype: 'multipart/form-data',
-                    url: "/admin/news/getFilterData.do",
-                    ContentType: 'application/json',
-                    dataType: 'json',
-                    cache: false,
-                    success: function (result) {
-                        const categoryList = Object.keys(result['NewsCategory']);
-                        let categoryOption = '';
-                        for (let i = 0; i < categoryList.length; i++) {
-                            categoryOption += '<option value="' + categoryList[i] + '">' + result['NewsCategory'][categoryList[i]]['title'] + '</option>'
-                        }
-                        $('#searchCategory').append(categoryOption)
-
-                        const statusList = Object.keys(result['NewsStatus']);
-                        let statusOption = '';
-                        for (let i = 0; i < statusList.length; i++) {
-                            statusOption += '<option value="' + statusList[i] + '">' + result['NewsStatus'][statusList[i]]['title'] + '</option>'
-                        }
-                        $('#searchStatus').append(statusOption)
-                        $('select').niceSelect('update');
-                    },
-                    error: function (e) {
-                        console.log(e)
-                    }
-                });
-            },
-
             newsListLoad: function () {
                 const _this = this;
-                let params = _this.getFilterParam();
                 let table = null
                 if (table != null) {
                     table.destroy();
                 }
-                $.ajax({
-                    type: "post",
-                    async: false,
-                    enctype: 'multipart/form-data',
-                    url: "/admin/news/getNewsList.do",
-                    dataType: 'json',
-                    data: params,
-                    cache: false,
-                    success: function (result) {
-                        _this.NewsData = result.data;
-                        table = $("#newsListTable").DataTable({
-                            ordering: false,
-                            data: result.data,
-                            columns: [
-                                {data: null},
-                                {data: "category"},
-                                {data: "title"},
-                                {data: "nickname"},
-                                {data: "isFixed"},
-                                {data: "createdAt"}
-                            ],
-                            columnDefs: [{
-                                'targets': 0,
-                                'searchable': false,
-                                'orderable': false,
-                                'width': '30px',
-                                'className': 'dt-body-center',
-                                'render': function (data, type, full, meta) {
-                                    // return '<input type="checkbox" name="rowCheckbox" value="' + $('<div/>').text(data.id).html() + '">';
-                                    return '<div class="border-checkbox-section"><div class="border-checkbox-group"><input type="checkbox" class="border-checkbox " id="checkbox' + $('<div/>').text(data.id).html() + '" name="rowCheckbox" value="' + $('<div/>').text(data.id).html() + '"><label class="form-label border-checkbox-label" for="checkbox' + $('<div/>').text(data.id).html() + '"></label></div></div>'
-
-                                }
-                            }
-                                , {'targets': 1, 'width': '70px'}
-                                , {'targets': 2, 'width': 'auto'}
-                                , {'targets': 3, 'width': '70px'}
-                                , {'targets': 4, 'width': '70px'}
-                                , {'targets': 5, 'width': '70px'}
-                            ],
-                            destroy: true,
-                            language: {
-                                paginate: {
-                                    previous: 'Prev'
-                                }
-                            }
-                        })
+                table = $("#newsListTable").DataTable({
+                    select: {
+                        selector: 'td:not(:first-child)',
+                        style: 'single'
                     },
-                    error: function (e) {
-                        console.log(e)
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: false,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
+                    serverSide: true,
+                    processing: true,
+                    ajax: {
+                        async: false,
+                        method: 'GET',
+                        url: "/admin/news/getNewsList.do",
+                        data: function(d) {
+                            var formData  = $('#searchForm').serializeArray();
+                            for(var i = 0; i < formData.length; i++) {
+                                var formName = formData[i].name;
+                                var formVal = $("#"+formName).val();
+                                d[formName] = formVal;
+                            }
+                        },
+                        "dataSrc": function (res) {
+                            console.log(res)
+                            if (res.data.length > 0){
+                                return res.data;
+                            }else{
+                                return false;
+                            }
+                        }
+                    },
+                    columns: [
+                        {
+                            render: function (data, type, row) {
+                                return ` <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
+                                                    <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
+                                                </div>
+                                            </div>`;
+                            }
+                        },
+                        {render : function (data,type,row) {
+                                return `${row.category.value}`;
+                            }},
+                        {data: "title"},
+                        {data: "nickname"},
+                        {data: "isFixed"},
+                        {data: "createdAt"}
+                    ],
+                    "columnDefs": [
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    language: {
+                        search: '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
+                        infoEmpty: '데이터 0 부터 0 까지 / 총데이터 : 0',
+                        lengthMenu: '보기',
+                        loadingRecords: '로딩중..',
+                    },
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
+
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
                     }
-                });
-            },
+                })
 
-            getFilterParam: function () {
-                let param = {};
-                param.orderColumn = null;
-                param.orderColumnSort = null;
-                param.searchCategory = null;
-                param.searchStatus = null;
-                param.searchTitle = null;
-                param.searchKeywordSelect = null;
-                param.searchKeyword = null;
+                table.on('select', function (e, dt, type, indexes) {
+                    $('#contentCard').show()
 
-                if ($('#searchStatus').val() != '' && $('#searchStatus').val() != null && $('#searchStatus').val() != undefined) {
-                    param.searchStatus = $('#searchStatus').val()
-                }
-                if ($('#searchTitle').val() != '' && $('#searchTitle').val() != null && $('#searchTitle').val() != undefined) {
-                    param.searchTitle = $('#searchTitle').val()
-                }
-                if ($('#searchCategory').val() != '' && $('#searchCategory').val() != null && $('#searchCategory').val() != undefined && $('#searchCategory').val() != 'all') {
-                    param.searchCategory = $('#searchCategory').val()
-                }
-                if ($('#searchKeywordSelect').val() != '' && $('#searchKeywordSelect').val() != null && $('#searchKeywordSelect').val() != undefined) {
-                    param.searchKeywordSelect = $('#searchKeywordSelect').val()
-                }
-                if ($('#searchKeyword').val() != '' && $('#searchKeyword').val() != null && $('#searchKeyword').val() != undefined) {
-                    param.searchKeyword = $('#searchKeyword').val()
-                }
-                return param
+                    const targetData = table.rows(indexes).data().toArray();
+                    const targetId = targetData[0].id;
+
+                    console.log(targetData)
+                    $('.targetNewsCon').attr('mekc-news-id', targetId)
+                    $('#category').val(targetData[0].category.key)
+                    $('#isFixed').val(targetData[0].isFixed)
+                    $('#title').val(targetData[0].title)
+                    ckeditorApp.editorList['content'].setData(targetData[0].content)
+                    $('#created_name').val(targetData[0].nickname + '(' + targetData[0].memberId + ')');
+                    $('select').niceSelect('update')
+                    $('#createdAt').val(targetData[0].modifiedAt)
+                })
             },
 
             delete: function () {
                 let checkList = '';
                 $('#newsListTable').find('tbody').find('input[type=checkbox]:checked').each(function (){
                     if (checkList == ''){
-                        checkList += $(this).val()
+                        checkList += $(this).attr('data-id')
                     }else{
                         checkList += ','
-                        checkList += $(this).val()
+                        checkList += $(this).attr('data-id')
                     }
 
                 })
@@ -225,36 +205,6 @@
                         console.log(JSON.stringify(error));
                     });
                 }
-            },
-
-            selectItem: function (el) {
-                $('#contentCard').show()
-                let _this = this;
-                const row = $(el).closest('tr');
-                row.closest('tbody').find('tr').css('background-color', 'white');
-                row.css('background-color', '#F8F7F7')
-                const targetId = $(el).closest('tr').find('[name=rowCheckbox]').val();
-                const targetData = this.NewsData.find(e => e.id === parseInt(targetId));
-                $('.targetNewsCon').attr('mekc-news-id', targetId)
-                // $('#title').val(targetData.title)
-                // $('#created_at').val(_this.getDateStr())
-                // $('#content').text(targetData.content)
-                $('#created_name').val('이동헌')
-                $('input[name=id]').val(targetId)
-                $(Object.keys(targetData)).each(function (){
-                    if ($(document).find("#"+this).length > 0){
-                        const element = $(document).find('#'+this)[0];
-                        if (element.tagName == 'INPUT'){
-                            $(element).val(targetData[this])
-                        }else if (element.tagName == 'SELECT'){
-                            $(element).val(targetData[this])
-                            $('select').niceSelect('update');
-                        }else if (element.tagName == 'TEXTAREA'){
-                            $(element).text(targetData[this])
-                            ckeditorApp.editorList[this].setData(targetData.content)
-                        }
-                    }
-                })
             },
 
             newsInsert : function () {
@@ -349,7 +299,7 @@
     <div class="page-body">
         <div class="row">
             <!-- 필터 부분 -->
-            <form name="searchFrm" id="searchFrm" action="" onsubmit="return false;" class="card">
+            <form name="searchForm" id="searchForm" action="" onsubmit="return false;" class="card">
                 <div class="card-block-small">
                     <!-- 키워드 filter -->
                     <div class="row">
@@ -465,8 +415,7 @@
                                         <strong>유형</strong>
                                     </div>
                                     <div class="col-12">
-                                        <select name="category" id="category" class="form-select form-control form-control-round custom-select">
-                                            <option value="">- 전체 -</option>
+                                        <select class="form-select form-select-sm form-control-sm form-control-round custom-select" id="category" name="category">
                                             <option th:each="newsCategory : ${newsCategories}" th:value="${newsCategory.key}" th:text="${newsCategory.value}">value</option>
                                         </select>
                                     </div>

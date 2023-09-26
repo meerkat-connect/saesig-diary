@@ -3,7 +3,7 @@
     <input type="hidden" th:field="*{ord}">
     <div class="col-lg-12 mt-3 mb-3">
         <div class="row mb-0 form-group required">
-            <label class="form-label col-sm-auto col-form-label p-t-0 pb-1" for="banneImg"><strong>배너이미지</strong></label>
+            <label class="form-label col-sm-auto col-form-label p-t-0 pb-1" for="banneImg"><strong>팝업이미지</strong></label>
             <p class="col-sm text-muted m-b-0">(권장사이즈 : 가로 170px, 세로 40px)</p>
             <div class="col-12 banner-preview text-center">
                 <img class="img-fluid col-12" src="/files/assets/images/noimg.png" alt="logo image" style="max-width:200px; height:auto;">
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="row form-group required mb-3">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>배너 노출위치</strong></label>
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>팝업 노출위치</strong></label>
             <div class="col-sm-12">
                 <select id="selectBannerLocation" name="selectBannerLocation" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
                     <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
@@ -29,6 +29,42 @@
             </div>
         </div>
         <div class="row form-group required mb-3">
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>공지대상</strong></label>
+            <div class="col-sm-12">
+                <select id="selectBannerLocation" name="selectBannerLocation" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
+                    <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="row form-group required mb-3">
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>대상 역할</strong></label>
+            <div class="col-sm-12">
+                <select id="selectRole" name="selectRole" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
+                    <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="row form-group required mb-3">
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>팝업 노출기간</strong></label>
+            <div class="col-sm">
+                <input type="date" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{url}">
+            </div>
+            <div class="col-sm-1 text-center">
+                <span>-</span>
+            </div>
+            <div class="col-sm">
+                <input type="date" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{url}">
+            </div>
+        </div>
+        <div class="row form-group required mb-3">
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>버튼 옵션</strong></label>
+            <div class="col-sm-12">
+                <select id="selectRole" name="selectRole" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
+                    <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="row form-group mb-3">
             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>링크 URL</strong></label>
             <div class="col-sm-12">
                 <input type="text" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{url}">

@@ -97,4 +97,9 @@ public class SaesigManageServiceImpl implements SaesigManageService{
         return saesigManageMapper.selectHistoryByAdoptId(param);
     };
 
+    @Override
+    public Long deleteAdopt(Long[] ids) throws Exception{
+        return saesigManageMapper.deleteAdopt(ids);
+    };
+
 }

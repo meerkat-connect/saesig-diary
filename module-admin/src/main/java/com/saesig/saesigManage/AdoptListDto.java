@@ -53,6 +53,8 @@ public class AdoptListDto extends RequestDto {
     private Long likeCnt;
     private Integer[] vaccineList;
     private Long stopMemberId;
+    private String changeMemberNickName;
+    private String changeMemberEmail;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime stopChangeCreatedAt;
     @JsonFormat(pattern = "yyyy-MM-dd")

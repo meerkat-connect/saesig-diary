@@ -1,0 +1,311 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content">
+    <!-- Page-body start -->
+    <div class="page-body">
+
+            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
+            <div class="row mb-3">
+                <div class="col-12 col-lg-6 mb-3">
+                    <div class="card banner-card">
+                        <div class="card-block-small tree-view pb-0">
+                            <div class="row mb-3">
+                                <h5 class="col-12 col-md-6 mb-3">
+                                    <strong>검색</strong>
+                                </h5>
+                            </div>
+                            <div class="mb-0 form-group row">
+                                <div class="col-12">
+                                    <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" id="searchTitle" name="searchTitle" placeholder="제목"/>
+                                </div>
+                            </div>
+                            <div class="mt-1 p-t-20 text-center mb-5">
+                                <button class="btn btn-gray m-r-5" onclick="listController.init();">초기화</button>
+                                <button class="btn btn-primary" onclick="listController.search();">검색</button>
+                            </div>
+                            <div class="row align-items-center mb-3">
+                                <h5 class="col mb-3">
+                                    <strong>배너 목록</strong>
+                                </h5>
+                                <div class="col-auto text-right">
+                                    <button type="button" id='exprtSearchBtn' class="btn btn-transparent btn-sm" onclick="openForm()"><img class="plusIcon">배너등록</button>
+                                </div>
+                            </div>
+                            <div class="mb-0 form-group row">
+                                <div class="col-sm-12">
+                                    <select id="searchExposureLocation" name="searchExposureLocation" class="form-select form-control form-control-round custom-select" onchange="listController.changeLocation()">
+                                        <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="banner-wrap">
+                                <div class="banner-select">
+                                    <div class="banner-list column">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-6 mb-3">
+                    <div class="card banner-card">
+                        <div class="card-block-small">
+                            <div class="row align-items-center">
+                                <h5 class="col mb-3">
+                                    <strong>배너 수정/등록</strong>
+                                </h5>
+                            </div>
+                            <div class="row form-area">
+                            </div>
+                            <div class="form nodata text-center">
+                                <p>좌측 목록에 대한 상세 내용이<br>여기에 표기됩니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 배너 위치, 배너목록 부분 -->
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
+    <script th:inline="javascript">
+        $("#listNodata").hide();
+
+        const columns = document.querySelectorAll(".column");
+
+        openForm = (id) => {
+            const formUrl = id > 0 ? `/admin/banner/${id}/form` : `/admin/banner/form`;
+            console.log(formUrl)
+            $.ajax({
+                type: 'Get',
+                url: formUrl,
+                dataType: 'html'
+            }).done(function (response) {
+                $('.form.nodata').hide();
+                $('.form-area').html("<script type='text/javascript' src='/js/switches2.js'>"+"</"+"script>");
+                $('.form-area').append(response);
+            }).fail(function (error) {
+            });
+        }
+
+        deleteBanner = (id) => {
+            if(!confirm("삭제하시겠습니까?")) return;
+
+            $.ajax({
+                url: `/admin/banner/deleteItem.do`,
+                type: 'POST',
+                cache : false,
+                data : {id : id},
+                dataType: 'json',
+                success: function (data) {
+                    listController.selectBannerList();
+                    alert(data.msg);
+                }
+            })
+        }
+
+        const listController = {
+            init : function() {
+                $("#searchTitle").val('');
+
+                this.registEvent();
+                this.selectBannerList();
+            },
+
+            search : function() {
+                this.selectBannerList();
+            },
+
+            changeLocation : function() {
+                console.log(1)
+                this.selectBannerList();
+            },
+
+            registEvent : function() {
+                // drag&drop event
+                columns.forEach((column) => {
+                    var sortbale = new Sortable(column, {
+                        group: "shared",
+                        handle: ".banner-selecter",
+                        animation: 150,
+                        ghostClass: "blue-background-class",
+
+                        onEnd : function(evt) { // 배너를 drop 했을때 실행
+                            var bannerid = sortbale.toArray();
+                            var dataList = new Array();
+
+                            for(var i = 1; i <= bannerid.length - 1; i++){
+                                var data = new Object();
+
+                                if($("#banner"+bannerid[i-1]).attr('data-isEnabled') == 'Y') {
+                                    data["id"] = bannerid[i-1];
+                                    data["ord"] = i;
+                                    dataList.push(data);
+                                }
+                            }
+
+                            var params = new Object();
+                            params["bdList"] = dataList;
+
+                            // 배너 id, 순서 수정
+                            $.ajax({
+                                url : "/admin/banner/updateBannerSort.do",
+                                cache : false,
+                                dataType : 'json',
+                                data : JSON.stringify(params),
+                                type : 'POST',
+                                contentType: "application/json; charset=utf-8",
+                                success : function(data) {
+                                    console.log("banner sorting success")
+                                    listController.selectBannerList();
+                                }
+                            });
+                        }
+                    });
+                });
+            },
+
+            // 배너 리스트 조회 및 리스트 생성 기능
+            selectBannerList: function() {
+                $.ajax({
+                    url : "/admin/banner/selectBannerList.do",
+                    cache : false,
+                    dataType : 'json',
+                    data : {searchTitle: $("#searchTitle").val(), searchExposureLocation: $("#searchExposureLocation").val()},
+                    type : 'Get',
+                    success : function(data) {
+                        // 배너 리스트 생성
+                        if(data.list.length == null || data.list.length <= 0){
+                            const noData = `
+                                <div class="nodata text-center">
+                                    <p>등록된 배너가 없습니다.<br>새로운 배너를 등록해주세요.</p>
+                                </div>
+                            `;
+
+                            $('.banner-list.column').html(noData);
+                        }else {
+                            $(".banner-list.column").html(listController.makeBannerList(data));
+                            $('.banner-list.column').append("<script type='text/javascript' src='/js/switches.js'>"+"</"+"script>");
+                            listController.swicthBtnChange();
+                        }
+                    }
+                })
+            },
+
+            // 배너목록영역 배너 생성
+            makeBannerList : function(data) {
+                let bannerHtml = "";
+                let chkBoxTag = "";
+                let statusTag = "";
+                let handleTag = "";
+                let ord = 0;
+                data.list.forEach(function(item) {
+                    if(item.isEnabled == 'Y') {
+                        chkBoxTag = `
+                            <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled${item.id}" bannerid="${item.id}" checked/>
+                        `;
+                        statusTag = `
+                            <div class="col m-b-30 banner-status on">
+                                <span>게시중</span>
+                                <span>${ord += 1}번째 순서</span>
+                            </div>
+                        `;
+                        handleTag = `
+                            <div class="col-12 col-lg-1 banner-selecter">
+                                <img class="img-fluid" src="/files/assets/images/bannerSelecter.png">
+                            </div>
+                        `;
+                    }else {
+                        chkBoxTag = `
+                            <input type="checkbox" class="js-single-small" name="isEnabled" id="isEnabled${item.id}" bannerid="${item.id}"/ >
+                        `;
+                        statusTag = `
+                            <div class="col m-b-30 banner-status off">
+                                <span>게시안됨</span>
+                                <span></span>
+                            </div>
+                        `;
+                        handleTag = `
+                            <div class="col-12 col-lg-1">
+
+                            </div>
+                        `;
+                    }
+
+                    bannerHtml += `
+                        <div class="banner" id="banner${item.id}" draggable="false" data-id="${item.id}" data-isEnabled="${item.isEnabled}">
+                            ${handleTag}
+                            <div class="col-6 col-lg-3 banner-thumbnail">
+                                <img class="img-fluid" src="/files/assets/images/logo2.png" alt="banner image">
+                            </div>
+                            <div class="col-12 col-lg-6 m-l-20 banner-title">
+                                    ${statusTag}
+                                <div class="col m-b-30 stit">
+                                    <span>${item.title}</span>
+                                </div>
+                                <div class="col">
+                                    ${chkBoxTag}
+                                </div>
+                            </div>
+                            <div class="col col-lg-1 m-l-30 banner-btn-area">
+                                <div class="row banner-btn">
+                                    <button class="btn btn-gray mb-2" onclick="deleteBanner(${item.id})">삭제</button>
+                                    <button class="btn btn-primary mb-2" onclick="openForm(${item.id})">수정</button>
+                                </div>
+                            </div>
+                        </div>
+	    		    `;
+                })
+
+                return bannerHtml;
+            },
+
+            // 스위치버튼을 눌렀을때 실행
+            swicthBtnChange : function() {
+                $(':checkbox[name="isEnabled"]').on({
+                    change: function () {
+                        console.log()
+                        if ($(this).is(':checked')) { // 버튼은 on 했을경우
+                            $.ajax({
+                                url: `/admin/banner/changeIsEnabled.do`,
+                                type: 'POST',
+                                cache: false,
+                                data: JSON.stringify({id: $(this).attr("bannerid"), isEnabled: 'Y'}),
+                                dataType: 'json',
+                                contentType: "application/json; charset=utf-8",
+                                success: function () {
+                                    listController.selectBannerList();
+                                }
+                            })
+                        } else { // 버튼을 off 했을경우
+                            $.ajax({
+                                url: `/admin/banner/changeIsEnabled.do`,
+                                type: 'POST',
+                                cache: false,
+                                data: JSON.stringify({id: $(this).attr("bannerid"), isEnabled: 'N'}),
+                                dataType: 'json',
+                                contentType: "application/json; charset=utf-8",
+                                success: function () {
+                                    listController.selectBannerList();
+                                }
+                            })
+                        }
+                    }
+                });
+            }
+        };
+
+        $(function () {
+            listController.init();
+        })
+    </script>
+
+</div>
+</html>

@@ -188,4 +188,10 @@ public class SaesigManageController {
         return dtd;
     }
 
+    @DeleteMapping("/deleteAdopt.do")
+    @ResponseBody
+    public Long deleteAdopt(@RequestParam Long[] ids) throws Exception{
+        return saesigManageService.deleteAdopt(ids);
+    };
+
 }
