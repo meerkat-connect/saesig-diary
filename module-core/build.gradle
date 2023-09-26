@@ -36,6 +36,7 @@ springBoot {
 
 test {
     useJUnitPlatform()
+    systemProperty "jasypt.encryptorKey", System.getProperty("jasypt_encryptorKey")
 }
 
 bootJar {
