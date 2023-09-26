@@ -383,7 +383,7 @@ CREATE TABLE `popup`
 (
     `id`                  BIGINT AUTO_INCREMENT NOT NULL COMMENT '팝업 일련번호',
     `title`               VARCHAR(200)          NOT NULL COMMENT '제목',
-    `resource_id`         BIGINT                NOT NULL COMMENT '자원 아이디',
+    `exposure_location`   VARCHAR(20)           NOT NULL COMMENT '팝업 노출위치',
     `target`              VARCHAR(20)           NOT NULL COMMENT '공지 대상 코드(A:전체, S: 선택)',
     `target_role_id`      BIGINT                NOT NULL COMMENT '공지 대상 역할 일련번호',
     `start_date`          DATE                  NOT NULL COMMENT '팝업 시작일',
@@ -391,6 +391,8 @@ CREATE TABLE `popup`
     `image_file_group_id` BIGINT                NOT NULL COMMENT '이미지 파일 그룹 일련번호',
     `url`                 VARCHAR(200)          NULL COMMENT '링크 URL',
     `button_option`       VARCHAR(20)           NOT NULL COMMENT '버튼 옵션',
+    `ord`                 BIGINT                NULL COMMENT '순서',
+    `is_enabled`          VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '사용 여부',
     `created_at`          DATETIME              NOT NULL COMMENT '등록일',
     `created_by`          BIGINT                NOT NULL COMMENT '등록자 일련번호',
     `modified_at`         DATETIME              NOT NULL COMMENT '수정일',
