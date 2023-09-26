@@ -16,7 +16,7 @@
             <!-- 필터 부분 -->
             <form id="searchForm" name="searchForm" onsubmit="return false;">
                 <input type="hidden" id="rowPerPage" name="rowPerPage" value="10">
-                <input type="hidden" id="orderField" name="orderField" value="id">
+                <input type="hidden" id="orderField" name="orderField" value="title">
                 <input type="hidden" id="orderDirection" name="orderDirection" value="desc">
 
                 <div class="col-12">
@@ -29,7 +29,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송수단</strong>
                                         </div>
                                         <div class="col-sm-12">
-                                            <select id="searchMethod" name="searchMethod" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                            <select id="searchMethod" name="searchMethod" class="form-select form-control form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option th:each="item : ${searchSendMethod}" th:value="${item.key}" th:text="${item.value}">value</option>
                                             </select>
@@ -41,7 +41,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발송유형</strong>
                                         </div>
                                         <div class="col-sm-12">
-                                            <select id="searchCategory" name="searchCategory" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                            <select id="searchCategory" name="searchCategory" class="form-select form-control form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option th:each="item : ${searchSendCategory}" th:value="${item.key}" th:text="${item.value}">value</option>
                                             </select>
@@ -61,7 +61,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>사용여부</strong>
                                         </div>
                                         <div class="col-sm-12">
-                                            <select name="searchIsEnabled" class="form-select form-select-sm form-control-sm form-control-round custom-select">
+                                            <select name="searchIsEnabled" class="form-select form-control form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option value="Y">사용</option>
                                                 <option value="N">사용안함</option>
@@ -101,7 +101,14 @@
                                 <table id="listTable" class="display" style="width:100%">
                                     <thead>
                                     <tr>
-                                        <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
+                                        <th>
+                                            <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
+                                                    <label class="form-label border-checkbox-label" for="allCheckBox"></label>
+                                                </div>
+                                            </div>
+                                        </th>
                                         <th>No.</th>
                                         <th>발송수단</th>
                                         <th>제목</th>
@@ -143,6 +150,7 @@
 
                 listTable = $('#listTable').DataTable({
                     select: {
+                        selector: 'td:not(:first-child)',
                         style: 'single'
                     },
                     "columnDefs": [
@@ -150,15 +158,20 @@
                         {className: "dt-center", targets: "_all"}
                     ],
 
-                    stateSave: true,
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
                     lengthChange: false,
+                    responsive: true,
                     searching: false,
-                    ordering: false,
-                    info: true,
                     destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: false,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
                     serverSide: true,
                     processing: true,
-                    pageLength: 10,
 
                     ajax: {
                         async: false,
@@ -180,12 +193,19 @@
                     },
 
                     columns: [
-                        {
+                        {   width : 80,
                             render: function (data, type, row) {
-                                return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
+                                return `
+                                    <div class="border-checkbox-section">
+                                        <div class="border-checkbox-group">
+                                            <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
+                                            <label class="form-label border-checkbox-label" for="allCheckBox"></label>
+                                        </div>
+                                    </div>
+                                `;
                             }
                         },
-                        {data : 'rowNumber'}, // 페이징 후 No. 변경
+                        {data : 'rowNumber', width : 80}, // 페이징 후 No. 변경
                         {
                             render: function (data, type, row) {
                                 return row.method === 'EMAIL' ? '이메일' : 'SMS';
@@ -209,9 +229,7 @@
                     language: {
                         search: '검색',
                         emptyTable: '데이터가 없습니다.',
-                        info: 'No. _START_ - _END_ / Total : _TOTAL_',
-                        infoEmpty: 'No. 0 - 0 / Total : 0',
-                        lengthMenu: 'No.',
+                        lengthMenu: '보기',
                         loadingRecords: '로딩중..',
                         paginate: {
                             first:      "처음",
@@ -235,7 +253,7 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/admin/templateManage/templateManageForm.html?id=${selectId}`,
+                        url: `/admin/templateManage/form?id=${selectId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
@@ -246,6 +264,15 @@
                 }).on('deselect', function (e, dt, type, indexes) {
                     let rowData = listTable.rows(indexes).data().toArray();
                 });
+            },
+
+            drawCallback: function () {
+                var $api = this.api();
+                var pages = $api.page.info().pages;
+
+                if (pages === 0) {
+                    $(".paginate_button").hide();
+                }
             },
 
             delete: function () {
@@ -275,7 +302,7 @@
             $("body").on('click', '#insertBtn', function () {
                 $.ajax({
                     type: 'get',
-                    url: `/admin/templateManage/templateManageForm.html`,
+                    url: `/admin/templateManage/form`,
                     dataType: 'html'
                 }).done(function (response) {
                     $('#contentPanel').html(response);

@@ -6,28 +6,29 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/admin/sendHistory")
 public class SendHistoryController {
 
     private final SendHistoryService sendHistoryService;
 
     private final EnumMapperFactory enumMapperFactory;
 
-    @GetMapping({"/admin/sendHistory","/admin/sendHistory/sendHistoryList.html"})
+    @GetMapping("view")
     public String sendHistoryList(Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
 
-        return "/sendHistory/sendHistoryList";
+        return "/sendHistory/view";
     }
 
-    @GetMapping("/admin/sendHistory/selectSendHistoryList.do")
+    @GetMapping("selectSendHistoryList.do")
     @ResponseBody
     public DataTablesDto selectSendHistoryList(SendHistoryDto shd) throws Exception {
         DataTablesDto dtd = new DataTablesDto();
@@ -47,7 +48,7 @@ public class SendHistoryController {
         return dtd;
     }
 
-    @GetMapping("/admin/sendHistory/sendHistoryForm.html")
+    @GetMapping("form")
     public String templateManageForm(Long id, Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
@@ -55,6 +56,6 @@ public class SendHistoryController {
         SendHistoryDto sendHistory = sendHistoryService.selectSendHistory(id);
         model.addAttribute("sendHistory", sendHistory);
 
-        return "/sendHistory/sendHistoryForm";
+        return "/sendHistory/form";
     }
 }

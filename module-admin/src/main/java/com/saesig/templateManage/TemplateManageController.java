@@ -16,6 +16,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/admin/templateManage")
 public class TemplateManageController {
 
     private final TemplateManageService templateManageService;
@@ -23,15 +24,15 @@ public class TemplateManageController {
     private final EnumMapperFactory enumMapperFactory;
 
 
-    @GetMapping({"/admin/templateManage","/admin/templateManage/templateManageList.html"})
+    @GetMapping({"view"})
     public String templateManageList(Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
 
-        return "/templateManage/templateManageList";
+        return "/templateManage/view";
     }
 
-    @GetMapping("/admin/templateManage/selectTemplateList.do")
+    @GetMapping("selectTemplateList.do")
     @ResponseBody
     public DataTablesDto selectTemplateList(TemplateManageDto tmd) throws Exception {
         DataTablesDto dtd = new DataTablesDto();
@@ -51,7 +52,7 @@ public class TemplateManageController {
         return dtd;
     }
 
-    @GetMapping("/admin/templateManage/templateManageForm.html")
+    @GetMapping("form")
     public String templateManageForm(Long id, Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
@@ -60,16 +61,16 @@ public class TemplateManageController {
             TemplateManageDto template = templateManageService.selectTemplate(id);
             model.addAttribute("template", template);
 
-            return "/templateManage/templateManageForm";
+            return "/templateManage/form";
         }else {
             TemplateManageDto template = new TemplateManageDto();
             model.addAttribute("template", template);
 
-            return "/templateManage/templateManageForm";
+            return "/templateManage/form";
         }
     }
 
-    @PostMapping("/admin/templateManage/insertForm.do")
+    @PostMapping("insertForm.do")
     @ResponseBody
     public Map<String, Object> insertForm(@LoginMember SessionMember member, TemplateManageDto tmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
@@ -89,7 +90,7 @@ public class TemplateManageController {
         return resultMap;
     }
 
-    @PostMapping("/admin/templateManage/updateForm.do")
+    @PostMapping("updateForm.do")
     @ResponseBody
     public Map<String, Object> updateForm(@LoginMember SessionMember member, TemplateManageDto tmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
@@ -108,7 +109,7 @@ public class TemplateManageController {
         return resultMap;
     }
 
-    @DeleteMapping("/admin/templateManage/deleteItems.do")
+    @DeleteMapping("deleteItems.do")
     @ResponseBody
     public Map<String, Object> deleteItems(@LoginMember SessionMember member, @RequestParam Long[] ids) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();

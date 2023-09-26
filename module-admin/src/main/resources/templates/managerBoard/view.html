@@ -99,7 +99,14 @@
                                 <table id="listTable" class="display" style="width:100%">
                                     <thead>
                                     <tr>
-                                        <th><input type="checkbox" id="allCheckBox" name="allCheckBox"></th>
+                                        <th>
+                                            <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
+                                                    <label class="form-label border-checkbox-label" for="allCheckBox"></label>
+                                                </div>
+                                            </div>
+                                        </th>
                                         <th>No.</th>
                                         <th>유형</th>
                                         <th>제목</th>
@@ -151,15 +158,20 @@
                         {className: "dt-center", targets: "_all"}
                     ],
 
-                    stateSave: true,
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
                     lengthChange: false,
+                    responsive: true,
                     searching: false,
-                    ordering: false,
-                    info: true,
                     destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: false,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: true,
                     serverSide: true,
                     processing: true,
-                    pageLength: 10,
 
                     ajax: {
                         async: false,
@@ -181,12 +193,19 @@
                     },
 
                     columns: [
-                        {
+                        {   width : 80,
                             render: function (data, type, row) {
-                                return `<input type="checkbox" data-id="${row.id}" name="tableCheckbox">`;
+                                return `
+                                    <div class="border-checkbox-section">
+                                        <div class="border-checkbox-group">
+                                            <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
+                                            <label class="form-label border-checkbox-label" for="allCheckBox"></label>
+                                        </div>
+                                    </div>
+                                `;
                             }
                         },
-                        {data : 'rowNumber'}, // 페이징 후 No. 변경
+                        {data : 'rowNumber', width : 80}, // 페이징 후 No. 변경
                         {data : 'category'},
                         {data : 'title'},
                         {data : 'nickName'},
@@ -197,23 +216,14 @@
                     language: {
                         search: '검색',
                         emptyTable: '데이터가 없습니다.',
-                        info: 'No. _START_ - _END_ / Total : _TOTAL_',
-                        infoEmpty: 'No. 0 - 0 / Total : 0',
-                        lengthMenu: 'No.',
+                        lengthMenu: '보기',
                         loadingRecords: '로딩중..',
                         paginate: {
                             first:      "처음",
                             last:       "마지막",
                             next:       "다음",
                             previous:   "이전"
-                        },
-                        select: {
-                            rows: {
-                                _: '',
-                                0: '',
-                                1: ''
-                            }
-                        },
+                        }
                     }
                 })
 
