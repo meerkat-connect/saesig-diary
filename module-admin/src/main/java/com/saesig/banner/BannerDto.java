@@ -31,6 +31,7 @@ public class BannerDto extends RequestDto {
     private String modifiedBy;
 
     // search
-    // 키워드, 유형, 제목, 등록일
+    // 제목, 배너위치
     private String searchTitle;
+    private String searchExposureLocation;
 }

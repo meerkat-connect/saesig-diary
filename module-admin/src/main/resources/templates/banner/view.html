@@ -22,8 +22,8 @@
                                 </div>
                             </div>
                             <div class="mt-1 p-t-20 text-center mb-5">
-                                <button class="btn btn-gray m-r-5">초기화</button>
-                                <button class="btn btn-primary" onclick="listController.init();">검색</button>
+                                <button class="btn btn-gray m-r-5" onclick="listController.init();">초기화</button>
+                                <button class="btn btn-primary" onclick="listController.search();">검색</button>
                             </div>
                             <div class="row align-items-center mb-3">
                                 <h5 class="col mb-3">
@@ -35,8 +35,8 @@
                             </div>
                             <div class="mb-0 form-group row">
                                 <div class="col-sm-12">
-                                    <select id="searchExposureLocation" name="searchExposureLocation" class="form-select form-control form-control-round custom-select">
-                                        <option value="main">메인</option>
+                                    <select id="searchExposureLocation" name="searchExposureLocation" class="form-select form-control form-control-round custom-select" onchange="listController.changeLocation()">
+                                        <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
                                     </select>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                             <div class="row form-area">
                             </div>
                             <div class="form nodata text-center">
-                                <p>좌측 리스트에 대한 상세 내용이<br>여기에 표기됩니다.</p>
+                                <p>좌측 목록에 대한 상세 내용이<br>여기에 표기됩니다.</p>
                             </div>
                         </div>
                     </div>
@@ -113,7 +113,18 @@
 
         const listController = {
             init : function() {
+                $("#searchTitle").val('');
+
                 this.registEvent();
+                this.selectBannerList();
+            },
+
+            search : function() {
+                this.selectBannerList();
+            },
+
+            changeLocation : function() {
+                console.log(1)
                 this.selectBannerList();
             },
 
@@ -167,7 +178,7 @@
                     url : "/admin/banner/selectBannerList.do",
                     cache : false,
                     dataType : 'json',
-                    data : $("#searchExposureLocation").val(),
+                    data : {searchTitle: $("#searchTitle").val(), searchExposureLocation: $("#searchExposureLocation").val()},
                     type : 'Get',
                     success : function(data) {
                         // 배너 리스트 생성

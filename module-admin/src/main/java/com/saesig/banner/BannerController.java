@@ -23,8 +23,9 @@ public class BannerController {
 
     @GetMapping("view")
     public String bannerList(Model model) throws Exception {
+        model.addAttribute("exposureLocation", enumMapperFactory.get("exposureLocation"));
 
-        return "/banner/bannerList";
+        return "/banner/view";
     }
 
     @GetMapping({"/{id}/form", "/form"})
@@ -48,9 +49,8 @@ public class BannerController {
     @ResponseBody
     public Map<String, Object> selectBannerList(BannerDto bd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
-        List<BannerDto> result = null;
 
-        result =  bannerService.selectBannerList(bd);
+        List<BannerDto> result = bannerService.selectBannerList(bd);
 
         resultMap.put("list", result);
 
@@ -145,7 +145,7 @@ public class BannerController {
         return resultMap;
     }
 
-    @RequestMapping(value = "updateBannerSort.do")
+    @PostMapping(value = "updateBannerSort.do")
     @ResponseBody
     public Map<String, Object> updateBannerSort(@RequestBody BannerDto bd, @LoginMember SessionMember member) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();

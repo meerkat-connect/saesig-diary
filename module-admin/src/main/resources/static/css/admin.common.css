@@ -318,7 +318,7 @@ body::-webkit-scrollbar-track {
 
 /* banner-wrap */
 .banner-wrap {margin-top:30px;}
-.banner-wrap .banner-select .banner-list {overflow: scroll; overflow-x: hidden; height: 500px; padding-right: 5px; padding-bottom: 5px;}
+.banner-wrap .banner-select .banner-list {overflow: scroll; overflow-x: hidden; height: 510px; padding-right: 5px; padding-bottom: 5px;}
 .banner-wrap .banner-select .banner-list .text-center {border: 1px solid #dee2e6; border-radius: 20px;}
 .banner-wrap .banner-select .banner-list .banner {display: flex; align-items: center; border: 1px solid #dee2e6; border-radius: 20px; padding: 20px 40px 20px 0px;}
 .banner-wrap .banner-select .banner-list .banner .banner-thumbnail {position: relative; width: 50%; border: 1px solid #dee2e6; border-radius: 20px;}
