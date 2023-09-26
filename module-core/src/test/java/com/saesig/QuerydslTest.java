@@ -3,7 +3,6 @@ package com.saesig;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.member.QMember;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("local")
-public class QuerydslTest {
+class QuerydslTest {
     @Autowired
     EntityManager em;
-
-    @BeforeAll
-    public static void before() {
-        System.setProperty("jasypt.encryptorKey", "saesig");
-    }
 
     @Test
     @DisplayName("Querydsl 회원 조회")

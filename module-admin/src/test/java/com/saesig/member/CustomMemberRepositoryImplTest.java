@@ -32,11 +32,6 @@ class CustomMemberRepositoryImplTest {
     EntityManager em;
     JPAQueryFactory jpaQueryFactory;
 
-    @BeforeAll
-    static void beforeAll() {
-        System.setProperty("jasypt.encryptorKey", "saesig");
-    }
-
     @BeforeEach
     void beforeEach() {
         jpaQueryFactory = new JPAQueryFactory(em);
