@@ -31,7 +31,7 @@ public class PopupManageController {
     public String popupList(Model model) throws Exception {
         model.addAttribute("exposureLocation", enumMapperFactory.get("exposureLocation"));
 
-        return "/popupManage/view";
+        return "popupManage/view";
     }
 
     @GetMapping({"/{id}/form", "/form"})
@@ -42,12 +42,12 @@ public class PopupManageController {
             BannerDto banner = bannerService.selectBanner(id.get());
             model.addAttribute("banner", banner);
 
-            return "/popupManage/form";
+            return "popupManage/form";
         }else {
             BannerDto banner = new BannerDto();
             model.addAttribute("banner", banner);
 
-            return "/popupManage/form";
+            return "popupManage/form";
         }
     }
 

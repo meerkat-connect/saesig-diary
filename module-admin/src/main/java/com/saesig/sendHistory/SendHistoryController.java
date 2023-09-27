@@ -25,7 +25,7 @@ public class SendHistoryController {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
 
-        return "/sendHistory/view";
+        return "sendHistory/view";
     }
 
     @GetMapping("selectSendHistoryList.do")
@@ -37,7 +37,7 @@ public class SendHistoryController {
 
         dtd.setDraw(shd.getDraw());
         dtd.setData(list);
-        if(list.size() == 0) {
+        if(list.isEmpty()) {
             dtd.setRecordsFiltered(0);
             dtd.setRecordsTotal(0);
         }else {
@@ -56,6 +56,6 @@ public class SendHistoryController {
         SendHistoryDto sendHistory = sendHistoryService.selectSendHistory(id);
         model.addAttribute("sendHistory", sendHistory);
 
-        return "/sendHistory/form";
+        return "sendHistory/form";
     }
 }
