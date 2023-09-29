@@ -176,26 +176,14 @@
                         "icon": "icofont icofont-user-alt-3"
                     }
                 },
-                'contextmenu': {
-                    'items': {
-                        "regist": {
-                            "separator_before": false,
-                            "separator_after": false,
-                            "label": "하위 등록",
-                            "action": function (obj) {
-                                $('#roleForm')[0].reset();
-                                $('#id').val('');
-                                $('#upperId').val(_this.selectedNode.original.id);
-                                $('#upperName').val(_this.selectedNode.original.name);
-                            }
-                        }
-                    }
-                },
-                'plugins': ['types', 'contextmenu']
+                'plugins': ['types']
             }).bind("select_node.jstree", function (event, data) {
                 _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
                 _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
                 memberMappingController.findMappedMembers(_this.selectedNode.original.id);
+            }).bind('loaded.jstree',function(){
+                const firstNodeId = _this.roles[0].id
+                _this.$jstree.jstree("select_node", "#"+ firstNodeId);
             });
         },
 

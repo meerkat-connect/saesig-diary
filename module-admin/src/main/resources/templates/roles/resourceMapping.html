@@ -94,6 +94,9 @@
                 }
             }).bind('select_node.jstree', function (event, data) {
                 resourceController.init(_this.$jstree.jstree('get_selected', true)[0].original.id);
+            }).bind('loaded.jstree',function(){
+                const firstNodeId = _this.roles[0].id
+                _this.$jstree.jstree("select_node", "#"+ firstNodeId);
             });
         },
     };

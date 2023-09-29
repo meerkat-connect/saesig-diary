@@ -462,9 +462,10 @@ table.dataTable td {
     padding-top: 0.755em;
 }
 .dataTables_wrapper .dataTables_paginate {
+    margin: 30px 0px 30px 0px;
     float: right;
     text-align: right;
-    padding-top: 0.25em;
+    /*padding-top: 0.25em;*/
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     border-radius: 25px;

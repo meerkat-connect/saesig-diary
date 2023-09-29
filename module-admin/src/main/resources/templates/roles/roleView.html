@@ -145,6 +145,9 @@
                 _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
                 _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
                 _this.print();
+            }).bind('loaded.jstree',function(){
+                const firstNodeId = _this.roles[0].id
+                _this.$jstree.jstree("select_node", "#"+ firstNodeId);
             });
         },
 

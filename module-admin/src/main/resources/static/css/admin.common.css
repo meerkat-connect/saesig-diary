@@ -1,5 +1,19 @@
-* {
-    outline: none !important;
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+body {
+    font-family: Pretendard;
+}
+b, strong {
+    font-weight:700;
+}
+
+*:focus {
+    box-shadow: 0 0 0 0.125rem rgba(13, 110, 253, 0.25) !important;
+}
+
+.card { padding: 1rem;}
+.card-block {
+    padding-top: 1.25rem;
+    padding: 0;
 }
 
 .pcoded .pcoded-navbar .pcoded-item > li > a:hover{color:#FF8031 !important;}
@@ -50,6 +64,10 @@ textarea {
 
 .btn:not(.input-group-text) {
     min-width:6rem;
+}
+
+input:disabled, input[readonly] {
+    background-color: #f3f3f3 !important;
 }
 
 .btn-gray {
@@ -103,7 +121,11 @@ textarea {
     border: 2px solid #ff8031;
 }
 
-.btn-primary:hover {
+.border-checkbox-section .border-checkbox-group .border-checkbox-label:before {
+    border: 2px solid #F3F3F3;
+}
+
+.btn-primary:hover, .btn-primary:focus {
     background-color: #FF6200 !important;
     border-color: #FF6200 !important;
 }
@@ -399,6 +421,14 @@ table.dataTable tbody tr.selected > *{
     background-color: #F8F7F7 !important;
 }
 
+.modal-body {
+    padding: 2rem;
+}
+.modal-header{
+    background: #ff8031;
+    color:white;
+}
+
 .modal-content-2 {
     position: relative;
     display: flex;
@@ -452,8 +482,9 @@ table.dataTable tbody tr.selected > *{
     white-space: nowrap;
 }
 
-.dt-center > button {
-    min-width: 0 !important;
+.dt-center > button:hover {
+    background: #ff8031 !important;
+    color: white !important;
 }
 
 .ord-up-arrow {
@@ -467,10 +498,12 @@ table.dataTable tbody tr.selected > *{
 .ord-up-btn {
     background-color: #333333;
     border-color: #333333;
+    min-width: 0 !important;
 }
 
 .ord-down-btn {
     border-color: #D9D9D9;
+    min-width: 0 !important;
 }
 
 .ord-up-arrow, .ord-down-arrow {
