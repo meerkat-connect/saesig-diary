@@ -25,7 +25,7 @@ public class BannerController {
     public String bannerList(Model model) throws Exception {
         model.addAttribute("exposureLocation", enumMapperFactory.get("exposureLocation"));
 
-        return "/banner/view";
+        return "banner/view";
     }
 
     @GetMapping({"/{id}/form", "/form"})
@@ -36,12 +36,12 @@ public class BannerController {
             BannerDto banner = bannerService.selectBanner(id.get());
             model.addAttribute("banner", banner);
 
-            return "/banner/form";
+            return "banner/form";
         }else {
             BannerDto banner = new BannerDto();
             model.addAttribute("banner", banner);
 
-            return "/banner/form";
+            return "banner/form";
         }
     }
 

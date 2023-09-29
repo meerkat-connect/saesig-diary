@@ -29,7 +29,7 @@ public class TemplateManageController {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
 
-        return "/templateManage/view";
+        return "templateManage/view";
     }
 
     @GetMapping("selectTemplateList.do")
@@ -41,7 +41,7 @@ public class TemplateManageController {
 
         dtd.setDraw(tmd.getDraw());
         dtd.setData(list);
-        if(list.size() == 0) {
+        if(list.isEmpty()) {
             dtd.setRecordsFiltered(0);
             dtd.setRecordsTotal(0);
         }else {
@@ -61,12 +61,12 @@ public class TemplateManageController {
             TemplateManageDto template = templateManageService.selectTemplate(id);
             model.addAttribute("template", template);
 
-            return "/templateManage/form";
+            return "templateManage/form";
         }else {
             TemplateManageDto template = new TemplateManageDto();
             model.addAttribute("template", template);
 
-            return "/templateManage/form";
+            return "templateManage/form";
         }
     }
 

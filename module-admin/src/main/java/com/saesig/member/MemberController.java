@@ -47,9 +47,9 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
-    public String detailEntryPoint(@PathVariable Long id, Model model) {
+    public String entrypointOfDetailView(@PathVariable Long id, Model model) {
         model.addAttribute("id", id);
-        return "member/entryPoint";
+        return "member/entrypoint";
     }
 
     @PatchMapping("/{id}")
@@ -58,7 +58,7 @@ public class MemberController {
         Optional<Member> byNickname = memberService.findByNickname(memberUpdateDto.getNickname());
         if(byNickname.isPresent()) {
             Member member = byNickname.get();
-            if(member.getId() != id) {
+            if(!member.getId().equals(id)) {
                 throw new NicknameDuplicateException("닉네임이 중복됩니다.", "nickname");
             }
         }
