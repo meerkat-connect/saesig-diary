@@ -10366,8 +10366,6 @@ body.menu-bottom #collapse-menu {
 .border-checkbox-section .border-checkbox-group {
   display: inline-block; }
   .border-checkbox-section .border-checkbox-group .border-checkbox:checked + .border-checkbox-label:after {
-    -webkit-animation: check linear 0.5s;
-    animation: check linear 0.5s;
     opacity: 1;
     border-color: #ff8031; }
     .border-checkbox-section .border-checkbox-group .border-checkbox:checked + .border-checkbox-label:after .border-checkbox-label:before {

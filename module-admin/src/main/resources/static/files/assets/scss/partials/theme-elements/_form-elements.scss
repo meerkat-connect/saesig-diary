@@ -319,11 +319,12 @@ $form-valid-color: $success-color, $warning-color, $danger-color;
             margin: 0.25rem;
             width: 20px;
             height: 20px;
-            -webkit-transition: -webkit-transform 0.28s ease;
-            transition: -webkit-transform 0.28s ease;
-            transition: transform 0.28s ease, -webkit-transform 0.28s ease;
+            //-webkit-transition: -webkit-transform 0.28s ease;
+            //transition: -webkit-transform 0.28s ease;
+            //transition: transform 0.28s ease, -webkit-transform 0.28s ease;
             border-radius: 50%;
-            border: 0.125rem solid $primary-color;
+            //border: 0.125rem solid $primary-color;
+            border: 0.125rem solid #ACACAC;
         }
     }
 
@@ -443,8 +444,8 @@ $radio-bg-color: $primary-color, $warning-color, $default-color, $danger-color, 
         display: inline-block;
 
         .border-checkbox:checked + .border-checkbox-label:after {
-            -webkit-animation: check linear 0.5s;
-            animation: check linear 0.5s;
+            //-webkit-animation: check linear 0.5s;
+            //animation: check linear 0.5s;
             opacity: 1;
             border-color: $primary-color;
 
@@ -453,6 +454,10 @@ $radio-bg-color: $primary-color, $warning-color, $default-color, $danger-color, 
                     border-color: #eee;
                 }
             }
+        }
+
+        .border-checkbox:checked + .border-checkbox-label:before {
+            border: 2px solid #ff8031;
         }
 
         .border-checkbox-label {
