@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.thymeleaf.util.StringUtils;
 
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class CustomAdminFaqRepositoryImpl implements CustomAdminFaqRepository {
         QMember qMember = QMember.member;
 
         Integer pageNum = faqRequestDto.getStart() / faqRequestDto.getLength();
-        PageRequest of = PageRequest.of(pageNum, faqRequestDto.getLength(), Sort.by("ord"));
+        PageRequest of = PageRequest.of(pageNum, faqRequestDto.getLength());
         BooleanBuilder builder = new BooleanBuilder();
 
         if (!StringUtils.isEmpty(faqRequestDto.getTitle())) {
@@ -55,6 +54,7 @@ public class CustomAdminFaqRepositoryImpl implements CustomAdminFaqRepository {
                 .where(builder)
                 .offset(of.getOffset()) //0부터 시작 (zero index)
                 .limit(of.getPageSize()) // 최대 2건 조회
+                .orderBy(qFaq.ord.asc())
                 .fetchResults();
 
         return new PageImpl<>(faqs.getResults(), of, faqs.getTotal());
