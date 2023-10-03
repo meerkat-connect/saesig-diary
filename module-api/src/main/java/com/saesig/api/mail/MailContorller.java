@@ -14,8 +14,6 @@ public class MailContorller {
     @GetMapping("/sendMail")
     @ResponseBody
     public String sendMail(@RequestParam String memberEmail) {
-        MailDto test = mailService.createMail("TEST", memberEmail);
-        mailService.sendMail(test);
 
         return "ok";
     }

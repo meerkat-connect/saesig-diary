@@ -1,5 +1,7 @@
 package com.saesig.member;
 
+import com.saesig.api.mail.MailDto;
+import com.saesig.api.mail.MailService;
 import com.saesig.common.RequestDto;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.member.MemberStatus;
@@ -21,7 +23,7 @@ import java.util.Optional;
 public class MemberService {
     private final MemberAdminRepository memberAdminRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final MailService mailService;
 
     public DataTablesResponseDto findAll(MemberRequestDto memberRequestDto) {
         Integer pageNum = memberRequestDto.getStart() / memberRequestDto.getLength();
@@ -84,6 +86,21 @@ public class MemberService {
         String newPassword = generateTemporaryPassword(10);
         member.setTemporaryPassword(member.getPassword(), newPassword);
         memberAdminRepository.save(member);
+
+        String subject = "새식일기 임시 비밀번호 안내 이메일입니다.";
+        String message = "안녕하세요. 새식일기 임시 비밀번호 안내 메일입니다. "
+                + "\n" + "회원님의 임시 비밀번호는 아래와 같습니다. 로그인 후 반드시 비밀번호를 변경해주세요." + "\n";
+        String fromAddress = "meerkat@gmail.com";
+
+        MailDto mailDto = MailDto.builder()
+                .toAddress(member.getEmail())
+                .subject(subject)
+                .message(message + newPassword)
+                .template("mail/tempPasswordTemplate")
+                .fromAddress(fromAddress)
+                .build();
+
+        mailService.sendMail(mailDto);
 
         return member.getId();
     }

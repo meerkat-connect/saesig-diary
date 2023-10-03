@@ -1,4 +1,4 @@
-<form th:object="${memberDetail}" method="post" id="detailForm" name="detailForm" >
+<form th:object="${memberDetail}" method="post" id="detailForm" name="detailForm">
     <input type="hidden" name="id" id="id" th:value="${memberId}">
     <div class="card-header  p-b-0">
         <h3 class="sub-title"><strong>기본정보</strong></h3>
@@ -26,13 +26,13 @@
                     <input type="hidden" id="prevNickname" name="prevNickname" th:value="*{nickname}">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="nickname"><strong>닉네임</strong></label>
                     <div class="col-sm-12">
-                        <input type="text" class="form-control form-control-round" th:field="*{nickname}" >
+                        <input type="text" class="form-control form-control-round" th:field="*{nickname}">
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 mb-3">
                 <div class="row form-group mb-3">
-                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" ><strong>회원상태</strong></label>
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>회원상태</strong></label>
                     <div class="col-sm-12">
                         <select class="form-select form-control form-control-round custom-select" id="status" name="status" th:value="*{status.value}">
                             <option th:each="ms : ${memberStatus}" th:value="${ms.key}" th:text="${ms.value}">value</option>
@@ -91,10 +91,20 @@
 
     <script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
     <script>
-        $(function(){
-            $('#temporaryPasswordBtn').on('click',function() {
-                if(confirm('임시 비밀번호를 발급하시겠습니까?')) {
-
+        $(function () {
+            $('#temporaryPasswordBtn').on('click', function () {
+                if (confirm('임시 비밀번호를 발급하시겠습니까?')) {
+                    const id = $('#id').val();
+                    $.ajax({
+                        method: 'post',
+                        url: `/admin/members/${id}/generateTemporaryPassword`,
+                        dataType: 'json'
+                    }).done(function () {
+                        alert('임시 비밀번호가 발급되었습니다.');
+                    }).fail(function (error) {
+                        alert('임시 비밀번호 발급에 실패하였습니다.');
+                        console.log(JSON.stringify(error, null, 4));
+                    })
                 }
             })
 
@@ -105,18 +115,18 @@
                     const formData = $('#detailForm').serializeObject();
                     const memberId = $('#id').val();
                     $.ajax({
-                        method:'patch',
-                        url:`/admin/members/${memberId}`,
-                        contentType:'application/json',
+                        method: 'patch',
+                        url: `/admin/members/${memberId}`,
+                        contentType: 'application/json',
                         data: JSON.stringify(formData)
-                    }).done(function(response){
+                    }).done(function (response) {
                         alert('수정되었습니다..');
-                    }).fail(function(error){
+                    }).fail(function (error) {
                         alert(error.responseJSON.message);
                     })
                 }
             });
         })
     </script>
-<!--    generateTemporaryPassword -->
+    <!--    generateTemporaryPassword -->
 </form>

@@ -132,7 +132,6 @@ public class MemberController {
     @PostMapping("/{id}/generateTemporaryPassword")
     @ResponseBody
     public Long generateTemporaryPassword(@PathVariable Long id) {
-        //발송 시점 : 임시 비밀번호 발급인 경우 mail template 정보를 가져와서 내용을 replace
         return memberService.generateTemporaryPassword(id);
     }
 
