@@ -753,7 +753,7 @@ table.dataTable tbody tr.selected > * {
 }
 
 .btn-close {
-    background: url('/css/images/x_button.png') center/2em auto no-repeat;
+    background: url('/css/images/x-button.png') center/2em auto no-repeat;
     opacity: 1
 }
 
