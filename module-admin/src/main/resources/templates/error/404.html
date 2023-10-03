@@ -7,52 +7,31 @@
     <meta name="author" content="Codedthemes">
 
     <link rel="shortcut icon" href="img/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="/files/extra-pages/404/1/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/files/extra-pages/404/1/css/style.css"/>
 </head>
+
 <body>
 
-<a href="#" class="logo-link" title="back home">
-    <img class="logo" src="/css/images/logo.png" alt="Theme-Logo">
-</a>
 <div class="content">
-    <div class="content-box">
+    <div class="content-box text-center">
         <div class="big-content" style="width:auto; min-height:10px;">
             <img src="/css/images/404image.png" alt="404" style="max-width:100%; height:auto;">
-            <!--<div class="list-square">
-                <span class="square"></span>
-                <span class="square"></span>
-                <span class="square"></span>
-            </div>
-
-            <div class="list-line">
-                <span class="line"></span>
-                <span class="line"></span>
-                <span class="line"></span>
-                <span class="line"></span>
-                <span class="line"></span>
-                <span class="line"></span>
-            </div>
-
-            <i class="fa fa-search" aria-hidden="true"></i>-->
-
-            <div class="clear"></div>
         </div>
 
         <h1>죄송합니다. 요청하신 페이지를 찾을 수 없어요.</h1>
-        <p>입력하신 주소가 정확한지 다시 한번 확인해주세요.</p>
+        <h1>입력하신 주소가 정확한지 다시 한번 확인해주세요.</h1>
+        <button id="prevBtn"> 이전으로</button>
     </div>
 </div>
-<!--<footer class="light">
-    <ul>
-        <li><a href="#">Support</a></li>
-        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-    </ul>
-</footer>-->
 
 <script type="text/javascript" src="/files/bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="/files/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-
+<script>
+    $(function () {
+        $('#prevBtn').on('click', function () {
+            history.back();
+        });
+    });
+</script>
 </body>
 </html>

@@ -121,6 +121,11 @@ input:disabled, input[readonly] {
 }
 
 .border-checkbox-section .border-checkbox-group .border-checkbox-label:after {
+    border-right: 0 !important;
+    border-top: 0 !important;
+}
+
+.border-checkbox-section .border-checkbox-group .border-checkbox:checked  + .border-checkbox-label:after {
     border-right: 2px solid white !important;
     border-top: 2px solid white !important;
 }
@@ -345,36 +350,6 @@ div.dataTables_wrapper div.dataTables_info {
     border-top-left-radius: 10px !important;
     border-top-right-radius: 10px !important;
     background-color: #F8F7F7 !important;
-}
-
-/* scroll */
-body::-webkit-scrollbar {
-    width: 10px; /* 스크롤바의 너비 */
-}
-
-body::-webkit-scrollbar-thumb {
-    height: 10px;
-    background-color: #ff8031;
-    border-radius: 25px;
-}
-
-body::-webkit-scrollbar-track {
-    background: transparent; /*스크롤바 뒷 배경 색상*/
-}
-
-.banner-wrap .banner-select .banner-list::-webkit-scrollbar {
-    width: 10px; /* 스크롤바의 너비 */
-    border-radius: 25px;
-}
-
-.banner-wrap .banner-select .banner-list::-webkit-scrollbar-thumb {
-    height: 10px;
-    background-color: #ff8031;
-    border-radius: 25px;
-}
-
-.banner-wrap .banner-select .banner-list::-webkit-scrollbar-track {
-    background: transparent; /*스크롤바 뒷 배경 색상*/
 }
 
 /* banner-wrap */
