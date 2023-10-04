@@ -8,8 +8,9 @@ b, strong {
     font-weight: 700;
 }
 
-*:focus {
-    box-shadow: 0 0 0 0.125rem rgba(13, 110, 253, 0.25) !important;
+.form-control:focus {
+    box-shadow: none !important;
+    border-color:#171a19 !important;
 }
 
 .card {
@@ -650,6 +651,7 @@ table.dataTable tbody tr.selected > * {
     color: white;
     border-top-left-radius: calc(1.3rem - 3px);
     border-top-right-radius: calc(1.3rem - 3px);
+    padding: 1rem 1.2rem 1rem 1.6rem;
 }
 
 .modal-header .modal-title {
@@ -718,7 +720,7 @@ table.dataTable tbody tr.selected > * {
     white-space: nowrap;
 }
 
-.dt-center > button:hover {
+.dt-center > .btn-gray:hover {
     background: #ff8031 !important;
     color: white !important;
 }
