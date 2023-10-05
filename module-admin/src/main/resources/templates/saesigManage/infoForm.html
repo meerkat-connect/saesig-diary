@@ -111,7 +111,7 @@
                 <div class="row form-group required mb-3">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>등록일시</strong></label>
                     <div class="col-sm-12">
-                        <input type="text" th:value="${createdAt}"
+                        <input type="text" th:field="*{createdAt}"
                                class="form-control form-control-sm form-control-round"
                                readonly>
 

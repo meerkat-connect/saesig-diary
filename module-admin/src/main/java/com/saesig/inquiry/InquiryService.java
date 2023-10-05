@@ -13,4 +13,5 @@ public interface InquiryService {
 
     public Long deleteInquiry(Long[] ids) throws Exception;
 
+    public InquiryDto selectInquiryById(Long id) throws Exception;
 }

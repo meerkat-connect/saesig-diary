@@ -17,5 +17,5 @@ public interface NewsMapper {
 
     int deleteNews(@Param("ids") Long[] ids);
 
-    List<NewsAnswerDto> selectAnswerById(Long id);
+    NewsDto selectNewsById(NewsDto param);
 }

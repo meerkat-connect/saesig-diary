@@ -18,4 +18,6 @@ public interface InquiryMapper {
     public List<InquiryAnswerDto> selectAnswerById(Long id);
 
     public Long deleteInquiry(@Param("ids") Long[] ids);
+
+    public InquiryDto selectInquiryById(@Param("id") Long id);
 }
