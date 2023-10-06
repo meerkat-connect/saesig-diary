@@ -9,7 +9,6 @@
         n.id,
         n.category,
         n.title,
-        n.content,
         n.is_deleted,
         FORMATDATETIME(n.created_at, 'yyyy-MM-dd') as created_at,
         n.created_by,
@@ -55,6 +54,11 @@
         #{item}
     </foreach>
     </update>
+
+    <select id="selectNewsById" parameterType="com.saesig.news.NewsDto" resultType="com.saesig.news.NewsDto">
+        SELECT n.*, m.nickname, m.email as memberId FROM post n LEFT JOIN member m ON n.modified_by = m.id
+        WHERE n.id = #{id}
+    </select>
 
 
 </mapper>

@@ -45,8 +45,14 @@
                 })
                 $('#answerDate').val();
 
-                $('#answerInsert').on('click',function () {
+                $(document).on('click','#answerInsert',function () {
                     _this.answerInsert();
+                })
+
+                $(document).on('click','#answerCancel',function (){
+                    if (confirm('작성된 내용이 사라집니다. 취소하시겠습니까?')){
+                        $('#contentPanel').empty();
+                    }
                 })
 
 
@@ -143,52 +149,65 @@
                 table.on('select', function (e, dt, type, indexes) {
                     const targetData = table.rows(indexes).data().toArray();
                     const targetId = targetData[0].id;
-                    $('.InquiryTitle').text('[' + targetData[0].category.value + '] ' + targetData[0].title)
-                    $('.InquiryCreatedMemberName').text(targetData[0].nickname + '(' + targetData[0].memberId + ')')
-                    $('.InquiryCreatedDate').text(targetData[0].modifiedAt)
-                    $('.InquiryContentCon').text(targetData[0].content)
-                    $('.targetInquiryCon').attr('mekc-inquiry-id', targetId)
-                    $('#answerTitle').val('RE: '+targetData[0].title)
-                    var currentDate = new Date();
-                    var yyyy = currentDate.getFullYear();
-                    var mm = String(currentDate.getMonth() + 1).padStart(2, '0');
-                    var dd = String(currentDate.getDate()).padStart(2, '0');
-                    var formattedDate = yyyy + '-' + mm + '-' + dd;
-                    $('#answerDate').val(formattedDate)
-                    $('#answerStatus').val('0')
-                    $('select').niceSelect('update');
-                    $('#answerContents').val('')
-                    $('#answerManagerId').val([[${loginSession.id}]])
-                    $('#answerManager').val([[${loginSession.nickname}]])
+                    // $('.InquiryTitle').text('[' + targetData[0].category.value + '] ' + targetData[0].title)
+                    // $('.InquiryCreatedMemberName').text(targetData[0].nickname + '(' + targetData[0].memberId + ')')
+                    // $('.InquiryCreatedDate').text(targetData[0].modifiedAt)
+                    // $('.InquiryContentCon').text(targetData[0].content)
+                    // $('.targetInquiryCon').attr('mekc-inquiry-id', targetId)
 
                     $.ajax({
-                        type: "post",
-                        async: false,
+                        type: 'get',
+                        url: `/admin/inquiry/getInquiryById.do?id=+`+targetId,
                         enctype: 'multipart/form-data',
-                        url: "/admin/inquiry/getAnswerById.do",
-                        dataType: 'json',
-                        data: JSON.stringify(targetId), // 객체를 JSON 문자열로 변환하여 전달
-                        contentType: 'application/json', // 전달하는 데이터의 타입을 명시
+                        async: false,
                         cache: false,
-                        success: function (result) {
-                            if (result.length != 0){
-                                $('#answerStatus').val('1')
-                                $('select').niceSelect('update');
-                                $('#answerTitle').val(result[0]['title'])
-                                $('#answerContents').val(result[0]['content'])
-                                $('#answerManagerId').val(result[0]['createdBy'])
-                                $('#answerDate').val(result[0]['createdAt'])
-                                if(result.length > 1){
-                                    $('#answerManager').val(result[0]['createdByNickName']+'(수정됨)')
+                        dataType: 'html'
+                    }).done(function (response) {
+                        $('#contentPanel').html(response);
+                        $.ajax({
+                            type: "post",
+                            async: false,
+                            enctype: 'multipart/form-data',
+                            url: "/admin/inquiry/getAnswerById.do",
+                            dataType: 'json',
+                            data: JSON.stringify(targetId), // 객체를 JSON 문자열로 변환하여 전달
+                            contentType: 'application/json', // 전달하는 데이터의 타입을 명시
+                            cache: false,
+                            success: function (result) {
+                                if (result.length != 0){
+                                    $('#answerStatus').val('1')
+                                    $('select').niceSelect('update');
+                                    $('#answerTitle').val(result[0]['title'])
+                                    $('#answerContents').val(result[0]['content'])
+                                    $('#answerManagerId').val(result[0]['createdBy'])
+                                    $('#answerDate').val(result[0]['createdAt'])
+                                    if(result.length > 1){
+                                        $('#answerManager').val(result[0]['createdByNickName']+'(수정됨)')
+                                    }else{
+                                        $('#answerManager').val(result[0]['createdByNickName'])
+                                    }
                                 }else{
-                                    $('#answerManager').val(result[0]['createdByNickName'])
+                                    $('#answerTitle').val('RE: '+targetData[0].title)
+                                    var currentDate = new Date();
+                                    var yyyy = currentDate.getFullYear();
+                                    var mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+                                    var dd = String(currentDate.getDate()).padStart(2, '0');
+                                    var formattedDate = yyyy + '-' + mm + '-' + dd;
+                                    $('#answerDate').val(formattedDate)
+                                    $('#answerStatus').val('0')
+                                    $('select').niceSelect('update');
+                                    $('#answerContents').val('')
+                                    $('#answerManagerId').val([[${loginSession.id}]])
+                                    $('#answerManager').val([[${loginSession.nickname}]])
                                 }
+                            },
+                            error: function (e) {
+                                console.log(e)
                             }
-                        },
-                        error: function (e) {
-                            console.log(e)
-                        }
-                    })
+                        })
+                    }).fail(function (error) {
+                    });
+
                 }).on('deselect', function (e, dt, type, indexes) {
                     let rowData = table.rows(indexes).data().toArray();
                 });
@@ -395,108 +414,8 @@
             </div>
             <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
         </div>
-        <div class="row">
-            <div class="col-12 col-lg-6 targetInquiryCon" mekc-inquiry-id="">
-                <div class="card">
-                    <div class="card-header p-b-0">
-                        <h4 class="sub-title"><strong>문의</strong></h4>
-                    </div>
-                    <div class="card-block-small p-t-0">
-                        <p class="InquiryTitleCon">
-                            <strong class="InquiryTitle"></strong>
-                        </p>
-                        <p>
-                            <span class="InquiryCreatedMemberName"></span><br/>
-                            <span class="InquiryCreatedDate"></span>
-                        </p>
-                    </div>
-                    <div class="card-header p-t-0 p-b-0">
-                        <h4 class="sub-title"><strong>문의 내용</strong></h4>
-                    </div>
-                    <div class="card-block-small p-t-0">
-                        <p class="InquiryContentCon">
+        <div id="contentPanel">
 
-                        </p>
-                        <!--                        <div class="mt-2 row"> 첨부파일이라 주석처리 해놓음.-->
-                        <!--                            <ul>-->
-                        <!--                                <li><a href="javascript:void(0)"><i class="ion-paperclip f-18"></i> Cum sociis natoque.pptx</a></li>-->
-                        <!--                                <li><a href="javascript:void(0)"><i class="ion-paperclip f-18"></i> Cum sociis natoque.xlsx</a></li>-->
-                        <!--                            </ul>-->
-                        <!--                        </div>-->
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-6">
-                <div class="card">
-                    <div class="card-header p-b-0">
-                        <h4 class="sub-title"><strong>답변</strong></h4>
-                    </div>
-                    <div class="card-block-small p-t-0">
-                        <div class="mb-3 form-group row required">
-                            <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>상태</strong></div>
-                            <div class="col-sm-12">
-                                <select name="answerStatus"
-                                        class="form-select form-control form-control-round custom-select"
-                                        id="answerStatus" disabled>
-                                    <option value="0">답변대기</option>
-                                    <option value="1">답변완료</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3 form-group row">
-                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                   for="answerTitle"><strong>답변 제목</strong></label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control form-control-round"
-                                       name="answerTitle" id="answerTitle"
-                                       placeholder="Text Input Validation"/>
-                            </div>
-                        </div>
-                        <div class="mb-3 form-group row">
-                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                   for="answerContents"><strong>답변 내용</strong></label>
-                            <div class="col-sm-12">
-                                                                <textarea rows="5" cols="5"
-                                                                          class="form-control form-control-sm"
-                                                                          placeholder="Default textarea"
-                                                                          id="answerContents"
-                                                                          name="answerContents"></textarea>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <div class="col-12 col-lg-6 mb-3 mb-lg-0">
-                                <div class="mb-0 form-group">
-                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                           for="answerManager"><strong>답변자</strong></label>
-                                    <div class="col-sm-12">
-                                        <input type="hidden" name="answerManagerId" id="answerManagerId" value="1"
-                                               placeholder="Text Input Validation" readonly/>
-                                        <input type="text" class="form-control form-control-round"
-                                               name="answerManager" id="answerManager" value=""
-                                               placeholder="Text Input Validation" readonly/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <div class="mb-0 form-group">
-                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                           for="answerDate"><strong>답변일자</strong></label>
-                                    <div class="col-sm-12">
-                                        <input type="text"
-                                               class="form-control form-control-round"
-                                               name="answerDate" id="answerDate" placeholder="Text Input Validation"
-                                               readonly/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-block-small text-center">
-                        <button class="btn btn-disabled m-r-5" id="answerCancel">취소</button>
-                        <button class="btn btn-primary" id="answerInsert">저장</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 

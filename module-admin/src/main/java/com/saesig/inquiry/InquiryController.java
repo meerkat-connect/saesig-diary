@@ -3,11 +3,7 @@ package com.saesig.inquiry;
 import com.saesig.common.mybatis.DataTablesDto;
 import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
-import com.saesig.domain.inquiry.InquiryCategory;
-import com.saesig.domain.inquiry.InquiryStatus;
 import com.saesig.global.enumCode.EnumMapperFactory;
-import com.saesig.global.enumCode.EnumMapperValue;
-import com.saesig.saesigManage.AdoptHistoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,6 +49,12 @@ public class InquiryController {
         return dtd;
     }
 
+    @GetMapping(value = "/getInquiryById.do")
+    public String getInquiryById(InquiryDto param, Model model) throws Exception {
+        model.addAttribute("inquiry", inquiryService.selectInquiryById(param.getId()));
+        return "inquiry/inquiryForm";
+    }
+
     @RequestMapping(value = "/insertAnswer.do")
     @ResponseBody
     public boolean insertAnswer(@RequestBody InquiryAnswerDto param) throws Exception {
@@ -71,4 +73,5 @@ public class InquiryController {
     public Long deleteInquiry(@RequestBody Long[] ids) throws Exception{
         return inquiryService.deleteInquiry(ids);
     }
+
 }

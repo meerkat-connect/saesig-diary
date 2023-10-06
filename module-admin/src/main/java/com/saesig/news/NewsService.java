@@ -13,4 +13,6 @@ public interface NewsService {
 
     public int DeleteNews(Long[] ids) throws Exception;
 
+    public NewsDto selectNewsById(NewsDto param) throws Exception;
+
 }

@@ -19,12 +19,12 @@ public class InquiryDto extends RequestDto {
     private String title;
     private String content;
     private String isDeleted;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
     private Long createdBy;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime modifiedAt;
     private Long modifiedBy;
     private String nickname;

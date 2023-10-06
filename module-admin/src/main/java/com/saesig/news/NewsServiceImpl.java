@@ -37,4 +37,9 @@ public class NewsServiceImpl implements NewsService {
         return newsMapper.deleteNews(ids);
     };
 
+    @Override
+    public NewsDto selectNewsById(NewsDto param) throws Exception{
+        return newsMapper.selectNewsById(param);
+    };
+
 }

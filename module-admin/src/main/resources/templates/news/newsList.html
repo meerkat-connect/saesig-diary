@@ -49,32 +49,35 @@
                 })
                 $('#answerDate').val();
 
-                $('#newsInsert').on('click',function () {
-                    _this.newsInsert();
-                })
-
-                $('#newsCancel').on('click',function (){
+                $(document).on('click','#newsCancel',function (){
                     $('#contentCard').hide()
                 })
 
                 $('#insertBtn').on('click',function (){
-                    $('#contentCard').show()
-                    $('#contentCard').find('input').val('')
-                    $('#contentCard').find('textarea').each(function (){
-                        ckeditorApp.editorList[$(this).attr('id')].setData('');
-                        $(this).val('')
-                    })
-                    $('#contentCard').find('select').each(function () {
-                        $(this).val($($(this).find('option')[0]).val());
-                    })
-                    $('select').niceSelect('update');
+                    $.ajax({
+                        type: 'get',
+                        url: `/admin/news/getNewsForm.do`,
+                        enctype: 'multipart/form-data',
+                        async: false,
+                        cache: false,
+                        dataType: 'html'
+                    }).done(function (response) {
+                        $('#contentPanel').html(response);
+                        $('#created_name').val([[${loginSession.nickname}]]+'('+[[${loginSession.email}]]+')')
+                        const category = /*[[${newsCategories}]]*/null;
+                        let option = ''
+                        $(category).each(function (){
+                         option += '<option value="'+this.key+'">'+this.value+'</option>';
+                        })
+                        $(document).find('#category').append(option)
+                        ckeditorApp.setckeditor();
+                        $(document).find('select').niceSelect();
+                    }).fail(function (error) {
+                    });
                 })
-
                 $('#deleteBtn').on('click',function (){
                     newsList.delete();
                 })
-
-
             },
 
             newsListLoad: function () {
@@ -165,19 +168,31 @@
 
                 table.on('select', function (e, dt, type, indexes) {
                     $('#contentCard').show()
-
                     const targetData = table.rows(indexes).data().toArray();
                     const targetId = targetData[0].id;
+                    $.ajax({
+                        type: 'get',
+                        url: `/admin/news/getNewsById.do`,
+                        enctype: 'multipart/form-data',
+                        async: false,
+                        cache: false,
+                        data: {id : targetId},
+                        dataType: 'html'
+                    }).done(function (response) {
+                        $('#contentPanel').html(response);
+                        ckeditorApp.setckeditor();
+                    }).fail(function (error) {
+                    })
 
-                    console.log(targetData)
-                    $('.targetNewsCon').attr('mekc-news-id', targetId)
-                    $('#category').val(targetData[0].category.key)
-                    $('#isFixed').val(targetData[0].isFixed)
-                    $('#title').val(targetData[0].title)
-                    ckeditorApp.editorList['content'].setData(targetData[0].content)
-                    $('#created_name').val(targetData[0].nickname + '(' + targetData[0].memberId + ')');
-                    $('select').niceSelect('update')
-                    $('#createdAt').val(targetData[0].modifiedAt)
+                    // console.log(targetData)
+                    // $('.targetNewsCon').attr('mekc-news-id', targetId)
+                    // $('#category').val(targetData[0].category.key)
+                    // $('#isFixed').val(targetData[0].isFixed)
+                    // $('#title').val(targetData[0].title)
+                    // ckeditorApp.editorList['content'].setData(targetData[0].content)
+                    // $('#created_name').val(targetData[0].nickname + '(' + targetData[0].memberId + ')');
+                    // $('select').niceSelect('update')
+                    // $('#createdAt').val(targetData[0].modifiedAt)
                 })
             },
 
@@ -327,7 +342,7 @@
                     </div>
                     <!-- //키워드 filter -->
                     <!-- 키워드 filter-btn -->
-                    <div class="mt-1 p-t-20 text-center">
+                    <div class="mt-1 p-t-20 text-center border-top">
                         <button class="btn btn-disabled m-r-5">초기화</button>
                         <button class="btn btn-primary" id="searchBtn">검색</button>
                     </div>
@@ -400,97 +415,8 @@
             </div>
             <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
         </div>
-        <div class="row" style="display: none" id="contentCard">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header p-b-0">
-                        <h4 class="sub-title"><strong>기본정보</strong></h4>
-                    </div>
-                    <input type="hidden" name="id" value=""/>
-                    <div class="card-block-small p-t-0">
-                        <div class="mb-3 form-group row required">
-                            <div class="col-sm-12">
-                                <div class="mb-0 form-group row">
-                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
-                                        <strong>유형</strong>
-                                    </div>
-                                    <div class="col-12">
-                                        <select class="form-select form-select-sm form-control-sm form-control-round custom-select" id="category" name="category">
-                                            <option th:each="newsCategory : ${newsCategories}" th:value="${newsCategory.key}" th:text="${newsCategory.value}">value</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3 form-group row required">
-                            <div class="col-sm-12">
-                                <div class="mb-0 form-group row">
-                                    <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
-                                        <strong>고정글 여부</strong>
-                                    </div>
-                                    <div class="col-12">
-                                        <select name="isFixed" id="isFixed" class="form-select form-control form-control-round custom-select">
-                                            <option value="N">사용안함</option>
-                                            <option value="Y">사용</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3 form-group row">
-                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                   for="title"><strong>제목</strong></label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control form-control-round"
-                                       name="title" id="title"
-                                       placeholder="Text Input Validation"/>
-                            </div>
-                        </div>
-                        <div class="mb-3 form-group row">
-                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                   for="content"><strong>내용</strong></label>
-                            <div class="col-sm-12">
-                                <textarea rows="5" cols="5"
-                                          class="form-control form-control-sm"
-                                          placeholder="Default textarea"
-                                          id="content"
-                                          name="content" mekc-ck-editor></textarea>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <div class="col-12 col-lg-6 mb-3 mb-lg-0">
-                                <div class="mb-0 form-group">
-                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                           for="created_name"><strong>작성자</strong></label>
-                                    <div class="col-sm-12">
-                                        <input type="hidden" name="answerManagerId" id="answerManagerId" value="1"
-                                                readonly/>
-                                        <input type="text" class="form-control form-control-round"
-                                               name="created_name" id="created_name" value=""
-                                               placeholder="작성자(ID)" readonly/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <div class="mb-0 form-group">
-                                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"
-                                           for="createdAt"><strong>작성일시</strong></label>
-                                    <div class="col-sm-12">
-                                        <input type="text"
-                                               class="form-control form-control-round"
-                                               name="createdAt" id="createdAt" placeholder="YYYY-mm-dd"
-                                               readonly/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-block-small text-center">
-                        <button class="btn btn-disabled m-r-5" id="newsCancel">취소</button>
-                        <button class="btn btn-primary" id="newsInsert">저장</button>
-                    </div>
-                </div>
-            </div>
+        <div id="contentPanel">
+
         </div>
     </div>
 

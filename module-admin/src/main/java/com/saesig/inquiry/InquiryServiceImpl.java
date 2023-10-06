@@ -34,4 +34,9 @@ public class InquiryServiceImpl implements InquiryService {
     public Long deleteInquiry(Long[] ids) throws Exception{
         return inquiryMapper.deleteInquiry(ids);
     };
+
+    @Override
+    public InquiryDto selectInquiryById(Long id) throws Exception{
+        return inquiryMapper.selectInquiryById(id);
+    };
 }

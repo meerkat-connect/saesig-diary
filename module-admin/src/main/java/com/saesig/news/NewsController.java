@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+@RequestMapping("/admin/news")
 @RequiredArgsConstructor
 @Controller
 public class NewsController {
@@ -25,14 +27,14 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @GetMapping({"/admin/news/view", "/admin/news/newsList.html"})
+    @GetMapping({"/view", "/newsList.html"})
     public String view(Model model, @LoginMember SessionMember user) {
         model.addAttribute("loginSession", user);
         model.addAttribute("newsCategories", enumFactory.get("newsCategory"));
         return "news/newsList";
     }
 
-    @RequestMapping(value = "/admin/news/getNewsList.do")
+    @RequestMapping(value = "/getNewsList.do")
     @ResponseBody
     public DataTablesDto getNewsList(NewsDto param) throws Exception {
         DataTablesDto dtd = new DataTablesDto();
@@ -49,21 +51,21 @@ public class NewsController {
         return dtd;
     }
 
-    @RequestMapping(value = "/admin/news/insertNews.do")
+    @RequestMapping(value = "/insertNews.do")
     @ResponseBody
     public boolean insertNews(@RequestBody NewsDto param) throws Exception {
         boolean result = newsService.InsertNews(param);
         return result;
     }
 
-    @RequestMapping(value = "/admin/news/UpdateNews.do")
+    @RequestMapping(value = "/UpdateNews.do")
     @ResponseBody
     public boolean UpdateNews(@RequestBody NewsDto param) throws Exception {
         boolean result = newsService.UpdateNews(param);
         return result;
     }
 
-    @DeleteMapping("/admin/news/deleteNews.do")
+    @DeleteMapping("/deleteNews.do")
     @ResponseBody
     public Map<String, Object> deleteItems(@LoginMember SessionMember member, @RequestParam Long[] ids) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
@@ -81,4 +83,19 @@ public class NewsController {
         return resultMap;
     }
 
+    @GetMapping({"/getNewsById.do"})
+    public String getNewsById(Model model, NewsDto param) throws Exception{
+        model.addAttribute("newsCategories", enumFactory.get("newsCategory"));
+        model.addAttribute("news", newsService.selectNewsById(param));
+        return "news/newsForm";
+    }
+
+    @GetMapping({"/getNewsForm.do"})
+    public String getNewsForm(Model model) throws Exception{
+        model.addAttribute("news", new NewsDto());
+        return "news/newsForm.html";
+    }
+
 }
+
+
