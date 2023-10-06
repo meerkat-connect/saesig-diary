@@ -82,7 +82,7 @@
                             <h5><strong>검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn btn-transparent m-r-5" id="deleteBtn">이메일 발송</button>
+                            <button type="button" class="btn btn btn-transparent m-r-5" id="emailSendModalBtn">이메일 발송</button>
                             <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>
                         </div>
                     </div>
@@ -126,6 +126,9 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="emailSendModalContainer" data-bs-backdrop="static" aria-hidden="true"></div>
+
     <script th:inline="javascript">
         const memberController = {
             selectedRow: [],
@@ -135,7 +138,6 @@
 
                 if (memberListTable != null) memberListTable.destroy();
                 this.selectedRow = [];
-                console.log($('#searchForm').serialize())
                 memberListTable = $('#memberListTable').DataTable({
                     select: {
                         selector: 'td:not(:first-child)',
@@ -237,7 +239,19 @@
                     alert('페이지를 불러오는데 실패하였습니다.');
                     console.log(JSON.stringify(error));
                 });
-            }).on('click', '#sendMailBtn', function () {
+            }).on('click', '#emailSendModalBtn', function () {
+                if(memberController.selectedRow.length == 0){
+                    alert('메일 발송을 위해 회원을 선택해 주십시오.');
+                    return ;
+                }
+
+                const emailSendModalUrl = '/admin/members/emailSendModal';
+
+                $("#emailSendModalContainer").load(emailSendModalUrl, function (response, status, xhr) {
+                    if (status == "success") {
+                        $("#emailSendModalContainer").modal("show");
+                    }
+                });
 
             }).on('click', '#searchBtn', function () {
                 memberController.init();

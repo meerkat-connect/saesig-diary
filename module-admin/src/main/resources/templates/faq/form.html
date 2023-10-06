@@ -96,7 +96,6 @@
 
             save: function () {
                 const id = $('#id').val();
-                console.log('save');
                 if (!!id) {
                     // 수정
                     this.update();
@@ -143,7 +142,6 @@
                         url: '/admin/faqs'
                     }).done(function(response){
                         alert('등록 되었습니다.');
-                        console.log(response);
                     }).fail(function(error){
                         if(error.responseJSON.code == "COM-4") {
                             alert('입력값이 유효하지 않습니다.');

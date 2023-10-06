@@ -45,6 +45,19 @@
             id = #{id}
     </select>
 
+    <select id="selectTemplateListByCategory" resultType="com.saesig.templateManage.TemplateManageDto">
+        SELECT
+            id
+            , category
+            , title
+            , content
+        FROM
+            send_template
+        WHERE
+            category = #{category}
+            AND is_enabled = 'Y'
+    </select>
+
     <insert id="insertForm">
         INSERT INTO send_template(
             method

@@ -1,5 +1,6 @@
 package com.saesig.templateManage;
 
+import com.saesig.domain.templateManage.SendCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,11 @@ public class TemplateManageServiceImpl implements TemplateManageService{
     @Override
     public List<TemplateManageDto> selectTemplateList(TemplateManageDto tmd) throws Exception {
         return templateManageMapper.selectTemplateList(tmd);
+    }
+
+    @Override
+    public List<TemplateManageDto> selectTemplateListByCategory(SendCategory category) {
+        return templateManageMapper.selectTemplateListByCategory(category);
     }
 
     @Override

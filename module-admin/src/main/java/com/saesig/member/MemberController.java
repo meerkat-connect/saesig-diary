@@ -2,9 +2,12 @@ package com.saesig.member;
 
 import com.saesig.common.RequestDto;
 import com.saesig.domain.member.Member;
+import com.saesig.domain.templateManage.SendCategory;
 import com.saesig.error.NicknameDuplicateException;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.role.DataTablesResponseDto;
+import com.saesig.templateManage.TemplateManageDto;
+import com.saesig.templateManage.TemplateManageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -19,6 +23,7 @@ import java.util.Optional;
 @RequestMapping("/admin/members")
 public class MemberController {
     private final MemberService memberService;
+    private final TemplateManageService templateManageService;
     private final EnumMapperFactory enumMapperFactory;
 
     @GetMapping("/view")
@@ -139,5 +144,12 @@ public class MemberController {
     @ResponseBody
     public boolean isNicknameDuplicate(@RequestParam String nickname) {
         return memberService.isNicknameDuplicate(nickname);
+    }
+
+    @GetMapping("/emailSendModal")
+    public String emailSendModal(Model model) {
+        List<TemplateManageDto> templates = templateManageService.selectTemplateListByCategory(SendCategory.batch);
+        model.addAttribute("templates", templates);
+        return "member/emailSendModal";
     }
 }

@@ -1,0 +1,143 @@
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content type_1">
+        <div class="modal-header">
+            <h4 class="modal-title">이메일 발송</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-0 form-group">
+                        <div class="row form-group mb-3">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>발신자 주소</strong></label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control form-control-sm form-control-round" value="meerkat@gmail.com" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row form-group mb-3 required">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>템플릿 선택</strong></label>
+                            <div class="col-sm-12">
+                                <select name="selectTemplate" id="selectTemplate" class="form-select form-control form-control-round custom-select">
+                                    <option value="">- 선택 -</option>
+                                    <option th:each="template : ${templates}" th:value="${template.id}" th:text="${template.title}">template title</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group mb-3 m-t-10 required" >
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content">
+                                <strong>내용</strong>
+                            </label>
+                            <div class="col-sm-12">
+                                <textarea rows="5" cols="5" class="form-control form-control-sm form-control-round" name="content" id="content" mekc-ck-editor></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row form-group mb-3 m-t-10" >
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                <strong id="mailReceiveCount">수신자</strong>
+                            </label>
+                            <div class="col-sm-12">
+                                <div class="dt-responsive table-responsive">
+                                    <table id="emailReceiveListTable" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th>아이디</th>
+                                                <th>닉네임</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer text-center">
+            <button type="button" class="btn btn btn-transparent m-r-5" data-bs-dismiss="modal" aria-label="Close">닫기</button>
+            <button type="button" class="btn btn btn-transparent m-r-5" id="emailSendBtn">이메일 발송</button>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    $(function () {
+
+        $('#emailSendBtn').on('click', function () {
+            if(confirm('이메일을 발송하시겠습니까?')){
+
+            }
+        });
+
+        const templates = /*[[${templates}]]*/null;
+
+        $('#selectTemplate').on('change', function () {
+            const id = $(this).val();
+
+            for (template of templates) {
+                if (template.id == id) {
+                    ckeditorApp.editorList['content'].setData(template.content)
+                }
+            }
+        });
+
+        const data = [];
+
+        for(selectedRow of memberController.selectedRow) {
+            $('#memberListTable input[name=tableCheckbox]').each(function(index, value){
+                const $this = $(this);
+                if(selectedRow == $this.data('id')) {
+                    data.push({email : $this.closest('td').next().text(), nickname : $this.closest('td').next().next().text()});
+                }
+                console.log(`selectedRow = ${selectedRow} , index = ${index} , id = ${$this.data('id')}`);
+            })
+        }
+
+        $('#mailReceiveCount').val(data.length);
+
+        $('#emailReceiveListTable').DataTable({
+            "columnDefs": [
+                {className: "dt-center", targets: "_all"}
+            ],
+            stripeClasses: [],
+            pagingType: 'full_numbers',
+            lengthChange: false,
+            responsive: true,
+            ordering: false,
+            searching: false,
+            destroy: true,
+            paging: true,
+            info: false,
+            pageLength: 10,
+            bPaginate: true,
+            bAutoWidth: true,
+            processing: true,
+            data: data,
+
+            columns: [
+                {data: 'email'},
+                {data: 'nickname'},
+            ],
+
+            language: {
+                search: '검색',
+                emptyTable: '데이터가 없습니다.',
+                lengthMenu: '보기',
+                loadingRecords: '로딩중..',
+            },
+        })
+    });
+
+</script>
+
+<script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
+<script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
+<script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
+<script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>

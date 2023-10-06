@@ -8,6 +8,12 @@ b, strong {
     font-weight: 700;
 }
 
+.input-group-dropdown > .form-select {
+    padding-right: 3.5rem;
+    flex: none;
+    width: auto;
+}
+
 .form-control:focus {
     box-shadow: none !important;
     border-color:#171a19 !important;
