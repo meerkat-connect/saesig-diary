@@ -88,6 +88,7 @@
                                         </div>
                                     </div>
                                 </th>
+                                <th>No</th>
                                 <th>유형</th>
                                 <th>제목</th>
                                 <th>순서</th>
@@ -151,6 +152,9 @@
                         method: 'get',
                         "dataSrc": function (res) {
                             if(res.recordsTotal > 0) {
+                                $.each(res.data, function (idx, item) {
+                                    item['rowNumber'] = res.recordsTotal - (res.pageNumber * res.pageSize) - idx;
+                                });
                                 if(res.data[0].ord ===  res.minOrd)
                                     res.data[0].isFirst =true;
                                 if(res.data[res.data.length-1].ord === res.maxOrd)
@@ -172,6 +176,10 @@
                                                 </div>
                                             </div>`;
                             }
+                        },
+                        {
+                            width: "80px",
+                            data: 'rowNumber'
                         },
                         {
                             width: '80px',
