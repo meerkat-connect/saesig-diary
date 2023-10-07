@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.saesig.api.member.auth.SignMapper">
+    <insert id="signup" parameterType="com.saesig.api.member.auth.SignDto">
+        INSERT INTO MEMBER (
+              EMAIL
+            , PASSWORD
+            , PREV_PASSWORD
+            , SIGNUP_METHOD
+            , NICKNAME
+            , MOBILE_NUMBER
+            , STATUS
+            , LAST_LOGGED_AT
+            , SERVICE_AGREEMENT
+            , LOCATION_SERVICE_AGREEMENT
+            , PRIVACY_AGREEMENT
+            , PASSWORD_MODIFIED_AT
+            , MARKETING_SERVICE_AGREEMENT
+            , DELETED_AT
+            , MODIFIED_AT
+            , MODIFIED_BY
+            , CREATED_AT
+            , CREATED_BY
+        ) VALUES (
+              #{email}
+            , #{password}
+            , #{prevPassword}
+            , #{signupMethod}
+            , #{nickname}
+            , #{status}
+            , null
+            , #{serviceAgreement}
+            , #{locationServiceAgreement}
+            , #{privacyAgreement}
+            , #{passwordModifiedAt}
+            , #{marketingServiceAgreement}
+            , null
+            , now()
+            , #{modifiedBy}
+            , now()
+            , #{createdBy}
+        )
+    </insert>
+
+    <select id="duplicate" parameterType="com.saesig.api.member.auth.SignDto" resultType="int">
+        SELECT COUNT(*) AS CNT
+        FROM MEMBER
+        WHERE 1=1
+        <if test="nickname != '' and nickname != null">
+            AND NICKNAME = #{nickname}
+        </if>
+        <if test="email != '' and email != null">
+            AND EMAIL = #{email}
+        </if>
+    </select>
+
+    <select id="findEmail" parameterType="String" resultType="String">
+        SELECT EMAIL
+        FROM MEMBER
+        WHERE 1=1
+        AND MOBILE_NUMBER = #{phoneNumber}
+    </select>
+
+</mapper>
