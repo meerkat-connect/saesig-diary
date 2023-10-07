@@ -17,7 +17,7 @@ public class SignDto {
     private String prevPassword;
     private String signupMethod;
     private String nickname;
-    private String phoneNumber;
+    private String mobileNumber;
     private String status;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime lastLoggedAt;

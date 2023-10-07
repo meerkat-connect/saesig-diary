@@ -55,18 +55,18 @@ public class SignController {
     }
 
     @Operation(summary="이메일 찾기", description = "본인인증 후 가입된 이메일 찾기")
-    @GetMapping({"/find/email/{phoneNumber}"})
-    public String findEmail(@PathVariable String phoneNumber) {
-        return signService.findEmail(phoneNumber);
+    @GetMapping({"/find/email/{mobileNumber}"})
+    public String findEmail(@PathVariable String mobileNumber) {
+        return signService.findEmail(mobileNumber);
     }
 
     @Operation(summary="SMS 본인인증", description = "SMS 본인인증", parameters = {
-            @Parameter(name = "phoneNumber", description = "수신자 전화번호", example = "01012341234") })
-    @GetMapping({"/sms/{phoneNumber}"})
-    public SingleMessageSentResponse sendSms(@PathVariable String phoneNumber) {
+            @Parameter(name = "mobileNumber", description = "수신자 전화번호", example = "01012341234") })
+    @GetMapping({"/sms/{mobileNumber}"})
+    public SingleMessageSentResponse sendSms(@PathVariable String mobileNumber) {
         Message message = new Message();
         message.setFrom("01066620321");    // 발신번호 (임시)
-        message.setTo(phoneNumber);        // 수신번호
+        message.setTo(mobileNumber);        // 수신번호
         message.setText(verificationCode); // 문자내용
 
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));

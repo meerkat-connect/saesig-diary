@@ -7,6 +7,6 @@ public interface SignMapper {
 
     public int signup(SignDto param);
     public int duplicate(SignDto param);
-    public String findEmail(String phoneNumber);
+    public String findEmail(String mobileNumber);
 
 }

@@ -23,8 +23,8 @@ public class SignServiceImpl implements SignService {
     }
 
     @Override
-    public String findEmail(String phoneNumber) {
-        return signMapper.findEmail(phoneNumber);
+    public String findEmail(String mobileNumber) {
+        return signMapper.findEmail(mobileNumber);
     }
 
 }

@@ -8,7 +8,7 @@ CREATE TABLE `member`
     `prev_password`               VARCHAR(200)          NULL COMMENT '직전비밀번호',
     `signup_method`               VARCHAR(20)           NULL COMMENT '가입 수단',
     `nickname`                    VARCHAR(50)           NULL COMMENT '닉네임',
-    `phone_number`                VARCHAR(11)           NULL COMMENT '전화번호',
+    `mobile_number`               VARCHAR(20)           NULL COMMENT '전화번호',
     `status`                      VARCHAR(20)           NOT NULL COMMENT '상태',
     `last_logged_at`              DATETIME              COMMENT '마지막 접속일',
     `service_agreement`           VARCHAR(1)            NOT NULL COMMENT '서비스 이용약관 동의 여부',

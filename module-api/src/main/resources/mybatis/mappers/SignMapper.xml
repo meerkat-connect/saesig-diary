@@ -10,7 +10,7 @@
             , PREV_PASSWORD
             , SIGNUP_METHOD
             , NICKNAME
-            , PHONE_NUMBER
+            , MOBILE_NUMBER
             , STATUS
             , LAST_LOGGED_AT
             , SERVICE_AGREEMENT
@@ -60,7 +60,7 @@
         SELECT EMAIL
         FROM MEMBER
         WHERE 1=1
-        AND PHONE_NUMBER = #{phoneNumber}
+        AND MOBILE_NUMBER = #{phoneNumber}
     </select>
 
 </mapper>
