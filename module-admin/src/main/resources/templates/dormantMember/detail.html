@@ -1,0 +1,78 @@
+<div class="card">
+    <div class="card-header  p-b-0">
+        <h3 class="sub-title"><strong>기본정보</strong></h3>
+    </div>
+    <form th:object="${dormantMember}">
+        <div class="card-block-small p-t-0">
+            <div class="row">
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="email"><strong>아이디</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-sm form-control-round" th:field="*{email}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for=""><strong>가입수단</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-sm form-control-round" th:field="*{signupMethod.value}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group mb-3">
+                        <input type="hidden" id="prevNickname" name="prevNickname" th:value="*{nickname}">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="nickname"><strong>닉네임</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-round" th:field="*{nickname}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>회원상태</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-round" th:field="*{status.value}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>회원가입일시</strong></label>
+                        <div class="col-sm-12">
+                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{joinedAt}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="lastLoggedAt"><strong>최근접속일시</strong></label>
+                        <div class="col-sm-12">
+                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{lastLoggedAt}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="changedAt"><strong>휴면전환일시</strong></label>
+                        <div class="col-sm-12">
+                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{changedAt}" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-block-small text-center">
+            <button type="button" class="btn btn-transparent" id="releaseDormantStatusDetailBtn">휴면해제</button>
+        </div>
+    </form>
+</div>
+
+<script th:inline="javascript">
+    $(function(){
+        const memberid
+    })
+</script>

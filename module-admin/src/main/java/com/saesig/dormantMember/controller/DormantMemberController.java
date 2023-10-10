@@ -5,13 +5,14 @@ import com.saesig.dormantMember.dto.DormantMemberResponseDto;
 import com.saesig.dormantMember.service.DormantMemberService;
 import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/dormant-member")
+@RequestMapping("/admin/dormant-members")
 public class DormantMemberController {
     private final DormantMemberService dormantMemberService;
 
@@ -33,9 +34,9 @@ public class DormantMemberController {
         return "dormantMember/detail";
     }
 
-    @PostMapping("/{id}/release")
-    public Long releaseDormantMember(@PathVariable Long id) {
-        return id;
+    @PostMapping("/release")
+    public ResponseEntity<Object> releaseDormantMember(@RequestParam Long[] memberIds) {
+        return ResponseEntity.noContent().build();
     }
 
 }

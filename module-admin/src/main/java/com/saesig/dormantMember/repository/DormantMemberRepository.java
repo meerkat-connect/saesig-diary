@@ -20,8 +20,8 @@ import java.util.Optional;
 @Repository
 public class DormantMemberRepository {
     private final JPAQueryFactory queryFactory;
-    private final QDormantMember dormantMember = QDormantMember.dormantMember;
-    private final QMember member = QMember.member;
+    private static final QDormantMember dormantMember = QDormantMember.dormantMember;
+    private static final QMember member = QMember.member;
 
     public Page<DormantMemberResponseDto> findAll(DormantMemberRequestDto request) {
         Integer pageNum = request.getStart() / request.getLength();
@@ -29,7 +29,10 @@ public class DormantMemberRepository {
 
         QueryResults<DormantMemberResponseDto> dormantMembers =
                 queryFactory.select(
-                                Projections.fields(DormantMemberResponseDto.class,
+                                Projections.fields(
+                                        DormantMemberResponseDto.class,
+                                        dormantMember.id,
+                                        member.id.as("memberId"),
                                         dormantMember.signupMethod,
                                         dormantMember.email,
                                         dormantMember.nickname,
@@ -49,22 +52,25 @@ public class DormantMemberRepository {
     }
 
     public Optional<DormantMemberResponseDto> findById(Long id) {
-        DormantMemberResponseDto dormantMember = queryFactory.select(
-                        Projections.fields(DormantMemberResponseDto.class,
-                                this.dormantMember.signupMethod,
-                                this.dormantMember.email,
-                                this.dormantMember.nickname,
-                                this.dormantMember.status,
+        DormantMemberResponseDto dormantMemberDetail = queryFactory.select(
+                        Projections.fields(
+                                DormantMemberResponseDto.class,
+                                dormantMember.id,
+                                member.id.as("memberId"),
+                                dormantMember.signupMethod,
+                                dormantMember.email,
+                                dormantMember.nickname,
+                                dormantMember.status,
                                 member.createdAt.as("joinedAt"),
-                                this.dormantMember.lastLoggedAt,
-                                this.dormantMember.createdAt.as("changedAt")
+                                dormantMember.lastLoggedAt,
+                                dormantMember.createdAt.as("changedAt")
                         )
-                ).from(this.dormantMember)
+                ).from(dormantMember)
                 .innerJoin(member)
-                .on(this.dormantMember.id.eq(member.id))
-                .where(this.dormantMember.id.eq(id))
+                .on(dormantMember.id.eq(member.id))
+                .where(dormantMember.id.eq(id))
                 .fetchOne();
 
-        return Optional.ofNullable(dormantMember);
+        return Optional.ofNullable(dormantMemberDetail);
     }
 }

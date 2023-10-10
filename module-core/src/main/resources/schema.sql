@@ -522,6 +522,7 @@ CREATE TABLE `dormant_member` (
     `password`                    VARCHAR(200) NULL COMMENT '비밀번호',
     `prev_password`               VARCHAR(200) NULL COMMENT '비밀번호',
     `signup_method`               VARCHAR(20)  NULL COMMENT '가입 수단',
+    `mobile_number`               VARCHAR(20)  NULL COMMENT '전화번호',
     `nickname`                    VARCHAR(50)  NULL COMMENT '닉네임',
     `status`                      VARCHAR(20)  NOT NULL COMMENT '상태',
     `last_logged_at`              DATETIME     NOT NULL COMMENT '마지막 접속일',

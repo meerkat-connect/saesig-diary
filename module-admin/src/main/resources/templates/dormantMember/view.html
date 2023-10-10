@@ -16,7 +16,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-block-small">
-                        <form id="searchForm" name="searchForm" onsubmit="return false;">
+                        <form id="searchForm" name="searchForm">
                             <!-- 키워드 filter -->
                             <div class="row">
                                 <div class="col-lg-3 col-md-6 mb-3">
@@ -35,28 +35,11 @@
 
                                 <div class="col-lg-3 col-md-6 mb-3">
                                     <div class="mb-0 form-group row">
-                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
-                                            <strong>가입수단</strong>
-                                        </div>
-                                        <div class="col-12">
-                                            <select name="signupMethod" id="signupMethod" class="form-select form-control form-control-round custom-select">
-                                                <option value="">- 전체 -</option>
-                                                <option th:each="sM: ${signupMethod}" th:value="${sM.key}" th:text="${sM.value}">value</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6 mb-3">
-                                    <div class="mb-0 form-group row">
-                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
-                                            <strong>회원상태</strong>
-                                        </div>
-                                        <div class="col-12">
-                                            <select name="memberStatus" id="memberStatus" class="form-select form-control form-control-round custom-select">
-                                                <option value="">- 전체 -</option>
-                                                <option th:each="mS : ${memberStatus}" th:value="${mS.key}" th:text="${mS.value}">value</option>
-                                            </select>
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchPeriod"><strong>휴면전환일</strong></label>
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control form-control-round" name="searchPeriod" id="searchPeriod" autocomplete="off">
+                                            <input type="hidden" id="searchBgngDt" name="searchBgngDt">
+                                            <input type="hidden" id="searchEndDt" name="searchEndDt">
                                         </div>
                                     </div>
                                 </div>
@@ -82,12 +65,12 @@
                             <h5><strong>검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn-transparent" id="insertBtn">휴면해제</button>
+                            <button type="button" class="btn btn-transparent" id="releaseDormantStatusListBtn">휴면해제</button>
                         </div>
                     </div>
                     <div class="card-block-small">
                         <div class="dt-responsive table-responsive">
-                            <table id="memberListTable" class="display" style="width:100%">
+                            <table id="dormantMemberListTable" class="display" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th>
@@ -97,12 +80,12 @@
                                                 <label class="form-label border-checkbox-label" for="allCheckBox"></label>
                                             </div>
                                         </div>
-                                        <!--<input type="checkbox" id="allCheckBox" name="allCheckBox">-->
                                     </th>
-                                    <th>아이디</th>
                                     <th>No</th>
+                                    <th>아이디</th>
                                     <th>닉네임</th>
                                     <th>회원상태</th>
+                                    <th>회원가입일</th>
                                     <th>최근접속일</th>
                                     <th>휴면전환일</th>
                                 </tr>
@@ -123,18 +106,20 @@
         </div>
     </div>
 
-    <div class="modal fade" id="emailSendModalContainer" data-bs-backdrop="static" aria-hidden="true"></div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
 
     <script th:inline="javascript">
-        const memberController = {
+        const dormantMemberController = {
             selectedRow: [],
 
             init: function () {
-                let memberListTable = null;
+                let dormantMemberListTable = null;
 
-                if (memberListTable != null) memberListTable.destroy();
+                if (dormantMemberListTable != null) dormantMemberListTable.destroy();
                 this.selectedRow = [];
-                memberListTable = $('#memberListTable').DataTable({
+                dormantMemberListTable = $('#dormantMemberListTable').DataTable({
                     select: {
                         selector: 'td:not(:first-child)',
                         style: 'single'
@@ -159,9 +144,13 @@
 
                     ajax: {
                         async: false,
-                        url: `/admin/dormant-member?` + $('#searchForm').serialize(),
+                        url: `/admin/dormant-members?` + $('#searchForm').serialize(),
                         method: 'get',
                         "dataSrc": function (res) {
+                            $.each(res.data, function (idx, item) {
+                                item['rowNumber'] = res.recordsTotal - (res.pageNumber * res.pageSize) - idx;
+                            });
+
                             return res.data;
                         }
                     },
@@ -180,11 +169,8 @@
                             }
                         },
                         {
-                            width: "80px",
-                            render: function (data, type, row) {
-                                console.log(row);
-                                return "";
-                            }
+                            width: '80px',
+                            data: 'rowNumber'
                         },
                         {data: 'email'},
                         {data: 'nickname'},
@@ -193,6 +179,7 @@
                                 return `${row.status.value}`
                             }
                         },
+                        {data: 'joinedAt'},
                         {data: 'lastLoggedAt'},
                         {data: 'changedAt'},
                     ],
@@ -213,49 +200,72 @@
                     },
                 })
 
-                memberListTable.on('select', function (e, dt, type, indexes) {
-                    let rowData = memberListTable.rows(indexes).data().toArray();
+                dormantMemberListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = dormantMemberListTable.rows(indexes).data().toArray();
                     const selectedMemberId = rowData[0].id;
 
                     $.ajax({
                         type: 'get',
-                        url: `/admin/members/${selectedMemberId}`,
+                        url: `/admin/dormant-members/${selectedMemberId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
                     }).fail(function (error) {
                     });
-                }).on('deselect', function (e, dt, type, indexes) {
-                    let rowData = memberListTable.rows(indexes).data().toArray();
-                });
+                })
+            },
+
+            reload: function() {
+                $('#dormantMemberListTable').DataTable().ajax.reload(null,false);
             }
         };
 
         $(function () {
-            memberController.init();
+            initDateRangePicker("searchPeriod", "searchBgngDt", "searchEndDt");
+            dormantMemberController.init();
 
             $('body').on('click', '#insertBtn', function () {
 
             }).on('click', '#searchBtn', function () {
-                memberController.init();
-            }).on('click','#searchInit', function(){
+                dormantMemberController.init();
+            }).on('click', '#searchInit', function () {
                 $('#searchKeyword, #searchType, #signupMethod, #memberStatus').val('');
                 $('select').niceSelect('update');
+            }).on('click', '#releaseDormantStatusListBtn', function () {
+                if (dormantMemberController.selectedRow.length == 0) {
+                    alert('휴면해제할 회원을 선택해 주십시오.');
+                    return;
+                }
+
+                if (confirm('선택한 회원을 휴면 해제하시겠습니까?')) {
+                    $.ajax({
+                        url: '/admin/dormant-members/release',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {memberIds: dormantMemberController.selectedRow.join(",")}
+                    }).done(function (response) {
+                        alert('휴면 해제되었습니다.');
+                        dormantMemberController.reload();
+                    }).fail(function (error) {
+                        alert('휴면 해제에 실패하였습니다.');
+                        console.log(JSON.stringify(error, null, 4));
+                    })
+                }
             });
 
             $('input[name=tableCheckbox]').on('change', function (e) {
                 const $this = $(this);
                 if ($this.is(':checked')) {
-                    memberController.selectedRow.push($this.data('id'));
-                    if (memberController.selectedRow.length === $('input[name=tableCheckbox]').length) {
+                    dormantMemberController.selectedRow.push($this.data('id'));
+                    if (dormantMemberController.selectedRow.length === $('input[name=tableCheckbox]').length) {
                         $('#allCheckBox').prop('checked', true);
                     }
                 } else {
-                    memberController.selectedRow = $.grep(memberController.selectedRow, function (i) {
+                    dormantMemberController.selectedRow = $.grep(dormantMemberController.selectedRow, function (i) {
                         return i != $this.data('id');
                     })
 
-                    if (memberController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
+                    if (dormantMemberController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
                 }
             })
 
@@ -268,12 +278,12 @@
                         this.checked = true;
                         allSelectedRow.push($(this).data('id'));
                     })
-                    memberController.selectedRow = allSelectedRow;
+                    dormantMemberController.selectedRow = allSelectedRow;
                 } else {
                     $('input[name=tableCheckbox]').each(function () {
                         this.checked = false;
                     })
-                    memberController.selectedRow = [];
+                    dormantMemberController.selectedRow = [];
                 }
 
             });
