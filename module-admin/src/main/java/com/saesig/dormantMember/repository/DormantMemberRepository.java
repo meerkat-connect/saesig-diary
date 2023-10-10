@@ -67,7 +67,7 @@ public class DormantMemberRepository {
                         )
                 ).from(dormantMember)
                 .innerJoin(member)
-                .on(dormantMember.id.eq(member.id))
+                .on(dormantMember.member.id.eq(member.id))
                 .where(dormantMember.id.eq(id))
                 .fetchOne();
 

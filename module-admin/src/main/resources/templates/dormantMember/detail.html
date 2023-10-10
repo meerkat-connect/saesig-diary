@@ -3,6 +3,7 @@
         <h3 class="sub-title"><strong>기본정보</strong></h3>
     </div>
     <form th:object="${dormantMember}">
+        <input type="hidden" th:field="*{id}">
         <div class="card-block-small p-t-0">
             <div class="row">
                 <div class="col-lg-6 mb-3">
@@ -40,7 +41,7 @@
                 </div>
                 <div class="col-lg-6 mb-3">
                     <div class="row form-group mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>회원가입일시</strong></label>
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="joinedAt"><strong>회원가입일시</strong></label>
                         <div class="col-sm-12">
                             <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{joinedAt}" readonly>
                         </div>
@@ -73,6 +74,8 @@
 
 <script th:inline="javascript">
     $(function(){
-        const memberid
+        $('body').on('click', '#releaseDormantStatusDetailBtn', function() {
+            dormantMemberController.releaseDormantStatus(true);
+        })
     })
 </script>
