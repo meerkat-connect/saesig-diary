@@ -35,7 +35,8 @@ public class DormantMemberController {
     }
 
     @PostMapping("/release")
-    public ResponseEntity<Object> releaseDormantMember(@RequestParam Long[] memberIds) {
+    public ResponseEntity<Object> releaseDormantStatus(@RequestParam Long[] memberIds) {
+        dormantMemberService.releaseDormantStatus(memberIds);
         return ResponseEntity.noContent().build();
     }
 

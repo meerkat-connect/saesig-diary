@@ -3,6 +3,7 @@ package com.saesig.dormantMember.repository;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.saesig.domain.member.MemberStatus;
 import com.saesig.domain.member.QDormantMember;
 import com.saesig.domain.member.QMember;
 import com.saesig.dormantMember.dto.DormantMemberRequestDto;
@@ -72,5 +73,16 @@ public class DormantMemberRepository {
                 .fetchOne();
 
         return Optional.ofNullable(dormantMemberDetail);
+    }
+
+    public void deleteDormant(Long[] memberIds) {
+        long deletedCount = queryFactory.delete(dormantMember)
+                .where(dormantMember.id.in(memberIds))
+                .execute();
+
+        long updatedCount = queryFactory.update(member)
+                .set(member.status, MemberStatus.NORMAL)
+                .where(member.id.in(memberIds)) //TODO : dormant.id가 아닌 dormant.memberid 로 수정
+                .execute();
     }
 }
