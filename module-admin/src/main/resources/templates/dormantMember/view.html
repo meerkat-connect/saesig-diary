@@ -161,11 +161,11 @@
                             render: function (data, type, row) {
                                 return `
                                     <div class="border-checkbox-section">
-                                                <div class="border-checkbox-group">
-                                                    <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
-                                                    <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
-                                                </div>
-                                            </div>`;
+                                        <div class="border-checkbox-group">
+                                            <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
+                                            <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
+                                        </div>
+                                    </div>`;
                             }
                         },
                         {
@@ -215,26 +215,24 @@
                 })
             },
 
-            reload: function() {
-                $('#dormantMemberListTable').DataTable().ajax.reload(null,false);
-            }
-        };
+            reload: function () {
+                $('#dormantMemberListTable').DataTable().ajax.reload(null, false);
+                this.selectedRow = [];
+                $('#allCheckbox').prop('checked', false);
+            },
 
-        $(function () {
-            initDateRangePicker("searchPeriod", "searchBgngDt", "searchEndDt");
-            dormantMemberController.init();
+            releaseDormantStatus: function (isDetailView) {
+                let memberIds = [];
 
-            $('body').on('click', '#insertBtn', function () {
-
-            }).on('click', '#searchBtn', function () {
-                dormantMemberController.init();
-            }).on('click', '#searchInit', function () {
-                $('#searchKeyword, #searchType, #signupMethod, #memberStatus').val('');
-                $('select').niceSelect('update');
-            }).on('click', '#releaseDormantStatusListBtn', function () {
-                if (dormantMemberController.selectedRow.length == 0) {
-                    alert('휴면해제할 회원을 선택해 주십시오.');
-                    return;
+                if (isDetailView) {
+                    const id = $('#id').val();
+                    memberIds.push(id);
+                } else {
+                    if (dormantMemberController.selectedRow.length == 0) {
+                        alert('휴면해제할 회원을 선택해 주십시오.');
+                        return;
+                    }
+                    memberIds = dormantMemberController.selectedRow.join(",");
                 }
 
                 if (confirm('선택한 회원을 휴면 해제하시겠습니까?')) {
@@ -242,7 +240,7 @@
                         url: '/admin/dormant-members/release',
                         type: 'post',
                         dataType: 'json',
-                        data: {memberIds: dormantMemberController.selectedRow.join(",")}
+                        data: {memberIds: memberIds}
                     }).done(function (response) {
                         alert('휴면 해제되었습니다.');
                         dormantMemberController.reload();
@@ -251,6 +249,20 @@
                         console.log(JSON.stringify(error, null, 4));
                     })
                 }
+            }
+        };
+
+        $(function () {
+            initDateRangePicker("searchPeriod", "searchBgngDt", "searchEndDt");
+            dormantMemberController.init();
+
+            $('body').on('click', '#searchBtn', function () {
+                dormantMemberController.init();
+            }).on('click', '#searchInit', function () {
+                $('#searchKeyword, #searchType, #searchPeriod, #searchBgngDt, #searchEndDt ').val('');
+                $('select').niceSelect('update');
+            }).on('click', '#releaseDormantStatusListBtn', function () {
+                dormantMemberController.releaseDormantStatus(false)
             });
 
             $('input[name=tableCheckbox]').on('change', function (e) {
@@ -285,7 +297,6 @@
                     })
                     dormantMemberController.selectedRow = [];
                 }
-
             });
         });
     </script>
