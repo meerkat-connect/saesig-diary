@@ -5,8 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SignMapper {
 
-    public int signup(SignDto param);
-    public int duplicate(SignDto param);
-    public String findEmail(String mobileNumber);
+    int signup(SignDto param);
+    int duplicate(SignDto param);
+    String findEmail(String mobileNumber);
+    int updatePassword(SignDto param);
 
 }

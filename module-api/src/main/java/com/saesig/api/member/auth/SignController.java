@@ -1,5 +1,7 @@
 package com.saesig.api.member.auth;
 
+import com.saesig.api.mail.MailDto;
+import com.saesig.api.mail.MailService;
 import com.saesig.api.util.Constants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,18 +21,21 @@ import java.util.Random;
 @Tag(name="Sign Controller", description = "회원정보 관리")
 @Slf4j
 @RestController()
-@RequestMapping(Constants.CONTEXT_PATH)
+@RequestMapping(Constants.CONTEXT_PATH + "/sign")
 public class SignController {
 
     private final SignService signService;
     private final PasswordEncoder passwordEncoder;
     private final DefaultMessageService messageService;
-    String verificationCode = String.format("%06d", new Random().nextInt(1000000));
+    private final MailService mailService;
+    String verificationSmsCode = String.format("%06d", new Random().nextInt(1000000));
+    String verificationMailCode = String.format("%06d", new Random().nextInt(1000000));
 
-    public SignController(SignService signService, PasswordEncoder passwordEncoder) {
+    public SignController(SignService signService, PasswordEncoder passwordEncoder, MailService mailService) {
         this.signService = signService;
         this.passwordEncoder = passwordEncoder;
-        // TODO local/prod 인증키 분기 (prod: 유료 버전 변경)
+        this.mailService = mailService;
+        // TODO local/prod 인증키 분기 (prod: 유료 버전 변경) 암호화해서 active 값에 따라 세팅되도록 변경 필요
         // 쿨SMS (SMS 발송용) - 계정 내 등록된 유효한 API 키, API Secret Key
         this.messageService = NurigoApp.INSTANCE.initialize("NCS4YSWXMANXRGLD", "ZHSJXFM0VRYMLZFRYQVRWMALZKOPBLNJ", "https://api.coolsms.co.kr");
     }
@@ -60,14 +65,21 @@ public class SignController {
         return signService.findEmail(mobileNumber);
     }
 
-    @Operation(summary="SMS 본인인증", description = "SMS 본인인증", parameters = {
+    @Operation(summary="비밀번호 찾기(재설정)", description = "본인인증 후 비밀번호 재설정")
+    @PostMapping({"/find/password"})
+    public int updatePassword(@RequestBody SignDto param) {
+        param.setPassword(passwordEncoder.encode(param.getPassword()));
+        return signService.updatePassword(param);
+    }
+
+    @Operation(summary="SMS 본인인증", description = "SMS 본인인증 코드 발송", parameters = {
             @Parameter(name = "mobileNumber", description = "수신자 전화번호", example = "01012341234") })
     @GetMapping({"/sms/{mobileNumber}"})
     public SingleMessageSentResponse sendSms(@PathVariable String mobileNumber) {
         Message message = new Message();
-        message.setFrom("01066620321");    // 발신번호 (임시)
-        message.setTo(mobileNumber);        // 수신번호
-        message.setText(verificationCode); // 문자내용
+        message.setFrom("01066620321");       // 발신번호 (임시)
+        message.setTo(mobileNumber);          // 수신번호
+        message.setText(verificationSmsCode); // 문자내용
 
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         System.out.println(response);
@@ -76,9 +88,21 @@ public class SignController {
     }
 
     @Operation(summary="SMS 본인인증 유효성 확인", description = "SMS 본인인증 문자와 사용자 입력값 일치여부 체크")
-    @GetMapping({"/sms/check/{code}"})
+    @GetMapping({"/sms/vaild/{code}"})
     public boolean isSmsCodeVaild(@PathVariable String code) {
-        return this.verificationCode.equals(code);
+        return this.verificationSmsCode.equals(code);
     }
 
+    @Operation(summary="이메일 본인인증", description = "이메일 본인인증 코드 발송")
+    @PostMapping({"/mail"})
+    public void sendMail(@RequestBody MailDto mailDto) {
+        mailDto.setMessage(this.verificationMailCode);
+		this.mailService.sendMail(mailDto);
+	}
+
+    @Operation(summary="이메일 본인인증 유효성 확인", description = "이메일 본인인증 코드와 사용자 입력값 일치여부 체크")
+    @GetMapping({"/mail/vaild/{code}"})
+    public boolean isMailCodeVaild(@PathVariable String code) {
+        return this.verificationMailCode.equals(code);
+    }
 }

@@ -27,4 +27,9 @@ public class SignServiceImpl implements SignService {
         return signMapper.findEmail(mobileNumber);
     }
 
+    @Override
+    public int updatePassword(SignDto param) {
+        return signMapper.updatePassword(param);
+    }
+
 }

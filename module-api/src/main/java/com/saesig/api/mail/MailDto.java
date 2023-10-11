@@ -2,6 +2,7 @@ package com.saesig.api.mail;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 @ToString
 @Getter
+@Setter
 public class MailDto {
     private String toAddress;
     private String fromAddress;
