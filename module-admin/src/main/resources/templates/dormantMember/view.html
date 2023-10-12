@@ -222,25 +222,25 @@
             },
 
             releaseDormantStatus: function (isDetailView) {
-                let memberIds = [];
+                let dormantMemberIds = [];
 
                 if (isDetailView) {
-                    const id = $('#id').val();
-                    memberIds.push(id);
+                    const dormantMemberId = $('#id').val();
+                    dormantMemberIds = dormantMemberId;
                 } else {
                     if (dormantMemberController.selectedRow.length == 0) {
                         alert('휴면해제할 회원을 선택해 주십시오.');
                         return;
                     }
-                    memberIds = dormantMemberController.selectedRow.join(",");
+                    dormantMemberIds = dormantMemberController.selectedRow.join(",");
                 }
 
-                if (confirm('선택한 회원을 휴면 해제하시겠습니까?')) {
+                if (confirm('휴면 해제하시겠습니까?')) {
                     $.ajax({
                         url: '/admin/dormant-members/release',
                         type: 'post',
                         dataType: 'json',
-                        data: {memberIds: memberIds}
+                        data: {dormantMemberIds: dormantMemberIds}
                     }).done(function (response) {
                         alert('휴면 해제되었습니다.');
                         dormantMemberController.reload();

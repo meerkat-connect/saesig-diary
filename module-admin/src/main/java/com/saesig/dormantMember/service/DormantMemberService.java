@@ -21,16 +21,13 @@ public class DormantMemberService {
 
 
     public DormantMemberResponseDto findById(Long id) {
-        DormantMemberResponseDto dormantMember = dormantMemberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("휴면회원 일련번호가 존재하지 않습니다."));
-        return dormantMember;
+        return dormantMemberRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("휴면회원 일련번호가 존재하지 않습니다."));
     }
 
     @Transactional
-    public void releaseDormantStatus(Long[] memberIds) {
-        /*
-        * 1. 휴면 회원 테이블을 제거하고 회원 테이블의 상태값을 변경
-        * */
-
-        dormantMemberRepository.deleteDormant(memberIds);
+    public void releaseDormantStatus(Long[] dormantMemberIds) {
+        dormantMemberRepository.deleteDormant(dormantMemberIds);
     }
 }

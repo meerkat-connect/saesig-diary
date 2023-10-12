@@ -1,6 +1,7 @@
 package com.saesig.dormantMember.repository;
 
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.saesig.domain.member.MemberStatus;
@@ -15,7 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
@@ -49,7 +52,7 @@ public class DormantMemberRepository {
                         .limit(pageRequest.getPageSize())
                         .fetchResults();
 
-        return new PageImpl<>(dormantMembers.getResults(),  pageRequest, dormantMembers.getTotal());
+        return new PageImpl<>(dormantMembers.getResults(), pageRequest, dormantMembers.getTotal());
     }
 
     public Optional<DormantMemberResponseDto> findById(Long id) {
@@ -75,14 +78,26 @@ public class DormantMemberRepository {
         return Optional.ofNullable(dormantMemberDetail);
     }
 
-    public void deleteDormant(Long[] memberIds) {
-        long deletedCount = queryFactory.delete(dormantMember)
-                .where(dormantMember.id.in(memberIds))
+    public void deleteDormant(Long[] dormantMemberIds) {
+        List<Tuple> dormantMembers = queryFactory.select(
+                        dormantMember.id
+                        , dormantMember.member.id
+                ).from(dormantMember)
+                .where(dormantMember.id.in(dormantMemberIds))
+                .fetch();
+
+        Long[] memberIds = dormantMembers.stream()
+                .map(member -> member.get(dormantMember.member.id))
+                .collect(Collectors.toList())
+                .toArray(Long[]::new);
+
+       queryFactory.delete(dormantMember)
+                .where(dormantMember.id.in(dormantMemberIds))
                 .execute();
 
-        long updatedCount = queryFactory.update(member)
+        queryFactory.update(member)
                 .set(member.status, MemberStatus.NORMAL)
-                .where(member.id.in(memberIds)) //TODO : dormant.id가 아닌 dormant.memberid 로 수정
+                .where(member.id.in(memberIds))
                 .execute();
     }
 }
