@@ -126,7 +126,7 @@
 
                 faqListTable = $('#faqListTable').DataTable({
                     select: {
-                        selector: 'td:not(:first-child):not(:nth-child(4))',
+                        selector: 'td:not(:first-child, :nth-child(5))',
                         style: 'single'
                     },
                     "columnDefs": [
@@ -235,7 +235,7 @@
                 faqListTable.on('select', function (e, dt, type, indexes) {
                     let rowData = faqListTable.rows(indexes).data().toArray();
                     const selectedFaqId = rowData[0].id;
-
+                    console.log(selectedFaqId);
                     $.ajax({
                         type: 'get',
                         url: `/admin/faqs/${selectedFaqId}/form`,
@@ -363,6 +363,5 @@
     <script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
     <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
 </div>
-
 
 </html>

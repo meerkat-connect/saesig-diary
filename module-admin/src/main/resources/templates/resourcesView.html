@@ -4,94 +4,24 @@
       layout:decorate="~{layout/main}">
 
 <div layout:fragment="content" class="page-body">
-    <style>
-        @media only screen and (max-width: 573px) {
-            .nav-item {
-                display: inline-block !important;
-            }
-            .nav-tabs{
-                white-space:nowrap;
-                overflow:auto;
-            }
-        }
-
-        .nav-tabs {
-            border : none !important;
-            margin-left: 1rem;
-        }
-
-        .nav-item {
-            width: 120px !important;
-            /*padding: 5px;*/
-        }
-
-        .card.tab-card {
-            padding:0;
-            padding-top : 0.2rem;
-            padding-left: 0.4rem;
-        }
-        .nav-tabs .slide {
-            background: #000000;
-        }
-        .md-tabs .nav-item.open .nav-link, .md-tabs .nav-item.open .nav-link:focus, .md-tabs .nav-item.open .nav-link:hover, .md-tabs .nav-link.active, .md-tabs .nav-link.active:focus, .md-tabs .nav-link.active:hover {
-            color: #171A19 !important;
-            font-weight:bold;
-        }
-        .md-tabs .nav-item a {
-            color: #acacac !important;
-        }
-
-        .nav-tabs .slide {
-            height: 3px;
-        }
-    </style>
     <div class="page-body">
         <div class="row">
             <div class="col-12">
-                <div class="card tab-card">
-                    <ul class="nav nav-tabs md-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-bs-toggle="tab" role="tab" id="memberInfoTab" aria-selected="false">회원정보</a>
-                            <div class="slide"></div>
+                <div class="card">
+                    <ul>
+                        <li class="d-inline-block m-r-10">
+                            디렉토리 : <i class="icofont  icofont-folder"></i>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" role="tab" id="adoptedTab" aria-selected="false">입양기록</a>
-                            <div class="slide"></div>
+                        <li class="d-inline-block m-r-10">
+                            메뉴 : <i class="icofont icofont-file-alt"></i>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" role="tab" id="adoptionTab" aria-selected="true">분양기록</a>
-                            <div class="slide"></div>
+                        <li class="d-inline-block m-r-10">
+                            상세 메뉴 : <i class="icofont icofont-copy-black"></i>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" role="tab" id="reportTab"  aria-selected="false">신고</a>
-                            <div class="slide"></div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" role="tab" id="blockTab" aria-selected="false">차단</a>
-                            <div class="slide"></div>
+                        <li class="d-inline-block m-r-10">
+                            기능 : <i class="icofont icofont-tools-alt-2"></i>
                         </li>
                     </ul>
-                </div>
-            </div>
-
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-block-small">
-                        <ul>
-                            <li class="d-inline-block m-r-10">
-                                디렉토리 : <i class="icofont  icofont-folder"></i>
-                            </li>
-                            <li class="d-inline-block m-r-10">
-                                메뉴 : <i class="icofont icofont-file-alt"></i>
-                            </li>
-                            <li class="d-inline-block m-r-10">
-                                상세 메뉴 : <i class="icofont icofont-copy-black"></i>
-                            </li>
-                            <li class="d-inline-block m-r-10">
-                                기능 : <i class="icofont icofont-tools-alt-2"></i>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
 
@@ -143,7 +73,7 @@
                                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="httpMethod"><strong>Http Method Type</strong></label>
                                                         <div class="col-sm-12">
                                                             <select name="httpMethod" id="httpMethod" class="form-select form-control form-control-round">
-                                                                <option value="">- 선택 - </option>
+                                                                <option value="">- 선택 -</option>
                                                                 <option value="PUT">PUT</option>
                                                                 <option value="GET">GET</option>
                                                                 <option value="POST">POST</option>
@@ -172,28 +102,28 @@
                                                         <div class="form-radio">
                                                             <div class="radio radio-inline">
                                                                 <label class="mb-0">
-                                                                    <input type="radio" id="type3" name="type"  value="DIRECTORY">
+                                                                    <input type="radio" id="type3" name="type" value="DIRECTORY">
                                                                     <i class="helper"></i>디렉토리
                                                                 </label>
                                                             </div>
 
                                                             <div class="radio radio-inline">
                                                                 <label class="mb-0">
-                                                                    <input type="radio" id="type1" name="type"  value="MENU">
+                                                                    <input type="radio" id="type1" name="type" value="MENU">
                                                                     <i class="helper"></i>메뉴
                                                                 </label>
                                                             </div>
 
                                                             <div class="radio radio-inline">
                                                                 <label class="mb-0">
-                                                                    <input type="radio" id="type4" name="type"  value="DETAIL_MENU">
+                                                                    <input type="radio" id="type4" name="type" value="DETAIL_MENU">
                                                                     <i class="helper"></i>상세 메뉴
                                                                 </label>
                                                             </div>
 
                                                             <div class="radio radio-inline">
                                                                 <label class="mb-0">
-                                                                    <input type="radio" id= type2 name="type" value="FUNCTION">
+                                                                    <input type="radio" id=type2 name="type" value="FUNCTION">
                                                                     <i class="helper"></i>기능
                                                                 </label>
                                                             </div>
@@ -276,20 +206,19 @@
                         "strings": {
                             loading: "Loading ..."
                         },
-                        "themes": {
-                        },
+                        "themes": {},
                         'data': _this.resources,
-                        'check_callback' : true
+                        'check_callback': true
                     },
                     "types": {
                         "DIRECTORY": {
-                          "icon" : "icofont  icofont-folder"
+                            "icon": "icofont  icofont-folder"
                         },
                         "MENU": {
                             "icon": "icofont icofont-file-alt"
                         },
                         "DETAIL_MENU": {
-                            "icon" : "icofont icofont-copy-black"
+                            "icon": "icofont icofont-copy-black"
                         },
                         "FUNCTION": {
                             "icon": "icofont icofont-tools-alt-2"
@@ -304,12 +233,12 @@
                                 "label": "하위 등록",
                                 "action": function (obj) {
                                     const selectedNode = $.jstree.reference(obj.reference).get_node(obj.reference).original;
-                                    if(selectedNode.type === 'FUNCTION') {
+                                    if (selectedNode.type === 'FUNCTION') {
                                         alert('프로그램 유형이 메뉴인 경우에만 하위 등록이 가능합니다.')
                                     } else {
                                         $('#resourceForm')[0].reset();
                                         $('#id').val('');
-                                        $('#type1').prop('checked',true);
+                                        $('#type1').prop('checked', true);
                                         $('#upperId').val(_this.selectedNode.original.id);
                                         $('#upperUrl').val(_this.selectedNode.original.url);
                                     }
@@ -334,11 +263,11 @@
                     const idOfSelectedNode = data.node.original.id;
 
                     const param = {
-                        originalParentIdOfSelectedNode : originalParentIdOfSelectedNode,
-                        originalOrdOfSelectedNode : originalOrdOfSelectedNode,
-                        newParentIdOfSelectedNode : newParentIdOfSelectedNode,
-                        newOrdOfSelectedNode : newOrdOfSelectedNode,
-                        depthOfNewParentId : depthOfNewParentId,
+                        originalParentIdOfSelectedNode: originalParentIdOfSelectedNode,
+                        originalOrdOfSelectedNode: originalOrdOfSelectedNode,
+                        newParentIdOfSelectedNode: newParentIdOfSelectedNode,
+                        newOrdOfSelectedNode: newOrdOfSelectedNode,
+                        depthOfNewParentId: depthOfNewParentId,
                         idOfSelectedNode: idOfSelectedNode
                     }
 
@@ -351,7 +280,7 @@
                 }).bind("dblclick.jstree", function (event) {
 
                 }).bind("open_node.jstree", function (event, data) {
-                }).bind('loaded.jstree',function(){
+                }).bind('loaded.jstree', function () {
                     _this.$jstree.jstree('open_all');
                 });
             },
@@ -415,14 +344,14 @@
                 const parentNodeOriginal = this.parentNode.original;
                 const selectedNodeOriginal = this.selectedNode.original;
 
-                if(selectedNodeOriginal.id === 0) {
-                    $('#saveBtn').prop('disabled',true);
-                    $('#httpMethod').prop('disabled',true);
-                    $('#name, #url').prop('readonly',true);
+                if (selectedNodeOriginal.id === 0) {
+                    $('#saveBtn').prop('disabled', true);
+                    $('#httpMethod').prop('disabled', true);
+                    $('#name, #url').prop('readonly', true);
                 } else {
                     $('#saveBtn').prop('disabled', false);
-                    $('#httpMethod').prop('disabled',false);
-                    $('#name, #url').prop('readonly',false);
+                    $('#httpMethod').prop('disabled', false);
+                    $('#name, #url').prop('readonly', false);
                 }
 
                 $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
@@ -439,18 +368,18 @@
                 $('#httpMethod').val(selectedNodeOriginal.httpMethod).niceSelect('update');
             },
 
-            moveNode : function(param) {
+            moveNode: function (param) {
                 $.ajax({
                     url: '/admin/resources/move',
                     method: 'post',
                     data: JSON.stringify(param),
                     contentType: 'application/json',
                     dataType: 'json'
-                }).done(function(){
+                }).done(function () {
                     alert('자원이 이동되었습니다.')
                     _this.$jstree.jstree().destroy();
                     _this.init();
-                }).fail(function(error) {
+                }).fail(function (error) {
                     alert('자원을 이동하는데 실패하였습니다.');
                     console.log(JSON.stringify(error));
                 })
