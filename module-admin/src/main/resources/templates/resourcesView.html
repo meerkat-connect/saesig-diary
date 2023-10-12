@@ -4,8 +4,76 @@
       layout:decorate="~{layout/main}">
 
 <div layout:fragment="content" class="page-body">
+    <style>
+        @media only screen and (max-width: 573px) {
+            .nav-item {
+                display: inline-block !important;
+            }
+            .nav-tabs{
+                white-space:nowrap;
+                overflow:auto;
+            }
+        }
+
+        .nav-tabs {
+            border : none !important;
+            margin-left: 1rem;
+        }
+
+        .nav-item {
+            width: 120px !important;
+            /*padding: 5px;*/
+        }
+
+        .card.tab-card {
+            padding:0;
+            padding-top : 0.2rem;
+            padding-left: 0.4rem;
+        }
+        .nav-tabs .slide {
+            background: #000000;
+        }
+        .md-tabs .nav-item.open .nav-link, .md-tabs .nav-item.open .nav-link:focus, .md-tabs .nav-item.open .nav-link:hover, .md-tabs .nav-link.active, .md-tabs .nav-link.active:focus, .md-tabs .nav-link.active:hover {
+            color: #171A19 !important;
+            font-weight:bold;
+        }
+        .md-tabs .nav-item a {
+            color: #acacac !important;
+        }
+
+        .nav-tabs .slide {
+            height: 3px;
+        }
+    </style>
     <div class="page-body">
         <div class="row">
+            <div class="col-12">
+                <div class="card tab-card">
+                    <ul class="nav nav-tabs md-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" role="tab" id="memberInfoTab" aria-selected="false">회원정보</a>
+                            <div class="slide"></div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" role="tab" id="adoptedTab" aria-selected="false">입양기록</a>
+                            <div class="slide"></div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" role="tab" id="adoptionTab" aria-selected="true">분양기록</a>
+                            <div class="slide"></div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" role="tab" id="reportTab"  aria-selected="false">신고</a>
+                            <div class="slide"></div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" role="tab" id="blockTab" aria-selected="false">차단</a>
+                            <div class="slide"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="col-12">
                 <div class="card">
                     <div class="card-block-small">
