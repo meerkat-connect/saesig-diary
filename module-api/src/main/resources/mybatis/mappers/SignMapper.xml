@@ -29,6 +29,7 @@
             , #{prevPassword}
             , #{signupMethod}
             , #{nickname}
+            , #{mobileNumber}
             , #{status}
             , null
             , #{serviceAgreement}
@@ -60,7 +61,18 @@
         SELECT EMAIL
         FROM MEMBER
         WHERE 1=1
-        AND MOBILE_NUMBER = #{phoneNumber}
+        AND MOBILE_NUMBER = #{mobileNumber}
     </select>
+
+    <update id="updatePassword" parameterType="com.saesig.api.member.auth.SignDto">
+        UPDATE MEMBER
+        SET PASSWORD             = #{password}
+          , PREV_PASSWORD        = PASSWORD
+          , PASSWORD_MODIFIED_AT = now()
+          , MODIFIED_AT          = now()
+          , MODIFIED_BY          = #{modifiedBy}
+        WHERE 1=1
+        AND ID = #{id}
+    </update>
 
 </mapper>
