@@ -3,6 +3,7 @@ package com.saesig.api.mail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -32,9 +33,13 @@ public class MailServiceImpl implements MailService {
 
             Context context = new Context();
             context.setVariables(mailDto.getParameters());
-            // TODO 이메일 템플릿 적용 방식 확인 필요, 현재는 일반 문자열로 전송
-            // String template = templateEngine.process(mailDto.getTemplate(), context);
-            messageHelper.setText(mailDto.getMessage(), false);
+            // template 속성에 넣고자 하는 이메일 템플릿 주소를 넣으면 됨 (ex. mail/codeTemplate)
+            String template = templateEngine.process(mailDto.getTemplate(), context);
+            messageHelper.setText(template, true);
+            // cid 방식으로 이미지 추가
+            messageHelper.addInline("main_logo", new ClassPathResource("static/main_logo.png"));
+            messageHelper.addInline("main_bg"  , new ClassPathResource("static/main_bg.png"));
+            messageHelper.addInline("bottom_logo" , new ClassPathResource("static/bottom_logo.png"));
 
             mailSender.send(message);
 

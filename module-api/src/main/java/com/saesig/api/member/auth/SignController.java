@@ -15,6 +15,8 @@ import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -79,7 +81,7 @@ public class SignController {
         Message message = new Message();
         message.setFrom("01066620321");       // 발신번호 (임시)
         message.setTo(mobileNumber);          // 수신번호
-        message.setText(verificationSmsCode); // 문자내용
+        message.setText("[새식일기-인증번호] : " + verificationSmsCode); // 문자내용
 
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         System.out.println(response);
@@ -96,7 +98,12 @@ public class SignController {
     @Operation(summary="이메일 본인인증", description = "이메일 본인인증 코드 발송")
     @PostMapping({"/mail"})
     public void sendMail(@RequestBody MailDto mailDto) {
-        mailDto.setMessage(this.verificationMailCode);
+        // 메일 내용 세팅
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("messageTitle", "안녕하세요. 새식일기입니다:)");
+        parameters.put("messageContent", "하단에 표기된 인증번호를 진행중인 화면에 입력해주세요.");
+        parameters.put("verificationMailCode", this.verificationMailCode);
+        mailDto.setParameters(parameters);
 		this.mailService.sendMail(mailDto);
 	}
 
