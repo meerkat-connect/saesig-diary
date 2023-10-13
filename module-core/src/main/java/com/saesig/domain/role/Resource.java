@@ -36,6 +36,9 @@ public class Resource extends BaseEntity {
     @Column
     private Integer ord;
 
+    @Column(name = "style_class")
+    private String styleClass;
+
     @Column
     private String type;
 
@@ -47,7 +50,7 @@ public class Resource extends BaseEntity {
     private List<Resource> childResources = new ArrayList<>();
 
     @Builder
-    public Resource(Long id, String name, String url, String httpMethod, Character isEnabled, Integer depth, Integer ord, String type, Resource parentResource, List<Resource> childResources) {
+    public Resource(Long id, String name, String url, String httpMethod, Character isEnabled, Integer depth, Integer ord, String styleClass, String type, Resource parentResource, List<Resource> childResources) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -55,15 +58,17 @@ public class Resource extends BaseEntity {
         this.isEnabled = isEnabled;
         this.depth = depth;
         this.ord = ord;
+        this.styleClass = styleClass;
         this.type = type;
         this.parentResource = parentResource;
         this.childResources = childResources;
     }
 
-    public void updateInfo(String name, String url, String httpMethod, Character isEnabled, String type) {
+    public void updateInfo(String name, String url, String httpMethod, Character isEnabled, String type, String styleClass) {
         this.name = name;
         this.url =url;
         this.httpMethod = httpMethod;
+        this.styleClass = styleClass;
         this.isEnabled = isEnabled;
         this.type = type;
     }

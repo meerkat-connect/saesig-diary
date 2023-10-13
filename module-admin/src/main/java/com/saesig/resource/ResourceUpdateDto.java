@@ -9,5 +9,6 @@ public class ResourceUpdateDto {
     private String name;
     private String httpMethod;
     private String type;
+    private String styleClass;
     private Character isEnabled;
 }

@@ -16,6 +16,7 @@ public class ResourceResponseDto {
     private String name;
     private String type;
     private String httpMethod;
+    private String styleClass;
     private Character isEnabled;
     private String url;
     private Integer depth;
@@ -28,6 +29,7 @@ public class ResourceResponseDto {
         this.name = resource.getName();
         this.url = resource.getUrl();
         this.httpMethod = resource.getHttpMethod();
+        this.styleClass = resource.getStyleClass();
         this.isEnabled = resource.getIsEnabled();
         this.depth = resource.getDepth();
         this.ord = resource.getOrd();
