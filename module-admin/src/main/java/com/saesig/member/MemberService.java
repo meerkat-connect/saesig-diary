@@ -121,7 +121,7 @@ public class MemberService {
         return memberAdminRepository.existsByNickname(nickname);
     }
 
-    public Optional<Member> findByNickname(String nickname){
+    public Optional<Member> findByNickname(String nickname) {
         return memberAdminRepository.findByNickname(nickname);
     }
 

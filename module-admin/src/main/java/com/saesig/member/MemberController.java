@@ -40,7 +40,8 @@ public class MemberController {
         return memberService.findAll(request);
     }
 
-    @PostMapping(value ="", consumes = MediaType.APPLICATION_JSON_VALUE)
+
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Long insertMember(@RequestBody @Valid MemberInsertDto memberInsertDto) {
         return memberService.insertMember(memberInsertDto);
@@ -61,9 +62,9 @@ public class MemberController {
     @ResponseBody
     public Long updateMember(@PathVariable Long id, @RequestBody @Valid MemberUpdateDto memberUpdateDto) {
         Optional<Member> byNickname = memberService.findByNickname(memberUpdateDto.getNickname());
-        if(byNickname.isPresent()) {
+        if (byNickname.isPresent()) {
             Member member = byNickname.get();
-            if(!member.getId().equals(id)) {
+            if (!member.getId().equals(id)) {
                 throw new NicknameDuplicateException("닉네임이 중복됩니다.", "nickname");
             }
         }

@@ -23,12 +23,12 @@ public class DormantMemberResponseDto {
 
     private MemberStatus status;
 
-    @JsonFormat(pattern = "YYYY-mm-dd")
+    @JsonFormat(pattern = "YYYY-MM-dd")
     private LocalDateTime joinedAt;
 
-    @JsonFormat(pattern = "YYYY-mm-dd")
+    @JsonFormat(pattern = "YYYY-MM-dd")
     private LocalDateTime lastLoggedAt;
 
-    @JsonFormat(pattern = "YYYY-mm-dd")
+    @JsonFormat(pattern = "YYYY-MM-dd")
     private LocalDateTime changedAt;
 }
