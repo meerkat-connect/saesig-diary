@@ -2,6 +2,7 @@
 <form th:object="${adopt}" method="post" id="adoptForm" name="adoptForm">
     <input type="hidden" th:field="*{id}">
     <input type="hidden" id="beforeStatus" name="beforeStatus" th:field="*{beforeStatus}">
+    <input type="hidden" id="beforeIsDeleted" name="beforeIsDeleted" th:field="*{isDeleted}">
     <div class="card-header p-b-0">
         <h3 class="sub-title"><strong>기본정보</strong>
             <div class="col-0 col-md-0 text-right">
@@ -81,8 +82,8 @@
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="likeCnt"><strong>좋아요
                         수</strong></label>
                     <div class="col-sm-12">
-                        <input type="text" th:value="${likeCnt}" class="form-control form-control-sm form-control-round"
-                                readonly>
+                        <input type="text" th:field="*{likeCnt}" class="form-control form-control-sm form-control-round"
+                               readonly>
                     </div>
                 </div>
             </div>
@@ -129,35 +130,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 mb-3">
-                <div class="row form-group required mb-3">
-                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="likeCnt"><strong>좋아요
-                        수</strong></label>
-                    <div class="col-sm-12">
-                        <input type="text" th:field="*{likeCnt}" class="form-control form-control-sm form-control-round"
-                                readonly>
-                    </div>
-                </div>
-            </div>
-            <!--                <div class="col-lg-3 mb-3">-->
-            <!--                    <div class="row form-group required mb-3">-->
-            <!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="hits"><strong>조회수</strong></label>-->
-            <!--                        <div class="col-sm-12">-->
-            <!--                            <input type="text" th:field="*{hits}" class="form-control form-control-sm form-control-round" placeholder="제목을 입력해주세요." readonly>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--                <div class="col-lg-6 mb-3">-->
-            <!--                </div>-->
-            <!--                <div class="col-lg-6 mb-3">-->
-            <!--                    <div class="mb-0 form-group">-->
-            <!--                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isDeleted"><strong>사용여부</strong></label>-->
-            <!--                        <select th:field="*{isDeleted}" class="form-select form-select-sm form-control-sm form-control-round custom-select">-->
-            <!--                            <option value="Y">사용</option>-->
-            <!--                            <option value="N">사용 안함</option>-->
-            <!--                        </select>-->
-            <!--                    </div>-->
-            <!--                </div>-->
             <div class="row form-group required mb-3">
                 <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
                 <div class="col-sm-12">
