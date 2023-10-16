@@ -116,20 +116,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 mb-3">
-                                    <div class="mb-0 form-group row">
-                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
-                                            <strong>삭제여부</strong>
-                                        </div>
-                                        <div class="col-12">
-                                            <select name="searchIsDeleted" id="searchIsDeleted" class="form-select form-control form-control-round custom-select">
-                                                <option value="">- 전체 -</option>
-                                                <option value="Y">Y</option>
-                                                <option value="N">N</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <!-- //키워드 filter -->
                             <!-- 키워드 filter-btn -->
@@ -150,10 +136,12 @@
                         <div class="col-12 col-md-6 mb-2 mb-md-0">
                             <h5><strong>검색결과</strong></h5>
                         </div>
+<!--                        런칭이후 삭제(테스트용)-->
                         <div class="col-12 col-md-6 text-right">
                             <button type="button" class="btn btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
 <!--                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>-->
                         </div>
+<!--                        런칭이후 삭제(테스트용)-->
                     </div>
                     <div class="card-block-small">
                         <div class="dt-responsive table-responsive">
@@ -181,7 +169,6 @@
                                         <th>채팅</th>
                                         <th>좋아요</th>
                                         <th>조회수</th>
-                                        <th>삭제여부</th>
                                         <th>등록일</th>
                                     </tr>
                                     </thead>
@@ -290,7 +277,6 @@
                         {data:'chattingCnt'},
                         {data:'likeCnt'},
                         {data:'hits'},
-                        {data:'isDeleted'},
                         {data:'createdAt'}
 
                     ],
@@ -323,6 +309,8 @@
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
+                        let offset = $("#contentPanel").offset(); //해당 위치 반환
+                        $("html, body").animate({scrollTop: offset.top - 80},400);
                     }).fail(function (error) {
                         console.log(error)
                     });

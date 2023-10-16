@@ -72,6 +72,8 @@
                         $(document).find('#category').append(option)
                         ckeditorApp.setckeditor();
                         $(document).find('select').niceSelect();
+                        let offset = $("#contentPanel").offset(); //해당 위치 반환
+                        $("html, body").animate({scrollTop: offset.top - 80},400);
                     }).fail(function (error) {
                     });
                 })
@@ -181,6 +183,8 @@
                     }).done(function (response) {
                         $('#contentPanel').html(response);
                         ckeditorApp.setckeditor();
+                        let offset = $("#contentPanel").offset(); //해당 위치 반환
+                        $("html, body").animate({scrollTop: offset.top - 80},400);
                     }).fail(function (error) {
                     })
 
