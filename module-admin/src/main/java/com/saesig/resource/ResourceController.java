@@ -15,6 +15,14 @@ import java.util.List;
 public class ResourceController {
     private final ResourceService resourceService;
 
+    public String menuPrint() {
+        List<ResourceResponseDto> resources = resourceService.findAll();
+
+
+        return "ok";
+    }
+
+
     @GetMapping("/view")
     public String resourcesView() {
         return "resourcesView";

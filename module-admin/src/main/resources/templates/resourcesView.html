@@ -42,7 +42,6 @@
                                         </div>
                                     </div>
 
-
                                     <div class="col-12 col-xl-8">
                                         <h5 class="mb-3">
                                             <strong>자원 상세정보</strong>
@@ -58,7 +57,7 @@
                                                     <div class="mb-3 form-group row">
                                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperName"><strong>상위자원명</strong></label>
                                                         <div class="col-sm-12">
-                                                            <input type="text" class="form-control form-control-round" name="upperId" id="upperName" readonly/>
+                                                            <input type="text" class="form-control form-control-round" name="upperName" id="upperName" readonly/>
                                                         </div>
                                                     </div>
 
@@ -94,6 +93,13 @@
                                                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>URL</strong></label>
                                                         <div class="col-sm-12">
                                                             <input type="text" class="form-control form-control-round" name="url" id="url"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-3 form-group row required">
+                                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="styleClass"><strong>Style Class</strong></label>
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control form-control-round" name="styleClass" id="styleClass"/>
                                                         </div>
                                                     </div>
 
@@ -183,6 +189,7 @@
                             parent: element.id === 0 ? '#' : element.upperId,
                             text: element.name,
                             type: element.type,
+                            styleClass: element.styleClass,
                             httpMethod: element.httpMethod,
                             url: element.url,
                             isEnabled: element.isEnabled,
@@ -233,7 +240,7 @@
                                 "label": "하위 등록",
                                 "action": function (obj) {
                                     const selectedNode = $.jstree.reference(obj.reference).get_node(obj.reference).original;
-                                    if (selectedNode.type === 'FUNCTION') {
+                                    if (selectedNode.type != 'MENU' && selectedNode.type != 'DETAIL_MENU') {
                                         alert('프로그램 유형이 메뉴인 경우에만 하위 등록이 가능합니다.')
                                     } else {
                                         $('#resourceForm')[0].reset();
@@ -362,6 +369,7 @@
                 $('#depth').val(selectedNodeOriginal.depth);
                 $('#id').val(selectedNodeOriginal.id);
                 $('#name').val(selectedNodeOriginal.name);
+                $('#styleClass').val(selectedNodeOriginal.styleClass);
                 $('#url').val(selectedNodeOriginal.url);
                 adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
                 $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true);

@@ -10,6 +10,7 @@ public class ResourceInsertDto {
     private String httpMethod;
     private String type;
     private Character isEnabled;
+    private String styleClass;
     private Integer ord;
     private Integer depth;
     private Long upperId;
@@ -21,6 +22,7 @@ public class ResourceInsertDto {
                 .name(name)
                 .depth(depth)
                 .ord(ord)
+                .styleClass(styleClass)
                 .parentResource(setParentResource(upperId))
                 .httpMethod(httpMethod)
                 .type(type)
