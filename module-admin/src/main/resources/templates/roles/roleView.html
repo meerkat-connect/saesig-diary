@@ -1,29 +1,29 @@
-<div class="row mb-3">
-    <div class="col-12 col-xl-4">
-        <div class="row">
-            <h5 class="col-12 col-md-6 mb-3">
-                <strong>역할구조</strong>
-            </h5>
-            <div class="col-12 col-md-6 mb-3 text-right">
-                <button type="button" id='rootRoleInsertBtn' class="btn btn-transparent">루트 역할 등록</button>
-            </div>
-        </div>
+<div class="row">
+    <div class="col-12 col-xl-6">
+
         <div class="card">
+            <div class="card-header p-b-0">
+                <h4 class="sub-title"><strong>역할구조</strong></h4>
+                <div class="text-right">
+                    <button type="button" id='rootRoleInsertBtn' class="btn btn-transparent">루트 역할 등록</button>
+                </div>
+            </div>
             <div class="card-block-small tree-view">
                 <div id="jstree"></div>
             </div>
         </div>
     </div>
 
-    <div class="col-12 col-xl-8">
-        <h5 class="mb-3">
-            <strong>역할 상세정보</strong>
-        </h5>
+    <div class="col-12 col-xl-6">
         <form id="roleForm" name="roleForm">
             <input type="hidden" name="id" id="id"/>
             <input type="hidden" name="upperId" id="upperId">
 
             <div class="card">
+                <div class="card-header p-b-0">
+                    <h4 class="sub-title"><strong>역할 상세정보</strong></h4>
+                </div>
+
                 <div class="card-block-small">
                     <div class="mb-3 form-group row">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="upperId"><strong>상위 역할명</strong></label>

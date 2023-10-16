@@ -1,20 +1,20 @@
 <div class="row mb-3">
-    <div class="col-12 col-xl-4">
-        <h5 class="mb-3">
-            <strong>역할구조</strong>
-        </h5>
+    <div class="col-12 col-xl-6">
         <div class="card">
+            <div class="card-header p-b-0">
+                <h4 class="sub-title"><strong>역할구조</strong></h4>
+            </div>
             <div class="card-block-small" id="jstree">
             </div>
         </div>
     </div>
-    <div class="col-12 col-xl-8">
-        <h5 class="mb-3">
-            <strong>사용자 정보</strong>
-        </h5>
+    <div class="col-12 col-xl-6">
         <div class="card">
-            <form id="userSearchForm" name="userSearchForm" onsubmit="return false;" th:action="@{/admin/roles/userMapping/users}">
-                <div class="card-block-small">
+            <div class="card-header p-b-0">
+                <h4 class="sub-title"><strong>사용자 정보</strong></h4>
+            </div>
+            <div class="card-block-small">
+                <form id="userSearchForm" name="userSearchForm" onsubmit="return false;" th:action="@{/admin/roles/userMapping/users}">
                     <div class="col-12 col-lg-6 mb-3">
                         <div class="mb-0 form-group row">
                             <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
@@ -32,33 +32,33 @@
                         <button type="button" class="btn btn-gray m-r-5">초기화</button>
                         <button type="button" class="btn btn-primary">검색</button>
                     </div>
-                </div>
-            </form>
-        </div>
-        <div class="card">
-            <form id="mappingUserForm" name="mappingUserForm" method="get" action="">
-                <input type="hidden" name="seCd" id="seCd" value="A"/>
-                <div class="row p-20 p-b-0">
-                    <div class="col-12 col-md-6 mb-2 mb-md-0">
-                        <h5><strong>사용자 검색 결과</strong></h5>
+                </form>
+
+                <form id="mappingUserForm" name="mappingUserForm" method="get" action="">
+                    <input type="hidden" name="seCd" id="seCd" value="A"/>
+                    <div class="row p-20 p-b-0">
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <h5><strong>사용자 검색 결과</strong></h5>
+                        </div>
+                        <div class="col-12 col-md-6 text-right">
+                            <button type="button" id="addMemberBtn" class="btn btn-transparent">사용자추가</button>
+                        </div>
                     </div>
-                    <div class="col-12 col-md-6 text-right">
-                        <button type="button" id="addMemberBtn" class="btn btn-primary">사용자추가</button>
+                    <div class="card-block-small">
+                        <table id="mappedUserTable" class="display" style="width:100%; display:none;">
+                            <thead>
+                            <tr>
+                                <th>회원 일련번호</th>
+                                <th>이메일</th>
+                                <th>닉네임</th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
-                </div>
-                <div class="card-block-small">
-                    <table id="mappedUserTable" class="display" style="width:100%; display:none;">
-                        <thead>
-                        <tr>
-                            <th>회원 일련번호</th>
-                            <th>이메일</th>
-                            <th>닉네임</th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
+
     </div>
 </div>
 
@@ -69,9 +69,9 @@
 <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
 <script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
 <script th:inline="javascript">
-    var memberMappingController =  {
-        findMappedMembers : function(roleId) {
-            if(!!mappedUserTable) mappedUserTable.destroy();
+    var memberMappingController = {
+        findMappedMembers: function (roleId) {
+            if (!!mappedUserTable) mappedUserTable.destroy();
 
             mappedUserTable = $('#mappedUserTable').DataTable({
                 "columnDefs": [
@@ -107,10 +107,10 @@
                 ],
 
                 language: {
-                    search : '검색',
+                    search: '검색',
                     emptyTable: '데이터가 없습니다.',
-                    lengthMenu : '보기',
-                    loadingRecords : '로딩중..',
+                    lengthMenu: '보기',
+                    loadingRecords: '로딩중..',
                 },
                 drawCallback: function () {
                     var $api = this.api();
@@ -181,9 +181,9 @@
                 _this.selectedNode = _this.$jstree.jstree('get_selected', true)[0];
                 _this.parentNode = _this.$jstree.jstree(true).get_node(_this.selectedNode.parent);
                 memberMappingController.findMappedMembers(_this.selectedNode.original.id);
-            }).bind('loaded.jstree',function(){
+            }).bind('loaded.jstree', function () {
                 const firstNodeId = _this.roles[0].id
-                _this.$jstree.jstree("select_node", "#"+ firstNodeId);
+                _this.$jstree.jstree("select_node", "#" + firstNodeId);
             });
         },
 

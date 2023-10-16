@@ -1,24 +1,22 @@
 <div class="row mb-3">
-    <div class="col-12 col-xl-4">
-        <h5 class="mb-3">
-            <strong>역할구조</strong>
-        </h5>
+    <div class="col-12 col-xl-6">
         <div class="card">
+            <div class="card-header p-b-0">
+                <h4 class="sub-title"><strong>역할구조</strong></h4>
+            </div>
             <div class="card-block-small" id="jstree">
             </div>
         </div>
     </div>
-    <div class="col-12 col-xl-8">
-        <div class="row">
-            <h5 class="col-12 col-md-6 mb-3">
-                <strong>자원구조</strong>
-            </h5>
-            <div class="col-12 col-md-6 text-right">
-                <button type="button" id='resourceMappingSaveBtn' class="btn btn-primary">저장</button>
-            </div>
-        </div>
-
+    <div class="col-12 col-xl-6">
         <div class="card">
+            <div class="card-header p-b-0">
+                <h4 class="sub-title"><strong>자원구조</strong></h4>
+                <div class="col-12 col-md-6 text-right">
+                    <button type="button" id='resourceMappingSaveBtn' class="btn btn-primary">저장</button>
+                </div>
+            </div>
+
             <div class="card-block-small" id="jstree2">
             </div>
         </div>
@@ -94,9 +92,9 @@
                 }
             }).bind('select_node.jstree', function (event, data) {
                 resourceController.init(_this.$jstree.jstree('get_selected', true)[0].original.id);
-            }).bind('loaded.jstree',function(){
+            }).bind('loaded.jstree', function () {
                 const firstNodeId = _this.roles[0].id
-                _this.$jstree.jstree("select_node", "#"+ firstNodeId);
+                _this.$jstree.jstree("select_node", "#" + firstNodeId);
             });
         },
     };
@@ -155,13 +153,13 @@
                 },
                 "types": {
                     "DIRECTORY": {
-                        "icon" : "icofont  icofont-folder"
+                        "icon": "icofont  icofont-folder"
                     },
                     "MENU": {
                         "icon": "icofont icofont-file-alt"
                     },
                     "DETAIL_MENU": {
-                        "icon" : "icofont icofont-copy-black"
+                        "icon": "icofont icofont-copy-black"
                     },
                     "FUNCTION": {
                         "icon": "icofont icofont-tools-alt-2"

@@ -17,15 +17,13 @@ public class ResourceController {
 
     public String menuPrint() {
         List<ResourceResponseDto> resources = resourceService.findAll();
-
-
         return "ok";
     }
 
 
     @GetMapping("/view")
     public String resourcesView() {
-        return "resourcesView";
+        return "resources/view";
     }
 
     @GetMapping("")

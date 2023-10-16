@@ -7,59 +7,51 @@
             </button>
         </div>
         <div class="modal-body">
-            <div class="card">
-                <div class="card-block-small">
-                    <div class="row">
-                        <div class="col-12 col-lg-6 mb-2 mb-lg-0">
-                            <div class="mb-0 form-group">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
-                                <div class="input-group input-group-dropdown mb-0">
-                                    <select name="searchType" class="form-select form-control form-control-round left-select custom-select">
-                                        <option value="opt1">primary</option>
-                                        <option value="opt2">Type 2</option>
-                                        <option value="opt3">Type 3</option>
-                                    </select>
-                                    <input type="text" class="form-control form-control-round" name="searchKeyword" id="searchKeyword"/>
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                    <div class="mb-0 form-group">
+                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                        <div class="input-group input-group-dropdown mb-0">
+                            <select name="searchType" class="form-select form-control form-control-round left-select custom-select">
+                                <option value="opt1">primary</option>
+                                <option value="opt2">Type 2</option>
+                                <option value="opt3">Type 3</option>
+                            </select>
+                            <input type="text" class="form-control form-control-round" name="searchKeyword" id="searchKeyword"/>
                         </div>
-                    </div>
-                    <div class="mt-1 p-t-20 text-center">
-                        <button class="btn btn-gray m-r-5" data-bs-dismiss="modal">초기화</button>
-                        <button class="btn btn-primary">검색</button>
                     </div>
                 </div>
             </div>
-            <div class="card m-b-10">
-                <div class="card-block-small">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="dt-responsive table-responsive">
-                                <table id="memberListTable" class="display" style="width:100%;">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            <div class="border-checkbox-section">
-                                                <div class="border-checkbox-group">
-                                                    <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
-                                                    <label class="form-label border-checkbox-label" for="allCheckBox"></label>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <th>회원 일련번호</th>
-                                        <th>이메일</th>
-                                        <th>닉네임</th>
-                                    </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
+            <div class="mt-1 p-t-20 text-center">
+                <button class="btn btn-gray m-r-5" data-bs-dismiss="modal">초기화</button>
+                <button class="btn btn-primary">검색</button>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="dt-responsive table-responsive">
+                        <table id="memberListTable" class="display" style="width:100%;">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <div class="border-checkbox-section">
+                                        <div class="border-checkbox-group">
+                                            <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
+                                            <label class="form-label border-checkbox-label" for="allCheckBox"></label>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th>회원 일련번호</th>
+                                <th>이메일</th>
+                                <th>닉네임</th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary waves-effect waves-light" id="checkedMembersAddBtn">선택</button>
+        <div class="modal-footer text-center">
+            <button type="button" class="btn btn-primary" id="checkedMembersAddBtn">선택</button>
         </div>
     </div>
 </div>
