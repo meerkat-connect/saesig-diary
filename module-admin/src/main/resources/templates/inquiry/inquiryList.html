@@ -164,6 +164,8 @@
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
+                        let offset = $("#contentPanel").offset(); //해당 위치 반환
+                        $("html, body").animate({scrollTop: offset.top - 80},400);
                         $.ajax({
                             type: "post",
                             async: false,

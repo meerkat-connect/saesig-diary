@@ -48,7 +48,7 @@
     </select>
 
     <select id="selectAdoptById" resultType="com.saesig.saesigManage.AdoptListDto" parameterType="hashMap">
-        SELECT a.*, ad1.category as animalDivision1Category, ad2.category as animalDivision2Category,IFNULL(reportCnt,0) as reportCnt , IFNULL(likeCnt,0) as likeCnt, m.nickname as createdName, m.email as createdMail, m1.nickname as adoptMemberNickName, m1.email as adoptMemberEmail, ah.created_at as statusChangeCreatedAt, a.status as beforeStatus
+        SELECT a.*, ad1.category as animalDivision1Category, ad2.category as animalDivision2Category,IFNULL(reportCnt,'0') as reportCnt , IFNULL(likeCnt,'0') as likeCnt, m.nickname as createdName, m.email as createdMail, m1.nickname as adoptMemberNickName, m1.email as adoptMemberEmail, ah.created_at as statusChangeCreatedAt, a.status as beforeStatus
         ,m2.nickname as changeMemberNickName, m2.email as changeMemberEmail
             FROM adopt a
             LEFT JOIN (select adopt_id,count(*) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
@@ -138,7 +138,7 @@
     </select>
 
     <update id="deleteAdopt">
-        UPDATE adopt SET is_deleted = 'Y' where id IN
+        DELETE FROM adopt where id IN
         <foreach item="item" collection="ids" open="("  separator="," close=")">
             #{item}
         </foreach>

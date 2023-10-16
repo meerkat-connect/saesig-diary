@@ -35,11 +35,13 @@
 
                                 <div class="col-lg-3 col-md-6 mb-3">
                                     <div class="mb-0 form-group row">
-                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="searchPeriod"><strong>휴면전환일</strong></label>
+                                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="dormancyChangedAt">
+                                            <strong>휴면전환일</strong>
+                                        </label>
                                         <div class="col-sm-12">
-                                            <input type="text" class="form-control form-control-round" name="searchPeriod" id="searchPeriod" autocomplete="off">
-                                            <input type="hidden" id="searchBgngDt" name="searchBgngDt">
-                                            <input type="hidden" id="searchEndDt" name="searchEndDt">
+                                            <input type="text" class="form-control form-control-round" name="dormancyChangedAt" id="dormancyChangedAt" autocomplete="off">
+                                            <input type="hidden" id="dormancyStartDate" name="dormancyStartDate">
+                                            <input type="hidden" id="dormancyEndDate" name="dormancyEndDate">
                                         </div>
                                     </div>
                                 </div>
@@ -253,13 +255,13 @@
         };
 
         $(function () {
-            initDateRangePicker("searchPeriod", "searchBgngDt", "searchEndDt");
+            initDateRangePicker("dormancyChangedAt", "dormancyStartDate", "dormancyEndDate");
             dormantMemberController.init();
 
             $('body').on('click', '#searchBtn', function () {
                 dormantMemberController.init();
             }).on('click', '#searchInit', function () {
-                $('#searchKeyword, #searchType, #searchPeriod, #searchBgngDt, #searchEndDt ').val('');
+                $('#searchKeyword, #searchType, #dormancyChangedAt, #dormancyStartDate, #dormancyEndDate ').val('');
                 $('select').niceSelect('update');
             }).on('click', '#releaseDormantStatusListBtn', function () {
                 dormantMemberController.releaseDormantStatus(false)

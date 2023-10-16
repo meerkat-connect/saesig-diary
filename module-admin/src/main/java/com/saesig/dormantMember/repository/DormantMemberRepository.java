@@ -3,6 +3,8 @@ package com.saesig.dormantMember.repository;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.saesig.domain.member.MemberStatus;
 import com.saesig.domain.member.QDormantMember;
@@ -16,9 +18,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.StringUtils.hasText;
 
 @RequiredArgsConstructor
 @Repository
@@ -48,11 +54,36 @@ public class DormantMemberRepository {
                         ).from(dormantMember)
                         .innerJoin(member)
                         .on(dormantMember.id.eq(member.id))
+                        .where(searchEq(request.getSearchType(), request.getSearchKeyword()),
+                                dormancyDateEq(request.getDormancyStartDate(), request.getDormancyEndDate()))
                         .offset(pageRequest.getOffset())
                         .limit(pageRequest.getPageSize())
                         .fetchResults();
 
         return new PageImpl<>(dormantMembers.getResults(), pageRequest, dormantMembers.getTotal());
+    }
+
+    private BooleanExpression searchEq(String searchType, String searchKeyword) {
+        if (hasText(searchType)) {
+            if ("email".equals(searchType)) {
+                return dormantMember.email.like("%" + searchKeyword + "%");
+            } else if ("nickname".equals(searchType)) {
+                return dormantMember.nickname.like("%" + searchKeyword + "%");
+            }
+        }
+
+        return null;
+    }
+
+    private BooleanExpression dormancyDateEq(LocalDate dormancyStartDate, LocalDate dormancyEndDate) {
+        if (dormancyStartDate != null && dormancyEndDate != null) {
+            BooleanExpression isGoeStartDate = dormantMember.createdAt.goe(dormancyStartDate.atStartOfDay());
+            BooleanExpression isLoeEndDate = dormantMember.createdAt.loe(dormancyEndDate.atTime(LocalTime.MAX));
+
+            return Expressions.allOf(isGoeStartDate, isLoeEndDate);
+        }
+
+        return null;
     }
 
     public Optional<DormantMemberResponseDto> findById(Long id) {
@@ -91,7 +122,7 @@ public class DormantMemberRepository {
                 .collect(Collectors.toList())
                 .toArray(Long[]::new);
 
-       queryFactory.delete(dormantMember)
+        queryFactory.delete(dormantMember)
                 .where(dormantMember.id.in(dormantMemberIds))
                 .execute();
 

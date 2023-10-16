@@ -98,7 +98,6 @@
                                                 <label class="form-label border-checkbox-label" for="allCheckBox"></label>
                                             </div>
                                         </div>
-                                        <!--<input type="checkbox" id="allCheckBox" name="allCheckBox">-->
                                     </th>
                                     <th>아이디</th>
                                     <th>닉네임</th>
@@ -129,47 +128,24 @@
 
     <div class="modal fade" id="emailSendModalContainer" data-bs-backdrop="static" aria-hidden="true"></div>
 
+    <script type="text/javascript" th:src="@{/js/datatables-helper.js}"></script>
     <script th:inline="javascript">
         const memberController = {
             selectedRow: [],
 
             init: function () {
+                let dataTablesHelper = new DataTablesHelper('memberListTable','contentPanel');
+
                 let memberListTable = null;
 
                 if (memberListTable != null) memberListTable.destroy();
                 this.selectedRow = [];
-                memberListTable = $('#memberListTable').DataTable({
+
+                memberListTable = dataTablesHelper.datatables(`/admin/members?` + $('#searchForm').serialize(), {
                     select: {
                         selector: 'td:not(:first-child)',
                         style: 'single'
                     },
-                    "columnDefs": [
-                        {className: "dt-center", targets: "_all"}
-                    ],
-                    stripeClasses: [],
-                    pagingType: 'full_numbers',
-                    lengthChange: false,
-                    responsive: true,
-                    searching: false,
-                    destroy: true,
-                    ordering: false,
-                    paging: true,
-                    info: false,
-                    pageLength: 10,
-                    bPaginate: true,
-                    bAutoWidth: true,
-                    serverSide: true,
-                    processing: true,
-
-                    ajax: {
-                        async: false,
-                        url: `/admin/members?` + $('#searchForm').serialize(),
-                        method: 'get',
-                        "dataSrc": function (res) {
-                            return res.data;
-                        }
-                    },
-
                     columns: [
                         {
                             render: function (data, type, row) {
@@ -198,14 +174,7 @@
                         {data: 'receiveCount'},
                         {data: 'createdAt'},
                     ],
-
-                    language: {
-                        search: '검색',
-                        emptyTable: '데이터가 없습니다.',
-                        lengthMenu: '보기',
-                        loadingRecords: '로딩중..',
-                    },
-                })
+                });
 
                 memberListTable.on('select', function (e, dt, type, indexes) {
                     let rowData = memberListTable.rows(indexes).data().toArray();
@@ -214,14 +183,17 @@
                     $.ajax({
                         type: 'get',
                         url: `/admin/members/${selectedMemberId}`,
+                        async: false,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
                     }).fail(function (error) {
                     });
+
                 }).on('deselect', function (e, dt, type, indexes) {
                     let rowData = memberListTable.rows(indexes).data().toArray();
                 });
+
             }
         };
 
@@ -240,9 +212,9 @@
                     console.log(JSON.stringify(error));
                 });
             }).on('click', '#emailSendModalBtn', function () {
-                if(memberController.selectedRow.length == 0){
+                if (memberController.selectedRow.length == 0) {
                     alert('메일 발송을 위해 회원을 선택해 주십시오.');
-                    return ;
+                    return;
                 }
 
                 const emailSendModalUrl = '/admin/members/emailSendModal';
@@ -255,7 +227,7 @@
 
             }).on('click', '#searchBtn', function () {
                 memberController.init();
-            }).on('click','#searchInit', function(){
+            }).on('click', '#searchInit', function () {
                 $('#searchKeyword, #searchType, #signupMethod, #memberStatus').val('');
                 $('select').niceSelect('update');
             });

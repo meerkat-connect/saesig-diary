@@ -52,20 +52,32 @@
                 this.reportTabUrl = `/admin/members/${this.id}/report`;
                 this.blockTab = `/admin/members/${this.id}/block`;
 
-                $('#tabContentArea').load(this.detailUrl);
+                $( "#tabContentArea" ).load( this.detailUrl , function(response, status, xhr) {
+                    $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
+                });
             },
 
             clickTab: function (tabId) {
                 if(tabId === 'memberInfoTab') {
-                    $('#tabContentArea').load(this.detailUrl);
+                    $( "#tabContentArea" ).load( this.detailUrl , function(response, status, xhr) {
+                        $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
+                    });
                 } else if(tabId === 'adoptionTab') {
-                    $('#tabContentArea').load(this.adoptionTab);
+                    $( "#tabContentArea" ).load( this.adoptionTab , function(response, status, xhr) {
+                        $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
+                    });
                 } else if(tabId === 'adoptedTab') {
-                    $('#tabContentArea').load(this.adoptedTabUrl);
+                    $( "#tabContentArea" ).load( this.adoptedTabUrl , function(response, status, xhr) {
+                        $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
+                    });
                 } else if(tabId === 'reportTab') {
-                    $('#tabContentArea').load(this.reportTabUrl);
+                    $( "#tabContentArea" ).load( this.reportTabUrl , function(response, status, xhr) {
+                        $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
+                    });
                 } else if (tabId === 'blockTab') {
-                    $('#tabContentArea').load(this.blockTab);
+                    $( "#tabContentArea" ).load( this.blockTab , function(response, status, xhr) {
+                        $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
+                    });
                 }
 
                 $('#'+tabId).parent().addClass('active');
