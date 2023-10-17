@@ -39,6 +39,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
+    @ExceptionHandler(VerificationCodeMismatchException.class)
+    public ResponseEntity<ErrorResponse> verificationCodeMismatchExceptionHandler(VerificationCodeMismatchException ex) {
+        ErrorCode errorCode = ErrorCode.INVALID_VERIFICATION_CODE;
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), ex.getDefaultMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex
