@@ -3,13 +3,6 @@
       layout:decorate="~{layout/main}">
 
 <div layout:fragment="content">
-    <style>
-        .dt-center {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    </style>
     <div class="page-body">
         <div class="row">
             <!-- 필터 부분 -->
@@ -135,7 +128,6 @@
 
             init: function () {
                 let dataTablesHelper = new DataTablesHelper('memberListTable','contentPanel');
-
                 let memberListTable = null;
 
                 if (memberListTable != null) memberListTable.destroy();

@@ -102,6 +102,16 @@ input:disabled, input[readonly] {
     color: #ff8031 !important;
 }
 
+.btn-delete {
+    border-color: #585858;
+    color: #585858;
+}
+
+.btn-delete:hover {
+    background: #585858 !important;
+    color: white !important;
+}
+
 .btn-transparent {
     border-color: #ff8031;
     color: #ff8031;
