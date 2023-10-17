@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import com.saesig.error.VerificationCodeMismatchException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
@@ -61,15 +62,29 @@ public class SignController {
         return signService.duplicate(param);
     }
 
-    @Operation(summary="이메일 찾기", description = "본인인증 후 가입된 이메일 찾기")
-    @GetMapping({"/find/email/{mobileNumber}"})
-    public String findEmail(@PathVariable String mobileNumber) {
-        return signService.findEmail(mobileNumber);
+    @Operation(summary="닉네임으로 이메일 찾기", description = "닉네임으로 가입된 이메일 찾기")
+    @GetMapping({"/find/email/{nickname}"})
+    public SignDto findEmailByNickname(@PathVariable String nickname) {
+        return signService.findEmailByNickname(nickname);
+    }
+
+    @Operation(summary="SMS 본인인증으로 이메일 찾기", description = "SMS 본인인증으로 가입된 이메일 찾기")
+    @GetMapping({"/find/email/{mobileNumber}/{code}"})
+    public SignDto findEmailBySms(@PathVariable String mobileNumber, @PathVariable String code) {
+        // SMS 본인인증문자 번호와 사용자 입력값 일치여부 체크
+        if(!this.verificationSmsCode.equals(code)) {
+            throw new VerificationCodeMismatchException("인증번호가 일치하지 않습니다", "code");
+        }
+        return signService.findEmailBySms(mobileNumber);
     }
 
     @Operation(summary="비밀번호 찾기(재설정)", description = "본인인증 후 비밀번호 재설정")
-    @PostMapping({"/find/password"})
-    public int updatePassword(@RequestBody SignDto param) {
+    @PostMapping({"/find/password/{code}"})
+    public int updatePassword(@PathVariable String code, @RequestBody SignDto param) {
+        // 메일 본인인증 번호와 사용자 입력값 일치여부 체크
+        if(!this.verificationMailCode.equals(code)) {
+            throw new VerificationCodeMismatchException("인증번호가 일치하지 않습니다", "code");
+        }
         param.setPassword(passwordEncoder.encode(param.getPassword()));
         return signService.updatePassword(param);
     }
@@ -81,7 +96,7 @@ public class SignController {
         Message message = new Message();
         message.setFrom("01066620321");       // 발신번호 (임시)
         message.setTo(mobileNumber);          // 수신번호
-        message.setText("[새식일기-인증번호] : " + verificationSmsCode); // 문자내용
+        message.setText("[새식일기-인증번호] : " + this.verificationSmsCode); // 문자내용
 
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         System.out.println(response);

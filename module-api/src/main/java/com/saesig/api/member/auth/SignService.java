@@ -4,7 +4,8 @@ public interface SignService {
 
     int signup(SignDto param);
     int duplicate(SignDto param);
-    String findEmail(String mobileNumber);
+    SignDto findEmailByNickname(String nickname);
+    SignDto findEmailBySms(String mobileNumber);
     int updatePassword(SignDto param);
 
 }

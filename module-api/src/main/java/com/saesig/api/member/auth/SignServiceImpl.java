@@ -23,13 +23,40 @@ public class SignServiceImpl implements SignService {
     }
 
     @Override
-    public String findEmail(String mobileNumber) {
-        return signMapper.findEmail(mobileNumber);
+    public SignDto findEmailByNickname(String nickname) {
+        SignDto signDto = signMapper.findEmailByNickname(nickname);
+        if (signDto != null && signDto.getEmail() != null) {
+            // 이메일 아이디 뒤에서 *** 만큼 마스킹
+            signDto.setEmail(maskingEmail(signDto.getEmail()));
+        }
+        return signDto;
+    }
+
+    @Override
+    public SignDto findEmailBySms(String mobileNumber) {
+        SignDto signDto = signMapper.findEmailBySms(mobileNumber);
+        if (signDto != null && signDto.getEmail() != null) {
+            // 이메일 아이디 뒤에서 *** 만큼 마스킹
+            signDto.setEmail(maskingEmail(signDto.getEmail()));
+        }
+        return signDto;
     }
 
     @Override
     public int updatePassword(SignDto param) {
         return signMapper.updatePassword(param);
+    }
+
+    public String maskingEmail(String email) {
+        int atIndex = email.indexOf('@');
+        String maskedEmail = "";
+        if (atIndex >= 0) {
+            String prefix = email.substring(0, atIndex);
+            String maskedPrefix = prefix.length() <= 3 ? prefix.replaceAll(".", "*") : prefix.substring(0, prefix.length() - 3) + "***";
+            String domain = email.substring(atIndex);
+            maskedEmail = maskedPrefix + domain;
+        }
+        return maskedEmail;
     }
 
 }

@@ -57,11 +57,24 @@
         </if>
     </select>
 
-    <select id="findEmail" parameterType="String" resultType="String">
+    <select id="findEmailByNickname" parameterType="String" resultType="com.saesig.api.member.auth.SignDto">
         SELECT EMAIL
+             , CREATED_AT
         FROM MEMBER
         WHERE 1=1
-        AND MOBILE_NUMBER = #{mobileNumber}
+        <if test="nickname != '' and nickname != null">
+            AND NICKNAME = #{nickname}
+        </if>
+    </select>
+
+    <select id="findEmailBySms" parameterType="String" resultType="com.saesig.api.member.auth.SignDto">
+        SELECT EMAIL
+             , CREATED_AT
+        FROM MEMBER
+        WHERE 1=1
+        <if test="mobileNumber != '' and mobileNumber != null">
+            AND MOBILE_NUMBER = #{mobileNumber}
+        </if>
     </select>
 
     <update id="updatePassword" parameterType="com.saesig.api.member.auth.SignDto">
