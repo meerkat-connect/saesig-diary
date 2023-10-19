@@ -657,6 +657,7 @@ table.dataTable tbody tr.selected > * {
 
 .modal-footer {
     border: 0;
+    justify-content: end;
 }
 
 .modal-content-2 {
