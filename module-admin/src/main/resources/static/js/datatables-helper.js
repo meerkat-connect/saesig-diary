@@ -1,10 +1,14 @@
 class DataTablesHelper {
     tableId = null;
     contentPanelId = null;
+    $table = null;
+    $contentPanel = null;
 
     constructor(tableId, contentPanelId) {
         this.tableId = tableId;
         this.contentPanelId = contentPanelId;
+        this.$table = $('#'+ tableId);
+        this.$contentPanel = $('#' + contentPanelId);
     }
 
     datatables = (url, customOption) =>  {
@@ -46,7 +50,30 @@ class DataTablesHelper {
 
         $.extend(option, customOption);
 
-        var tableId = this.tableId;
-        return $('#' + tableId).DataTable(option);
+        return this.$table.DataTable(option);
+    }
+
+    reload = () => {
+        this.$table.DataTable().ajax.reload(null,false);
+        this.$contentPanel.html('');
+    }
+
+    loadContent = (url) => {
+        const _this = this;
+        $.ajax({
+            type: 'get',
+            url: url,
+            async: false,
+            dataType: 'html'
+        }).done(function (response) {
+            _this.$contentPanel.html(response);
+        }).fail(function (error) {
+        });
+
+        _this.$contentPanel[0].scrollIntoView({block: 'center'})
+    }
+
+    hideContent = () => {
+        this.$contentPanel.html('');
     }
 }

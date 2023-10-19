@@ -140,6 +140,7 @@
                     },
                     columns: [
                         {
+                            width: 80,
                             render: function (data, type, row) {
                                 return `
                                     <div class="border-checkbox-section">
@@ -171,21 +172,8 @@
                 memberListTable.on('select', function (e, dt, type, indexes) {
                     let rowData = memberListTable.rows(indexes).data().toArray();
                     const selectedMemberId = rowData[0].id;
-
-                    $.ajax({
-                        type: 'get',
-                        url: `/admin/members/${selectedMemberId}`,
-                        async: false,
-                        dataType: 'html'
-                    }).done(function (response) {
-                        $('#contentPanel').html(response);
-                    }).fail(function (error) {
-                    });
-
-                }).on('deselect', function (e, dt, type, indexes) {
-                    let rowData = memberListTable.rows(indexes).data().toArray();
-                });
-
+                    dataTablesHelper.loadContent(`/admin/members/${selectedMemberId}`);
+                })
             }
         };
 

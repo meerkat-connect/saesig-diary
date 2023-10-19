@@ -60,26 +60,22 @@
             clickTab: function (tabId) {
                 if(tabId === 'memberInfoTab') {
                     $( "#tabContentArea" ).load( this.detailUrl , function(response, status, xhr) {
-                        $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
                     });
                 } else if(tabId === 'adoptionTab') {
                     $( "#tabContentArea" ).load( this.adoptionTab , function(response, status, xhr) {
-                        $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
                     });
                 } else if(tabId === 'adoptedTab') {
                     $( "#tabContentArea" ).load( this.adoptedTabUrl , function(response, status, xhr) {
-                        $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
                     });
                 } else if(tabId === 'reportTab') {
                     $( "#tabContentArea" ).load( this.reportTabUrl , function(response, status, xhr) {
-                        $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
                     });
                 } else if (tabId === 'blockTab') {
                     $( "#tabContentArea" ).load( this.blockTab , function(response, status, xhr) {
-                        $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
                     });
                 }
 
+                $('#tabContentArea')[0].scrollIntoView({behavior: 'auto', block: 'center'});
                 $('#'+tabId).parent().addClass('active');
             },
 
