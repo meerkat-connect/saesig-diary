@@ -33,7 +33,7 @@
                     <div class="mb-0 form-group row ">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
                         <div class="col-12">
-                            <textarea rows="10" cols="10" th:field="*{content}" class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
+                            <textarea rows="5" cols="5" th:field="*{content}" class="form-control form-control-round" placeholder="내용을 입력해주세요." mekc-ck-editor></textarea>
                         </div>
                     </div>
                 </div>
@@ -49,6 +49,7 @@
 <!-- Tab Container End -->
 
 <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
+
 <script type="text/javascript">
     var formId = $("#id").val();
 

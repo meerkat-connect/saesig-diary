@@ -4,7 +4,7 @@
 
 <div layout:fragment="content">
     <style>
-        .dt-center {
+        .dt-responsive {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -139,10 +139,11 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <script th:inline="javascript">
         const listController = {
-
             selectedRow: [],
+
             init: function () {
                 let listTable = null;
 
@@ -151,10 +152,10 @@
 
                 listTable = $('#listTable').DataTable({
                     select: {
+                        selector: 'td:not(:first-child)',
                         style: 'single'
                     },
                     "columnDefs": [
-                        // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
                         {className: "dt-center", targets: "_all"}
                     ],
 
@@ -187,26 +188,33 @@
                             }
                         },
                         "dataSrc": function (res) {
-                            res.data[0].isFirst = true;
-                            return res.data;
+                            if (res.data.length > 0){
+                                return res.data;
+                            }else{
+                                return false;
+                            }
                         }
                     },
 
                     columns: [
-                        {   width : 80,
+                        {
+                            width: 80,
                             render: function (data, type, row) {
                                 return `
                                     <div class="border-checkbox-section">
-                                        <div class="border-checkbox-group">
-                                            <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
-                                            <label class="form-label border-checkbox-label" for="allCheckBox"></label>
-                                        </div>
-                                    </div>
-                                `;
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
+                                                    <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
+                                                </div>
+                                            </div>`;
                             }
                         },
                         {data : 'rowNumber', width : 80}, // 페이징 후 No. 변경
-                        {data : 'category'},
+                        {data : 'category',
+                            render: function (data, type, row) {
+                                return data == 'batch' ? '배치' : data == 'now' ? '즉시' : '직접';
+                            }
+                        },
                         {data : 'title'},
                         {data : 'nickName'},
                         {data : 'hits'},
@@ -269,7 +277,6 @@
 
         $(function () {
             initDateRangePicker("searchPeriod", "searchBgngDt", "searchEndDt");
-
             listController.init();
 
             $("body").on('click', '#insertBtn', function () {
@@ -289,8 +296,8 @@
                 listController.init();
             })
 
-            $('input[name=tableCheckbox]').on('change', function () {
-                const $this = $(this)
+            $('input[name=tableCheckbox]').on('change', function (e) {
+                const $this = $(this);
                 if ($this.is(':checked')) {
                     listController.selectedRow.push($this.data('id'));
                     if (listController.selectedRow.length === $('input[name=tableCheckbox]').length) {
@@ -298,14 +305,14 @@
                     }
                 } else {
                     listController.selectedRow = $.grep(listController.selectedRow, function (i) {
-                        return i != $this.data(id);
+                        return i != $this.data('id');
                     })
 
                     if (listController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
                 }
             })
 
-            $('#allCheckBox').on('change', function () {
+            $('#allCheckBox').on('change', function (e) {
                 const $this = $(this);
 
                 if ($this.is(':checked')) {
