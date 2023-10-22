@@ -8,6 +8,7 @@ import com.saesig.domain.inquiry.InquiryCategory;
 import com.saesig.domain.inquiry.InquiryStatus;
 import com.saesig.domain.member.MemberStatus;
 import com.saesig.domain.member.SignupMethod;
+import com.saesig.domain.popupManage.ButtonOption;
 import com.saesig.domain.report.ReportCategory;
 import com.saesig.domain.templateManage.SendCategory;
 import com.saesig.domain.templateManage.SendMethod;
@@ -43,6 +44,7 @@ public class EnumConfig {
         factory.put("reportCategry", ReportCategory.class);
         factory.put("adoptStopCategory", AdoptStopCategory.class);
         factory.put("exposureLocation", ExposureLocation.class);
+        factory.put("buttonOption", ButtonOption.class);
 
         // 해당 라인에 새롭게 추가한 Enum 클래스들 추가
 

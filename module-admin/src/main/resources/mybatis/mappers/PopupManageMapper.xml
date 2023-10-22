@@ -3,4 +3,138 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.saesig.popupManage.PopupManageMapper">
 
+    <select id="selectPopupList" parameterType="com.saesig.popupManage.PopupManageDto" resultType="com.saesig.popupManage.PopupManageDto">
+        SELECT
+        id
+        , title
+        , image_file_group_id
+        , ord
+        , is_enabled
+        FROM
+        popup
+        WHERE
+        1 = 1
+        <if test='searchTitle != null and searchTitle != ""'>
+            AND title = #{searchTitle}
+        </if>
+        <if test='searchExposureLocation != null and searchExposureLocation != ""'>
+            AND exposure_location = #{searchExposureLocation}
+        </if>
+        ORDER BY ord ASC NULLS LAST
+    </select>
+
+    <select id="selectPopup" parameterType="com.saesig.popupManage.PopupManageDto" resultType="com.saesig.popupManage.PopupManageDto">
+        SELECT
+            id
+            , title
+            , exposure_location
+            , target
+            , target_role_id
+            , start_date
+            , end_date
+            , image_file_group_id
+            , url
+            , button_option
+            , ord
+            , is_enabled
+        FROM
+            popup
+        WHERE
+            1 = 1
+          AND id = #{id}
+    </select>
+
+    <select id="selectOrd" resultType="int">
+        SELECT
+            IFNULL(MAX(ORD) + 1, 1) AS ORD
+        FROM
+            popup
+        WHERE
+            1 = 1
+          AND IS_ENABLED = 'Y'
+    </select>
+
+    <insert id="insertForm">
+        INSERT INTO popup(
+                title
+                , exposure_location
+                , target
+                , target_role_id
+                , start_date
+                , end_date
+                , image_file_group_id
+                , url
+                , button_option
+                , ord
+                , is_enabled
+                , created_at
+                , created_by
+                , modified_at
+                , modified_by
+        )VALUES (
+                #{title}
+                , #{exposureLocation}
+                , #{target}
+                , #{targetRoleId}
+                , #{startDate}
+                , #{endDate}
+                , #{imageFileGroupId}
+                , #{url}
+                , #{buttonOption}
+                , #{ord}
+                , #{isEnabled}
+                , NOW()
+                , #{member.id}
+                , NOW()
+                , #{member.id}
+                )
+    </insert>
+
+    <update id="updateForm">
+        UPDATE popup
+        SET
+            title                   = #{title}
+          , exposure_location       = #{exposureLocation}
+          , target                  = #{target}
+          , target_role_id          = #{targetRoleId}
+          , start_date              = #{startDate}
+          , end_date                = #{endDate}
+          , image_file_group_id     = #{imageFileGroupId}
+          , url                     = #{url}
+          , button_option           = #{buttonOption}
+          , ord                     = #{ord}
+          , is_enabled              = #{isEnabled}
+          , modified_at             = NOW()
+          , modified_by             = #{member.id}
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="deleteItem">
+        DELETE FROM popup
+        WHERE id = #{id}
+    </delete>
+
+    <update id="changeIsEnabled">
+        UPDATE popup
+        SET
+            ord           = #{ord}
+          , is_enabled  = #{isEnabled}
+          , modified_at = NOW()
+          , modified_by = #{member.id}
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="updatePopupSort">
+        <foreach collection="pmdList" item="item" index="index" separator=";">
+            UPDATE popup SET
+            ORD             = #{item.ord}
+            , modified_at   = NOW()
+            , modified_by   = #{member.id}
+            WHERE
+            id = #{item.id}
+        </foreach>
+    </update>
+
 </mapper>
