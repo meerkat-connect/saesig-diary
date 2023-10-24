@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <!-- 배너 위치, 배너목록 부분 -->
+            <!-- 팝업 위치, 팝업목록 부분 -->
 
     </div>
 
@@ -137,7 +137,7 @@
                         animation: 150,
                         ghostClass: "blue-background-class",
 
-                        onEnd : function(evt) { // 배너를 drop 했을때 실행
+                        onEnd : function(evt) { // 팝업를 drop 했을때 실행
                             var bannerid = sortbale.toArray();
                             var dataList = new Array();
 
@@ -154,9 +154,9 @@
                             var params = new Object();
                             params["bdList"] = dataList;
 
-                            // 배너 id, 순서 수정
+                            // 팝업 id, 순서 수정
                             $.ajax({
-                                url : "/admin/popup/updateBannerSort.do",
+                                url : "/admin/popup/updatePopupSort.do",
                                 cache : false,
                                 dataType : 'json',
                                 data : JSON.stringify(params),
@@ -172,16 +172,16 @@
                 });
             },
 
-            // 배너 리스트 조회 및 리스트 생성 기능
+            // 팝업 리스트 조회 및 리스트 생성 기능
             selectBannerList: function() {
                 $.ajax({
-                    url : "/admin/popup/selectBannerList.do",
+                    url : "/admin/popup/selectPopupList.do",
                     cache : false,
                     dataType : 'json',
                     data : {searchTitle: $("#searchTitle").val(), searchExposureLocation: $("#searchExposureLocation").val()},
                     type : 'Get',
                     success : function(data) {
-                        // 배너 리스트 생성
+                        // 팝업 리스트 생성
                         if(data.list.length == null || data.list.length <= 0){
                             const noData = `
                                 <div class="nodata text-center">
@@ -199,7 +199,7 @@
                 })
             },
 
-            // 배너목록영역 배너 생성
+            // 팝업목록영역 팝업 생성
             makeBannerList : function(data) {
                 let bannerHtml = "";
                 let chkBoxTag = "";

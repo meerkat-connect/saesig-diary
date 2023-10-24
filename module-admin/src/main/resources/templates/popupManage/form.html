@@ -1,4 +1,4 @@
-<form id="bannerForm" th:object="${banner}" method="POST">
+<form id=popupForm th:object="${popup}" method="POST">
     <input type="hidden" th:field="*{id}">
     <input type="hidden" th:field="*{ord}">
     <div class="col-lg-12 mt-3 mb-3">
@@ -24,43 +24,49 @@
             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>팝업 노출위치</strong></label>
             <div class="col-sm-12">
                 <select id="selectBannerLocation" name="selectBannerLocation" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
+                    <option value="" >- 선택 -</option>
                     <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
                 </select>
             </div>
         </div>
         <div class="row form-group required mb-3">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>공지대상</strong></label>
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="target"><strong>공지대상</strong></label>
             <div class="col-sm-12">
-                <select id="selectBannerLocation" name="selectBannerLocation" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
-                    <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
+                <select id="target" name="target" class="form-select form-control form-control-round custom-select" th:field="*{target}">
+                    <option value="" >- 선택 -</option>
+                    <option value="A" >전체</option>
+                    <option value="F" >선택</option>
                 </select>
             </div>
         </div>
         <div class="row form-group required mb-3">
             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>대상 역할</strong></label>
             <div class="col-sm-12">
-                <select id="selectRole" name="selectRole" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
-                    <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
+                <select id="targetRoleId" name="targetRoleId" class="form-select form-control form-control-round custom-select" th:field="*{targetRoleId}">
+                    <option value="" >- 선택 -</option>
+                    <option value="1" >임시1</option>
+                    <option value="2" >임시2</option>
                 </select>
             </div>
         </div>
         <div class="row form-group required mb-3">
             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>팝업 노출기간</strong></label>
             <div class="col-sm">
-                <input type="date" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{url}">
+                <input type="date" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{startDate}">
             </div>
             <div class="col-sm-1 text-center">
                 <span>-</span>
             </div>
             <div class="col-sm">
-                <input type="date" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{url}">
+                <input type="date" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{endDate}">
             </div>
         </div>
         <div class="row form-group required mb-3">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>버튼 옵션</strong></label>
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="buttonOption"><strong>버튼 옵션</strong></label>
             <div class="col-sm-12">
-                <select id="selectRole" name="selectRole" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
-                    <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
+                <select id="buttonOption" name="buttonOption" class="form-select form-control form-control-round custom-select" th:field="*{buttonOption}">
+                    <option value="" >- 선택 -</option>
+                    <option th:each="item : ${buttonOption}" th:value="${item.key}" th:text="${item.value}"></option>
                 </select>
             </div>
         </div>
@@ -71,9 +77,9 @@
             </div>
         </div>
         <div class="row form-group required mb-3">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled"><strong>배너 게시 여부</strong></label>
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled"><strong>팝업 게시 여부</strong></label>
             <div class="col">
-                <input type="checkbox" class="insert js-single-small2" name="isEnabled" id="isEnabled" th:checked="${banner.isEnabled} == 'Y'"/>
+                <input type="checkbox" class="insert js-single-small2" name="isEnabled" id="isEnabled" th:checked="${popup.isEnabled} == 'Y'"/>
             </div>
         </div>
         <div class="mt-1 p-t-20 text-center">
@@ -87,7 +93,7 @@
     var formId = $("#id").val();
 
     var validator = $(document).ready(function(){
-        $("#bannerForm").validate({
+        $("#popupForm").validate({
             rules: {
                 method		:	{ required: true }
             },
@@ -98,7 +104,7 @@
     });
 
     function save(){
-        if(!($("#bannerForm").valid())) return;
+        if(!($("#popupForm").valid())) return;
 
         if(formId === '') {
             if(!confirm("저장하시겠습니까?")) return;
@@ -106,11 +112,11 @@
             if(!confirm("수정하시겠습니까?")) return;
         }
 
-        const data = $("#bannerForm").serializeObject();
+        const data = $("#popupForm").serializeObject();
         data.isEnabled = data.isEnabled ? 'Y' : 'N'
 
         $.ajax({
-            url : formId === '' ? "/admin/banner/insertForm.do" : "/admin/banner/updateForm.do",
+            url : formId === '' ? "/admin/popup/insertForm.do" : "/admin/popup/updateForm.do",
             type: 'POST',
             cache : false,
             dataType: 'json',

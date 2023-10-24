@@ -22,7 +22,7 @@ import java.util.Optional;
 public class PopupManageController {
 
 
-    private final BannerService bannerService;
+    private final PopupManageService popupManageService;
 
     private final EnumMapperFactory enumMapperFactory;
 
@@ -30,6 +30,7 @@ public class PopupManageController {
     @GetMapping("view")
     public String popupList(Model model) throws Exception {
         model.addAttribute("exposureLocation", enumMapperFactory.get("exposureLocation"));
+        model.addAttribute("buttonOption", enumMapperFactory.get("buttonOption"));
 
         return "popupManage/view";
     }
@@ -37,26 +38,27 @@ public class PopupManageController {
     @GetMapping({"/{id}/form", "/form"})
     public String form(@PathVariable(required = false) Optional<Long> id, Model model) throws Exception {
         model.addAttribute("exposureLocation", enumMapperFactory.get("exposureLocation"));
+        model.addAttribute("buttonOption", enumMapperFactory.get("buttonOption"));
 
         if (id.isPresent()) {
-            BannerDto banner = bannerService.selectBanner(id.get());
-            model.addAttribute("banner", banner);
+            PopupManageDto popup = popupManageService.selectPopup(id.get());
+            model.addAttribute("popup", popup);
 
             return "popupManage/form";
         }else {
-            BannerDto banner = new BannerDto();
-            model.addAttribute("banner", banner);
+            PopupManageDto popup = new PopupManageDto();
+            model.addAttribute("popup", popup);
 
             return "popupManage/form";
         }
     }
 
-    @GetMapping(value = "selectBannerList.do")
+    @GetMapping(value = "selectPopupList.do")
     @ResponseBody
-    public Map<String, Object> selectBannerList(BannerDto bd) throws Exception {
+    public Map<String, Object> selectBannerList(PopupManageDto pmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
-        List<BannerDto> result = bannerService.selectBannerList(bd);
+        List<PopupManageDto> result = popupManageService.selectPopupList(pmd);
 
         resultMap.put("list", result);
 
@@ -65,19 +67,19 @@ public class PopupManageController {
 
     @PostMapping("changeIsEnabled.do")
     @ResponseBody
-    public Map<String, Object> changeIsEnabled(@LoginMember SessionMember member, @RequestBody BannerDto bd) throws Exception {
+    public Map<String, Object> changeIsEnabled(@LoginMember SessionMember member, @RequestBody PopupManageDto pmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
-        if(bd.getIsEnabled().equals('Y')) {
-            int ord = bannerService.selectOrd();
-            bd.setOrd((long) ord);
+        if(pmd.getIsEnabled().equals('Y')) {
+            int ord = popupManageService.selectOrd();
+            pmd.setOrd((long) ord);
         }else {
-            bd.setOrd(null);
+            pmd.setOrd(null);
         }
 
-        bd.setMember(member);
+        pmd.setMember(member);
         int retVal = 0;
-        retVal = bannerService.changeIsEnabled(bd);
+        retVal = popupManageService.changeIsEnabled(pmd);
 
         if (retVal <= 0) {
             resultMap.put("result", Constant.REST_API_RESULT_FAIL);
@@ -89,17 +91,17 @@ public class PopupManageController {
 
     @PostMapping("insertForm.do")
     @ResponseBody
-    public Map<String, Object> insertForm(@LoginMember SessionMember member, BannerDto bd) throws Exception {
+    public Map<String, Object> insertForm(@LoginMember SessionMember member, PopupManageDto pmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
-        if(bd.getIsEnabled().equals('Y')) {
-            int ord = bannerService.selectOrd();
-            bd.setOrd((long) ord);
+        if(pmd.getIsEnabled().equals('Y')) {
+            int ord = popupManageService.selectOrd();
+            pmd.setOrd((long) ord);
         }
 
-        bd.setMember(member);
+        pmd.setMember(member);
         int retVal = 0;
-        retVal = bannerService.insertForm(bd);
+        retVal = popupManageService.insertForm(pmd);
 
         if (retVal > 0) {
             resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
@@ -114,12 +116,12 @@ public class PopupManageController {
 
     @PostMapping("updateForm.do")
     @ResponseBody
-    public Map<String, Object> updateForm(@LoginMember SessionMember member, BannerDto bd) throws Exception {
+    public Map<String, Object> updateForm(@LoginMember SessionMember member, PopupManageDto pmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
-        bd.setMember(member);
+        pmd.setMember(member);
         int retVal = 0;
-        retVal = bannerService.updateForm(bd);
+        retVal = popupManageService.updateForm(pmd);
 
         if (retVal > 0) {
             resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
@@ -138,7 +140,7 @@ public class PopupManageController {
         Map<String, Object> resultMap = new HashMap<>();
 
         int retVal = 0;
-        retVal = bannerService.deleteItem(id);
+        retVal = popupManageService.deleteItem(id);
 
         if (retVal > 0) {
             resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
@@ -153,13 +155,13 @@ public class PopupManageController {
 
     @PostMapping(value = "updateBannerSort.do")
     @ResponseBody
-    public Map<String, Object> updateBannerSort(@RequestBody BannerDto bd, @LoginMember SessionMember member) throws Exception {
+    public Map<String, Object> updateBannerSort(@RequestBody PopupManageDto pmd, @LoginMember SessionMember member) throws Exception {
         Map<String, Object> resultMap = new HashMap<String, Object>();
 
-        bd.setMember(member);
+        pmd.setMember(member);
 
         int retVal = 0;
-        retVal = bannerService.updateBannerSort(bd);
+        retVal = popupManageService.updatePopupSort(pmd);
 
         if (retVal < 0) {
             resultMap.put("result", Constant.REST_API_RESULT_FAIL);
