@@ -14,6 +14,7 @@ public class ResourceInsertDto {
     private Integer ord;
     private Integer depth;
     private Long upperId;
+    private String category;
 
     public Resource toEntity() {
         return Resource
@@ -27,6 +28,7 @@ public class ResourceInsertDto {
                 .httpMethod(httpMethod)
                 .type(type)
                 .isEnabled(isEnabled)
+                .category(category)
                 .build();
     }
 

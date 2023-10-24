@@ -23,6 +23,7 @@ public class ResourceResponseDto {
     private Integer ord;
     private String treeOrd;
     private String treeName;
+    private String category;
 
     public ResourceResponseDto(Resource resource) {
         this.id = resource.getId();
@@ -34,6 +35,7 @@ public class ResourceResponseDto {
         this.depth = resource.getDepth();
         this.ord = resource.getOrd();
         this.type = resource.getType();
+        this.category = resource.getCategory();
 
         if(this.depth > 1) {
             Resource parentResource = resource.getParentResource();

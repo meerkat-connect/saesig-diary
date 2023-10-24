@@ -99,6 +99,13 @@
                         </div>
 
                         <div class="mb-3 form-group row required">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>분류</strong></label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control form-control-round" name="category" id="category"/>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-group row required">
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="type1"><strong>자원 유형 (메뉴 / 기능) </strong></label>
                             <div class="form-radio">
                                 <div class="radio radio-inline">
@@ -184,10 +191,10 @@
                             isEnabled: element.isEnabled,
                             name: element.name,
                             depth: element.depth,
-                            ord: element.ord
+                            ord: element.ord,
+                            category: element.category
                         };
                     });
-                    console.log(_this.resources)
                 }).fail(function (error) {
                     alert("자원 목록을 조회하는데 실패하였습니다.");
                 });
@@ -237,6 +244,7 @@
                                         $('#type1').prop('checked', true);
                                         $('#upperId').val(_this.selectedNode.original.id);
                                         $('#upperUrl').val(_this.selectedNode.original.url);
+                                        $('#category').val('');
                                     }
                                 }
                             }, "delete": {
@@ -360,6 +368,7 @@
                 $('#name').val(selectedNodeOriginal.name);
                 $('#styleClass').val(selectedNodeOriginal.styleClass);
                 $('#url').val(selectedNodeOriginal.url);
+                $('#category').val(selectedNodeOriginal.category);
                 adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
                 $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true);
                 $('#httpMethod').val(selectedNodeOriginal.httpMethod).niceSelect('update');

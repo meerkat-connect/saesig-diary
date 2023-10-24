@@ -42,7 +42,8 @@ public class ResourceService {
                 , resourceUpdateDto.getHttpMethod()
                 , resourceUpdateDto.getIsEnabled()
                 , resourceUpdateDto.getType()
-                , resourceUpdateDto.getStyleClass());
+                , resourceUpdateDto.getStyleClass()
+                , resourceUpdateDto.getCategory());
 
         return resourceById.getId();
     }

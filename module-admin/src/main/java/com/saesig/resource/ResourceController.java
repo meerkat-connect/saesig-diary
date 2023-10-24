@@ -17,8 +17,26 @@ public class ResourceController {
 
     public String menuPrint() {
         List<ResourceResponseDto> resources = resourceService.findAll();
+        // 트리구조 형성
+
+        //depth == 1
+
+
+
+        // depth == 2
+
+
+
+        // depth == 3
+        // <ul class="pcoded-submenu"> </ul>
+        // sb.append("<li class=""> <a href=${url}><span class="pcoded-mtext">${resource_name}</span></a></li>")
+
+        // depth >= 4
+
         return "ok";
     }
+
+
 
 
     @GetMapping("/view")

@@ -11,4 +11,5 @@ public class ResourceUpdateDto {
     private String type;
     private String styleClass;
     private Character isEnabled;
+    private String category;
 }

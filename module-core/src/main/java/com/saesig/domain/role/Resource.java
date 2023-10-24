@@ -39,6 +39,9 @@ public class Resource extends BaseEntity {
     @Column(name = "style_class")
     private String styleClass;
 
+    @Column(name = "category")
+    private String category;
+
     @Column
     private String type;
 
@@ -50,7 +53,7 @@ public class Resource extends BaseEntity {
     private List<Resource> childResources = new ArrayList<>();
 
     @Builder
-    public Resource(Long id, String name, String url, String httpMethod, Character isEnabled, Integer depth, Integer ord, String styleClass, String type, Resource parentResource, List<Resource> childResources) {
+    public Resource(Long id, String name, String url, String httpMethod, Character isEnabled, Integer depth, Integer ord, String styleClass, String type, Resource parentResource, List<Resource> childResources, String category) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -62,15 +65,17 @@ public class Resource extends BaseEntity {
         this.type = type;
         this.parentResource = parentResource;
         this.childResources = childResources;
+        this.category = category;
     }
 
-    public void updateInfo(String name, String url, String httpMethod, Character isEnabled, String type, String styleClass) {
+    public void updateInfo(String name, String url, String httpMethod, Character isEnabled, String type, String styleClass, String category) {
         this.name = name;
         this.url =url;
         this.httpMethod = httpMethod;
         this.styleClass = styleClass;
         this.isEnabled = isEnabled;
         this.type = type;
+        this.category = category;
     }
 
     public void move(Long upperId, Integer depth, Integer ord) {
