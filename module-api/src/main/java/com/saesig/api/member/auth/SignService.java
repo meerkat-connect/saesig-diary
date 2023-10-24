@@ -7,5 +7,6 @@ public interface SignService {
     SignDto findEmailByNickname(String nickname);
     SignDto findEmailBySms(String mobileNumber);
     int updatePassword(SignDto param);
+    int resign(Long id);
 
 }

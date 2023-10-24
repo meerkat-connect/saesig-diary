@@ -88,4 +88,11 @@
         AND ID = #{id}
     </update>
 
+    <delete id="resign" parameterType="Long">
+        DELETE
+        FROM MEMBER
+        WHERE 1=1
+        AND ID = #{id}
+    </delete>
+
 </mapper>

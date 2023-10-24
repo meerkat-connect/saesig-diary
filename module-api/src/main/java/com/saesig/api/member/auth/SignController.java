@@ -47,7 +47,22 @@ public class SignController {
     @PostMapping("/signup")
     public int signup(@RequestBody SignDto param) {
         param.setPassword(passwordEncoder.encode(param.getPassword())); // 비밀번호 암호화
-        return signService.signup(param);
+        int result = signService.signup(param);
+        if(result > 0) {
+            // 회원가입 축하 메일 발송
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("messageTitle", param.getNickname() + "님 안녕하세요. 새식일기입니다:)");
+            parameters.put("messageContent", "새식일기의 가족이 되신 것을 환영합니다.<br>새식일기와 함께 새로운 식구를 만나고 따뜻한 일상을 기록해 보세요.");
+
+            Map<String, String> images = new HashMap<>();
+            images.put("main_logo", "static/main_logo.png");
+            images.put("main_bg", "static/main_bg.png");
+            images.put("bottom_logo", "static/bottom_logo.png");
+
+            MailDto mailDto = new MailDto(param.getEmail(), "", "", "새식일기의 가족이 되신것을 축하드립니다.", parameters, "mail/signupTemplate", images);
+            this.mailService.sendMail(mailDto);
+        }
+        return result;
     }
 
     @Operation(summary="회원정보 중복검사", description = "이메일/닉네임 중복검사")
@@ -79,7 +94,7 @@ public class SignController {
     }
 
     @Operation(summary="비밀번호 찾기(재설정)", description = "본인인증 후 비밀번호 재설정")
-    @PostMapping({"/find/password/{code}"})
+    @PutMapping({"/find/password/{code}"})
     public int updatePassword(@PathVariable String code, @RequestBody SignDto param) {
         // 메일 본인인증 번호와 사용자 입력값 일치여부 체크
         if(!this.verificationMailCode.equals(code)) {
@@ -105,26 +120,55 @@ public class SignController {
     }
 
     @Operation(summary="SMS 본인인증 유효성 확인", description = "SMS 본인인증 문자와 사용자 입력값 일치여부 체크")
-    @GetMapping({"/sms/vaild/{code}"})
-    public boolean isSmsCodeVaild(@PathVariable String code) {
+    @GetMapping({"/sms/valid/{code}"})
+    public boolean isSmsCodeValid(@PathVariable String code) {
         return this.verificationSmsCode.equals(code);
     }
 
     @Operation(summary="이메일 본인인증", description = "이메일 본인인증 코드 발송")
-    @PostMapping({"/mail"})
-    public void sendMail(@RequestBody MailDto mailDto) {
+    @PostMapping({"/email/{email}"})
+    public void sendCodeMail(@PathVariable String email) {
         // 메일 내용 세팅
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("messageTitle", "안녕하세요. 새식일기입니다:)");
         parameters.put("messageContent", "하단에 표기된 인증번호를 진행중인 화면에 입력해주세요.");
         parameters.put("verificationMailCode", this.verificationMailCode);
+
+        Map<String, String> images = new HashMap<>();
+        images.put("main_logo", "static/main_logo.png");
+        images.put("main_bg", "static/main_bg.png");
+        images.put("bottom_logo", "static/bottom_logo.png");
+
+        MailDto mailDto = new MailDto(email, "", "", "새식일기 인증코드입니다.", parameters, "mail/codeTemplate", images);
         mailDto.setParameters(parameters);
 		this.mailService.sendMail(mailDto);
 	}
 
     @Operation(summary="이메일 본인인증 유효성 확인", description = "이메일 본인인증 코드와 사용자 입력값 일치여부 체크")
-    @GetMapping({"/mail/vaild/{code}"})
-    public boolean isMailCodeVaild(@PathVariable String code) {
+    @GetMapping({"/email/valid/{code}"})
+    public boolean isMailCodeValid(@PathVariable String code) {
         return this.verificationMailCode.equals(code);
+    }
+
+    @Operation(summary="회원탈퇴", description = "회원탈퇴")
+    @DeleteMapping({"/resign/{id}"})
+    public int resign(@PathVariable Long id, @RequestParam("email") String email, @RequestParam("nickname") String nickname) {
+
+        int result = this.signService.resign(id);
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("messageTitle", nickname + "님 새식일기와 좋은 추억 남기셨나요?");
+        parameters.put("messageContent", "새식일기는 " + nickname + "님과 함께한 날들을 기억하며, 더 좋은 모습으로 찾아 뵐 수 있도록 하겠습니다.<br>"
+                                       + "다시 만나는 그날까지 행복한 일들만 가득하세요:)");
+
+        Map<String, String> images = new HashMap<>();
+        images.put("main_logo", "static/main_logo.png");
+        images.put("resign_bg", "static/resign_bg.png");
+        images.put("bottom_logo", "static/bottom_logo.png");
+
+        MailDto mailDto = new MailDto(email, "", "", "새식일기를 이용해주셔서 감사합니다.", parameters, "mail/resignTemplate", images);
+        mailDto.setParameters(parameters);
+        this.mailService.sendMail(mailDto);
+        return result;
     }
 }

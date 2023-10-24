@@ -11,6 +11,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.mail.internet.MimeMessage;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -36,10 +37,13 @@ public class MailServiceImpl implements MailService {
             // template 속성에 넣고자 하는 이메일 템플릿 주소를 넣으면 됨 (ex. mail/codeTemplate)
             String template = templateEngine.process(mailDto.getTemplate(), context);
             messageHelper.setText(template, true);
-            // cid 방식으로 이미지 추가
-            messageHelper.addInline("main_logo", new ClassPathResource("static/main_logo.png"));
-            messageHelper.addInline("main_bg"  , new ClassPathResource("static/main_bg.png"));
-            messageHelper.addInline("bottom_logo" , new ClassPathResource("static/bottom_logo.png"));
+
+            // cid 방식으로 이미지 동적 추가
+            for (Map.Entry<String, String> entry : mailDto.getImages().entrySet()) {
+                String contentId = entry.getKey();
+                String resource = entry.getValue();
+                messageHelper.addInline(contentId, new ClassPathResource(resource));
+            }
 
             mailSender.send(message);
 

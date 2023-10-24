@@ -47,6 +47,11 @@ public class SignServiceImpl implements SignService {
         return signMapper.updatePassword(param);
     }
 
+    @Override
+    public int resign(Long id) {
+        return signMapper.resign(id);
+    }
+
     public String maskingEmail(String email) {
         int atIndex = email.indexOf('@');
         String maskedEmail = "";
