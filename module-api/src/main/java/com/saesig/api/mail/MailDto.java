@@ -18,15 +18,16 @@ public class MailDto {
     private String subject;
     private String template;
     private Map<String, Object> parameters = new HashMap<>();
-
+    private Map<String, String> images = new HashMap<>();
 
     @Builder
-    public MailDto(String toAddress, String fromAddress, String message, String subject, Map<String, Object> parameters, String template) {
+    public MailDto(String toAddress, String fromAddress, String message, String subject, Map<String, Object> parameters, String template, Map<String, String> images) {
         this.toAddress = toAddress;
         this.fromAddress = fromAddress;
         this.message = message;
         this.subject = subject;
-        this.parameters = parameters;
         this.template = template;
+        this.parameters = parameters;
+        this.images = images;
     }
 }
