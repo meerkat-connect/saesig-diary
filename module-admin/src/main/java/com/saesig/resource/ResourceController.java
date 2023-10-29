@@ -26,7 +26,6 @@ public class ResourceController {
         //depth == 1
         ResourceTree resourceTree = getResourceTree("ADMIN");
 
-
         // depth == 2
 
 
@@ -40,21 +39,22 @@ public class ResourceController {
     }
 
     private ResourceTree getResourceTree(String resourceCategory) {
-        // List<ResourceResponseDto> resources = resourceService.findAll(resourceCategory);
-
         List<ResourceResponseDto> resources = resourceService.findAll();
         return makeResourcetree(resources);
     }
 
     private ResourceTree makeResourcetree(List<ResourceResponseDto> resources) {
-
         for (ResourceResponseDto resource : resources) {
-            if (resource.getId().equals(0)) {
-                ResourceNode resourceNode = new ResourceNode();
-                resourceNode.setData(resource);
+            ResourceNode resourceNode = new ResourceNode();
+            resourceNode.setData(resource);
+
+            if (resource.getId().equals(0L)) {
                 resourceTree.setRoot(resourceNode);
             } else {
                 ResourceNode parentNode = getParentNodeById(resource.getUpperId());
+                if(parentNode != null) {
+                    parentNode.addChild(resourceNode);
+                }
             }
         }
 
@@ -62,26 +62,24 @@ public class ResourceController {
     }
 
     private ResourceNode getParentNodeById(Long upperId) {
-        return getParentNodeById(resourceTree, upperId);
+        return getParentNodeById(resourceTree.getRoot(), upperId);
     }
 
-    private ResourceNode getParentNodeById(ResourceTree resourceTree, Long upperId) {
-        /*    MenuNode returnNode = null;
-        if (element != null) {
-        MenuItem item = element.getData();
-        if (menuID.equals(item.getMenuid())) {
-            returnNode = (MenuNode) element;
-        } else {
-            for (TreeNode<MenuItem> data : element.getChildren()) {
-                returnNode = getMenuNodeByMenuID((MenuNode) data, menuID);
-                if (returnNode != null) {
-                    break;
+    private ResourceNode getParentNodeById(ResourceNode resourceNode, Long menuId) {
+
+        if (resourceNode != null) {
+            ResourceResponseDto data = resourceNode.getData();
+            if (menuId.equals(data.getId())) {
+                return resourceNode;
+            } else {
+                for (ResourceNode node : resourceNode.getChildNodes()) {
+                    ResourceNode parentNodeById = getParentNodeById(node, menuId);
+                    if (parentNodeById != null) {
+                        return parentNodeById;
+                    }
                 }
             }
         }
-    }
-        return returnNode;*/
-
         return null;
     }
 
@@ -94,6 +92,7 @@ public class ResourceController {
     @GetMapping("")
     @ResponseBody
     public List<ResourceResponseDto> getResources() {
+        menuPrint();
         return resourceService.findAll();
     }
 

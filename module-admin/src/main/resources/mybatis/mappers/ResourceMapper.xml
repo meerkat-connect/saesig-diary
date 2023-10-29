@@ -23,7 +23,7 @@
 
         UNION ALL
 
-        SELECT 0 id, 0 upper_id, '메뉴구조도' name, '' url, 0 depth, 0 ord, '' style_class, '' category, '0' tree_ord, 'DIRECTORY' type, '' http_method, 'Y' is_enabled, '메뉴구조도' tree_name
+        SELECT 0 id, 0 upper_id, '메뉴구조도' name, '' url, 0 depth, 0 ord, '' style_class, 'ADMIN' category, '0' tree_ord, 'DIRECTORY' type, '' http_method, 'Y' is_enabled, '메뉴구조도' tree_name
         FROM dual
 
         ORDER BY tree_ord, depth;
