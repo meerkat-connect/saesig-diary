@@ -8,20 +8,20 @@ $.validator.setDefaults({
     onkeyup:false, // 키를 뗄대 유효성 검사 off
     onclick:false, // checkbox와 radio 버튼 클릭시 유효성 검사 off
     onfocusout:false, // 포커스가 떠날때 유효성 검사 off
-    errorElement: "input",
-    highlight :true,
+    errorElement: "span",
     // focusInvalid: true, 유형 검사 후 포커서를 해당 무효 필드에 둘 것인가 여부
     // focusCleanup: true true로 설정되어 있는 경우 잘못된 필드에 포커스가 가면 에러메시지를 지운다.
-    // errorClass: 'invalid',
-    // validClass: 'success',
-    showErrors:function(errorMap, errorList){ //alert
+    errorClass: 'invalid',
+    validClass: 'success',
+/*    showErrors:function(errorMap, errorList){ //alert
+        console.log(errorList);
         if(this.numberOfInvalids() && errorList.length != 0) {
             //option1 : alert 표시
             alert(errorList[0].message);
 
             errorList[0].element.focus();
             //option2  : 입력 값 지우고 에러메세지 placeholder 입력
-            //*$(errorList[0].element).val(null);
+            //!*$(errorList[0].element).val(null);
             //$(errorList[0].element).attr("placeholder",errorList[0].message);
 
             let $el = $(errorList[0].element)[0];
@@ -37,6 +37,10 @@ $.validator.setDefaults({
                 setTimeout(function() { $($el).css("border","")}, 1000);
             }
         }
+    },*/
+
+    success:function(label,element){
+        console.log(element);
     }
 });
 
