@@ -8,7 +8,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -20,13 +23,40 @@ public class ResourceController {
     private final ResourceTree resourceTree = new ResourceTree();
 
     public String menuPrint() {
-        List<ResourceResponseDto> resources = resourceService.findAll();
-        // 트리구조 형성
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String context = request.getContextPath();
 
-        //depth == 1
+        StringBuilder sb = new StringBuilder();
+        // 트리구조 형성
         ResourceTree resourceTree = getResourceTree("ADMIN");
 
-        // depth == 2
+        //depth == 1
+        ResourceNode root = resourceTree.getRoot();
+        for (ResourceNode resourceNode : root.getChildNodes()) {
+            ResourceResponseDto node1 = resourceNode.getData();
+
+            if ("DIRECTORY".equals(node1.getType())) {
+                sb
+                        .append("<div class=\"pcoded-navigatio-lavel\">")
+                        .append(node1.getName())
+                        .append("</div>");
+            } else {
+                String mkey = "1";
+                sb
+                        .append("<a class=\"d-block pcoded-navigatio-lavel\" href=\"javascript:goMenu('")
+                        .append(addContextToUrl(context, node1.getUrl()))
+                        .append("','")
+                        .append(mkey).append("')\">\n")
+                        .append(node1.getName())
+                        .append("</a>");
+            }
+
+            // depth == 2
+/*            if (!resourceNode.getChildNodes().isEmpty()) {
+
+            }*/
+
+        }
 
 
         // depth == 3
@@ -35,7 +65,15 @@ public class ResourceController {
 
         // depth >= 4
 
-        return "ok";
+        return sb.toString();
+    }
+
+    public String addContextToUrl(String context, String url) {
+        if (!url.startsWith("http")) {
+            return context + url;
+        } else {
+            return url;
+        }
     }
 
     private ResourceTree getResourceTree(String resourceCategory) {
@@ -52,7 +90,7 @@ public class ResourceController {
                 resourceTree.setRoot(resourceNode);
             } else {
                 ResourceNode parentNode = getParentNodeById(resource.getUpperId());
-                if(parentNode != null) {
+                if (parentNode != null) {
                     parentNode.addChild(resourceNode);
                 }
             }

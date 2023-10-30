@@ -53,13 +53,10 @@ INSERT INTO member_role(id, member_id,role_id, modified_at, modified_by, created
 VALUES(1, 1, 2, NOW(),1,NOW(),1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (9, '관리자', '/admin', 'GET', 'Y', 'DIRECTORY', 1, 1, 0, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (1, '회원관리', '/admin/members', 'GET', 'Y', 'DIRECTORY', 2, 1, 0, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (1, '회원관리', '/admin/members', 'GET', 'Y', 'MENU', 2, 1, 9, 'ADMIN', NOW(), 1, NOW(), 1);
-
-INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (2, '시스템관리', '/admin/system', 'GET', 'Y', 'MENU', 2, 2, 9, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (2, '시스템관리', '/admin/system', 'GET', 'Y', 'DIRECTORY', 2, 2, 0, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
 VALUES (3, '시스템관리 목록화면', '/admin/system/view.html', 'GET', 'Y', 'MENU', 3, 1, 2, 'ADMIN', NOW(), 1, NOW(), 1);
@@ -74,10 +71,10 @@ INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, u
 VALUES (6, '회원관리 목록화면', '/admin/members/view.html', 'GET', 'Y', 'FUNCTION', 3, 1, 1, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (7, 'DashBoard', '/admin', 'GET', 'Y', 'MENU', 2, 3, 9, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (7, 'DashBoard', '/admin', 'GET', 'Y', 'DIRECTORY', 2, 3, 0, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (8, 'Google Oauth', '/api/member/oauth2ClientCallback/google', 'GET', 'Y', 'MENU', 2, 4, 9, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (8, 'Google Oauth', '/api/member/oauth2ClientCallback/google', 'GET', 'Y', 'DIRECTORY', 2, 4, 0, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
 VALUES (1, 1, 1, NOW(), 1, NOW(), 1);
