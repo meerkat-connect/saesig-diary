@@ -83,20 +83,30 @@ public class ResourceController {
                         for (ResourceNode resourceNode3 : resourceNode2.getChildNodes()) {
                             ResourceResponseDto node3 = resourceNode3.getData();
                             sb.append("<li class=\"");
-                            if(!resourceNode3.getChildNodes().isEmpty()) {
+                            if (!resourceNode3.getChildNodes().isEmpty()) {
                                 sb.append("pcoded-hasmenu ");
                             }
                             sb.append("\">\n");
-                            sb.append("    <a href=\"javascript:goMenu('").append(addContextToUrl(context, node3.getUrl())).append("','").append(mkey).append("')\">\n");
+                            sb.append("<a href=\"javascript:goMenu('").append(addContextToUrl(context, node3.getUrl())).append("','").append(mkey).append("')\">\n");
                             sb.append("<span class=\"pcoded-mtext\">").append(node3.getName()).append("</span></a>\n");
 
                             if (!resourceNode3.getChildNodes().isEmpty()) {
                                 sb.append("<ul class=\"pcoded-submenu\">\n");
-                                for(ResourceNode resourceNode4 : resourceNode3.getChildNodes()) {
+                                for (ResourceNode resourceNode4 : resourceNode3.getChildNodes()) {
                                     ResourceResponseDto node4 = resourceNode4.getData();
-                                }
-                            }
 
+                                    sb.append("    <li class=\"");
+                                    /*if (menuItem4.getMenuid().equals(menuItem.getMenuid())) {
+                                        sb.append("active ");
+                                    }*/
+                                    sb.append("\">\n");
+
+                                    sb.append("<a href=\"javascript:goMenu('").append(addContextToUrl(context, node4.getUrl())).append("','").append(mkey).append("')\">\n");
+                                    sb.append("<span class=\"pcoded-mtext\">").append(node4.getName()).append("</span></a></li>\n");
+                                }
+                                sb.append("</ul>");
+                            }
+                            sb.append("</li>");
                         }
                         sb.append("</ul>");
                     }
