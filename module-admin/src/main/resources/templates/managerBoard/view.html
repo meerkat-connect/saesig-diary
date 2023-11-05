@@ -89,7 +89,7 @@
                             <h5><strong>관리자게시판 검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
+                            <button type="button" class="btn btn btn-delete m-r-5" id="deleteBtn">삭제</button>
                             <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>
                         </div>
                     </div>
@@ -198,7 +198,7 @@
 
                     columns: [
                         {
-                            width: 80,
+                            width: 70,
                             render: function (data, type, row) {
                                 return `
                                     <div class="border-checkbox-section">
@@ -218,7 +218,7 @@
                         {data : 'title'},
                         {data : 'nickName'},
                         {data : 'hits'},
-                        {data : 'createdAt'}
+                        {data : 'createdAt', width : 100}
                     ],
 
                     language: {
