@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,39 +34,22 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOAuth2LoginFailHandler customOAuth2LoginFailHandler;
     private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
-    @Bean
-    @Order(1)
-    public SecurityFilterChain ignoringSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .requestMatchers(matchers -> matchers.antMatchers(
-                        "/static/**/*",
-                        "/templates/**",
-                        "/h2-console/**",
-                        "/**/*.js",
-                        "/**/*.css",
-                        "/css/**/*",
-                        "/fonts/**/*",
-                        "/images/**/*",
-                        "/files/**/*",
-                        "/favicon.ico"))
-                .csrf()
-                .disable()
-                .headers()
-                .frameOptions()
-                .disable();
-
-        return httpSecurity.build();
-    }
+    private static final String[] ENDPOINT_WHITELIST = new String[]{
+            "/static/**/*",
+            "/templates/**",
+            "/h2-console/**",
+            "/**/*.js",
+            "/**/*.css",
+            "/css/**/*",
+            "/fonts/**/*",
+            "/images/**/*",
+            "/files/**/*",
+            "/favicon.ico"};
 
     @Bean
-    @Order(2)
     public SecurityFilterChain mainFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf().disable()
-                .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
                 .formLogin()
                 .loginPage("/admin/login")
                 .loginProcessingUrl("/login_proc")
@@ -80,6 +62,7 @@ public class SecurityConfig {
                 .and()
                 .anonymous().authorities("ANONYMOUS")
                 .and()
+                .addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class)
                 .addFilterBefore(filterSecurityInterceptor(), FilterSecurityInterceptor.class)
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())
@@ -88,25 +71,35 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-    @Bean
-    @Order(3)
-    public SecurityFilterChain oauthFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf()
-                .disable()
-                .headers()
-                .frameOptions()
-                .disable()
-                .and()
-                .requestMatchers(matchers -> matchers.antMatchers("/**/*"))
-                .oauth2Login()
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService)
-                .and()
-                .successHandler(customOAuth2LoginSuccessHandler)
-                .failureHandler(customOAuth2LoginFailHandler);
+//    @Bean
+//    @Order(3)
+//    public SecurityFilterChain oauthFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        httpSecurity
+//                .csrf()
+//                .disable()
+//                .headers()
+//                .frameOptions()
+//                .disable()
+//                .and()
+//                .requestMatchers(matchers -> matchers.antMatchers("/**/*"))
+//                .oauth2Login()
+//                .userInfoEndpoint()
+//                .userService(customOAuth2UserService)
+//                .and()
+//                .successHandler(customOAuth2LoginSuccessHandler)
+//                .failureHandler(customOAuth2LoginFailHandler);
+//
+//        return httpSecurity.build();
+//    }
 
-        return httpSecurity.build();
+
+    @Bean
+    public PermitAllFilter customFilterSecurityInterceptor() throws Exception {
+        PermitAllFilter permitAllFilter = new PermitAllFilter(ENDPOINT_WHITELIST);
+        permitAllFilter.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource());
+        permitAllFilter.setAccessDecisionManager(affirmativeBased());
+
+        return permitAllFilter;
     }
 
     @Bean
@@ -116,7 +109,7 @@ public class SecurityConfig {
 
     @Bean
     public UrlBasedFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource() {
-        return new UrlBasedFilterInvocationSecurityMetadataSource(urlResourceFactoryBean().getObject());
+        return new UrlBasedFilterInvocationSecurityMetadataSource(urlResourceFactoryBean().getObject(), securityResourceService);
     }
 
     @Bean
@@ -129,6 +122,7 @@ public class SecurityConfig {
         FilterSecurityInterceptor filterSecurityInterceptor = new FilterSecurityInterceptor();
         filterSecurityInterceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource());
         filterSecurityInterceptor.setAccessDecisionManager(affirmativeBased());
+        filterSecurityInterceptor.setRejectPublicInvocations(true);
 
         return filterSecurityInterceptor;
     }
@@ -156,7 +150,7 @@ public class SecurityConfig {
     /**
      * spring security에서 제공하는 custom tag에서 다음과 같이 url을 이용해서 접근 권한을 체크할 수 있다
      * &lt;sec:authorize url="/unitedBoard/unitedBoardList.do?boardTypeIdx=1"&gt;
-     *			공지사항
+     * 공지사항
      * &lt;/sec:authorize&gt;
      * 위의 예는 /unitedBoard/unitedBoardList.do?boardTypeIdx=1 이 url을 접근할 수 있는 권한이 있을 경우 sec:authorize 태그로 감싸진 부분을 브라우저로 표현하게 된다
      * &lt;sec:authorize access="hasRole('MEMBER')"&gt; 같이 hasRole을 이용한 권한 체크를 url로 대신 체크하는 것이다.
@@ -164,7 +158,7 @@ public class SecurityConfig {
      * 이 기능을 수행할려면 WebInvocationPrivilegeEvaluator 인터페이스를 구현한 Bean을 등록해서 사용해야 한다
      * Spring Security에서는 기본적으로 WebInvocationPrivilegeEvaluator 인터페이스를 구현한 클래스로 DefaultWebInvocationPrivilegeEvaluator를 제공하는데
      * 이 클래스를 이용해서 등록했다
-     *
+     * <p>
      * 원래 이 bean을 등록하지 않아도 Spring Security는 Java Config 방식으로 등록할때 자동으로  WebInvocationPrivilegeEvaluator 인터페이스를 구현한 클래스가
      * 만들어져 이 기능을 수행할 수 있다.
      * 그러나 이렇게 자동으로 만들어질 경우 우리가 커스터마이징한 FilterSecurityInterceptor 클래스를 이용해서 권한 접근 체크를 하지 않기 때문에
@@ -172,10 +166,11 @@ public class SecurityConfig {
      * 그래서 우리가 커스터마이징한 FilterSecurityInterceptor 클래스를 이용해서 이 태그가 동작하게끔 하기 위해
      * 우리가 커스터마이징한 FilterSecurityInterceptor 클래스를 DefaultWebInvocationPrivilegeEvaluator 클래스 bean을 만들때 사용하고
      * 이를 configure(WebSecurity web) 메소드에서 WebSecurity 클래스의 privilegeEvaluator 메소드를 이용해 등록함으로써 이 기능을 정상적으로 동작하게끔 설정했다
+     *
      * @return
      */
     @Bean
-    public WebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator(){
+    public WebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator() {
         return null;
 //        return new DefaultWebInvocationPrivilegeEvaluator(filterSecurityInterceptor);
     }
