@@ -80,7 +80,7 @@
                     info: false,
                     pageLength: 10,
                     bPaginate: true,
-                    bAutoWidth: true,
+                    bAutoWidth: false,
                     serverSide: true,
                     processing: true,
                     ajax: {
@@ -105,7 +105,7 @@
                         }
                     },
                     columns: [
-                        {
+                        {width:70,
                             render: function (data, type, row) {
                                 return ` <div class="border-checkbox-section">
                                                 <div class="border-checkbox-group">
@@ -115,15 +115,15 @@
                                             </div>`;
                             }
                         },
-                        {render : function (data,type,row) {
+                        {width:120,render : function (data,type,row) {
                                 return `${row.category.value}`
                             }},
                         {data: "title"},
-                        {data: "nickname"},
-                        {render : function (data,type,row) {
+                        {width:120,data: "nickname"},
+                        {width:120,render : function (data,type,row) {
                                 return `${row.status.value}`
                             }},
-                        {data: "createdAt"}
+                        {width:100,data: "createdAt"}
                     ],
                     "columnDefs": [
                         {className: "dt-center", targets: "_all"}
@@ -381,7 +381,7 @@
                             <h5><strong>1:1 문의 검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn-inverse" id="deleteBtn" onclick="inquiryList.deleteInquiry()">삭제</button>
+                            <button type="button" class="btn btn-delete" id="deleteBtn" onclick="inquiryList.deleteInquiry()">삭제</button>
                         </div>
                     </div>
                     <div class="card-block-small">
