@@ -11,9 +11,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -25,18 +23,29 @@ public class SecurityResourceService {
         LinkedHashMap<RequestMatcher, List<ConfigAttribute>> result = new LinkedHashMap<>();
 
         List<Resource> resources = resourceRepository.findAll();
+
         resources.forEach(resource -> {
             List<ConfigAttribute> configAttributes = new ArrayList<>();
+            Set<String> duplicateCheck = new HashSet<>();
 
             Long resourceId = resource.getId();
             List<RoleResource> roleResources = roleResourceRepository.findAllByResourceId(resourceId);
 
             for (RoleResource roleResource : roleResources) {
-                configAttributes.add(new SecurityConfig(roleResource.getRole().getName()));
+                if(!duplicateCheck.contains(roleResource.getRole().getName())) {
+                    configAttributes.add(new SecurityConfig(roleResource.getRole().getName()));
+                    duplicateCheck.add(roleResource.getRole().getName());
+                }
+            }
+
+            // TODO : 로그인 여부가 N인 경우 ROLE_ANONYMOUS RESOURCE 추가
+            if(configAttributes.isEmpty()) {
+                configAttributes.add(new SecurityConfig("ROLE_NOASSIGNED"));
             }
 
             result.put(new AntPathRequestMatcher(resource.getUrl()), configAttributes);
         });
+
 
         return result;
     }

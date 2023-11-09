@@ -1,31 +1,29 @@
 package com.saesig.config.auth;
 
 import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class UrlBasedFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+    private final SecurityResourceService securityResourceService;
     private LinkedHashMap<RequestMatcher, List<ConfigAttribute>> requestMap = new LinkedHashMap<>();
-    private static final String[] ENDPOINT_WHITELIST = new String[]{"/admin/login", "/admin", "/admin/faqs/view"};
 
-    public UrlBasedFilterInvocationSecurityMetadataSource(LinkedHashMap<RequestMatcher, List<ConfigAttribute>> requestMap) {
+
+    public UrlBasedFilterInvocationSecurityMetadataSource(LinkedHashMap<RequestMatcher, List<ConfigAttribute>> requestMap, SecurityResourceService securityResourceService) {
+        this.securityResourceService = securityResourceService;
         this.requestMap = requestMap;
     }
+
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         HttpServletRequest request = ((FilterInvocation) object).getRequest();
         String servletPath = request.getServletPath();
-
-        if(isOnEndpointWhiteList(servletPath)) {
-            SecurityConfig securityConfig = new SecurityConfig("ROLE_ANONYMOUS");
-            return List.of(securityConfig);
-        }
 
         if (requestMap != null) {
             for (Map.Entry<RequestMatcher, List<ConfigAttribute>> entry : requestMap.entrySet()) {
@@ -38,28 +36,27 @@ public class UrlBasedFilterInvocationSecurityMetadataSource implements FilterInv
         return null;
     }
 
-    private boolean isOnEndpointWhiteList(String servletPath) {
-        for (String item : ENDPOINT_WHITELIST) {
-            if (item.equals(servletPath)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
-        Set<ConfigAttribute> allAttributes = new HashSet<>();
-
-        for (Map.Entry<RequestMatcher, List<ConfigAttribute>> entry : requestMap.entrySet()) {
-            allAttributes.addAll(entry.getValue());
-        }
-
-        return allAttributes;
+        return requestMap.values().stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
     }
 
     @Override
     public boolean supports(Class<?> clazz) {
         return FilterInvocation.class.isAssignableFrom(clazz);
+    }
+
+    public void reload() {
+        requestMap.clear();
+
+        LinkedHashMap<RequestMatcher, List<ConfigAttribute>> resources = securityResourceService.getResourceList();
+        Iterator<Map.Entry<RequestMatcher, List<ConfigAttribute>>> iterator = resources.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<RequestMatcher, List<ConfigAttribute>> next = iterator.next();
+            requestMap.put(next.getKey(), next.getValue());
+        }
     }
 }

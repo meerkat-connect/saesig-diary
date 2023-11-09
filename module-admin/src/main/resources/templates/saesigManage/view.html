@@ -138,7 +138,7 @@
                         </div>
 <!--                        런칭이후 삭제(테스트용)-->
                         <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn btn-transparent m-r-5" id="deleteBtn">삭제</button>
+                            <button type="button" class="btn btn btn-delete m-r-5" id="deleteBtn">삭제</button>
 <!--                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>-->
                         </div>
 <!--                        런칭이후 삭제(테스트용)-->
@@ -222,7 +222,7 @@
                     info: false,
                     pageLength: 10,
                     bPaginate: true,
-                    bAutoWidth: true,
+                    bAutoWidth: false,
                     serverSide: true,
                     processing: true,
                     ajax: {
@@ -248,7 +248,7 @@
                     },
 
                     columns: [
-                        {
+                        {width:70,
                             render: function (data, type, row) {
                                 return ` <div class="border-checkbox-section">
                                                 <div class="border-checkbox-group">
@@ -263,9 +263,9 @@
                                 return `${row.status.value}`;
                             }},
                         {data:'title'},
-                        {data:'animalDivision1Category'},
-                        {data:'animalDivision2Category'},
-                        {render : function (data,type,row){
+                        {width:120,data:'animalDivision1Category'},
+                        {width:120,data:'animalDivision2Category'},
+                        {width:120,render : function (data,type,row){
                             if (row.gender == 'MAN'){
                                 return '수컷';
                             }else{
@@ -277,7 +277,7 @@
                         {data:'chattingCnt'},
                         {data:'likeCnt'},
                         {data:'hits'},
-                        {data:'createdAt'}
+                        {width:100,data:'createdAt'}
 
                     ],
 
@@ -382,7 +382,7 @@
                     info: false,
                     pageLength: 10,
                     bPaginate: true,
-                    bAutoWidth: true,
+                    bAutoWidth: false,
                     serverSide: true,
                     processing: true,
                     ajax: {
@@ -402,15 +402,15 @@
                     },
 
                     columns: [
-                        {data: 'id'},
+                        {width:70,data: 'id'},
                         {data : 'nickname'},
-                        {render: function (data, type, row) {
+                        {width:120,render: function (data, type, row) {
                                 return `${row.adoptStatus.value}`;
                             }},
                         {render: function (data, type, row) {
-                                return `<button type="button" class="btn btn btn-transparent m-r-5" onclick="chattingController.openChatReasonPop(`+row.id+`)">확인</button>`;
+                                return `<button type="button" class="btn btn-gray m-r-5" onclick="chattingController.openChatReasonPop(`+row.id+`)">확인</button>`;
                             }},
-                        {data : 'createdAt'}
+                        {width:100,data : 'createdAt'}
                     ],
                     language: {
                         search: '검색',
@@ -508,7 +508,7 @@
                     info: false,
                     pageLength: 10,
                     bPaginate: true,
-                    bAutoWidth: true,
+                    bAutoWidth: false,
                     serverSide: true,
                     processing: true,
                     ajax: {
@@ -535,7 +535,7 @@
                                 return `${row.category.value}`;
                             }},
                         {render: function (data, type, row) {
-                                return `<button type="button" class="btn btn btn-transparent m-r-5" onclick="reportController.openReportPop(`+row.id+`)">확인</button>`;
+                                return `<button type="button" class="btn btn btn-gray m-r-5" onclick="reportController.openReportPop(`+row.id+`)">확인</button>`;
                             }},
                         {data : 'createdAt'}
                     ],
@@ -697,7 +697,7 @@
                     info: false,
                     pageLength: 10,
                     bPaginate: true,
-                    bAutoWidth: true,
+                    bAutoWidth: false,
                     serverSide: true,
                     processing: true,
                     ajax: {
@@ -717,11 +717,11 @@
                     },
 
                     columns: [
-                        {data: 'id'},
-                        {render: function (data, type, row) {
+                        {width:70,data: 'id'},
+                        {width:120,render: function (data, type, row) {
                                 return `${row.beforeStatus.value}`;
                             }},
-                        {render: function (data, type, row) {
+                        {width:120,render: function (data, type, row) {
                                 return `${row.afterStatus.value}`;
                             }},
                         {render : function (data,type,row){
@@ -731,7 +731,7 @@
                                 return `${row.reason}`
                             }
                             }},
-                        {data : 'createdAt'},
+                        {width:100,data : 'createdAt'},
                         {render: function (data, type, row) {
                                 return `${row.nickname}`+'('+`${row.email}`+')';
                             }}
@@ -783,6 +783,8 @@
                     tabController.loadForm(tabController.reportUrl);
                 }
                 $("#"+tabController.currentTab+'Tab').addClass("active");
+                let offset = $("#contentPanel").offset(); //해당 위치 반환
+                $("html, body").animate({scrollTop: offset.top - 80},400);
             },
 
             loadForm : function (url) {

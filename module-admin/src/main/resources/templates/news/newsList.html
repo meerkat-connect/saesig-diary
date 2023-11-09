@@ -129,7 +129,7 @@
                         }
                     },
                     columns: [
-                        {
+                        {width:70,
                             render: function (data, type, row) {
                                 return ` <div class="border-checkbox-section">
                                                 <div class="border-checkbox-group">
@@ -139,13 +139,13 @@
                                             </div>`;
                             }
                         },
-                        {render : function (data,type,row) {
+                        {width:120,render : function (data,type,row) {
                                 return `${row.category.value}`;
                             }},
                         {data: "title"},
-                        {data: "nickname"},
-                        {data: "isFixed"},
-                        {data: "createdAt"}
+                        {width:120,data: "nickname"},
+                        {width:70,data: "isFixed"},
+                        {width:100,data: "createdAt"}
                     ],
                     "columnDefs": [
                         {className: "dt-center", targets: "_all"}

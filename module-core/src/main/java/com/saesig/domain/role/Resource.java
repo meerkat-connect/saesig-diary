@@ -30,6 +30,9 @@ public class Resource extends BaseEntity {
     @Column(name = "is_enabled")
     private Character isEnabled;
 
+    @Column(name = "is_login_disallowed")
+    private Character isLoginDisallowed;
+
     @Column
     private Integer depth;
 
