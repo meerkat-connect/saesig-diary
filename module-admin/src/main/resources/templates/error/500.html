@@ -1,31 +1,37 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en-us" class="no-js">
 <head>
     <meta charset="utf-8">
+    <title>404 페이지 </title>
+    <meta name="description" content="Flat able 404 Error page design">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Codedthemes">
+
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/files/extra-pages/404/1/css/style.css"/>
 </head>
+
 <body>
-<div class="container" style="max-width: 600px">
-    <div class="py-5 text-center">
-        <h2>500 error</h2>
+
+<div class="content">
+    <div class="content-box text-center">
+        <div class="big-content" style="width:auto; min-height:10px;">
+            <img src="/css/images/500.png" alt="404" style="max-width:100%; height:auto;">
+        </div>
+
+        <h1>내부 서버 오류입니다.</h1>
+        <h1>현재 URL에서 요청을 처리할 수 없습니다.</h1>
+        <button id="prevBtn"> 이전으로</button>
     </div>
-    <div>
-        <p>error</p>
-    </div>
-    <ul>
-        <li>error</li>
-        <ul>
-            <li th:text="|timestamp: ${timestamp}|"></li>
-            <li th:text="|path: ${path}|"></li>
-            <li th:text="|status: ${status}|"></li>
-            <li th:text="|message: ${message}|"></li>
-            <li th:text="|error: ${error}|"></li>
-            <li th:text="|exception: ${exception}|"></li>
-            <li th:text="|errors: ${errors}|"></li>
-            <li th:text="|trace: ${trace}|"></li>
-        </ul>
-        </li>
-    </ul>
-    <hr class="my-4">
-</div> <!-- /container -->
+</div>
+
+<script type="text/javascript" src="/files/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/files/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        $('#prevBtn').on('click', function () {
+            history.back();
+        });
+    });
+</script>
 </body>
 </html>
