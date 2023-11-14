@@ -21,6 +21,7 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         member.getMemberRoles().forEach(memberRole -> authorities.add((GrantedAuthority) memberRole.getRole()::getName));
+        authorities.add((GrantedAuthority) () -> "ROLE_ANONYMOUS");
 
         for (GrantedAuthority authority : authorities) {
             log.info("authority = {} ", authority.getAuthority());
