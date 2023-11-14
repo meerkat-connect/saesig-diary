@@ -4,6 +4,7 @@ import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,8 +30,13 @@ public class CustomErrorController extends BasicErrorController {
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView errorHtml(HttpServletRequest request,
                                   HttpServletResponse response) {
-        if (request.getAttribute(RequestDispatcher.ERROR_EXCEPTION).toString().endsWith("rejectPublicInvocations property is set to 'true'")) {
-            request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 404);
+        Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+
+        if (statusCode != null && statusCode.equals(HttpStatus.INTERNAL_SERVER_ERROR.value())) {
+            String exceptionMessage = request.getAttribute(RequestDispatcher.ERROR_EXCEPTION).toString();
+            if (exceptionMessage.endsWith("rejectPublicInvocations property is set to 'true'")) {
+                request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 404);
+            }
         }
 
         return super.errorHtml(request, response);
