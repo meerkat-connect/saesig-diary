@@ -187,7 +187,6 @@ public class ResourceController {
     @GetMapping("")
     @ResponseBody
     public List<ResourceResponseDto> getResources() {
-        menuPrint();
         return resourceService.findAll();
     }
 

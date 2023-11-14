@@ -43,7 +43,8 @@ public class ResourceService {
                 , resourceUpdateDto.getIsEnabled()
                 , resourceUpdateDto.getType()
                 , resourceUpdateDto.getStyleClass()
-                , resourceUpdateDto.getCategory());
+                , resourceUpdateDto.getCategory()
+                , resourceUpdateDto.getIsLoginDisallowed());
 
         return resourceById.getId();
     }

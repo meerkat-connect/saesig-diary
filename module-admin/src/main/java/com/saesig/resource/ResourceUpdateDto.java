@@ -12,4 +12,5 @@ public class ResourceUpdateDto {
     private String styleClass;
     private Character isEnabled;
     private String category;
+    private Character isLoginDisallowed;
 }

@@ -24,6 +24,7 @@ public class ResourceResponseDto {
     private String treeOrd;
     private String treeName;
     private String category;
+    private Character isLoginDisallowed;
 
     public ResourceResponseDto(Resource resource) {
         this.id = resource.getId();
@@ -36,6 +37,7 @@ public class ResourceResponseDto {
         this.ord = resource.getOrd();
         this.type = resource.getType();
         this.category = resource.getCategory();
+        this.isLoginDisallowed = resource.getIsLoginDisallowed();
 
         if(this.depth > 1) {
             Resource parentResource = resource.getParentResource();

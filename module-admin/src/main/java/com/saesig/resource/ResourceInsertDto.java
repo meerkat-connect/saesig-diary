@@ -15,6 +15,7 @@ public class ResourceInsertDto {
     private Integer depth;
     private Long upperId;
     private String category;
+    private Character isLoginDisallowed;
 
     public Resource toEntity() {
         return Resource
@@ -29,6 +30,7 @@ public class ResourceInsertDto {
                 .type(type)
                 .isEnabled(isEnabled)
                 .category(category)
+                .isLoginDisallowed(isLoginDisallowed)
                 .build();
     }
 

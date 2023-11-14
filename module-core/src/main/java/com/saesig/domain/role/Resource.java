@@ -56,7 +56,7 @@ public class Resource extends BaseEntity {
     private List<Resource> childResources = new ArrayList<>();
 
     @Builder
-    public Resource(Long id, String name, String url, String httpMethod, Character isEnabled, Integer depth, Integer ord, String styleClass, String type, Resource parentResource, List<Resource> childResources, String category) {
+    public Resource(Long id, String name, String url, String httpMethod, Character isEnabled, Integer depth, Integer ord, String styleClass, String type, Resource parentResource, List<Resource> childResources, String category, Character isLoginDisallowed) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -69,9 +69,10 @@ public class Resource extends BaseEntity {
         this.parentResource = parentResource;
         this.childResources = childResources;
         this.category = category;
+        this.isLoginDisallowed = isLoginDisallowed;
     }
 
-    public void updateInfo(String name, String url, String httpMethod, Character isEnabled, String type, String styleClass, String category) {
+    public void updateInfo(String name, String url, String httpMethod, Character isEnabled, String type, String styleClass, String category, Character isLoginDisallowed) {
         this.name = name;
         this.url =url;
         this.httpMethod = httpMethod;
@@ -79,6 +80,7 @@ public class Resource extends BaseEntity {
         this.isEnabled = isEnabled;
         this.type = type;
         this.category = category;
+        this.isLoginDisallowed = isLoginDisallowed;
     }
 
     public void move(Long upperId, Integer depth, Integer ord) {
