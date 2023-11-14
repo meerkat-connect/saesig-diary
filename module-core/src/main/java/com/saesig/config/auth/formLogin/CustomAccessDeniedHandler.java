@@ -1,6 +1,7 @@
 package com.saesig.config.auth.formLogin;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -15,7 +16,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        String deniedUrl = errorPage + "?exception=" + accessDeniedException.getMessage();
-        response.sendRedirect(deniedUrl);
+        response.sendError(HttpStatus.SC_FORBIDDEN);
     }
 }
