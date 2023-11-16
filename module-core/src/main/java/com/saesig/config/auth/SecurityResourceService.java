@@ -38,14 +38,18 @@ public class SecurityResourceService {
                 }
             }
 
-            // TODO : 로그인 여부가 N인 경우 ROLE_ANONYMOUS RESOURCE 추가
-            if(configAttributes.isEmpty()) {
-                configAttributes.add(new SecurityConfig("ROLE_NOASSIGNED"));
+            if("Y".equals(resource.getIsLoginDisallowed())){
+                configAttributes.add(new SecurityConfig("ROLE_ANONYMOUS"));
             }
 
             result.put(new AntPathRequestMatcher(resource.getUrl()), configAttributes);
         });
 
+        // TODO: 자원관리 / 역할관리는 DB에 미리 INSERT
+
+      /*  List<ConfigAttribute> configAttributes = new ArrayList<>();
+        configAttributes.add(new SecurityConfig("ROLE_ANONYMOUS"));
+        result.put(new AntPathRequestMatcher("/error"), configAttributes);*/
 
         return result;
     }
