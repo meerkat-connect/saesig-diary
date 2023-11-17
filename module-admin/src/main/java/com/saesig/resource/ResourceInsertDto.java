@@ -1,5 +1,6 @@
 package com.saesig.resource;
 
+import com.saesig.domain.role.ResourceType;
 import lombok.Getter;
 import com.saesig.domain.role.Resource;
 
@@ -27,7 +28,7 @@ public class ResourceInsertDto {
                 .styleClass(styleClass)
                 .parentResource(setParentResource(upperId))
                 .httpMethod(httpMethod)
-                .type(type)
+                .type(ResourceType.from(type))
                 .isEnabled(isEnabled)
                 .category(category)
                 .isLoginDisallowed(isLoginDisallowed)
