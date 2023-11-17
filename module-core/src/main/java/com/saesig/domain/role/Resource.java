@@ -45,8 +45,8 @@ public class Resource extends BaseEntity {
     @Column(name = "category")
     private String category;
 
-    @Column
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private ResourceType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "upper_id")
@@ -56,7 +56,7 @@ public class Resource extends BaseEntity {
     private List<Resource> childResources = new ArrayList<>();
 
     @Builder
-    public Resource(Long id, String name, String url, String httpMethod, Character isEnabled, Integer depth, Integer ord, String styleClass, String type, Resource parentResource, List<Resource> childResources, String category, Character isLoginDisallowed) {
+    public Resource(Long id, String name, String url, String httpMethod, Character isEnabled, Integer depth, Integer ord, String styleClass, ResourceType type, Resource parentResource, List<Resource> childResources, String category, Character isLoginDisallowed) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -72,7 +72,7 @@ public class Resource extends BaseEntity {
         this.isLoginDisallowed = isLoginDisallowed;
     }
 
-    public void updateInfo(String name, String url, String httpMethod, Character isEnabled, String type, String styleClass, String category, Character isLoginDisallowed) {
+    public void updateInfo(String name, String url, String httpMethod, Character isEnabled, ResourceType type, String styleClass, String category, Character isLoginDisallowed) {
         this.name = name;
         this.url =url;
         this.httpMethod = httpMethod;
