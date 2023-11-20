@@ -108,7 +108,7 @@ mybatis:
 
     data:
       mongodb:
-        host: localhost
+        host: 3.38.46.230
         port: 27017
         authentication-database: admin
         database: sample
@@ -143,3 +143,5 @@ decorator:
 --- #defaults
 
 
+server:
+  port: 8090

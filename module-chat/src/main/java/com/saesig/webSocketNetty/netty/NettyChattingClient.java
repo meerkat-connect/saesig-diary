@@ -21,7 +21,7 @@ public class NettyChattingClient {
     private final NettyChattingClientHandler nettyChattingClientHandler;
 
     public void run() {
-        SocketAddress address = new InetSocketAddress("127.0.0.1", 8888);
+        SocketAddress address = new InetSocketAddress("3.38.46.230", 8888);
 
         try {
             Bootstrap bs = new Bootstrap();
