@@ -108,7 +108,7 @@ mybatis:
 
     data:
       mongodb:
-        host: localhost
+        host: ENC(2J77q2vvF7KPM0R2h6gRrJUSVKfdmuh2)
         port: 27017
         authentication-database: admin
         database: sample
@@ -141,5 +141,3 @@ decorator:
       enable-logging: false
 
 --- #defaults
-
-

@@ -5,13 +5,16 @@
 
     <select id="selectBannerList" parameterType="com.saesig.banner.BannerDto" resultType="com.saesig.banner.BannerDto">
         SELECT
-            id
-            , title
-            , image_file_group_id
-            , ord
-            , is_enabled
+            A.id
+            , A.title
+            , A.image_file_group_id
+            , C.SAVED_NAME
+            , A.ord
+            , A.is_enabled
         FROM
-            banner
+            banner A
+            LEFT OUTER JOIN FILE_GROUP B ON A.IMAGE_FILE_GROUP_ID = B.ID
+            LEFT OUTER JOIN FILE C ON B.ID = C.GROUP_ID
         WHERE
             1 = 1
         <if test='searchTitle != null and searchTitle != ""'>
@@ -25,18 +28,19 @@
 
     <select id="selectBanner" parameterType="com.saesig.banner.BannerDto" resultType="com.saesig.banner.BannerDto">
         SELECT
-            id
-            , title
-            , exposure_location
-            , image_file_group_id
-            , url
-            , ord
-            , is_enabled
+            A.id
+             , A.title
+             , A.image_file_group_id
+             , C.SAVED_NAME
+             , A.ord
+             , A.is_enabled
         FROM
-            banner
+            banner A
+                LEFT OUTER JOIN FILE_GROUP B ON A.IMAGE_FILE_GROUP_ID = B.ID
+                LEFT OUTER JOIN FILE C ON B.ID = C.GROUP_ID
         WHERE
             1 = 1
-        AND id = #{id}
+        AND A.id = #{id}
     </select>
 
     <select id="selectOrd" resultType="int">

@@ -78,7 +78,7 @@ public class ChattingController {
         Gson gson = new Gson();
         String param = gson.toJson(Array);
         model.addAttribute("msg",param);
-        return "/chattingList :: #resultDiv";
+        return "chattingList :: #resultDiv";
     }
     @PostMapping("/chat/getMemberData")
     @ResponseBody

@@ -478,14 +478,26 @@ div.dataTables_wrapper div.dataTables_info {
 .banner-wrap .paging {
     margin-top: 30px
 }
-
 .banner-preview {
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid #dee2e6;
-    border-radius: 20px;
     min-height: 250px;
+    max-height: 250px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.banner-preview > img {
+    height: 95%;
+}
+
+.banner-preview > thumbnail-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .card.banner-card {
@@ -582,6 +594,28 @@ div.dataTables_wrapper div.dataTables_info {
 
     .banner-wrap .banner-select .banner-list .banner .banner-btn > button:first-child {
         margin-right: 10px;
+    }
+
+    .banner-preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #dee2e6;
+        min-height: 200px;
+        max-height: 200px;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .banner-preview > img {
+        height: 80%;
+    }
+
+    .banner-preview > thumbnail-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
 

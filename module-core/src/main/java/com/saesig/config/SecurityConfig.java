@@ -36,9 +36,11 @@ public class SecurityConfig {
     private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
     private static final String[] ENDPOINT_WHITELIST = new String[]{
             "/static/**/*",
+            "/error/**/*",
             "/templates/**",
             "/h2-console/**",
             "/**/*.js",
+            "/img/favicon.ico",
             "/**/*.css",
             "/css/**/*",
             "/fonts/**/*",
@@ -48,6 +50,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain mainFilterChain(HttpSecurity httpSecurity) throws Exception {
+
+        // 인증 정책
+        httpSecurity.logout()
+                .logoutUrl("/logout") // default: POST 방식
+                .logoutSuccessUrl("/login")
+                .deleteCookies("JSESSIONID", "remember-me");
+//                .addLogoutHandler(logoutHandler()) 로그아웃시 시큐리티가 제공하는 기능외에 추가로 처리해야하는 로직이 있는 경우 커스텀으로 생성
+//                .logoutSuccesshandler(logoutSuccessHandler());
 
         // 세션 정책 설정
         httpSecurity.sessionManagement()
@@ -59,6 +69,7 @@ public class SecurityConfig {
                 .sessionFixation()
                 .changeSessionId(); // 세션고정보호 (default)
 
+        // 인가 정책
         httpSecurity
                 .csrf().disable()
                 .formLogin()
@@ -74,7 +85,7 @@ public class SecurityConfig {
                 .anonymous().authorities("ANONYMOUS")
                 .and()
                 .addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class)
-                .addFilterBefore(filterSecurityInterceptor(), FilterSecurityInterceptor.class)
+//                .addFilterBefore(filterSecurityInterceptor(), FilterSecurityInterceptor.class)
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())
                 .authenticationEntryPoint(new CustomEntryPoint());
@@ -109,6 +120,7 @@ public class SecurityConfig {
         PermitAllFilter permitAllFilter = new PermitAllFilter(ENDPOINT_WHITELIST);
         permitAllFilter.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource());
         permitAllFilter.setAccessDecisionManager(affirmativeBased());
+        permitAllFilter.setRejectPublicInvocations(true);
 
         return permitAllFilter;
     }
@@ -128,19 +140,10 @@ public class SecurityConfig {
         return new UrlResourceFactoryBean(securityResourceService);
     }
 
-    @Bean
-    public FilterSecurityInterceptor filterSecurityInterceptor() {
-        FilterSecurityInterceptor filterSecurityInterceptor = new FilterSecurityInterceptor();
-        filterSecurityInterceptor.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource());
-        filterSecurityInterceptor.setAccessDecisionManager(affirmativeBased());
-        filterSecurityInterceptor.setRejectPublicInvocations(true);
-
-        return filterSecurityInterceptor;
-    }
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
-        return new CustomAccessDeniedHandler("/admin/403");
+        return new CustomAccessDeniedHandler("/error");
     }
 
     @Bean

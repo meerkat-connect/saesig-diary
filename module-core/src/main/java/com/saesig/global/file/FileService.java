@@ -66,6 +66,8 @@ public class FileService {
                 .savedName(savedFile.getSavedName())
                 .originName(savedFile.getOriginName())
                 .path(savedFileGroup.getPath())
+                .id(savedFile.getId())
+                .groupId(savedFileGroup.getId())
                 .build();
     }
 
@@ -77,6 +79,8 @@ public class FileService {
                 .originName(file.getOriginName())
                 .savedName(file.getOriginName())
                 .path(file.getFileGroup().getPath())
+                .id(file.getId())
+                .groupId(file.getFileGroup().getId())
                 .build();
     }
 

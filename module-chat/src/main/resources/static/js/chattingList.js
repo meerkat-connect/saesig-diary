@@ -6,6 +6,7 @@ const chattingList = {
 
     ,registEvent : function (){
         const _this = this;
+        $('.message').hide()
        $(chatList).each(function (){
            _this.makeList(this)
        })

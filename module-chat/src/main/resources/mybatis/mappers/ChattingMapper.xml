@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="saesigDiary.websocketnetty.chatting.ChattingMapper">
+<mapper namespace="com.saesig.webSocketNetty.chatting.ChattingMapper">
     <select id="getMemberList" resultType="com.saesig.webSocketNetty.chatting.ChatMemberDto">
         SELECT
             id
@@ -29,7 +29,7 @@
     </select>
 
     <insert id="insertChattingRoom">
-        INSERT INTO chatting_room (chat_id, title,member_id, created_by) VALUES (#{chatId}, #{title},#{memberId}, #{createdByMemberId})
+        INSERT INTO chatting_room (chat_id, title,adopt_id,member_id, created_by) VALUES (#{chatId}, #{title},0,#{memberId}, #{createdByMemberId})
     </insert>
 
     <select id="getChatMemberData" resultType="com.saesig.webSocketNetty.chatting.ChatReadDto">
