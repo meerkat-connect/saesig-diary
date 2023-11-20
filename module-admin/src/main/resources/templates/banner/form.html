@@ -82,16 +82,40 @@
             if(!confirm("수정하시겠습니까?")) return;
         }
 
-        const data = new FormData();
-        data.append("bannerFile", $('#bannerFile')[0].files[0]);
+        const formData = new FormData();
+        formData.append("bannerFile", $('#bannerFile')[0].files[0]);
+
+        /*
+            // 다중 파일인 경우 사용
+            const fileInput = $(".files");
+            for (var i = 0; i < fileInput.length; i++) {
+                if (fileInput[i].files.length > 0) {
+                    for (var j = 0; j < fileInput[i].files.length; j++) {
+                        formData.append('files', $('.files')[i].files[j]);
+                    }
+                }
+        }*/
+
+        // @RequestPart를 사용하는 경우 사용
+        /*
+            const params = {
+                title : $('#title').val()
+                , exposureLocation : $('#exposureLocation').val()
+                , url : $('#url').val()
+                , isEnabled : $('#isEnabled').val() == 'Y' ? 'Y' : 'N'
+            };
+            // bd: 컨트롤러에서 넘겨받는 파라미터명. 수정 가능
+            formData.append("bd", new Blob([JSON.stringify(params)], {type: "application/json"}));
+        */
 
         $.ajax({
             url : formId === '' ? "/admin/banner/bannerFileUpload.do" : "/admin/banner/updateForm.do",
             type: 'POST',
             cache: false,
-            processData: false,
             contentType: false,
-            data : data,
+            processData: false,
+            enctype: "multipart/form-data",
+            data : formData,
             success : function (data){
                 console.log(data)
             }

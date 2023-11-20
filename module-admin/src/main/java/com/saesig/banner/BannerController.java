@@ -6,12 +6,16 @@ import com.saesig.domain.common.Constant;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.global.file.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -112,14 +116,15 @@ public class BannerController {
         return resultMap;
     }
 
-    @PostMapping("bannerFileUpload.do")
-    public String bannerFileUpload(@RequestParam("bannerFile")MultipartFile bannerFile) throws Exception {
-        fileService.storeFile(bannerFile);
+    @PostMapping(value="bannerFileUpload.do", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String bannerFileUpload(@LoginMember SessionMember member, BannerDto bd) throws Exception {
+        if(bd.getBannerFile() != null)
+            fileService.storeFile(bd.getBannerFile());
 
         return "OK";
     }
 
-    @PostMapping("updateForm.do")
+    @PostMapping(value= "updateForm.do")
     @ResponseBody
     public Map<String, Object> updateForm(@LoginMember SessionMember member, BannerDto bd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();

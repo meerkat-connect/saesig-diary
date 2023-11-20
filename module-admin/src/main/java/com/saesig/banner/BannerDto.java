@@ -5,6 +5,7 @@ import com.saesig.common.mybatis.RequestDto;
 import com.saesig.config.auth.SessionMember;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,6 +30,8 @@ public class BannerDto extends RequestDto {
     private String createdBy;
     private String modifiedAt;
     private String modifiedBy;
+
+    private MultipartFile bannerFile;
 
     // search
     // 제목, 배너위치
