@@ -1,17 +1,17 @@
-<form id="bannerForm" th:object="${banner}" method="POST">
+<form id="bannerForm" th:object="${banner}" method="POST" enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}">
     <input type="hidden" th:field="*{ord}">
     <div class="col-lg-12 mt-3 mb-3">
         <div class="row mb-0 form-group required">
             <label class="form-label col-sm-auto col-form-label p-t-0 pb-1" for="banneImg"><strong>배너이미지</strong></label>
             <p class="col-sm text-muted m-b-0">(권장사이즈 : 가로 170px, 세로 40px)</p>
-            <div class="col-12 banner-preview text-center">
-                <img class="img-fluid col-12" src="/files/assets/images/noimg.png" alt="logo image" style="max-width:200px; height:auto;">
+            <div class="col-12 banner-preview text-center" id="file_container">
+                <img class="img-fluid col-12" id="preview" src="/files/assets/images/noimg.png" alt="logo image" style="width:170px;height:40px;">
             </div>
         </div>
         <div class="col-12 text-center mt-3 mb-3">
             <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('bannerFile').click()">파일선택</button>
-            <input type="file" name="bannerFile" id="bannerFile" style="display:none"/>
+            <input type="file" name="bannerFile" id="bannerFile" onchange="readURL(this);"/>
             <input type="hidden" th:field="*{imageFileGroupId}">
         </div>
         <div class="row form-group required mb-3">
@@ -50,6 +50,18 @@
 <script th:inline="javascript">
     var formId = $("#id").val();
 
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            document.getElementById('preview').src = "";
+        }
+    }
+
     var validator = $(document).ready(function(){
         $("#bannerForm").validate({
             rules: {
@@ -70,24 +82,18 @@
             if(!confirm("수정하시겠습니까?")) return;
         }
 
-        const data = $("#bannerForm").serializeObject();
-        data.isEnabled = data.isEnabled ? 'Y' : 'N'
+        const data = new FormData();
+        data.append("bannerFile", $('#bannerFile')[0].files[0]);
 
         $.ajax({
-            url : formId === '' ? "/admin/banner/insertForm.do" : "/admin/banner/updateForm.do",
+            url : formId === '' ? "/admin/banner/bannerFileUpload.do" : "/admin/banner/updateForm.do",
             type: 'POST',
-            cache : false,
-            dataType: 'json',
+            cache: false,
+            processData: false,
+            contentType: false,
             data : data,
             success : function (data){
-                if(data.result === "success"){
-                    alert(data.msg);
-                    $('.form-area').children().remove();
-                    $('.form.nodata').show();
-                    listController.selectBannerList();
-                }else{
-                    alert(data.msg);
-                }
+                console.log(data)
             }
         });
     }

@@ -4,10 +4,12 @@ import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.common.Constant;
 import com.saesig.global.enumCode.EnumMapperFactory;
+import com.saesig.global.file.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -19,6 +21,8 @@ public class BannerController {
     private final BannerService bannerService;
 
     private final EnumMapperFactory enumMapperFactory;
+
+    private final FileService fileService;
 
 
     @GetMapping("view")
@@ -83,7 +87,7 @@ public class BannerController {
 
     @PostMapping("insertForm.do")
     @ResponseBody
-    public Map<String, Object> insertForm(@LoginMember SessionMember member, BannerDto bd) throws Exception {
+    public Map<String, Object> insertForm(@LoginMember SessionMember member, BannerDto bd, @RequestParam("bannerFile")MultipartFile bannerFile) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
         if(bd.getIsEnabled().equals('Y')) {
@@ -93,7 +97,9 @@ public class BannerController {
 
         bd.setMember(member);
         int retVal = 0;
-        retVal = bannerService.insertForm(bd);
+        retVal += bannerService.insertForm(bd);
+
+        fileService.storeFile(bannerFile);
 
         if (retVal > 0) {
             resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
@@ -104,6 +110,13 @@ public class BannerController {
         }
 
         return resultMap;
+    }
+
+    @PostMapping("bannerFileUpload.do")
+    public String bannerFileUpload(@RequestParam("bannerFile")MultipartFile bannerFile) throws Exception {
+        fileService.storeFile(bannerFile);
+
+        return "OK";
     }
 
     @PostMapping("updateForm.do")
