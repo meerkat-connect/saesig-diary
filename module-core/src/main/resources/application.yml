@@ -141,7 +141,3 @@ decorator:
       enable-logging: false
 
 --- #defaults
-
-
-server:
-  port: 8090
