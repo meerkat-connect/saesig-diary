@@ -3,6 +3,7 @@ package com.saesig.resource;
 
 import com.saesig.common.menu.ResourceNode;
 import com.saesig.common.menu.ResourceTree;
+import com.saesig.global.enumCode.EnumMapperFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequestMapping("/admin/resources")
 public class ResourceController {
     private final ResourceService resourceService;
+    private final EnumMapperFactory enumMapperFactory;
 
     private final ResourceTree resourceTree = new ResourceTree();
 

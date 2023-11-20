@@ -2,6 +2,7 @@ package com.saesig.resource;
 
 import com.saesig.domain.role.Resource;
 import com.saesig.domain.role.ResourceRepository;
+import com.saesig.domain.role.ResourceType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,7 @@ public class ResourceService {
                 , resourceUpdateDto.getUrl()
                 , resourceUpdateDto.getHttpMethod()
                 , resourceUpdateDto.getIsEnabled()
-                , resourceUpdateDto.getType()
+                , ResourceType.from(resourceUpdateDto.getType())
                 , resourceUpdateDto.getStyleClass()
                 , resourceUpdateDto.getCategory()
                 , resourceUpdateDto.getIsLoginDisallowed());

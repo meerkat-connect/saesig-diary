@@ -2,6 +2,7 @@ package com.saesig.resource;
 
 
 import com.saesig.domain.role.Resource;
+import com.saesig.domain.role.ResourceType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ public class ResourceResponseDto {
     private Long id;
     private Long upperId;
     private String name;
-    private String type;
+    private ResourceType type;
     private String httpMethod;
     private String styleClass;
     private Character isEnabled;

@@ -8,15 +8,13 @@ import com.saesig.domain.inquiry.InquiryCategory;
 import com.saesig.domain.inquiry.InquiryStatus;
 import com.saesig.domain.member.MemberStatus;
 import com.saesig.domain.member.SignupMethod;
+import com.saesig.domain.news.NewsCategory;
+import com.saesig.domain.policy.PolicyCategory;
 import com.saesig.domain.popupManage.ButtonOption;
 import com.saesig.domain.report.ReportCategory;
+import com.saesig.domain.role.ResourceType;
 import com.saesig.domain.templateManage.SendCategory;
 import com.saesig.domain.templateManage.SendMethod;
-import com.saesig.domain.news.NewsCategory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import com.saesig.domain.faq.FaqCategory;
-import com.saesig.domain.policy.PolicyCategory;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.global.enumCode.ExampleEnum;
 import org.springframework.context.annotation.Bean;
@@ -45,6 +43,7 @@ public class EnumConfig {
         factory.put("adoptStopCategory", AdoptStopCategory.class);
         factory.put("exposureLocation", ExposureLocation.class);
         factory.put("buttonOption", ButtonOption.class);
+        factory.put("resourceType", ResourceType.class);
 
         // 해당 라인에 새롭게 추가한 Enum 클래스들 추가
 
