@@ -35,7 +35,7 @@
     const username = currentMemberData['nickname']
     const userid = currentMemberData['id']
 
-    const websocket = new WebSocket("ws://127.0.0.1:8080/ws/chat?chatId=" + chatId+"&memberId="+userid);
+    const websocket = new WebSocket("ws://3.38.46.230:8090/ws/chat?chatId=" + chatId+"&memberId="+userid);
     websocket.onmessage = onMessage;
     websocket.onopen = onOpen;
     websocket.onclose = onClose;
