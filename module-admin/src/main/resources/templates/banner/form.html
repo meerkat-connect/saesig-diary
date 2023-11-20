@@ -6,12 +6,13 @@
             <label class="form-label col-sm-auto col-form-label p-t-0 pb-1" for="banneImg"><strong>배너이미지</strong></label>
             <p class="col-sm text-muted m-b-0">(권장사이즈 : 가로 170px, 세로 40px)</p>
             <div class="col-12 banner-preview text-center" id="file_container">
-                <img class="img-fluid col-12" id="preview" src="/files/assets/images/noimg.png" alt="logo image" style="width:170px;height:40px;">
+                <img class="thumbnail-img" id="preview" src="/files/assets/images/noimg.png" alt="logo image" th:if="${banner.savedName == null}">
+                <img class="thumbnail-img" id="preview" th:src="'/images/'+${banner.savedName}" alt="logo image" th:if="${banner.savedName != null}">
             </div>
         </div>
         <div class="col-12 text-center mt-3 mb-3">
             <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('bannerFile').click()">파일선택</button>
-            <input type="file" name="bannerFile" id="bannerFile" onchange="readURL(this);"/>
+            <input type="file" name="bannerFile" id="bannerFile" style="display:none" onchange="readURL(this);"/>
             <input type="hidden" th:field="*{imageFileGroupId}">
         </div>
         <div class="row form-group required mb-3">
@@ -83,7 +84,12 @@
         }
 
         const formData = new FormData();
+        formData.append("title", $('#title').val());
         formData.append("bannerFile", $('#bannerFile')[0].files[0]);
+        formData.append("exposureLocation", $('#selectBannerLocation').val());
+        formData.append("url", $('#url').val());
+        formData.append("isEnabled", $('#isEnabled').val() == 'Y' ? 'Y' : 'N');
+
 
         /*
             // 다중 파일인 경우 사용
@@ -109,15 +115,23 @@
         */
 
         $.ajax({
-            url : formId === '' ? "/admin/banner/bannerFileUpload.do" : "/admin/banner/updateForm.do",
+            url : formId === '' ? "/admin/banner/insertForm.do" : "/admin/banner/updateForm.do",
             type: 'POST',
             cache: false,
             contentType: false,
             processData: false,
             enctype: "multipart/form-data",
+            dataType: 'json',
             data : formData,
             success : function (data){
-                console.log(data)
+                if(data.result === "success"){
+                    alert(data.msg);
+                    $('.form-area').children().remove();
+                    $('.form.nodata').show();
+                    listController.selectBannerList();
+                }else{
+                    alert(data.msg);
+                }
             }
         });
     }

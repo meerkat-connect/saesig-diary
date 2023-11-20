@@ -4,6 +4,7 @@ import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.common.Constant;
 import com.saesig.global.enumCode.EnumMapperFactory;
+import com.saesig.global.file.FileDto;
 import com.saesig.global.file.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -89,9 +90,9 @@ public class BannerController {
         return resultMap;
     }
 
-    @PostMapping("insertForm.do")
+    @PostMapping(value="insertForm.do", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseBody
-    public Map<String, Object> insertForm(@LoginMember SessionMember member, BannerDto bd, @RequestParam("bannerFile")MultipartFile bannerFile) throws Exception {
+    public Map<String, Object> bannerFileUpload(@LoginMember SessionMember member, BannerDto bd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
         if(bd.getIsEnabled().equals('Y')) {
@@ -100,10 +101,12 @@ public class BannerController {
         }
 
         bd.setMember(member);
+        if(bd.getBannerFile() != null) {
+            bd.setFileDto(fileService.storeFile(bd.getBannerFile()));
+            bd.setImageFileGroupId(bd.getFileDto().getGroupId());
+        }
         int retVal = 0;
         retVal += bannerService.insertForm(bd);
-
-        fileService.storeFile(bannerFile);
 
         if (retVal > 0) {
             resultMap.put("result", Constant.REST_API_RESULT_SUCCESS);
@@ -116,20 +119,21 @@ public class BannerController {
         return resultMap;
     }
 
-    @PostMapping(value="bannerFileUpload.do", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String bannerFileUpload(@LoginMember SessionMember member, BannerDto bd) throws Exception {
-        if(bd.getBannerFile() != null)
-            fileService.storeFile(bd.getBannerFile());
-
-        return "OK";
-    }
-
-    @PostMapping(value= "updateForm.do")
+    @PostMapping(value= "updateForm.do", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseBody
     public Map<String, Object> updateForm(@LoginMember SessionMember member, BannerDto bd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
+        if(bd.getIsEnabled().equals('Y')) {
+            int ord = bannerService.selectOrd();
+            bd.setOrd((long) ord);
+        }
+
         bd.setMember(member);
+        if(bd.getBannerFile() != null) {
+            bd.setFileDto(fileService.storeFile(bd.getBannerFile()));
+            bd.setImageFileGroupId(bd.getFileDto().getGroupId());
+        }
         int retVal = 0;
         retVal = bannerService.updateForm(bd);
 

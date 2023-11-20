@@ -3,7 +3,8 @@ package com.saesig.banner;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.saesig.common.mybatis.RequestDto;
 import com.saesig.config.auth.SessionMember;
-import lombok.Data;
+import com.saesig.global.file.FileDto;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,8 @@ public class BannerDto extends RequestDto {
     private String modifiedAt;
     private String modifiedBy;
 
+    private FileDto fileDto;
+    private String savedName;
     private MultipartFile bannerFile;
 
     // search
