@@ -1,32 +1,41 @@
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (1, 'email1@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'EMAIL', '안진한', '01012341201', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (1, 'email1@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'EMAIL', '서정도1', '01012341201', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (2, 'email2@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'EMAIL', '원종민', '01012341202', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (2, 'email2@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'EMAIL', '서정도2', '01012341202', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (3, 'email3@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'EMAIL', '서정도', '01012341203', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (3, 'email3@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'EMAIL', '서정도3', '01012341203', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (4, 'email4@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'EMAIL', '박배익', '01012341204', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (4, 'email4@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'EMAIL', '서정도4', '01012341204', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (5, 'email5@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'NAVER', '도지은', '01012341205', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (5, 'email5@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'NAVER', '서정도5', '01012341205', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (6, 'email6@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2',  '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'GOOGLE', '조효정', '01012341206', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (6, 'email6@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2',  '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'GOOGLE', '서정도6', '01012341206', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (7, 'email7@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'NAVER', '이동헌', '01012341207', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (7, 'email7@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'NAVER', '서정도7', '01012341207', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (8, 'email8@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'KAKAO', '양명규', '01012341208', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (8, 'email8@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'KAKAO', '서정도8', '01012341208', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (9, 'email9@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'NAVER', '서정도9', '01012341209', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+
+INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (10, 'wjm358@naver.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'KAKAO', '원종민', '01012341210', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+
+INSERT INTO dormant_member(id, member_id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
+VALUES (1, 10, 'wjm358@naver.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'EMAIL', '원종민', '01051778536', 'DORMANCY', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO blocked_member(id, member_id, blocked_member_id, modified_at, modified_by, created_at, created_by)
 VALUES(1, 1, 10, NOW(), 1, NOW(), 1 );
 
 INSERT INTO blocked_member(id, member_id, blocked_member_id, modified_at, modified_by, created_at, created_by)
-VALUES(2, 8, 1, NOW(), 1, NOW(), 1 );
+VALUES(2, 10, 1, NOW(), 1, NOW(), 1 );
 
 INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'ROLE_USER', NULL, 'Y', '사용자 역할', NOW(), 1, NOW(), 1);
@@ -44,7 +53,7 @@ INSERT INTO member_role(id, member_id,role_id, modified_at, modified_by, created
 VALUES(1, 1, 2, NOW(),1,NOW(),1);
 
 INSERT INTO member_role(id, member_id,role_id, modified_at, modified_by, created_at, created_by)
-VALUES(2, 8, 2, NOW(),1,NOW(),1);
+VALUES(2, 10, 2, NOW(),1,NOW(),1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
 VALUES (1, '회원관리', '/admin/members', 'GET', 'Y', 'DIRECTORY', 2, 1, 0, 'ADMIN', NOW(), 1, NOW(), 1);
