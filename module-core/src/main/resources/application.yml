@@ -108,7 +108,7 @@ mybatis:
 
     data:
       mongodb:
-        host: 3.38.46.230
+        host: ENC(6uU4YKS0+yQBIjtWppOQi8q5kMW+0xaM)
         port: 27017
         authentication-database: admin
         database: sample
