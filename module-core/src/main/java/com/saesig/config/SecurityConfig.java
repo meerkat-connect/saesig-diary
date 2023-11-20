@@ -48,6 +48,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain mainFilterChain(HttpSecurity httpSecurity) throws Exception {
+
+        // 세션 정책 설정
+        httpSecurity.sessionManagement()
+                .invalidSessionUrl("/invalid")
+                .maximumSessions(1) // 최대 허용 가능 세션 수
+                .expiredUrl("/expired")
+                .maxSessionsPreventsLogin(true)  // 동시 로그인 차단, false: 기존 세션 만료 (default)
+                .and()
+                .sessionFixation()
+                .changeSessionId(); // 세션고정보호 (default)
+
         httpSecurity
                 .csrf().disable()
                 .formLogin()
