@@ -95,10 +95,19 @@ INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, u
 VALUES (17, '사용자매핑 등록 모달', '/admin/roles/memberListModal', 'GET', 'Y', 'MENU_DETAIL', 6 , 1, 15, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (18, '사용자매핑 등록 모달 사용자 조회', '/admin/roles/memberMapping/members', 'GET', 'Y', 'FUNCTION', 6 , 2, 15, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (18, '사용자 목록 조회', '/admin/roles/memberMapping/members', 'GET', 'Y', 'FUNCTION', 7 , 2, 17, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (19, '사용자매핑 등록 모달 사용자 등록', '/admin/roles/memberMapping/members', 'POST', 'Y', 'FUNCTION', 6 , 3, 15, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (21, '자원관리 화면', '/admin/roles/resourceMapping/view', 'GET', 'Y', 'MENU_DETAIL', 4 , 3, 9, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (20, '역할에 자원 등록', '/admin/roles/{roleId}/resources/mapping', 'POST', 'Y', 'FUNCTION', 5 , 2, 21, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (22, '역할에 매핑된 자원 목록 조회', '/admin/roles/{roleId}/mappedResources', 'GET', 'Y', 'FUNCTION', 5 , 1, 21, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (19, '사용자 등록', '/admin/roles/memberMapping/members', 'POST', 'Y', 'FUNCTION', 7 , 1, 17, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
 VALUES (1, 1, 1, NOW(), 1, NOW(), 1);
@@ -156,6 +165,15 @@ VALUES (18, 1, 18, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
 VALUES (19, 1, 19, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (20, 1, 20, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (21, 1, 21, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (22, 1, 22, NOW(), 1, NOW(), 1);
 
 INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'TYPE_A', 'Lorem ipsum dolor sit amet', 'content1',  1, 'Y', NOW(), 1, NOW(), 1);
