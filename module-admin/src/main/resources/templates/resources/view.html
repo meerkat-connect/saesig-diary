@@ -163,21 +163,19 @@
         </div>
     </div>
 
-
     <link rel="stylesheet" type="text/css" th:href="@{/files/assets/pages/treeview/treeview.css}"></link>
     <script type="text/javascript" src="/files/bower_components/jstree/dist/jstree.js"></script>
-    <script>
+    <script th:inline="javascript">
         const resourceController = {
             resources: [],
             parentNode: null,
             selectedNode: null,
             $jstree: $('#jstree'),
-            _this: null,
 
             init: function () {
-                parentNode = null;
-                selectedNode = null;
-                _this = this;
+                this.parentNode = this.parentNode ?? null;
+                this.selectedNode = this.selectedNode ?? null;
+                const _this = this;
 
                 $.ajax({
                     url: '/admin/resources',
@@ -189,7 +187,7 @@
                             id: element.id,
                             parent: element.id === 0 ? '#' : element.upperId,
                             text: element.name,
-                            type: element.type,
+                            type: element.type.key,
                             styleClass: element.styleClass,
                             httpMethod: element.httpMethod,
                             url: element.url,
@@ -209,13 +207,18 @@
             },
 
             renderJsTree: function () {
+                const _this = this;
+                _this.$jstree.jstree('destroy');
+
                 _this.$jstree.jstree({
                     "core": {
                         "animation": 50,
                         "strings": {
                             loading: "Loading ..."
                         },
-                        "themes": {},
+                        "themes": {
+                            "responsive": true,
+                        },
                         'data': _this.resources,
                         'check_callback': true
                     },
@@ -306,6 +309,8 @@
             },
 
             update: function () {
+                const _this = this;
+
                 if (confirm('자원 정보를 수정하시겠습니까?')) {
                     const formData = $('#resourceForm').serializeObject();
                     formData.isEnabled = formData.isEnabled ? "Y" : "N";
@@ -328,6 +333,8 @@
             },
 
             insert: function () {
+                const _this = this;
+
                 if (confirm('자원 정보를 등록하시겠습니까?')) {
                     const formData = $('#resourceForm').serializeObject();
                     formData.depth = this.selectedNode.original.depth + 1;
@@ -384,6 +391,8 @@
             },
 
             moveNode: function (param) {
+                const _this = this;
+
                 $.ajax({
                     url: '/admin/resources/move',
                     method: 'post',
