@@ -38,55 +38,70 @@ INSERT INTO blocked_member(id, member_id, blocked_member_id, modified_at, modifi
 VALUES(2, 10, 1, NOW(), 1, NOW(), 1 );
 
 INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
-VALUES (1, 'ROLE_USER', NULL, 'Y', '사용자 역할', NOW(), 1, NOW(), 1);
-
-INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
-VALUES (2, 'ROLE_ADMIN', NULL, 'Y', '관리자 역할', NOW(), 1, NOW(), 1);
-
-INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
-VALUES (3, 'ROLE_GUEST', NULL, 'Y', '게스트 역할', NOW(), 1, NOW(), 1);
-
-INSERT INTO role(id, name, upper_id, is_enabled, description, modified_at, modified_by, created_at, created_by)
-VALUES (4, 'ROLE_ANONYMOUS', NULL, 'Y', '익명 역할', NOW(), 1, NOW(), 1);
+VALUES (1, 'ROLE_ADMIN', NULL, 'Y', '관리자 역할', NOW(), 1, NOW(), 1);
 
 INSERT INTO member_role(id, member_id,role_id, modified_at, modified_by, created_at, created_by)
-VALUES(1, 1, 2, NOW(),1,NOW(),1);
+VALUES(1, 10, 1, NOW(),1,NOW(),1);
 
-INSERT INTO member_role(id, member_id,role_id, modified_at, modified_by, created_at, created_by)
-VALUES(2, 10, 2, NOW(),1,NOW(),1);
-
-INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (1, '회원관리', '/admin/members', 'GET', 'Y', 'DIRECTORY', 2, 1, 0, 'ADMIN', NOW(), 1, NOW(), 1);
+INSERT INTO resource(id, name, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (1, '시스템관리', 'Y', 'DIRECTORY', 1, 5, 0, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (2, '시스템관리', '/admin/system', 'GET', 'Y', 'DIRECTORY', 2, 2, 0, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (2, '자원관리', '/admin/resources/view', 'GET', 'Y', 'MENU', 2 , 1, 1, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (3, '시스템관리 목록화면', '/admin/system/view.html', 'GET', 'Y', 'MENU', 3, 1, 2, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (3, '자원 목록조회', '/admin/resources', 'GET', 'Y', 'FUNCTION', 3 , 1, 2, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (4, '시스템관리 등록', '/admin/system/**', 'POST', 'Y', 'FUNCTION', 4, 2, 3, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (4, '자원 등록', '/admin/resources', 'POST', 'Y', 'FUNCTION', 3 , 2, 2, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (5, '시스템관리 수정', '/admin/system/**', 'PUT', 'Y', 'FUNCTION', 4, 1, 3, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (5, '자원 수정', '/admin/resources/{id}', 'PUT', 'Y', 'FUNCTION', 3 , 3, 2, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (6, '회원관리 목록화면', '/admin/members/view', 'GET', 'Y', 'FUNCTION', 3, 1, 1, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (6, '자원 이동', '/admin/resources/move', 'POST', 'Y', 'FUNCTION', 3 , 4, 2, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (7, 'DashBoard', '/admin', 'GET', 'Y', 'DIRECTORY', 2, 3, 0, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (7, '자원 상세조회', '/admin/resources/{id}', 'GET', 'Y', 'FUNCTION', 3 , 5, 2, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (8, '권한관리', 'Y', 'DIRECTORY', 2 , 2, 1, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (8, 'Google Oauth', '/api/member/oauth2ClientCallback/google', 'GET', 'Y', 'DIRECTORY', 2, 4, 0, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (9, '권한관리 진입점', '/admin/roles/view', 'GET', 'Y', 'MENU', 3 , 1, 8, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (9, '시스템관리 등록 화면', '/admin/system/test1', 'POST', 'Y', 'FUNCTION', 5, 1, 4, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (10, '역할관리 목록 화면', '/admin/roles/roleView', 'GET', 'Y', 'MENU_DETAIL', 4 , 1, 9, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
-VALUES (10, '시스템관리 등록 화면2', '/admin/system/test2', 'POST', 'Y', 'FUNCTION', 5, 2, 4, 'ADMIN', NOW(), 1, NOW(), 1);
+VALUES (11, '역할관리 특정 역할 조회', '/admin/roles/{id}', 'GET', 'Y', 'FUNCTION', 5 , 1, 10, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (12, '역할관리 목록 조회', '/admin/roles', 'GET', 'Y', 'FUNCTION', 5 , 2, 10, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (13, '역할관리 수정', '/admin/roles/{id}', 'PUT', 'Y', 'FUNCTION', 5 , 3, 10, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (14, '역할관리 등록', '/admin/roles', 'POST', 'Y', 'FUNCTION', 5 , 4, 10, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (15, '사용자매핑 목록 화면', '/admin/roles/memberMapping/view', 'GET', 'Y', 'MENU_DETAIL', 4 , 2, 9, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (16, '사용자매핑 목록 조회', '/admin/roles/{id}/members', 'GET', 'Y', 'FUNCTION', 5 , 1, 15, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (17, '사용자매핑 등록 모달', '/admin/roles/memberListModal', 'GET', 'Y', 'MENU_DETAIL', 6 , 1, 15, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (18, '사용자매핑 등록 모달 사용자 조회', '/admin/roles/memberMapping/members', 'GET', 'Y', 'FUNCTION', 6 , 2, 15, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (19, '사용자매핑 등록 모달 사용자 등록', '/admin/roles/memberMapping/members', 'POST', 'Y', 'FUNCTION', 6 , 3, 15, 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
-VALUES (1, 2, 1, NOW(), 1, NOW(), 1);
+VALUES (1, 1, 1, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
 VALUES (2, 1, 2, NOW(), 1, NOW(), 1);
@@ -101,25 +116,46 @@ INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, cr
 VALUES (5, 1, 5, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
-VALUES (6, 4, 8, NOW(), 1, NOW(), 1);
+VALUES (6, 1, 6, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
-VALUES (7, 2, 1, NOW(), 1, NOW(), 1);
+VALUES (7, 1, 7, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
-VALUES (8, 2, 2, NOW(), 1, NOW(), 1);
+VALUES (8, 1, 8, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
-VALUES (9, 2, 3, NOW(), 1, NOW(), 1);
+VALUES (9, 1, 9, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
-VALUES (10, 2, 4, NOW(), 1, NOW(), 1);
+VALUES (10, 1, 10, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
-VALUES (11, 2, 5, NOW(), 1, NOW(), 1);
+VALUES (11, 1, 11, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
-VALUES (12, 2, 8, NOW(), 1, NOW(), 1);
+VALUES (12, 1, 12, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (13, 1, 13, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (14, 1, 14, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (15, 1, 15, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (16, 1, 16, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (17, 1, 17, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (18, 1, 18, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (19, 1, 19, NOW(), 1, NOW(), 1);
 
 INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'TYPE_A', 'Lorem ipsum dolor sit amet', 'content1',  1, 'Y', NOW(), 1, NOW(), 1);
