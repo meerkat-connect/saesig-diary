@@ -23,7 +23,6 @@ public class UrlBasedFilterInvocationSecurityMetadataSource implements FilterInv
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         HttpServletRequest request = ((FilterInvocation) object).getRequest();
-        String servletPath = request.getServletPath();
 
         if (requestMap != null) {
             for (Map.Entry<RequestMatcher, List<ConfigAttribute>> entry : requestMap.entrySet()) {

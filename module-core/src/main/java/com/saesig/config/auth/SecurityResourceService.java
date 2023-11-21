@@ -10,8 +10,10 @@ import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -22,7 +24,11 @@ public class SecurityResourceService {
     public LinkedHashMap<RequestMatcher, List<ConfigAttribute>> getResourceList() {
         LinkedHashMap<RequestMatcher, List<ConfigAttribute>> result = new LinkedHashMap<>();
 
-        List<Resource> resources = resourceRepository.findAll();
+        List<Resource> resources = resourceRepository
+                .findAll()
+                .stream()
+                .filter(resource -> StringUtils.hasText(resource.getUrl()))
+                .collect(Collectors.toList());
 
         resources.forEach(resource -> {
             List<ConfigAttribute> configAttributes = new ArrayList<>();
@@ -42,14 +48,8 @@ public class SecurityResourceService {
                 configAttributes.add(new SecurityConfig("ROLE_ANONYMOUS"));
             }
 
-            result.put(new AntPathRequestMatcher(resource.getUrl()), configAttributes);
+            result.put(new AntPathRequestMatcher(resource.getUrl(), resource.getHttpMethod()), configAttributes);
         });
-
-        // TODO: 자원관리 / 역할관리는 DB에 미리 INSERT
-
-      /*  List<ConfigAttribute> configAttributes = new ArrayList<>();
-        configAttributes.add(new SecurityConfig("ROLE_ANONYMOUS"));
-        result.put(new AntPathRequestMatcher("/error"), configAttributes);*/
 
         return result;
     }
