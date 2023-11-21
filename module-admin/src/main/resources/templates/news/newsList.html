@@ -145,7 +145,7 @@
                         {data: "title"},
                         {width:120,data: "nickname"},
                         {width:70,data: "isFixed"},
-                        {width:100,data: "createdAt"}
+                        {width:150,data: "createdAt"}
                     ],
                     "columnDefs": [
                         {className: "dt-center", targets: "_all"}
@@ -183,6 +183,7 @@
                     }).done(function (response) {
                         $('#contentPanel').html(response);
                         ckeditorApp.setckeditor();
+                        $('select').niceSelect();
                         let offset = $("#contentPanel").offset(); //해당 위치 반환
                         $("html, body").animate({scrollTop: offset.top - 80},400);
                     }).fail(function (error) {
@@ -346,7 +347,7 @@
                     </div>
                     <!-- //키워드 filter -->
                     <!-- 키워드 filter-btn -->
-                    <div class="mt-1 p-t-20 text-center border-top">
+                    <div class="mt-1 p-t-20 text-center">
                         <button class="btn btn-disabled m-r-5">초기화</button>
                         <button class="btn btn-primary" id="searchBtn">검색</button>
                     </div>
@@ -362,8 +363,8 @@
                             <h5><strong>검색결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
-                            <button class="btn btn-primary" id="insertBtn">등록</button>
-                            <button type="button" class="btn btn-inverse" id="deleteBtn">삭제</button>
+                            <button class="btn btn-transparent" id="insertBtn">등록</button>
+                            <button type="button" class="btn btn-delete" id="deleteBtn">삭제</button>
                         </div>
                     </div>
                     <div class="card-block-small">
