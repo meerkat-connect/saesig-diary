@@ -6,7 +6,7 @@ const adminCommon = {
             }
         } else {
             if ($switchElement[0].checked) {
-                $switchElement.trigger('click').removeProperty("checked");
+                $switchElement.trigger('click').prop("checked", false);
             }
         }
     }
