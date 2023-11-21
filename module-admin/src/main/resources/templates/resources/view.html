@@ -124,7 +124,7 @@
 
                                 <div class="radio radio-inline">
                                     <label class="mb-0">
-                                        <input type="radio" id="type4" name="type" value="DETAIL_MENU">
+                                        <input type="radio" id="type4" name="type" value="MENU_DETAIL">
                                         <i class="helper"></i>상세 메뉴
                                     </label>
                                 </div>
@@ -245,7 +245,7 @@
                                 "label": "하위 등록",
                                 "action": function (obj) {
                                     const selectedNode = $.jstree.reference(obj.reference).get_node(obj.reference).original;
-                                    if (selectedNode.type != 'MENU' && selectedNode.type != 'DETAIL_MENU') {
+                                    if (selectedNode.type != 'MENU' && selectedNode.type != 'MENU_DETAIL') {
                                         alert('프로그램 유형이 메뉴인 경우에만 하위 등록이 가능합니다.')
                                     } else {
                                         $('#resourceForm')[0].reset();
