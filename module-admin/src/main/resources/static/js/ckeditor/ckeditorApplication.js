@@ -13,14 +13,16 @@ var ckeditorApp = {
             ckEditorList.each( function(){
                 _this.editorList[$(this).attr('id')] = {}
                 ClassicEditor
-                    .create( this,
-                        {extraPlugins: [MyCustomUploadAdapterPlugin],
-                            fontSize: {options: ['8px','12px','16px','22px','28px','36px']
+                    .create( document.getElementById($(this).attr('id')),
+                        {fontSize: {options: ['8px','12px','16px','22px','28px','36px']
                             }
                         }
                     )
                     .then( newEditor => {
                         _this.editorList[$(this).attr('id')] = newEditor;
+                        newEditor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                            return new UploadAdapter(loader)
+                        }
                     });
             })
         }

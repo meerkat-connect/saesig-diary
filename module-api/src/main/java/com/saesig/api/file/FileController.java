@@ -13,11 +13,15 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.UriUtils;
 
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.NoSuchFileException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Tag(name="File Controller", description = "파일 컨트롤러")
 //@Hidden
@@ -61,5 +65,15 @@ public class FileController {
     public Object noSuchFileException(Exception e) {
         log.info("================ noSuchFileException ============");
         return "noSuchFileException";
+    }
+
+    @RequestMapping("/ckeditorFileUpload/imageUpload.do")
+    public Map<String, Object> uploadCkeditorFile(@RequestParam Map<String, Object> map, MultipartHttpServletRequest request) throws Exception{
+        Map<String, Object> resultMap = new HashMap<>();
+        MultipartFile file = request.getFile("upload");
+        FileDto result = fileService.storeFile(file);
+        resultMap.put("uploaded",true);
+        resultMap.put("url", "/images/"+result.getSavedName());
+        return resultMap;
     }
 }

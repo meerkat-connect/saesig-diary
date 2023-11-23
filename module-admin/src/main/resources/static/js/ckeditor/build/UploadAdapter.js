@@ -1,8 +1,3 @@
-function MyCustomUploadAdapterPlugin(editor) {
-    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-        return new UploadAdapter(loader)
-    }
-}
 
 class UploadAdapter {
     constructor(loader) {
@@ -19,8 +14,8 @@ class UploadAdapter {
 
     _initRequest() {
         const xhr = this.xhr = new XMLHttpRequest();
-        xhr.open('POST', WEB_ROOT + "filemanager/ckeditorUploadFile", false);
-        /*xhr.responseType = 'json';*/
+        xhr.open('POST', "/ckeditorFileUpload/imageUpload.do", true);
+        xhr.responseType = 'json';
     }
 
     _initListeners(resolve, reject, file) {
@@ -31,19 +26,19 @@ class UploadAdapter {
         xhr.addEventListener('error', () => {reject(genericErrorText)})
         xhr.addEventListener('abort', () => reject())
         xhr.addEventListener('loadend', () => {
-            const response = JSON.parse(xhr.response)
+            const response = xhr.response
             if(!response || response.error) {
                 return reject( response && response.error ? response.error.message : genericErrorText );
             }
             resolve({
-                default: response.data.url //업로드된 파일 주소
+                default: response.url //업로드된 파일 주소
             })
         })
     }
 
     _sendRequest(file) {
         const data = new FormData()
-        data.append('userfile[]',file);
+        data.append('upload',file);
         this.xhr.send(data)
     }
 }
