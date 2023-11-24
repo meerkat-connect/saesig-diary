@@ -475,6 +475,12 @@ div.dataTables_wrapper div.dataTables_info {
     font-weight: 700
 }
 
+.banner-wrap .banner-select .banner-list .banner .banner-btn {
+    float: right;
+    justify-content: flex-end;
+}
+
+
 .banner-wrap .paging {
     margin-top: 30px
 }
@@ -527,6 +533,7 @@ div.dataTables_wrapper div.dataTables_info {
 
 @media (max-width: 992px) {
     .banner-wrap .banner-select .banner-list .banner {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -543,12 +550,31 @@ div.dataTables_wrapper div.dataTables_info {
     }
 
     .banner-wrap .banner-select .banner-list .banner .banner-selecter > img {
-        margin-right: 1.5rem;
+        width: 38px;
+        margin-top: 10px;
+        margin-right: 10px;
     }
+
+    .banner-wrap .banner-select .banner-list .banner .banner-btn-area {
+        display: inline-block;
+    }
+
 
     .banner-wrap .banner-select .banner-list .banner .banner-title {
         padding: 10px 20px 10px 10px;
     }
+
+    .banner-wrap .banner-select .banner-list .banner .banner-radio-con {
+        display: inline-block;
+    }
+
+    .banner-wrap .banner-select .banner-list .banner .btn {
+        min-width: 74px;
+        width: 74px;
+    }
+
+
+
 
     .banner-wrap .banner-select .banner-list .banner .banner-thumbnail {
         position: relative;
@@ -579,6 +605,7 @@ div.dataTables_wrapper div.dataTables_info {
     }
 
     .banner-wrap .banner-select .banner-list .banner .banner-btn-area {
+        width: 100%;
     }
 
     .banner-wrap .banner-select .banner-list .banner .banner-btn {
@@ -588,11 +615,14 @@ div.dataTables_wrapper div.dataTables_info {
         --bs-gutter-x: 0;
         --bs-gutter-y: 0;
         margin-top: 0;
-        margin-right: 0;
+        margin-right: 10px;
         margin-left: 0;
     }
 
     .banner-wrap .banner-select .banner-list .banner .banner-btn > button:first-child {
+        margin-right: 5px;
+    }
+    .banner-wrap .banner-select .banner-list .banner .banner-btn > button:last-child {
         margin-right: 10px;
     }
 

@@ -60,11 +60,11 @@
 
             inquiryListLoad: function () {
                 const _this = this;
-                let table = null
-                if (table != null) {
-                    table.destroy();
+                _this.table = null
+                if (_this.table != null) {
+                    _this.table.destroy();
                 }
-                table = $("#inquiryListTable").DataTable({
+                _this.table = $("#inquiryListTable").DataTable({
                     select: {
                         selector: 'td:not(:first-child)',
                         style: 'single'
@@ -146,8 +146,8 @@
                     }
                 })
 
-                table.on('select', function (e, dt, type, indexes) {
-                    const targetData = table.rows(indexes).data().toArray();
+                _this.table.on('select', function (e, dt, type, indexes) {
+                    const targetData = _this.table.rows(indexes).data().toArray();
                     const targetId = targetData[0].id;
                     // $('.InquiryTitle').text('[' + targetData[0].category.value + '] ' + targetData[0].title)
                     // $('.InquiryCreatedMemberName').text(targetData[0].nickname + '(' + targetData[0].memberId + ')')
@@ -211,7 +211,7 @@
                     });
 
                 }).on('deselect', function (e, dt, type, indexes) {
-                    let rowData = table.rows(indexes).data().toArray();
+                    let rowData = _this.table.rows(indexes).data().toArray();
                 });
             },
 
@@ -266,6 +266,10 @@
                         if (result){
                             alert("답변이 등록되었습니다.")
                            $("#answerStatus").val(1)
+                            let currentPage = inquiryList.table.page.info().page
+                            inquiryList.inquiryListLoad()
+                            inquiryList.table.page(currentPage).draw('page');
+
                         }
                     },
                     error: function (e) {
