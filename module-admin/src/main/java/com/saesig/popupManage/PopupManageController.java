@@ -6,7 +6,9 @@ import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
 import com.saesig.domain.common.Constant;
 import com.saesig.global.enumCode.EnumMapperFactory;
+import com.saesig.global.file.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,8 @@ public class PopupManageController {
     private final PopupManageService popupManageService;
 
     private final EnumMapperFactory enumMapperFactory;
+
+    private final FileService fileService;
 
 
     @GetMapping("view")
@@ -89,7 +93,7 @@ public class PopupManageController {
         return resultMap;
     }
 
-    @PostMapping("insertForm.do")
+    @PostMapping(value = "insertForm.do", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseBody
     public Map<String, Object> insertForm(@LoginMember SessionMember member, PopupManageDto pmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
@@ -100,6 +104,10 @@ public class PopupManageController {
         }
 
         pmd.setMember(member);
+        if(pmd.getPopupFile() != null) {
+            pmd.setFileDto(fileService.storeFile(pmd.getPopupFile()));
+            pmd.setImageFileGroupId(pmd.getFileDto().getGroupId());
+        }
         int retVal = 0;
         retVal = popupManageService.insertForm(pmd);
 
@@ -114,12 +122,21 @@ public class PopupManageController {
         return resultMap;
     }
 
-    @PostMapping("updateForm.do")
+    @PostMapping(value= "updateForm.do", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseBody
     public Map<String, Object> updateForm(@LoginMember SessionMember member, PopupManageDto pmd) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
+        if(pmd.getIsEnabled().equals('Y')) {
+            int ord = popupManageService.selectOrd();
+            pmd.setOrd((long) ord);
+        }
+
         pmd.setMember(member);
+        if(pmd.getPopupFile() != null) {
+            pmd.setFileDto(fileService.storeFile(pmd.getPopupFile()));
+            pmd.setImageFileGroupId(pmd.getFileDto().getGroupId());
+        }
         int retVal = 0;
         retVal = popupManageService.updateForm(pmd);
 

@@ -24,7 +24,7 @@ public class BannerDto extends RequestDto {
     private Long imageFileGroupId = Long.valueOf(0);
     private String url;
     private Long ord;
-    private Character isEnabled;
+    private String isEnabled;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;

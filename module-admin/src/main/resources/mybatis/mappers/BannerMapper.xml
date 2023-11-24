@@ -18,12 +18,12 @@
         WHERE
             1 = 1
         <if test='searchTitle != null and searchTitle != ""'>
-            AND title = #{searchTitle}
+            AND A.title = #{searchTitle}
         </if>
         <if test='searchExposureLocation != null and searchExposureLocation != ""'>
-            AND exposure_location = #{searchExposureLocation}
+            AND A.exposure_location = #{searchExposureLocation}
         </if>
-        ORDER BY ord ASC NULLS LAST
+        ORDER BY A.ord ASC NULLS LAST
     </select>
 
     <select id="selectBanner" parameterType="com.saesig.banner.BannerDto" resultType="com.saesig.banner.BannerDto">
