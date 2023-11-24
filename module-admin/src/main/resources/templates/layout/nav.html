@@ -470,8 +470,36 @@
                 </li>-->
             </ul>
 
-            <th:block th:utext="${@resourceController.menuPrint()}" />
+            <th:block th:utext="${@menuService.menuPrint()}" />
         </div>
     </nav>
+
+    <form name="form_menu" id="form_menu" th:action="@{/}" method="get" onsubmit="return false;">
+        <input type="hidden" name="cmkey" id="cmkey" value="" />
+        <input type="hidden" name="preUrl" id="preUrl" value="" />
+    </form>
+
+    <script th:inline="javascript">
+        jQuery("form").each(function(){
+            if(!jQuery(this).children("*").is("#mkey")){
+                jQuery("<input>",{type:'hidden',name:'mkey',id:'mkey',value:'[[${#request.getAttribute('mkey')}]]'}).appendTo(this);
+            }
+        });
+
+        $(document).ready(function(){
+/*            setTimeout(() => {
+                var clickedMunu = $("#mCSB_1_container").children("ul").children(".active");
+                var offsetTop = (-Number($(clickedMunu).offset().top -250))
+                var menuzoneHeight = $("#mCSB_1_container").height();
+                $("#mCSB_1_container").css({"top":(offsetTop<-250)?offsetTop: 0});
+            }, 100);*/
+        })
+
+        function goMenu(url, cmkey){
+            jQuery("#form_menu").attr("action",url);
+            jQuery("#form_menu input[id=cmkey]").val(cmkey);
+            jQuery("#form_menu")[0].submit();
+        }
+    </script>
 </th:block>
 </html>
