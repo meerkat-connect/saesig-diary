@@ -1,17 +1,18 @@
-<form id=popupForm th:object="${popup}" method="POST">
+<form id=popupForm th:object="${popup}" method="POST"  enctype="multipart/form-data">
     <input type="hidden" th:field="*{id}">
     <input type="hidden" th:field="*{ord}">
     <div class="col-lg-12 mt-3 mb-3">
         <div class="row mb-0 form-group required">
-            <label class="form-label col-sm-auto col-form-label p-t-0 pb-1" for="banneImg"><strong>팝업이미지</strong></label>
+            <label class="form-label col-sm-auto col-form-label p-t-0 pb-1" for="popupImg"><strong>팝업이미지</strong></label>
             <p class="col-sm text-muted m-b-0">(권장사이즈 : 가로 170px, 세로 40px)</p>
             <div class="col-12 banner-preview text-center">
-                <img class="img-fluid col-12" src="/files/assets/images/noimg.png" alt="logo image" style="max-width:200px; height:auto;">
+                <img class="thumbnail-img" id="preview" src="/files/assets/images/noimg.png" alt="logo image" th:if="${popup.savedName == null}">
+                <img class="thumbnail-img" id="preview" th:src="'/images/'+${popup.savedName}" alt="logo image" th:if="${popup.savedName != null}">
             </div>
         </div>
         <div class="col-12 text-center mt-3 mb-3">
-            <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('bannerFile').click()">파일선택</button>
-            <input type="file" name="bannerFile" id="bannerFile" style="display:none"/>
+            <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('popupFile').click()">파일선택</button>
+            <input type="file" name="popupFile" id="popupFile" style="display:none" onchange="readURL(this);"/>
             <input type="hidden" th:field="*{imageFileGroupId}">
         </div>
         <div class="row form-group required mb-3">
@@ -23,7 +24,7 @@
         <div class="row form-group required mb-3">
             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="exposureLocation"><strong>팝업 노출위치</strong></label>
             <div class="col-sm-12">
-                <select id="selectBannerLocation" name="selectBannerLocation" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
+                <select id="selectPopupLocation" name="selectPopupLocation" class="form-select form-control form-control-round custom-select" th:field="*{exposureLocation}">
                     <option value="" >- 선택 -</option>
                     <option th:each="item : ${exposureLocation}" th:value="${item.key}" th:text="${item.value}"></option>
                 </select>
@@ -49,16 +50,18 @@
                 </select>
             </div>
         </div>
-        <div class="row form-group required mb-3">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>팝업 노출기간</strong></label>
-            <div class="col-sm">
-                <input type="date" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{startDate}">
-            </div>
-            <div class="col-sm-1 text-center">
-                <span>-</span>
-            </div>
-            <div class="col-sm">
-                <input type="date" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{endDate}">
+        <div class="col-lg-12">
+            <div class="row form-group required mb-3">
+                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="url"><strong>팝업 노출기간</strong></label>
+                    <div class="col col-sm">
+                        <input type="date" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{startDate}">
+                    </div>
+                    <div class="col-auto col-sm-auto pt-2">
+                        <span>~</span>
+                    </div>
+                    <div class="col col-sm">
+                        <input type="date" class="form-control form-control-sm form-control-round" placeholder="https://example.com" th:field="*{endDate}">
+                    </div>
             </div>
         </div>
         <div class="row form-group required mb-3">
@@ -77,9 +80,9 @@
             </div>
         </div>
         <div class="row form-group required mb-3">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled"><strong>팝업 게시 여부</strong></label>
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled2"><strong>팝업 게시 여부</strong></label>
             <div class="col">
-                <input type="checkbox" class="insert js-single-small2" name="isEnabled" id="isEnabled" th:checked="${popup.isEnabled} == 'Y'"/>
+                <input type="checkbox" class="insert js-single-small2" name="isEnabled2" id="isEnabled2" th:checked="${popup.isEnabled} == 'Y'"/>
             </div>
         </div>
         <div class="mt-1 p-t-20 text-center">
@@ -91,6 +94,18 @@
 
 <script th:inline="javascript">
     var formId = $("#id").val();
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            document.getElementById('preview').src = "";
+        }
+    }
 
     var validator = $(document).ready(function(){
         $("#popupForm").validate({
@@ -112,15 +127,27 @@
             if(!confirm("수정하시겠습니까?")) return;
         }
 
-        const data = $("#popupForm").serializeObject();
-        data.isEnabled = data.isEnabled ? 'Y' : 'N'
+        const formData = new FormData();
+        formData.append("title", $('#title').val());
+        formData.append("popupFile", $('#popupFile')[0].files[0]);
+        formData.append("exposureLocation", $('#selectPopupLocation').val());
+        formData.append("target", $('#target').val());
+        formData.append("targetRoleId", $('#targetRoleId').val());
+        formData.append("startDate", $('#startDate').val());
+        formData.append("endDate", $('#endDate').val());
+        formData.append("buttonOption", $('#buttonOption').val());
+        formData.append("url", $('#url').val());
+        formData.append("isEnabled", $('#isEnabled2').is(':checked') ? 'Y' : 'N');
 
         $.ajax({
             url : formId === '' ? "/admin/popup/insertForm.do" : "/admin/popup/updateForm.do",
             type: 'POST',
-            cache : false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            enctype: "multipart/form-data",
             dataType: 'json',
-            data : data,
+            data : formData,
             success : function (data){
                 if(data.result === "success"){
                     alert(data.msg);

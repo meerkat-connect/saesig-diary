@@ -1,9 +1,10 @@
 package com.saesig.popupManage;
 
-import com.saesig.banner.BannerDto;
 import com.saesig.common.mybatis.RequestDto;
 import com.saesig.config.auth.SessionMember;
+import com.saesig.global.file.FileDto;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,6 +31,10 @@ public class PopupManageDto extends RequestDto {
     private String createdBy;
     private String modifiedAt;
     private String modifiedBy;
+
+    private FileDto fileDto;
+    private String savedName;
+    private MultipartFile popupFile;
 
     // search
     // 제목, 팝업위치

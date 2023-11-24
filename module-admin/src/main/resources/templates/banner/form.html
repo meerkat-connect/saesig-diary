@@ -3,7 +3,7 @@
     <input type="hidden" th:field="*{ord}">
     <div class="col-lg-12 mt-3 mb-3">
         <div class="row mb-0 form-group required">
-            <label class="form-label col-sm-auto col-form-label p-t-0 pb-1" for="banneImg"><strong>배너이미지</strong></label>
+            <label class="form-label col-sm-auto col-form-label p-t-0 pb-1" for="bannerImg"><strong>배너이미지</strong></label>
             <p class="col-sm text-muted m-b-0">(권장사이즈 : 가로 170px, 세로 40px)</p>
             <div class="col-12 banner-preview text-center" id="file_container">
                 <img class="thumbnail-img" id="preview" src="/files/assets/images/noimg.png" alt="logo image" th:if="${banner.savedName == null}">
@@ -36,9 +36,9 @@
             </div>
         </div>
         <div class="row form-group required mb-3">
-            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled"><strong>배너 게시 여부</strong></label>
+            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isEnabled2"><strong>배너 게시 여부</strong></label>
             <div class="col">
-                <input type="checkbox" class="insert js-single-small2" name="isEnabled" id="isEnabled" th:checked="${banner.isEnabled} == 'Y'"/>
+                <input type="checkbox" class="insert js-single-small2" name="isEnabled2" id="isEnabled2" th:checked="${banner.isEnabled} == 'Y'"/>
             </div>
         </div>
         <div class="mt-1 p-t-20 text-center">
@@ -88,7 +88,7 @@
         formData.append("bannerFile", $('#bannerFile')[0].files[0]);
         formData.append("exposureLocation", $('#selectBannerLocation').val());
         formData.append("url", $('#url').val());
-        formData.append("isEnabled", $('#isEnabled').val() == 'Y' ? 'Y' : 'N');
+        formData.append("isEnabled", $('#isEnabled2').is(':checked') ? 'Y' : 'N');
 
 
         /*
@@ -101,6 +101,7 @@
                     }
                 }
         }*/
+
 
         // @RequestPart를 사용하는 경우 사용
         /*
