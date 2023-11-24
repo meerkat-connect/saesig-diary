@@ -1,0 +1,264 @@
+<style>
+    .admin-tooltip {
+        min-width: 6rem;
+        border-color: #ff8031;
+        color: #ff8031;
+        display: inline-block;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        background-color: white;
+        user-select: none;
+        border: 1px solid;
+        position: absolute;
+        padding: 7px 11px;
+        cursor: pointer;
+        text-transform: capitalize;
+        font-weight: 500;
+        border-radius: 20px;
+        line-height: 1.5;
+        transition: none;
+    }
+</style>
+<!-- 기본정보 -->
+<form th:object="${diary}" method="post" id="diaryForm" name="diaryForm">
+    <input type="hidden" th:field="*{id}">
+    <div class="card-header p-b-0">
+        <h3 class="sub-title"><strong>기본정보</strong>
+            <div class="col-0 col-md-0 text-right">
+                <button type="button" class="btn btn-transparent" data-bs-toggle="modal"
+                        data-bs-target="#imageModalPop">사진보기
+                </button>
+                <!--                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>-->
+            </div>
+        </h3>
+    </div>
+    <div class="card-block-small p-t-0">
+        <div class="row">
+            <div class="col-lg-3 mb-3">
+                <div class="row form-group required mb-3">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="diaryCategory"><strong>카테고리</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{diaryCategory}"
+                               class="form-control form-control-sm form-control-round"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="diaryStatus"><strong>상태</strong></label>
+                    <div class="col-12">
+                        <select class="form-select form-control-round custom-select" th:field="*{diaryStatus}">
+                            <option th:each="diaryStatus : ${diaryStates}" th:value="${diaryStatus.key}" th:text="${diaryStatus.value}">value</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="modifiedAt"><strong>상태변경일시</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{modifiedAt}"
+                               class="form-control form-control-sm form-control-round"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="isSecret"><strong>비밀일기 여부</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{isSecret}"
+                               class="form-control form-control-sm form-control-round"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="likeCnt"><strong>좋아요</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{likeCnt}"
+                               class="form-control form-control-sm form-control-round"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="hits"><strong>조회수</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{hits}"
+                               class="form-control form-control-sm form-control-round"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdByName"><strong>작성자</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{createdByName}"
+                               class="form-control form-control-sm form-control-round"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>등록일시</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{createdAt}"
+                               class="form-control form-control-sm form-control-round"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="modifiedAt"><strong>최종 수정 일시</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{modifiedAt}"
+                               class="form-control form-control-sm form-control-round"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="tag"><strong>태그</strong></label>
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-transparent" onclick="diaryInfoController.viewTagList()">태그
+                        </button>
+                        <div class="admin-tooltip" style="display: none" id="admin-tooltip">
+                            <span th:each="tagDto : ${diary.tagDtoList}" th:text="${tagDto.tagName}" th:if="${!#lists.isEmpty(diary.tagDtoList)}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3" th:if="${diary.diaryStatus.key} == 'DELETE'">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="modifiedByName"><strong>삭제자</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{modifiedByName}"
+                               class="form-control form-control-sm form-control-round"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 mb-3" th:if="${diary.diaryStatus.key} == 'DELETE'">
+                <div class="mb-0 form-group required">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="modifiedAt"><strong>삭제일시</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:field="*{modifiedAt}"
+                               class="form-control form-control-sm form-control-round"
+                               readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group required mb-3">
+                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
+                <div class="col-sm-12">
+                    <input type="text" th:field="*{title}" class="form-control form-control-sm form-control-round"
+                           placeholder="제목을 입력해주세요.">
+                </div>
+            </div>
+
+            <div class="row form-group required mb-3">
+                <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
+                <div class="col-sm-12">
+                    <textarea rows="5" cols="5" th:field="*{content}"
+                              class="form-control form-control-sm form-control-round" placeholder="내용을 입력해주세요."
+                              mekc-ck-editor></textarea>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-3">
+                <div class="mb-0 form-group">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성자</strong></label>
+                    <div class="col-sm-12">
+                        <input type="text" th:value="*{createdByName}"
+                               class="form-control form-control-sm form-control-round" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mb-3">
+                <div class="mb-0 form-group">
+                    <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>작성일시</strong></label>
+                    <div class="col-12">
+                        <input type="text" th:field="*{createdAt}"
+                               class="form-control form-control-sm form-control-round" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 버튼영역 -->
+    <div class="card-block-small text-center">
+        <button type="button" class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
+        <button type="button" class="btn btn-primary" id="saveBtn" onclick="diaryInfoController.updateDiary()">저장</button>
+    </div>
+    <!-- // -->
+</form>
+<div class="modal fade" id="imageModalPop" style="top: 23vh;">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content type_1">
+            <div class="modal-header">
+                <h4 class="modal-title">사진보기</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-block-small">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="col-12 img-box-con text-center ">
+                                    <div class="col-1 text-left left-arrow-icon" id="prevSlide"></div>
+                                    <div class="col-10 swiper-container"
+                                         style="overflow: hidden; display: inline-flex;">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide"><img class="col-0 img-fluid"
+                                                                           src="/files/assets/images/logo2.png"
+                                                                           alt="banner image" draggable="false"></div>
+                                            <div class="swiper-slide"><img class="col-0 img-fluid"
+                                                                           src="/files/assets/images/logo2.png"
+                                                                           alt="banner image" draggable="false"></div>
+                                            <div class="swiper-slide"><img class="col-0 img-fluid"
+                                                                           src="/files/assets/images/logo2.png"
+                                                                           alt="banner image" draggable="false"></div>
+                                            <div class="swiper-slide"><img class="col-0 img-fluid"
+                                                                           src="/files/assets/images/logo2.png"
+                                                                           alt="banner image" draggable="false"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 text-right right-arrow-icon" id="nextSlide"></div>
+                                </div>
+                                <div class="swiper-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary waves-effect waves-light" data-bs-dismiss="modal"
+                        aria-label="Close">닫기
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        diaryInfoController.init()
+    });
+
+
+</script>
+
+

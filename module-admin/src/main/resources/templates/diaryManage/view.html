@@ -1,0 +1,446 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content">
+    <style>
+        .dt-center {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+    <div class="page-body">
+        <div class="row">
+            <!-- 필터 부분 -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <form id="searchForm" name="searchForm">
+                            <input type="hidden" id="rowPerPage" name="rowPerPage" value="10">
+                            <input type="hidden" id="orderField" name="orderField" value="id">
+                            <input type="hidden" id="orderDirection" name="orderDirection" value="desc">
+                            <!-- 키워드 filter -->
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                                        <div class="input-group input-group-dropdown mb-0">
+                                            <select id="searchType" name="searchType" class="form-select form-control form-control-round custom-select left-select">
+                                                <option value="">- 선택 -</option>
+                                                <option value="email">아이디</option>
+                                                <option value="nickName">닉네임</option>
+                                            </select>
+                                            <input type="text" class="form-control form-control-round" id="searchKeyword" name="searchKeyword">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>카테고리</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="searchStatus" id="searchStatus" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option th:each="diaryStatus : ${diaryStatus}" th:value="${diaryStatus.key}" th:text="${diaryStatus.value}">value</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>제목</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control form-control-round" aria-label="Text input with dropdown button" name="searchTitle" id="searchTitle"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>상태</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="searchAnimalDivision1Category" id="searchAnimalDivision1Category" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option th:each="dto : ${animal_division1}"
+                                                        th:value="${dto.animalDivision1Id}"
+                                                        th:text="${dto.animalDivision1Category}">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //키워드 filter -->
+                            <!-- 키워드 filter-btn -->
+                            <div class="mt-1 p-t-20 text-center">
+                                <button type="reset" class="btn btn-gray m-r-5">초기화</button>
+                                <button type="button" class="btn btn-primary" id="searchBtn">검색</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- //필터 부분 -->
+
+            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="row p-20 p-b-0">
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <h5><strong>검색결과</strong></h5>
+                        </div>
+<!--                        런칭이후 삭제(테스트용)-->
+                        <div class="col-12 col-md-6 text-right">
+                            <button type="button" class="btn btn btn-delete m-r-5" id="deleteBtn">삭제</button>
+<!--                            <button type="button" class="btn btn-transparent" id="insertBtn">등록</button>-->
+                        </div>
+<!--                        런칭이후 삭제(테스트용)-->
+                    </div>
+                    <div class="card-block-small">
+                        <div class="dt-responsive table-responsive">
+                            <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <table id="diaryListTable" class="display" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox " id="allCheckBox" name="allCheckbox" value="All">
+                                                    <label class="form-label border-checkbox-label" for="allCheckBox"></label>
+                                                </div>
+                                            </div>
+                                            <!--<input type="checkbox" id="allCheckBox" name="allCheckBox">-->
+                                        </th>
+                                        <th>No</th>
+                                        <th>카테고리</th>
+                                        <th>제목</th>
+                                        <th>작성자</th>
+                                        <th>상태</th>
+                                        <th>댓글</th>
+                                        <th>좋아요</th>
+                                        <th>조회수</th>
+                                        <th>등록일</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
+
+            <!-- Content Area -->
+            <div id="contentPanel">
+
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+
+
+        const diaryController = {
+
+            selectedRow: [],
+            init: function () {
+                ckeditorApp.setckeditor();
+                let diaryListTable = null;
+
+                if (diaryListTable != null) diaryListTable.destroy();
+                this.selectedRow = [];
+
+                diaryListTable = $('#diaryListTable').DataTable({
+                    select: {
+                        selector: 'td:not(:first-child)',
+                        style: 'single'
+                    },
+                    "columnDefs": [
+                        // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    destroy: true,
+                    ordering: false,
+                    paging: true,
+                    info: false,
+                    pageLength: 10,
+                    bPaginate: true,
+                    bAutoWidth: false,
+                    serverSide: true,
+                    processing: true,
+                    ajax: {
+                        async: false,
+                        method: 'GET',
+                        url: '/admin/diaryManage/selectDiaryList.do',
+                        data: function(d) {
+                            var formData  = $('#searchForm').serializeArray();
+                            for(var i = 0; i < formData.length; i++) {
+                                var formName = formData[i].name;
+                                var formVal = $("#"+formName).val();
+                                d[formName] = formVal;
+                            }
+                        },
+                        "dataSrc": function (res) {
+                            console.log(res)
+                            if (res.data.length > 0){
+                                return res.data;
+                            }else{
+                                return false;
+                            }
+                        }
+                    },
+
+                    columns: [
+                        {width:70,
+                            render: function (data, type, row) {
+                                return ` <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
+                                                    <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
+                                                </div>
+                                            </div>`;
+                            }
+                        },
+                        {render: function (data,type,row){
+                                return `${row.diaryCategory.value}`;
+                            }},
+                        {data :'title'},
+                        {data:'title'},
+                        {data:'createdByName'},
+                        {render: function (data,type,row){
+                                return `${row.diaryStatus.value}`;
+                            }},
+                        {data:'commentCnt'},
+                        {data:'likeCnt'},
+                        {data:'hits'},
+                        {width:100,data:'createdAt'}
+
+                    ],
+
+                    language: {
+                        search: '검색',
+                        emptyTable: '데이터가 없습니다.',
+                        info: '_START_부터 _END_까지 / 총데이터 : _TOTAL_',
+                        infoEmpty: '데이터 0 부터 0 까지 / 총데이터 : 0',
+                        lengthMenu: '보기',
+                        loadingRecords: '로딩중..',
+                    },
+                    drawCallback: function () {
+                        var $api = this.api();
+                        var pages = $api.page.info().pages;
+
+                        if (pages === 0) {
+                            $(".paginate_button").hide();
+                        }
+                    }
+                })
+
+                diaryListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = diaryListTable.rows(indexes).data().toArray();
+                    const selectedDiaryId = rowData[0].id;
+
+                    $.ajax({
+                        type: 'get',
+                        url: `/admin/diaryManage/detailForm.html?id=+${selectedDiaryId}`,
+                        dataType: 'html'
+                    }).done(function (response) {
+                        $('#contentPanel').html(response);
+                        let offset = $("#contentPanel").offset(); //해당 위치 반환
+                        $("html, body").animate({scrollTop: offset.top - 80},400);
+                    }).fail(function (error) {
+                        console.log(error)
+                    });
+                }).on('deselect', function (e, dt, type, indexes) {
+                    let rowData = diaryListTable.rows(indexes).data().toArray();
+                });
+                $(document).off('click', '#cancelBtn');
+                $(document).on('click','#cancelBtn',function (){
+                    diaryListTable.row().deselect();
+                    $('#contentPanel').empty()
+                })
+            },
+            delete: function () {
+                if (this.selectedRow.length === 0) {
+                    alert('선택할 항목을 선택해 주십시오.');
+                } else {
+                    if (confirm('삭제하시겠습니까?')) {
+                        $.ajax({
+                            type: 'delete',
+                            data: {deleteIds: diaryController.selectedRow.join(",")},
+                            url: '/admin/diaryManage/deleteDiary.do'
+                        }).done(function () {
+                            alert('삭제 되었습니다.');
+                            diaryController.init();
+                        }).fail(function (error) {
+                            alert('삭제하는데 실패하였습니다.');
+                            console.log(JSON.stringify(error));
+                        });
+                    }
+                }
+            }
+        };
+
+        const tabController = {
+            currentTab :"",
+            diaryId : "",
+            chattingUrl :"",
+            reportUrl :"",
+            infoUrl :"",
+
+            initTab : function () {
+                this.currentTab = "";
+                this.reportUrl ='/admin/diaryManage/commentForm.html?id='+this.diaryId;
+                this.infoUrl ='/admin/diaryManage/infoForm.html?id='+this.diaryId;
+                this.moveTab("info")
+            },
+
+            moveTab : (tabid)=>{
+
+                if(tabController.currentTab == tabid) return;
+
+                $(".nav-link").removeClass("active");
+                tabController.currentTab = tabid;
+
+                if(tabid=="chatting"){
+                    tabController.loadForm(tabController.chattingUrl);
+                }else if (tabid=="info"){
+                    tabController.loadForm(tabController.infoUrl);
+                }else{
+                    tabController.loadForm(tabController.reportUrl);
+                }
+                $("#"+tabController.currentTab+'Tab').addClass("active");
+                let offset = $("#contentPanel").offset(); //해당 위치 반환
+                $("html, body").animate({scrollTop: offset.top - 80},400);
+            },
+
+            loadForm : function (url) {
+                $.ajax({
+                    type: 'get',
+                    url: url,
+                    dataType: 'html'
+                }).done(function (response) {
+                    $('#tab-content').html(response);
+                }).fail(function (error) {
+                    console.log(error)
+                });
+            }
+        }
+
+        const diaryInfoController = {
+            init : function (){
+                ckeditorApp.setckeditor();
+                $('select').niceSelect()
+                $('select').niceSelect('update')
+                const mySwiper = new Swiper('.swiper-container', {
+                    // 옵션 설정
+                    slidesPerView: 1, // 한 번에 표시할 슬라이드 수
+                    spaceBetween: 20, // 슬라이드 간 간격 (픽셀)
+                    loop: false, // 무한 루프 설정
+                    // 기타 옵션 및 콜백 함수 등 추가 가능
+                    pagination: {
+                        el: '.swiper-pagination', // 페이징 컨테이너 요소
+                        clickable: true, // 클릭하여 슬라이드로 이동
+                    },
+                });
+                document.getElementById('prevSlide').addEventListener('click', function () {
+                    mySwiper.slidePrev();
+                });
+                document.getElementById('nextSlide').addEventListener('click', function () {
+                    mySwiper.slideNext();
+                });
+            },
+
+            registEvent : function () {
+
+            },
+
+            viewTagList : function () {
+                if ($('#admin-tooltip').is(':visible')){
+                    $('#admin-tooltip').hide()
+                }else{
+                    $('#admin-tooltip').show()
+                }
+
+            },
+
+            updateDiary : function () {
+                if (confirm('수정하시겠습니까?')) {
+                    const formData = $('#diaryForm').serializeObject();
+                    formData.content = ckeditorApp.getEditorData('content');
+                    $.ajax({
+                        type: 'POST',
+                        data: formData,
+                        url: `/admin/diaryManage/updateDiaryInfo.do`
+                    }).done(function (response) {
+                        alert('수정 되었습니다.');
+                        console.log(response);
+                    }).fail(function (error) {
+                        alert('수정중 에러가 발생하였습니다.');
+                        console.log(JSON.stringify(error));
+                    })
+                }
+            }
+        }
+
+
+        $(function () {
+            diaryController.init();
+            $("body").on('click', '#deleteBtn', function () {
+                diaryController.delete();
+            }).on('click', '#searchBtn', function () {
+                diaryController.init();
+            })
+            $('input[name=tableCheckbox]').on('change', function () {
+                const $this = $(this)
+                if ($this.is(':checked')) {
+                    adoptController.selectedRow.push($this.data('id'));
+                    if (adoptController.selectedRow.length === $('input[name=tableCheckbox]').length) {
+                        $('#allCheckBox').prop('checked', true);
+                    }
+                } else {
+                    adoptController.selectedRow = $.grep(adoptController.selectedRow, function (i) {
+                        return i != $this.data('id');
+                    })
+
+                    if (adoptController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
+                }
+            })
+
+            $('#allCheckBox').on('change', function () {
+                const $this = $(this);
+
+                if ($this.is(':checked')) {
+                    const allSelectedRow = [];
+                    $('input[name=tableCheckbox]').each(function () {
+                        this.checked = true;
+                        allSelectedRow.push($(this).data('id'));
+                    })
+                    adoptController.selectedRow = allSelectedRow;
+                } else {
+                    $('input[name=tableCheckbox]').each(function () {
+                        this.checked = false;
+                    })
+                    adoptController.selectedRow = [];
+                }
+            });
+        })
+    </script>
+
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
+</div>
+</html>

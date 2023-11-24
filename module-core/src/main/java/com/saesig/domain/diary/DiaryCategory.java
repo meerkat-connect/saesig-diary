@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum WeatherCategory implements EnumMapperType {
-    TYPE_A("유형A"),
-    TYPE_B("유형B");
+public enum DiaryCategory implements EnumMapperType{
+    SAESIGDIARY("새식일기"),
+    MISSING("실종/발견");
 
     @Getter
     private final String value;
@@ -22,8 +22,8 @@ public enum WeatherCategory implements EnumMapperType {
     }
 
     @JsonCreator
-    public static WeatherCategory from(String sub) {
-        return Stream.of(WeatherCategory.values())
+    public static DiaryCategory from(String sub) {
+        return Stream.of(DiaryCategory.values())
                 .filter(category -> category.toString().equals(sub.toUpperCase()))
                 .findFirst()
                 .orElse(null);

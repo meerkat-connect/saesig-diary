@@ -624,15 +624,6 @@
                             $("input[name=vaccineList]:checked").each(function (){
                                 formData.vaccineList.push($(this).val())
                             })
-                            // if (formData.createdAt != null){
-                            //     formData.createdAt = new Date(formData.createdAt).toISOString()
-                            // }
-                            // if (formData.modifiedAt != null){
-                            //     formData.modifiedAt = new Date(formData.modifiedAt).toISOString()
-                            // }
-                            // if (formData.statusChangeCreatedAt != null){
-                            //     formData.statusChangeCreatedAt = new Date(formData.statusChangeCreatedAt).toISOString()
-                            // }
 
                             $.ajax({
                                 type: 'POST',

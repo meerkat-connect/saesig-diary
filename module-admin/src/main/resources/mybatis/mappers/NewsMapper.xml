@@ -26,7 +26,7 @@
             and n.category = #{searchCategory}
         </if>
         <if test="searchTitle != '' and searchTitle != null">
-            and n.title = #{searchTitle}
+            and n.title LIKE CONCAT('%',#{searchTitle},'%')
         </if>
         <include refid="PaginationMapper.footer"/>
     </select>

@@ -311,6 +311,8 @@ CREATE TABLE `diary`
     `content`             VARCHAR(2000)         NOT NULL COMMENT '내용',
     `image_file_group_id` BIGINT                NULL COMMENT '이미지 파일 그룹 일련번호',
     `weather_category`    VARCHAR(20)           NOT NULL COMMENT '날씨 유형',
+    `category`            VARCHAR(20)           NOT NULL COMMENT '카테고리',
+    `status`              VARCHAR(20)           NOT NULL COMMENT '상태',
     `is_secret`           VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '비밀 여부',
     `is_deleted`          VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '삭제 여부',
     `hits`                INTEGER               NOT NULL DEFAULT 0 COMMENT '조회수',
@@ -326,6 +328,7 @@ DROP TABLE IF EXISTS `diary_comment`;
 CREATE TABLE `diary_comment`
 (
     `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '댓글 일련번호',
+    `diary_id`    BIGINT                NOT NULL COMMENT '일기 일련번호',
     `upper_id`    BIGINT                NOT NULL COMMENT '상위 댓글 일련번호',
     `content`     VARCHAR(1000)         NOT NULL COMMENT '내용',
     `is_deleted`  VARCHAR(1)            NOT NULL COMMENT '삭제 여부',

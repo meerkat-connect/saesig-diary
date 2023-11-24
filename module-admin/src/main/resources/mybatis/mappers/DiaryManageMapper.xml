@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.diaryManage.DiaryManageMapper">
+    <select id="selectDiaryList" resultType="com.saesig.diaryManage.DiaryManageDto" parameterType="com.saesig.diaryManage.DiaryManageDto">
+        <include refid="PaginationMapper.header"/>
+        SELECT
+        D.ID,
+        D.TITLE,
+        D.IMAGE_FILE_GROUP_ID,
+        D.WEATHER_CATEGORY,
+        D.CATEGORY as diaryCategory,
+        D.STATUS as diaryStatus,
+        D.IS_SECRET,
+        D.IS_DELETED,
+        D.HITS,
+        D.TAG_GROUP_ID,
+        D.CREATED_AT,
+        D.CREATED_BY,
+        D.MODIFIED_AT,
+        D.MODIFIED_BY,
+        M.nickname as createdByName,
+        IFNULL(C.cnt,0) as commentCnt,
+        IFNULL(L.cnt,0) as likeCnt
+        FROM DIARY D
+        LEFT JOIN MEMBER M ON D.modified_by = M.id
+        LEFT JOIN (SELECT diary_id, count(*) as cnt from diary_comment group by diary_id) C ON D.id = C.diary_id
+        LEFT JOIN (SELECT diary_id, count(*) as cnt from diary_interest group by diary_id) L ON D.id = L.diary_id
+        <include refid="PaginationMapper.footer"/>
+    </select>
+
+    <select id="selectDiaryCntData" resultType="com.saesig.diaryManage.DiaryManageDto" parameterType="com.saesig.diaryManage.DiaryManageDto">
+        SELECT
+            D.ID,
+            IFNULL(C.cnt,0) as commentCnt,
+            FROM DIARY D
+                 LEFT JOIN MEMBER M ON D.modified_by = M.id
+                 LEFT JOIN (SELECT diary_id, count(*) as cnt from diary_comment group by diary_id) C ON D.id = C.diary_id
+    </select>
+
+    <select id="selectDiaryById" resultType="com.saesig.diaryManage.DiaryManageDto" parameterType="com.saesig.diaryManage.DiaryManageDto">
+        SELECT
+        D.ID,
+        D.TITLE,
+        D.CONTENT,
+        D.IMAGE_FILE_GROUP_ID,
+        D.WEATHER_CATEGORY,
+        D.CATEGORY as diaryCategory,
+        D.STATUS as diaryStatus,
+        D.IS_SECRET,
+        D.IS_DELETED,
+        D.HITS,
+        D.TAG_GROUP_ID,
+        D.CREATED_AT,
+        D.CREATED_BY,
+        D.MODIFIED_AT,
+        D.MODIFIED_BY,
+        CONCAT(M.nickname,'(',M.email,')') as createdByName,
+        CONCAT(M2.nickname,'(',M2.email,')') as modifiedByName,
+        IFNULL(L.cnt,0) as likeCnt
+        FROM DIARY D
+        LEFT JOIN MEMBER M ON D.CREATED_BY = M.id
+        LEFT JOIN MEMBER M2 ON D.MODIFIED_BY = M2.id
+        LEFT JOIN (SELECT diary_id, count(*) as cnt from diary_interest group by diary_id) L ON D.id = L.diary_id
+        where D.id = #{id}
+    </select>
+
+    <select id="selectDiaryTagListById" resultType="com.saesig.diaryManage.DiaryTagDto" parameterType="com.saesig.diaryManage.DiaryManageDto">
+        SELECT
+            DT.*, T.NAME AS tagName
+            FROM DIARY_TAG DT LEFT JOIN TAG T ON DT.TAG_ID = T.ID
+        WHERE DT.diary_id = #{id}
+    </select>
+
+    <update id="updateDiaryInfo" parameterType="com.saesig.diaryManage.DiaryManageDto">
+        UPDATE DIARY
+        SET
+            TITLE = #{title},
+            CONTENT = #{content},
+            CATEGORY = #{diaryCategory},
+            STATUS = #{diaryStatus},
+            IS_DELETED = #{isDeleted},
+            MODIFIED_AT = now(),
+            MODIFIED_BY = #{member.id}
+        WHERE
+            id = #{id}
+    </update>
+
+
+</mapper>
+
