@@ -24,6 +24,25 @@
             </div>
         </div>
 
+        <div class="col-12">
+            <div class="card">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="mb-0 form-group row">
+                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1 "><strong>유형선택</strong></div>
+                        <div class="col-12">
+                            <select name="searchType" id="searchType" class="form-select form-control form-control-round left-select custom-select">
+                                <option value="">- 선택 -</option>
+                                <option value="ADMIN">ADMIN</option>
+                                <option value="FRONT">FRONT</option>
+                                <option value="API">API</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="col-12 col-lg-6">
             <div class="card">
                 <div class="card-header p-b-0">
@@ -45,7 +64,6 @@
                 <div class="card-block-small">
                     <form id="resourceForm" name="resourceForm">
                         <input type="hidden" name="id" id="id"/>
-                        <input type="hidden" name="ord" id="ord">
                         <input type="hidden" name="depth" id="depth">
                         <input type="hidden" name="upperId" id="upperId"/>
 
@@ -95,6 +113,13 @@
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="styleClass"><strong>Style Class</strong></label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control form-control-round" name="styleClass" id="styleClass"/>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-group row required">
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="ord"><strong>순서</strong></label>
+                            <div class="col-sm-12">
+                                <input type="text" class="form-control form-control-round" name="ord" id="ord"/>
                             </div>
                         </div>
 
@@ -151,7 +176,7 @@
                         </div>
 
                         <div class="mb-0 mt-4 form-group row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-12 text-right">
                                 <button type="button" class="btn btn-primary" id="saveBtn">
                                     저장
                                 </button>

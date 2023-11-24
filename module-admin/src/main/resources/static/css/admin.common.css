@@ -818,4 +818,25 @@ table.dataTable tbody tr.selected > * {
     left: 10px;
 }
 
+div.feedback-error {
+    padding: 10px 10px 0 20px;
+    color: #ff8031;
+}
+
+div.feedback-valid {
+    padding: 10px 10px 0 20px;
+    color: #01942A;
+}
+
+.card-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header-flex > h4, h5 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+
+}
 

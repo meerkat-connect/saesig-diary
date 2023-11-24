@@ -29,11 +29,24 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         CustomUserDetails user = (CustomUserDetails) customUserDetailsService.loadUserByUsername(name);
 
+        // 휴면회원인 경우
+
+        // 패스워드가 일치하지 않는 경우
+
+
         if (!passwordEncoder.matches(password, user.getPassword())) {
+
+            // 로그인 실패 ->  횟수 증가, 5회가 된 경우 계정 잠김, 실패 이력 생성
             throw new BadCredentialsException("패스워드가 일치하지 않습니다.");
         }
 
         httpSession.setAttribute("member", new SessionMember(user.getMember()));
+
+        /*
+            TODO
+            1. 로그인 실패 에러 세션 지우기
+            2. 로그인 성공시 실패 카운터 초기화
+         */
 
         return new UsernamePasswordAuthenticationToken(user.getMember(), null, user.getAuthorities());
     }

@@ -20,7 +20,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import java.util.Collections;
@@ -46,7 +45,9 @@ public class SecurityConfig {
             "/fonts/**/*",
             "/images/**/*",
             "/files/**/*",
-            "/favicon.ico"};
+            "/admin/login",
+            "/favicon.ico"
+    };
 
     @Bean
     public SecurityFilterChain mainFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -61,9 +62,9 @@ public class SecurityConfig {
 
         // 세션 정책 설정
         httpSecurity.sessionManagement()
-                .invalidSessionUrl("/invalid")
+                .invalidSessionUrl("/admin/login")
                 .maximumSessions(1) // 최대 허용 가능 세션 수
-                .expiredUrl("/expired")
+                .expiredUrl("/admin/login")
                 .maxSessionsPreventsLogin(true)  // 동시 로그인 차단, false: 기존 세션 만료 (default)
                 .and()
                 .sessionFixation()
@@ -147,7 +148,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+    public CustomLoginSuccessHandler authenticationSuccessHandler() {
         return new CustomLoginSuccessHandler("/admin");
     }
 

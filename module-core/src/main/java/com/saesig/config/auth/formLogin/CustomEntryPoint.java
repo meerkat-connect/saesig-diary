@@ -12,6 +12,8 @@ public class CustomEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-        request.getRequestDispatcher("/admin/login").forward(request, response);
+        response.sendRedirect("/admin/login");
+
+//        request.getRequestDispatcher("/admin/login").forward(request, response);
     }
 }

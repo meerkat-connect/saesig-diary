@@ -2,9 +2,9 @@ package com.saesig.config.auth.formLogin;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.DefaultSavedRequest;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 
-import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,23 +13,22 @@ import java.io.IOException;
 
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
+    private final int MAX_INACTIVE_INTERVAL = 120;
 
     public CustomLoginSuccessHandler(String defaultTargetUrl) {
-        super.setDefaultTargetUrl(defaultTargetUrl);
+        setDefaultTargetUrl(defaultTargetUrl);
     }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         HttpSession session = request.getSession();
-        DefaultSavedRequest savedRequest = (DefaultSavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+        session.setMaxInactiveInterval(MAX_INACTIVE_INTERVAL);
 
-        /*
-            TODO
-            1. 로그인 실패 에러 세션 지우기
-            2. 로그인 성공시 실패 카운터 초기화
-         */
+        HttpSessionRequestCache httpSessionRequestCache = new HttpSessionRequestCache();
+        SavedRequest savedRequest = httpSessionRequestCache.getRequest(request, response);
+        String redirectUrl = savedRequest.getRedirectUrl();
 
-        super.onAuthenticationSuccess(request, response, chain, authentication);
+        response.sendRedirect(redirectUrl);
     }
 }

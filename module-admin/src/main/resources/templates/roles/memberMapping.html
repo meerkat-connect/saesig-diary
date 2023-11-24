@@ -36,24 +36,33 @@
 
                 <form id="mappingUserForm" name="mappingUserForm" method="get" action="">
                     <input type="hidden" name="seCd" id="seCd" value="A"/>
-                    <div class="row p-20 p-b-0">
+
+                    <div class="card-header card-header-flex p-b-0">
+                        <h4 class="sub-title"><strong>사용자 검색 결과</strong></h4>
+                        <div class="text-right">
+                            <button type="button" id="addMemberBtn" class="btn btn-transparent">사용자추가</button>
+                        </div>
+                    </div>
+                    <!--<div class="p-20 p-b-0 card-header-flex">
                         <div class="col-12 col-md-6 mb-2 mb-md-0">
                             <h5><strong>사용자 검색 결과</strong></h5>
                         </div>
                         <div class="col-12 col-md-6 text-right">
                             <button type="button" id="addMemberBtn" class="btn btn-transparent">사용자추가</button>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="card-block-small">
-                        <table id="mappedUserTable" class="display" style="width:100%; display:none;">
-                            <thead>
-                            <tr>
-                                <th>회원 일련번호</th>
-                                <th>이메일</th>
-                                <th>닉네임</th>
-                            </tr>
-                            </thead>
-                        </table>
+                        <div class="dt-responsive table-responsive">
+                            <table id="mappedUserTable" class="display" style="width:100%; display:none;">
+                                <thead>
+                                <tr>
+                                    <th>회원 일련번호</th>
+                                    <th>이메일</th>
+                                    <th>닉네임</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </form>
             </div>

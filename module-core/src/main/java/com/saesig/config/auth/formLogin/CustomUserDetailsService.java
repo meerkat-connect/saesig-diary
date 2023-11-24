@@ -1,7 +1,6 @@
 package com.saesig.config.auth.formLogin;
 
 import com.saesig.domain.member.Member;
-import com.saesig.domain.member.MemberRepository;
 import com.saesig.domain.member.QueryDslMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,13 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private final MemberRepository memberRepository;
     private final QueryDslMemberRepository queryDslMemberRepository;
 
     @Override
@@ -26,5 +25,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         log.info("member : {} " , member.toString());
 
         return new CustomUserDetails(member);
+    }
+
+    @Transactional
+    public void failLogin() {
+
     }
 }
