@@ -317,7 +317,7 @@
                 }).on('deselect', function (e, dt, type, indexes) {
                     let rowData = adoptListTable.rows(indexes).data().toArray();
                 });
-
+                $('#searchAnimalDivision1Category').off('change');
                 $('#searchAnimalDivision1Category').on('change',function (){
                     if ($(this).val() != ''){
                         $.ajax({
@@ -333,7 +333,7 @@
                         });
                     }
                 })
-
+                $(document).off('click', '#cancelBtn');
                 $(document).on('click','#cancelBtn',function (){
                     adoptListTable.row().deselect();
                     $('#contentPanel').empty()
@@ -670,7 +670,8 @@
                     // }
 
                 }
-
+                $('body').off('click', '#saveBtn')
+                $('body').off('click', '#cancelBtn')
                 $('body').on('click', '#saveBtn', function (event) {
                     adoptFormController.save();
                 }).on('click', '#cancelBtn', function (event) {
@@ -803,7 +804,6 @@
 
         $(function () {
             adoptController.init();
-
             $("body").on('click', '#insertBtn', function () {
                 $.ajax({
                     type: 'get',
@@ -818,7 +818,6 @@
             }).on('click', '#searchBtn', function () {
                 adoptController.init();
             })
-
             $('input[name=tableCheckbox]').on('change', function () {
                 const $this = $(this)
                 if ($this.is(':checked')) {
