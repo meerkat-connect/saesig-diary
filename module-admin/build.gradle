@@ -5,10 +5,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation 'org.springframework.session:spring-session-core'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     implementation group: 'org.qlrm', name: 'qlrm', version: '3.0.1'
 
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
+
 }
