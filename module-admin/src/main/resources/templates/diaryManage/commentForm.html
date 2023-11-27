@@ -1,0 +1,20 @@
+<div class="card-header p-b-0">
+    <h3 class="sub-title"><strong>댓글</strong></h3>
+</div>
+<div class="card-block-small p-t-0">
+    <div class="banner-wrap">
+        <div class="banner-select">
+            <div class="banner-list column" id="commentCon">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // -->
+<script th:inline="javascript">
+    $(function () {
+        diaryCommentController.id = [[${diaryId}]]
+        diaryCommentController.init();
+    });
+</script>
+
+

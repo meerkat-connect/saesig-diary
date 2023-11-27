@@ -24,8 +24,21 @@
         IFNULL(L.cnt,0) as likeCnt
         FROM DIARY D
         LEFT JOIN MEMBER M ON D.modified_by = M.id
-        LEFT JOIN (SELECT diary_id, count(*) as cnt from diary_comment group by diary_id) C ON D.id = C.diary_id
-        LEFT JOIN (SELECT diary_id, count(*) as cnt from diary_interest group by diary_id) L ON D.id = L.diary_id
+        LEFT JOIN (SELECT diary_id, count(*) AS cnt FROM diary_comment WHERE depth = 1 AND IS_DELETED = 'N' GROUP BY diary_id) C ON D.id = C.diary_id
+        LEFT JOIN (SELECT diary_id, count(*) AS cnt FROM diary_interest GROUP BY diary_id) L ON D.id = L.diary_id
+        WHERE 1=1
+        <if test="searchType != '' and searchKeyword != '' and searchType != null and searchKeyword != null">
+            and #{searchType} LIKE CONCAT('%',#{searchKeyword},'%')
+        </if>
+        <if test="searchTitle != '' and searchTitle != null">
+            and D.title LIKE CONCAT('%',#{searchTitle},'%')
+        </if>
+        <if test="searchStatus != '' and searchStatus != null and searchStatus != 'all'">
+            and D.status = #{searchStatus}
+        </if>
+        <if test="searchCategory != '' and searchCategory != null and searchCategory != 'all'">
+            and D.category = #{searchCategory}
+        </if>
         <include refid="PaginationMapper.footer"/>
     </select>
 
@@ -35,7 +48,7 @@
             IFNULL(C.cnt,0) as commentCnt,
             FROM DIARY D
                  LEFT JOIN MEMBER M ON D.modified_by = M.id
-                 LEFT JOIN (SELECT diary_id, count(*) as cnt from diary_comment group by diary_id) C ON D.id = C.diary_id
+                 LEFT JOIN (SELECT diary_id, count(*) as cnt from diary_comment WHERE DEPTH = 1 group by diary_id) C ON D.id = C.diary_id
     </select>
 
     <select id="selectDiaryById" resultType="com.saesig.diaryManage.DiaryManageDto" parameterType="com.saesig.diaryManage.DiaryManageDto">
@@ -86,6 +99,27 @@
             id = #{id}
     </update>
 
+    <select id="selectDiaryCommentById" parameterType="com.saesig.diaryManage.DiaryManageDto" resultType="com.saesig.diaryManage.DiaryCommentDto">
+        SELECT DC.*,DCI.CNT as likeCnt, CONCAT(M.NICKNAME,'(',M.EMAIL,')') AS createdByName, IFNULL(DCU.CNT,0) AS replyCnt
+        FROM DIARY_COMMENT DC
+            LEFT JOIN (SELECT COMMENT_ID, COUNT(*) as CNT FROM DIARY_COMMENT_INTEREST GROUP BY COMMENT_ID) DCI ON DC.id = DCI.COMMENT_ID
+            LEFT JOIN MEMBER M ON DC.CREATED_BY = M.ID
+            LEFT JOIN (SELECT UPPER_ID, COUNT(*) AS CNT FROM DIARY_COMMENT WHERE UPPER_ID IS NOT NULL AND IS_DELETED = 'N' GROUP BY UPPER_ID) DCU ON DC.ID = DCU.UPPER_ID
+        WHERE DIARY_ID = #{id}
+        AND IS_DELETED = 'N'
+        ORDER BY DC.DEPTH,DC.UPPER_ID DESC, DC.CREATED_AT DESC
+    </select>
+
+    <update id="deleteDiary" parameterType="com.saesig.diaryManage.DiaryManageDto">
+        UPDATE DIARY SET IS_DELETED = 'Y',STATUS = 'DELETE' WHERE ID IN
+        <foreach item="item" collection="ids" open="("  separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <update id="deleteDiaryComment" parameterType="com.saesig.diaryManage.DiaryCommentDto">
+        UPDATE DIARY_COMMENT SET IS_DELETED = 'Y' WHERE ID = #{id} OR UPPER_ID = #{id}
+    </update>
 
 </mapper>
 

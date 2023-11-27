@@ -329,10 +329,23 @@ CREATE TABLE `diary_comment`
 (
     `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '댓글 일련번호',
     `diary_id`    BIGINT                NOT NULL COMMENT '일기 일련번호',
-    `upper_id`    BIGINT                NOT NULL COMMENT '상위 댓글 일련번호',
+    `upper_id`    BIGINT                NULL COMMENT '상위 댓글 일련번호',
     `content`     VARCHAR(1000)         NOT NULL COMMENT '내용',
     `is_deleted`  VARCHAR(1)            NOT NULL COMMENT '삭제 여부',
     `depth`       INTEGER               NOT NULL COMMENT '깊이',
+    `created_at`  DATETIME              NOT NULL COMMENT '등록일',
+    `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호',
+    `modified_at` DATETIME              NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT                NOT NULL COMMENT '수정자 일련번호'
+);
+
+DROP TABLE IF EXISTS `diary_comment_interest`;
+
+CREATE TABLE `diary_comment_interest`
+(
+    `id`          BIGINT AUTO_INCREMENT NOT NULL COMMENT '일련번호',
+    `comment_id`  BIGINT                NOT NULL COMMENT '댓글 일련번호',
+    `member_id`   BIGINT                NOT NULL COMMENT '회원 일련번호',
     `created_at`  DATETIME              NOT NULL COMMENT '등록일',
     `created_by`  BIGINT                NOT NULL COMMENT '등록자 일련번호',
     `modified_at` DATETIME              NOT NULL COMMENT '수정일',

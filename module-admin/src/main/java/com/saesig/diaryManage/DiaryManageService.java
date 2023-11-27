@@ -1,5 +1,7 @@
 package com.saesig.diaryManage;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 
 public interface DiaryManageService {
@@ -12,6 +14,12 @@ public interface DiaryManageService {
     List<DiaryTagDto> selectDiaryTagListById(DiaryManageDto param) throws Exception;
 
     Long updateDiaryInfo(DiaryManageDto param) throws Exception;
+
+    List<DiaryCommentDto> selectDiaryCommentById(DiaryManageDto param) throws Exception;
+
+    Long deleteDiary(Long[] ids) throws Exception;
+
+    Long deleteDiaryComment(DiaryCommentDto param) throws Exception;
 
 
 }
