@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Codedthemes">
 
-    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="shortcut icon" href="/files/assets/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/files/extra-pages/404/1/css/style.css"/>
 </head>
 
@@ -19,7 +19,7 @@
         </div>
 
         <h1>권한 또는 세션이 존재하지 않습니다.</h1>
-        <button id="prevBtn"> 이전으로</button>
+        <button id="moveToLoginBtn"> 로그인 화면 이동 </button>
     </div>
 </div>
 
@@ -27,8 +27,8 @@
 <script type="text/javascript" src="/files/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script>
     $(function () {
-        $('#prevBtn').on('click', function () {
-            history.back();
+        $('#moveToLoginBtn').on('click', function () {
+            // logout 호출
         });
     });
 </script>
