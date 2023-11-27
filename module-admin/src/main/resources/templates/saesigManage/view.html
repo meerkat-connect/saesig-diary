@@ -120,7 +120,7 @@
                             <!-- //키워드 filter -->
                             <!-- 키워드 filter-btn -->
                             <div class="mt-1 p-t-20 text-center">
-                                <button type="reset" class="btn btn-gray m-r-5">초기화</button>
+                                <button type="button" class="btn btn-gray m-r-5" id="searchInit">초기화</button>
                                 <button type="button" class="btn btn-primary" id="searchBtn">검색</button>
                             </div>
                         </form>
@@ -808,7 +808,10 @@
                 adoptController.delete();
             }).on('click', '#searchBtn', function () {
                 adoptController.init();
-            })
+            }).on('click', '#searchInit', function () {
+                $('#searchKeyword, #searchType, #searchTitle, #searchStatus, #searchCategory, #searchAnimalDivision1Category, #searchAnimalDivision2Category, #searchGender, #searchReportCnt').val('');
+                $('select').niceSelect('update');
+            });
             $('input[name=tableCheckbox]').on('change', function () {
                 const $this = $(this)
                 if ($this.is(':checked')) {

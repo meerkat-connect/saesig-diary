@@ -33,6 +33,11 @@
                     _this.newsListLoad()
                 })
 
+                $('#searchInit').on('click', function () {
+                    $('#searchTitle, #searchCategory').val('');
+                    $('select').niceSelect('update');
+                });
+
                 $('#checkboxAll').on('change',function () {
                     if ($(this).is(':checked')){
                         $('#newsListTable').find('input[type=checkbox]').prop('checked',true)
@@ -348,7 +353,7 @@
                     <!-- //키워드 filter -->
                     <!-- 키워드 filter-btn -->
                     <div class="mt-1 p-t-20 text-center">
-                        <button class="btn btn-disabled m-r-5">초기화</button>
+                        <button class="btn btn-disabled m-r-5" id="searchInit">초기화</button>
                         <button class="btn btn-primary" id="searchBtn">검색</button>
                     </div>
                 </div>
