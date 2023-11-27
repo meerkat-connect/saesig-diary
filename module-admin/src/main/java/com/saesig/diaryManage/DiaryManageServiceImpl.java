@@ -40,4 +40,19 @@ public class DiaryManageServiceImpl implements DiaryManageService {
         }
         return diaryManageMapper.updateDiaryInfo(param);
     };
+
+    @Override
+    public List<DiaryCommentDto> selectDiaryCommentById(DiaryManageDto param) throws Exception{
+        return diaryManageMapper.selectDiaryCommentById(param);
+    };
+
+    @Override
+    public Long deleteDiary(Long[] ids) throws Exception{
+        return diaryManageMapper.deleteDiary(ids);
+    };
+
+    @Override
+    public Long deleteDiaryComment(DiaryCommentDto param) throws Exception{
+        return diaryManageMapper.deleteDiaryComment(param);
+    };
 }

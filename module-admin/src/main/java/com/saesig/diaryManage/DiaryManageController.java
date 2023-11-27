@@ -13,14 +13,9 @@ import com.saesig.saesigManage.AdoptListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -30,8 +25,8 @@ public class DiaryManageController {
     private final EnumMapperFactory enumFactory;
     @GetMapping("view")
     public String DiaryView(Model model) throws Exception{
-        model.addAttribute("diaryCategory", enumFactory.get("diaryCategory"));
-        model.addAttribute("diaryStatus", enumFactory.get("diaryStatus"));
+        model.addAttribute("diaryCategories", enumFactory.get("diaryCategory"));
+        model.addAttribute("diaryStates", enumFactory.get("diaryStatus"));
         return "diaryManage/view";
     }
 
@@ -69,7 +64,7 @@ public class DiaryManageController {
     public String infoForm(DiaryManageDto diaryManageDto, Model model) throws Exception {
         Long id = diaryManageDto.getId();
         model.addAttribute("weatherCategory", enumFactory.get("weatherCategory"));
-        model.addAttribute("diaryCategory", enumFactory.get("diaryCategory"));
+        model.addAttribute("diaryCategories", enumFactory.get("diaryCategory"));
         model.addAttribute("diaryStates", enumFactory.get("diaryStatus"));
         if (id != 0) {
             DiaryManageDto byId = diaryManageService.selectDiaryById(diaryManageDto);
@@ -82,6 +77,20 @@ public class DiaryManageController {
         return "diaryManage/infoForm";
     }
 
+    @GetMapping({"/commentForm.html"})
+    public String commentForm(DiaryManageDto diaryManageDto, Model model) throws Exception {
+        model.addAttribute("diaryId", diaryManageDto.getId());
+        return "diaryManage/commentForm";
+    }
+
+    @GetMapping({"/getCommentListById.do"})
+    @ResponseBody
+    public List<DiaryCommentDto> getCommentListById(DiaryManageDto diaryManageDto) throws Exception {
+        Long id = diaryManageDto.getId();
+        List<DiaryCommentDto> byId = diaryManageService.selectDiaryCommentById(diaryManageDto);
+        return byId;
+    }
+
     @PostMapping({"/updateDiaryInfo.do"})
     @ResponseBody
     public Map<String, Object> updateDiaryInfo(DiaryManageDto param, @LoginMember SessionMember member) throws Exception {
@@ -92,6 +101,25 @@ public class DiaryManageController {
         return resultMap;
     }
 
+    @DeleteMapping({"/deleteDiaryById.do"})
+    @ResponseBody
+    public Map<String, Object> deleteDiary(@RequestParam Long[] deleteIds) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        Object result = diaryManageService.deleteDiary(deleteIds);
+        resultMap.put("result",result);
+        return resultMap;
+    }
+
+    @DeleteMapping({"/deleteCommentById.do"})
+    @ResponseBody
+    public Map<String, Object>deleteComment(DiaryCommentDto param) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
+        Object result = diaryManageService.deleteDiaryComment(param);
+        resultMap.put("result",result);
+        return resultMap;
+    }
+
 }
+
 
 

@@ -25,6 +25,11 @@
                     _this.inquiryListLoad()
                 })
 
+                $('#searchInit').on('click', function () {
+                    $('#searchKeyword, #searchKeywordSelect, #searchTitle, #searchStatus, #searchCategory').val('');
+                    $('select').niceSelect('update');
+                });
+
                 $(document).on('click', '#inquiryListTable tbody tr', function () {
                     _this.selectItem(this);
                 })
@@ -338,7 +343,7 @@
                                 <div class="col-sm-12">
                                     <select name="searchCategory" id="searchCategory"
                                             class="form-select form-control form-control-round custom-select">
-                                        <option value="all">전체</option>
+                                        <option value="">- 전체 -</option>
                                         <option th:each="category : ${categoryList}" th:value="${category.key}" th:text="${category.value}">value</option>
                                     </select>
                                 </div>
@@ -360,7 +365,7 @@
                                     <select name="searchStatus"
                                             class="form-select form-control form-control-round custom-select"
                                             id="searchStatus">
-                                        <option value="all">전체</option>
+                                        <option value="">- 전체 -</option>
                                         <option th:each="status : ${statusList}" th:value="${status.key}" th:text="${status.value}">value</option>
                                     </select>
                                 </div>
@@ -370,7 +375,7 @@
                     <!-- //키워드 filter -->
                     <!-- 키워드 filter-btn -->
                     <div class="mt-1 p-t-20 text-center">
-                        <button class="btn btn-disabled m-r-5">초기화</button>
+                        <button class="btn btn-disabled m-r-5" id="searchInit">초기화</button>
                         <button class="btn btn-primary" id="searchBtn">검색</button>
                     </div>
                 </div>
