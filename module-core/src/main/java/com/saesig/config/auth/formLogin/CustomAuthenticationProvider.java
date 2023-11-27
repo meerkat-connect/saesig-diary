@@ -1,6 +1,7 @@
 package com.saesig.config.auth.formLogin;
 
 import com.saesig.config.auth.SessionMember;
+import com.saesig.domain.member.QueryDslMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -20,6 +21,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final HttpSession httpSession;
+    private final QueryDslMemberRepository memberRepository;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -29,14 +31,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         CustomUserDetails user = (CustomUserDetails) customUserDetailsService.loadUserByUsername(name);
 
-        // 휴면회원인 경우
+        if(user.isDormant()) {
 
-        // 패스워드가 일치하지 않는 경우
-
+        }
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-
-            // 로그인 실패 ->  횟수 증가, 5회가 된 경우 계정 잠김, 실패 이력 생성
             throw new BadCredentialsException("패스워드가 일치하지 않습니다.");
         }
 

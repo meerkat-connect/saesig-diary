@@ -1,6 +1,7 @@
 package com.saesig.config.auth.formLogin;
 
 import com.saesig.domain.member.Member;
+import com.saesig.domain.member.MemberStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +33,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-
-        log.info("memberRole : {} ", member.getPassword());
         return member.getPassword();
     }
 
@@ -49,7 +48,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return member.getFailedLoginAttempt() < 5 && !member.getStatus().equals(MemberStatus.BLOCKED);
     }
 
     @Override
@@ -60,5 +59,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public boolean isDormant() {
+        return member.getStatus().equals(MemberStatus.DORMANCY);
     }
 }
