@@ -7,6 +7,7 @@ import com.saesig.config.auth.formLogin.*;
 import com.saesig.config.auth.oauth.CustomOAuth2LoginFailHandler;
 import com.saesig.config.auth.oauth.CustomOAuth2LoginSuccessHandler;
 import com.saesig.config.auth.oauth.CustomOAuth2UserService;
+import com.saesig.domain.member.MemberApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,9 +31,12 @@ import java.util.Collections;
 @Profile("prod")
 public class SecurityConfig {
     private final SecurityResourceService securityResourceService;
+    private final MemberApiService memberApiService;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOAuth2LoginFailHandler customOAuth2LoginFailHandler;
     private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
+
+    private static final String LOGIN_PAGE_URI = "/admin/login";
     private static final String[] ENDPOINT_WHITELIST = new String[]{
             "/static/**/*",
             "/error/**/*",
@@ -45,7 +49,8 @@ public class SecurityConfig {
             "/fonts/**/*",
             "/images/**/*",
             "/files/**/*",
-            "/admin/login",
+            LOGIN_PAGE_URI,
+            "/error",
             "/favicon.ico"
     };
 
@@ -53,18 +58,25 @@ public class SecurityConfig {
     public SecurityFilterChain mainFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         // 인증 정책
-        httpSecurity.logout()
+        httpSecurity
+                .csrf().disable()
+                .formLogin()
+                .loginPage(LOGIN_PAGE_URI)
+                .loginProcessingUrl("/login_proc")
+                .successHandler(authenticationSuccessHandler())
+                .failureHandler(authenticationFailureHandler())
+                .and()
+                .logout()
                 .logoutUrl("/logout") // default: POST 방식
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl(LOGIN_PAGE_URI)
+                .logoutSuccessHandler(logoutSuccessHandler())
                 .deleteCookies("JSESSIONID", "remember-me");
-//                .addLogoutHandler(logoutHandler()) 로그아웃시 시큐리티가 제공하는 기능외에 추가로 처리해야하는 로직이 있는 경우 커스텀으로 생성
-//                .logoutSuccesshandler(logoutSuccessHandler());
 
         // 세션 정책 설정
         httpSecurity.sessionManagement()
-                .invalidSessionUrl("/admin/login")
+                .invalidSessionUrl(LOGIN_PAGE_URI)
                 .maximumSessions(1) // 최대 허용 가능 세션 수
-                .expiredUrl("/admin/login")
+                .expiredUrl(LOGIN_PAGE_URI)
                 .maxSessionsPreventsLogin(true)  // 동시 로그인 차단, false: 기존 세션 만료 (default)
                 .and()
                 .sessionFixation()
@@ -72,25 +84,13 @@ public class SecurityConfig {
 
         // 인가 정책
         httpSecurity
-                .csrf().disable()
-                .formLogin()
-                .loginPage("/admin/login")
-                .loginProcessingUrl("/login_proc")
-                .successHandler(authenticationSuccessHandler())
-                .failureHandler(authenticationFailureHandler())
-                .and()
-                .logout()
-                .logoutSuccessUrl("/admin/login")
-                .logoutSuccessHandler(logoutSuccessHandler())
-                .and()
-                .anonymous().authorities("ANONYMOUS")
-                .and()
-                .addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class)
-//                .addFilterBefore(filterSecurityInterceptor(), FilterSecurityInterceptor.class)
+                .addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class);
+
+        // 예외 정책
+        httpSecurity
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())
                 .authenticationEntryPoint(new CustomEntryPoint());
-//                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/admin/login"));
         return httpSecurity.build();
     }
 
@@ -117,7 +117,7 @@ public class SecurityConfig {
 
 
     @Bean
-    public PermitAllFilter customFilterSecurityInterceptor() throws Exception {
+    public PermitAllFilter customFilterSecurityInterceptor() {
         PermitAllFilter permitAllFilter = new PermitAllFilter(ENDPOINT_WHITELIST);
         permitAllFilter.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource());
         permitAllFilter.setAccessDecisionManager(affirmativeBased());
@@ -149,12 +149,12 @@ public class SecurityConfig {
 
     @Bean
     public CustomLoginSuccessHandler authenticationSuccessHandler() {
-        return new CustomLoginSuccessHandler("/admin");
+        return new CustomLoginSuccessHandler("/admin", memberApiService);
     }
 
     @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
-        return new CustomLoginFailureHandler();
+        return new CustomLoginFailureHandler(memberApiService);
     }
 
     @Bean
