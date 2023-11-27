@@ -65,7 +65,10 @@ public class Member extends BaseEntity {
     private String marketingServiceAgreement;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    List<MemberRole> memberRoles = new ArrayList<>();
+    private List<MemberRole> memberRoles = new ArrayList<>();
+
+    @Column(name="failed_login_attempt")
+    private Integer failedLoginAttempt;
 
     @Builder
     public Member(Long id, String email, String password, SignupMethod signupMethod, MemberStatus status, String nickname, String serviceAgreement, String locationServiceAgreement, String privacyAgreement, String marketingServiceAgreement) {
@@ -85,5 +88,16 @@ public class Member extends BaseEntity {
         this.password = newPassword;
         this.prevPassword = oldPassword;
         this.passwordModifiedAt = LocalDateTime.now();
+    }
+
+    public void afterLoginFail() {
+        ++this.failedLoginAttempt;
+        if(this.failedLoginAttempt.equals(5)) {
+            this.status = MemberStatus.BLOCKED;
+        }
+    }
+
+    public void afterLoginSuccess() {
+        this.failedLoginAttempt = 0;
     }
 }

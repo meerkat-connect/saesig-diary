@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @RequiredArgsConstructor
 public enum MemberStatus implements EnumMapperType {
-    NORMAL("정상"), LEAVE("탈퇴"), BANNED("정지"), DORMANCY("휴면");
+    NORMAL("정상"), LEAVE("탈퇴"), BANNED("정지"), DORMANCY("휴면"), BLOCKED("잠김");
 
     @Getter
     private final String value;

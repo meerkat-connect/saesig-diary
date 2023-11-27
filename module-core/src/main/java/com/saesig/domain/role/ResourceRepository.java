@@ -10,7 +10,7 @@ import java.util.List;
 public interface ResourceRepository extends JpaRepository<Resource, Long>, CustomResourceRepository {
 
     @Query("SELECT r FROM Resource AS r left join fetch r.parentResource")
-    public List<Resource> findAll();
+    List<Resource> findAll();
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Resource r SET r.ord=r.ord-1 WHERE r.parentResource.id=:parentId AND r.ord > :originalOrd AND r.ord <= :newOrd")
@@ -31,4 +31,6 @@ public interface ResourceRepository extends JpaRepository<Resource, Long>, Custo
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Resource r SET r.ord=:ord, r.parentResource.id=:parentId, r.depth =:depth + 1 WHERE r.id=:id")
     void changeParentId(@Param("id") Long id, @Param("parentId") Long parentId,@Param("ord") Integer ord, @Param("depth") Integer depth);
+
+    Resource findByUrlAndHttpMethod(String url, String httpMethod);
 }
