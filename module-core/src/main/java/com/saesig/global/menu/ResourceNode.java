@@ -1,6 +1,5 @@
-package com.saesig.common.menu;
+package com.saesig.global.menu;
 
-import com.saesig.resource.ResourceResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ResourceNode {
-    private ResourceResponseDto data;
+    private ResourceItem data;
     private ResourceNode parentNode;
     private List<ResourceNode> childNodes = new ArrayList<>();
 

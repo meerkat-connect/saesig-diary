@@ -1,7 +1,6 @@
 package com.saesig.config;
 
-import com.saesig.domain.role.Resource;
-import com.saesig.domain.role.ResourceRepository;
+import com.saesig.global.menu.MenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -15,15 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @Component
 public class HttpInterceptor implements HandlerInterceptor {
-    private final ResourceRepository resourceRepository;
+    private final MenuService menuService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
         String httpMethod = request.getMethod();
-        Resource resource = resourceRepository.findByUrlAndHttpMethod(requestURI, httpMethod);
 
-        request.setAttribute("RESOURCE", resource);
+//        ResourceNode rootResourceNode = menuService.getResourceTree("/ADMIN").getRoot();
+//        ResourceItem resource = menuService.getResourceItemBy(rootResourceNode, requestURI, httpMethod);
+//
+//        request.setAttribute("RESOURCE", resource);
 
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

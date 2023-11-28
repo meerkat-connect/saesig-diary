@@ -1,8 +1,6 @@
-package com.saesig.common.menu;
+package com.saesig.global.menu;
 
 import com.saesig.domain.role.ResourceType;
-import com.saesig.resource.ResourceResponseDto;
-import com.saesig.resource.ResourceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -15,7 +13,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MenuService {
-    private final ResourceService resourceService;
+    private final ResourceMapper resourceMapper;
     private ResourceTree resourceTree = null;
 
     public String menuPrint() {
@@ -32,7 +30,7 @@ public class MenuService {
         String upprMenuid = "";
 
         for (ResourceNode resourceNode : root.getChildNodes()) {
-            ResourceResponseDto node1 = resourceNode.getData();
+            ResourceItem node1 = resourceNode.getData();
             boolean isVisible = isDirectory(node1) || isMenu(node1);
             if (isVisible) {
                 if (isDirectory(node1)) {
@@ -55,7 +53,7 @@ public class MenuService {
                 if (!resourceNode.getChildNodes().isEmpty()) {
                     sb.append("<ul class=\"pcoded-item pcoded-left-item\">");
                     for (ResourceNode resourceNode2 : resourceNode.getChildNodes()) {
-                        ResourceResponseDto node2 = resourceNode2.getData();
+                        ResourceItem node2 = resourceNode2.getData();
                         String mkey = "1";
 
                         if (resourceNode2.getChildNodes().size() > 0) {
@@ -89,7 +87,7 @@ public class MenuService {
                         if (!resourceNode2.getChildNodes().isEmpty()) {
                             sb.append("<ul class=\"first-depth-submenu pcoded-submenu\">\n");
                             for (ResourceNode resourceNode3 : resourceNode2.getChildNodes()) {
-                                ResourceResponseDto node3 = resourceNode3.getData();
+                                ResourceItem node3 = resourceNode3.getData();
                                 sb.append("<li class=\"");
                                 if (!resourceNode3.getChildNodes().isEmpty()) {
                                     sb.append("pcoded-hasmenu ");
@@ -106,7 +104,7 @@ public class MenuService {
                                 if (!resourceNode3.getChildNodes().isEmpty()) {
                                     sb.append("<ul class=\"pcoded-submenu\">\n");
                                     for (ResourceNode resourceNode4 : resourceNode3.getChildNodes()) {
-                                        ResourceResponseDto node4 = resourceNode4.getData();
+                                        ResourceItem node4 = resourceNode4.getData();
 
                                         sb.append("    <li class=\"");
                                         /*if (menuItem4.getMenuid().equals(menuItem.getMenuid())) {
@@ -143,15 +141,36 @@ public class MenuService {
         return sb.toString();
     }
 
-    private boolean isMenu(ResourceResponseDto node) {
+    public ResourceItem getResourceItemBy(ResourceNode node, String url, String httpMethod) {
+        ResourceItem returnResource = null;
+
+        if (node != null) {
+            ResourceItem resourceItem = node.getData();
+            if (url.equals(resourceItem.getUrl()) && httpMethod.equals(resourceItem.getHttpMethod())) {
+                return resourceItem;
+            } else {
+                List<ResourceNode> childNodes = node.getChildNodes();
+                for (ResourceNode childNode : childNodes) {
+                    resourceItem = getResourceItemBy(childNode, url, httpMethod);
+                    if (resourceItem != null) break;
+                }
+            }
+        }
+
+        return returnResource;
+    }
+
+
+
+    private boolean isMenu(ResourceItem node) {
         return ResourceType.MENU.equals(node.getType());
     }
 
-    private boolean isDirectory(ResourceResponseDto node) {
+    private boolean isDirectory(ResourceItem node) {
         return ResourceType.DIRECTORY.equals(node.getType());
     }
 
-    public String addContextToUrl(String context, String url) {
+    private String addContextToUrl(String context, String url) {
         if (!url.startsWith("http")) {
             return context + url;
         } else {
@@ -159,22 +178,22 @@ public class MenuService {
         }
     }
 
-    private ResourceTree getResourceTree(String resourceCategory) {
+    public ResourceTree getResourceTree(String resourceCategory) {
 
         if (resourceTree != null) return resourceTree;
 
         // 자원 유형에 따른 목록 조회
-        List<ResourceResponseDto> resources = resourceService.findAll();
+        List<ResourceItem> resources = resourceMapper.findAll();
         return makeResourcetree(resources);
     }
 
-    private ResourceTree makeResourcetree(List<ResourceResponseDto> resources) {
+    private ResourceTree makeResourcetree(List<ResourceItem> resources) {
         if (resourceTree == null) {
             resourceTree = new ResourceTree();
         }
 
         synchronized (resourceTree) {
-            for (ResourceResponseDto resource : resources) {
+            for (ResourceItem resource : resources) {
                 ResourceNode resourceNode = new ResourceNode();
                 resourceNode.setData(resource);
 
@@ -197,7 +216,7 @@ public class MenuService {
 
     private ResourceNode getParentNodeById(ResourceNode resourceNode, Long menuId) {
         if (resourceNode != null) {
-            ResourceResponseDto data = resourceNode.getData();
+            ResourceItem data = resourceNode.getData();
             if (menuId.equals(data.getId())) {
                 return resourceNode;
             } else {

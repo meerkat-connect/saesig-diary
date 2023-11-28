@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.saesig.resource.ResourceMapper">
-    <select id="findAll" resultType="com.saesig.resource.ResourceResponseDto">
+<mapper namespace="com.saesig.global.menu.ResourceMapper">
+    <select id="findAll" resultType="com.saesig.global.menu.ResourceItem">
         WITH RECURSIVE resource_cte(id, upper_id, name, url, depth, ord, style_class, category, tree_ord, type, http_method, is_enabled, tree_name, is_login_disallowed) AS (
 
             SELECT id, upper_id, name, url, depth, ord, style_class, category, SUBSTR(CONCAT('0000', ord), -4) AS tree_ord, type, http_method, is_enabled, name as tree_name, is_login_disallowed

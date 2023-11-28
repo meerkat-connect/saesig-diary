@@ -3,6 +3,7 @@ package com.saesig.resource;
 import com.saesig.domain.role.Resource;
 import com.saesig.domain.role.ResourceRepository;
 import com.saesig.domain.role.ResourceType;
+import com.saesig.global.menu.ResourceMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,8 @@ public class ResourceService {
     private final ResourceMapper resourceMapper;
 
     public List<ResourceResponseDto> findAll() {
-        return resourceMapper.findAll();
+        return null;
+//        return resourceMapper.findAll();
     }
 
     public ResourceResponseDto findById(Long resourceId) {

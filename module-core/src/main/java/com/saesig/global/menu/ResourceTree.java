@@ -1,4 +1,4 @@
-package com.saesig.common.menu;
+package com.saesig.global.menu;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
