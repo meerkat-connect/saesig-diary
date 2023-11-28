@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.saesig.api.adopt.AdoptMapper">
+    <insert id="insertAdopt" parameterType="com.saesig.api.adopt.AdoptDto">
+        INSERT INTO ADOPT
+            (ADOPT_MEMBER_ID, TITLE, CONTENT, GENDER, AGE, AGE_CATEGORY, STATUS, IS_DELETED, IS_CASTRATED, RESPONSIBILITY_COST, ETC_CONTENT, ANIMAL_DIVISION1_ID, ANIMAL_DIVISION2_ID, IMAGE_FILE_GROUP_ID, SIDO, SIGUNGU, STOP_REASON, STOP_CATEGORY, MODIFIED_AT, MODIFIED_BY, CREATED_AT, CREATED_BY)
+        VALUES
+            (#{member.id},  #{title}, #{content}, #{gender}, #{age}, #{ageCategory}, 'ONGOING', 'N', #{isCastrated}, #{responsibilityCost}, #{etcContent}, #{animalDivision1Id}, #{animalDivision2Id}, #{imageFileGroupId}, #{sido}, #{sigungu}, null, null, NOW(), #{member.id}, NOW(), #{member.id});
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            SELECT last_insert_id() AS id
+        </selectKey>
+    </insert>
+    <insert id="insertAdoptVaccine" parameterType="com.saesig.api.adopt.AdoptDto">
+        INSERT INTO adopt_vaccine(adopt_id,vaccine_id,modified_at,modified_by,created_at,created_by)
+        VALUES
+        <foreach collection="vaccineList" item="vaccine" separator=",">
+            (#{id}, #{vaccine}, now(), #{member.id}, now(), #{member.id})
+        </foreach>
+    </insert>
+
+    <select id="selectAdoptList" resultType="com.saesig.api.adopt.AdoptDto" parameterType="com.saesig.api.adopt.AdoptDto">
+        SELECT a.*, ad1.category as animalDivision1Category, ad2.category as animalDivision2Category, IFNULL(reportCnt,0) as reportCnt ,  IFNULL(likeCnt,0) as likeCnt, IFNULL(chattingCnt,0) as chattingCnt
+        from adopt a
+        LEFT JOIN (select adopt_id, IFNULL(count(*),0) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
+        LEFT JOIN (select adopt_id, IFNULL(count(*),0) as likeCnt from adopt_interest group by adopt_id) ai ON a.id = ai.adopt_id
+        LEFT JOIN (select adopt_id, IFNULL(count(*),0) as chattingCnt from (select ADOPT_ID, CHAT_ID from chatting_room group by chat_id) cr group by adopt_id) ch ON a.id = ch.adopt_id
+        LEFT JOIN animal_division1 ad1 ON a.animal_division1_id = ad1.id
+        LEFT JOIN animal_division2 ad2 ON a.animal_division2_id = ad2.id
+        LEFT JOIN member m ON a.created_by = m.id
+        WHERE 1=1
+        and a.is_deleted = 'N'
+        <if test="searchType != '' and searchKeyword != '' and searchType != null and searchKeyword != null">
+            and #{searchType} LIKE CONCAT('%',#{searchKeyword},'%')
+        </if>
+        <if test="searchTitle != '' and searchTitle != null">
+            and a.title LIKE CONCAT('%',#{searchTitle},'%')
+        </if>
+        <if test="searchStatus != '' and searchStatus != null and searchStatus != 'all'">
+            and a.status = #{searchStatus}
+        </if>
+        <if test="searchAnimalDivision1Category != '' and searchAnimalDivision1Category != null and searchAnimalDivision1Category != 'all'">
+            and ad1.id = #{searchAnimalDivision1Category}
+        </if>
+        <if test="searchAnimalDivision2Category != '' and searchAnimalDivision2Category != null and searchAnimalDivision2Category != 'all'">
+            and ad2.id = #{searchAnimalDivision2Category}
+        </if>
+        <if test="searchGender != '' and searchGender != null and searchGender != 'all'">
+            and a.gender = #{searchGender}
+        </if>
+        <if test="searchReportCnt != '' and searchReportCnt != null and searchReportCnt != 'all'">
+            <if test="searchReportCnt == 1">
+                and ar.reportCnt != 0
+            </if>
+            <if test="searchReportCnt == 0">
+                and ar.reportCnt = 0
+            </if>
+        </if>
+        ORDER BY a.id DESC
+    </select>
+</mapper>
