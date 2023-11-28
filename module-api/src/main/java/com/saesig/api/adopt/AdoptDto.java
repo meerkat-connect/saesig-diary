@@ -60,6 +60,7 @@ public class AdoptDto {
 
         //searchParam
         private String searchKeyword;
+        private String searchType;
         private String searchTitle;
         private String searchStatus;
         private String searchAnimalDivision1Category;
