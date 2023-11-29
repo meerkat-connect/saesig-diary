@@ -19,29 +19,50 @@ public class AdoptController {
 
     @Operation(summary="분양글 등록", description = "입력한 정보를 이용하여 분양등록을 진행")
     @PostMapping("/insertAdopt")
-    public Long insertAdopt(AdoptDto adoptDto, @LoginMember SessionMember member) throws Exception{
-        adoptDto.setMember(member);
+    @ResponseBody
+    public Long insertAdopt(@RequestBody AdoptDto adoptDto, @LoginMember SessionMember Member) throws Exception{
+        adoptDto.setMember(Member);
         return adoptService.insertAdopt(adoptDto);
     }
 
     @Operation(summary="분양글 검색", description = "입력한 정보를 이용하여 분양목록을 반환")
     @GetMapping("/selectAdoptList")
-    public List<AdoptDto> getAdoptList(AdoptDto adoptDto) throws Exception{
+    public List<AdoptDto> getAdoptList(AdoptDto adoptDto, @LoginMember SessionMember member) throws Exception{
         return adoptService.selectAdoptList(adoptDto);
     }
 
     @Operation(summary="분양글 수정", description = "입력한 정보를 이용하여 등록된 분양내용을 수정")
     @PostMapping("/updateAdopt")
-    public Long updateAdopt(AdoptDto adoptDto, @LoginMember SessionMember member) throws Exception{
+    @ResponseBody
+    public Long updateAdopt(@RequestBody AdoptDto adoptDto, @LoginMember SessionMember member) throws Exception{
         adoptDto.setMember(member);
         return adoptService.updateAdopt(adoptDto);
     }
 
     @Operation(summary="분양글 삭제", description = "분양글 삭제")
     @DeleteMapping("/deleteAdopt")
-    public Long deleteAdopt(AdoptDto adoptDto, @LoginMember SessionMember member) throws Exception{
+    @ResponseBody
+    public Long deleteAdopt(@RequestParam Long id, @LoginMember SessionMember member) throws Exception{
+        AdoptDto adoptDto = new AdoptDto();
+        adoptDto.setId(id);
         adoptDto.setMember(member);
         return adoptService.deleteAdopt(adoptDto);
+    }
+
+    @Operation(summary="분양글 좋아요", description = "분양글 좋아요 수정 정보")
+    @PostMapping("/changLikeInfo")
+    @ResponseBody
+    public Long changeLikeInfo(@RequestBody AdoptDto adoptDto, @LoginMember SessionMember member) throws Exception{
+        adoptDto.setMember(member);
+        return adoptService.changeLikeInfo(adoptDto);
+    }
+
+    @Operation(summary="분양글 신고", description = "분양글 신고")
+    @PostMapping("/reportAdoptPost")
+    @ResponseBody
+    public Long reportAdoptPost(@RequestBody AdoptReportDto adoptReportDto, @LoginMember SessionMember member) throws Exception{
+        adoptReportDto.setMember(member);
+        return adoptService.reportAdoptPost(adoptReportDto);
     }
 
 }

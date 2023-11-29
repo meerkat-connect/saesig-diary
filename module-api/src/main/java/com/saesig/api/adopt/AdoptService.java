@@ -1,5 +1,7 @@
 package com.saesig.api.adopt;
 
+import com.saesig.domain.member.Member;
+
 import java.util.List;
 
 public interface AdoptService {
@@ -7,4 +9,6 @@ public interface AdoptService {
     List<AdoptDto> selectAdoptList(AdoptDto adoptDto) throws Exception;
     Long updateAdopt(AdoptDto adoptDto) throws Exception;
     Long deleteAdopt(AdoptDto adoptDto) throws Exception;
+    Long changeLikeInfo(AdoptDto adoptDto) throws Exception;
+    Long reportAdoptPost(AdoptReportDto adoptReportDto) throws Exception;
 }

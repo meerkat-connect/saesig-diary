@@ -69,5 +69,4 @@ public class AdoptDto {
         private String searchReportCnt;
         private String searchIsDeleted;
 
-
 }
