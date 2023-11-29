@@ -3,16 +3,25 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.saesig.api.adopt.AdoptMapper">
-    <insert id="insertAdopt" parameterType="com.saesig.api.adopt.AdoptDto">
+    <insert id="insertAdopt" parameterType="com.saesig.api.adopt.AdoptDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO ADOPT
             (ADOPT_MEMBER_ID, TITLE, CONTENT, GENDER, AGE, AGE_CATEGORY, STATUS, IS_DELETED, IS_CASTRATED, RESPONSIBILITY_COST, ETC_CONTENT, ANIMAL_DIVISION1_ID, ANIMAL_DIVISION2_ID, IMAGE_FILE_GROUP_ID, SIDO, SIGUNGU, STOP_REASON, STOP_CATEGORY, MODIFIED_AT, MODIFIED_BY, CREATED_AT, CREATED_BY)
         VALUES
             (#{member.id},  #{title}, #{content}, #{gender}, #{age}, #{ageCategory}, 'ONGOING', 'N', #{isCastrated}, #{responsibilityCost}, #{etcContent}, #{animalDivision1Id}, #{animalDivision2Id}, #{imageFileGroupId}, #{sido}, #{sigungu}, null, null, NOW(), #{member.id}, NOW(), #{member.id});
-        <selectKey keyProperty="id" resultType="int" order="AFTER">
+        <selectKey keyProperty="id" resultType="long" order="AFTER">
             SELECT last_insert_id() AS id
         </selectKey>
     </insert>
     <insert id="insertAdoptVaccine" parameterType="com.saesig.api.adopt.AdoptDto">
+        INSERT INTO adopt_vaccine(adopt_id,vaccine_id,modified_at,modified_by,created_at,created_by)
+        VALUES
+        <foreach collection="vaccineList" item="vaccine" separator=",">
+            (#{id}, #{vaccine}, now(), #{member.id}, now(), #{member.id})
+        </foreach>
+    </insert>
+
+    <insert id="updateAdoptVaccine" parameterType="com.saesig.api.adopt.AdoptDto">
+        DELETE FROM adopt_vaccine WHERE adopt_id = #{id};
         INSERT INTO adopt_vaccine(adopt_id,vaccine_id,modified_at,modified_by,created_at,created_by)
         VALUES
         <foreach collection="vaccineList" item="vaccine" separator=",">
@@ -59,4 +68,30 @@
         </if>
         ORDER BY a.id DESC
     </select>
+
+    <select id="selectInterestById" parameterType="com.saesig.api.adopt.AdoptDto" resultType="Long">
+          SELECT count(*) as cnt FROM ADOPT_INTEREST WHERE MEMBER_ID = #{member.id} AND ADOPT_ID = #{id}
+    </select>
+
+    <insert id="insertInterest" parameterType="com.saesig.api.adopt.AdoptDto">
+        INSERT INTO ADOPT_INTEREST
+            (ADOPT_ID, MEMBER_ID, CREATED_AT, CREATED_BY, MODIFIED_AT, MODIFIED_BY)
+        VALUES
+            (#{id}, #{member.id}, NOW(), #{member.id}, NOW(), #{member.id});
+    </insert>
+
+    <delete id="deleteInterest" parameterType="com.saesig.api.adopt.AdoptDto">
+        DELETE FROM ADOPT_INTEREST WHERE MEMBER_ID = #{member.id} AND ADOPT_ID = #{id}
+    </delete>
+
+    <update id="deleteAdopt" parameterType="com.saesig.api.adopt.AdoptDto">
+        UPDATE ADOPT SET IS_DELETED = 'Y' WHERE ID = #{id} and CREATED_BY = #{member.id}
+    </update>
+
+    <insert id="reportAdoptPost" parameterType="com.saesig.api.adopt.AdoptReportDto">
+        INSERT INTO ADOPT_REPORT
+            (ADOPT_ID, CATEGORY, CONTENT, MEMBER_ID, MODIFIED_AT, MODIFIED_BY, CREATED_AT, CREATED_BY)
+        VALUES
+            (#{adoptId}, #{category}, #{content}, #{member.id},NOW(),#{member.id},NOW(),#{member.id});
+    </insert>
 </mapper>
