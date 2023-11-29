@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.resource.AdminResourceMapper">
+    <select id="findAll" resultType="com.saesig.resource.ResourceResponseDto">
+        WITH RECURSIVE resource_cte(id, upper_id, name, url, depth, ord, style_class, category, tree_ord, type, http_method, is_enabled, tree_name, is_login_disallowed) AS (
+
+            SELECT id, upper_id, name, url, depth, ord, style_class, category, SUBSTR(CONCAT('0000', ord), -4) AS tree_ord, type, http_method, is_enabled, name as tree_name, is_login_disallowed
+            FROM resource
+            WHERE upper_id = 0 AND is_enabled = 'Y'
+
+            UNION ALL
+
+            SELECT a.id, a.upper_id, a.name, a.url, a.depth, a.ord, a.style_class, a.category, b.TREE_ORD || SUBSTR(CONCAT('0000',a.ord), -4) AS tree_ord, a.type, a.http_method, a.is_enabled, CONCAT(b.name , ' > '  , a.name) as tree_name, a.is_login_disallowed
+            FROM resource a
+                     INNER JOIN resource_cte b
+                                ON a.upper_id = b.id
+            WHERE a.IS_ENABLED= 'Y'
+
+        )
+
+        SELECT resource_cte.*
+        FROM resource_cte
+
+        UNION ALL
+
+        SELECT 0 id, 0 upper_id, '메뉴구조도' name, '' url, 0 depth, 0 ord, '' style_class, 'ADMIN' category, '0' tree_ord, 'DIRECTORY' type, '' http_method, 'Y' is_enabled, '메뉴구조도' tree_name, 'N' is_login_disallowed
+        FROM dual
+
+        ORDER BY tree_ord, depth;
+    </select>
+</mapper>
