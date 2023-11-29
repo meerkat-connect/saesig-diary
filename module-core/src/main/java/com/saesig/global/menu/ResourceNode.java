@@ -19,4 +19,12 @@ public class ResourceNode {
         childNode.setParentNode(this);
         this.childNodes.add(childNode);
     }
+
+    public boolean hasVisibleChildren() {
+        for (ResourceNode childNode : childNodes) {
+            ResourceItem item = childNode.getData();
+            if(item.isMenu() || item.isDirectory()) return true;
+        }
+        return false;
+    }
 }

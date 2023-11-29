@@ -1,5 +1,6 @@
 package com.saesig.global.menu;
 
+import com.saesig.domain.role.ResourceType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,15 @@ public class ResourceItem {
     private String category;
     private Character isLoginDisallowed;
 
+    public boolean isMenu() {
+        return ResourceType.MENU.equals(ResourceType.from(this.type));
+    }
+
+    public boolean isDirectory() {
+        return ResourceType.DIRECTORY.equals(ResourceType.from(this.type));
+    }
+
+    public boolean isVisible() {
+        return isMenu() || isDirectory();
+    }
 }
