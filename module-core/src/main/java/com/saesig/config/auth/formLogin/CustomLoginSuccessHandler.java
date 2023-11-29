@@ -18,7 +18,7 @@ import java.io.IOException;
 @Slf4j
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private final MemberApiService memberService;
-    private static final int MAX_INACTIVE_INTERVAL = 120;
+    private static final int MAX_INACTIVE_INTERVAL = 1200;
 
     public CustomLoginSuccessHandler(String defaultTargetUrl, MemberApiService memberApiService) {
         this.memberService = memberApiService;
@@ -40,10 +40,7 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
         HttpSessionRequestCache httpSessionRequestCache = new HttpSessionRequestCache();
         SavedRequest savedRequest = httpSessionRequestCache.getRequest(request, response);
-        String redirectUrl = "/admin";
-        if(savedRequest != null) {
-            redirectUrl = savedRequest.getRedirectUrl();
-        }
+        String redirectUrl = savedRequest == null ? "/admin" : savedRequest.getRedirectUrl();
 
         response.sendRedirect(redirectUrl);
     }

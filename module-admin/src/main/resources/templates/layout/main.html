@@ -7,9 +7,9 @@
 <div class="theme-loader">
     <div class="ball-scale">
         <div class="contain">
-            <div class="">
+            <div>
                 <div class="frame">
-                    <img style="width:80px; height:80px;" src="/css/images/Loding_360x360.gif" alt="">
+                    <img style="width:80px; height:80px;" src="/css/images/Loding_360x360.gif">
                 </div>
             </div>
         </div>
@@ -36,7 +36,7 @@
                                         <div class="col-lg-auto">
                                             <div class="page-header-title">
                                                 <div class="d-inline">
-                                                    <h4>메뉴명</h4>
+                                                    <h4>[[${#request.getAttribute('RESOURCE').name}]]</h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -44,7 +44,7 @@
                                             <div class="page-header-breadcrumb">
                                                 <ul class="breadcrumb-title">
                                                     <li class="breadcrumb-item" style="float: left;">
-                                                        <i class="feather icon-home"></i> 메뉴명
+                                                        <i class="feather icon-home"></i> [[${#request.getAttribute('RESOURCE').treeName}]]
                                                     </li>
                                                 </ul>
                                             </div>
