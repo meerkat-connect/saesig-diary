@@ -37,6 +37,4 @@ public class Diary extends BaseEntity {
     @Column
     private Integer hits;
 
-    @Column
-    private Long tagGroupId;
 }
