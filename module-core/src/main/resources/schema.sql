@@ -317,7 +317,6 @@ CREATE TABLE `diary`
     `is_secret`           VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '비밀 여부',
     `is_deleted`          VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '삭제 여부',
     `hits`                INTEGER               NOT NULL DEFAULT 0 COMMENT '조회수',
-    `tag_group_id`        BIGINT                NOT NULL COMMENT '태그 그룹 일련번호',
     `created_at`          DATETIME              NOT NULL COMMENT '등록일',
     `created_by`          BIGINT                NOT NULL COMMENT '등록자 일련번호',
     `modified_at`         DATETIME              NOT NULL COMMENT '수정일',
