@@ -23,10 +23,10 @@ public class HttpInterceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
         String httpMethod = request.getMethod();
 
-        ResourceNode rootResourceNode = menuService.getResourceTree("/ADMIN").getRoot();
-        ResourceItem resource = menuService.getResourceItemBy(rootResourceNode, requestURI, httpMethod);
+//        ResourceNode rootResourceNode = menuService.getResourceTree("/ADMIN").getRoot();
+//        ResourceItem resource = menuService.getResourceItemBy(rootResourceNode, requestURI, httpMethod);
 
-        request.setAttribute("RESOURCE", resource);
+//        request.setAttribute("RESOURCE", resource);
 
         return true;
     }
@@ -35,8 +35,8 @@ public class HttpInterceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
         String httpMethod = request.getMethod();
 
-        ResourceNode rootResourceNode = menuService.getResourceTree("/ADMIN").getRoot();
-        ResourceItem resource = menuService.getResourceItemBy(rootResourceNode, requestURI, httpMethod);
+//        ResourceNode rootResourceNode = menuService.getResourceTree("/ADMIN").getRoot();
+//        ResourceItem resource = menuService.getResourceItemBy(rootResourceNode, requestURI, httpMethod);
         // 로그이력 생성
 
     }
