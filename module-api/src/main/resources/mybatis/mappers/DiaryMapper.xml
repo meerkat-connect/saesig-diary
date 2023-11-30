@@ -102,7 +102,7 @@
         </foreach>
     </insert>
 
-    <update id ="deleteDiary" parameterType="com.saesig.api.diary.DiaryDto">
+    <update id ="updateDiary" parameterType="com.saesig.api.diary.DiaryDto">
         UPDATE DIARY SET
             IS_DELETED = 'Y'
                        , MODIFIED_AT = NOW()
