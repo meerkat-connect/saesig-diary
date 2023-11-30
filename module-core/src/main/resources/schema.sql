@@ -889,3 +889,20 @@ ALTER TABLE `chatting_room`
 
 ALTER TABLE `adopt_history`
     ADD CONSTRAINT `PK_ADOPT_HISTORY` PRIMARY KEY (`id`);
+
+CREATE TABLE `ADMIN_ACCESS_LOG`
+(
+    `id` BIGINT AUTO_INCREMENT NOT NULL COMMENT '로그 일련번호',
+    `ip` VARCHAR(100)    NOT NULL COMMENT '아이피',
+    `action` VARCHAR(100) NOT NULL COMMENT '액션',
+    `resource_name` VARCHAR(500) NOT NULL COMMENT '자원 명',
+    `resource_url` VARCHAR(500) NOT NULL COMMENT '자원 URL',
+    `resource_id` BIGINT NOT NULL COMMENT '자원 ID',
+    `message` VARCHAR(1000) NULL COMMENT '로그 메시지',
+    `user_agent` VARCHAR(500) NOT NULL COMMENT '브라우저 정보',
+    `created_at` DATETIME NOT NULL COMMENT '등록일',
+    `created_by` BIGINT NOT NULL COMMENT '등록자 일련번호',
+    `modified_at` DATETIME NOT NULL COMMENT '수정일',
+    `modified_by` BIGINT NOT NULL COMMENT '수정자 일련번호',
+    PRIMARY KEY (`id`)
+)
