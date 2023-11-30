@@ -5,8 +5,189 @@
 <mapper namespace="com.saesig.api.diary.DiaryMapper">
     <select id="getDiaries" resultType="com.saesig.api.diary.DiaryDto" parameterType="com.saesig.api.diary.DiaryDto">
         SELECT
-            *
-        FROM
-            DIARY
+            A.ID
+             , C.ID IS NOT NULL AS IS_INTERST_YN
+             , A.TITLE
+             , b.NICKNAME
+             , A.IMAGE_FILE_GROUP_ID
+             , E.SAVED_NAME
+        FROM DIARY A
+                 LEFT OUTER JOIN MEMBER B ON A.CREATED_BY = B.ID
+                 LEFT OUTER JOIN (SELECT
+                                      ID
+                                       , DIARY_ID
+                                  FROM
+                                      DIARY_INTEREST
+                                  WHERE
+                                      MEMBER_ID = 1
+        ) C ON A.ID = C.DIARY_ID
+                 LEFT OUTER JOIN FILE_GROUP D ON A.IMAGE_FILE_GROUP_ID = D.ID
+                 LEFT OUTER JOIN FILE E ON D.ID = E.GROUP_ID
     </select>
+
+    <select id="getDiary" resultType="com.saesig.api.diary.DiaryDto" parameterType="com.saesig.api.diary.DiaryDto">
+        SELECT
+            A.ID
+            , A.CREATED_AT
+            , A.WEATHER_CATEGORY
+            , A.TITLE
+            , A.IMAGE_FILE_GROUP_ID
+            , A.HITS
+            , B.CNT AS COMMENT_CNT
+            , C.CNT AS INTEREST_CNT
+        FROM DIARY A
+                 LEFT OUTER JOIN (SELECT DIARY_ID, COUNT(DIARY_ID) AS CNT FROM DIARY_COMMENT GROUP BY DIARY_ID) B
+                                 ON A.ID = B.DIARY_ID
+                 LEFT OUTER JOIN (SELECT DIARY_ID, COUNT(DIARY_ID) AS CNT FROM DIARY_INTEREST GROUP BY DIARY_ID) C
+                                 ON A.ID = C.DIARY_ID
+        WHERE
+            A.ID = #{id}
+    </select>
+
+    <insert id="insertDiary" parameterType="com.saesig.api.diary.DiaryDto">
+        INSERT INTO DIARY (
+                title
+            ,   content
+            ,   image_file_group_id
+            ,   weather_category
+            ,   category
+            ,   status
+            ,   is_secret
+            ,   is_deleted
+            ,   hits
+            ,   created_at
+            ,   created_by
+            ,   modified_at
+            ,   modified_by
+        )
+        VALUES (
+            #{title}
+            , #{content}
+            , #{imageFileGroupId}
+            , #{weatherCategory}
+            , #{category}
+            , #{status}
+            , #{isSecret}
+            , 'N'
+            , 0
+            , NOW()
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+        )
+        <selectKey keyProperty="id" resultType="Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertDiaryTag" parameterType="com.saesig.api.diary.DiaryDto">
+        INSERT INTO DIARY_TAG (
+              diary_id
+            , tag_id
+            , created_at
+            , created_by
+            , modified_at
+            , modified_by
+        )
+        VALUES
+        <foreach collection="tagIds" item="item" separator="," >
+        (
+              #{id}
+            , #{item}
+            , NOW()
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+        )
+        </foreach>
+    </insert>
+
+    <update id ="updateDiary" parameterType="com.saesig.api.diary.DiaryDto">
+        UPDATE DIARY SET
+            IS_DELETED = 'Y'
+                       , MODIFIED_AT = NOW()
+                       , MODIFIED_BY = #{member.id}
+        WHERE
+            ID = #{id}
+    </update>
+
+    <update id ="deleteDiary" parameterType="com.saesig.api.diary.DiaryDto">
+        UPDATE DIARY SET
+            IS_DELETED = 'Y'
+            , MODIFIED_AT = NOW()
+            , MODIFIED_BY = #{member.id}
+        WHERE
+            ID = #{id}
+    </update>
+
+    <select id="getComment" resultType="com.saesig.api.diary.DiaryCommentDto" parameterType="com.saesig.api.diary.DiaryDto">
+        WITH RE_COMMENT AS (
+            SELECT
+                UPPER_ID
+                 , CONTENT
+            FROM
+                DIARY_COMMENT
+        )
+        SELECT
+            A.ID
+             , A.UPPER_ID
+             , A.DEPTH
+             , A.CONTENT
+             , C.COMMENT_ID
+             , CASE
+                   WHEN C.COMMENT_ID IS NOT NULL THEN 'Y'
+                   ELSE 'N'
+            END AS INTEREST_YN
+             , DATEDIFF(dd, A.CREATED_AT,NOW())  AS AGO
+        FROM DIARY_COMMENT A
+                 LEFT OUTER JOIN RE_COMMENT B ON A.ID = B.UPPER_ID
+                 LEFT OUTER JOIN (SELECT
+                                      ID
+                                       , COMMENT_ID
+                                  FROM
+                                      DIARY_COMMENT_INTEREST
+                                  WHERE
+                                      MEMBER_ID = #{member.id}
+        ) C ON A.ID = C.COMMENT_ID
+        WHERE
+            A.DIARY_ID = #{id}
+          AND A.IS_DELETED = 'N'
+        GROUP BY A.ID
+    </select>
+
+    <insert id="insertComment" parameterType="com.saesig.api.diary.DiaryCommentDto">
+        INSERT INTO DIARY_COMMENT (
+            DIARY_ID
+            , UPPER_ID
+            , CONTENT
+            , IS_DELETED
+            , DEPTH
+            , CREATED_AT
+            , CREATED_BY
+            , MODIFIED_AT
+            , MODIFIED_BY
+        )VALUES (
+            #{diaryId}
+            , #{upperId}
+            , #{content}
+            , 'N'
+            , '1'
+            , NOW()
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+        )
+    </insert>
+
+    <insert id="updateComment" parameterType="com.saesig.api.diary.DiaryCommentDto">
+    </insert>
+
+    <update id ="deleteComment" parameterType="com.saesig.api.diary.DiaryCommentDto">
+        UPDATE DIARY_COMMENT SET
+            IS_DELETED = 'Y'
+            , MODIFIED_AT = NOW()
+            , MODIFIED_BY = #{member.id}
+        WHERE
+            ID = #{id}
+    </update>
 </mapper>
