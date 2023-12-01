@@ -4,6 +4,8 @@ import com.saesig.domain.member.MemberApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
@@ -28,7 +30,6 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         try {
-            // 실패 횟수 0,
             String username = request.getParameter("username");
             memberService.afterLoginSuccess(username);
         } catch(Exception ex ) {
@@ -39,9 +40,15 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         session.setMaxInactiveInterval(MAX_INACTIVE_INTERVAL);
 
         HttpSessionRequestCache httpSessionRequestCache = new HttpSessionRequestCache();
-        SavedRequest savedRequest = httpSessionRequestCache.getRequest(request, response);
-        String redirectUrl = savedRequest == null ? "/admin" : savedRequest.getRedirectUrl();
+        RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-        response.sendRedirect(redirectUrl);
+        SavedRequest savedRequest = httpSessionRequestCache.getRequest(request, response);
+        if(savedRequest != null) {
+            String targetUrl = savedRequest.getRedirectUrl();
+            redirectStrategy.sendRedirect(request,response, targetUrl);
+        } else {
+            setDefaultTargetUrl("/admin");
+            redirectStrategy.sendRedirect(request, response, getDefaultTargetUrl());
+        }
     }
 }

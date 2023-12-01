@@ -1,12 +1,9 @@
 package com.saesig.config.auth.formLogin;
 
 import com.saesig.config.auth.SessionMember;
-import com.saesig.domain.member.QueryDslMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +18,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final HttpSession httpSession;
-    private final QueryDslMemberRepository memberRepository;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -32,7 +28,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         CustomUserDetails user = (CustomUserDetails) customUserDetailsService.loadUserByUsername(name);
 
         if(user.isDormant()) {
+            throw new DisabledException("휴면계정 입니다.");
+        }
 
+        if(user.isLeaved()) {
+            throw new DisabledException("탈퇴계정 입니다.");
+        }
+
+        if(user.isAccountLocked()) {
+            throw new LockedException("잠김계정 입니다.");
         }
 
         if (!passwordEncoder.matches(password, user.getPassword())) {

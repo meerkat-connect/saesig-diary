@@ -64,4 +64,12 @@ public class CustomUserDetails implements UserDetails {
     public boolean isDormant() {
         return member.getStatus().equals(MemberStatus.DORMANCY);
     }
+
+    public boolean isAccountLocked() {
+        return !isAccountNonLocked();
+    }
+
+    public boolean isLeaved() {
+        return member.getStatus().equals(MemberStatus.LEAVE);
+    }
 }
