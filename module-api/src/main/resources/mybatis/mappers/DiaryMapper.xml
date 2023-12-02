@@ -25,6 +25,29 @@
                  LEFT OUTER JOIN FILE E ON D.ID = E.GROUP_ID
     </select>
 
+    <insert id="insertDiaryLike" parameterType="com.saesig.api.diary.DiaryDto">
+        INSERT INTO DIARY_INTEREST (
+            diary_id
+            , member_id
+            , created_at
+            , created_by
+            , modified_at
+            , modified_by
+        )VALUES (
+            #{id}
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+        )
+    </insert>
+
+    <delete id="deleteDiaryLike" parameterType="com.saesig.api.diary.DiaryDto">
+        DELETE FROM DIARY_INTEREST
+        WHERE diary_id = #{id}
+    </delete>
+
     <select id="getDiary" resultType="com.saesig.api.diary.DiaryDto" parameterType="com.saesig.api.diary.DiaryDto">
         SELECT
             A.ID
@@ -80,6 +103,11 @@
         </selectKey>
     </insert>
 
+    <delete id="deleteDiaryTag" parameterType="com.saesig.api.diary.DiaryDto">
+        DELETE FROM DIARY_TAG
+        WHERE DIARY_ID = #{id}
+    </delete>
+
     <insert id="insertDiaryTag" parameterType="com.saesig.api.diary.DiaryDto">
         INSERT INTO DIARY_TAG (
               diary_id
@@ -104,9 +132,16 @@
 
     <update id ="updateDiary" parameterType="com.saesig.api.diary.DiaryDto">
         UPDATE DIARY SET
-            IS_DELETED = 'Y'
-                       , MODIFIED_AT = NOW()
-                       , MODIFIED_BY = #{member.id}
+            TITLE = #{title}
+            , CONTENT = #{content}
+            , IMAGE_FILE_GROUP_ID = #{imageFileGroupId}
+            , WEATHER_CATEGORY = #{weatherCategory}
+            , CATEGORY = #{category}
+            , STATUS = #{status}
+            , IS_SECRET = #{isSecret}
+            , IS_DELETED = #{isDeleted}
+            , MODIFIED_AT = NOW()
+            , MODIFIED_BY = #{member.id}
         WHERE
             ID = #{id}
     </update>
@@ -179,7 +214,36 @@
         )
     </insert>
 
+    <insert id="insertCommentLike" parameterType="com.saesig.api.diary.DiaryCommentDto">
+        INSERT INTO DIARY_COMMENT_INTEREST (
+            comment_id
+            , member_id
+            , created_at
+            , created_by
+            , modified_at
+            , modified_by
+        )VALUES (
+            #{id}
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+        )
+    </insert>
+
+    <delete id="deleteCommentLike" parameterType="com.saesig.api.diary.DiaryCommentDto">
+        DELETE FROM DIARY_COMMENT_INTEREST
+        WHERE comment_id = #{id}
+    </delete>
+
     <insert id="updateComment" parameterType="com.saesig.api.diary.DiaryCommentDto">
+        UPDATE DIARY_COMMENT SET
+            CONTENT = #{content}
+            , MODIFIED_AT = NOW()
+            , MODIFIED_BY = #{member.id}
+        WHERE
+            ID = #{id}
     </insert>
 
     <update id ="deleteComment" parameterType="com.saesig.api.diary.DiaryCommentDto">
@@ -189,5 +253,28 @@
             , MODIFIED_BY = #{member.id}
         WHERE
             ID = #{id}
+            AND DIARY_ID = #{diaryId}
     </update>
+
+    <insert id="insertDiaryReport" parameterType="com.saesig.api.diary.DiaryDto">
+        INSERT INTO DIARY_REPORT (
+            diary_id
+            , category
+            , content
+            , member_id
+            , modified_at
+            , modified_by
+            , created_at
+            , created_by
+        )VALUES (
+            #{id}
+            , #{category}
+            , #{content}
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+            , NOW()
+            , #{member.id}
+        )
+    </insert>
 </mapper>

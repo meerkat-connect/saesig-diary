@@ -18,6 +18,18 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
+    @Transactional
+    public int insertDiaryLike(DiaryDto dd) {
+        return diaryMapper.insertDiaryLike(dd);
+    }
+
+    @Override
+    @Transactional
+    public int deleteDiaryLike(DiaryDto dd) {
+        return diaryMapper.deleteDiaryLike(dd);
+    }
+
+    @Override
     public DiaryDto getDiary(DiaryDto dd) {
         return diaryMapper.getDiary(dd);
     }
@@ -27,16 +39,23 @@ public class DiaryServiceImpl implements DiaryService {
     public int insertDiary(DiaryDto dd) {
         int retVal = 0;
         retVal += diaryMapper.insertDiary(dd);
+        retVal += diaryMapper.deleteDiaryTag(dd);
         retVal += diaryMapper.insertDiaryTag(dd);
         return retVal;
     }
 
     @Override
+    @Transactional
     public int updateDiary(DiaryDto dd) {
-        return diaryMapper.updateDiary(dd);
+        int retVal = 0;
+        retVal += diaryMapper.updateDiary(dd);
+        retVal += diaryMapper.deleteDiaryTag(dd);
+        retVal += diaryMapper.insertDiaryTag(dd);
+        return retVal;
     }
 
     @Override
+    @Transactional
     public int deleteDiary(DiaryDto dd) {
         return diaryMapper.deleteDiary(dd);
     }
@@ -54,6 +73,18 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
+    public int insertCommentLike(DiaryCommentDto dcd) {
+        return diaryMapper.insertCommentLike(dcd);
+    }
+
+    @Override
+    @Transactional
+    public int deleteCommentLike(DiaryCommentDto dcd) {
+        return diaryMapper.deleteCommentLike(dcd);
+    }
+
+    @Override
+    @Transactional
     public int updateComment(DiaryCommentDto dcd) {
         return diaryMapper.updateComment(dcd);
     }
@@ -62,6 +93,12 @@ public class DiaryServiceImpl implements DiaryService {
     @Transactional
     public int deleteComment(DiaryCommentDto dcd) {
         return diaryMapper.deleteComment(dcd);
+    }
+
+    @Override
+    @Transactional
+    public int insertDiaryReport(DiaryDto dd) {
+        return diaryMapper.insertDiaryReport(dd);
     }
 
 }

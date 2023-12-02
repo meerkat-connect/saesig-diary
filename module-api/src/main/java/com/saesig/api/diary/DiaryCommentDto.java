@@ -14,6 +14,7 @@ public class DiaryCommentDto {
     private SessionMember member;
 
     private Long id;
+    private Long diaryId;
     private Long upperId;
     private Integer depth;
     private String content;

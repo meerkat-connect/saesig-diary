@@ -10,9 +10,15 @@ public interface DiaryMapper {
 
     List<DiaryDto> getDiaries(DiaryDto dd);
 
+    int insertDiaryLike(DiaryDto dd);
+
+    int deleteDiaryLike(DiaryDto dd);
+
     DiaryDto getDiary(DiaryDto dd);
 
     int insertDiary(DiaryDto dd);
+
+    int deleteDiaryTag(DiaryDto dd);
 
     int insertDiaryTag(DiaryDto dd);
 
@@ -24,7 +30,13 @@ public interface DiaryMapper {
 
     int deleteComment(DiaryCommentDto dcd);
 
+    int insertCommentLike(DiaryCommentDto dcd);
+
+    int deleteCommentLike(DiaryCommentDto dcd);
+
     int updateComment(DiaryCommentDto dcd);
 
     int insertComment(DiaryCommentDto dcd);
+
+    int insertDiaryReport(DiaryDto dd);
 }
