@@ -1,12 +1,12 @@
 package com.saesig.common.log;
 
+import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -16,12 +16,13 @@ public class AdminAccessLogController {
 
     @GetMapping("/view")
     public String adminAccessLogView() {
-        return "log/view";
+        return "accessLog/view";
     }
 
     @GetMapping("")
     @ResponseBody
-    public List<AdminAccessLogResponseDto> findAll() {
-        return adminAccessLogService.findAll();
+    public DataTablesResponseDto findAll(AdminAccessLogRequestDto adminAccessLogRequestDto) {
+        Page<AdminAccessLogResponseDto> adminAccessLogs = adminAccessLogService.findAll(adminAccessLogRequestDto);
+        return new DataTablesResponseDto(adminAccessLogs, adminAccessLogs.getContent());
     }
 }

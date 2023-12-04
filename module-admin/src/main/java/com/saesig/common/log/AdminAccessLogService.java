@@ -1,28 +1,20 @@
 package com.saesig.common.log;
 
-import com.saesig.domain.log.AdminAccessLog;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequiredArgsConstructor
 @Service
 public class AdminAccessLogService {
     private final AdminAccessLogRepository adminAccessLogRepository;
-
-    public void insertLog(AdminAccessLog adminAccessLog){
-        adminAccessLogRepository.save(adminAccessLog);
+    public void insertLog(AdminAccessLogResponseDto adminAccessLogResponseDto){
+        adminAccessLogRepository.insertLog(adminAccessLogResponseDto);
     }
 
-    public List<AdminAccessLogResponseDto> findAll() {
-        ModelMapper modelMapper = new ModelMapper();
-        return adminAccessLogRepository
-                .findAll()
-                .stream()
-                .map(adminAccessLog -> modelMapper.map(adminAccessLog, AdminAccessLogResponseDto.class))
-                .collect(Collectors.toList());
+    @ResponseBody
+    public Page<AdminAccessLogResponseDto> findAll(AdminAccessLogRequestDto adminAccessLogRequestDto) {
+        return adminAccessLogRepository.findAll(adminAccessLogRequestDto);
     }
 }

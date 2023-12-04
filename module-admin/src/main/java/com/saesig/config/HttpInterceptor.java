@@ -1,8 +1,8 @@
 package com.saesig.config;
 
+import com.saesig.common.log.AdminAccessLogResponseDto;
 import com.saesig.common.log.AdminAccessLogService;
 import com.saesig.common.menu.MenuService;
-import com.saesig.domain.log.AdminAccessLog;
 import com.saesig.global.menu.ResourceItem;
 import com.saesig.global.menu.ResourceNode;
 import lombok.RequiredArgsConstructor;
@@ -42,15 +42,7 @@ public class HttpInterceptor implements HandlerInterceptor {
         ResourceItem resourceItem = menuService.getResourceItemBy(rootResourceNode, requestURI, httpMethod);
 
         try{
-            adminAccessLogService.insertLog(
-                    AdminAccessLog.builder()
-                    .ip(request.getRemoteAddr())
-                    .userAgent(request.getHeader("user-agent"))
-                    .action(resourceItem.getHttpMethod())
-                    .resourceUrl(resourceItem.getUrl())
-                    .resourceId(resourceItem.getId())
-                    .resourceName(resourceItem.getName())
-                    .build());
+            adminAccessLogService.insertLog(new AdminAccessLogResponseDto(request, resourceItem));
         } catch(Exception e) {
             log.info("insertLog fail");
         }
