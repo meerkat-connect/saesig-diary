@@ -20,7 +20,7 @@ import java.io.IOException;
 @Slf4j
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     private final MemberApiService memberService;
-    private static final int MAX_INACTIVE_INTERVAL = 1200;
+    private static final int MAX_INACTIVE_INTERVAL = 20;
 
     public CustomLoginSuccessHandler(String defaultTargetUrl, MemberApiService memberApiService) {
         this.memberService = memberApiService;

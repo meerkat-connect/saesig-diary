@@ -5,43 +5,38 @@
  * **/
 //밸리데이터 옵션  alert 형식으로 변경
 $.validator.setDefaults({
+    debug:true,
     onkeyup:false, // 키를 뗄대 유효성 검사 off
     onclick:false, // checkbox와 radio 버튼 클릭시 유효성 검사 off
     onfocusout:false, // 포커스가 떠날때 유효성 검사 off
-    errorElement: "span",
-    // focusInvalid: true, 유형 검사 후 포커서를 해당 무효 필드에 둘 것인가 여부
-    // focusCleanup: true true로 설정되어 있는 경우 잘못된 필드에 포커스가 가면 에러메시지를 지운다.
-    errorClass: 'invalid',
-    validClass: 'success',
-/*    showErrors:function(errorMap, errorList){ //alert
-        console.log(errorList);
-        if(this.numberOfInvalids() && errorList.length != 0) {
-            //option1 : alert 표시
-            alert(errorList[0].message);
+    errorElement: "div",
+    // focusInvalid: false, // 유형 검사 후 포커서를 해당 무효 필드에 둘 것인가 여부
+    focusCleanup: false, // true로 설정되어 있는 경우 잘못된 필드에 포커스가 가면 에러메시지를 지운다.
+    errorClass: 'feedback-error',
+    // validClass: 'feedback-valid',
+    highlight:function(element, errorClass, validClass) {
+        console.log($(element));
+        $(element).removeClass(validClass).addClass(errorClass).
+        next('label').removeAttr('data-success').attr('data-error', 'Incorrect!');
+        // $(element).parents('.control-group').addClass('error');
+    },
 
-            errorList[0].element.focus();
-            //option2  : 입력 값 지우고 에러메세지 placeholder 입력
-            //!*$(errorList[0].element).val(null);
-            //$(errorList[0].element).attr("placeholder",errorList[0].message);
+    unhighlight: function(element, errorClass, validClass) {
+        console.log($(element));
+        console.log($(element).parent().find('div.feedback-error'))
+        $(element).parent().find('div.feedback-error').removeClass('icofont-check').addClass('icofont-exclamation');
+        /*$(element).removeClass(errorClass).addClass(validClass).
+        next('label').removeAttr('data-error').attr('data-success', 'Correct!');*/
 
-            let $el = $(errorList[0].element)[0];
+        // $(element).parents('.control-group').removeClass('error');
 
-            if($el.hasAttribute('selectsearchcondition')){
-                let borderEl =  $($el).siblings('.select2-container').find('.select2-selection');
-                $(borderEl).css("border","2px solid #ff0000").animate({}, 500);//#B0371D : 진한빨강 ,
-                setTimeout(function() { $(borderEl).css("border","")}, 1000);
-            }else{
-                //if($(errorList[0].element).parent("<div>") )
-                //option3 : input border 라인 red 강조 수정
-                $($el).css("border","2px solid #ff0000");//#B0371D : 진한빨강 ,
-                setTimeout(function() { $($el).css("border","")}, 1000);
-            }
-        }
-    },*/
+        // $(element).parents('.control-group').addClass('success');
+    },
 
-    success:function(label,element){
-        console.log(element);
-    }
+    errorPlacement: function (error, element) {
+        // error.prepend('<i class="icofont icofont-check"></i>')
+        // element.parent().append(error);
+    },
 });
 
 //default message 값 변경 English -> korean

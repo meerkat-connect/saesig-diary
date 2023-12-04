@@ -12,7 +12,13 @@ public class CustomEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-        response.sendRedirect("/admin/login");
+        String ajaxHeader = request.getHeader("X-Requested-With");
+        boolean isAjax = "XMLHttpRequest".equals(ajaxHeader);
+        if(isAjax) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "인증예외");
+        } else {
+            response.sendRedirect("/admin/login");
+        }
 
 //        request.getRequestDispatcher("/admin/login").forward(request, response);
     }

@@ -1,3 +1,28 @@
+jQuery(function () {
+
+    jQuery.ajaxSetup({
+        beforeSend: function (xhr) {
+        },
+        error: function (xhr, e) {
+            if(xhr.status == '401') {
+                alert('세션이 유효하지 않습니다. 로그인 페이지로 이동합니다.');
+                location.href = '/admin/login';
+            } else if(xhr.status == '403') {
+                alert('접근 권한이 없습니다.')
+            } else {
+                alert('에러가 발생하였습니다.');
+            }
+            // 중복로그인 체크
+        },
+        complete: function (xhr, status) {
+            if (xhr.responseText == 'DUPLOGOUT') {
+                alert('중복로그인되어 로그아웃 되었습니다.\n로그인 페이지로 이동합니다.');
+                location.href = '/';
+            }
+        }
+    });
+})
+
 const adminCommon = {
     toggleSwitch: function ($switchElement, isEnabled) {
         if (isEnabled) {
