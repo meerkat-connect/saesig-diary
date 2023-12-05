@@ -840,3 +840,81 @@ div.feedback-valid {
 
 }
 
+.comment-profile-image {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.comment-profile-image img {
+    width: 100%; /* 이미지를 부모 요소(.profile-image)에 맞게 조절 */
+    height: auto; /* 이미지의 높이를 가로 비율에 맞게 자동 조절 */
+}
+
+.comment-writer-con {
+    display: flex;
+    align-items: center;
+}
+
+.comment-writer-con p {
+    margin-bottom: 4px;
+    margin-top: 4px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.comment-content-con {
+    display: flex;
+    justify-content: space-between; /* 여기서 space-between을 사용하여 요소들을 양쪽 끝으로 푸시합니다. */
+    align-items: center;
+}
+
+.comment-btn-con {
+    margin-bottom: auto;
+    width: max-content;
+}
+
+.comment-content p {
+    width: 800px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.comment-content .likeCon {
+    display: inline-block;
+    border-radius: 25px;
+    padding: 2px 8px 2px 8px;
+    width: max-content;
+    border: 1px solid #D9D9D9;
+    color: #ACACAC;
+    font-weight: 500;
+}
+.comment-content .timeCon {
+    margin-left: 10px;
+    display: inline-block;
+    width: max-content;
+    color: #ACACAC;
+    font-weight: 500;
+}
+
+.reply {
+    padding: 20px 60px 20px 120px;
+    background-color: #F8F7F7;
+    margin-right: -60px;
+    margin-left: -60px;
+    border-top: 1px solid #D9D9D9;
+;
+}
+
+.comment {
+    padding: 20px 60px 20px 60px;
+    margin-right: -60px;
+    margin-left: -60px;
+    border-top: 1px solid #D9D9D9;
+}
+
+.comment:first-child {
+    border-top: none;
+}

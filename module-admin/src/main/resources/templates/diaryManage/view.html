@@ -160,8 +160,8 @@
                         style: 'single'
                     },
                     "columnDefs": [
-                        // {orderable: false, className: 'select-checkbox', targets: 0, defaultContent: ''},
-                        {className: "dt-center", targets: "_all"}
+                        // {orderable: false, class: 'select-checkbox', targets: 0, defaultContent: ''},
+                        {class: "dt-center", targets: "_all"}
                     ],
                     stripeClasses: [],
                     pagingType: 'full_numbers',
@@ -409,39 +409,57 @@
                         $(response).each(function () {
                             if (this.depth == 1){
                                 let el = ''
-                                el += '<div class="banner reply" id="banner'+this.id+'" data-id="'+this.id+'">'
-                                el += '<div class="col-10 m-l-20 banner-title">'
-                                el += '<div class="col m-b-10">'
-                                el += '<span>'+this.createdByName+'</span>'
-                                el += '<span>작성일시 '+this.createdAt+' / 좋아요 : '+this.likeCnt+'개 / 답글 : '+this.replyCnt+'개</span>'
-                                el += '</div>'
-                                el += '<div class="col stit m-l-20">'
-                                el += '<span>'+this.content+'</span>'
-                                el += '</div>'
-                                el += '</div>'
-                                el += '<div class="col-2 banner-btn-area" style="float: right">'
-                                el += '<div class="row banner-btn">'
-                                el += '<button class="btn btn-primary mb-2 showBtn" onClick="diaryCommentController.showReply('+this.id+')">답글보기</button>'
-                                el += '<button class="btn btn-gray mb-2" onClick="diaryCommentController.deleteComment('+this.id+')">삭제</button>'
-                                el += '</div>'
-                                el += '</div>'
-                                el += '</div>'
+                                    el += '<div class="comment" id="banner'+this.id+'" data-id="'+this.id+'">'
+                                    el += '<div class="col-12 comment-writer-con m-b-15">'
+                                    el += '<div class="comment-profile-image">'
+                                    el += '<img src="/files/assets/images/fafvicon.png" alt="프로필 이미지">'
+                                    el += '</div>'
+                                    el += '<p class="m-l-10">'+this.createdByName+'</p>'
+                                    el += '</div>'
+                                    el += '<div class="col-12 comment-content-con">'
+                                    el += '<div class="comment-content">'
+                                    el += '<p>'+this.content+'</p>'
+                                    el += '<div class="likeCon">'
+                                    el += '<svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">'
+                                    el += '<path d="M6 10L5.21875 9.35345C4.17708 8.50096 3.31771 7.77059 2.64062 7.16236C1.96354 6.55412 1.42969 6.01293 1.03906 5.53879C0.648438 5.06466 0.377604 4.63123 0.226563 4.23851C0.0755208 3.84579 0 3.44349 0 3.03161C0 2.17912 0.317708 1.46073 0.953125 0.876437C1.58854 0.292146 2.36979 0 3.29688 0C3.80729 0 4.30208 0.100575 4.78125 0.301724C5.26042 0.502874 5.66667 0.785441 6 1.14943C6.33333 0.785441 6.73958 0.502874 7.21875 0.301724C7.69792 0.100575 8.19271 0 8.70312 0C9.63021 0 10.4115 0.292146 11.0469 0.876437C11.6823 1.46073 12 2.17912 12 3.03161C12 3.44349 11.9271 3.841 11.7813 4.22414C11.6354 4.60728 11.3672 5.03352 10.9766 5.50287C10.5859 5.97222 10.0495 6.5158 9.36719 7.13362C8.6849 7.75144 7.8125 8.50096 6.75 9.38218L6 10Z" fill="#D9D9D9"/>'
+                                    el += '</svg> '
+                                    el += this.likeCnt
+                                    el += '</div>'
+                                    el += '<div class="timeCon">'
+                                    el += this.createdAt
+                                    el += '</div>'
+                                    el += '</div>'
+                                    el += '<div class="comment-btn-con">'
+                                    el += '<button class="btn btn-transparent m-r-5 mb-2 showBtn" onClick="diaryCommentController.showReply('+this.id+')">답글보기 ('+this.replyCnt+')</button>'
+                                    el += '<button class="btn btn-delete m-r-5 mb-2" onClick="diaryCommentController.deleteComment('+this.id+')">삭제</button>'
+                                    el += '</div>'
+                                    el += '</div>'
+                                    el += '</div>'
                                 $('#commentCon').append(el)
                             }else{
                                 let el = ''
-                                el += '<div class="banner m-l-30" id="banner'+this.id+'" data-upper-id="'+this.upperId+'" data-id="'+this.id+'" style="display:none;">'
-                                el += '<div class="col-10 m-l-20 banner-title">'
-                                el += '<div class="col m-b-10">'
-                                el += '<span>'+this.createdByName+'</span>'
-                                el += '<span>작성일시 '+this.createdAt+' / 좋아요 : '+this.likeCnt+'개</span>'
+                                el += '<div class="reply" id="banner'+this.id+'" data-upper-id="'+this.upperId+'" data-id="'+this.id+'" style="display:none;">'
+                                el += '<div class="col-12 comment-writer-con m-b-15">'
+                                el += '<div class="comment-profile-image">'
+                                el += '<img src="/files/assets/images/fafvicon.png" alt="프로필 이미지">'
                                 el += '</div>'
-                                el += '<div class="col stit m-l-20">'
-                                el += '<span>'+this.content+'</span>'
+                                el += '<p class="m-l-10">'+this.createdByName+'</p>'
+                                el += '</div>'
+                                el += '<div class="col-12 comment-content-con">'
+                                el += '<div class="comment-content">'
+                                el += '<p>'+this.content+'</p>'
+                                el += '<div class="likeCon">'
+                                el += '<svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">'
+                                el += '<path d="M6 10L5.21875 9.35345C4.17708 8.50096 3.31771 7.77059 2.64062 7.16236C1.96354 6.55412 1.42969 6.01293 1.03906 5.53879C0.648438 5.06466 0.377604 4.63123 0.226563 4.23851C0.0755208 3.84579 0 3.44349 0 3.03161C0 2.17912 0.317708 1.46073 0.953125 0.876437C1.58854 0.292146 2.36979 0 3.29688 0C3.80729 0 4.30208 0.100575 4.78125 0.301724C5.26042 0.502874 5.66667 0.785441 6 1.14943C6.33333 0.785441 6.73958 0.502874 7.21875 0.301724C7.69792 0.100575 8.19271 0 8.70312 0C9.63021 0 10.4115 0.292146 11.0469 0.876437C11.6823 1.46073 12 2.17912 12 3.03161C12 3.44349 11.9271 3.841 11.7813 4.22414C11.6354 4.60728 11.3672 5.03352 10.9766 5.50287C10.5859 5.97222 10.0495 6.5158 9.36719 7.13362C8.6849 7.75144 7.8125 8.50096 6.75 9.38218L6 10Z" fill="#D9D9D9"/>'
+                                el += '</svg> '
+                                el += this.likeCnt
+                                el += '</div>'
+                                el += '<div class="timeCon">'
+                                el += this.createdAt
                                 el += '</div>'
                                 el += '</div>'
-                                el += '<div class="col-2 banner-btn-area" style="float: right">'
-                                el += '<div class="row banner-btn">'
-                                el += '<button class="btn btn-gray mb-2" onClick="diaryCommentController.deleteReply('+this.id+')">답글삭제</button>'
+                                el += '<div class="comment-btn-con">'
+                                el += '<button class="btn btn-delete m-r-5 mb-2" onClick="diaryCommentController.deleteComment('+this.id+')">삭제</button>'
                                 el += '</div>'
                                 el += '</div>'
                                 el += '</div>'
@@ -458,10 +476,12 @@
             ,showReply : function (id) {
                 if ($(document).find('[data-upper-id='+id+']:visible').length > 0){
                     $(document).find('[data-upper-id='+id+']').hide()
-                    $(document).find('[data-id='+id+']').find('.showBtn').text('답글보기')
+                    let btntext = $(document).find('[data-id='+id+']').find('.showBtn').text()
+                    $(document).find('[data-id='+id+']').find('.showBtn').text(btntext.replace('답글숨기기','답글보기'))
                 }else{
                     $(document).find('[data-upper-id='+id+']').show()
-                    $(document).find('[data-id='+id+']').find('.showBtn').text('답글숨기기')
+                    let btntext = $(document).find('[data-id='+id+']').find('.showBtn').text()
+                    $(document).find('[data-id='+id+']').find('.showBtn').text(btntext.replace('답글보기','답글숨기기'))
                 }
 
             }
