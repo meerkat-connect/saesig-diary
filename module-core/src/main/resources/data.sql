@@ -112,6 +112,12 @@ VALUES (20, '역할에 자원 등록', '/admin/roles/{roleId}/resources/mapping'
 INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
 VALUES (22, '역할에 매핑된 자원 목록 조회', '/admin/roles/{roleId}/mappedResources', 'GET', 'Y', 'FUNCTION', 5 , 1, 21, 'ADMIN', NOW(), 1, NOW(), 1);
 
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (24, '로그이력', '/admin/access-log/view', 'GET', 'Y', 'MENU', 2 , 3, 1, 'ADMIN', NOW(), 1, NOW(), 1);
+
+INSERT INTO resource(id, name, url, http_method, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
+VALUES (25, '로그이력 목록 조회', '/admin/access-log', 'GET', 'Y', 'FUNCTION', 3 , 1, 23, 'ADMIN', NOW(), 1, NOW(), 1);
+
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
 VALUES (1, 1, 1, NOW(), 1, NOW(), 1);
 
@@ -180,6 +186,12 @@ VALUES (22, 1, 22, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
 VALUES (23, 1, 23, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (24, 1, 23, NOW(), 1, NOW(), 1);
+
+INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
+VALUES (25, 1, 23, NOW(), 1, NOW(), 1);
 
 INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'TYPE_A', 'Lorem ipsum dolor sit amet', 'content1',  1, 'Y', NOW(), 1, NOW(), 1);
