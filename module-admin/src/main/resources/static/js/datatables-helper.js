@@ -36,6 +36,9 @@ class DataTablesHelper {
                 url: url,
                 method: 'get',
                 "dataSrc": function (res) {
+                    res.data.forEach(function (data, index) {
+                        data.rowNumber = res.recordsTotal - (res.pageNumber * res.pageSize) - index;
+                    });
                     return res.data;
                 }
             },
@@ -46,6 +49,15 @@ class DataTablesHelper {
                 lengthMenu: '보기',
                 loadingRecords: '로딩중..',
             },
+
+            drawCallback: function () {
+                var $api = this.api();
+                var pages = $api.page.info().pages;
+                if (pages === 0) {
+                    $(".paginate_button").hide();
+                }
+            }
+
         };
 
         $.extend(option, customOption);
