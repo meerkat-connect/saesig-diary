@@ -61,12 +61,11 @@ public class MenuService {
 
                         if (resourceNode2.hasVisibleChildren()) {
                             sb.append("<li class=\"pcoded-hasmenu ");
+                            //equals curmenuid =>active,equals uppermenuid => active pcoded-trigger
+                            sb.append("\">\n");
                         } else {
                             sb.append("<li>");
                         }
-
-                        //equals curmenuid =>active,equals uppermenuid => active pcoded-trigger
-                        sb.append("\">\n");
 
                         if (node2.isDirectory()) {
                             sb.append("<a href=\"javascript:void(0)\">");
