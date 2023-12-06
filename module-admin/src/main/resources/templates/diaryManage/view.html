@@ -430,8 +430,8 @@
                                     el += '</div>'
                                     el += '</div>'
                                     el += '<div class="comment-btn-con">'
-                                    el += '<button class="btn btn-transparent m-r-5 mb-2 showBtn" onClick="diaryCommentController.showReply('+this.id+')">답글보기 ('+this.replyCnt+')</button>'
-                                    el += '<button class="btn btn-delete m-r-5 mb-2" onClick="diaryCommentController.deleteComment('+this.id+')">삭제</button>'
+                                    el += '<button class="btn btn-transparent m-r-10 mb-2 showBtn" onClick="diaryCommentController.showReply('+this.id+')">답글보기 ('+this.replyCnt+')</button>'
+                                    el += '<button class="btn btn-delete m-r-10 mb-2" onClick="diaryCommentController.deleteComment('+this.id+')">삭제</button>'
                                     el += '</div>'
                                     el += '</div>'
                                     el += '</div>'
@@ -459,7 +459,7 @@
                                 el += '</div>'
                                 el += '</div>'
                                 el += '<div class="comment-btn-con">'
-                                el += '<button class="btn btn-delete m-r-5 mb-2" onClick="diaryCommentController.deleteComment('+this.id+')">삭제</button>'
+                                el += '<button class="btn btn-delete m-r-10 mb-2" onClick="diaryCommentController.deleteComment('+this.id+')">삭제</button>'
                                 el += '</div>'
                                 el += '</div>'
                                 el += '</div>'
@@ -477,11 +477,11 @@
                 if ($(document).find('[data-upper-id='+id+']:visible').length > 0){
                     $(document).find('[data-upper-id='+id+']').hide()
                     let btntext = $(document).find('[data-id='+id+']').find('.showBtn').text()
-                    $(document).find('[data-id='+id+']').find('.showBtn').text(btntext.replace('답글숨기기','답글보기'))
+                    $(document).find('[data-id='+id+']').find('.showBtn').text(btntext.replace('답글닫기','답글보기'))
                 }else{
                     $(document).find('[data-upper-id='+id+']').show()
                     let btntext = $(document).find('[data-id='+id+']').find('.showBtn').text()
-                    $(document).find('[data-id='+id+']').find('.showBtn').text(btntext.replace('답글보기','답글숨기기'))
+                    $(document).find('[data-id='+id+']').find('.showBtn').text(btntext.replace('답글보기','답글닫기'))
                 }
 
             }
