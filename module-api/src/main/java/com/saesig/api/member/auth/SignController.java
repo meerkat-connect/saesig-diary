@@ -3,17 +3,18 @@ package com.saesig.api.member.auth;
 import com.saesig.api.mail.MailDto;
 import com.saesig.api.mail.MailService;
 import com.saesig.api.util.Constants;
+import com.saesig.error.ErrorCode;
+import com.saesig.error.VerificationCodeMismatchException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import com.saesig.error.VerificationCodeMismatchException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.Map;
 import java.util.Random;
 
 
-@Tag(name="Sign Controller", description = "회원정보 관리")
+@Tag(name = "Sign Controller", description = "회원정보 관리")
 @Slf4j
 @RestController()
 @RequestMapping(Constants.CONTEXT_PATH + "/sign")
@@ -43,12 +44,12 @@ public class SignController {
         this.messageService = NurigoApp.INSTANCE.initialize("NCS4YSWXMANXRGLD", "ZHSJXFM0VRYMLZFRYQVRWMALZKOPBLNJ", "https://api.coolsms.co.kr");
     }
 
-    @Operation(summary="회원가입 등록", description = "입력한 정보를 이용하여 회원가입을 진행")
+    @Operation(summary = "회원가입 등록", description = "입력한 정보를 이용하여 회원가입을 진행")
     @PostMapping("/signup")
     public int signup(@RequestBody SignDto param) {
         param.setPassword(passwordEncoder.encode(param.getPassword())); // 비밀번호 암호화
         int result = signService.signup(param);
-        if(result > 0) {
+        if (result > 0) {
             // 회원가입 축하 메일 발송
             Map<String, Object> parameters = new HashMap<>();
             parameters.put("messageTitle", param.getNickname() + "님 안녕하세요. 새식일기입니다:)");
@@ -65,47 +66,47 @@ public class SignController {
         return result;
     }
 
-    @Operation(summary="회원정보 중복검사", description = "이메일/닉네임 중복검사")
+    @Operation(summary = "회원정보 중복검사", description = "이메일/닉네임 중복검사")
     @GetMapping({"/duplicate/{mode}/{value}"})
     public int duplicate(@PathVariable String mode, @PathVariable String value) {
         SignDto param = new SignDto();
-        if("email".equals(mode)) {
+        if ("email".equals(mode)) {
             param.setEmail(value);
-        } else if("nickname".equals(mode)){
+        } else if ("nickname".equals(mode)) {
             param.setNickname(value);
         }
         return signService.duplicate(param);
     }
 
-    @Operation(summary="닉네임으로 이메일 찾기", description = "닉네임으로 가입된 이메일 찾기")
+    @Operation(summary = "닉네임으로 이메일 찾기", description = "닉네임으로 가입된 이메일 찾기")
     @GetMapping({"/find/email/{nickname}"})
     public SignDto findEmailByNickname(@PathVariable String nickname) {
         return signService.findEmailByNickname(nickname);
     }
 
-    @Operation(summary="SMS 본인인증으로 이메일 찾기", description = "SMS 본인인증으로 가입된 이메일 찾기")
+    @Operation(summary = "SMS 본인인증으로 이메일 찾기", description = "SMS 본인인증으로 가입된 이메일 찾기")
     @GetMapping({"/find/email/{mobileNumber}/{code}"})
     public SignDto findEmailBySms(@PathVariable String mobileNumber, @PathVariable String code) {
         // SMS 본인인증문자 번호와 사용자 입력값 일치여부 체크
-        if(!this.verificationSmsCode.equals(code)) {
-            throw new VerificationCodeMismatchException("인증번호가 일치하지 않습니다", "code");
+        if (!this.verificationSmsCode.equals(code)) {
+            throw new VerificationCodeMismatchException(ErrorCode.INVALID_VERIFICATION_CODE);
         }
         return signService.findEmailBySms(mobileNumber);
     }
 
-    @Operation(summary="비밀번호 찾기(재설정)", description = "본인인증 후 비밀번호 재설정")
+    @Operation(summary = "비밀번호 찾기(재설정)", description = "본인인증 후 비밀번호 재설정")
     @PutMapping({"/find/password/{code}"})
     public int updatePassword(@PathVariable String code, @RequestBody SignDto param) {
         // 메일 본인인증 번호와 사용자 입력값 일치여부 체크
-        if(!this.verificationMailCode.equals(code)) {
-            throw new VerificationCodeMismatchException("인증번호가 일치하지 않습니다", "code");
+        if (!this.verificationMailCode.equals(code)) {
+            throw new VerificationCodeMismatchException(ErrorCode.INVALID_VERIFICATION_CODE);
         }
         param.setPassword(passwordEncoder.encode(param.getPassword()));
         return signService.updatePassword(param);
     }
 
-    @Operation(summary="SMS 본인인증", description = "SMS 본인인증 코드 발송", parameters = {
-            @Parameter(name = "mobileNumber", description = "수신자 전화번호", example = "01012341234") })
+    @Operation(summary = "SMS 본인인증", description = "SMS 본인인증 코드 발송", parameters = {
+            @Parameter(name = "mobileNumber", description = "수신자 전화번호", example = "01012341234")})
     @GetMapping({"/sms/{mobileNumber}"})
     public SingleMessageSentResponse sendSms(@PathVariable String mobileNumber) {
         Message message = new Message();
@@ -119,13 +120,13 @@ public class SignController {
         return response;
     }
 
-    @Operation(summary="SMS 본인인증 유효성 확인", description = "SMS 본인인증 문자와 사용자 입력값 일치여부 체크")
+    @Operation(summary = "SMS 본인인증 유효성 확인", description = "SMS 본인인증 문자와 사용자 입력값 일치여부 체크")
     @GetMapping({"/sms/valid/{code}"})
     public boolean isSmsCodeValid(@PathVariable String code) {
         return this.verificationSmsCode.equals(code);
     }
 
-    @Operation(summary="이메일 본인인증", description = "이메일 본인인증 코드 발송")
+    @Operation(summary = "이메일 본인인증", description = "이메일 본인인증 코드 발송")
     @PostMapping({"/email/{email}"})
     public void sendCodeMail(@PathVariable String email) {
         // 메일 내용 세팅
@@ -141,16 +142,16 @@ public class SignController {
 
         MailDto mailDto = new MailDto(email, "", "", "새식일기 인증코드입니다.", parameters, "mail/codeTemplate", images);
         mailDto.setParameters(parameters);
-		this.mailService.sendMail(mailDto);
-	}
+        this.mailService.sendMail(mailDto);
+    }
 
-    @Operation(summary="이메일 본인인증 유효성 확인", description = "이메일 본인인증 코드와 사용자 입력값 일치여부 체크")
+    @Operation(summary = "이메일 본인인증 유효성 확인", description = "이메일 본인인증 코드와 사용자 입력값 일치여부 체크")
     @GetMapping({"/email/valid/{code}"})
     public boolean isMailCodeValid(@PathVariable String code) {
         return this.verificationMailCode.equals(code);
     }
 
-    @Operation(summary="회원탈퇴", description = "회원탈퇴")
+    @Operation(summary = "회원탈퇴", description = "회원탈퇴")
     @DeleteMapping({"/resign/{id}"})
     public int resign(@PathVariable Long id, @RequestParam("email") String email, @RequestParam("nickname") String nickname) {
 
@@ -159,7 +160,7 @@ public class SignController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("messageTitle", nickname + "님 새식일기와 좋은 추억 남기셨나요?");
         parameters.put("messageContent", "새식일기는 " + nickname + "님과 함께한 날들을 기억하며, 더 좋은 모습으로 찾아 뵐 수 있도록 하겠습니다.<br>"
-                                       + "다시 만나는 그날까지 행복한 일들만 가득하세요:)");
+                + "다시 만나는 그날까지 행복한 일들만 가득하세요:)");
 
         Map<String, String> images = new HashMap<>();
         images.put("main_logo", "static/main_logo.png");
