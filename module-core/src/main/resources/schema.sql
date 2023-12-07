@@ -901,8 +901,8 @@ CREATE TABLE `ADMIN_ACCESS_LOG`
     `message` VARCHAR(1000) NULL COMMENT '로그 메시지',
     `user_agent` VARCHAR(500) NOT NULL COMMENT '브라우저 정보',
     `created_at` DATETIME NOT NULL COMMENT '등록일',
-    `created_by` BIGINT NOT NULL COMMENT '등록자 일련번호',
+    `created_by` BIGINT NULL COMMENT '등록자 일련번호',
     `modified_at` DATETIME NOT NULL COMMENT '수정일',
-    `modified_by` BIGINT NOT NULL COMMENT '수정자 일련번호',
+    `modified_by` BIGINT NULL COMMENT '수정자 일련번호',
     PRIMARY KEY (`id`)
 )
