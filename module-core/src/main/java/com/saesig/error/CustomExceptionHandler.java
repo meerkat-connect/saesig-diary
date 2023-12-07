@@ -15,36 +15,36 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> CommonExceptionHandler(Exception e) {
+    public ResponseEntity<ApiRequestResult> commonExceptionHandler(Exception ex) {
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), e.getMessage());
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getMessage(), errorCode.getCode());
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
 
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> runtimeExceptionHandler(Exception e) {
+    public ResponseEntity<ApiRequestResult> runtimeExceptionHandler(RuntimeException ex) {
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), e.getMessage());
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getMessage(), errorCode.getCode());
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+        return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
     }
 
     @ExceptionHandler(NicknameDuplicateException.class)
-    public ResponseEntity<ErrorResponse> nicknameDuplicateExceptionHandler(NicknameDuplicateException ex) {
-        ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), ex.getDefaultMessage());
+    public ResponseEntity<ApiRequestResult> nicknameDuplicateExceptionHandler(NicknameDuplicateException ex) {
+        ErrorCode errorCode = ex.getErrorCode();
+        ErrorResponse errorResponse = ErrorResponse.of(ex.getMessage(), errorCode.getCode());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
     }
 
     @ExceptionHandler(VerificationCodeMismatchException.class)
-    public ResponseEntity<ErrorResponse> verificationCodeMismatchExceptionHandler(VerificationCodeMismatchException ex) {
-        ErrorCode errorCode = ErrorCode.INVALID_VERIFICATION_CODE;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), ex.getDefaultMessage());
+    public ResponseEntity<ApiRequestResult> verificationCodeMismatchExceptionHandler(VerificationCodeMismatchException ex) {
+        ErrorCode errorCode = ex.getErrorCode();
+        ErrorResponse errorResponse = ErrorResponse.of(ex.getMessage(), errorCode.getCode());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
     }
 
     @Override
@@ -54,9 +54,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             , HttpStatus status
             , WebRequest request) {
         ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), ex.getMessage(), ex.getBindingResult());
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getMessage(), errorCode.getCode(), ex.getBindingResult());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
     }
 
     @Override
@@ -66,16 +66,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             , HttpStatus status
             , WebRequest request) {
         ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), ex.getMessage());
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getMessage(), errorCode.getCode());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
     }
 
     @Override
     protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
-        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getCode(), ex.getMessage(), ex.getBindingResult());
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getMessage(), errorCode.getCode(), ex.getBindingResult());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
     }
 }

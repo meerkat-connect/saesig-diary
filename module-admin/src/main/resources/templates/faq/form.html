@@ -120,9 +120,9 @@
                     }).done(function(response){
                         alert('수정 되었습니다.');
                         console.log(response);
-                    }).fail(function(error){
+                    }).fail(function(response){
                         alert('수정중 에러가 발생하였습니다.');
-                        if(error.responseJSON.code == "COM-4") {
+                        if(response.responseJSON.error.code == "COM-4") {
                             alert('입력값이 유효하지 않습니다.');
                         }
                     })
@@ -142,8 +142,8 @@
                         url: '/admin/faqs'
                     }).done(function(response){
                         alert('등록 되었습니다.');
-                    }).fail(function(error){
-                        if(error.responseJSON.code == "COM-4") {
+                    }).fail(function(response){
+                        if(response.responseJSON.error.code == "COM-4") {
                             alert('입력값이 유효하지 않습니다.');
                         }
                     })

@@ -3,6 +3,7 @@ package com.saesig.member;
 import com.saesig.common.RequestDto;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.templateManage.SendCategory;
+import com.saesig.error.ErrorCode;
 import com.saesig.error.NicknameDuplicateException;
 import com.saesig.global.enumCode.EnumMapperFactory;
 import com.saesig.role.DataTablesResponseDto;
@@ -65,7 +66,7 @@ public class MemberController {
         if (byNickname.isPresent()) {
             Member member = byNickname.get();
             if (!member.getId().equals(id)) {
-                throw new NicknameDuplicateException("닉네임이 중복됩니다.", "nickname");
+                throw new NicknameDuplicateException(ErrorCode.EMAIL_DUPLICATED);
             }
         }
 

@@ -121,8 +121,8 @@
                         data: JSON.stringify(formData)
                     }).done(function (response) {
                         alert('수정되었습니다..');
-                    }).fail(function (error) {
-                        alert(error.responseJSON.message);
+                    }).fail(function (response) {
+                        alert(response.responseJSON.error.message);
                     })
                 }
             });
