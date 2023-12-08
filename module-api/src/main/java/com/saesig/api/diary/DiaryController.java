@@ -3,6 +3,7 @@ package com.saesig.api.diary;
 import com.saesig.api.util.Constants;
 import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
+import com.saesig.error.ApiRequestResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import retrofit2.http.DELETE;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,16 +27,12 @@ public class DiaryController {
 
     @Operation(summary="일상기록 목록 조회", description = "")
     @GetMapping("/diaries")
-    public ResponseEntity<Map<String, Object>> getDiaries(DiaryDto dd) {
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<ApiRequestResult> getDiaries(DiaryDto dd) {
+        Map<String, Object> response = Map.of(
+                "diarys" , diaryService.getDiaries(dd)
+        );
 
-        List<DiaryDto> list = diaryService.getDiaries(dd);
-
-        response.put("status", HttpStatus.OK);
-        response.put("message", "success");
-        response.put("data", list);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(ApiRequestResult.of(response), HttpStatus.OK);
     }
 
     @Operation(summary="일상기록 좋아요", description = "")
