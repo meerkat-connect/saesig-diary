@@ -26,7 +26,7 @@ public class ErrorResponse {
         return new ErrorResponse(message, code, null);
     }
 
-    public static ErrorResponse of(String code, String message, BindingResult bindingResult) {
+    public static ErrorResponse of(String message, String code, BindingResult bindingResult) {
         List<ValidationError> validationErrors = bindingResult.getFieldErrors().stream()
                 .map(ValidationError::new)
                 .collect(Collectors.toList());
