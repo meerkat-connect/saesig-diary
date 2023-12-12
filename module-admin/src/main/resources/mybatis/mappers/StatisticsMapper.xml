@@ -2,25 +2,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.saesig.statistics.StatisticsMapper">
-    <select id="calculateUserStatistics" resultType="com.saesig.statistics.UserStatisticsDto">
-        WITH temp_stat_tbl AS (
-            SELECT
-                COUNT(1) total_cnt
-                 , status
-                 , YEAR(created_at) AS year
-                 , MONTH(created_at) AS month
-            FROM member
-            GROUP BY YEAR(created_at), MONTH(created_at), status
-        )
-        SELECT
-            month,
-            NVL(SUM(CASE WHEN year = '2023' THEN total_cnt END), 0) AS registration_count -- 전체 합계
-            , NVL(SUM(CASE WHEN year = '2022' THEN total_cnt END), 0) - NVL(SUM(CASE WHEN year = '2023' THEN total_cnt END), 0) as registration_diff_count -- 전년대비 증감 수
-            , NVL(SUM(CASE WHEN year = '2023' and status = 'DORMANCY' THEN TOTAL_CNT END), 0) AS dormant_count
-            , NVL(SUM(CASE WHEN year = '2023' AND status = 'LEAVE' THEN TOTAL_CNT END), 0) AS leave_count
-            , NVL(SUM(CASE WHEN year = '2022' and status = 'DORMANCY' THEN TOTAL_CNT END), 0) - NVL(SUM(CASE WHEN year = '2023' and status = 'DORMANCY' THEN TOTAL_CNT END), 0) AS leave_diff_count
-            , NVL(SUM(CASE WHEN year = '2022' AND status = 'LEAVE' THEN TOTAL_CNT END), 0) - NVL(SUM(CASE WHEN year = '2023' AND status = 'LEAVE' THEN TOTAL_CNT END), 0) AS dormant_diff_count
-        FROM temp_stat_tbl
-        GROUP BY month;
-    </select>
 </mapper>
