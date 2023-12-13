@@ -33,14 +33,75 @@
                 </div>
             </form>
 
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-c-yellow text-white">
+                    <div class="card-block">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <p class="m-b-5">정상회원 합계</p>
+                                <h4 class="m-b-0">852</h4>
+                            </div>
+                            <div class="col col-auto text-right">
+                                    [[${totalUserStatistics.normalCount}]]
+<!--                                <i class="feather icon-user f-50 text-c-yellow"></i>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-c-yellow text-white">
+                    <div class="card-block">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <p class="m-b-5">회원가입</p>
+                                <h4 class="m-b-0">2023년</h4>
+                            </div>
+                            <div class="col text-right">
+                                <div style="position:absolute; float:left; right:40px;" >10000</div>
+                                <div>[[${totalUserStatistics.registrationCount}]]</div>
+
+<!--                                <i class="feather icon-user f-50 text-c-yellow"></i>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-c-yellow text-white">
+                    <div class="card-block">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <p class="m-b-5">회원탈퇴</p>
+                                <h4 class="m-b-0">2023년</h4>
+                            </div>
+                            <div class="col col-auto text-right">
+                               [[${totalUserStatistics.leaveCount}]]
+                            </div>
+<!--                                <i class="feather icon-user f-50 text-c-yellow"></i>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card bg-c-yellow text-white">
+                    <div class="card-block">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <p class="m-b-5">휴면회원</p>
+                                <h4 class="m-b-0">2023년</h4>
+                            </div>
+                            <div class="col col-auto text-right">
+                                [[${totalUserStatistics.dormantCount}]]
+<!--                                <i class="feather icon-user f-50 text-c-yellow"></i>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
             <div class="col-12">
                 <div class="card">
-<!--                    <div class="row p-20 p-b-0">
-                        <div class="col-12 col-md-6 mb-2 mb-md-0">
-                            <h5><strong>발송이력 검색결과</strong></h5>
-                        </div>
-                    </div>-->
                     <div class="card-block-small">
                         <div class="dt-responsive table-responsive">
                             <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -54,7 +115,12 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    </tbody>
+                                    <tr th:each="monthly : ${monthlyUserStatistics} ">
+                                        <td>[[${monthly.yyyy}]]년 [[${monthly.mm}]]월</td>
+                                        <td>[[${monthly.normalCount}]]</td>
+                                        <td>[[${monthly.leaveCount}]]</td>
+                                        <td>[[${monthly.dormantCount}]]</td>
+                                    </tr>
                                     <tfoot>
                                     <tr>
                                         <th>합계</th>
@@ -74,6 +140,60 @@
     </div>
 
     <script th:inline="javascript">
+        $(function () {
+            $("#listTable").DataTable(
+                {
+                    columnDefs: [
+                        {className: "dt-center", targets: "_all"}
+                    ],
+                    stripeClasses: [],
+                    pagingType: 'full_numbers',
+                    lengthChange: false,
+                    responsive: true,
+                    searching: false,
+                    destroy: true,
+                    ordering: false,
+                    info: false,
+                    bAutoWidth: true,
+                    paging: false,
+                    footerCallback: function () {
+                        const api = this.api();
 
+                        const intVal = function (i) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '') * 1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        const normalCountTotal = api
+                            .column(1)
+                            .data()
+                            .reduce(function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
+
+                        const leaveCountTotal = api
+                            .column(2)
+                            .data()
+                            .reduce(function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
+
+                        const dormantCountTotal = api
+                            .column(3)
+                            .data()
+                            .reduce(function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
+
+                        $(api.column(1).footer()).html(normalCountTotal);
+                        $(api.column(2).footer()).html(leaveCountTotal);
+                        $(api.column(3).footer()).html(dormantCountTotal);
+                    }
+
+                }
+            );
+        })
     </script>
 </div>
