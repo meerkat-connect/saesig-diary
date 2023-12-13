@@ -74,9 +74,9 @@ public class SecurityConfig {
 
         // 세션 정책 설정
         httpSecurity.sessionManagement()
-                .invalidSessionUrl(LOGIN_PAGE_URI)
+//                .invalidSessionUrl(LOGIN_PAGE_URI)
                 .maximumSessions(1) // 최대 허용 가능 세션 수
-                .expiredUrl(LOGIN_PAGE_URI)
+//                .expiredUrl(LOGIN_PAGE_URI)
                 .maxSessionsPreventsLogin(true)  // 동시 로그인 차단, false: 기존 세션 만료 (default)
                 .and()
                 .sessionFixation()
@@ -90,7 +90,7 @@ public class SecurityConfig {
         httpSecurity
                 .exceptionHandling()
                 .accessDeniedHandler(accessDeniedHandler())
-                .authenticationEntryPoint(new CustomEntryPoint());
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
         return httpSecurity.build();
     }
 
