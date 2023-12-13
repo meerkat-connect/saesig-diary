@@ -2,4 +2,67 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.saesig.statistics.StatisticsMapper">
+    <select id="calculateTotalUserStatistics" resultType="com.saesig.statistics.UserStatisticsDto">
+        SELECT
+            NVL(MAX(CASE WHEN created_at = '2022' THEN total_count END),0) AS prev_year_total_count
+            , NVL(MAX(CASE WHEN created_at = '2023' THEN total_count END), 0) AS registration_count
+            , NVL(MAX(CASE WHEN created_at = '2023' THEN normal_count END), 0) AS normal_count
+            , NVL(MAX(CASE WHEN created_at = '2023' THEN leave_count END), 0) AS leave_count
+            , NVL(MAX(CASE WHEN created_at = '2023' THEN dormant_count END), 0) AS dormant_count
+            , NVL(MAX(CASE WHEN created_at = '2023' THEN total_count END), 0) - NVL(MAX(CASE WHEN created_at = '2022' THEN total_count END), 0) AS registration_diff_count
+            , NVL(MAX(CASE WHEN created_at = '2023' THEN normal_count END), 0) - NVL(MAX(CASE WHEN created_at = '2022' THEN normal_count END), 0) AS normal_diff_count
+            , NVL(MAX(CASE WHEN created_at = '2023' THEN leave_count END), 0) - NVL(MAX(CASE WHEN created_at = '2022' THEN leave_count END), 0) AS leave_diff_count
+            , NVL(MAX(CASE WHEN created_at = '2023' THEN dormant_count END), 0) - NVL(MAX(CASE WHEN created_at = '2022' THEN dormant_count END), 0) AS dormant_diff_count
+        FROM (
+                 SELECT
+                     YEAR(created_at) AS created_at
+                     , SUM(CASE WHEN status = 'NORMAL' THEN 1 ELSE 0 END) AS normal_count
+                     , SUM(CASE WHEN status = 'LEAVE' THEN 1 ELSE 0 END) AS leave_count
+                     , SUM(CASE WHEN status = 'DORMANT' THEN 1 ELSE 0 END) AS dormant_count
+                     , COUNT(1) total_count
+                 FROM
+                     member
+                 WHERE
+                     YEAR(created_at) IN ('2022', '2023')
+                 GROUP BY
+                     created_at
+             ) AS sub_table
+        GROUP BY
+            created_at
+        ORDER BY
+            created_at
+    </select>
+
+    <select id="calculateMontlyUserStatistics" resultType="com.saesig.statistics.MonthlyUserStatisticsDto">
+        SELECT
+            sub_table.mm as mm,
+            '2023' as yyyy,
+            SUM(CASE WHEN member.status = 'NORMAL' THEN 1 ELSE 0 END) normal_count,
+            SUM(CASE WHEN member.status = 'LEAVE' THEN 1 ELSE 0 END) leave_count,
+            SUM(CASE WHEN member.status = 'DORMANT' THEN 1 ELSE 0 END) dormant_count,
+            COUNT(member.created_at) AS total_records
+        FROM
+            member
+        RIGHT OUTER JOIN (
+            SELECT 1 AS mm
+            UNION SELECT 2
+            UNION SELECT 3
+            UNION SELECT 4
+            UNION SELECT 5
+            UNION SELECT 6
+            UNION SELECT 7
+            UNION SELECT 8
+            UNION SELECT 9
+            UNION SELECT 10
+            UNION SELECT 11
+            UNION SELECT 12
+        ) sub_table
+        ON
+            MONTH(member.created_at) = sub_table.mm
+            AND YEAR(member.created_at) = '2023'
+        GROUP BY
+            sub_table.mm
+        ORDER BY
+            sub_table.mm
+    </select>
 </mapper>

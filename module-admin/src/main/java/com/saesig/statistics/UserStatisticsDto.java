@@ -1,6 +1,7 @@
 package com.saesig.statistics;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,5 +16,7 @@ public class UserStatisticsDto {
     private Integer leaveDiffCount; // 전년대비 탈퇴회원수 차이
     private Integer dormantDiffCount; //전년대비 휴면회원수 차이
     private Integer normalDiffCount; // 전년대비 정상회원수 차이
+
+    @Setter
     private List<MonthlyUserStatisticsDto> monthlyUserStatistics = new ArrayList<>();
 }

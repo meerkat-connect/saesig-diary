@@ -9,7 +9,9 @@ public class StatisticsService {
     private final StatisticsMapper statisticsMapper;
 
     public UserStatisticsDto calculateUserStatistics() {
-        return statisticsMapper.calculateUserStatistics();
+        UserStatisticsDto userStatistics = statisticsMapper.calculateTotalUserStatistics();
+        userStatistics.setMonthlyUserStatistics(statisticsMapper.calculateMontlyUserStatistics());
+        return userStatistics;
     }
 
 }
