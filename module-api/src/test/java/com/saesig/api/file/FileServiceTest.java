@@ -1,4 +1,4 @@
-package com.saesig.file;
+package com.saesig.api.file;
 
 import com.saesig.global.file.FileDto;
 import com.saesig.global.file.FileService;
