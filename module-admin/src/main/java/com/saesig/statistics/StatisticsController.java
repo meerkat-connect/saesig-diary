@@ -14,7 +14,9 @@ public class StatisticsController {
 
     @GetMapping("/user")
     public String userStatisticsView(Model model) {
-        model.addAttribute("UserStatistic", statisticsService.calculateUserStatistics());
+        UserStatisticsDto userStatisticsDto = statisticsService.calculateUserStatistics();
+        model.addAttribute("totalUserStatistics", userStatisticsDto);
+        model.addAttribute("monthlyUserStatistics", userStatisticsDto.getMonthlyUserStatistics());
         return "statistics/user";
     }
 }
