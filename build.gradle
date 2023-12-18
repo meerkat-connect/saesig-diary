@@ -68,7 +68,7 @@ project(':module-api') {
 
 project(':module-batch') {
     dependencies {
-        implementation project(':module-core')
+//        implementation project(':module-core')
     }
 }
 
