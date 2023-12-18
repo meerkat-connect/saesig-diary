@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document(collection = "chat")
 @Getter
 @Setter
@@ -14,6 +16,6 @@ public class ChatDataDto {
     private int senderId;
     private int receiverId;
     private String text;
-    private String regDate;
+    private LocalDateTime regDate;
     private int isRead;
 }
