@@ -2,3 +2,5 @@
 # spring.batch.job.names에 NONE이 할당되는 경우 어떤 배치도 실행하지 않겠다는 의미 -> 값이 없을때 배치가 실행되지 않음
 # 실제 운영 환경에서는 java -jar batch-application.jar --job.name=simpleJob과 같이 배치를 실행함
 spring.batch.job.names: ${job.name:NONE}
+
+logging.level.org.springframework.batch: DEBUG
