@@ -2,6 +2,8 @@ package com.saesig.webSocketNetty.websocket;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class chatJsonData {
     private String type;
@@ -11,6 +13,7 @@ public class chatJsonData {
         private int memberId;
 
         private int receiverId;
+        private LocalDateTime sendTime;
 
         public String getText() {
             return text;

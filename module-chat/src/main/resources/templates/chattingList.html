@@ -27,7 +27,7 @@
 <script th:inline="javascript">
   const chatList = [[${chatList}]];
   const userId = [[${userId}]];
-  const websocket = new WebSocket("ws://3.38.46.230:8090/ws/chat?mode=chatList&chatId=0&memberId="+userId); //채팅방에서도 해당 메시지를 받아서, 안읽은 메시지 수와함께, 채팅방 텍스트를 변경해주어야함. -> 따라서 채팅리스트와 채팅방 각각 socket통신을 실행시켜 메시지를 송신받아야함
+  const websocket = new WebSocket("ws://127.0.0.1:8080/ws/chat?mode=chatList&chatId=0&memberId="+userId); //채팅방에서도 해당 메시지를 받아서, 안읽은 메시지 수와함께, 채팅방 텍스트를 변경해주어야함. -> 따라서 채팅리스트와 채팅방 각각 socket통신을 실행시켜 메시지를 송신받아야함
   websocket.onmessage = chattingList.onMessage;
   // websocket.onopen = onOpen;
   // websocket.onclose = onClose;

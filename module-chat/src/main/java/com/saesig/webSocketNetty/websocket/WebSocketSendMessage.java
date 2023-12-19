@@ -7,6 +7,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import com.saesig.webSocketNetty.chatting.ChattingService;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -28,10 +29,13 @@ public class WebSocketSendMessage {
         Gson gson = new Gson();
 
         chatJsonData param = gson.fromJson(payload, chatJsonData.class);
-        TextMessage msg = new TextMessage(payload);
+        ChatUserJsonData msgObj = gson.fromJson(payload, ChatUserJsonData.class);
         int chatId = param.getChatId();
         int senderId = param.getMemberId();
         int receiver = param.getReceiverId();
+        param.setSendTime(LocalDateTime.now());
+        msgObj.setSendTime(LocalDateTime.now());
+        TextMessage msg = new TextMessage(gson.toJson(msgObj));
         for (WebSocketSession sess : numSet) {
             String sessionId = sess.getId();
             boolean isSend = isCheckSendSession(sessionId, senderId, chatId);
@@ -42,7 +46,7 @@ public class WebSocketSendMessage {
                 sess.sendMessage(msg);
             }
         }
-        SaveDbChat(param.getType(), chatId, senderId, receiver,param.getText());
+        SaveDbChat(param.getType(), chatId, senderId, receiver,param.getText(),param.getSendTime());
     }
 
     public boolean isCheckSendSession(String sessionId, int targetMemberId, int chatId){ // 세션마다 채팅 보낼지 말지 여부 체크
@@ -62,9 +66,9 @@ public class WebSocketSendMessage {
         return false;
     }
 
-    public void SaveDbChat(String type, int chatId,int senderId,int receiver, String text){ // 채팅타입에 따라 메시지를 분기 처리.
+    public void SaveDbChat(String type, int chatId,int senderId,int receiver, String text,  LocalDateTime sendTime){ // 채팅타입에 따라 메시지를 분기 처리.
         if (type.equals("message")) {
-            if (receiver != senderId) { chattingService.saveChattingData(chatId, text, senderId, receiver, 0); }
+            if (receiver != senderId) { chattingService.saveChattingData(chatId, text, senderId, receiver, 0, sendTime); }
         } else if (type.equals("readMessage")) { chattingService.readMessage(senderId, chatId); }
     }
 

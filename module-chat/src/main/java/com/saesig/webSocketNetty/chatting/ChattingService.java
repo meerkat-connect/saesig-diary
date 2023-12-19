@@ -1,5 +1,6 @@
 package com.saesig.webSocketNetty.chatting;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public interface ChattingService {
 
     public List<ChattingRoomDto> getChattingRoomList(int memberId) throws Exception;
 
-    public int saveChattingData(int chatId, String text, int memberId, int receiverId,int isRead);
+    public int saveChattingData(int chatId, String text, int memberId, int receiverId, int isRead, LocalDateTime sendTime);
 
     public List<ChatDataDto> getLastChat(int chatId);
 

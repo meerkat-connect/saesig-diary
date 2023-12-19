@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -41,17 +42,13 @@ public class ChattingServiceImpl implements ChattingService{
     }
 
     @Override
-    public int saveChattingData(int chatId, String text, int memberId, int receiverId,int isRead) {
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
-        Date now = new Date();
-        String strDate = sdfDate.format(now);
-
+    public int saveChattingData(int chatId, String text, int memberId, int receiverId,int isRead,  LocalDateTime sendTime) {
         ChatDataDto ChatDataDto = new ChatDataDto();
         ChatDataDto.setChatId(chatId);
         ChatDataDto.setReceiverId(receiverId);
         ChatDataDto.setText(text);
         ChatDataDto.setSenderId(memberId);
-        ChatDataDto.setRegDate(strDate);
+        ChatDataDto.setRegDate(sendTime);
         ChatDataDto.setIsRead(isRead);
         ChatDataDao.save(ChatDataDto);
         return chatId;
