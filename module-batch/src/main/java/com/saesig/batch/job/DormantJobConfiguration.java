@@ -9,11 +9,14 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
+import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
+import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,7 +33,6 @@ public class DormantJobConfiguration {
         // 3. 휴면회원 대상 휴면회원 테이블 인서트
         return jobBuilderFactory.get("toDormantJob")
                 .start(toDormantStep1())
-                .next(toDormantStep2())
                 .build();
     }
 
@@ -38,66 +40,46 @@ public class DormantJobConfiguration {
     public Step toDormantStep1() {
         // 휴면회원 대상 회원 테이블 업데이트
         return stepBuilderFactory.get("toDormantStep1")
-                .<Object,Object>chunk(10)
+                .<Member, Member>chunk(10)
                 .reader(dormantJobReader())
-                .writer(dormantJobWriter())
+                .writer(compositeItemWriter())
                 .build();
     }
 
     @Bean
-    public Step toDormantStep2() {
-        // 휴면회원 대상 휴면회원 테이블 인서트
-        return null;
-    }
-
-    @Bean
-    public JdbcCursorItemReader<Object> dormantJobReader() {
-        // 마지막 로그인일시가 1년이 지난 회원 find, order by 필수
-        return new JdbcCursorItemReaderBuilder<Object>()
+    public JdbcCursorItemReader<Member> dormantJobReader() {
+        // 마지막 로그인일시가 1년이 지난 회원 조회, PagingItemReader 사용시에는 order by 필수
+        return new JdbcCursorItemReaderBuilder<Member>()
                 .name("jdbcCursorItemReader")
                 .fetchSize(10)
-                .sql("SELECT id, name FROM member")
-                .beanRowMapper(Object.class)
+                .sql("SELECT id, email FROM member WHERE CURRENT_TIMESTAMP - INTERVAL '1' YEAR  <= last_logged_at")
+                .beanRowMapper(Member.class)
                 .dataSource(dataSource)
                 .build();
     }
 
     @Bean
-    public ItemWriter<Object> dormantJobWriter() {
-        /*return new JdbcBatchItemWriterBuilder<Pay>()
+    public ItemWriter<Member> updateMemberItemWriter() {
+        return new JdbcBatchItemWriterBuilder<Member>()
                 .dataSource(dataSource)
-                .sql("insert into pay2(amount, tx_name, tx_date_time) values (:amount, :txName, :txDateTime)")
+                .sql("UPDATE member SET status='dormant' WHERE email = :email")
                 .beanMapped()
-                .build();*/
-        return list -> {
-            for (Object o : list) {
-                log.info("object : {} ", o);
-            }
-        };
+                .build();
     }
 
-/*    @Bean
-    public CompositeItemWriter<Product> compositeItem() {
-        final CompositeItemWriter<Product> compositeItemWriter = new CompositeItemWriter<>();
-        compositeItemWriter.setDelegates(Arrays.asList(updateProduct(), insertOrder())); // Writer 등록
+    @Bean
+    public ItemWriter<Member> insertDormantMemberItemWriter() {
+        return new JdbcBatchItemWriterBuilder<Member>()
+                .dataSource(dataSource)
+                .sql("INSERT INTO dormant_member(status) VALUES(:status) WHERE id = :email")
+                .beanMapped()
+                .build();
+    }
+
+    @Bean
+    public CompositeItemWriter<Member> compositeItemWriter() {
+        CompositeItemWriter<Member> compositeItemWriter = new CompositeItemWriter<>();
+        compositeItemWriter.setDelegates(Arrays.asList(updateMemberItemWriter(), insertDormantMemberItemWriter()));
         return compositeItemWriter;
     }
-
-    @Bean
-    public JpaItemWriter<Product> updateProduct() {
-        final JpaItemWriter<Product> itemWriter = new JpaItemWriter<>();
-        itemWriter.setEntityManagerFactory(entityManagerFactory);    // update product
-        return itemWriter;
-    }
-
-    @Bean
-    public JdbcBatchItemWriter<Product> insertOrder() {
-        return new JdbcBatchItemWriterBuilder<Product>()
-                .dataSource(dataSource)
-                .sql("INSERT INTO orders(product_id, amount) VALUES (:id, :amount)") // insert order
-                .beanMapped()
-                .build();
-    }*/
-
-
 }

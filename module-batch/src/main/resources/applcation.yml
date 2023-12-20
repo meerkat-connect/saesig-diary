@@ -3,4 +3,18 @@
 # 실제 운영 환경에서는 java -jar batch-application.jar --job.name=simpleJob과 같이 배치를 실행함
 spring.batch.job.names: ${job.name:NONE}
 
-logging.level.org.springframework.batch: DEBUG
+spring:
+  logging:
+    level:
+      org:
+        springframework:
+          batch: DEBUG
+
+  sql:
+    init:
+      mode: always
+
+  datasource:
+    url: jdbc:h2:mem:local;MODE=MySQL;
+    username: sa
+
