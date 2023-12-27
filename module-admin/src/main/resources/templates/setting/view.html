@@ -14,21 +14,18 @@
                     <div class="card-block-small">
                         <div class="row">
                             <div class="col-lg-6 mb-3 ">
-                                <!--                                <div class="col-lg-6 mt-3 mb-3">-->
                                 <div class="row mb-0 form-group required">
-                                    <div class="col-12 banner-preview text-center" id="file_container">
-                                        <img class="thumbnail-img" id="preview" src="/files/assets/images/noimg.png" alt="logo image">
+                                    <div class="col-12 banner-preview text-center">
+                                        <img th:if="${faviconFile.savedName == null}" class="thumbnail-img" id="faviconPreview" src="/files/assets/images/noimg.png" alt="logo image">
+                                        <img th:if="${faviconFile.savedName != null}" class="thumbnail-img" id="faviconPreview" th:src="@{|/images/${faviconFile.savedName}|}" alt="logo image" >
                                     </div>
                                 </div>
-                                <!--                                </div>-->
-                                <!--<div class="mt-1 p-t-20 text-center">
-                                    <button type="button" class="btn btn-primary" onclick="save()">저장</button>
-                                </div>-->
                             </div>
                             <div class="col-lg-6 mb-3 ">
-                                <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('bannerFile').click()">파일선택</button>
-                                <input type="file" name="bannerFile" id="bannerFile" style="display:none" onchange="readURL(this);"/>
-
+                                <form id="faviconForm" name="faviconForm" enctype="multipart/form-data">
+                                    <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('faviconFile').click()">파일선택</button>
+                                    <input type="file" name="faviconFile" id="faviconFile" style="display:none" onchange="readURL(this, 'faviconPreview');"/>
+                                </form>
                                 <div class="row mt-3">
                                     <p class="col-sm text-muted m-b-0">파비콘은 브라우저 주소 탭 좌측에 표시 됩니다.
                                         ICO 파일을 업로드해 주세요.
@@ -36,7 +33,7 @@
                                 </div>
                             </div>
                             <div class="mt-1 p-t-20 text-right">
-                                <button type="button" class="btn btn-primary" onclick="save()">저장</button>
+                                <button type="button" class="btn btn-primary" onclick="saveFavicon()">저장</button>
                             </div>
                         </div>
                     </div>
@@ -53,8 +50,8 @@
                             <div class="col-lg-6 mb-3">
                                 <!--                                <div class="col-lg-6 mt-3 mb-3">-->
                                 <div class="row mb-0 form-group required">
-                                    <div class="col-12 banner-preview text-center" id="file_container">
-                                        <img class="thumbnail-img" id="preview" src="/files/assets/images/noimg.png" alt="logo image">
+                                    <div class="col-12 banner-preview text-center">
+                                        <img class="thumbnail-img" id="kakaoPreview" src="/files/assets/images/noimg.png" alt="logo image">
                                     </div>
                                 </div>
                                 <!--                                </div>-->
@@ -63,15 +60,17 @@
                                 </div>-->
                             </div>
                             <div class="col-lg-6 mb-3">
-                                <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('bannerFile').click()">파일선택</button>
-                                <input type="file" name="bannerFile" id="bannerFile" style="display:none" onchange="readURL(this);"/>
+                                <form id="kakaoThumbnailForm" name="kakaoThumbnailForm" enctype="multipart/form-data">
+                                    <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('kakaoFile').click()">파일선택</button>
+                                    <input type="file" name="kakaoFile" id="kakaoFile" style="display:none" onchange="readURL(this, 'kakaoPreview');"/>
+                                </form>
 
                                 <div class="row mt-3">
                                     <p class="col-sm text-muted m-b-0">카카오톡에 새식일기 링크 공유 시, 출력되는 썸네일 이미지입니다.</p>
                                 </div>
                             </div>
                             <div class="mt-1 p-t-20 text-right">
-                                <button type="button" class="btn btn-primary" onclick="save()">저장</button>
+                                <button type="button" class="btn btn-primary" onclick="saveKakaoThumbnail()">저장</button>
                             </div>
                         </div>
                     </div>
@@ -82,5 +81,58 @@
     </div>
 
     <script>
+        function readURL(input, previewId) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+
+                    document.getElementById(previewId).src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                document.getElementById(previewId).src = "";
+            }
+        }
+
+        function saveKakaoThumbnail() {
+            const form = $('#kakaoThumbnailForm')[0];
+            const formData = new FormData(form);
+
+            $.ajax({
+                type:'post',
+                enctype:'multipart/form-data',
+                url: '/admin/setting/save/kakaoThumbnail',
+                data: formData,
+                dataType:'json',
+                processData:false,
+                contentType:false,
+                cache:false
+            }).done((response) => {
+                alert(response);
+            }).fail((response) => {
+                alert(response);
+            })
+        }
+
+        function saveFavicon() {
+            const form = $('#faviconForm')[0];
+            const formData = new FormData(form);
+
+            $.ajax({
+                type:'post',
+                enctype:'multipart/form-data',
+                url: '/admin/setting/save/favicon',
+                data: formData,
+                dataType:'json',
+                processData:false,
+                contentType:false,
+                cache:false
+            }).done((response) => {
+                alert(response);
+            }).fail((response) => {
+                alert(response);
+            })
+        }
+
     </script>
 </div>
