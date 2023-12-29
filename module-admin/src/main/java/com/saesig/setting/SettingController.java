@@ -17,15 +17,15 @@ public class SettingController {
     @Value("${favicon.file-name}")
     private String faviconFileName;
 
-    @Value("${kakao-thumbnail.file-name")
+    @Value("${kakao-thumbnail.file-name}")
     private String kakaoThumbnailFileName;
 
     private final FileService fileService;
 
     @GetMapping("/admin/setting")
     public String settingView(Model model) {
-        FileDto kakaoThumbnail = fileService.findByName(kakaoThumbnailFileName);
-        FileDto faviconFile = fileService.findByName(faviconFileName);
+        FileDto kakaoThumbnail = fileService.findByOriginName(kakaoThumbnailFileName);
+        FileDto faviconFile = fileService.findByOriginName(faviconFileName + ".png");
 
         model.addAttribute("kakaoThumbnail", kakaoThumbnail);
         model.addAttribute("faviconFile", faviconFile);
@@ -38,6 +38,7 @@ public class SettingController {
     public FileDto saveFavicon(MultipartFile faviconFile) {
         return fileService.saveFavicon(faviconFile);
     }
+
 
     @PostMapping("/admin/setting/save/kakaoThumbnail")
     @ResponseBody

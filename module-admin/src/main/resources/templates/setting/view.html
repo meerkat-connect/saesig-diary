@@ -16,8 +16,8 @@
                             <div class="col-lg-6 mb-3 ">
                                 <div class="row mb-0 form-group required">
                                     <div class="col-12 banner-preview text-center">
-                                        <img th:if="${faviconFile.savedName == null}" class="thumbnail-img" id="faviconPreview" src="/files/assets/images/noimg.png" alt="logo image">
-                                        <img th:if="${faviconFile.savedName != null}" class="thumbnail-img" id="faviconPreview" th:src="@{|/images/${faviconFile.savedName}|}" alt="logo image" >
+                                        <img th:if="${faviconFile eq null}" class="thumbnail-img" id="faviconPreview" src="/files/assets/images/noimg.png" alt="logo image">
+                                        <img th:if="${faviconFile ne null and faviconFile.savedName != null}" class="thumbnail-img" id="faviconPreview" th:src="@{|/images/${faviconFile.savedName}|}" alt="logo image">
                                     </div>
                                 </div>
                             </div>
@@ -25,6 +25,7 @@
                                 <form id="faviconForm" name="faviconForm" enctype="multipart/form-data">
                                     <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('faviconFile').click()">파일선택</button>
                                     <input type="file" name="faviconFile" id="faviconFile" style="display:none" onchange="readURL(this, 'faviconPreview');"/>
+                                    <input type="hidden" name="faviconFileGroupId" id="faviconFileGrouopId" th:value="${faviconFile ne null ? faviconFile.groupId : '' }">
                                 </form>
                                 <div class="row mt-3">
                                     <p class="col-sm text-muted m-b-0">파비콘은 브라우저 주소 탭 좌측에 표시 됩니다.
@@ -48,21 +49,19 @@
                     <div class="card-block-small">
                         <div class="row">
                             <div class="col-lg-6 mb-3">
-                                <!--                                <div class="col-lg-6 mt-3 mb-3">-->
                                 <div class="row mb-0 form-group required">
                                     <div class="col-12 banner-preview text-center">
-                                        <img class="thumbnail-img" id="kakaoPreview" src="/files/assets/images/noimg.png" alt="logo image">
+                                        <img th:if="${kakaoThumbnail eq null}" class="thumbnail-img" id="kakaoThumbnailPreview" src="/files/assets/images/noimg.png" alt="logo image">
+                                        <img th:if="${kakaoThumbnail ne null and kakaoThumbnail.savedName != null}" class="thumbnail-img" id="kakaoThumbnailPreview" th:src="@{|/images/${kakaoThumbnail.savedName}|}"
+                                             alt="logo image">
                                     </div>
                                 </div>
-                                <!--                                </div>-->
-                                <!--<div class="mt-1 p-t-20 text-center">
-                                    <button type="button" class="btn btn-primary" onclick="save()">저장</button>
-                                </div>-->
                             </div>
                             <div class="col-lg-6 mb-3">
                                 <form id="kakaoThumbnailForm" name="kakaoThumbnailForm" enctype="multipart/form-data">
-                                    <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('kakaoFile').click()">파일선택</button>
-                                    <input type="file" name="kakaoFile" id="kakaoFile" style="display:none" onchange="readURL(this, 'kakaoPreview');"/>
+                                    <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('kakaoThumbnail').click()">파일선택</button>
+                                    <input type="file" name="kakaoThumbnail" id="kakaoThumbnail" style="display:none" onchange="readURL(this, 'kakaoPreview');"/>
+                                    <input type="hidden" name="kakaoThumbnailGroupId" id="kakaoThumbnailGroupId" th:value="${kakaoThumbnail != null ? kakaoThumbnail.groupId : '' }">
                                 </form>
 
                                 <div class="row mt-3">
@@ -76,15 +75,13 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
     <script>
         function readURL(input, previewId) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
 
                     document.getElementById(previewId).src = e.target.result;
                 };
@@ -99,14 +96,14 @@
             const formData = new FormData(form);
 
             $.ajax({
-                type:'post',
-                enctype:'multipart/form-data',
+                type: 'post',
+                enctype: 'multipart/form-data',
                 url: '/admin/setting/save/kakaoThumbnail',
                 data: formData,
-                dataType:'json',
-                processData:false,
-                contentType:false,
-                cache:false
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                cache: false
             }).done((response) => {
                 alert(response);
             }).fail((response) => {
@@ -119,14 +116,14 @@
             const formData = new FormData(form);
 
             $.ajax({
-                type:'post',
-                enctype:'multipart/form-data',
+                type: 'post',
+                enctype: 'multipart/form-data',
                 url: '/admin/setting/save/favicon',
                 data: formData,
-                dataType:'json',
-                processData:false,
-                contentType:false,
-                cache:false
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                cache: false
             }).done((response) => {
                 alert(response);
             }).fail((response) => {
@@ -136,3 +133,4 @@
 
     </script>
 </div>
+</html>
