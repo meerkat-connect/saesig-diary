@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -29,9 +28,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 public class FileController {
-    @Value("${file.dir}")
-    private String fileDir;
-
     private final FileService fileService;
 
     @Operation(summary="이미지 파일 다운로드", description = "이미지 파일을 다운로드 합니다.", tags = {"View"})
@@ -59,12 +55,18 @@ public class FileController {
                 .body(resource);
     }
 
-    @ExceptionHandler(NoSuchFileException.class)
+    @Operation(summary = "파비콘 다운로드" , description = "파비콘을 다운로드 합니다.")
+    @GetMapping("/images/favicon")
     @ResponseBody
-//    @RestControllerAdvice
-    public Object noSuchFileException(Exception e) {
-        log.info("================ noSuchFileException ============");
-        return "noSuchFileException";
+    public Resource downloadFaviconFile() throws MalformedURLException {
+        return new UrlResource("file:" + fileService.getFaviconFullPath());
+    }
+
+    @Operation(summary = "카카오 미리보기" , description = "카카오 미리보기를 다운로드 합니다.")
+    @GetMapping("/images/kakaoThumbnail")
+    @ResponseBody
+    public Resource downloadKakaoThumbnail() throws MalformedURLException {
+        return new UrlResource("file:" + fileService.getKakaoThumbnailFullPath());
     }
 
     @RequestMapping("/ckeditorFileUpload/imageUpload.do")

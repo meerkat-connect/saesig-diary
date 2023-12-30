@@ -1,8 +1,6 @@
 package com.saesig.global.file;
 
 import com.saesig.domain.file.FileGroup;
-import com.saesig.error.ErrorCode;
-import com.saesig.error.FileNotExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -39,6 +38,14 @@ public class FileService {
 
     public String getFullPath(String fileName) {
         return fileDir + fileName;
+    }
+
+    public String getFaviconFullPath() {
+        return faviconFileDir + faviconFileName;
+    }
+
+    public String getKakaoThumbnailFullPath() {
+        return kakaoThumbnailFileDir + kakaoThumbnailFileName;
     }
 
     @Transactional
@@ -87,8 +94,58 @@ public class FileService {
         }
     }
 
-    public FileDto findByName(String fileName) {
-        com.saesig.domain.file.File file = fileRepository.findBySavedName(fileName)
+    private FileDto storeFileWithCustomPath(MultipartFile multipartFile, String customDir) {
+        try {
+            if (multipartFile.isEmpty()) {
+                return null;
+            }
+
+            String originFileName = multipartFile.getOriginalFilename();
+            String savedFileName = createSavedFileName(originFileName);
+
+            FileGroup savedFileGroup = fileGroupRepository.save(new FileGroup(customDir));
+
+            com.saesig.domain.file.File savedFile = fileRepository.save(
+                    com.saesig.domain.file.File.builder()
+                            .fileGroup(savedFileGroup)
+                            .originName(originFileName)
+                            .savedName(savedFileName)
+                            .size(multipartFile.getSize())
+                            .extension(extractExt(originFileName))
+                            .build());
+
+            String fullPath = customDir.equals(fileDir) ? getFullPath(savedFileName) : customDir + savedFileName;
+            multipartFile.transferTo(new File(fullPath));
+
+            return FileDto.builder()
+                    .savedName(savedFile.getSavedName())
+                    .originName(savedFile.getOriginName())
+                    .path(savedFileGroup.getPath())
+                    .id(savedFile.getId())
+                    .groupId(savedFileGroup.getId())
+                    .build();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
+
+    }
+
+    public FileDto findByOriginName(String originFileName) {
+        Optional<com.saesig.domain.file.File> bySavedName = fileRepository.findByOriginName(originFileName);
+        if(bySavedName.isPresent()) {
+            com.saesig.domain.file.File file = bySavedName.get();
+            return FileDto.builder()
+                    .originName(file.getOriginName())
+                    .savedName(file.getOriginName())
+                    .path(file.getFileGroup().getPath())
+                    .id(file.getId())
+                    .groupId(file.getFileGroup().getId())
+                    .build();
+        } else{
+            return null;
+        }
+
+/*        com.saesig.domain.file.File file = fileRepository.findByOriginName(originFileName)
                 .orElseThrow(() -> new FileNotExistException(ErrorCode.INVALID_INPUT_VALUE));
 
         return FileDto.builder()
@@ -97,7 +154,26 @@ public class FileService {
                 .path(file.getFileGroup().getPath())
                 .id(file.getId())
                 .groupId(file.getFileGroup().getId())
-                .build();
+                .build();*/
+    }
+
+    public FileDto findByName(String fileName) {
+        Optional<com.saesig.domain.file.File> bySavedName = fileRepository.findBySavedName(fileName);
+        if(bySavedName.isPresent()) {
+            com.saesig.domain.file.File file = bySavedName.get();
+            return FileDto.builder()
+                    .originName(file.getOriginName())
+                    .savedName(file.getOriginName())
+                    .path(file.getFileGroup().getPath())
+                    .id(file.getId())
+                    .groupId(file.getFileGroup().getId())
+                    .build();
+        } else{
+            return null;
+        }
+//                .orElseThrow(() -> new FileNotExistException(ErrorCode.INVALID_INPUT_VALUE));
+
+
     }
 
 
