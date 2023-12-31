@@ -10,25 +10,25 @@ public interface ChattingService {
 
     public List<ChatMemberDto> getMemberList() throws Exception;
 
-    public ChatMemberDto getMemberData(int memberId) throws Exception;
+    public ChatMemberDto getMemberData(Long memberId) throws Exception;
 
-    public ChatDataSearchResponseDto getChatDataList(int chatId) throws Exception;
+    public List<ChatDataResponseDto> getChatDataList(Long chatId) throws Exception;
 
-    public List<ChattingRoomDto> getChattingRoomList(int memberId) throws Exception;
+    public List<ChattingRoomDto> getChattingRoomList(Long memberId) throws Exception;
 
-    public int saveChattingData(int chatId, String text, int memberId, int receiverId, int isRead, LocalDateTime sendTime);
+    public Long saveChattingData(Long chatId, String text, Long memberId, Long receiverId, Long isRead, LocalDateTime sendTime);
 
-    public List<ChatDataDto> getLastChat(int chatId);
+    public List<ChatDataResponseDto> getLastChat(Long chatId);
 
-    public void insertChattingRoom(int chat, String title ,int memberId, int createdByMemberId);
+    public void insertChattingRoom(Long chat, String title ,Long memberId, Long createdByMemberId);
 
-    public int makeChattingRoom(int memberId, int target_id) throws Exception;
+    public Long makeChattingRoom(Long memberId, Long target_id) throws Exception;
 
-    public boolean readMessage(int memberId, int chatId);
+    public boolean readMessage(Long memberId, Long chatId);
 
-    public List<ChatReadDto> getChatMemberData(int chatId);
+    public List<ChatReadDto> getChatMemberData(Long chatId);
 
-    public long getUnreadChatCnt(int chatId, int receiverId);
+    public long getUnreadChatCnt(Long chatId, Long receiverId);
 
-    public ChatMemberDto getTargetMemberData(int chatId, int senderId);
+    public ChatMemberDto getTargetMemberData(Long chatId, Long senderId);
 }

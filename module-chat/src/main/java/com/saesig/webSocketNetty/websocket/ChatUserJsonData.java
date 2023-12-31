@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public class ChatUserJsonData {
         private String type;
         private String text;
-        private int memberId;
-        private int receiverId;
+        private Long memberId;
+        private Long receiverId;
         private LocalDateTime sendTime;
 }

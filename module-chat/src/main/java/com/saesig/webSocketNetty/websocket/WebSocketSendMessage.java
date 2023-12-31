@@ -21,7 +21,7 @@ public class WebSocketSendMessage {
 
     private HashMap<Integer, String[]> roomMap = new HashMap<Integer, String[]>();
 
-    private static HashMap<Integer, HashMap<Integer, List<String> >> chatMap = new HashMap<Integer, HashMap<Integer,List<String>>>();
+    private static HashMap<Long, HashMap<Long, List<String> >> chatMap = new HashMap<Long, HashMap<Long,List<String>>>();
 
 
     public void sendMessage(String payload) throws Exception {
@@ -30,9 +30,9 @@ public class WebSocketSendMessage {
 
         chatJsonData param = gson.fromJson(payload, chatJsonData.class);
         ChatUserJsonData msgObj = gson.fromJson(payload, ChatUserJsonData.class);
-        int chatId = param.getChatId();
-        int senderId = param.getMemberId();
-        int receiver = param.getReceiverId();
+        Long chatId = param.getChatId();
+        Long senderId = param.getMemberId();
+        Long receiver = param.getReceiverId();
         param.setSendTime(LocalDateTime.now());
         msgObj.setSendTime(LocalDateTime.now());
         TextMessage msg = new TextMessage(gson.toJson(msgObj));
@@ -49,15 +49,15 @@ public class WebSocketSendMessage {
         SaveDbChat(param.getType(), chatId, senderId, receiver,param.getText(),param.getSendTime());
     }
 
-    public boolean isCheckSendSession(String sessionId, int targetMemberId, int chatId){ // 세션마다 채팅 보낼지 말지 여부 체크
+    public boolean isCheckSendSession(String sessionId, Long targetMemberId, Long chatId){ // 세션마다 채팅 보낼지 말지 여부 체크
         if (chatMap.containsKey(targetMemberId)){
             if (chatMap.get(targetMemberId).containsKey(chatId)){
                 if (chatMap.get(targetMemberId).get(chatId).contains(sessionId)){
                     return true;
                 }
             }
-            if (chatMap.get(targetMemberId).containsKey(0)){
-                if (chatMap.get(targetMemberId).get(0).contains(sessionId)){
+            if (chatMap.get(targetMemberId).containsKey(0L)){
+                if (chatMap.get(targetMemberId).get(0L).contains(sessionId)){
                     return true;
                 }
             }
@@ -66,9 +66,9 @@ public class WebSocketSendMessage {
         return false;
     }
 
-    public void SaveDbChat(String type, int chatId,int senderId,int receiver, String text,  LocalDateTime sendTime){ // 채팅타입에 따라 메시지를 분기 처리.
+    public void SaveDbChat(String type, Long chatId,Long senderId,Long receiver, String text,  LocalDateTime sendTime){ // 채팅타입에 따라 메시지를 분기 처리.
         if (type.equals("message")) {
-            if (receiver != senderId) { chattingService.saveChattingData(chatId, text, senderId, receiver, 0, sendTime); }
+            if (receiver != senderId) { chattingService.saveChattingData(chatId, text, senderId, receiver, 0L, sendTime); }
         } else if (type.equals("readMessage")) { chattingService.readMessage(senderId, chatId); }
     }
 
@@ -76,7 +76,7 @@ public class WebSocketSendMessage {
         this.numSet = numSet;
     }
 
-    public void setChatMap(HashMap<Integer, HashMap<Integer, List<String>>> chatMap) {
+    public void setChatMap(HashMap<Long, HashMap<Long, List<String>>> chatMap) {
         this.chatMap = chatMap;
     }
 }

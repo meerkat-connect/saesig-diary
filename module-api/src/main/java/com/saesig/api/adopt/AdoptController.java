@@ -28,6 +28,7 @@ public class AdoptController {
     @Operation(summary="분양글 검색", description = "입력한 정보를 이용하여 분양목록을 반환")
     @GetMapping("/selectAdoptList")
     public List<AdoptDto> getAdoptList(AdoptDto adoptDto, @LoginMember SessionMember member) throws Exception{
+        adoptDto.setMember(member);
         return adoptService.selectAdoptList(adoptDto);
     }
 

@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 public class chatJsonData {
     private String type;
     private String text;
-        private int chatId;
+        private Long chatId;
 
-        private int memberId;
+        private Long memberId;
 
-        private int receiverId;
+        private Long receiverId;
         private LocalDateTime sendTime;
 
         public String getText() {
@@ -22,13 +22,13 @@ public class chatJsonData {
         public String getType() {
         return type;
     }
-        public int getChatId() {
+        public Long getChatId() {
             return chatId;
         }
 
-        public int getMemberId(){return memberId;}
+        public Long getMemberId(){return memberId;}
 
-        public int getReceiverId(){return receiverId;}
+        public Long getReceiverId(){return receiverId;}
         @Override
         public String toString() {
             return "Member [text=" + text + ", name=" + chatId + "]";

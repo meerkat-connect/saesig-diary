@@ -2,6 +2,8 @@ package com.saesig.webSocketNetty.chatting;
 
 
 import com.google.gson.Gson;
+import com.saesig.config.auth.LoginMember;
+import com.saesig.config.auth.SessionMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,11 +27,11 @@ public class ChattingController {
     }
 
     @PostMapping({"", "/chat"})
-    public String getMemberList(int memberId,Model model) throws Exception {
+    public String getMemberList(Long memberId,Model model, @LoginMember SessionMember user) throws Exception {
         List<ChattingRoomDto> chattingRoomList = chattingService.getChattingRoomList(memberId);
         for (int i= (chattingRoomList.size()-1); i > -1 ; i--){
-                List<ChatDataDto> LastChat = chattingService.getLastChat(Integer.parseInt(chattingRoomList.get(i).getChatId()));
-                long UnreadChat = chattingService.getUnreadChatCnt(Integer.parseInt(chattingRoomList.get(i).getChatId()),memberId);
+                List<ChatDataResponseDto> LastChat = chattingService.getLastChat(chattingRoomList.get(i).getChatId());
+                long UnreadChat = chattingService.getUnreadChatCnt(chattingRoomList.get(i).getChatId(),memberId);
                 if (LastChat.size() != 0){
                     chattingRoomList.get(i).setLastMsg(LastChat.get(0).getText());
                     chattingRoomList.get(i).setUnreadCnt(UnreadChat);
@@ -55,16 +57,16 @@ public class ChattingController {
     }
 
     @PostMapping("/chat/chatting")
-    public String chattingRoom(int userId, int chatId, int memberId,HttpSession session, Model model) throws Exception {
+    public String chattingRoom(Long userId, Long chatId, Long memberId, HttpSession session, Model model) throws Exception {
         ChatMemberDto currentMemberData = chattingService.getMemberData(userId);
-        int chatIdValue;
+        Long chatIdValue;
         if (chatId == 0){ //리스트 세션
             chatIdValue = chattingService.makeChattingRoom(userId, memberId);
         }else{
             chatIdValue = chatId;
         }
         ChatMemberDto targetMemberData = chattingService.getTargetMemberData(chatIdValue,userId);
-        ChatDataSearchResponseDto chatDataLog = chattingService.getChatDataList(chatIdValue);
+        List<ChatDataResponseDto> chatDataLog = chattingService.getChatDataList(chatIdValue);
         model.addAttribute("chatId", chatIdValue);
         model.addAttribute("chatDataLog", chatDataLog);
         model.addAttribute("currentMemberData", currentMemberData);
@@ -85,10 +87,42 @@ public class ChattingController {
     public Map<String, Object> getMemberData(@RequestParam Map<String, Object> data, Model model) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
 
-        Integer Id = Integer.parseInt(data.get("memberId").toString());
+        Long Id = Long.valueOf(data.get("memberId").toString());
         ChatMemberDto memberData = chattingService.getMemberData(Id);
 
         resultMap.put("memberData", memberData);
         return resultMap;
+    }
+
+    @GetMapping("/chat/getChatList")
+    @ResponseBody
+    public List<ChattingRoomDto> getChatList(@LoginMember SessionMember user) throws Exception {
+        Long memberId = user.getId();
+        List<ChattingRoomDto> chattingRoomList = chattingService.getChattingRoomList(memberId);
+        for (int i= (chattingRoomList.size()-1); i > -1 ; i--){
+            List<ChatDataResponseDto> LastChat = chattingService.getLastChat(chattingRoomList.get(i).getChatId());
+            Long UnreadChat = chattingService.getUnreadChatCnt(chattingRoomList.get(i).getChatId(),memberId);
+            if (LastChat.size() != 0){
+                chattingRoomList.get(i).setLastMsg(LastChat.get(0).getText());
+                chattingRoomList.get(i).setUnreadCnt(UnreadChat);
+                /*LastChat.senderID로 프로필사진 가져오는것 필요.*/
+            }else{
+                chattingRoomList.remove(i);
+            }
+        }
+        return chattingRoomList;
+    }
+
+    @GetMapping("/chat/getChatDataList/{chatId}")
+    @ResponseBody
+    public List<ChatDataResponseDto> getChatData(@PathVariable Long chatId) throws Exception {
+        return chattingService.getChatDataList(chatId);
+    }
+
+    @PostMapping("/chat/makeChattingRoom")
+    @ResponseBody
+    public Long makeChattingRoom(@LoginMember SessionMember user, Long adoptId) throws Exception {
+        Long memberId = user.getId();
+        return chattingService.makeChattingRoom(memberId, adoptId);
     }
 }

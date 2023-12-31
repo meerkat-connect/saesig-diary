@@ -8,9 +8,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ChatMemberDao {
-    private List<ChatDataDto> ChatDataDto;
+    private List<ChatDataResponseDto> ChatDataResponseDto;
 
-    public ChatMemberDao(List<ChatDataDto> list){
-        this.ChatDataDto = list;
+    public ChatMemberDao(List<ChatDataResponseDto> list){
+        this.ChatDataResponseDto = list;
     }
 }
