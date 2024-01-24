@@ -71,7 +71,7 @@ public class DormantJobConfiguration {
     public ItemWriter<Member> insertDormantMemberItemWriter() {
         return new JdbcBatchItemWriterBuilder<Member>()
                 .dataSource(dataSource)
-                .sql("INSERT INTO dormant_member(status) VALUES(:status) WHERE id = :email")
+                .sql("INSERT INTO dormant_member(status) VALUES(:status) WHERE email = :email")
                 .beanMapped()
                 .build();
     }
