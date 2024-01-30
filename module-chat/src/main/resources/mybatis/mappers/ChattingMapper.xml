@@ -47,4 +47,8 @@
         FROM chatting_room c LEFT JOIN member m ON c.chat_id = #{chatId} and c.member_id != #{senderId} and c.member_id = m.id where m.id is not null
     </select>
 
+    <select id="getMemberDataByAdoptId" resultType="Long">
+        SELECT CREATED_BY FROM ADOPT WHERE ID = #{adoptId}
+    </select>
+
 </mapper>

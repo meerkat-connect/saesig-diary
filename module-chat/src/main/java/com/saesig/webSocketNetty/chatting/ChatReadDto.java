@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ChatReadDto {
-    private int chatId;
-    private int memberId;
+    private Long chatId;
+    private Long memberId;
 }

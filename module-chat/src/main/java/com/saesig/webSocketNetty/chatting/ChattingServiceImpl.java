@@ -31,58 +31,57 @@ public class ChattingServiceImpl implements ChattingService{
 
     private final ChatDataDao ChatDataDao;
     @Override
-    public ChatDataSearchResponseDto getChatDataList(int chatId) throws Exception {
-        List<ChatDataDto> chatDataDtoList = ChatDataDao.findByChatId(chatId);
-        return new ChatDataSearchResponseDto(chatDataDtoList);
+    public List<ChatDataResponseDto> getChatDataList(Long chatId) throws Exception {
+        return ChatDataDao.findByChatId(chatId);
     }
 
     @Override
-    public List<ChattingRoomDto> getChattingRoomList(int memberId) throws Exception {
+    public List<ChattingRoomDto> getChattingRoomList(Long memberId) throws Exception {
         return chattingMapper.getChattingRoomList(memberId);
     }
 
     @Override
-    public int saveChattingData(int chatId, String text, int memberId, int receiverId,int isRead,  LocalDateTime sendTime) {
-        ChatDataDto ChatDataDto = new ChatDataDto();
-        ChatDataDto.setChatId(chatId);
-        ChatDataDto.setReceiverId(receiverId);
-        ChatDataDto.setText(text);
-        ChatDataDto.setSenderId(memberId);
-        ChatDataDto.setRegDate(sendTime);
-        ChatDataDto.setIsRead(isRead);
-        ChatDataDao.save(ChatDataDto);
+    public Long saveChattingData(Long chatId, String text, Long memberId, Long receiverId,Long isRead,  LocalDateTime sendTime) {
+        ChatDataResponseDto ChatDataResponseDto = new ChatDataResponseDto();
+        ChatDataResponseDto.setChatId(chatId);
+        ChatDataResponseDto.setReceiverId(receiverId);
+        ChatDataResponseDto.setText(text);
+        ChatDataResponseDto.setSenderId(memberId);
+        ChatDataResponseDto.setRegDate(sendTime);
+        ChatDataResponseDto.setIsRead(isRead);
+        ChatDataDao.save(ChatDataResponseDto);
         return chatId;
     }
 
     @Override
-    public List<ChatDataDto> getLastChat(int chatId) {
+    public List<ChatDataResponseDto> getLastChat(Long chatId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("chatId").is(chatId)).limit(1);
         query.with(Sort.by(Sort.Direction.DESC,"regDate"));
-        return mongoTemplate.find(query, ChatDataDto.class);
+        return mongoTemplate.find(query, ChatDataResponseDto.class);
     }
 
     @Override
-    public void insertChattingRoom(@Param("chatId")int chatId, @Param("title") String title ,@Param("memberId") int memberId, @Param("createdByMemberId") int createdByMemberId) {
+    public void insertChattingRoom(@Param("chatId")Long chatId, @Param("title") String title ,@Param("memberId") Long memberId, @Param("createdByMemberId") Long createdByMemberId) {
         chattingMapper.insertChattingRoom(chatId, title, memberId, createdByMemberId);
     }
 
     @Override
-    public ChatMemberDto getMemberData(int memberId) throws Exception {
+    public ChatMemberDto getMemberData(Long memberId) throws Exception {
         return chattingMapper.getMemberData(memberId);
     }
 
     @Override
-    public int makeChattingRoom(int memberId, int target_id) throws Exception{
+    public Long makeChattingRoom(Long memberId, Long targetId) throws Exception{
         ChatMemberDto currentMemberData = getMemberData(memberId);
-        ChatMemberDto targetMemberData = getMemberData(target_id);
-        int chat = Integer.parseInt(Integer.toString(memberId).concat(Integer.toString(target_id)).concat(Integer.toString((int)(Math.random()*100000))));
-        insertChattingRoom(chat,currentMemberData.getNICKNAME(),target_id,memberId);
+        ChatMemberDto targetMemberData = getMemberData(targetId);
+        Long chat = Long.parseLong(Long.toString(memberId).concat(Long.toString(targetId)).concat(Long.toString((long)(Math.random()*100000))));
+        insertChattingRoom(chat,currentMemberData.getNICKNAME(),targetId,memberId);
         insertChattingRoom(chat,targetMemberData.getNICKNAME(),memberId,memberId);
         return chat;
     }
 
-    public boolean readMessage(int memberId, int chatId){
+    public boolean readMessage(Long memberId, Long chatId){
         Update update = new Update();
         Query query = new Query(Criteria.where("receiverId").is(memberId)
                 .and("chatId").is(chatId));
@@ -91,16 +90,35 @@ public class ChattingServiceImpl implements ChattingService{
         return true;
     }
 
-    public List<ChatReadDto> getChatMemberData(int chatId){
+    public List<ChatReadDto> getChatMemberData(Long chatId){
         return chattingMapper.getChatMemberData(chatId);
     }
 
-    public long getUnreadChatCnt(int chatId, int memberId){
+    public long getUnreadChatCnt(Long chatId, Long memberId){
         Query query = new Query();
         query.addCriteria(Criteria.where("chatId").is(chatId).and("receiverId").is(memberId).and("isRead").is(0));
-        return mongoTemplate.count(query, ChatDataDto.class);
+        return mongoTemplate.count(query, ChatDataResponseDto.class);
     }
-    public ChatMemberDto getTargetMemberData(int chatId, int senderId){
+    public ChatMemberDto getTargetMemberData(Long chatId, Long senderId){
         return chattingMapper.getTargetMemberData(chatId, senderId);
     }
+
+    public Long getMemberDataByAdoptId(Long adoptId) throws Exception {
+        return chattingMapper.getMemberDataByAdoptId(adoptId);
+    }
+/* api용 service 위의 값들은 로그인 생성 이후 삭제---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+public Long makeChattingRoom2(Long memberId, Long adoptId) throws Exception{
+    Long targetId = getMemberDataByAdoptId(adoptId);
+    ChatMemberDto currentMemberData = getMemberData(memberId);
+    ChatMemberDto targetMemberData = getMemberData(targetId);
+    Long chat = Long.parseLong(Long.toString(memberId).concat(Long.toString(targetId)).concat(Long.toString((long)(Math.random()*100000))));
+    insertChattingRoom(chat,currentMemberData.getNICKNAME(),targetId,memberId);
+    insertChattingRoom(chat,targetMemberData.getNICKNAME(),memberId,memberId);
+    return chat;
+}
+
+    public List<ChatDataResponseDto> getChatDataList2(Long chatId) throws Exception {
+        return ChatDataDao.findByChatId(chatId);
+    }
+
 }

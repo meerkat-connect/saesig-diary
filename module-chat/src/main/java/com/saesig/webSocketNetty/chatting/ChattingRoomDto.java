@@ -13,10 +13,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ChattingRoomDto {
 
     @Id
-    private int id;
+    private Long id;
     private String title;
-    private String chatId;
+    private Long chatId;
     private String createdAt;
     private String lastMsg;
-    private long unreadCnt;
+    private Long unreadCnt;
 }
