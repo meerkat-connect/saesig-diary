@@ -115,12 +115,11 @@ mybatis:
         database: sample
 
 file.dir: C:/saesigDiary/file/
+
 favicon:
   file-dir: C:/saesigDiary/file/favicon/
-  file-name: favicon
 kakao-thumbnail:
   file-dir: C:/saesigDiary/file/kakaoThumbnail/
-  file-name: kakaoThumbnail
 
 --- #dev
 spring:

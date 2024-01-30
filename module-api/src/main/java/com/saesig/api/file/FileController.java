@@ -41,7 +41,7 @@ public class FileController {
     @Parameter(name ="fileName", description = "다운로드 할 파일명")
     @GetMapping("/attach/{fileName}")
     public ResponseEntity<Resource> downloadAttachFile(@PathVariable String fileName) throws MalformedURLException, NoSuchFileException {
-        FileDto byName = fileService.findByName(fileName);
+        FileDto byName = fileService.findBySavedName(fileName);
 
         UrlResource resource = new UrlResource("file:" + fileService.getFullPath(byName.getOriginName()));
 
@@ -53,20 +53,6 @@ public class FileController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(resource);
-    }
-
-    @Operation(summary = "파비콘 다운로드" , description = "파비콘을 다운로드 합니다.")
-    @GetMapping("/images/favicon")
-    @ResponseBody
-    public Resource downloadFaviconFile() throws MalformedURLException {
-        return new UrlResource("file:" + fileService.getFaviconFullPath());
-    }
-
-    @Operation(summary = "카카오 미리보기" , description = "카카오 미리보기를 다운로드 합니다.")
-    @GetMapping("/images/kakaoThumbnail")
-    @ResponseBody
-    public Resource downloadKakaoThumbnail() throws MalformedURLException {
-        return new UrlResource("file:" + fileService.getKakaoThumbnailFullPath());
     }
 
     @RequestMapping("/ckeditorFileUpload/imageUpload.do")

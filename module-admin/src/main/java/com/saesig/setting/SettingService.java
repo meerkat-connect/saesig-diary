@@ -1,8 +1,9 @@
-package com.saesig.global.file;
+package com.saesig.setting;
 
 import com.saesig.domain.file.FileGroup;
-import com.saesig.error.ErrorCode;
-import com.saesig.error.FileNotExistException;
+import com.saesig.global.file.FileDto;
+import com.saesig.global.file.FileGroupRepository;
+import com.saesig.global.file.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,40 +13,42 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
-@Service
 @RequiredArgsConstructor
-public class FileService {
-    @Value("${file.dir}")
-    private String fileDir;
+@Service
+public class SettingService {
+    @Value("${kakao-thumbnail.file-dir}")
+    private String kakaoThumbnailFileDir;
+
+    @Value("${favicon.file-dir}")
+    private String faviconFileDir;
 
     private final FileRepository fileRepository;
 
     private final FileGroupRepository fileGroupRepository;
 
-    public String getFullPath(String fileName) {
-        return fileDir + fileName;
+    private final SettingRepository settingRepository;
+
+    @Transactional
+    public FileDto saveKakaoThumbnail(MultipartFile multipartFile) {
+        return saveFile(multipartFile, kakaoThumbnailFileDir);
     }
 
     @Transactional
-    public List<FileDto> storeFiles(List<MultipartFile> multipartFiles) {
-        List<FileDto> storedFiles = new ArrayList<>();
-
-        for (MultipartFile multipartFile : multipartFiles) {
-            if (!multipartFile.isEmpty()) {
-                storedFiles.add(storeFile(multipartFile));
-            }
+    public FileDto saveFavicon(MultipartFile multipartFile) {
+        String originalFilename = multipartFile.getOriginalFilename();
+        String ext = extractExt(originalFilename);
+        if(!"ico".equals(ext)) {
+            throw new IllegalArgumentException("ico 확장자만 등록 가능합니다.");
         }
 
-        return storedFiles;
+        return saveFile(multipartFile, faviconFileDir);
     }
 
-    @Transactional
-    public FileDto storeFile(MultipartFile multipartFile) {
+    private FileDto saveFile(MultipartFile multipartFile, String fileDir) {
         try {
             if (multipartFile.isEmpty()) {
                 return null;
@@ -64,7 +67,7 @@ public class FileService {
                     .extension(extractExt(originFileName))
                     .build());
 
-            multipartFile.transferTo(new File(getFullPath(savedFileName)));
+            multipartFile.transferTo(new File(fileDir + savedFileName));
 
             return FileDto.builder()
                     .savedName(savedFile.getSavedName())
@@ -79,18 +82,32 @@ public class FileService {
         }
     }
 
-    public FileDto findBySavedName(String savedFileName) {
-        com.saesig.domain.file.File file = fileRepository.findBySavedName(savedFileName)
-                .orElseThrow(() -> new FileNotExistException(ErrorCode.INVALID_INPUT_VALUE));
-
-        return FileDto.builder()
-                .originName(file.getOriginName())
-                .savedName(file.getSavedName())
-                .path(file.getFileGroup().getPath())
-                .id(file.getId())
-                .groupId(file.getFileGroup().getId())
-                .build();
+    public FileDto getKakaoThumbnail() {
+        return getFile(kakaoThumbnailFileDir);
     }
+
+    public FileDto getFavicon() {
+        return getFile(faviconFileDir);
+    }
+
+    private FileDto getFile(String fileDir) {
+        Optional<com.saesig.domain.file.File> fileOptional = settingRepository.findFile(fileDir);
+
+        if (fileOptional.isPresent()) {
+            com.saesig.domain.file.File file = fileOptional.get();
+
+            return FileDto.builder()
+                    .originName(file.getOriginName())
+                    .savedName(file.getSavedName())
+                    .path(file.getFileGroup().getPath())
+                    .id(file.getId())
+                    .groupId(file.getFileGroup().getId())
+                    .build();
+        }
+
+        return null;
+    }
+
 
     private String createSavedFileName(String originFileName) {
         String ext = extractExt(originFileName);
@@ -103,4 +120,5 @@ public class FileService {
 
         return originFileName.substring(index + 1);
     }
+
 }

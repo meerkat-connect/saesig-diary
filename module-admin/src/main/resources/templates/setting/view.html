@@ -16,8 +16,8 @@
                             <div class="col-lg-6 mb-3 ">
                                 <div class="row mb-0 form-group required">
                                     <div class="col-12 banner-preview text-center">
-                                        <img th:if="${faviconFile eq null}" class="thumbnail-img" id="faviconPreview" src="/files/assets/images/noimg.png" alt="logo image">
-                                        <img th:if="${faviconFile ne null and faviconFile.savedName != null}" class="thumbnail-img" id="faviconPreview" th:src="@{|/images/${faviconFile.savedName}|}" alt="logo image">
+                                        <img th:if="${favicon eq null}" class="thumbnail-img" id="faviconPreview" src="/files/assets/images/noimg.png" alt="logo image">
+                                        <img th:if="${favicon ne null and favicon.savedName != null}" class="thumbnail-img" id="faviconPreview" th:src="@{/admin/setting/favicon}" alt="logo image">
                                     </div>
                                 </div>
                             </div>
@@ -25,7 +25,7 @@
                                 <form id="faviconForm" name="faviconForm" enctype="multipart/form-data">
                                     <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('faviconFile').click()">파일선택</button>
                                     <input type="file" name="faviconFile" id="faviconFile" style="display:none" onchange="readURL(this, 'faviconPreview');"/>
-                                    <input type="hidden" name="faviconFileGroupId" id="faviconFileGrouopId" th:value="${faviconFile ne null ? faviconFile.groupId : '' }">
+                                    <input type="hidden" name="faviconFileGroupId" id="faviconFileGrouopId" th:value="${favicon ne null ? favicon.groupId : '' }">
                                 </form>
                                 <div class="row mt-3">
                                     <p class="col-sm text-muted m-b-0">파비콘은 브라우저 주소 탭 좌측에 표시 됩니다.
@@ -52,7 +52,7 @@
                                 <div class="row mb-0 form-group required">
                                     <div class="col-12 banner-preview text-center">
                                         <img th:if="${kakaoThumbnail eq null}" class="thumbnail-img" id="kakaoThumbnailPreview" src="/files/assets/images/noimg.png" alt="logo image">
-                                        <img th:if="${kakaoThumbnail ne null and kakaoThumbnail.savedName != null}" class="thumbnail-img" id="kakaoThumbnailPreview" th:src="@{|/images/${kakaoThumbnail.savedName}|}"
+                                        <img th:if="${kakaoThumbnail ne null and kakaoThumbnail.savedName != null}" class="thumbnail-img" id="kakaoThumbnailPreview" th:src="@{/admin/setting/kakaoThumbnail}"
                                              alt="logo image">
                                     </div>
                                 </div>
@@ -60,7 +60,7 @@
                             <div class="col-lg-6 mb-3">
                                 <form id="kakaoThumbnailForm" name="kakaoThumbnailForm" enctype="multipart/form-data">
                                     <button type="button" class="btn btn-transparent btn-sm-1" onclick="document.getElementById('kakaoThumbnail').click()">파일선택</button>
-                                    <input type="file" name="kakaoThumbnail" id="kakaoThumbnail" style="display:none" onchange="readURL(this, 'kakaoPreview');"/>
+                                    <input type="file" name="kakaoThumbnail" id="kakaoThumbnail" style="display:none" onchange="readURL(this, 'kakaoThumbnailPreview');"/>
                                     <input type="hidden" name="kakaoThumbnailGroupId" id="kakaoThumbnailGroupId" th:value="${kakaoThumbnail != null ? kakaoThumbnail.groupId : '' }">
                                 </form>
 
@@ -82,7 +82,6 @@
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
-
                     document.getElementById(previewId).src = e.target.result;
                 };
                 reader.readAsDataURL(input.files[0]);
@@ -94,20 +93,18 @@
         function saveKakaoThumbnail() {
             const form = $('#kakaoThumbnailForm')[0];
             const formData = new FormData(form);
-
             $.ajax({
                 type: 'post',
                 enctype: 'multipart/form-data',
-                url: '/admin/setting/save/kakaoThumbnail',
+                url: '/admin/setting/kakaoThumbnail',
                 data: formData,
                 dataType: 'json',
                 processData: false,
                 contentType: false,
                 cache: false
             }).done((response) => {
-                alert(response);
+                alert('등록 되었습니다.');
             }).fail((response) => {
-                alert(response);
             })
         }
 
@@ -118,16 +115,16 @@
             $.ajax({
                 type: 'post',
                 enctype: 'multipart/form-data',
-                url: '/admin/setting/save/favicon',
+                url: '/admin/setting/favicon',
                 data: formData,
                 dataType: 'json',
                 processData: false,
                 contentType: false,
                 cache: false
             }).done((response) => {
-                alert(response);
+                alert('등록 되었습니다.');
             }).fail((response) => {
-                alert(response);
+                alert(JSON.stringify(response, null, 4 ));
             })
         }
 
