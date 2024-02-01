@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.saesig.common.DashBoardMapper">
+    <select id="selectAdoptions" resultType="map">
+        SELECT
+            id
+            , title
+            , image_file_group_id
+            , sido
+            , sigungu
+        FROM adopt
+        ORDER BY created_by DESC
+        LIMIT 3
+    </select>
+
+    <select id="selectDiarys" resultType="map">
+        SELECT
+            image_file_group_id
+        FROM diary
+        ORDER BY created_by DESC
+        LIMIT 6
+    </select>
+
+    <select id="selectAdminPosts" resultType="map">
+        SELECT
+            id
+            , category
+            , title
+            , created_at
+        FROM
+            post
+        INNER JOIN board
+            ON post.board_id = board.id
+        WHERE board.category = 'ADMIN'
+        ORDER BY created_at DESC
+        LIMIT 4
+    </select>
+
+    <select id="countRegisteredMembers" resultType="map">
+
+    </select>
+
+    <select id="countMessageDeliverys" resultType="map">
+
+    </select>
+</mapper>
