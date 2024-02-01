@@ -3,6 +3,7 @@ package com.saesig.config;
 import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.domain.adopt.AdoptStopCategory;
 import com.saesig.domain.banner.ExposureLocation;
+import com.saesig.domain.board.BoardCategory;
 import com.saesig.domain.diary.DiaryCategory;
 import com.saesig.domain.diary.DiaryStatus;
 import com.saesig.domain.diary.WeatherCategory;
@@ -50,6 +51,7 @@ public class EnumConfig {
         factory.put("diaryCategory", DiaryCategory.class);
         factory.put("diaryStatus", DiaryStatus.class);
         factory.put("weatherCategory", WeatherCategory.class);
+        factory.put("boardCategory", BoardCategory.class);
 
         // 해당 라인에 새롭게 추가한 Enum 클래스들 추가
 

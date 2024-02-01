@@ -371,8 +371,9 @@ DROP TABLE IF EXISTS `board`;
 CREATE TABLE `board`
 (
     `id`           BIGINT AUTO_INCREMENT NOT NULL COMMENT '게시판 일련번호',
-    `name`         VARCHAR(200)          NOT NULL COMMENT '이름',
+    `name`         VARCHAR(200)          NULL COMMENT '이름',
     `description`  VARCHAR(2000)         NULL COMMENT '내용',
+    `category`     VARCHAR(20)           NULL COMMENT '게시판 유형',
     `use_category` VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '유형 사용 여부',
     `use_board`    VARCHAR(1)            NOT NULL DEFAULT 'Y' COMMENT '게시판 사용 여부',
     `use_fix`      VARCHAR(1)            NOT NULL DEFAULT 'N' COMMENT '공지 사용 여부',
