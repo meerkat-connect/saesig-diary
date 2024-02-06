@@ -13,7 +13,6 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @RequiredArgsConstructor
@@ -36,8 +35,8 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
             log.info("afterLoginSuccess Exception = {} ", ex.getMessage());
             // InternalServerException 처리
         }
-        HttpSession session = request.getSession();
-        session.setMaxInactiveInterval(MAX_INACTIVE_INTERVAL);
+//        HttpSession session = request.getSession();
+//        session.setMaxInactiveInterval(MAX_INACTIVE_INTERVAL);
 
         HttpSessionRequestCache httpSessionRequestCache = new HttpSessionRequestCache();
         RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();

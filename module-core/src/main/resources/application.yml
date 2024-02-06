@@ -59,6 +59,8 @@ springdoc:
 
 --- #local
 spring:
+  session:
+    store-type: jdbc
   config:
     activate:
       on-profile: local

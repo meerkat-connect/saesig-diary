@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.saesig.domain.common.BaseEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @DynamicUpdate
-public class Role extends BaseEntity {
+public class Role extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
