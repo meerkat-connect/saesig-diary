@@ -8,7 +8,16 @@
             , image_file_group_id
             , sido
             , sigungu
+            , gender
+            , animal_division1_id
+            , animal_division2_id
+            , animal_division1.category
+            , animal_division2.category
         FROM adopt
+        LEFT OUTER JOIN animal_division1
+            ON adopt.animal_division1_id = animal_division1.id
+        LEFT OUTER JOIN animal_division2
+            ON adopt.animal_division2_id = animal_division2.id
         ORDER BY created_by DESC
         LIMIT 3
     </select>
@@ -37,10 +46,68 @@
     </select>
 
     <select id="countRegisteredMembers" resultType="map">
+        SELECT count(1)
+        FROM member
+        WHERE
+            <if test="monthly != null and monthly != ''">
+                YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(now())
+            </if>
+            <if test="daily != null and daily != ''">
+                DATE(created_at) = NOW()
+            </if>
+            <if test="weekly != null and weekly != ''">
+                WEEK(created_at, 7) = WEEK(NOW(), 7)
+            </if>
+        UNION ALL
 
+        SELECT COUNT(1)
+        FROM member
+        WHERE
+            <if test="monthly != null and monthly != ''">
+                YEAR(created_at) = YEAR(NOW() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(NOW()- INTERVAL 1 MONTH)
+            </if>
+            <if test="daily != null and daily != ''">
+                DATE(created_at) = NOW() - INTERVAL 1 DAY
+            </if>
+            <if test="weekly != null and weekly != ''">
+
+            </if>
     </select>
 
     <select id="countMessageDeliverys" resultType="map">
+        SELECT COUNT(1)
+        FROM send_history
+        INNER JOIN send_template
+            ON send_history.send_template_id = send_template.id
+        GROUP BY send_template.method
+    </select>
 
+    <select id="countReports">
+        SELECT NVL(SUM(sub_tab.report_count), 0) AS report_count
+        FROM (
+            SELECT COUNT(1) AS report_count
+            FROM adopt_report
+
+            UNION ALL
+
+            SELECT COUNT(1) AS report_count
+            FROM diary_report
+        ) sub_tab
+    </select>
+
+    <select id="countInquiries">
+        SELECT NVL(SUM(id), 0) AS inquiry_count
+        FROM inquiry
+    </select>
+
+    <select id="countAdoptions">
+        SELECT COUNT(1)
+        FROM adopt
+        WHERE status = 'COMPLETE'
+    </select>
+
+    <select id="countDiarys">
+        SELECT COUNT(1)
+        FROM diary
     </select>
 </mapper>
