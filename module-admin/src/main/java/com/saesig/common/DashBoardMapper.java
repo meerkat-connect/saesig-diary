@@ -17,16 +17,18 @@ public interface DashBoardMapper {
     List<Map<String, Object>> selectAdminPosts();
 
     //회원가입 건수
-    List<Map<String, Object>> countRegisteredMembers();
+    List<Map<String, Object>> countRegisteredMembers(DashBoardDto dashBoardDto);
 
     // 발송현황 건수
-    List<Map<String, Object>> countMessageDeliverys();
+    List<Map<String, Object>> countMessageDeliverys(DashBoardDto dashBoardDto);
 
-    Integer countReports();
+    List<Integer> countReports(DashBoardDto dashBoardDto);
 
-    Integer countInquiries();
+    List<Integer> countInquiries(DashBoardDto dashBoardDto);
 
-    Integer countAdoptions();
+    List<Integer> countAdoptions(DashBoardDto dashBoardDto);
 
-    Integer countDiarys();
+    List<Integer> countDiarys(DashBoardDto dashBoardDto);
+
+    List<Map<String,Object>> countAdoptionStatus(DashBoardDto dashBoardDto);
 }
