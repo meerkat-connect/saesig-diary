@@ -1,6 +1,5 @@
 package com.saesig.api.adopt;
 
-import com.saesig.domain.member.Member;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -16,6 +16,7 @@ import org.springframework.security.access.vote.AffirmativeBased;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
@@ -53,6 +54,11 @@ public class SecurityConfig {
             "/error",
             "/favicon.ico"
     };
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers(ENDPOINT_WHITELIST);
+    }
 
     @Bean
     public SecurityFilterChain mainFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -116,7 +122,6 @@ public class SecurityConfig {
 //    }
 
 
-    @Bean
     public PermitAllFilter customFilterSecurityInterceptor() {
         PermitAllFilter permitAllFilter = new PermitAllFilter(ENDPOINT_WHITELIST);
         permitAllFilter.setSecurityMetadataSource(urlFilterInvocationSecurityMetadataSource());
@@ -126,38 +131,31 @@ public class SecurityConfig {
         return permitAllFilter;
     }
 
-    @Bean
     public AffirmativeBased affirmativeBased() {
         return new AffirmativeBased(Collections.singletonList(new RoleVoter()));
     }
 
-    @Bean
     public UrlBasedFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource() {
         return new UrlBasedFilterInvocationSecurityMetadataSource(urlResourceFactoryBean().getObject(), securityResourceService);
     }
 
-    @Bean
     public UrlResourceFactoryBean urlResourceFactoryBean() {
         return new UrlResourceFactoryBean(securityResourceService);
     }
 
 
-    @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler("/error");
     }
 
-    @Bean
     public CustomLoginSuccessHandler authenticationSuccessHandler() {
         return new CustomLoginSuccessHandler("/admin", memberApiService);
     }
 
-    @Bean
     public AuthenticationFailureHandler authenticationFailureHandler() {
         return new CustomLoginFailureHandler(memberApiService);
     }
 
-    @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
         return new CustomLogoutSuccessHandler();
     }

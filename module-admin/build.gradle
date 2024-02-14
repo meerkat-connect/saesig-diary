@@ -1,6 +1,5 @@
 dependencies {
     implementation project(':module-core')
-    implementation project(':module-api')
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -11,6 +10,12 @@ dependencies {
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     implementation group: 'org.qlrm', name: 'qlrm', version: '3.0.1'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
+    implementation 'org.springframework.session:spring-session-jdbc'
+
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation group: 'javax.mail', name: 'mail', version: '1.4.7'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+    implementation 'net.nurigo:sdk:4.3.0'
 
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
 

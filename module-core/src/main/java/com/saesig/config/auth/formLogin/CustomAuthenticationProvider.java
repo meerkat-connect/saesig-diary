@@ -51,7 +51,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             2. 로그인 성공시 실패 카운터 초기화
          */
 
-        return new UsernamePasswordAuthenticationToken(user.getMember(), null, user.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(user.getMember().getId(), null, user.getAuthorities());
     }
 
     @Override
