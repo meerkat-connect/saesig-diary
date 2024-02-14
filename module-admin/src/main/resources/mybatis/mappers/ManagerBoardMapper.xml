@@ -16,9 +16,11 @@
         FROM
             POST A
         LEFT OUTER JOIN MEMBER B ON A.CREATED_BY = B.ID
+        INNER JOIN board C
+            ON A.board_id = C.id
         WHERE
-            1 = 1
-        AND A.IS_DELETED = 'N'
+            C.category = 'ADMIN'
+            AND A.IS_DELETED = 'N'
         <!-- 키워드 -->
         <if test="searchType != null and searchType != '' and searchType == 'email'">
             AND B.EMAIL LIKE CONCAT('%',#{searchName},'%')
