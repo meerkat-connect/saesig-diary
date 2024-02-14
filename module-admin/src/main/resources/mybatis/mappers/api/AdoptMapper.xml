@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.saesig.api.adopt.AdoptMapper">
-    <insert id="insertAdopt" parameterType="com.saesig.api.adopt.AdoptDto" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertAdopt" parameterType="com.saesig.api.adopt.AdoptReportDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO ADOPT
             (ADOPT_MEMBER_ID, TITLE, CONTENT, GENDER, AGE, AGE_CATEGORY, STATUS, IS_DELETED, IS_CASTRATED, RESPONSIBILITY_COST, ETC_CONTENT, ANIMAL_DIVISION1_ID, ANIMAL_DIVISION2_ID, IMAGE_FILE_GROUP_ID, SIDO, SIGUNGU, STOP_REASON, STOP_CATEGORY, MODIFIED_AT, MODIFIED_BY, CREATED_AT, CREATED_BY)
         VALUES
@@ -12,7 +12,7 @@
             SELECT last_insert_id() AS id
         </selectKey>
     </insert>
-    <insert id="insertAdoptVaccine" parameterType="com.saesig.api.adopt.AdoptDto">
+    <insert id="insertAdoptVaccine" parameterType="com.saesig.api.adopt.AdoptReportDto">
         INSERT INTO adopt_vaccine(adopt_id,vaccine_id,modified_at,modified_by,created_at,created_by)
         VALUES
         <foreach collection="vaccineList" item="vaccine" separator=",">
@@ -20,7 +20,7 @@
         </foreach>
     </insert>
 
-    <insert id="updateAdoptVaccine" parameterType="com.saesig.api.adopt.AdoptDto">
+    <insert id="updateAdoptVaccine" parameterType="com.saesig.api.adopt.AdoptReportDto">
         DELETE FROM adopt_vaccine WHERE adopt_id = #{id};
         INSERT INTO adopt_vaccine(adopt_id,vaccine_id,modified_at,modified_by,created_at,created_by)
         VALUES
@@ -29,12 +29,11 @@
         </foreach>
     </insert>
 
-    <select id="selectAdoptList" resultType="com.saesig.api.adopt.AdoptDto" parameterType="com.saesig.api.adopt.AdoptDto">
-        SELECT a.*, ad1.category as animalDivision1Category, ad2.category as animalDivision2Category, IFNULL(reportCnt,0) as reportCnt ,  IFNULL(likeCnt,0) as likeCnt, IFNULL(chattingCnt,0) as chattingCnt
+    <select id="selectAdoptList" resultType="com.saesig.api.adopt.AdoptListResponseDto" parameterType="com.saesig.api.adopt.AdoptReportDto">
+        SELECT a.*, IFNULL(likeCnt,0) as likeCnt
         from adopt a
         LEFT JOIN (select adopt_id, IFNULL(count(*),0) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
         LEFT JOIN (select adopt_id, IFNULL(count(*),0) as likeCnt from adopt_interest group by adopt_id) ai ON a.id = ai.adopt_id
-        LEFT JOIN (select adopt_id, IFNULL(count(*),0) as chattingCnt from (select ADOPT_ID, CHAT_ID from chatting_room group by chat_id) cr group by adopt_id) ch ON a.id = ch.adopt_id
         LEFT JOIN animal_division1 ad1 ON a.animal_division1_id = ad1.id
         LEFT JOIN animal_division2 ad2 ON a.animal_division2_id = ad2.id
         LEFT JOIN member m ON a.created_by = m.id
@@ -69,22 +68,60 @@
         ORDER BY a.id DESC
     </select>
 
-    <select id="selectInterestById" parameterType="com.saesig.api.adopt.AdoptDto" resultType="Long">
+    <select id="selectAdoptView" parameterType="com.saesig.api.adopt.AdoptRequestDto" resultType="com.saesig.api.adopt.AdoptViewResponseDto">
+        SELECT
+            a.id,
+            a.adopt_member_id,
+            a.hits,
+            a.title,
+            a.content,
+            a.gender,
+            a.age,
+            a.age_category,
+            a.status,
+            a.is_castrated,
+            a.responsibility_cost,
+            a.etc_content,
+            a.animal_division1_id,
+            a.animal_division2_id,
+            a.image_file_group_id,
+            a.sido,
+            a.sigungu,
+            a.modified_at,
+            a.modified_by,
+            a.created_at,
+            a.created_by
+             , ad1.category as animalDivision1Category, ad2.category as animalDivision2Category,IFNULL(reportCnt,'0') as reportCnt , IFNULL(likeCnt,'0') as likeCnt, m.nickname as createdName, m.email as createdMail, m1.nickname as adoptMemberNickName, m1.email as adoptMemberEmail, ah.created_at as statusChangeCreatedAt, a.status as beforeStatus
+             ,m2.nickname as changeMemberNickName, m2.email as changeMemberEmail
+        FROM adopt a
+                 LEFT JOIN (select adopt_id,count(*) as reportCnt from adopt_report group by adopt_id) ar ON a.id = ar.adopt_id
+                 LEFT JOIN (select adopt_id,count(*) as likeCnt from adopt_interest group by adopt_id) ai ON a.id = ai.adopt_id
+                 LEFT JOIN (select adopt_id,created_at,after_status,member_id from adopt_history where adopt_id = #{id} order by id DESC LIMIT 0,1) ah ON a.id = ah.adopt_id
+                 LEFT JOIN animal_division1 ad1 ON a.animal_division1_id = ad1.id
+                 LEFT JOIN animal_division2 ad2 ON a.animal_division2_id = ad2.id
+                 LEFT JOIN member m ON a.created_by = m.id
+                 LEFT JOIN member m1 ON a.adopt_member_id = m1.id
+                 LEFT JOIN member m2 ON ah.member_id = m2.id
+        WHERE a.id = #{id}
+        ORDER BY a.id DESC
+    </select>
+
+    <select id="selectInterestById" parameterType="com.saesig.api.adopt.AdoptReportDto" resultType="Long">
           SELECT count(*) as cnt FROM ADOPT_INTEREST WHERE MEMBER_ID = #{member.id} AND ADOPT_ID = #{id}
     </select>
 
-    <insert id="insertInterest" parameterType="com.saesig.api.adopt.AdoptDto">
+    <insert id="insertInterest" parameterType="com.saesig.api.adopt.AdoptReportDto">
         INSERT INTO ADOPT_INTEREST
             (ADOPT_ID, MEMBER_ID, CREATED_AT, CREATED_BY, MODIFIED_AT, MODIFIED_BY)
         VALUES
             (#{id}, #{member.id}, NOW(), #{member.id}, NOW(), #{member.id});
     </insert>
 
-    <delete id="deleteInterest" parameterType="com.saesig.api.adopt.AdoptDto">
+    <delete id="deleteInterest" parameterType="com.saesig.api.adopt.AdoptReportDto">
         DELETE FROM ADOPT_INTEREST WHERE MEMBER_ID = #{member.id} AND ADOPT_ID = #{id}
     </delete>
 
-    <update id="deleteAdopt" parameterType="com.saesig.api.adopt.AdoptDto">
+    <update id="deleteAdopt" parameterType="com.saesig.api.adopt.AdoptReportDto">
         UPDATE ADOPT SET IS_DELETED = 'Y' WHERE ID = #{id} and CREATED_BY = #{member.id}
     </update>
 
@@ -94,4 +131,12 @@
         VALUES
             (#{adoptId}, #{category}, #{content}, #{member.id},NOW(),#{member.id},NOW(),#{member.id});
     </insert>
+
+    <select id="getBreedOptions" parameterType="com.saesig.api.adopt.AdoptBreedListDto" resultType="com.saesig.api.adopt.AdoptBreedListDto">
+        SELECT * FROM ANIMAL_DIVISION2 WHERE ANIMAL_DIVISION1_ID = #{animalDivision1Id}
+    </select>
+
+    <select id="getVaccineList" parameterType="com.saesig.api.adopt.AnimalVaccineListDto" resultType="com.saesig.api.adopt.AnimalVaccineListDto">
+        SELECT * FROM VACCINE WHERE ANIMAL_DIVISION1_ID = #{animalDivision1Id}
+    </select>
 </mapper>

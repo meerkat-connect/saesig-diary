@@ -494,6 +494,7 @@ DROP TABLE IF EXISTS `vaccine`;
 CREATE TABLE `vaccine`
 (
     `id`   BIGINT AUTO_INCREMENT NOT NULL COMMENT '백신 일련번호',
+    `animal_division1_id` INT NOT NULL COMMENT '백신 대상 동물 분류',
     `name` VARCHAR(20)           NOT NULL COMMENT '백신 이름'
 );
 

@@ -4,6 +4,7 @@ package com.saesig.webSocketNetty.chatting;
 import com.google.gson.Gson;
 import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
+import com.saesig.webSocketNetty.websocket.WebSocketSendMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ import java.util.Map;
 @Controller
 @RequiredArgsConstructor
 public class ChattingController {
+
+    @Autowired
+    private WebSocketSendMessage webSocketSendMessage;
 
     @Autowired
     private ChattingService chattingService;
@@ -57,7 +61,7 @@ public class ChattingController {
     }
 
     @PostMapping("/chat/chatting")
-    public String chattingRoom(Long userId, Long chatId, Long memberId, HttpSession session, Model model) throws Exception {
+    public String chattingRoom(Long userId, Long chatId, Long memberId, Model model) throws Exception {
         ChatMemberDto currentMemberData = chattingService.getMemberData(userId);
         Long chatIdValue;
         if (chatId == 0){ //리스트 세션
@@ -96,7 +100,7 @@ public class ChattingController {
 
     @GetMapping("/chat/getChatList")
     @ResponseBody
-    public List<ChattingRoomDto> getChatList(@LoginMember SessionMember user) throws Exception {
+    public List<ChattingRoomDto> getChatList(@LoginMember SessionMember user, HttpSession session) throws Exception {
         Long memberId = user.getId();
         List<ChattingRoomDto> chattingRoomList = chattingService.getChattingRoomList(memberId);
         for (int i= (chattingRoomList.size()-1); i > -1 ; i--){
