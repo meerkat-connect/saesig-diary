@@ -1,6 +1,5 @@
 package com.saesig.api.adopt;
 
-import com.saesig.domain.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,24 +16,24 @@ public class AdoptServiceImpl implements AdoptService{
     public Long insertAdopt(AdoptDto adoptDto) throws Exception{
         Long result = adoptMapper.insertAdopt(adoptDto);
         return adoptMapper.insertAdoptVaccine(adoptDto);
-    };
+    }
 
     @Override
     public List<AdoptDto> selectAdoptList(AdoptDto adoptDto) throws Exception{
         return adoptMapper.selectAdoptList(adoptDto);
-    };
+    }
 
     @Override
     @Transactional
     public Long updateAdopt(AdoptDto adoptDto) throws Exception{
         adoptMapper.updateAdopt(adoptDto);
         return adoptMapper.updateAdoptVaccine(adoptDto);
-    };
+    }
 
     @Override
     public Long deleteAdopt(AdoptDto adoptDto) throws Exception{
         return adoptMapper.deleteAdopt(adoptDto);
-    };
+    }
 
     @Override
     public Long changeLikeInfo(AdoptDto adoptDto) throws Exception{
@@ -46,9 +45,9 @@ public class AdoptServiceImpl implements AdoptService{
             result = adoptMapper.insertInterest(adoptDto);
         }
         return result;
-    };
+    }
     @Override
     public Long reportAdoptPost(AdoptReportDto adoptReportDto) throws Exception{
         return adoptMapper.reportAdoptPost(adoptReportDto);
-    };
+    }
 }

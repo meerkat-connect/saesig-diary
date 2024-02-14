@@ -32,7 +32,6 @@ public class FileController {
 
     @Operation(summary="이미지 파일 다운로드", description = "이미지 파일을 다운로드 합니다.", tags = {"View"})
     @GetMapping("/images/{fileName}")
-    @ResponseBody
     public Resource downloadImageFile(@PathVariable String fileName) throws MalformedURLException {
         return new UrlResource("file:" + fileService.getFullPath(fileName));
     }
@@ -56,7 +55,7 @@ public class FileController {
     }
 
     @RequestMapping("/ckeditorFileUpload/imageUpload.do")
-    public Map<String, Object> uploadCkeditorFile(@RequestParam Map<String, Object> map, MultipartHttpServletRequest request) throws Exception{
+    public Map<String, Object> uploadCkeditorFile(@RequestParam Map<String, Object> map, MultipartHttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
         MultipartFile file = request.getFile("upload");
         FileDto result = fileService.storeFile(file);

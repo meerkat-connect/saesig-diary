@@ -1,7 +1,5 @@
 package com.saesig.api.adopt;
 
-import com.saesig.domain.member.Member;
-
 import java.util.List;
 
 public interface AdoptService {

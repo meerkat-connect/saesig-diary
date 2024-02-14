@@ -60,15 +60,9 @@ project(':module-admin') {
     }
 }
 
-project(':module-api') {
-    dependencies {
-        implementation project(':module-core')
-    }
-}
-
 project(':module-batch') {
     dependencies {
-//        implementation project(':module-core')
+        implementation project(':module-core')
     }
 }
 
