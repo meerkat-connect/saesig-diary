@@ -1,0 +1,151 @@
+#default
+application:
+  title: 새식일기
+  version: 1.0v
+
+spring:
+  profiles:
+    include: oauth, apiKey, s3
+    group:
+      local: local
+      prod : prod
+      dev : dev
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      #      show-details: always
+      show-components: always
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+    env:
+      enabled: true
+
+info:
+  app:
+    name: hello-actuator
+    company: mekc-saesig
+
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
+file.dir: C:/saesigDiary/file/
+
+springdoc:
+  packages-to-scan: com.saesig.api
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    operationsSorter: alpha
+    displayRequestDuration: true
+
+--- #local
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(Tq1mWDEq6K5WoBhsTofIJv8V0GE8ARF7q2jOvDFkG6AylXeuVRwWGg==)
+    password: ENC(+dV0xeVvNJDt6FXGe+CSK44tFILZusEDLhnusUQ1kBY=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+            protocols: TLSv1.2
+          transport: smtp
+
+  datasource:
+    jdbc-url: ENC(0SIVOUq3nPqZpySfAmPv5HiCJq/cA4X+cThawAS48Fdi4HxmSaPCDg==)
+    driver-class-name: org.h2.Driver
+    username: ENC(pOYIaEb0HWP+CrJw6QOOLA==)
+    password: ENC(zu7yt2tvASOJs0QweZw/rA==)
+
+  h2:
+    console: true
+
+  sql:
+    init:
+      mode: always
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      format_sql: true
+    generate-ddl: false
+    database-platform: org.hibernate.dialect.MariaDBDialect
+
+  database:
+#    platform: mariadb
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    #    mapper-locations: classpath:mybatis/mappers/**/*.xml
+
+    data:
+      mongodb:
+        host: ENC(E1zmBNQGdirU/27l5bS2vko0q3xVa+W7)
+        port: 27017
+        authentication-database: admin
+        database: sample
+
+file.dir: C:/saesigDiary/file/
+
+favicon:
+  file-dir: C:/saesigDiary/file/favicon/
+kakao-thumbnail:
+  file-dir: C:/saesigDiary/file/kakaoThumbnail/
+
+--- #dev
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    jdbc-url: ENC(hba7Y+MC4DSevlLypKBISwedLzbr29GrCC6yaCnS2tMeeoZC2aDkZEWwMU4EtO12f0+64kLYC89lArUgj7gGW2njBEMGB9X4IZPQQb8l41CACCI8k4AKLPHTKAusawgA)
+    driver-class-name: ENC(DlK7u7h1xKX9kq7OHe060lR1cw6DNABmbBjQ6n/ITfo=)
+    username: ENC(dwo/ZZXd0UWdQzRWY39Kmw==)
+    password: ENC(Dg+d3+AOsL04p8sCO8pTuPOd1OmSkm9+)
+
+file.dir: /saesig/dev/file/
+--- #prod
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
+
+--- #defaults
+
+server:
+  port: 8090

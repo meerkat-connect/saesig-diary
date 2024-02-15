@@ -1,5 +1,6 @@
 package com.saesig.api.adopt;
 
+import com.saesig.domain.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,41 +14,55 @@ public class AdoptServiceImpl implements AdoptService{
     private AdoptMapper adoptMapper;
     @Override
     @Transactional
-    public Long insertAdopt(AdoptDto adoptDto) throws Exception{
-        Long result = adoptMapper.insertAdopt(adoptDto);
-        return adoptMapper.insertAdoptVaccine(adoptDto);
-    }
+    public Long insertAdopt(AdoptRequestDto adoptRequestDto) throws Exception{
+        Long result = adoptMapper.insertAdopt(adoptRequestDto);
+        return adoptMapper.insertAdoptVaccine(adoptRequestDto);
+    };
 
     @Override
-    public List<AdoptDto> selectAdoptList(AdoptDto adoptDto) throws Exception{
-        return adoptMapper.selectAdoptList(adoptDto);
-    }
+    public List<AdoptListResponseDto> selectAdoptList(AdoptRequestDto adoptRequestDto) throws Exception{
+        return adoptMapper.selectAdoptList(adoptRequestDto);
+    };
 
     @Override
     @Transactional
-    public Long updateAdopt(AdoptDto adoptDto) throws Exception{
-        adoptMapper.updateAdopt(adoptDto);
-        return adoptMapper.updateAdoptVaccine(adoptDto);
-    }
+    public Long updateAdopt(AdoptRequestDto adoptRequestDto) throws Exception{
+        adoptMapper.updateAdopt(adoptRequestDto);
+        return adoptMapper.updateAdoptVaccine(adoptRequestDto);
+    };
 
     @Override
-    public Long deleteAdopt(AdoptDto adoptDto) throws Exception{
-        return adoptMapper.deleteAdopt(adoptDto);
-    }
+    public Long deleteAdopt(AdoptRequestDto adoptRequestDto) throws Exception{
+        return adoptMapper.deleteAdopt(adoptRequestDto);
+    };
 
     @Override
-    public Long changeLikeInfo(AdoptDto adoptDto) throws Exception{
-        Long isLike = adoptMapper.selectInterestById(adoptDto);
+    public Long changeLikeInfo(AdoptRequestDto adoptRequestDto) throws Exception{
+        Long isLike = adoptMapper.selectInterestById(adoptRequestDto);
         Long result;
         if (isLike > 0){
-            result = adoptMapper.deleteInterest(adoptDto);
+            result = adoptMapper.deleteInterest(adoptRequestDto);
         }else{
-            result = adoptMapper.insertInterest(adoptDto);
+            result = adoptMapper.insertInterest(adoptRequestDto);
         }
         return result;
-    }
+    };
     @Override
     public Long reportAdoptPost(AdoptReportDto adoptReportDto) throws Exception{
         return adoptMapper.reportAdoptPost(adoptReportDto);
+    };
+
+    @Override
+    public List<AdoptBreedListDto> getBreedOptions(AdoptBreedListDto adoptBreedListDto) throws Exception{
+        return adoptMapper.getBreedOptions(adoptBreedListDto);
     }
+    @Override
+    public List<AnimalVaccineListDto> getVaccineList(AnimalVaccineListDto animalVaccineListDto) throws Exception{
+        return adoptMapper.getVaccineList(animalVaccineListDto);
+    };
+
+    @Override
+    public AdoptViewResponseDto selectAdoptView(AdoptRequestDto adoptRequestDto) throws Exception{
+        return adoptMapper.selectAdoptView(adoptRequestDto);
+    };
 }
