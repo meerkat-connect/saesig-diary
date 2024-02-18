@@ -21,7 +21,7 @@ public class WebSocketSendMessage {
 
     private HashMap<Integer, String[]> roomMap = new HashMap<Integer, String[]>();
 
-    private static HashMap<Long, HashMap<Long, List<String> >> chatMap = new HashMap<Long, HashMap<Long,List<String>>>();
+    public static HashMap<Long, HashMap<Long, List<String> >> chatMap = new HashMap<Long, HashMap<Long,List<String>>>();
 
 
     public void sendMessage(String payload) throws Exception {
