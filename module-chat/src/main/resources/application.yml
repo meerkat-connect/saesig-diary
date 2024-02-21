@@ -59,6 +59,8 @@ springdoc:
 
 --- #local
 spring:
+  session:
+    store-type: jdbc
   config:
     activate:
       on-profile: local
@@ -80,10 +82,10 @@ spring:
           transport: smtp
 
   datasource:
-    jdbc-url: ENC(0SIVOUq3nPqZpySfAmPv5HiCJq/cA4X+cThawAS48Fdi4HxmSaPCDg==)
-    driver-class-name: org.h2.Driver
-    username: ENC(pOYIaEb0HWP+CrJw6QOOLA==)
-    password: ENC(zu7yt2tvASOJs0QweZw/rA==)
+    jdbc-url: jdbc:mysql://localhost:3306/saesig
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1234
 
   h2:
     console: true
@@ -91,10 +93,12 @@ spring:
   sql:
     init:
       mode: always
+      data-locations: classpath*:/data-mysql.sql
+      schema-locations: classpath*:/schema-mysql.sql
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
       format_sql: true
     generate-ddl: false
     database-platform: org.hibernate.dialect.MariaDBDialect
@@ -109,7 +113,7 @@ mybatis:
 
     data:
       mongodb:
-        host: ENC(E1zmBNQGdirU/27l5bS2vko0q3xVa+W7)
+        host: ENC(2J77q2vvF7KPM0R2h6gRrJUSVKfdmuh2)
         port: 27017
         authentication-database: admin
         database: sample
