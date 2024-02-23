@@ -31,4 +31,6 @@ public interface DashBoardMapper {
     List<Integer> countDiarys(DashBoardDto dashBoardDto);
 
     List<Map<String,Object>> countAdoptionStatus(DashBoardDto dashBoardDto);
+
+    Map<String, Object> selectAdoption(DashBoardDto dashBoardDto);
 }

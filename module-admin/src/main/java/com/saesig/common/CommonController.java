@@ -36,12 +36,15 @@ public class CommonController {
         List<Map<String, Object>> maps2 = dashBoardMapper.selectAdminPosts();
         List<Map<String, Object>> maps3 = dashBoardMapper.countRegisteredMembers(dashBoardDto);
         List<Map<String, Object>> maps4 = dashBoardMapper.countMessageDeliverys(dashBoardDto);
+        List<Map<String, Object>> maps5 = dashBoardMapper.countAdoptionStatus(dashBoardDto);
+        Map<String,Object> adoptionInfo = dashBoardMapper.selectAdoption(dashBoardDto);
+
         List<Integer> i = dashBoardMapper.countReports(dashBoardDto);
         List<Integer> i1 = dashBoardMapper.countInquiries(dashBoardDto);
         List<Integer> i2 = dashBoardMapper.countAdoptions(dashBoardDto);
         List<Integer> i3 = dashBoardMapper.countDiarys(dashBoardDto);
-        List<Map<String, Object>> maps5 = dashBoardMapper.countAdoptionStatus(dashBoardDto);
 
+        model.addAttribute("adoptionInfo", adoptionInfo);
         model.addAttribute("maps", maps);
         model.addAttribute("maps1", maps1);
         model.addAttribute("maps2", maps2);

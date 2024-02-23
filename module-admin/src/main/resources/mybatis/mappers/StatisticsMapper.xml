@@ -4,15 +4,15 @@
 <mapper namespace="com.saesig.statistics.StatisticsMapper">
     <select id="calculateTotalUserStatistics" resultType="com.saesig.statistics.UserStatisticsDto">
         SELECT
-            NVL(MAX(CASE WHEN created_at = '2022' THEN total_count END),0) AS prev_year_total_count
-            , NVL(MAX(CASE WHEN created_at = '2023' THEN total_count END), 0) AS registration_count
-            , NVL(MAX(CASE WHEN created_at = '2023' THEN normal_count END), 0) AS normal_count
-            , NVL(MAX(CASE WHEN created_at = '2023' THEN leave_count END), 0) AS leave_count
-            , NVL(MAX(CASE WHEN created_at = '2023' THEN dormant_count END), 0) AS dormant_count
-            , NVL(MAX(CASE WHEN created_at = '2023' THEN total_count END), 0) - NVL(MAX(CASE WHEN created_at = '2022' THEN total_count END), 0) AS registration_diff_count
-            , NVL(MAX(CASE WHEN created_at = '2023' THEN normal_count END), 0) - NVL(MAX(CASE WHEN created_at = '2022' THEN normal_count END), 0) AS normal_diff_count
-            , NVL(MAX(CASE WHEN created_at = '2023' THEN leave_count END), 0) - NVL(MAX(CASE WHEN created_at = '2022' THEN leave_count END), 0) AS leave_diff_count
-            , NVL(MAX(CASE WHEN created_at = '2023' THEN dormant_count END), 0) - NVL(MAX(CASE WHEN created_at = '2022' THEN dormant_count END), 0) AS dormant_diff_count
+            INFULL(MAX(CASE WHEN created_at = '2022' THEN total_count END),0) AS prev_year_total_count
+            , INFULL(MAX(CASE WHEN created_at = '2023' THEN total_count END), 0) AS registration_count
+            , INFULL(MAX(CASE WHEN created_at = '2023' THEN normal_count END), 0) AS normal_count
+            , INFULL(MAX(CASE WHEN created_at = '2023' THEN leave_count END), 0) AS leave_count
+            , INFULL(MAX(CASE WHEN created_at = '2023' THEN dormant_count END), 0) AS dormant_count
+            , INFULL(MAX(CASE WHEN created_at = '2023' THEN total_count END), 0) - INFULL(MAX(CASE WHEN created_at = '2022' THEN total_count END), 0) AS registration_diff_count
+            , INFULL(MAX(CASE WHEN created_at = '2023' THEN normal_count END), 0) - INFULL(MAX(CASE WHEN created_at = '2022' THEN normal_count END), 0) AS normal_diff_count
+            , INFULL(MAX(CASE WHEN created_at = '2023' THEN leave_count END), 0) - INFULL(MAX(CASE WHEN created_at = '2022' THEN leave_count END), 0) AS leave_diff_count
+            , INFULL(MAX(CASE WHEN created_at = '2023' THEN dormant_count END), 0) - INFULL(MAX(CASE WHEN created_at = '2022' THEN dormant_count END), 0) AS dormant_diff_count
         FROM (
                  SELECT
                      YEAR(created_at) AS created_at

@@ -100,7 +100,7 @@
     </select>
 
     <!-- 신고현황 -->
-    <select id="countReports">
+    <select id="countReports" resultType="integer">
         SELECT NVL(SUM(sub_tab.id), 0) AS report_count
         FROM (
             SELECT
@@ -143,7 +143,7 @@
     </select>
 
     <!-- 문의 현황 -->
-    <select id="countInquiries">
+    <select id="countInquiries" resultType="integer">
         SELECT count(1)
         FROM inquiry
         WHERE
@@ -161,7 +161,7 @@
     </select>
 
     <!-- 분양완료 현황 -->
-    <select id="countAdoptions">
+    <select id="countAdoptions" resultType="integer">
         SELECT count(1)
         FROM adopt
         WHERE
@@ -182,7 +182,7 @@
     </select>
 
     <!-- 일기 현황 -->
-    <select id="countDiarys">
+    <select id="countDiarys" resultType="integer">
         SELECT count(1)
         FROM diary
         WHERE
@@ -200,7 +200,7 @@
             </include>
     </select>
 
-    <select id="countAdoptionStatus">
+    <select id="countAdoptionStatus" resultType="integer">
         SELECT
             months.month
             , COALESCE(COUNT(adopt.id), 0) AS count
@@ -215,5 +215,9 @@
                 AND YEAR(adopt.created_at) = #{searchAdoptionYear}
                 AND adopt.status = #{searchAdoptionStatus}
         GROUP BY months.month
+    </select>
+
+    <select id="selectAdoption" resultType="map">
+
     </select>
 </mapper>
