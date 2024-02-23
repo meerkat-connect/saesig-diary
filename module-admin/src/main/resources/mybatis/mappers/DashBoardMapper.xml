@@ -101,7 +101,7 @@
 
     <!-- 신고현황 -->
     <select id="countReports" resultType="integer">
-        SELECT NVL(SUM(sub_tab.id), 0) AS report_count
+        SELECT IFNULL(SUM(sub_tab.id), 0) AS report_count
         FROM (
             SELECT
                 adopt_report.id
@@ -122,7 +122,7 @@
 
         UNION ALL
 
-        SELECT NVL(SUM(sub_prev_tab.id), 0) AS report_count
+        SELECT IFNULL(SUM(sub_prev_tab.id), 0) AS report_count
         FROM (
             SELECT
                 adopt_report.id
