@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 public class UserStatisticsDto {
+    private String searchYear; 
     private Integer registrationCount; // 회원가입 수
     private Integer leaveCount; // 탈퇴 수
     private Integer dormantCount; // 휴면 수
