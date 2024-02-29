@@ -3,7 +3,10 @@
       layout:decorate="~{layout/main}">
 
 <div layout:fragment="content">
-    <div class="page-body">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <div class="page-body" id="pageBody">
         <div class="row">
             <form id="searchForm" name="searchForm" onsubmit="return false;">
                 <div class="col-12">
@@ -14,20 +17,16 @@
                                     <div class="mb-0 form-group row">
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
                                         <div class="col-12">
-                                            <select name="searchYear" id="searchYear" class="form-select form-control form-control-round custom-select">
-                                                <option value="2024" selected>2024년</option>
-                                                <option value="2023">2023년</option>
-                                                <option value="2022">2022년</option>
-                                                <option value="2021">2021년</option>
-                                                <option value="2020">2020년</option>
+                                            <select v-model="searchYear" class="form-select form-control form-control-round custom-select">
+                                                <option v-for="year in years" :value="year">{{ year }}년</option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="mt-1 p-t-20 text-center">
-                                <button class="btn btn-gray m-r-5">초기화</button>
-                                <button class="btn btn-primary" onclick="search();">검색</button>
+                                <button class="btn btn-gray m-r-5" @click="reset">초기화</button>
+                                <button class="btn btn-primary" @click="search" >검색</button>
                             </div>
                         </div>
                     </div>
@@ -141,6 +140,36 @@
     </div>
 
     <script th:inline="javascript">
+        new Vue({
+            el: '#pageBody',
+            data: {
+                searchYear: new Date().getFullYear(), // 현재 연도를 기본값으로 설정
+                years: [2024, 2023, 2022, 2021, 2020], // 연도 선택 옵션
+                userStatistics: [] // 사용자 통계 데이터를 저장할 배열
+            },
+            methods: {
+                search: function() {
+                    // Axios를 사용해 서버로부터 데이터 가져오기
+                    axios.get('/admin/statistics/user', { params: { year: this.searchYear }})
+                        .then(response => {
+                            this.userStatistics = response.data;
+                        })
+                        .catch(error => {
+                            console.error("Error fetching user statistics:", error);
+                        });
+                },
+                reset: function() {
+                    this.searchYear = new Date().getFullYear();
+                    console.log(this.searchYear);
+
+                    this.userStatistics = [];
+                }
+            },
+            mounted: function() {
+                this.search(); // 컴포넌트가 마운트될 때 검색 실행
+            }
+        });
+
         $(function () {
             $("#listTable").DataTable(
                 {
