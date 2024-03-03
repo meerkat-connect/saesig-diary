@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 public class StatisticsService {
     private final StatisticsMapper statisticsMapper;
 
-    public UserStatisticsDto calculateUserStatistics() {
-        UserStatisticsDto userStatistics = statisticsMapper.calculateTotalUserStatistics();
-        userStatistics.setMonthlyUserStatistics(statisticsMapper.calculateMontlyUserStatistics());
+    public UserStatisticsDto calculateUserStatistics(String searchYear) {
+        UserStatisticsDto userStatistics = statisticsMapper.calculateTotalUserStatistics(searchYear);
+        userStatistics.setMonthlyUserStatistics(statisticsMapper.calculateMontlyUserStatistics(searchYear));
         return userStatistics;
     }
 
