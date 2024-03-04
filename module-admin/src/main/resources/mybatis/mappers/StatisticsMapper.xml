@@ -36,7 +36,7 @@
     <select id="calculateMontlyUserStatistics" resultType="com.saesig.statistics.MonthlyUserStatisticsDto">
         SELECT
             sub_table.mm as mm,
-            YEAR(#{searchYear}) as yyyy,
+            #{searchYear} as yyyy,
             SUM(CASE WHEN member.status = 'NORMAL' THEN 1 ELSE 0 END) normal_count,
             SUM(CASE WHEN member.status = 'LEAVE' THEN 1 ELSE 0 END) leave_count,
             SUM(CASE WHEN member.status = 'DORMANT' THEN 1 ELSE 0 END) dormant_count,
