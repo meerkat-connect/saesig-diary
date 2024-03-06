@@ -1,4 +1,5 @@
 @import "admin-tab.css";
+@import "dashboard.css";
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 
 body {
@@ -918,3 +919,4 @@ div.feedback-valid {
 .comment:first-child {
     border-top: none;
 }
+

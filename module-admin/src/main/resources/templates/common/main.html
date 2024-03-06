@@ -3,1107 +3,528 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         layout:decorate="~{layout/main}">
 <div layout:fragment="content">
-    <div class="row">
-        <div class="col-xl-3 col-md-6">
-            <div class="card">
-                <div class="card-block">
-                    <div class="row align-items-center">
-                        <div class="col-8">
-                            <h4 class="text-c-yellow f-w-600">$30200</h4>
-                            <h6 class="text-muted m-b-0">All Earnings</h6>
-                        </div>
-                        <div class="col-4 text-right">
-                            <i class="feather icon-bar-chart f-28"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-c-yellow">
-                    <div class="row align-items-center">
-                        <div class="col-9">
-                            <p class="text-white m-b-0">% change</p>
-                        </div>
-                        <div class="col-3 text-right">
-                            <i class="feather icon-trending-up text-white f-16"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="col-12">
+        <div class="ss-sub-header">
+            <div class="ss-segmeneted-control ss-segmeneted-control--active">일간</div>
+            <div class="ss-segmeneted-control">주간</div>
+            <div class="ss-segmeneted-control">월간</div>
+            <div class="ss-segmeneted-control">종합</div>
         </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card">
-                <div class="card-block">
-                    <div class="row align-items-center">
-                        <div class="col-8">
-                            <h4 class="text-c-green f-w-600">290+</h4>
-                            <h6 class="text-muted m-b-0">Page Views</h6>
-                        </div>
-                        <div class="col-4 text-right">
-                            <i class="feather icon-file-text f-28"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-c-green">
-                    <div class="row align-items-center">
-                        <div class="col-9">
-                            <p class="text-white m-b-0">% change</p>
-                        </div>
-                        <div class="col-3 text-right">
-                            <i class="feather icon-trending-up text-white f-16"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card">
-                <div class="card-block">
-                    <div class="row align-items-center">
-                        <div class="col-8">
-                            <h4 class="text-c-pink f-w-600">145</h4>
-                            <h6 class="text-muted m-b-0">Task Completed</h6>
-                        </div>
-                        <div class="col-4 text-right">
-                            <i class="feather icon-calendar f-28"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-c-pink">
-                    <div class="row align-items-center">
-                        <div class="col-9">
-                            <p class="text-white m-b-0">% change</p>
-                        </div>
-                        <div class="col-3 text-right">
-                            <i class="feather icon-trending-up text-white f-16"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card">
-                <div class="card-block">
-                    <div class="row align-items-center">
-                        <div class="col-8">
-                            <h4 class="text-c-blue f-w-600">500</h4>
-                            <h6 class="text-muted m-b-0">Downloads</h6>
-                        </div>
-                        <div class="col-4 text-right">
-                            <i class="feather icon-download f-28"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-c-blue">
-                    <div class="row align-items-center">
-                        <div class="col-9">
-                            <p class="text-white m-b-0">% change</p>
-                        </div>
-                        <div class="col-3 text-right">
-                            <i class="feather icon-trending-up text-white f-16"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
 
-
-        <div class="col-xl-8 col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Visitors</h5>
-                    <span class="text-muted">For more details about usage, please
-refer <a href="https://www.amcharts.com/online-store/" target="_blank">amCharts</a> licences.</span>
-                    <div class="card-header-right">
-                        <ul class="list-unstyled card-option">
-                            <li><i class="feather icon-maximize full-card"></i></li>
-                            <li><i class="feather icon-minus minimize-card"></i>
+    <div class="ss-dashboard-grid">
+        <div class="ss-dashboard-grid-item black status-summary">
+            <div class="status-summary__title">
+                <div>분양완료 현황</div>
+                <div>2024. 01. 01</div>
+            </div>
+            <div class="status-summary__number-shift increase">
+                <div>
+                    4
+                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor" />
+                    </svg>
+                </div>
+                <div>32</div>
+            </div>
+        </div>
+        <div class="ss-dashboard-grid-item black status-summary">
+            <div class="status-summary__title">
+                <div>일기 현황</div>
+                <div>2024. 01. 01</div>
+            </div>
+            <div class="status-summary__number-shift increase">
+                <div>
+                    15
+                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor" />
+                    </svg>
+                </div>
+                <div>120</div>
+            </div>
+        </div>
+        <div class="ss-dashboard-grid-item black status-summary">
+            <div class="status-summary__title">
+                <div>문의 현황</div>
+                <div>2024. 01. 01</div>
+            </div>
+            <div class="status-summary__number-shift decrease">
+                <div>
+                    5
+                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor" />
+                    </svg>
+                </div>
+                <div>17</div>
+            </div>
+        </div>
+        <div class="ss-dashboard-grid-item black status-summary">
+            <div class="status-summary__title">
+                <div>분양완료 현황</div>
+                <div>2024. 01. 01</div>
+            </div>
+            <div class="status-summary__number-shift decrease">
+                <div>
+                    3
+                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor" />
+                    </svg>
+                </div>
+                <div>1</div>
+            </div>
+        </div>
+        <div class="ss-dashboard-grid-item white visit-summary">
+            <div>
+                <div>방문현황</div>
+                <div>2024. 01. 01 기준</div>
+            </div>
+            <div>
+                <div>방문자 수</div>
+                <div>3200</div>
+                <div>
+                    102<svg
+                        width="8"
+                        height="6"
+                        viewBox="0 0 8 6"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor" />
+                </svg>
+                </div>
+            </div>
+            <ul>
+                <li>
+                    <div>세션</div>
+                    <div>2,150</div>
+                </li>
+                <li>
+                    <div>페이지 뷰</div>
+                    <div>400</div>
+                </li>
+                <li>
+                    <div>최다 접속시간</div>
+                    <div>12-13 <b>시</b></div>
+                </li>
+                <li>
+                    <div>평균 체류시간</div>
+                    <div>08 <b>분</b></div>
+                </li>
+                <li>
+                    <div>최다 방문 페이지</div>
+                    <div>새로운식구</div>
+                </li>
+            </ul>
+        </div>
+        <div class="ss-dashboard-grid-item white adoption-summary">
+            <div class="adoption-summary-header">
+                <div>
+                    <div>분양현황</div>
+                    <div>
+                        <input type="text" value="2023" readonly /><svg
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                                d="M6.71047 9.29344C6.32047 9.68344 6.32047 10.3134 6.71047 10.7034L11.3005 15.2934C11.6905 15.6834 12.3205 15.6834 12.7105 15.2934L17.3005 10.7034C17.6905 10.3134 17.6905 9.68344 17.3005 9.29344C16.9105 8.90344 16.2805 8.90344 15.8905 9.29344L12.0005 13.1734L8.12047 9.29344C7.73047 8.90344 7.09047 8.91344 6.71047 9.29344Z"
+                                fill="black"
+                        />
+                    </svg>
+                    </div>
+                </div>
+                <div>
+                    <div class="active">분양중</div>
+                    <div>분양완료</div>
+                    <div>분양취소</div>
+                </div>
+            </div>
+            <div class="adoption-summary-content">
+                <div class="adoption-summary-chart">차트 영역</div>
+                <div class="adoption-summary-location">
+                    <div>분양 등록지역</div>
+                    <div>
+                        <div>9월</div>
+                        <ul>
+                            <li>
+                                <div>
+                                    <span>1</span>
+                                    <div>서울특별시 구로구</div>
+                                </div>
+                                <div>
+                                    <div>
+                                        101건
+                                        <svg
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <g>
+                                                <path
+                                                        d="M9.42546 13.9984C8.97546 13.9984 8.66296 13.7943 8.48796 13.3859C8.31296 12.9776 8.3838 12.6151 8.70046 12.2984L11.3005 9.69844C11.4005 9.59844 11.5088 9.52344 11.6255 9.47344C11.7421 9.42344 11.8671 9.39844 12.0005 9.39844C12.1338 9.39844 12.2588 9.42344 12.3755 9.47344C12.4921 9.52344 12.6005 9.59844 12.7005 9.69844L15.3005 12.2984C15.6171 12.6151 15.688 12.9776 15.513 13.3859C15.338 13.7943 15.0255 13.9984 14.5755 13.9984H9.42546Z"
+                                                        fill="#FF8031"
+                                                />
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
                             </li>
-                            <li><i class="feather icon-trash-2 close-card"></i></li>
+                            <li>
+                                <div>
+                                    <span>1</span>
+                                    <div>서울특별시 구로구</div>
+                                </div>
+                                <div>
+                                    <div>
+                                        101건
+                                        <svg
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <g>
+                                                <path
+                                                        d="M9.42546 13.9984C8.97546 13.9984 8.66296 13.7943 8.48796 13.3859C8.31296 12.9776 8.3838 12.6151 8.70046 12.2984L11.3005 9.69844C11.4005 9.59844 11.5088 9.52344 11.6255 9.47344C11.7421 9.42344 11.8671 9.39844 12.0005 9.39844C12.1338 9.39844 12.2588 9.42344 12.3755 9.47344C12.4921 9.52344 12.6005 9.59844 12.7005 9.69844L15.3005 12.2984C15.6171 12.6151 15.688 12.9776 15.513 13.3859C15.338 13.7943 15.0255 13.9984 14.5755 13.9984H9.42546Z"
+                                                        fill="#FF8031"
+                                                />
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <span>1</span>
+                                    <div>서울특별시 구로구</div>
+                                </div>
+                                <div>
+                                    <div>
+                                        101건
+                                        <svg
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <g>
+                                                <path
+                                                        d="M9.42546 13.9984C8.97546 13.9984 8.66296 13.7943 8.48796 13.3859C8.31296 12.9776 8.3838 12.6151 8.70046 12.2984L11.3005 9.69844C11.4005 9.59844 11.5088 9.52344 11.6255 9.47344C11.7421 9.42344 11.8671 9.39844 12.0005 9.39844C12.1338 9.39844 12.2588 9.42344 12.3755 9.47344C12.4921 9.52344 12.6005 9.59844 12.7005 9.69844L15.3005 12.2984C15.6171 12.6151 15.688 12.9776 15.513 13.3859C15.338 13.7943 15.0255 13.9984 14.5755 13.9984H9.42546Z"
+                                                        fill="#FF8031"
+                                                />
+                                            </g>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                 </div>
-                <div class="card-block">
-                    <div id="visitor" style="height: 300px; overflow: hidden; text-align: left;">
-                        <div class="amcharts-main-div" style="position: relative; width: 100%; height: 100%;">
-                            <div class="amChartsLegend amcharts-legend-div" style="overflow: hidden; position: relative; text-align: left; width: 1007px; height: 48px; cursor: default;">
-                                <svg version="1.1" style="position: absolute; width: 1007px; height: 48px;">
-                                    <desc>JavaScript chart by amCharts 3.21.5</desc>
-                                    <g transform="translate(81,10)">
-                                        <path cs="100,100" d="M0.5,0.5 L857.5,0.5 L857.5,37.5 L0.5,37.5 Z" fill="#FFFFFF" stroke="#000000" fill-opacity="0" stroke-width="1" stroke-opacity="0"></path>
-                                        <g transform="translate(0,11)">
-                                            <g cursor="pointer" aria-label="old Visitor" transform="translate(0,0)">
-                                                <path cs="100,100" d="M-15.5,8.5 L16.5,8.5 L16.5,-7.5 L-15.5,-7.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" transform="translate(16,8)"></path>
-                                                <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(37,7)">
-                                                    <tspan y="6" x="0">old Visitor</tspan>
-                                                </text>
-                                                <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(193,7)"></text>
-                                                <rect x="32" y="0" width="161.03076171875" height="18" rx="0" ry="0" stroke-width="0" stroke="none" fill="#fff" fill-opacity="0.005"></rect>
-                                            </g>
-                                            <g cursor="pointer" aria-label="New visitor" transform="translate(208,0)">
-                                                <path cs="100,100" d="M-15.5,8.5 L16.5,8.5 L16.5,-7.5 L-15.5,-7.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" transform="translate(16,8)"></path>
-                                                <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(37,7)">
-                                                    <tspan y="6" x="0">New visitor</tspan>
-                                                </text>
-                                                <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(193,7)"></text>
-                                                <rect x="32" y="0" width="161.03076171875" height="18" rx="0" ry="0" stroke-width="0" stroke="none" fill="#fff" fill-opacity="0.005"></rect>
-                                            </g>
-                                            <g cursor="pointer" aria-label="Last Month Visitor" transform="translate(415,0)">
-                                                <g>
-                                                    <path cs="100,100" d="M0.5,8.5 L32.5,8.5" fill="none" stroke-width="2" stroke-opacity="0.9" stroke="#0df3a3"></path>
-                                                    <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(17,8)"></circle>
-                                                </g>
-                                                <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(37,7)">
-                                                    <tspan y="6" x="0">Last Month Visitor</tspan>
-                                                </text>
-                                                <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(193,7)"></text>
-                                                <rect x="32" y="0" width="161.03076171875" height="18" rx="0" ry="0" stroke-width="0" stroke="none" fill="#fff" fill-opacity="0.005"></rect>
-                                            </g>
-                                            <g cursor="pointer" aria-label="Average Visitor" transform="translate(623,0)">
-                                                <g>
-                                                    <path cs="100,100" d="M0.5,8.5 L32.5,8.5" fill="none" stroke-width="2" stroke-dasharray="5" stroke-opacity="0.9" stroke="#fe5d70"></path>
-                                                    <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(17,8)"></circle>
-                                                </g>
-                                                <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(37,7)">
-                                                    <tspan y="6" x="0">Average Visitor</tspan>
-                                                </text>
-                                                <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(193,7)"></text>
-                                                <rect x="32" y="0" width="161.03076171875" height="18" rx="0" ry="0" stroke-width="0" stroke="none" fill="#fff" fill-opacity="0.005"></rect>
-                                            </g>
-                                        </g>
-                                    </g>
-                                </svg>
-                            </div>
-                            <div class="amcharts-chart-div" style="overflow: hidden; position: relative; text-align: left; width: 1007px; height: 252px; padding: 0px; cursor: default;">
-                                <svg version="1.1" style="position: absolute; width: 1007px; height: 252px; top: -0.109375px; left: -0.203125px;">
-                                    <desc>JavaScript chart by amCharts 3.21.5</desc>
-                                    <g>
-                                        <path cs="100,100" d="M0.5,0.5 L1006.5,0.5 L1006.5,251.5 L0.5,251.5 Z" fill="#FFFFFF" stroke="#000000" fill-opacity="0" stroke-width="1" stroke-opacity="0"></path>
-                                        <path cs="100,100" d="M0.5,0.5 L857.5,0.5 L857.5,201.5 L0.5,201.5 L0.5,0.5 Z" fill="#FFFFFF" stroke="#000000" fill-opacity="0" stroke-width="1" stroke-opacity="0" transform="translate(81,20)"></path>
-                                    </g>
-                                    <g>
-                                        <g transform="translate(81,20)">
-                                            <g>
-                                                <path cs="100,100" d="M0.5,0.5 L0.5,5.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(0,201)"></path>
-                                                <path cs="100,100" d="M0.5,201.5 L0.5,201.5 L0.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M57.5,201.5 L57.5,201.5 L57.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.07" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M114.5,0.5 L114.5,5.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(0,201)"></path>
-                                                <path cs="100,100" d="M114.5,201.5 L114.5,201.5 L114.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M171.5,201.5 L171.5,201.5 L171.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.07" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M229.5,0.5 L229.5,5.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(0,201)"></path>
-                                                <path cs="100,100" d="M229.5,201.5 L229.5,201.5 L229.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M286.5,201.5 L286.5,201.5 L286.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.07" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M343.5,0.5 L343.5,5.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(0,201)"></path>
-                                                <path cs="100,100" d="M343.5,201.5 L343.5,201.5 L343.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M400.5,201.5 L400.5,201.5 L400.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.07" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M457.5,0.5 L457.5,5.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(0,201)"></path>
-                                                <path cs="100,100" d="M457.5,201.5 L457.5,201.5 L457.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M514.5,201.5 L514.5,201.5 L514.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.07" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M571.5,0.5 L571.5,5.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(0,201)"></path>
-                                                <path cs="100,100" d="M571.5,201.5 L571.5,201.5 L571.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M628.5,201.5 L628.5,201.5 L628.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.07" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M686.5,0.5 L686.5,5.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(0,201)"></path>
-                                                <path cs="100,100" d="M686.5,201.5 L686.5,201.5 L686.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M743.5,201.5 L743.5,201.5 L743.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.07" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M800.5,0.5 L800.5,5.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(0,201)"></path>
-                                                <path cs="100,100" d="M800.5,201.5 L800.5,201.5 L800.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M857.5,201.5 L857.5,201.5 L857.5,0.5" fill="none" stroke-width="1" stroke-dasharray="1" stroke-opacity="0.07" stroke="#000000"></path>
-                                            </g>
-                                        </g>
-                                        <g transform="translate(81,20)" visibility="visible">
-                                            <g>
-                                                <path cs="100,100" d="M0.5,201.5 L6.5,201.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,201.5 L0.5,201.5 L857.5,201.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,161.5 L6.5,161.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,161.5 L0.5,161.5 L857.5,161.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,121.5 L6.5,121.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,121.5 L0.5,121.5 L857.5,121.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,80.5 L6.5,80.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,80.5 L0.5,80.5 L857.5,80.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,40.5 L6.5,40.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,40.5 L0.5,40.5 L857.5,40.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,0.5 L6.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,0.5 L0.5,0.5 L857.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000"></path>
-                                            </g>
-                                        </g>
-                                        <g transform="translate(81,20)" visibility="visible">
-                                            <g>
-                                                <path cs="100,100" d="M0.5,201.5 L6.5,201.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(857,0)"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,161.5 L6.5,161.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(857,0)"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,121.5 L6.5,121.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(857,0)"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,80.5 L6.5,80.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(857,0)"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,40.5 L6.5,40.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(857,0)"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,0.5 L6.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(857,0)"></path>
-                                            </g>
-                                        </g>
-                                    </g>
-                                    <g transform="translate(81,20)" clip-path="url(#AmChartsEl-3)">
-                                        <g visibility="hidden"></g>
-                                    </g>
-                                    <g></g>
-                                    <g></g>
-                                    <g></g>
-                                    <g>
-                                        <g transform="translate(81,20)">
-                                            <g>
-                                                <g transform="translate(15,201)" aria-label="old Visitor Jan 16, 2013 8.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-160.5 L29.5,-160.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(72,201)" aria-label="old Visitor Jan 17, 2013 6.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-120.5 L29.5,-120.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(129,201)" aria-label="old Visitor Jan 18, 2013 2.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-39.5 L29.5,-39.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(186,201)" aria-label="old Visitor Jan 19, 2013 9.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-180.5 L29.5,-180.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(243,201)" aria-label="old Visitor Jan 20, 2013 6.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-120.5 L29.5,-120.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(300,201)" aria-label="old Visitor Jan 21, 2013 5.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-99.5 L29.5,-99.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(357,201)" aria-label="old Visitor Jan 22, 2013 7.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-140.5 L29.5,-140.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(415,201)" aria-label="old Visitor Jan 23, 2013 6.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-120.5 L29.5,-120.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(472,201)" aria-label="old Visitor Jan 24, 2013 5.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-99.5 L29.5,-99.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(529,201)" aria-label="old Visitor Jan 25, 2013 8.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-160.5 L29.5,-160.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(586,201)" aria-label="old Visitor Jan 26, 2013 8.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-160.5 L29.5,-160.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(643,201)" aria-label="old Visitor Jan 27, 2013 4.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-79.5 L29.5,-79.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(700,201)" aria-label="old Visitor Jan 28, 2013 7.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-140.5 L29.5,-140.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(757,201)" aria-label="old Visitor Jan 29, 2013 8.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-160.5 L29.5,-160.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(814,201)" aria-label="old Visitor Jan 30, 2013 7.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-140.5 L29.5,-140.5 L29.5,0.5 L0.5,0.5 Z" fill="#feb798" stroke="#feb798" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                            </g>
-                                        </g>
-                                        <g transform="translate(81,20)">
-                                            <g>
-                                                <g transform="translate(20,201)" aria-label="New visitor Jan 16, 2013 5.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-99.5 L17.5,-99.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(77,201)" aria-label="New visitor Jan 17, 2013 4.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-79.5 L17.5,-79.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(134,201)" aria-label="New visitor Jan 18, 2013 5.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-99.5 L17.5,-99.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(191,201)" aria-label="New visitor Jan 19, 2013 8.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-160.5 L17.5,-160.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(248,201)" aria-label="New visitor Jan 20, 2013 9.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-180.5 L17.5,-180.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(305,201)" aria-label="New visitor Jan 21, 2013 3.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-59.5 L17.5,-59.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(362,201)" aria-label="New visitor Jan 22, 2013 5.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-99.5 L17.5,-99.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(420,201)" aria-label="New visitor Jan 23, 2013 7.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-140.5 L17.5,-140.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(477,201)" aria-label="New visitor Jan 24, 2013 9.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-180.5 L17.5,-180.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(534,201)" aria-label="New visitor Jan 25, 2013 5.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-99.5 L17.5,-99.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(591,201)" aria-label="New visitor Jan 26, 2013 4.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-79.5 L17.5,-79.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(648,201)" aria-label="New visitor Jan 27, 2013 3.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-59.5 L17.5,-59.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(705,201)" aria-label="New visitor Jan 28, 2013 5.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-99.5 L17.5,-99.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(762,201)" aria-label="New visitor Jan 29, 2013 5.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-99.5 L17.5,-99.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                                <g transform="translate(819,201)" aria-label="New visitor Jan 30, 2013 4.00">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-79.5 L17.5,-79.5 L17.5,0.5 L0.5,0.5 Z" fill="#fe9365" stroke="#fe9365" fill-opacity="1" stroke-width="1" stroke-opacity="0.9"></path>
-                                                </g>
-                                            </g>
-                                        </g>
-                                        <g transform="translate(81,20)">
-                                            <g></g>
-                                            <g clip-path="url(#AmChartsEl-5)">
-                                                <path cs="100,100"
-                                                      d="M29,193 C43,192,58,172,86,169 C115,166,115,141,143,137 C172,132,172,82,200,80 C229,79,229,104,257,105 C286,105,286,99,314,96 C343,94,342,57,371,56 C400,55,400,79,429,80 C458,82,458,78,486,80 C515,82,515,121,543,121 C572,120,572,66,600,64 C629,63,629,87,657,88 C686,90,686,96,714,96 C743,96,743,88,771,88 C800,89,814,111,828,113 M0,0 L0,0"
-                                                      fill="none" fill-opacity="0" stroke-width="2" stroke-opacity="0.9" stroke="#0df3a3"></path>
-                                            </g>
-                                            <clipPath id="AmChartsEl-5">
-                                                <rect x="0" y="0" width="857" height="201" rx="0" ry="0" stroke-width="0"></rect>
-                                            </clipPath>
-                                            <g></g>
-                                        </g>
-                                        <g transform="translate(81,20)">
-                                            <g></g>
-                                            <g clip-path="url(#AmChartsEl-6)">
-                                                <path cs="100,100"
-                                                      d="M29.5,161.3 L86.5,137.18 L143.5,56.78 L200.5,48.74 L257.5,48.74 L314.5,80.9 L371.5,24.62 L429.5,40.7 L486.5,32.66 L543.5,88.94 L600.5,24.62 L657.5,64.82 L714.5,56.78 L771.5,64.82 L828.5,80.9 M0,0 L0,0"
-                                                      fill="none" stroke-width="2" stroke-dasharray="5" stroke-opacity="0.9" stroke="#fe5d70" stroke-linejoin="round"></path>
-                                            </g>
-                                            <clipPath id="AmChartsEl-6">
-                                                <rect x="0" y="0" width="857" height="201" rx="0" ry="0" stroke-width="0"></rect>
-                                            </clipPath>
-                                            <g></g>
-                                        </g>
-                                    </g>
-                                    <g></g>
-                                    <g>
-                                        <path cs="100,100" d="M0.5,201.5 L857.5,201.5 L857.5,201.5" fill="none" stroke-width="1" stroke-opacity="0.2" stroke="#000000" transform="translate(81,20)"></path>
-                                        <g>
-                                            <path cs="100,100" d="M0.5,0.5 L857.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(81,221)"></path>
-                                        </g>
-                                        <g>
-                                            <path cs="100,100" d="M0.5,0.5 L0.5,201.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(81,20)" visibility="visible"></path>
-                                        </g>
-                                        <g>
-                                            <path cs="100,100" d="M0.5,0.5 L0.5,201.5 L0.5,201.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(938,20)" visibility="visible"></path>
-                                        </g>
-                                    </g>
-                                    <g>
-                                        <g transform="translate(81,20)" clip-path="url(#AmChartsEl-4)" style="pointer-events: none;">
-                                            <path cs="100,100" d="M0.5,0.5 L0.5,0.5 L0.5,201.5" fill="none" stroke-width="1" stroke-opacity="0" stroke="#000000" visibility="hidden" transform="translate(200,0)"></path>
-                                            <path cs="100,100" d="M0.5,0.5 L857.5,0.5 L857.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.2" stroke="#000000" visibility="hidden" transform="translate(0,75)"></path>
-                                        </g>
-                                        <clipPath id="AmChartsEl-4">
-                                            <rect x="0" y="0" width="857" height="201" rx="0" ry="0" stroke-width="0"></rect>
-                                        </clipPath>
-                                    </g>
-                                    <g></g>
-                                    <g>
-                                        <g transform="translate(81,20)"></g>
-                                        <g transform="translate(81,20)"></g>
-                                        <g transform="translate(81,20)">
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(29,193)"
-                                                    aria-label="Last Month Visitor Jan 16, 2013 71.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(86,169)"
-                                                    aria-label="Last Month Visitor Jan 17, 2013 74.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(143,137)"
-                                                    aria-label="Last Month Visitor Jan 18, 2013 78.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(200,80) scale(1)"
-                                                    aria-label="Last Month Visitor Jan 19, 2013 85.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(257,105) scale(1)"
-                                                    aria-label="Last Month Visitor Jan 20, 2013 82.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(314,96) scale(1)"
-                                                    aria-label="Last Month Visitor Jan 21, 2013 83.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(371,56)"
-                                                    aria-label="Last Month Visitor Jan 22, 2013 88.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(429,80)"
-                                                    aria-label="Last Month Visitor Jan 23, 2013 85.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(486,80)"
-                                                    aria-label="Last Month Visitor Jan 24, 2013 85.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(543,121)"
-                                                    aria-label="Last Month Visitor Jan 25, 2013 80.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(600,64)"
-                                                    aria-label="Last Month Visitor Jan 26, 2013 87.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(657,88)"
-                                                    aria-label="Last Month Visitor Jan 27, 2013 84.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(714,96)"
-                                                    aria-label="Last Month Visitor Jan 28, 2013 83.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(771,88)"
-                                                    aria-label="Last Month Visitor Jan 29, 2013 84.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#0df3a3" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(828,113)"
-                                                    aria-label="Last Month Visitor Jan 30, 2013 81.00"></circle>
-                                        </g>
-                                        <g transform="translate(81,20)">
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(29,161)"
-                                                    aria-label="Average Visitor Jan 16, 2013 75.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(86,137)"
-                                                    aria-label="Average Visitor Jan 17, 2013 78.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(143,56)"
-                                                    aria-label="Average Visitor Jan 18, 2013 88.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(200,48) scale(1)"
-                                                    aria-label="Average Visitor Jan 19, 2013 89.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(257,48) scale(1)"
-                                                    aria-label="Average Visitor Jan 20, 2013 89.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(314,80) scale(1)"
-                                                    aria-label="Average Visitor Jan 21, 2013 85.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(371,24)"
-                                                    aria-label="Average Visitor Jan 22, 2013 92.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(429,40)"
-                                                    aria-label="Average Visitor Jan 23, 2013 90.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(486,32)"
-                                                    aria-label="Average Visitor Jan 24, 2013 91.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(543,88)"
-                                                    aria-label="Average Visitor Jan 25, 2013 84.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(600,24)"
-                                                    aria-label="Average Visitor Jan 26, 2013 92.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(657,64)"
-                                                    aria-label="Average Visitor Jan 27, 2013 87.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(714,56)"
-                                                    aria-label="Average Visitor Jan 28, 2013 88.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(771,64)"
-                                                    aria-label="Average Visitor Jan 29, 2013 87.00"></circle>
-                                            <circle r="2.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fe5d70" fill-opacity="1" stroke-width="2" stroke-opacity="1" transform="translate(828,80)"
-                                                    aria-label="Average Visitor Jan 30, 2013 85.00"></circle>
-                                        </g>
-                                    </g>
-                                    <g>
-                                        <g></g>
-                                    </g>
-                                    <g>
-                                        <g transform="translate(81,20)" visibility="visible">
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(3,213.5)">
-                                                <tspan y="6" x="0">Jan 16</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(117,213.5)">
-                                                <tspan y="6" x="0">Jan 18</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(232,213.5)">
-                                                <tspan y="6" x="0">Jan 20</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(346,213.5)">
-                                                <tspan y="6" x="0">Jan 22</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(460,213.5)">
-                                                <tspan y="6" x="0">Jan 24</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(574,213.5)">
-                                                <tspan y="6" x="0">Jan 26</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(689,213.5)">
-                                                <tspan y="6" x="0">Jan 28</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(803,213.5)">
-                                                <tspan y="6" x="0">Jan 30</tspan>
-                                            </text>
-                                        </g>
-                                        <g transform="translate(81,20)" visibility="visible">
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,200)">
-                                                <tspan y="6" x="0">$0M</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,160)">
-                                                <tspan y="6" x="0">$2M</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,120)">
-                                                <tspan y="6" x="0">$4M</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,79)">
-                                                <tspan y="6" x="0">$6M</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,39)">
-                                                <tspan y="6" x="0">$8M</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,-1)">
-                                                <tspan y="6" x="0">$10M</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="12px" opacity="1" font-weight="bold" text-anchor="middle" transform="translate(-60,101) rotate(-90)">
-                                                <tspan y="6" x="0">Visitors</tspan>
-                                            </text>
-                                        </g>
-                                        <g transform="translate(81,20)" visibility="visible">
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(867,200)">
-                                                <tspan y="6" x="0">70</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(867,160)">
-                                                <tspan y="6" x="0">75</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(867,120)">
-                                                <tspan y="6" x="0">80</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(867,79)">
-                                                <tspan y="6" x="0">85</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(867,39)">
-                                                <tspan y="6" x="0">90</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="start" transform="translate(867,-1)">
-                                                <tspan y="6" x="0">95</tspan>
-                                            </text>
-                                            <text y="6" fill="#000000" font-family="Verdana" font-size="12px" opacity="1" font-weight="bold" text-anchor="middle" transform="translate(899,101) rotate(-90)">
-                                                <tspan y="6" x="0">New Visitors</tspan>
-                                            </text>
-                                        </g>
-                                    </g>
-                                    <g></g>
-                                    <g transform="translate(81,20)"></g>
-                                    <g></g>
-                                    <g></g>
-                                    <clipPath id="AmChartsEl-3">
-                                        <rect x="-1" y="-1" width="859" height="203" rx="0" ry="0" stroke-width="0"></rect>
-                                    </clipPath>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
-        <div class="col-xl-4 col-md-12">
-            <div class="card">
-                <div class="card-block bg-c-green">
-                    <div id="proj-earning" style="height: 230px; overflow: hidden; text-align: left;">
-                        <div class="amcharts-main-div" style="position: relative;">
-                            <div class="amcharts-chart-div" style="overflow: hidden; position: relative; text-align: left; width: 468px; height: 230px; padding: 0px;">
-                                <svg version="1.1" style="position: absolute; width: 468px; height: 230px; top: 0.390625px; left: -0.28125px;">
-                                    <desc>JavaScript chart by amCharts 3.21.5</desc>
-                                    <g>
-                                        <path cs="100,100" d="M0.5,0.5 L467.5,0.5 L467.5,229.5 L0.5,229.5 Z" fill="#FFFFFF" stroke="#000000" fill-opacity="0" stroke-width="1" stroke-opacity="0"></path>
-                                        <path cs="100,100" d="M0.5,0.5 L406.5,0.5 L406.5,178.5 L0.5,178.5 L0.5,0.5 Z" fill="#FFFFFF" stroke="#000000" fill-opacity="0" stroke-width="1" stroke-opacity="0" transform="translate(41,20)"></path>
-                                    </g>
-                                    <g transform="translate(41,20)" clip-path="url(#AmChartsEl-9)">
-                                        <g visibility="hidden"></g>
-                                    </g>
-                                    <g></g>
-                                    <g></g>
-                                    <g></g>
-                                    <g>
-                                        <g transform="translate(41,20)">
-                                            <g>
-                                                <g transform="translate(21,178)" visibility="visible" aria-label=" UI 10">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-58.5 L41.5,-58.5 L41.5,0.5 L0.5,0.5 Z" fill="#fff" stroke="#fff" fill-opacity="1" stroke-width="1" stroke-opacity="1"></path>
-                                                </g>
-                                                <g transform="translate(102,178)" visibility="visible" aria-label=" UX 15">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-132.5 L41.5,-132.5 L41.5,0.5 L0.5,0.5 Z" fill="#fff" stroke="#fff" fill-opacity="1" stroke-width="1" stroke-opacity="1"></path>
-                                                </g>
-                                                <g transform="translate(183,178)" visibility="visible" aria-label=" Web 12">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-88.5 L41.5,-88.5 L41.5,0.5 L0.5,0.5 Z" fill="#fff" stroke="#fff" fill-opacity="1" stroke-width="1" stroke-opacity="1"></path>
-                                                </g>
-                                                <g transform="translate(264,178)" visibility="visible" aria-label=" App 16">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-147.5 L41.5,-147.5 L41.5,0.5 L0.5,0.5 Z" fill="#fff" stroke="#fff" fill-opacity="1" stroke-width="1" stroke-opacity="1"></path>
-                                                </g>
-                                                <g transform="translate(345,178)" visibility="visible" aria-label=" SEO 8">
-                                                    <path cs="100,100" d="M0.5,0.5 L0.5,-29.5 L41.5,-29.5 L41.5,0.5 L0.5,0.5 Z" fill="#fff" stroke="#fff" fill-opacity="1" stroke-width="1" stroke-opacity="1"></path>
-                                                </g>
-                                            </g>
-                                        </g>
-                                    </g>
-                                    <g></g>
-                                    <g>
-                                        <g>
-                                            <path cs="100,100" d="M0.5,0.5 L406.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#000000" transform="translate(41,198)"></path>
-                                        </g>
-                                        <g>
-                                            <path cs="100,100" d="M0.5,0.5 L0.5,178.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="transparent" transform="translate(41,20)" visibility="visible"></path>
-                                        </g>
-                                    </g>
-                                    <g>
-                                        <g transform="translate(41,20)" clip-path="url(#AmChartsEl-10)" style="pointer-events: none;">
-                                            <path cs="100,100" d="M0.5,0.5 L0.5,0.5 L0.5,178.5" fill="none" stroke-width="1" stroke-opacity="0" stroke="#000000" visibility="hidden"></path>
-                                            <path cs="100,100" d="M0.5,0.5 L406.5,0.5 L406.5,0.5" fill="none" stroke-width="1" stroke="#000000" visibility="hidden"></path>
-                                        </g>
-                                        <clipPath id="AmChartsEl-10">
-                                            <rect x="0" y="0" width="406" height="178" rx="0" ry="0" stroke-width="0"></rect>
-                                        </clipPath>
-                                    </g>
-                                    <g></g>
-                                    <g>
-                                        <g></g>
-                                    </g>
-                                    <g>
-                                        <g transform="translate(41,20)" visibility="visible">
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="12px" opacity="1" text-anchor="middle" transform="translate(40.6,191)">
-                                                <tspan y="6" x="0">UI</tspan>
-                                            </text>
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="12px" opacity="1" text-anchor="middle" transform="translate(121.6,191)">
-                                                <tspan y="6" x="0">UX</tspan>
-                                            </text>
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="12px" opacity="1" text-anchor="middle" transform="translate(202.6,191)">
-                                                <tspan y="6" x="0">Web</tspan>
-                                            </text>
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="12px" opacity="1" text-anchor="middle" transform="translate(283.6,191)">
-                                                <tspan y="6" x="0">App</tspan>
-                                            </text>
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="12px" opacity="1" text-anchor="middle" transform="translate(364.6,191)">
-                                                <tspan y="6" x="0">SEO</tspan>
-                                            </text>
-                                        </g>
-                                        <g transform="translate(41,20)" visibility="visible">
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,177)">
-                                                <tspan y="6" x="0">6</tspan>
-                                            </text>
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,147)">
-                                                <tspan y="6" x="0">8</tspan>
-                                            </text>
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,118)">
-                                                <tspan y="6" x="0">10</tspan>
-                                            </text>
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,88)">
-                                                <tspan y="6" x="0">12</tspan>
-                                            </text>
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,58)">
-                                                <tspan y="6" x="0">14</tspan>
-                                            </text>
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,29)">
-                                                <tspan y="6" x="0">16</tspan>
-                                            </text>
-                                            <text y="6" fill="#fff" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,-1)">
-                                                <tspan y="6" x="0">18</tspan>
-                                            </text>
-                                        </g>
-                                    </g>
-                                    <g transform="translate(41,20)"></g>
-                                    <g></g>
-                                    <g></g>
-                                    <g>
-                                        <g transform="translate(41,20)"></g>
-                                        <g transform="translate(41,20)" visibility="visible">
-                                            <g>
-                                                <path cs="100,100" d="M0.5,178.5 L6.5,178.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="transparent" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,178.5 L0.5,178.5 L406.5,178.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#fff"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,148.5 L6.5,148.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="transparent" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,148.5 L0.5,148.5 L406.5,148.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#fff"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,119.5 L6.5,119.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="transparent" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,119.5 L0.5,119.5 L406.5,119.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#fff"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,89.5 L6.5,89.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="transparent" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,89.5 L0.5,89.5 L406.5,89.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#fff"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,59.5 L6.5,59.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="transparent" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,59.5 L0.5,59.5 L406.5,59.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#fff"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,30.5 L6.5,30.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="transparent" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,30.5 L0.5,30.5 L406.5,30.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#fff"></path>
-                                            </g>
-                                            <g>
-                                                <path cs="100,100" d="M0.5,0.5 L6.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="transparent" transform="translate(-6,0)"></path>
-                                                <path cs="100,100" d="M0.5,0.5 L0.5,0.5 L406.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.3" stroke="#fff"></path>
-                                            </g>
-                                        </g>
-                                    </g>
-                                    <g>
-                                        <g transform="translate(41,20)"></g>
-                                    </g>
-                                    <g></g>
-                                    <clipPath id="AmChartsEl-9">
-                                        <rect x="-1" y="-1" width="408" height="180" rx="0" ry="0" stroke-width="0"></rect>
-                                    </clipPath>
-                                </svg>
-                            </div>
-                        </div>
+        <div class="ss-dashboard-grid-item white reg-delivery-summary">
+            <div>
+                <div>회원가입</div>
+                <div>2024. 01. 01 기준</div>
+            </div>
+            <ul>
+                <li>
+                    <div>금일</div>
+                    <div>17 <b>명</b></div>
+                </li>
+                <li>
+                    <div>종합</div>
+                    <div>2,500 <b>명</b></div>
+                </li>
+            </ul>
+        </div>
+        <div class="ss-dashboard-grid-item white reg-delivery-summary">
+            <div>
+                <div>발송현황</div>
+                <div>2024. 01. 01 기준</div>
+            </div>
+            <ul>
+                <li>
+                    <div>이메일</div>
+                    <div>30 <b>건</b></div>
+                </li>
+                <li>
+                    <div>SMS</div>
+                    <div>2 <b>건</b></div>
+                </li>
+            </ul>
+        </div>
+        <!-- 새로운식구 -->
+        <!-- <div class="ss-dashboard-grid-item white latest-post">
+          <div class="latest-post-header">
+            <div>
+              <div class="latest-post-board-type active">새로운식구</div>
+              <div class="latest-post-board-type">일상기록</div>
+              <div class="latest-post-refresh">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <path
+                      d="M8.4359 16.8711C7.05876 16.5218 5.93349 15.7924 5.0601 14.6829C4.1867 13.5734 3.75 12.2894 3.75 10.8311C3.75 10.0822 3.88061 9.3661 4.14183 8.68288C4.40306 7.99965 4.76871 7.37279 5.23879 6.80227C5.35417 6.67301 5.49358 6.60624 5.65704 6.60196C5.8205 6.59768 5.97114 6.66445 6.10896 6.80227C6.22435 6.91766 6.28417 7.05842 6.28844 7.22454C6.29272 7.39067 6.23716 7.54691 6.12177 7.69327C5.7564 8.12917 5.47808 8.61475 5.28683 9.15C5.0956 9.68526 4.99998 10.2456 4.99998 10.8311C4.99998 11.9775 5.34587 12.997 6.03765 13.8896C6.72942 14.7822 7.61484 15.3749 8.6939 15.6676C8.83172 15.7072 8.94496 15.7846 9.03365 15.9C9.12231 16.0154 9.16665 16.142 9.16665 16.2798C9.16665 16.4881 9.0948 16.6521 8.9511 16.7718C8.80741 16.8914 8.63567 16.9246 8.4359 16.8711ZM11.5641 16.8872C11.3643 16.9406 11.1925 16.9053 11.0489 16.7814C10.9052 16.6575 10.8333 16.4913 10.8333 16.283C10.8333 16.1537 10.8776 16.0314 10.9663 15.916C11.055 15.8007 11.1682 15.7205 11.3061 15.6757C12.3798 15.3477 13.2639 14.7435 13.9583 13.8632C14.6528 12.9828 15 11.9721 15 10.8311C15 9.44222 14.5139 8.26166 13.5416 7.28944C12.5694 6.31722 11.3889 5.8311 9.99998 5.8311H9.70508L10.391 6.51702C10.5117 6.63774 10.5721 6.78411 10.5721 6.95612C10.5721 7.12812 10.5117 7.27449 10.391 7.39521C10.2703 7.51593 10.1239 7.57629 9.95192 7.57629C9.77992 7.57629 9.63356 7.51593 9.51283 7.39521L7.85098 5.73335C7.77299 5.65537 7.71797 5.5731 7.68592 5.48656C7.65386 5.40002 7.63783 5.30654 7.63783 5.20612C7.63783 5.10569 7.65386 5.01221 7.68592 4.92567C7.71797 4.83914 7.77299 4.75687 7.85098 4.67887L9.51283 3.01702C9.63356 2.8963 9.77992 2.83594 9.95192 2.83594C10.1239 2.83594 10.2703 2.8963 10.391 3.01702C10.5117 3.13774 10.5721 3.28411 10.5721 3.45612C10.5721 3.62812 10.5117 3.77449 10.391 3.89521L9.70508 4.58112H9.99998C11.7436 4.58112 13.2211 5.1869 14.4326 6.39844C15.6442 7.60997 16.25 9.08752 16.25 10.8311C16.25 12.2755 15.8119 13.5533 14.9359 14.6644C14.0598 15.7755 12.9359 16.5164 11.5641 16.8872Z"
+                      fill="#FF8031"
+                    />
+                  </g>
+                </svg>
+                <span>새로고침</span>
+              </div>
+            </div>
+            <div class="latest-post-more">
+              <span>더보기</span
+              ><svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="12" cy="12" r="11" transform="rotate(90 12 12)" fill="#171A19" />
+                <path
+                  d="M10.2221 7.74649C9.92597 8.04262 9.92597 8.52098 10.2221 8.81711L13.1682 11.7632L10.2221 14.7093C9.92597 15.0054 9.92597 15.4838 10.2221 15.7799C10.5182 16.076 10.9966 16.076 11.2927 15.7799L14.7779 12.2947C15.074 11.9986 15.074 11.5202 14.7779 11.2241L11.2927 7.7389C11.0042 7.45036 10.5182 7.45036 10.2221 7.74649Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+          </div>
+          <div class="latest-post-content">
+            <div class="latest-post-card">
+              <div class="latest-post-card-img">
+                <img src="" alt="" />
+              </div>
+              <span>서울특별시 중구 을지로</span>
+              <p>2살 여아 시고르자브종 무료분양 합니다.</p>
+              <div class="latest-post-card-tag-box">
+                <div class="latest-post-card-tag">#강아지</div>
+                <div class="latest-post-card-tag">#믹스견</div>
+                <div class="latest-post-card-tag">#암컷</div>
+              </div>
+            </div>
+            <div class="latest-post-card">
+              <div class="latest-post-card-img">
+                <img src="" alt="" />
+              </div>
+              <span>서울특별시 중구 을지로</span>
+              <p>2살 여아 시고르자브종 무료분양 합니다.</p>
+              <div class="latest-post-card-tag-box">
+                <div class="latest-post-card-tag">#강아지</div>
+                <div class="latest-post-card-tag">#믹스견</div>
+                <div class="latest-post-card-tag">#암컷</div>
+              </div>
+            </div>
+            <div class="latest-post-card">
+              <div class="latest-post-card-img">
+                <img src="" alt="" />
+              </div>
+              <span>서울특별시 중구 을지로</span>
+              <p>2살 여아 시고르자브종 무료분양 합니다.</p>
+              <div class="latest-post-card-tag-box">
+                <div class="latest-post-card-tag">#강아지</div>
+                <div class="latest-post-card-tag">#믹스견</div>
+                <div class="latest-post-card-tag">#암컷</div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!-- 일상기록 -->
+        <div class="ss-dashboard-grid-item white latest-post">
+            <div class="latest-post-header">
+                <div>
+                    <div class="latest-post-board-type">새로운식구</div>
+                    <div class="latest-post-board-type active">일상기록</div>
+                    <div class="latest-post-refresh">
+                        <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <g>
+                                <path
+                                        d="M8.4359 16.8711C7.05876 16.5218 5.93349 15.7924 5.0601 14.6829C4.1867 13.5734 3.75 12.2894 3.75 10.8311C3.75 10.0822 3.88061 9.3661 4.14183 8.68288C4.40306 7.99965 4.76871 7.37279 5.23879 6.80227C5.35417 6.67301 5.49358 6.60624 5.65704 6.60196C5.8205 6.59768 5.97114 6.66445 6.10896 6.80227C6.22435 6.91766 6.28417 7.05842 6.28844 7.22454C6.29272 7.39067 6.23716 7.54691 6.12177 7.69327C5.7564 8.12917 5.47808 8.61475 5.28683 9.15C5.0956 9.68526 4.99998 10.2456 4.99998 10.8311C4.99998 11.9775 5.34587 12.997 6.03765 13.8896C6.72942 14.7822 7.61484 15.3749 8.6939 15.6676C8.83172 15.7072 8.94496 15.7846 9.03365 15.9C9.12231 16.0154 9.16665 16.142 9.16665 16.2798C9.16665 16.4881 9.0948 16.6521 8.9511 16.7718C8.80741 16.8914 8.63567 16.9246 8.4359 16.8711ZM11.5641 16.8872C11.3643 16.9406 11.1925 16.9053 11.0489 16.7814C10.9052 16.6575 10.8333 16.4913 10.8333 16.283C10.8333 16.1537 10.8776 16.0314 10.9663 15.916C11.055 15.8007 11.1682 15.7205 11.3061 15.6757C12.3798 15.3477 13.2639 14.7435 13.9583 13.8632C14.6528 12.9828 15 11.9721 15 10.8311C15 9.44222 14.5139 8.26166 13.5416 7.28944C12.5694 6.31722 11.3889 5.8311 9.99998 5.8311H9.70508L10.391 6.51702C10.5117 6.63774 10.5721 6.78411 10.5721 6.95612C10.5721 7.12812 10.5117 7.27449 10.391 7.39521C10.2703 7.51593 10.1239 7.57629 9.95192 7.57629C9.77992 7.57629 9.63356 7.51593 9.51283 7.39521L7.85098 5.73335C7.77299 5.65537 7.71797 5.5731 7.68592 5.48656C7.65386 5.40002 7.63783 5.30654 7.63783 5.20612C7.63783 5.10569 7.65386 5.01221 7.68592 4.92567C7.71797 4.83914 7.77299 4.75687 7.85098 4.67887L9.51283 3.01702C9.63356 2.8963 9.77992 2.83594 9.95192 2.83594C10.1239 2.83594 10.2703 2.8963 10.391 3.01702C10.5117 3.13774 10.5721 3.28411 10.5721 3.45612C10.5721 3.62812 10.5117 3.77449 10.391 3.89521L9.70508 4.58112H9.99998C11.7436 4.58112 13.2211 5.1869 14.4326 6.39844C15.6442 7.60997 16.25 9.08752 16.25 10.8311C16.25 12.2755 15.8119 13.5533 14.9359 14.6644C14.0598 15.7755 12.9359 16.5164 11.5641 16.8872Z"
+                                        fill="#FF8031"
+                                />
+                            </g>
+                        </svg>
+                        <span>새로고침</span>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <h6 class="text-muted m-b-30 m-t-15">Total completed project and
-                        earning</h6>
-                    <div class="row text-center">
-                        <div class="col-6 b-r-default">
-                            <h6 class="text-muted m-b-10">Completed Projects</h6>
-                            <h4 class="m-b-0 f-w-600 ">175</h4>
-                        </div>
-                        <div class="col-6">
-                            <h6 class="text-muted m-b-10">Total Earnings</h6>
-                            <h4 class="m-b-0 f-w-600 ">76.6M</h4>
-                        </div>
-                    </div>
+                <div class="latest-post-more">
+                            <span>더보기</span
+                            ><svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <circle cx="12" cy="12" r="11" transform="rotate(90 12 12)" fill="#171A19" />
+                    <path
+                            d="M10.2221 7.74649C9.92597 8.04262 9.92597 8.52098 10.2221 8.81711L13.1682 11.7632L10.2221 14.7093C9.92597 15.0054 9.92597 15.4838 10.2221 15.7799C10.5182 16.076 10.9966 16.076 11.2927 15.7799L14.7779 12.2947C15.074 11.9986 15.074 11.5202 14.7779 11.2241L11.2927 7.7389C11.0042 7.45036 10.5182 7.45036 10.2221 7.74649Z"
+                            fill="white"
+                    />
+                </svg>
                 </div>
             </div>
+            <div class="latest-post-grid">
+                <div class="latest-post-grid-img"><img src="" alt="" /></div>
+                <div class="latest-post-grid-img"><img src="" alt="" /></div>
+                <div class="latest-post-grid-img"><img src="" alt="" /></div>
+                <div class="latest-post-grid-img"><img src="" alt="" /></div>
+                <div class="latest-post-grid-img"><img src="" alt="" /></div>
+                <div class="latest-post-grid-img"><img src="" alt="" /></div>
+            </div>
         </div>
+        <div class="ss-dashboard-grid-item white">
+            <div class="latest-post-header">
+                <div>
+                    <div class="latest-post-board-type active">관리자 게시판</div>
+                </div>
+                <div class="latest-post-more">
+                            <span>더보기</span
+                            ><svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                >
+                    <circle cx="12" cy="12" r="11" transform="rotate(90 12 12)" fill="#171A19" />
+                    <path
+                            d="M10.2221 7.74649C9.92597 8.04262 9.92597 8.52098 10.2221 8.81711L13.1682 11.7632L10.2221 14.7093C9.92597 15.0054 9.92597 15.4838 10.2221 15.7799C10.5182 16.076 10.9966 16.076 11.2927 15.7799L14.7779 12.2947C15.074 11.9986 15.074 11.5202 14.7779 11.2241L11.2927 7.7389C11.0042 7.45036 10.5182 7.45036 10.2221 7.74649Z"
+                            fill="white"
+                    />
+                </svg>
+                </div>
+            </div>
+            <div class="admin-board">
+                <ul>
+                    <li>
+                        <div>
+                            <div class="admin-board-type">새로운식구</div>
+                            <div class="admin-board-post">
+                                <div>
+                                    <p>새로운 아이를 입양하려는데 의심스러워요</p>
+                                </div>
+                                <span>2023.05.25</span>
+                            </div>
+                        </div>
+                        <div>
+                            <svg
+                                    width="24"
+                                    height="26"
+                                    viewBox="0 0 24 26"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                        d="M9.29055 7.27137C8.90055 7.69387 8.90055 8.37637 9.29055 8.79887L13.1705 13.0022L9.29055 17.2055C8.90055 17.628 8.90055 18.3105 9.29055 18.733C9.68055 19.1555 10.3105 19.1555 10.7005 18.733L15.2905 13.7605C15.6805 13.338 15.6805 12.6555 15.2905 12.233L10.7005 7.26053C10.3205 6.84887 9.68055 6.84887 9.29055 7.27137Z"
+                                        fill="#171A19"
+                                />
+                            </svg>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="admin-board-type">새로운식구</div>
+                            <div class="admin-board-post">
+                                <div>
+                                    <p>새로운 아이를 입양하려는데 의심스러워요</p>
+                                </div>
+                                <span>2023.05.25</span>
+                            </div>
+                        </div>
+                        <div>
+                            <svg
+                                    width="24"
+                                    height="26"
+                                    viewBox="0 0 24 26"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                        d="M9.29055 7.27137C8.90055 7.69387 8.90055 8.37637 9.29055 8.79887L13.1705 13.0022L9.29055 17.2055C8.90055 17.628 8.90055 18.3105 9.29055 18.733C9.68055 19.1555 10.3105 19.1555 10.7005 18.733L15.2905 13.7605C15.6805 13.338 15.6805 12.6555 15.2905 12.233L10.7005 7.26053C10.3205 6.84887 9.68055 6.84887 9.29055 7.27137Z"
+                                        fill="#171A19"
+                                />
+                            </svg>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="admin-board-type completed">새로운식구</div>
+                            <div class="admin-board-post">
+                                <div>
+                                    <p>새로운 아이를 입양하려는데 의심스러워요</p>
+                                    <div class="reply-complete">답변완료</div>
+                                </div>
 
+                                <span>2023.05.25</span>
+                            </div>
+                        </div>
+                        <div>
+                            <svg
+                                    width="24"
+                                    height="26"
+                                    viewBox="0 0 24 26"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                        d="M9.29055 7.27137C8.90055 7.69387 8.90055 8.37637 9.29055 8.79887L13.1705 13.0022L9.29055 17.2055C8.90055 17.628 8.90055 18.3105 9.29055 18.733C9.68055 19.1555 10.3105 19.1555 10.7005 18.733L15.2905 13.7605C15.6805 13.338 15.6805 12.6555 15.2905 12.233L10.7005 7.26053C10.3205 6.84887 9.68055 6.84887 9.29055 7.27137Z"
+                                        fill="#171A19"
+                                />
+                            </svg>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <div class="admin-board-type">새로운식구</div>
+                            <div class="admin-board-post">
+                                <div>
+                                    <p>새로운 아이를 입양하려는데 의심스러워요</p>
+                                </div>
 
-        <div class="col-xl-5 col-md-12">
-            <div class="card table-card">
-                <div class="card-header">
-                    <h5>Global Sales by Top Locations</h5>
-                </div>
-                <div class="card-block">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-borderless">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Country</th>
-                                <th>Sales</th>
-                                <th class="text-right">Average</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td><img src="../files/assets/images/widget/GERMANY.jpg" alt="" class="img-fluid img-30"></td>
-                                <td>Germany</td>
-                                <td>3,562</td>
-                                <td class="text-right">56.23%</td>
-                            </tr>
-                            <tr>
-                                <td><img src="../files/assets/images/widget/USA.jpg" alt="" class="img-fluid img-30"></td>
-                                <td>USA</td>
-                                <td>2,650</td>
-                                <td class="text-right">25.23%</td>
-                            </tr>
-                            <tr>
-                                <td><img src="../files/assets/images/widget/AUSTRALIA.jpg" alt="" class="img-fluid img-30"></td>
-                                <td>Australia</td>
-                                <td>956</td>
-                                <td class="text-right">12.45%</td>
-                            </tr>
-                            <tr>
-                                <td><img src="../files/assets/images/widget/UK.jpg" alt="" class="img-fluid img-30"></td>
-                                <td>United Kingdom</td>
-                                <td>689</td>
-                                <td class="text-right">8.65%</td>
-                            </tr>
-                            <tr>
-                                <td><img src="../files/assets/images/widget/BRAZIL.jpg" alt="" class="img-fluid img-30"></td>
-                                <td>Brazil</td>
-                                <td>560</td>
-                                <td class="text-right">3.56%</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="text-right  m-r-20">
-                        <a href="#!" class="b-b-primary text-primary">View all Sales
-                            Locations </a>
-                    </div>
-                </div>
+                                <span>2023.05.25</span>
+                            </div>
+                        </div>
+                        <div>
+                            <svg
+                                    width="24"
+                                    height="26"
+                                    viewBox="0 0 24 26"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                        d="M9.29055 7.27137C8.90055 7.69387 8.90055 8.37637 9.29055 8.79887L13.1705 13.0022L9.29055 17.2055C8.90055 17.628 8.90055 18.3105 9.29055 18.733C9.68055 19.1555 10.3105 19.1555 10.7005 18.733L15.2905 13.7605C15.6805 13.338 15.6805 12.6555 15.2905 12.233L10.7005 7.26053C10.3205 6.84887 9.68055 6.84887 9.29055 7.27137Z"
+                                        fill="#171A19"
+                                />
+                            </svg>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="col-xl-4 col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h5>New Users</h5>
-                </div>
-                <div class="card-block">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
-                        </div>
-                    </div>
-                    <canvas id="newuserchart" height="250" style="display: block; width: 468px; height: 250px;" width="468" class="chartjs-render-monitor"></canvas>
-                </div>
-                <div class="card-footer ">
-                    <div class="row text-center b-t-default">
-                        <div class="col-4 b-r-default m-t-15">
-                            <h5>85%</h5>
-                            <p class="text-muted m-b-0">Satisfied</p>
-                        </div>
-                        <div class="col-4 b-r-default m-t-15">
-                            <h5>6%</h5>
-                            <p class="text-muted m-b-0">Unsatisfied</p>
-                        </div>
-                        <div class="col-4 m-t-15">
-                            <h5>9%</h5>
-                            <p class="text-muted m-b-0">NA</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-md-6">
-            <div class="card">
-                <div class="card-block text-center">
-                    <i class="feather icon-mail text-c-lite-green d-block f-40"></i>
-                    <h4 class="m-t-15"><span class="text-c-lite-green">8.62k</span>
-                        Subscribers</h4>
-                    <p class="m-b-10">Your main list is growing</p>
-                    <button class="btn btn-primary btn-sm btn-round">Manage
-                        List
-                    </button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-block text-center">
-                    <i class="feather icon-twitter text-c-green d-block f-40"></i>
-                    <h4 class="m-t-15"><span class="text-c-blgreenue">+40</span>
-                        Followers</h4>
-                    <p class="m-b-10">Your main list is growing</p>
-                    <button class="btn btn-success btn-sm btn-round">Check them
-                        out
-                    </button>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-xl-4 col-md-6">
-            <div class="card o-hidden">
-                <div class="card-block bg-c-pink text-white">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
-                        </div>
-                    </div>
-                    <h6>Sales Per Day <span class="f-right"><i class="feather icon-activity m-r-15"></i>3%</span>
-                    </h6>
-                    <canvas id="sale-chart1" height="234" width="468" style="display: block; width: 468px; height: 234px;" class="chartjs-render-monitor"></canvas>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row">
-                        <div class="col-6 b-r-default">
-                            <h4>$4230</h4>
-                            <p class="text-muted m-b-0">Total Revenue</p>
-                        </div>
-                        <div class="col-6">
-                            <h4>321</h4>
-                            <p class="text-muted m-b-0">Today Sales</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-md-6">
-            <div class="card o-hidden">
-                <div class="card-block bg-c-green text-white">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
-                        </div>
-                    </div>
-                    <h6>Visits<span class="f-right"><i class="feather icon-activity m-r-15"></i>9%</span>
-                    </h6>
-                    <canvas id="sale-chart2" height="234" width="468" style="display: block; width: 468px; height: 234px;" class="chartjs-render-monitor"></canvas>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row">
-                        <div class="col-6 b-r-default">
-                            <h4>3562</h4>
-                            <p class="text-muted m-b-0">Monthly Visits</p>
-                        </div>
-                        <div class="col-6">
-                            <h4>96</h4>
-                            <p class="text-muted m-b-0">Today Visits</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4 col-md-12">
-            <div class="card o-hidden">
-                <div class="card-block bg-c-blue text-white">
-                    <div class="chartjs-size-monitor">
-                        <div class="chartjs-size-monitor-expand">
-                            <div class=""></div>
-                        </div>
-                        <div class="chartjs-size-monitor-shrink">
-                            <div class=""></div>
-                        </div>
-                    </div>
-                    <h6>Orders<span class="f-right"><i class="feather icon-activity m-r-15"></i>12%</span>
-                    </h6>
-                    <canvas id="sale-chart3" height="234" width="468" style="display: block; width: 468px; height: 234px;" class="chartjs-render-monitor"></canvas>
-                </div>
-                <div class="card-footer text-center">
-                    <div class="row">
-                        <div class="col-6 b-r-default">
-                            <h4>1695</h4>
-                            <p class="text-muted m-b-0">Monthly Orders</p>
-                        </div>
-                        <div class="col-6">
-                            <h4>52</h4>
-                            <p class="text-muted m-b-0">Today Orders</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-xl-4 col-md-12">
-            <div class="card quater-card">
-                <div class="card-block">
-                    <h6 class="text-muted m-b-20">This Quarter</h6>
-                    <h4>$3,9452.50</h4>
-                    <p class="text-muted">$3,9452.50</p>
-                    <h5 class="m-t-30">87</h5>
-                    <p class="text-muted">Online Revenue<span class="f-right">80%</span></p>
-                    <div class="progress">
-                        <div class="progress-bar bg-simple-c-pink" style="width: 80%"></div>
-                    </div>
-                    <h5 class="m-t-30">68</h5>
-                    <p class="text-muted">Offline Revenue<span class="f-right">50%</span></p>
-                    <div class="progress">
-                        <div class="progress-bar bg-simple-c-yellow" style="width: 50%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-8 col-md-12">
-            <div class="card social-network">
-                <div class="card-header">
-                    <h5>Social Network</h5>
-                </div>
-                <div class="card-block">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <img src="../files/assets/images/widget/icon-1.png " alt=" " class="img-responsive p-b-20">
-                            <div class="row">
-                                <div class="col-5">
-                                    <p class="text-muted m-b-5">Views :</p>
-                                </div>
-                                <div class="col-7">
-                                    <p class="m-b-5 f-w-400">545,721</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5">
-                                    <p class="text-muted m-b-5">Comments :</p>
-                                </div>
-                                <div class="col-7">
-                                    <p class="m-b-5 f-w-400">2,256</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5">
-                                    <p class="text-muted m-b-5">Likes :</p>
-                                </div>
-                                <div class="col-7">
-                                    <p class="m-b-5 f-w-400">4,129</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5">
-                                    <p class="text-muted m-b-5">Subscribe :</p>
-                                </div>
-                                <div class="col-7">
-                                    <p class="m-b-5 f-w-400">3,451,945</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <img src="../files/assets/images/widget/icon-2.png " alt=" " class="img-responsive p-b-20">
-                            <div class="row">
-                                <div class="col-5">
-                                    <p class="text-muted m-b-5">Engagement :</p>
-                                </div>
-                                <div class="col-7">
-                                    <p class="m-b-5 f-w-400">1,543</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5">
-                                    <p class="text-muted m-b-5">Shares :</p>
-                                </div>
-                                <div class="col-7">
-                                    <p class="m-b-5 f-w-400">846</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5">
-                                    <p class="text-muted m-b-5">Likes :</p>
-                                </div>
-                                <div class="col-7">
-                                    <p class="m-b-5 f-w-400">569</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-5">
-                                    <p class="text-muted m-b-5">Comments :</p>
-                                </div>
-                                <div class="col-7">
-                                    <p class="m-b-5 f-w-400">156</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6 m-t-0">
-                            <img src="../files/assets/images/widget/icon-3.png " alt=" " class="img-responsive p-b-10 p-t-10">
-                            <div class="row">
-                                <div class="col-5">
-                                    <p class="text-muted m-b-5">Tweets :</p>
-                                </div>
-                                <div class="col-7">
-                                    <p class="m-b-5 f-w-400">103,576</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 m-t-0">
-                            <img src="../files/assets/images/widget/icon-4.png " alt=" " class="img-responsive p-b-10 p-t-10">
-                            <div class="row">
-                                <div class="col-5">
-                                    <p class="text-muted m-b-5">Tweets :</p>
-                                </div>
-                                <div class="col-7">
-                                    <p class="m-b-5 f-w-400">103,576</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 <script type="text/javascript" th:src="@{/files/bower_components/char.js/dist/Chart.js}"></script>
 <script th:inline="javascript">
     $(function () {
-
-
     });
 </script>
 
