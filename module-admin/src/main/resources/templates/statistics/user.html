@@ -3,9 +3,6 @@
       layout:decorate="~{layout/main}">
 
 <div layout:fragment="content">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     <div class="page-body" id="pageBody">
         <div class="row">
             <form id="searchForm" name="searchForm" onsubmit="return false;">
@@ -17,213 +14,217 @@
                                     <div class="mb-0 form-group row">
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
                                         <div class="col-12">
-                                            <select v-model="searchYear" class="form-select form-control form-control-round custom-select">
-                                                <option v-for="year in years" :value="year">{{ year }}년</option>
+                                            <select class="form-select form-control form-control-round custom-select" id="searchYear" name="searchYear">
+                                                <option
+                                                        th:each="year, yearStat : ${years}"
+                                                        th:value="${year}"
+                                                        th:text="|${year}년|"
+                                                        th:selected="${yearStat.index == 0}">
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="mt-1 p-t-20 text-center">
-                                <button class="btn btn-gray m-r-5" @click="reset">초기화</button>
-                                <button class="btn btn-primary" @click="search" >검색</button>
+                                <button class="btn btn-gray m-r-5" type="reset" onclick="userStatistics.reset()">초기화</button>
+                                <button class="btn btn-primary" type="submit" onclick="userStatistics.search()">검색</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
 
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-c-yellow text-white">
-                    <div class="card-block">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <p class="m-b-5">정상회원 합계</p>
-                                <h4 class="m-b-0">852</h4>
-                            </div>
-                            <div class="col col-auto text-right">
-                                    [[${totalUserStatistics.normalCount}]]
-<!--                                <i class="feather icon-user f-50 text-c-yellow"></i>-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="ss-dashboard-grid">
             </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-c-yellow text-white">
-                    <div class="card-block">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <p class="m-b-5">회원가입</p>
-                                <h4 class="m-b-0">2023년</h4>
-                            </div>
-                            <div class="col text-right">
-                                <div style="position:absolute; float:left; right:40px;" >10000</div>
-                                <div>[[${totalUserStatistics.registrationCount}]]</div>
+        </div>
+    </div>
 
-<!--                                <i class="feather icon-user f-50 text-c-yellow"></i>-->
-                            </div>
+    <div id="statusSummaryTemplate" style="display:none;">
+        <div class="ss-dashboard-grid-item black status-summary">
+            <div class="status-summary__title">
+                <div class="summaryTitle"></div>
+                <div class="summaryYear"></div>
+            </div>
+            <div class="status-summary__number-shift">
+                <div>
+                    <span class="diffCount"></span>
+                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="count"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 반응형 대응 필요 -->
+    <div id="tableTemplate" style="display:none">
+        <div style="grid-column: 1 / 5; grid-row: 2 / 7;">
+            <div class="card">
+                <div class="card-block-small">
+                    <div class="dt-responsive table-responsive">
+                        <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <table class="listTable display" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>구분</th>
+                                    <th>회원가입</th>
+                                    <th>회원탈퇴</th>
+                                    <th>휴면회원</th>
+                                </tr>
+                                </thead>
+                                <tbody class="statisticsTbody">
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>합계</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-c-yellow text-white">
-                    <div class="card-block">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <p class="m-b-5">회원탈퇴</p>
-                                <h4 class="m-b-0">2023년</h4>
-                            </div>
-                            <div class="col col-auto text-right">
-                               [[${totalUserStatistics.leaveCount}]]
-                            </div>
-<!--                                <i class="feather icon-user f-50 text-c-yellow"></i>-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-6">
-                <div class="card bg-c-yellow text-white">
-                    <div class="card-block">
-                        <div class="row align-items-center">
-                            <div class="col">
-                                <p class="m-b-5">휴면회원</p>
-                                <h4 class="m-b-0">2023년</h4>
-                            </div>
-                            <div class="col col-auto text-right">
-                                [[${totalUserStatistics.dormantCount}]]
-<!--                                <i class="feather icon-user f-50 text-c-yellow"></i>-->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-block-small">
-                        <div class="dt-responsive table-responsive">
-                            <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                <table id="listTable" class="display" style="width:100%">
-                                    <thead>
-                                    <tr>
-                                        <th>구분</th>
-                                        <th>회원가입</th>
-                                        <th>회원탈퇴</th>
-                                        <th>휴면회원</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="monthly : ${monthlyUserStatistics} ">
-                                        <td>[[${monthly.yyyy}]]년 [[${monthly.mm}]]월</td>
-                                        <td>[[${monthly.normalCount}]]</td>
-                                        <td>[[${monthly.leaveCount}]]</td>
-                                        <td>[[${monthly.dormantCount}]]</td>
-                                    </tr>
-                                    <tfoot>
-                                    <tr>
-                                        <th>합계</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
         </div>
     </div>
 
     <script th:inline="javascript">
-        new Vue({
-            el: '#pageBody',
-            data: {
-                searchYear: new Date().getFullYear(), // 현재 연도를 기본값으로 설정
-                years: [2024, 2023, 2022, 2021, 2020], // 연도 선택 옵션
-                userStatistics: [] // 사용자 통계 데이터를 저장할 배열
-            },
-            methods: {
-                search: function() {
-                    // Axios를 사용해 서버로부터 데이터 가져오기
-                    axios.get('/admin/statistics/user', { params: { year: this.searchYear }})
-                        .then(response => {
-                            this.userStatistics = response.data;
-                        })
-                        .catch(error => {
-                            console.error("Error fetching user statistics:", error);
-                        });
-                },
-                reset: function() {
-                    this.searchYear = new Date().getFullYear();
-                    console.log(this.searchYear);
+        var userStatistics = {
+            totalUserStatistics: null
+            , monthlyUserStatistics: null
 
-                    this.userStatistics = [];
-                }
-            },
-            mounted: function() {
-                this.search(); // 컴포넌트가 마운트될 때 검색 실행
+            , init: function () {
+                const searchYear = $('#searchYear').val();
+
+                $.ajax({
+                    url: `/admin/statistics/user/${searchYear}`
+                    , type: 'get'
+                    , dataType: 'json'
+                }).done(function (response) {
+                    let totalUserStatistics = response.totalUserStatistics;
+                    let monthlyUserStatistics = response.monthlyUserStatistics;
+                    const searchYear = $('#searchYear').val();
+                    $(".ss-dashboard-grid").html('');
+
+                    userStatistics.totalUserStatistics = totalUserStatistics;
+                    userStatistics.monthlyUserStatistics = monthlyUserStatistics;
+
+                    userStatistics.renderStatisticsTable(monthlyUserStatistics);
+                    userStatistics.renderSummary({diffCount: totalUserStatistics.normalDiffCount, count: totalUserStatistics.normalCount, year: searchYear}, "정상회원 합계");
+                    userStatistics.renderSummary({diffCount: totalUserStatistics.registrationDiffCount, count: totalUserStatistics.registrationCount, year: searchYear}, "회원가입");
+                    userStatistics.renderSummary({diffCount: totalUserStatistics.leaveDiffCount, count: totalUserStatistics.leaveCount, year: searchYear}, "회원탈퇴");
+                    userStatistics.renderSummary({diffCount: totalUserStatistics.dormantDiffCount, count: totalUserStatistics.dormantCount, year: searchYear}, "휴면회원");
+                }).fail(function (error) {
+                    alert('회원통계 데이터를 조회하는데 실패하였습니다.');
+                    console.log(JSON.stringify(error, null, 4));
+                });
+
+
             }
-        });
+
+            , search: function () {
+                this.init();
+            }
+
+            , reset: function () {
+                $('#searchYear').val(new Date().getFullYear()).niceSelect('update');
+            }
+
+            , renderStatisticsTable: function (monthlyUserStatistics) {
+                let $tableTemplate = $('#tableTemplate').clone();
+                let html = '';
+                for (const monthlyUser of monthlyUserStatistics) {
+                    html += `<tr>
+                                <td class="dt-center">${monthlyUser.yyyy}년 ${monthlyUser.mm}월</td>
+                                <td class="dt-center">${monthlyUser.normalCount}</td>
+                                <td class="dt-center">${monthlyUser.leaveCount}</td>
+                                <td class="dt-center">${monthlyUser.dormantCount}</td>
+                            </tr>`
+                }
+
+                $tableTemplate.find('.statisticsTbody').html(html);
+                $tableTemplate.find(".listTable").DataTable(
+                    {
+                        columnDefs: [
+                            {className: "dt-center", targets: "_all"}
+                        ],
+                        stripeClasses: [],
+                        pagingType: 'full_numbers',
+                        lengthChange: false,
+                        responsive: true,
+                        searching: false,
+                        destroy: true,
+                        ordering: false,
+                        info: false,
+                        bAutoWidth: true,
+                        paging: false,
+                        footerCallback: function () {
+                            const api = this.api();
+
+                            const intVal = function (i) {
+                                return typeof i === 'string' ?
+                                    i.replace(/[\$,]/g, '') * 1 :
+                                    typeof i === 'number' ?
+                                        i : 0;
+                            };
+
+                            const normalCountTotal = api
+                                .column(1)
+                                .data()
+                                .reduce(function (a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+
+                            const leaveCountTotal = api
+                                .column(2)
+                                .data()
+                                .reduce(function (a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+
+                            const dormantCountTotal = api
+                                .column(3)
+                                .data()
+                                .reduce(function (a, b) {
+                                    return intVal(a) + intVal(b);
+                                }, 0);
+
+                            $(api.column(1).footer()).html(normalCountTotal);
+                            $(api.column(2).footer()).html(leaveCountTotal);
+                            $(api.column(3).footer()).html(dormantCountTotal);
+                        }
+
+                    }
+                );
+
+                $('.ss-dashboard-grid').append($tableTemplate.html());
+            }
+
+            , renderSummary: function (data, title) {
+                const $templateClone = $("#statusSummaryTemplate").clone();
+                $templateClone.find(".summaryTitle").text(title);
+                $templateClone.find(".summaryYear").text(data.year);
+                $templateClone.find(".diffCount").text(data.diffCount);
+                $templateClone.find(".count").text(data.count);
+
+                if (data.diffCount > 0) {
+                    $templateClone.find('.status-summary__number-shift').addClass('increase');
+                } else if (data.diffCount < 0) {
+                    $templateClone.find('.status-summary__number-shift').addClass('decrease');
+                } else {
+                    $templateClone.find('.diffCount').parent().remove();
+                }
+
+                $(".ss-dashboard-grid").prepend($templateClone.html());
+            }
+        }
 
         $(function () {
-            $("#listTable").DataTable(
-                {
-                    columnDefs: [
-                        {className: "dt-center", targets: "_all"}
-                    ],
-                    stripeClasses: [],
-                    pagingType: 'full_numbers',
-                    lengthChange: false,
-                    responsive: true,
-                    searching: false,
-                    destroy: true,
-                    ordering: false,
-                    info: false,
-                    bAutoWidth: true,
-                    paging: false,
-                    footerCallback: function () {
-                        const api = this.api();
-
-                        const intVal = function (i) {
-                            return typeof i === 'string' ?
-                                i.replace(/[\$,]/g, '') * 1 :
-                                typeof i === 'number' ?
-                                    i : 0;
-                        };
-
-                        const normalCountTotal = api
-                            .column(1)
-                            .data()
-                            .reduce(function (a, b) {
-                                return intVal(a) + intVal(b);
-                            }, 0);
-
-                        const leaveCountTotal = api
-                            .column(2)
-                            .data()
-                            .reduce(function (a, b) {
-                                return intVal(a) + intVal(b);
-                            }, 0);
-
-                        const dormantCountTotal = api
-                            .column(3)
-                            .data()
-                            .reduce(function (a, b) {
-                                return intVal(a) + intVal(b);
-                            }, 0);
-
-                        $(api.column(1).footer()).html(normalCountTotal);
-                        $(api.column(2).footer()).html(leaveCountTotal);
-                        $(api.column(3).footer()).html(dormantCountTotal);
-                    }
-
-                }
-            );
+            userStatistics.init();
         })
     </script>
 </div>

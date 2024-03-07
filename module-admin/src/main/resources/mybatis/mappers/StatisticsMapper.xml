@@ -4,36 +4,34 @@
 <mapper namespace="com.saesig.statistics.StatisticsMapper">
     <select id="calculateTotalUserStatistics" resultType="com.saesig.statistics.UserStatisticsDto">
         SELECT
-            IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear} - 1) THEN total_count END),0) AS prev_year_total_count
-            , IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear}) THEN total_count END), 0) AS registration_count
-            , IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear}) THEN normal_count END), 0) AS normal_count
-            , IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear}) THEN leave_count END), 0) AS leave_count
-            , IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear}) THEN dormant_count END), 0) AS dormant_count
-            , IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear}) THEN total_count END), 0) - IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear} - 1) THEN total_count END), 0) AS registration_diff_count
-            , IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear}) THEN normal_count END), 0) - IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear} - 1) THEN normal_count END), 0) AS normal_diff_count
-            , IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear}) THEN leave_count END), 0) - IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear} - 1) THEN leave_count END), 0) AS leave_diff_count
-            , IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear}) THEN dormant_count END), 0) - IFNULL(MAX(CASE WHEN created_at = YEAR(#{searchYear} - 1) THEN dormant_count END), 0) AS dormant_diff_count
+            IFNULL(MAX(CASE WHEN created_year = #{prevSearchYear} THEN total_count END),0) AS prev_year_total_count
+            , IFNULL(MAX(CASE WHEN created_year = #{searchYear} THEN total_count END), 0) AS registration_count
+            , IFNULL(MAX(CASE WHEN created_year = #{searchYear} THEN normal_count END), 0) AS normal_count
+            , IFNULL(MAX(CASE WHEN created_year = #{searchYear} THEN leave_count END), 0) AS leave_count
+            , IFNULL(MAX(CASE WHEN created_year = #{searchYear} THEN dormant_count END), 0) AS dormant_count
+            , IFNULL(MAX(CASE WHEN created_year = #{searchYear} THEN total_count END), 0) - IFNULL(MAX(CASE WHEN created_year = #{prevSearchYear} THEN total_count END), 0) AS registration_diff_count
+            , IFNULL(MAX(CASE WHEN created_year = #{searchYear} THEN normal_count END), 0) - IFNULL(MAX(CASE WHEN created_year = #{prevSearchYear} THEN normal_count END), 0) AS normal_diff_count
+            , IFNULL(MAX(CASE WHEN created_year = #{searchYear} THEN leave_count END), 0) - IFNULL(MAX(CASE WHEN created_year = #{prevSearchYear} THEN leave_count END), 0) AS leave_diff_count
+            , IFNULL(MAX(CASE WHEN created_year = #{searchYear} THEN dormant_count END), 0) - IFNULL(MAX(CASE WHEN created_year = #{prevSearchYear} THEN dormant_count END), 0) AS dormant_diff_count
         FROM (
                  SELECT
-                     YEAR(created_at) AS created_at
+                     YEAR(created_at) AS created_year
                      , SUM(CASE WHEN status = 'NORMAL' THEN 1 ELSE 0 END) AS normal_count
                      , SUM(CASE WHEN status = 'LEAVE' THEN 1 ELSE 0 END) AS leave_count
                      , SUM(CASE WHEN status = 'DORMANT' THEN 1 ELSE 0 END) AS dormant_count
-                     , COUNT(1) total_count
+                     , COUNT(*) total_count
                  FROM
                      member
                  WHERE
-                     YEAR(created_at) IN (#{searchYear} - 1, #{searchYear})
+                     YEAR(created_at) IN (#{searchYear}, #{prevSearchYear})
                  GROUP BY
-                     created_at
-             ) AS sub_table
-        GROUP BY
-            created_at
-        ORDER BY
-            created_at
+                     YEAR(created_at)
+                 ORDER BY
+                     YEAR(created_at)
+         ) AS sub_table
     </select>
 
-    <select id="calculateMontlyUserStatistics" resultType="com.saesig.statistics.MonthlyUserStatisticsDto">
+    <select id="calculateMonthlyUserStatistics" resultType="com.saesig.statistics.MonthlyUserStatisticsDto">
         SELECT
             sub_table.mm as mm,
             #{searchYear} as yyyy,
@@ -59,7 +57,7 @@
         ) sub_table
         ON
             MONTH(member.created_at) = sub_table.mm
-            AND YEAR(member.created_at) = YEAR(#{searchYear})
+            AND YEAR(member.created_at) = #{searchYear}
         GROUP BY
             sub_table.mm
         ORDER BY
