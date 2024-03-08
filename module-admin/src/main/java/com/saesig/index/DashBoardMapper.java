@@ -1,5 +1,6 @@
-package com.saesig.common;
+package com.saesig.index;
 
+import com.saesig.managerBoard.ManagerBoardDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface DashBoardMapper {
     List<Map<String, Object>> selectDiarys();
 
     //관리자 게시판 목록 조회
-    List<Map<String, Object>> selectAdminPosts();
+    List<ManagerBoardDto> selectAdminPosts();
 
     //회원가입 건수
     List<Map<String, Object>> countRegisteredMembers(DashBoardDto dashBoardDto);

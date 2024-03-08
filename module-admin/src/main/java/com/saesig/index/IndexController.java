@@ -1,6 +1,7 @@
-package com.saesig.common;
+package com.saesig.index;
 
 import com.saesig.domain.adopt.AdoptStatus;
+import com.saesig.managerBoard.ManagerBoardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin")
-public class CommonController {
+public class IndexController {
     private final DashBoardService dashBoardService;
     private final DashBoardMapper dashBoardMapper;
 
@@ -26,14 +27,17 @@ public class CommonController {
     }
 
     @GetMapping({"", "/"})
-    public String adminMain(DashBoardDto dashBoardDto, Model model) {
+    public String index(DashBoardDto dashBoardDto, Model model) {
         dashBoardDto.setPeriodType("daily");
-        dashBoardDto.setSearchAdoptionYear(2023);
+//        dashBoardDto.setPeriodType("monthly");
+//        dashBoardDto.setPeriodType("weekly");
+//        dashBoardDto.setPeriodType("total");
+//        dashBoardDto.setSearchAdoptionYear(2023);
         dashBoardDto.setSearchAdoptionStatus(AdoptStatus.COMPLETE.getValue());
 
         List<Map<String, Object>> maps = dashBoardMapper.selectAdoptions();
         List<Map<String, Object>> maps1 = dashBoardMapper.selectDiarys();
-        List<Map<String, Object>> maps2 = dashBoardMapper.selectAdminPosts();
+        List<ManagerBoardDto> adminPosts = dashBoardMapper.selectAdminPosts();
         List<Map<String, Object>> maps3 = dashBoardMapper.countRegisteredMembers(dashBoardDto);
         List<Map<String, Object>> maps4 = dashBoardMapper.countMessageDeliverys(dashBoardDto);
         List<Map<String, Object>> maps5 = dashBoardMapper.countAdoptionStatus(dashBoardDto);
@@ -47,7 +51,7 @@ public class CommonController {
 //        model.addAttribute("adoptionInfo", adoptionInfo);
         model.addAttribute("maps", maps);
         model.addAttribute("maps1", maps1);
-        model.addAttribute("maps2", maps2);
+        model.addAttribute("adminPosts", adminPosts);
         model.addAttribute("maps3", maps3);
         model.addAttribute("maps4", maps4);
         model.addAttribute("maps5", maps5);
@@ -56,6 +60,6 @@ public class CommonController {
         model.addAttribute("i2", i2);
         model.addAttribute("i3", i3);
 
-        return "common/main";
+        return "common/index";
     }
 }

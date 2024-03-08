@@ -1,4 +1,4 @@
-package com.saesig.common;
+package com.saesig.index;
 
 import lombok.Getter;
 import lombok.Setter;

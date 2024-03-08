@@ -263,8 +263,7 @@ VALUES (6, 6, '템플릿내용6', 1, 'sjd4328@kbrainc.com', 1, 'saesig@gmail.com
 INSERT INTO board(id, name, description, use_category, use_board, use_fix, modified_at, modified_by, created_at, created_by)
 VALUES (1, '동헌 게시판', '동헌 게시판', 'Y', 'Y', 'N', NOW(), 1, NOW(), 1);
 
-INSERT INTO board(id, name, description, use_category, use_board, use_fix, modified_at, modified_by, created_at, created_by)
-VALUES (2, '관리자 게시판', '관리자 게시판', 'Y', 'Y', 'N', NOW(), 1, NOW(), 1);
+INSERT INTO board(id, name, description, category, modified_at, modified_by, created_at, created_by) VALUES (2, '관리자 게시판', '관리자 게시판', 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
 VALUES (1, 2, '유형1', '제목1', '내용1', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
@@ -381,4 +380,3 @@ INSERT INTO diary_comment (DIARY_ID, UPPER_ID, CONTENT, IS_DELETED, DEPTH, CREAT
 INSERT INTO diary_comment (DIARY_ID, UPPER_ID, CONTENT, IS_DELETED, DEPTH, CREATED_AT, CREATED_BY, MODIFIED_AT, MODIFIED_BY) VALUES (1, 16, 'test3', 'N', 2, '2023-11-27 09:59:36.000000', 1, '2023-11-27 09:59:40.000000', 1);
 INSERT INTO diary_comment (DIARY_ID, UPPER_ID, CONTENT, IS_DELETED, DEPTH, CREATED_AT, CREATED_BY, MODIFIED_AT, MODIFIED_BY) VALUES (1, 16, 'test4', 'N', 2, '2023-11-27 09:59:36.000000', 1, '2023-11-27 09:59:40.000000', 1);
 
-INSERT INTO board(id, name, description, category, modified_at, modified_by, created_at, created_by) VALUES (3, '관리자 게시판', '관리자 게시판', 'ADMIN', NOW(), 1, NOW(), 1)
