@@ -400,52 +400,50 @@
                     <div class="latest-post-board-type active">관리자 게시판</div>
                 </div>
                 <div class="latest-post-more">
-                            <span>더보기</span
-                            >
-                    <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <circle cx="12" cy="12" r="11" transform="rotate(90 12 12)" fill="#171A19"/>
-                        <path
-                                d="M10.2221 7.74649C9.92597 8.04262 9.92597 8.52098 10.2221 8.81711L13.1682 11.7632L10.2221 14.7093C9.92597 15.0054 9.92597 15.4838 10.2221 15.7799C10.5182 16.076 10.9966 16.076 11.2927 15.7799L14.7779 12.2947C15.074 11.9986 15.074 11.5202 14.7779 11.2241L11.2927 7.7389C11.0042 7.45036 10.5182 7.45036 10.2221 7.74649Z"
-                                fill="white"
-                        />
-                    </svg>
+                    <a th:href="@{/admin/managerBoard/view}">
+                        <span>더보기</span>
+                        <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                th:onclick=""
+                        >
+                            <circle cx="12" cy="12" r="11" transform="rotate(90 12 12)" fill="#171A19"/>
+                            <path
+                                    d="M10.2221 7.74649C9.92597 8.04262 9.92597 8.52098 10.2221 8.81711L13.1682 11.7632L10.2221 14.7093C9.92597 15.0054 9.92597 15.4838 10.2221 15.7799C10.5182 16.076 10.9966 16.076 11.2927 15.7799L14.7779 12.2947C15.074 11.9986 15.074 11.5202 14.7779 11.2241L11.2927 7.7389C11.0042 7.45036 10.5182 7.45036 10.2221 7.74649Z"
+                                    fill="white"
+                            />
+                        </svg>
+                    </a>
                 </div>
             </div>
             <div class="admin-board">
                 <ul>
                     <li th:each="adminPost : ${adminPosts}">
                         <div>
-                            <div>
-                                <div class="admin-board-type" th:text="${adminPost.category}">제목</div>
-                                <!--<div class="admin-board-type completed"></div> 답변 완료된경우-->
-                                <div class="admin-board-post">
-                                    <div>
-                                        <p th:text="${adminPost.title}"></p>
-                                        <!--<div class="reply-complete">답변완료</div>-->
-                                    </div>
-                                    <span th:text="${#dates.format(adminPost.createdAt 'yyyy-MM-dd')}"></span>
+                            <div class="admin-board-type" th:text="${adminPost.category}">새로운식구</div>
+                            <div class="admin-board-post">
+                                <div>
+                                    <p th:text="${adminPost.title}">새로운 아이를 입양하려는데 의심스러워요</p>
                                 </div>
+                                <span th:text="${#temporals.format(adminPost.createdAt, 'yyyy-MM-dd')}"></span>
                             </div>
-                            <div>
-                                <svg
-                                        width="24"
-                                        height="26"
-                                        viewBox="0 0 24 26"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                            d="M9.29055 7.27137C8.90055 7.69387 8.90055 8.37637 9.29055 8.79887L13.1705 13.0022L9.29055 17.2055C8.90055 17.628 8.90055 18.3105 9.29055 18.733C9.68055 19.1555 10.3105 19.1555 10.7005 18.733L15.2905 13.7605C15.6805 13.338 15.6805 12.6555 15.2905 12.233L10.7005 7.26053C10.3205 6.84887 9.68055 6.84887 9.29055 7.27137Z"
-                                            fill="#171A19"
-                                    />
-                                </svg>
-                            </div>
+                        </div>
+                        <div>
+                            <svg
+                                    width="24"
+                                    height="26"
+                                    viewBox="0 0 24 26"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                        d="M9.29055 7.27137C8.90055 7.69387 8.90055 8.37637 9.29055 8.79887L13.1705 13.0022L9.29055 17.2055C8.90055 17.628 8.90055 18.3105 9.29055 18.733C9.68055 19.1555 10.3105 19.1555 10.7005 18.733L15.2905 13.7605C15.6805 13.338 15.6805 12.6555 15.2905 12.233L10.7005 7.26053C10.3205 6.84887 9.68055 6.84887 9.29055 7.27137Z"
+                                        fill="#171A19"
+                                />
+                            </svg>
                         </div>
                     </li>
                 </ul>
