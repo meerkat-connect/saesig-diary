@@ -1,5 +1,6 @@
 package com.saesig.error;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+@Slf4j
 @RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -18,15 +20,16 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiRequestResult> commonExceptionHandler(Exception ex) {
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         ErrorResponse errorResponse = ErrorResponse.of(errorCode.getMessage(), errorCode.getCode());
+        ex.printStackTrace();
 
         return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
-
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiRequestResult> runtimeExceptionHandler(RuntimeException ex) {
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         ErrorResponse errorResponse = ErrorResponse.of(errorCode.getMessage(), errorCode.getCode());
+        ex.printStackTrace();
 
         return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
     }
