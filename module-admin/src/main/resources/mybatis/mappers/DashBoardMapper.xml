@@ -74,13 +74,38 @@
 
     <!--회원 가입 -->
     <select id="countRegisteredMembers" resultType="map">
-        SELECT
-            count(1)
-        FROM member
-        WHERE
-            <include refid="whereCondition">
-                <property name="created_at" value="member.created_at"/>
-            </include>
+        <if test="periodType == 'daily'">
+            SELECT
+                SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END) yesterday
+                , SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END) today
+            FROM member
+            WHERE
+                DATE(created_at) >= CURDATE() - INTERVAL 1 DAY
+                AND DATE(created_at) <![CDATA[<]]>  CURDATE() + INTERVAL 1 DAY
+        </if>
+        <if test="periodType == 'weekly'">
+            SELECT
+                SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END) this_week,
+                SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END) last_week
+            FROM member
+            WHERE
+                YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
+        </if>
+        <if test="periodType == 'monthly'">
+            SELECT
+                SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END) this_month,
+                SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) last_month
+            FROM member
+            WHERE
+                (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
+                OR (YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH))
+        </if>
+
+        <if test="periodType == 'totally'">
+            SELECT
+                COUNT(1)
+            FROM member
+        </if>
     </select>
 
     <!-- 발송현황 -->
@@ -101,103 +126,208 @@
 
     <!-- 신고현황 -->
     <select id="countReports" resultType="integer">
-        SELECT IFNULL(SUM(sub_tab.id), 0) AS report_count
-        FROM (
+        <if test="periodType == 'daily'">
             SELECT
-                adopt_report.id
-                , adopt_report.created_at as created_at
-            FROM adopt_report
+                IFNULL(SUM(yesterday), 0) as yesterday
+                , IFNULL(SUM(today), 0) as today
+            FROM (
+                SELECT
+                    SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END) yesterday
+                    , SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END) today
+                FROM adopt_report
+                WHERE
+                    DATE(created_at) >= CURDATE() - INTERVAL 1 DAY
+                    AND DATE(created_at) <![CDATA[<]]>  CURDATE() + INTERVAL 1 DAY
 
-            UNION ALL
+                UNION ALL
 
+                SELECT
+                    SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END) yesterday
+                    , SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END) today
+                FROM diary_report
+                WHERE
+                    DATE(created_at) >= CURDATE() - INTERVAL 1 DAY
+                    AND DATE(created_at) <![CDATA[<]]>  CURDATE() + INTERVAL 1 DAY
+            ) AS subquery
+        </if>
+
+        <if test="periodType == 'weekly'">
             SELECT
-                diary_report.id
-                , diary_report.created_at as created_at
-            FROM diary_report
-        ) sub_tab
-        WHERE
-            <include refid="whereCondition">
-                <property name="created_at" value="sub_tab.created_at"/>
-            </include>
+                IFNULL(SUM(this_week), 0) AS this_week
+                , IFNULL(SUM(last_week), 0) AS last_week
+            FROM (
+                SELECT
+                    SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END) this_week,
+                    SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END) last_week
+                FROM adopt_report
+                WHERE
+                    YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
 
-        UNION ALL
+                UNION ALL
 
-        SELECT IFNULL(SUM(sub_prev_tab.id), 0) AS report_count
-        FROM (
+                SELECT
+                    SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END) this_week,
+                    SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END) last_week
+                FROM diary_report
+                WHERE
+                    YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
+            ) AS subquery
+        </if>
+        <if test="periodType == 'monthly'">
             SELECT
-                adopt_report.id
-                , adopt_report.created_at as created_at
-            FROM adopt_report
+                IFNULL(SUM(this_month), 0) AS this_month
+                , IFNULL(SUM(last_month), 0) AS last_month
+            FROM (
+                SELECT
+                    SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END) this_month,
+                    SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) last_month
+                FROM adopt_report
+                WHERE
+                    (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
+                    OR (YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH))
 
-            UNION ALL
+                UNION ALL
 
+                SELECT
+                    SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END) this_month,
+                    SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) last_month
+                FROM diary_report
+                WHERE
+                    (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
+                    OR (YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH))
+            ) AS subquery
+        </if>
+
+        <if test="periodType == 'totally'">
             SELECT
-                diary_report.id
-                , diary_report.created_at as created_at
-            FROM diary_report
-        ) sub_prev_tab
-        WHERE
-            <include refid="wherePrevCondition">
-                <property name="created_at" value="sub_prev_tab.created_at"/>
-            </include>
+                IFNULL(COUNT(total), 0) AS total
+            FROM (
+                SELECT
+                    COUNT(1) total
+                FROM adopt_report
+
+                UNION ALL
+
+                SELECT
+                    COUNT(1) total
+                FROM diary_report
+            ) AS subquery
+        </if>
     </select>
 
     <!-- 문의 현황 -->
     <select id="countInquiries" resultType="integer">
-        SELECT count(1)
-        FROM inquiry
-        WHERE
-            <include refid="whereCondition">
-                <property name="created_at" value="inquiry.created_at"/>
-            </include>
-        UNION ALL
+        <if test="periodType == 'daily'">
+            SELECT
+                SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END) yesterday
+                , SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END) today
+            FROM inquiry
+            WHERE
+                DATE(created_at) >= CURDATE() - INTERVAL 1 DAY
+                AND DATE(created_at) <![CDATA[<]]>  CURDATE() + INTERVAL 1 DAY
+        </if>
+        <if test="periodType == 'weekly'">
+            SELECT
+                SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END) this_week,
+                SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END) last_week
+            FROM inquiry
+            WHERE
+                YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
+        </if>
+        <if test="periodType == 'monthly'">
+            SELECT
+                SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END) this_month,
+                SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) last_month
+            FROM inquiry
+            WHERE
+                (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
+                OR (YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH))
+        </if>
 
-        SELECT COUNT(1)
-        FROM inquiry
-        WHERE
-            <include refid="wherePrevCondition">
-                <property name="created_at" value="inquiry.created_at"/>
-            </include>
+        <if test="periodType == 'totally'">
+            SELECT
+                COUNT(1)
+            FROM inquiry
+        </if>
     </select>
 
     <!-- 분양완료 현황 -->
     <select id="countAdoptions" resultType="integer">
-        SELECT count(1)
-        FROM adopt
-        WHERE
-            <include refid="whereCondition">
-                <property name="created_at" value="adopt.created_at"/>
-            </include>
-            AND status = 'COMPLETE'
+        <if test="periodType == 'daily'">
+            SELECT
+                SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END) yesterday
+                , SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END) today
+            FROM adopt
+            WHERE
+                status = 'COMPLETE'
+                AND DATE(created_at) >= CURDATE() - INTERVAL 1 DAY
+                AND DATE(created_at) <![CDATA[<]]>  CURDATE() + INTERVAL 1 DAY
+        </if>
+        <if test="periodType == 'weekly'">
+            SELECT
+                SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END) this_week,
+                SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END) last_week
+            FROM adopt
+            WHERE
+                status = 'COMPLETE'
+                AND YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
+        </if>
+        <if test="periodType == 'monthly'">
+            SELECT
+                SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END) this_month,
+                SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) last_month
+            FROM adopt
+            WHERE
+                status = 'COMPLETE'
+                AND (
+                    (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
+                    OR (YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH))
+                )
+        </if>
 
-        UNION ALL
-
-        SELECT COUNT(1)
-        FROM adopt
-        WHERE
-            <include refid="wherePrevCondition">
-                <property name="created_at" value="adopt.created_at"/>
-            </include>
-            AND status = 'COMPLETE'
+        <if test="periodType == 'totally'">
+            SELECT
+                COUNT(1)
+            FROM adopt
+            WHERE
+                status = 'COMPLETEL'
+        </if>
     </select>
 
     <!-- 일기 현황 -->
     <select id="countDiarys" resultType="integer">
-        SELECT count(1)
-        FROM diary
-        WHERE
-            <include refid="whereCondition">
-                <property name="created_at" value="diary.created_at"/>
-            </include>
+        <if test="periodType == 'daily'">
+            SELECT
+                IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) yesterday
+                , IFNULL(SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END), 0) today
+            FROM diary
+            WHERE
+                DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+                AND DATE(created_at) <![CDATA[<]]>  DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+        </if>
+        <if test="periodType == 'weekly'">
+            SELECT
+                SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END) this_week,
+                SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END) last_week
+            FROM diary
+            WHERE
+                YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
+        </if>
+        <if test="periodType == 'monthly'">
+            SELECT
+                SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END) this_month,
+                SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) last_month
+            FROM diary
+            WHERE
+                (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
+                OR (YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH))
+        </if>
 
-        UNION ALL
-
-        SELECT COUNT(1)
-        FROM diary
-        WHERE
-            <include refid="wherePrevCondition">
-                <property name="created_at" value="diary.created_at"/>
-            </include>
+        <if test="periodType == 'totally'">
+            SELECT
+                COUNT(1)
+            FROM diary
+        </if>
     </select>
 
     <select id="countAdoptionStatus" resultType="integer">

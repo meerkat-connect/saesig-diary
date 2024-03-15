@@ -13,14 +13,29 @@
 
     <logger name="jdbc" level="OFF" />
 
-    <logger name="jdbc.sqlonly" level="OFF" />
-    <logger name="jdbc.sqltiming" level="DEBUG" />
-    <logger name="jdbc.audit" level="OFF" />
-    <logger name="jdbc.resultset" level="OFF" />
-    <logger name="jdbc.resultsettable" level="DEBUG" />
-    <logger name="jdbc.connection" level="OFF" />
+    <logger name="jdbc" level="OFF" additive="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="jdbc.sqlonly" level="DEBUG" additive="false" >
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="jdbc.sqltiming" level="OFF" additive="false" >
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="org.hibernate.SQL" level="DEBUG" additive="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="com.saesig" level="DEBUG" additive="false" >
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="com.example" level="DEBUG" additive="false" >
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="com.example" level="DEBUG" additive="false" >
+        <appender-ref ref="STDOUT"/>
+    </logger>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
 
