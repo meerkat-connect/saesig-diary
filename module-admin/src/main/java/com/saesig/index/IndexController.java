@@ -1,5 +1,6 @@
 package com.saesig.index;
 
+import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.managerBoard.ManagerBoardDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +35,8 @@ public class IndexController {
     @GetMapping({"", "/"})
     public String index(DashBoardDto dashBoardDto, Model model) {
         dashBoardDto.setPeriodType("daily");
-//        dashBoardDto.setSearchAdoptionYear(2023);
-//        dashBoardDto.setSearchAdoptionStatus(AdoptStatus.COMPLETE.getValue());
+        dashBoardDto.setSearchAdoptionYear(2023);
+        dashBoardDto.setSearchAdoptionStatus(AdoptStatus.COMPLETE.getKey());
 
         List<Map<String, Object>> maps = dashBoardMapper.selectAdoptions();
         List<Map<String, Object>> maps1 = dashBoardMapper.selectDiarys();

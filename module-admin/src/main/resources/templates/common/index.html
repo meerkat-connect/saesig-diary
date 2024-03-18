@@ -175,7 +175,9 @@
                 </div>
             </div>
             <div class="adoption-summary-content">
-                <div class="adoption-summary-chart">차트 영역</div>
+                <div class="adoption-summary-chart">
+                    <canvas id="myChart"></canvas>
+                </div>
                 <div class="adoption-summary-location">
                     <div>분양 등록지역</div>
                     <div>
@@ -273,7 +275,7 @@
                 </li>
                 <li>
                     <div>종합</div>
-                    <div>2,500 <b>명</b></div>
+                    <div>[[${registeredMembersCount.total_count}]] <b>명</b></div>
                 </li>
             </ul>
         </div>
@@ -480,8 +482,44 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" th:src="@{/files/bower_components/char.js/dist/Chart.js}"></script>
+    <script type="text/javascript" th:src="@{/files/bower_components/chart.js/dist/Chart.js}"></script>
     <script th:inline="javascript">
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
         $(function () {
             const today = /*[[${today}]]*/null;
             console.log(today);

@@ -74,10 +74,15 @@
 
     <!--회원 가입 -->
     <select id="countRegisteredMembers" resultType="map">
+        WITH total AS (
+            SELECT IFNULL(COUNT(1), 0) total_count
+            FROM member
+        )
         <if test="periodType == 'daily'">
             SELECT
                 IFNULL(SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END), 0) current
                 , IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) prev
+                , (SELECT total_count FROM total) total_count
             FROM member
             WHERE
                 DATE(created_at) = CURDATE()
@@ -87,6 +92,7 @@
             SELECT
                 IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END), 0) current
                 , IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END), 0) prev
+                , (SELECT total_count FROM total) total_count
             FROM member
             WHERE
                 YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
@@ -95,6 +101,7 @@
             SELECT
                 IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END), 0) current
                 , IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END), 0) prev
+                , (SELECT total_count FROM total) total_count
             FROM member
             WHERE
                 (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
@@ -103,8 +110,8 @@
 
         <if test="periodType == 'totally'">
             SELECT
-                IFNULL(COUNT(1), 0) total
-            FROM member
+                total.total_count
+            FROM total
         </if>
     </select>
 
@@ -330,7 +337,7 @@
         </if>
     </select>
 
-    <select id="countAdoptionStatus" resultType="integer">
+    <select id="countAdoptionStatus" resultType="map">
         SELECT
             months.month
             , COALESCE(COUNT(adopt.id), 0) AS count
