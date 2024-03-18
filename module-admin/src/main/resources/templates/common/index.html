@@ -17,61 +17,91 @@
         <div class="ss-dashboard-grid-item black status-summary">
             <div class="status-summary__title">
                 <div>분양완료 현황</div>
-                <div>2024. 01. 01</div>
+                <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
-            <div class="status-summary__number-shift increase">
+            <div class="status-summary__number-shift" th:classappend="${adoptionsStatistics.current - adoptionsStatistics.prev > 0 ? 'increase' : 'decrease'}">
                 <div>
-                    4
-                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
-                    </svg>
+                    <span th:text="${adoptionsStatistics.current - adoptionsStatistics.prev}">10</span>
+                    <th:block th:if="${adoptionsStatistics.current - adoptionsStatistics.prev > 0}">
+                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                        </svg>
+                    </th:block>
+                    <th:block th:unless="${adoptionsStatistics.current - adoptionsStatistics.prev > 0}">
+                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                        </svg>
+                    </th:block>
                 </div>
-                <div>32</div>
+                <div th:text="${adoptionsStatistics.current}">100</div>
             </div>
         </div>
         <div class="ss-dashboard-grid-item black status-summary">
             <div class="status-summary__title">
                 <div>일기 현황</div>
-                <div>2024. 01. 01</div>
+                <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
-            <div class="status-summary__number-shift increase">
+            <div class="status-summary__number-shift" th:classappend="${diarysStatistics.current - diarysStatistics.prev > 0 ? 'increase' : 'decrease'}">
                 <div>
-                    15
-                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
-                    </svg>
+                    <span th:text="${diarysStatistics.current - diarysStatistics.prev}"></span>
+                    <th:block th:if="${diarysStatistics.current - diarysStatistics.prev > 0}">
+                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                        </svg>
+                    </th:block>
+                    <th:block th:unless="${diarysStatistics.current - diarysStatistics.prev > 0}">
+                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                        </svg>
+                    </th:block>
                 </div>
-                <div>120</div>
+                <div th:text="${diarysStatistics.current}">120</div>
             </div>
         </div>
         <div class="ss-dashboard-grid-item black status-summary">
             <div class="status-summary__title">
                 <div>문의 현황</div>
-                <div>2024. 01. 01</div>
+                <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
-            <div class="status-summary__number-shift decrease">
+            <div class="status-summary__number-shift" th:classappend="${inquiriesStatistics.current - inquiriesStatistics.prev > 0 ? 'increase' : 'decrease'}">
                 <div>
-                    5
-                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
-                    </svg>
+                    <span th:text="${inquiriesStatistics.current - inquiriesStatistics.prev}"></span>
+
+                    <th:block th:if="${inquiriesStatistics.current - inquiriesStatistics.prev > 0}">
+                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                        </svg>
+                    </th:block>
+                    <th:block th:unless="${inquiriesStatistics.current - inquiriesStatistics.prev > 0}">
+                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                        </svg>
+                    </th:block>
                 </div>
-                <div>17</div>
+                <div th:text="${inquiriesStatistics.current}">10</div>
             </div>
         </div>
         <div class="ss-dashboard-grid-item black status-summary">
             <div class="status-summary__title">
-                <div>분양완료 현황</div>
-                <div>2024. 01. 01</div>
+                <div>신고 현황</div>
+                <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
-            <div class="status-summary__number-shift decrease">
+            <div class="status-summary__number-shift" th:classappend="${reportStatistics.current - reportStatistics.prev > 0 ? 'increase' : 'decrease'}">
                 <div>
-                    3
-                    <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
-                    </svg>
+                    <span th:text="${reportStatistics.current - reportStatistics.prev}"></span>
+
+                    <th:block th:if="${reportStatistics.current - reportStatistics.prev > 0}">
+                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                        </svg>
+                    </th:block>
+                    <th:block th:unless="${reportStatistics.current - reportStatistics.prev > 0}">
+                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                        </svg>
+                    </th:block>
                 </div>
-                <div>1</div>
+                <div th:text="${reportStatistics.current}">10</div>
             </div>
         </div>
         <div class="ss-dashboard-grid-item white visit-summary">
@@ -234,12 +264,12 @@
         <div class="ss-dashboard-grid-item white reg-delivery-summary">
             <div>
                 <div>회원가입</div>
-                <div>2024. 01. 01 기준</div>
+                <div th:text="${formattedDate}">2024. 01. 01 기준</div>
             </div>
             <ul>
                 <li>
                     <div>금일</div>
-                    <div>17 <b>명</b></div>
+                    <div>[[${registeredMembersCount.current}]] <b>명</b></div>
                 </li>
                 <li>
                     <div>종합</div>
@@ -250,17 +280,17 @@
         <div class="ss-dashboard-grid-item white reg-delivery-summary">
             <div>
                 <div>발송현황</div>
-                <div>2024. 01. 01 기준</div>
+                <div th:text="${formattedDate}">2024. 01. 01 기준</div>
             </div>
             <ul>
-                <li>
-                    <div>이메일</div>
-                    <div>30 <b>건</b></div>
+                <li th:each="messageDeliveryCount : ${messageDeliverysCount}">
+                    <div th:text="${messageDeliveryCount.method}"></div>
+                    <div>[[${messageDeliveryCount.send_count}]] <b>건</b></div>
                 </li>
-                <li>
+              <!--  <li>
                     <div>SMS</div>
                     <div>2 <b>건</b></div>
-                </li>
+                </li>-->
             </ul>
         </div>
         <!-- 새로운식구 -->
@@ -450,11 +480,19 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" th:src="@{/files/bower_components/char.js/dist/Chart.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            const today = /*[[${today}]]*/null;
+            console.log(today);
+            const weekNumber = /*[[${weekNumber}]]*/null;
+            console.log(weekNumber);
+            const month = /*[[${month}]]*/null;
+            console.log(month);
+        });
+    </script>
+
 </div>
-<script type="text/javascript" th:src="@{/files/bower_components/char.js/dist/Chart.js}"></script>
-<script th:inline="javascript">
-    $(function () {
-    });
-</script>
+
 
 </html>

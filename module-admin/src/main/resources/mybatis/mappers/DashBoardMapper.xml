@@ -76,8 +76,8 @@
     <select id="countRegisteredMembers" resultType="map">
         <if test="periodType == 'daily'">
             SELECT
-                IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) yesterday
-                , IFNULL(SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END), 0) today
+                IFNULL(SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) prev
             FROM member
             WHERE
                 DATE(created_at) = CURDATE()
@@ -85,16 +85,16 @@
         </if>
         <if test="periodType == 'weekly'">
             SELECT
-                IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END), 0) this_week
-                , IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END), 0) last_week
+                IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END), 0) prev
             FROM member
             WHERE
                 YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
         </if>
         <if test="periodType == 'monthly'">
             SELECT
-                IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END), 0) this_month
-                , IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END), 0) last_month
+                IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END), 0) prev
             FROM member
             WHERE
                 (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
@@ -103,7 +103,7 @@
 
         <if test="periodType == 'totally'">
             SELECT
-                IFNULL(COUNT(1), 0) AS total_count
+                IFNULL(COUNT(1), 0) total
             FROM member
         </if>
     </select>
@@ -112,9 +112,9 @@
     <select id="countMessageDeliverys" resultType="map">
         SELECT
             send_template.method
-            , COUNT(1) as send_count
+            , IFNULL(COUNT(1), 0) as send_count
         FROM send_history
-        INNER JOIN send_template
+        LEFT JOIN send_template
             ON send_history.send_template_id = send_template.id
         WHERE
         <include refid="whereCondition">
@@ -125,15 +125,15 @@
     </select>
 
     <!-- 신고현황 -->
-    <select id="countReports" resultType="integer">
+    <select id="countReports" resultType="map">
         <if test="periodType == 'daily'">
             SELECT
-                IFNULL(SUM(yesterday), 0) as yesterday
-                , IFNULL(SUM(today), 0) as today
+                IFNULL(SUM(current), 0) as current
+                , IFNULL(SUM(prev), 0) as prev
             FROM (
                 SELECT
-                    SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END) yesterday
-                    , SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END) today
+                    SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END) current
+                    , SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END) prev
                 FROM adopt_report
                 WHERE
                     DATE(created_at) = CURDATE()
@@ -142,8 +142,8 @@
                 UNION ALL
 
                 SELECT
-                    SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END) yesterday
-                    , SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END) today
+                    SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END) current
+                    , SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END) prev
                 FROM diary_report
                 WHERE
                     DATE(created_at) = CURDATE()
@@ -153,12 +153,12 @@
 
         <if test="periodType == 'weekly'">
             SELECT
-                IFNULL(SUM(this_week), 0) AS this_week
-                , IFNULL(SUM(last_week), 0) AS last_week
+                IFNULL(SUM(current), 0) AS current
+                , IFNULL(SUM(prev), 0) AS prev
             FROM (
                 SELECT
-                    SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END) this_week,
-                    SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END) last_week
+                    SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END) current
+                    , SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END) prev
                 FROM adopt_report
                 WHERE
                     YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
@@ -166,8 +166,8 @@
                 UNION ALL
 
                 SELECT
-                    SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END) this_week,
-                    SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END) last_week
+                    SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END) current
+                    , SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END) prev
                 FROM diary_report
                 WHERE
                     YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
@@ -175,12 +175,12 @@
         </if>
         <if test="periodType == 'monthly'">
             SELECT
-                IFNULL(SUM(this_month), 0) AS this_month
-                , IFNULL(SUM(last_month), 0) AS last_month
+                IFNULL(SUM(current), 0) AS current
+                , IFNULL(SUM(prev), 0) AS prev
             FROM (
                 SELECT
-                    SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END) this_month,
-                    SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) last_month
+                    SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END) current
+                    , SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) prev
                 FROM adopt_report
                 WHERE
                     (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
@@ -189,8 +189,8 @@
                 UNION ALL
 
                 SELECT
-                    SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END) this_month,
-                    SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) last_month
+                    SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END) current
+                    , SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END) prev
                 FROM diary_report
                 WHERE
                     (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
@@ -216,11 +216,11 @@
     </select>
 
     <!-- 문의 현황 -->
-    <select id="countInquiries" resultType="integer">
+    <select id="countInquiries" resultType="map">
         <if test="periodType == 'daily'">
             SELECT
-                IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) AS yesterday
-                , IFNULL(SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END), 0) AS today
+                IFNULL(SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) prev
             FROM inquiry
             WHERE
                 DATE(created_at) = CURDATE()
@@ -228,16 +228,16 @@
         </if>
         <if test="periodType == 'weekly'">
             SELECT
-                IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END), 0) AS this_week
-                , IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END), 0) AS last_week
+                IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END), 0) prev
             FROM inquiry
             WHERE
                 YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
         </if>
         <if test="periodType == 'monthly'">
             SELECT
-                IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END), 0) AS this_month
-                , IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END), 0) AS last_month
+                IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END), 0) prev
             FROM inquiry
             WHERE
                 (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
@@ -246,17 +246,17 @@
 
         <if test="periodType == 'totally'">
             SELECT
-                IFNULL(COUNT(1), 0)
+                INFULL(COUNT(1), 0) total
             FROM inquiry
         </if>
     </select>
 
     <!-- 분양완료 현황 -->
-    <select id="countAdoptions" resultType="integer">
+    <select id="countAdoptions" resultType="map">
         <if test="periodType == 'daily'">
             SELECT
-                IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) AS yesterday
-                , IFNULL(SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END), 0) AS today
+                IFNULL(SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) prev
             FROM adopt
             WHERE
                 status = 'COMPLETE'
@@ -265,8 +265,8 @@
         </if>
         <if test="periodType == 'weekly'">
             SELECT
-                IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END), 0) AS this_week
-                , IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END), 0) AS last_week
+                IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END), 0) prev
             FROM adopt
             WHERE
                 status = 'COMPLETE'
@@ -274,8 +274,8 @@
         </if>
         <if test="periodType == 'monthly'">
             SELECT
-                IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END), 0) AS this_month
-                , IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END), 0) AS last_month
+                IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END), 0) prev
             FROM adopt
             WHERE
                 status = 'COMPLETE'
@@ -287,7 +287,7 @@
 
         <if test="periodType == 'totally'">
             SELECT
-                IFNULL(COUNT(1), 0) AS total_count
+                IFNULL(COUNT(1), 0) total
             FROM adopt
             WHERE
                 status = 'COMPLETE'
@@ -295,11 +295,11 @@
     </select>
 
     <!-- 일기 현황 -->
-    <select id="countDiarys" resultType="integer">
+    <select id="countDiarys" resultType="map">
         <if test="periodType == 'daily'">
             SELECT
-                IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) yesterday
-                , IFNULL(SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END), 0) today
+                IFNULL(SUM(CASE WHEN DATE(created_at) >= CURDATE() THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) prev
             FROM diary
             WHERE
                 DATE(created_at) = CURDATE()
@@ -325,7 +325,7 @@
 
         <if test="periodType == 'totally'">
             SELECT
-                COUNT(1)
+                IFNULL(COUNT(1), 0) total
             FROM diary
         </if>
     </select>

@@ -18,18 +18,18 @@ public interface DashBoardMapper {
     List<ManagerBoardDto> selectAdminPosts();
 
     //회원가입 건수
-    List<Map<String, Object>> countRegisteredMembers(DashBoardDto dashBoardDto);
+    Map<String, Object> countRegisteredMembers(DashBoardDto dashBoardDto);
 
     // 발송현황 건수
     List<Map<String, Object>> countMessageDeliverys(DashBoardDto dashBoardDto);
 
-    List<Integer> countReports(DashBoardDto dashBoardDto);
+    Map<String,Object> countReports(DashBoardDto dashBoardDto);
 
-    List<Integer> countInquiries(DashBoardDto dashBoardDto);
+    Map<String,Object> countInquiries(DashBoardDto dashBoardDto);
 
-    List<Integer> countAdoptions(DashBoardDto dashBoardDto);
+    Map<String,Object> countAdoptions(DashBoardDto dashBoardDto);
 
-    List<Integer> countDiarys(DashBoardDto dashBoardDto);
+    Map<String,Object> countDiarys(DashBoardDto dashBoardDto);
 
     List<Map<String,Object>> countAdoptionStatus(DashBoardDto dashBoardDto);
 
