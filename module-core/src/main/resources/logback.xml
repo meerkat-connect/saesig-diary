@@ -11,27 +11,25 @@
         </layout>
     </appender>
 
-    <logger name="jdbc" level="OFF" />
-
-    <logger name="jdbc" level="OFF" additive="false">
+    <logger name="jdbc" level="OFF" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="jdbc.sqlonly" level="DEBUG" additive="false" >
+    <logger name="jdbc.sqlonly" level="DEBUG" additivity="false" >
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="jdbc.sqltiming" level="OFF" additive="false" >
+    <logger name="jdbc.sqltiming" level="OFF" additivity="false" >
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="org.hibernate.SQL" level="DEBUG" additive="false">
+    <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="com.saesig" level="DEBUG" additive="false" >
+    <logger name="com.saesig" level="DEBUG" additivity="false" >
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="com.example" level="DEBUG" additive="false" >
+    <logger name="com.example" level="DEBUG" additivity="false" >
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="com.example" level="DEBUG" additive="false" >
+    <logger name="com.example" level="DEBUG" additivity="false" >
         <appender-ref ref="STDOUT"/>
     </logger>
 
