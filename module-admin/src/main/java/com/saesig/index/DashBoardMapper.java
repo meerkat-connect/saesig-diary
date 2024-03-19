@@ -20,8 +20,9 @@ public interface DashBoardMapper {
     //회원가입 건수
     Map<String, Object> countRegisteredMembers(DashBoardDto dashBoardDto);
 
-    // 발송현황 건수
-    List<Map<String, Object>> countMessageDeliverys(DashBoardDto dashBoardDto);
+    Integer countSmsDelivery(DashBoardDto dashBoardDto);
+
+    Integer countEmailDelivery(DashBoardDto dashBoardDto);
 
     Map<String,Object> countReports(DashBoardDto dashBoardDto);
 

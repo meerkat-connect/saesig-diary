@@ -38,18 +38,21 @@ public class IndexController {
         dashBoardDto.setSearchAdoptionYear(2023);
         dashBoardDto.setSearchAdoptionStatus(AdoptStatus.COMPLETE.getKey());
 
-        List<Map<String, Object>> maps = dashBoardMapper.selectAdoptions();
-        List<Map<String, Object>> maps1 = dashBoardMapper.selectDiarys();
-        List<ManagerBoardDto> adminPosts = dashBoardMapper.selectAdminPosts();
-        Map<String, Object> registeredMembersCount = dashBoardMapper.countRegisteredMembers(dashBoardDto);
-        List<Map<String, Object>> messageDeliverysCount = dashBoardMapper.countMessageDeliverys(dashBoardDto);
-        List<Map<String, Object>> maps5 = dashBoardMapper.countAdoptionStatus(dashBoardDto);
+        List<Map<String, Object>> adoptionStatistic = dashBoardMapper.countAdoptionStatus(dashBoardDto);
+
+
 //        Map<String,Object> adoptionInfo = dashBoardMapper.selectAdoption(dashBoardDto);
 
+        List<ManagerBoardDto> adminPosts = dashBoardMapper.selectAdminPosts();
+        Map<String, Object> registeredMembersCount = dashBoardMapper.countRegisteredMembers(dashBoardDto);
         Map<String, Object> reportStatistics = dashBoardMapper.countReports(dashBoardDto);
         Map<String, Object> inquiriesStatistics = dashBoardMapper.countInquiries(dashBoardDto);
         Map<String, Object> adoptionsStatistics = dashBoardMapper.countAdoptions(dashBoardDto);
         Map<String, Object> diarysStatistics = dashBoardMapper.countDiarys(dashBoardDto);
+        List<Map<String, Object>> adoptions = dashBoardMapper.selectAdoptions();
+        List<Map<String, Object>> diarys = dashBoardMapper.selectDiarys();
+        Integer smsDeliveryCount = dashBoardMapper.countSmsDelivery(dashBoardDto);
+        Integer emailDeliveryCount = dashBoardMapper.countEmailDelivery(dashBoardDto);
 
         LocalDate today = LocalDate.now();
         WeekFields weekFields = WeekFields.of(Locale.getDefault());
@@ -73,12 +76,13 @@ public class IndexController {
         }
 
         //        model.addAttribute("adoptionInfo", adoptionInfo);
-        model.addAttribute("maps", maps);
-        model.addAttribute("maps1", maps1);
+        model.addAttribute("adoptions", adoptions);
+        model.addAttribute("smsDeliveryCount", smsDeliveryCount);
+        model.addAttribute("emailDeliveryCount", emailDeliveryCount);
+        model.addAttribute("diarys", diarys);
         model.addAttribute("adminPosts", adminPosts);
         model.addAttribute("registeredMembersCount", registeredMembersCount);
-        model.addAttribute("messageDeliverysCount", messageDeliverysCount);
-        model.addAttribute("maps5", maps5);
+        model.addAttribute("adoptionStatistic", adoptionStatistic);
         model.addAttribute("reportStatistics", reportStatistics);
         model.addAttribute("inquiriesStatistics", inquiriesStatistics);
         model.addAttribute("adoptionsStatistics", adoptionsStatistics);

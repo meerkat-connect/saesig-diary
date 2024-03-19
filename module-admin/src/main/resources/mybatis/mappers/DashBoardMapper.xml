@@ -115,22 +115,6 @@
         </if>
     </select>
 
-    <!-- 발송현황 -->
-    <select id="countMessageDeliverys" resultType="map">
-        SELECT
-            send_template.method
-            , IFNULL(COUNT(1), 0) as send_count
-        FROM send_history
-        LEFT JOIN send_template
-            ON send_history.send_template_id = send_template.id
-        WHERE
-        <include refid="whereCondition">
-            <property name="created_at" value="send_history.created_at"/>
-        </include>
-        GROUP BY send_template.method
-
-    </select>
-
     <!-- 신고현황 -->
     <select id="countReports" resultType="map">
         <if test="periodType == 'daily'">
@@ -357,4 +341,31 @@
     <select id="selectAdoption" resultType="map">
 
     </select>
+
+    <select id="countSmsDelivery" resultType="int">
+        SELECT
+            IFNULL(COUNT(1), 0) as send_count
+        FROM send_history
+        LEFT JOIN send_template
+            ON send_history.send_template_id = send_template.id
+        WHERE
+        <include refid="whereCondition">
+            <property name="created_at" value="send_history.created_at"/>
+        </include>
+            AND send_template.method = 'SMS'
+    </select>
+
+    <select id="countEmailDelivery" resultType="int">
+        SELECT
+            IFNULL(COUNT(1), 0) as send_count
+        FROM send_history
+        LEFT JOIN send_template
+            ON send_history.send_template_id = send_template.id
+        WHERE
+        <include refid="whereCondition">
+            <property name="created_at" value="send_history.created_at"/>
+        </include>
+            AND send_template.method = 'EMAIL'
+    </select>
+
 </mapper>

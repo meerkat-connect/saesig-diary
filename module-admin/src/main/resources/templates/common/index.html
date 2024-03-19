@@ -6,10 +6,10 @@
 <div layout:fragment="content">
     <div class="col-12 m-b-20">
         <div class="ss-sub-header">
-            <div class="ss-segmeneted-control ss-segmeneted-control--active">일간</div>
-            <div class="ss-segmeneted-control">주간</div>
-            <div class="ss-segmeneted-control">월간</div>
-            <div class="ss-segmeneted-control">종합</div>
+            <div class="ss-segmeneted-control ss-segmeneted-control--active" data-periodType="daily">일간</div>
+            <div class="ss-segmeneted-control" data-periodType="weekly">주간</div>
+            <div class="ss-segmeneted-control" data-periodType="monthly">월간</div>
+            <div class="ss-segmeneted-control" data-periodType="totally">종합</div>
         </div>
     </div>
 
@@ -285,102 +285,22 @@
                 <div th:text="${formattedDate}">2024. 01. 01 기준</div>
             </div>
             <ul>
-                <li th:each="messageDeliveryCount : ${messageDeliverysCount}">
-                    <div th:text="${messageDeliveryCount.method}"></div>
-                    <div>[[${messageDeliveryCount.send_count}]] <b>건</b></div>
+                <li>
+                    <div>이메일</div>
+                    <div>[[${emailDeliveryCount}]] <b>건</b></div>
                 </li>
-              <!--  <li>
+                <li>
                     <div>SMS</div>
-                    <div>2 <b>건</b></div>
-                </li>-->
+                    <div>[[${smsDeliveryCount}]] <b>건</b></div>
+                </li>
             </ul>
         </div>
         <!-- 새로운식구 -->
-        <!-- <div class="ss-dashboard-grid-item white latest-post">
-          <div class="latest-post-header">
-            <div>
-              <div class="latest-post-board-type active">새로운식구</div>
-              <div class="latest-post-board-type">일상기록</div>
-              <div class="latest-post-refresh">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g>
-                    <path
-                      d="M8.4359 16.8711C7.05876 16.5218 5.93349 15.7924 5.0601 14.6829C4.1867 13.5734 3.75 12.2894 3.75 10.8311C3.75 10.0822 3.88061 9.3661 4.14183 8.68288C4.40306 7.99965 4.76871 7.37279 5.23879 6.80227C5.35417 6.67301 5.49358 6.60624 5.65704 6.60196C5.8205 6.59768 5.97114 6.66445 6.10896 6.80227C6.22435 6.91766 6.28417 7.05842 6.28844 7.22454C6.29272 7.39067 6.23716 7.54691 6.12177 7.69327C5.7564 8.12917 5.47808 8.61475 5.28683 9.15C5.0956 9.68526 4.99998 10.2456 4.99998 10.8311C4.99998 11.9775 5.34587 12.997 6.03765 13.8896C6.72942 14.7822 7.61484 15.3749 8.6939 15.6676C8.83172 15.7072 8.94496 15.7846 9.03365 15.9C9.12231 16.0154 9.16665 16.142 9.16665 16.2798C9.16665 16.4881 9.0948 16.6521 8.9511 16.7718C8.80741 16.8914 8.63567 16.9246 8.4359 16.8711ZM11.5641 16.8872C11.3643 16.9406 11.1925 16.9053 11.0489 16.7814C10.9052 16.6575 10.8333 16.4913 10.8333 16.283C10.8333 16.1537 10.8776 16.0314 10.9663 15.916C11.055 15.8007 11.1682 15.7205 11.3061 15.6757C12.3798 15.3477 13.2639 14.7435 13.9583 13.8632C14.6528 12.9828 15 11.9721 15 10.8311C15 9.44222 14.5139 8.26166 13.5416 7.28944C12.5694 6.31722 11.3889 5.8311 9.99998 5.8311H9.70508L10.391 6.51702C10.5117 6.63774 10.5721 6.78411 10.5721 6.95612C10.5721 7.12812 10.5117 7.27449 10.391 7.39521C10.2703 7.51593 10.1239 7.57629 9.95192 7.57629C9.77992 7.57629 9.63356 7.51593 9.51283 7.39521L7.85098 5.73335C7.77299 5.65537 7.71797 5.5731 7.68592 5.48656C7.65386 5.40002 7.63783 5.30654 7.63783 5.20612C7.63783 5.10569 7.65386 5.01221 7.68592 4.92567C7.71797 4.83914 7.77299 4.75687 7.85098 4.67887L9.51283 3.01702C9.63356 2.8963 9.77992 2.83594 9.95192 2.83594C10.1239 2.83594 10.2703 2.8963 10.391 3.01702C10.5117 3.13774 10.5721 3.28411 10.5721 3.45612C10.5721 3.62812 10.5117 3.77449 10.391 3.89521L9.70508 4.58112H9.99998C11.7436 4.58112 13.2211 5.1869 14.4326 6.39844C15.6442 7.60997 16.25 9.08752 16.25 10.8311C16.25 12.2755 15.8119 13.5533 14.9359 14.6644C14.0598 15.7755 12.9359 16.5164 11.5641 16.8872Z"
-                      fill="#FF8031"
-                    />
-                  </g>
-                </svg>
-                <span>새로고침</span>
-              </div>
-            </div>
-            <div class="latest-post-more">
-              <span>더보기</span
-              ><svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle cx="12" cy="12" r="11" transform="rotate(90 12 12)" fill="#171A19" />
-                <path
-                  d="M10.2221 7.74649C9.92597 8.04262 9.92597 8.52098 10.2221 8.81711L13.1682 11.7632L10.2221 14.7093C9.92597 15.0054 9.92597 15.4838 10.2221 15.7799C10.5182 16.076 10.9966 16.076 11.2927 15.7799L14.7779 12.2947C15.074 11.9986 15.074 11.5202 14.7779 11.2241L11.2927 7.7389C11.0042 7.45036 10.5182 7.45036 10.2221 7.74649Z"
-                  fill="white"
-                />
-              </svg>
-            </div>
-          </div>
-          <div class="latest-post-content">
-            <div class="latest-post-card">
-              <div class="latest-post-card-img">
-                <img src="" alt="" />
-              </div>
-              <span>서울특별시 중구 을지로</span>
-              <p>2살 여아 시고르자브종 무료분양 합니다.</p>
-              <div class="latest-post-card-tag-box">
-                <div class="latest-post-card-tag">#강아지</div>
-                <div class="latest-post-card-tag">#믹스견</div>
-                <div class="latest-post-card-tag">#암컷</div>
-              </div>
-            </div>
-            <div class="latest-post-card">
-              <div class="latest-post-card-img">
-                <img src="" alt="" />
-              </div>
-              <span>서울특별시 중구 을지로</span>
-              <p>2살 여아 시고르자브종 무료분양 합니다.</p>
-              <div class="latest-post-card-tag-box">
-                <div class="latest-post-card-tag">#강아지</div>
-                <div class="latest-post-card-tag">#믹스견</div>
-                <div class="latest-post-card-tag">#암컷</div>
-              </div>
-            </div>
-            <div class="latest-post-card">
-              <div class="latest-post-card-img">
-                <img src="" alt="" />
-              </div>
-              <span>서울특별시 중구 을지로</span>
-              <p>2살 여아 시고르자브종 무료분양 합니다.</p>
-              <div class="latest-post-card-tag-box">
-                <div class="latest-post-card-tag">#강아지</div>
-                <div class="latest-post-card-tag">#믹스견</div>
-                <div class="latest-post-card-tag">#암컷</div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <!-- 일상기록 -->
         <div class="ss-dashboard-grid-item white latest-post">
             <div class="latest-post-header">
                 <div>
-                    <div class="latest-post-board-type">새로운식구</div>
-                    <div class="latest-post-board-type active">일상기록</div>
+                    <div class="latest-post-board-type active">새로운식구</div>
+                    <div class="latest-post-board-type">일상기록</div>
                     <div class="latest-post-refresh">
                         <svg
                                 width="20"
@@ -400,8 +320,8 @@
                     </div>
                 </div>
                 <div class="latest-post-more">
-                            <span>더보기</span
-                            >
+              <span>더보기</span
+              >
                     <svg
                             width="24"
                             height="24"
@@ -417,13 +337,55 @@
                     </svg>
                 </div>
             </div>
-            <div class="latest-post-grid">
+
+            <!--일상기록 -->
+            <!--<div class="latest-post-grid">
                 <div class="latest-post-grid-img"><img src="" alt=""/></div>
                 <div class="latest-post-grid-img"><img src="" alt=""/></div>
                 <div class="latest-post-grid-img"><img src="" alt=""/></div>
                 <div class="latest-post-grid-img"><img src="" alt=""/></div>
                 <div class="latest-post-grid-img"><img src="" alt=""/></div>
                 <div class="latest-post-grid-img"><img src="" alt=""/></div>
+            </div>-->
+
+            <!--새로운 식구 -->
+            <div class="latest-post-content">
+                <div class="latest-post-card">
+                    <div class="latest-post-card-img">
+                        <img src="" alt=""/>
+                    </div>
+                    <span>서울특별시 중구 을지로</span>
+                    <p>2살 여아 시고르자브종 무료분양 합니다.</p>
+                    <div class="latest-post-card-tag-box">
+                        <div class="latest-post-card-tag">#강아지</div>
+                        <div class="latest-post-card-tag">#믹스견</div>
+                        <div class="latest-post-card-tag">#암컷</div>
+                    </div>
+                </div>
+                <div class="latest-post-card">
+                    <div class="latest-post-card-img">
+                        <img src="" alt=""/>
+                    </div>
+                    <span>서울특별시 중구 을지로</span>
+                    <p>2살 여아 시고르자브종 무료분양 합니다.</p>
+                    <div class="latest-post-card-tag-box">
+                        <div class="latest-post-card-tag">#강아지</div>
+                        <div class="latest-post-card-tag">#믹스견</div>
+                        <div class="latest-post-card-tag">#암컷</div>
+                    </div>
+                </div>
+                <div class="latest-post-card">
+                    <div class="latest-post-card-img">
+                        <img src="" alt=""/>
+                    </div>
+                    <span>서울특별시 중구 을지로</span>
+                    <p>2살 여아 시고르자브종 무료분양 합니다.</p>
+                    <div class="latest-post-card-tag-box">
+                        <div class="latest-post-card-tag">#강아지</div>
+                        <div class="latest-post-card-tag">#믹스견</div>
+                        <div class="latest-post-card-tag">#암컷</div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="ss-dashboard-grid-item white">
@@ -484,49 +446,89 @@
     </div>
     <script type="text/javascript" th:src="@{/files/bower_components/chart.js/dist/Chart.js}"></script>
     <script th:inline="javascript">
+        const dashboard = {
+
+            // 새로운식구, 일상기록 새로고침
+            reload: () => {
+
+            }
+
+        }
+
         const ctx = document.getElementById('myChart').getContext('2d');
+        //FF8031 , 300 (50 단위)
+        Chart.defaults.borderColor = '#712';
+
+        var gradient = ctx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, 'rgba(255, 128, 49, 0.5)');
+        gradient.addColorStop(1, 'rgba(255, 255, 255,0)');
+
+        const adoptionStatistic = /*[[${adoptionStatistic}]]*/null;
         const myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
+                    data: adoptionStatistic.map(item => item.count)
+                    , fill: true
+                    , backgroundColor: gradient
+                    , borderColor: 'rgba(255, 128, 49)'
+                    , borderWidth: 2
+                    , color: '#000'
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+                responsive: true
+                , tooltips: {
+                    enabled: false,
+                }
+                , onClick: function(event, elements) {
+                    if(elements.length > 0) {
+                        const clickedDatasetIndex = elements[0]._datasetIndex;
+                        const clickedElementIndex = elements[0]._index;
+                        const value = myChart.data.datasets[clickedDatasetIndex].data[clickedElementIndex];
+                        console.log(clickedElementIndex)
+                        console.log('Clicked on:', value);
                     }
+                }
+                , maintainAspectRatio: false
+                , legend: {
+                    display: false
+                }
+                , scales: {
+                    xAxes: [{
+                        gridLines: {
+                            // color: "rgba(0, 0, 0, 0)",
+                        }
+                    }]
+                    , yAxes: [{
+                        type: 'logarithmic', // 로그 스케일 사용
+                        ticks: {
+                            beginAtZero: true
+                            , callback: function (value) {
+                                return Number(value.toString());
+                            }
+                            , fontSize: 12
+                            /*
+                                , max: 300
+                                , stepSize: 50
+                            */
+                        }
+                        , gridLines: {
+                            color: "rgba(0, 0, 0, 0)"
+                            , fontSize: 12
+                        }
+                    }]
                 }
             }
         });
 
         $(function () {
-            const today = /*[[${today}]]*/null;
-            console.log(today);
-            const weekNumber = /*[[${weekNumber}]]*/null;
-            console.log(weekNumber);
-            const month = /*[[${month}]]*/null;
-            console.log(month);
+            $('.ss-segmeneted-control').on('click', function () {
+                let data = $(this).data('periodtype');
+                $('.ss-segmeneted-control').removeClass('ss-segmeneted-control--active')
+                $(this).addClass('ss-segmeneted-control--active');
+            })
         });
     </script>
 
