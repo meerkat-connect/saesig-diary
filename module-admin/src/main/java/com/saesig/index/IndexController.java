@@ -34,12 +34,17 @@ public class IndexController {
 
     @GetMapping({"", "/"})
     public String index(DashBoardDto dashBoardDto, Model model) {
-        dashBoardDto.setPeriodType("daily");
-        dashBoardDto.setSearchAdoptionYear(2023);
+        return "common/index";
+    }
+
+    @GetMapping("/dashboardView")
+    public String dashboardView(DashBoardDto dashBoardDto, Model model) {
+        LocalDate today = LocalDate.now();
+        String formattedDate = getFormattedDate(dashBoardDto.getPeriodType(), today);
+        dashBoardDto.setSearchAdoptionYear(today.getYear());
         dashBoardDto.setSearchAdoptionStatus(AdoptStatus.COMPLETE.getKey());
 
         List<Map<String, Object>> adoptionStatistic = dashBoardMapper.countAdoptionStatus(dashBoardDto);
-
 
 //        Map<String,Object> adoptionInfo = dashBoardMapper.selectAdoption(dashBoardDto);
 
@@ -53,27 +58,6 @@ public class IndexController {
         List<Map<String, Object>> diarys = dashBoardMapper.selectDiarys();
         Integer smsDeliveryCount = dashBoardMapper.countSmsDelivery(dashBoardDto);
         Integer emailDeliveryCount = dashBoardMapper.countEmailDelivery(dashBoardDto);
-
-        LocalDate today = LocalDate.now();
-        WeekFields weekFields = WeekFields.of(Locale.getDefault());
-        int weekNumber = today.get(weekFields.weekOfMonth());
-        int month = today.getMonthValue();
-        String formattedDate = null;
-
-        switch (dashBoardDto.getPeriodType()) {
-            case "daily":
-                formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy. MM. dd"));
-                break;
-            case "weekly":
-                formattedDate = String.format("%02d월 %d주차", month, weekNumber);
-                break;
-            case "monthly":
-                formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy. MM월"));
-                break;
-            case "totally":
-                formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy. MM. dd"));
-                break;
-        }
 
         //        model.addAttribute("adoptionInfo", adoptionInfo);
         model.addAttribute("adoptions", adoptions);
@@ -89,6 +73,29 @@ public class IndexController {
         model.addAttribute("diarysStatistics", diarysStatistics);
         model.addAttribute("formattedDate", formattedDate);
 
-        return "common/index";
+        return "common/dashboard";
+    }
+
+    private String getFormattedDate(String periodType, LocalDate today) {
+        String formattedDate = null;
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        int weekNumber = today.get(weekFields.weekOfMonth());
+        int month = today.getMonthValue();
+
+        switch (periodType) {
+            case "daily":
+                formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy. MM. dd"));
+                break;
+            case "weekly":
+                formattedDate = String.format("%02d월 %d주차", month, weekNumber);
+                break;
+            case "monthly":
+                formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy. MM월"));
+                break;
+            case "totally":
+                formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy. MM. dd"));
+                break;
+        }
+        return formattedDate;
     }
 }

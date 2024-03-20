@@ -298,16 +298,16 @@
         </if>
         <if test="periodType == 'weekly'">
             SELECT
-                IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END), 0) this_week
-                , IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END), 0) last_week
+                IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE(), 3) THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN YEARWEEK(created_at, 3) = YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3) THEN 1 ELSE 0 END), 0) prev
             FROM diary
             WHERE
                 YEARWEEK(created_at, 3) >= YEARWEEK(CURDATE() - INTERVAL 7 DAY, 3)
         </if>
         <if test="periodType == 'monthly'">
             SELECT
-                IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END), 0) this_month
-                , IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END), 0) last_month
+                IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()) THEN 1 ELSE 0 END), 0) current
+                , IFNULL(SUM(CASE WHEN YEAR(created_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(created_at) = MONTH(CURDATE() - INTERVAL 1 MONTH) THEN 1 ELSE 0 END), 0) prev
             FROM diary
             WHERE
                 (YEAR(created_at) = YEAR(CURDATE()) AND MONTH(created_at) = MONTH(CURDATE()))
