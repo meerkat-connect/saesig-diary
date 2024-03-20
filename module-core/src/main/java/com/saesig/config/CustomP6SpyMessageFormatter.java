@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Stack;
 
-//@Configuration
+@Configuration
 public class CustomP6SpyMessageFormatter implements MessageFormattingStrategy {
 
     private static final String ALLOW_FILTER = "saesgDiary";
