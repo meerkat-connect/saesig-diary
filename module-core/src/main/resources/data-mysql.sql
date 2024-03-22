@@ -317,7 +317,7 @@ INSERT INTO animal_division2(id, animal_division1_id, category)
 VALUES (4, 2, '샴');
 
 INSERT INTO adopt(id, adopt_member_id, hits, title, content, gender, age, age_category, status, is_deleted, is_castrated, responsibility_cost, etc_content, animal_division1_id, animal_division2_id, image_file_group_id, sido, sigungu, modified_at, modified_by, created_at, created_by)
-VALUES(1, 1, 0, 'title','content', 'MAN', 13, 'ASD', 'COMPLETE', 'N', 'N', 1000, 'etc_content', 1,1, NULL, 'sido','signgu',  NOW(), 1, NOW(), 1);
+VALUES(1, 1, 0, 'title','content', 'M', 13, 'ASD', 'COMPLETE', 'N', 'N', 1000, 'etc_content', 1,1, NULL, 'sido','signgu',  NOW(), 1, NOW(), 1);
 
 INSERT INTO chatting_room (TITLE, CHAT_ID, ADOPT_ID, MEMBER_ID, CREATED_AT, CREATED_BY) VALUES ('1', 112, 1, 1, '2023-09-07 07:13:04.409547', 2);
 INSERT INTO chatting_room (TITLE, CHAT_ID, ADOPT_ID, MEMBER_ID, CREATED_AT, CREATED_BY) VALUES ('1', 112, 1, 2, '2023-09-07 07:13:04.419490', 2);

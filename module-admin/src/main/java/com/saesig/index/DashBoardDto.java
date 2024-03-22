@@ -9,5 +9,5 @@ public class DashBoardDto {
     private Integer searchAdoptionYear;
     private String periodType;
     private String searchAdoptionStatus;
-
+    private Integer searchAdoptionMonth;
 }

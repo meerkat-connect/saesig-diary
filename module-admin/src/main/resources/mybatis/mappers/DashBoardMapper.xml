@@ -3,25 +3,25 @@
 <mapper namespace="com.saesig.index.DashBoardMapper">
     <sql id="whereCondition">
         <if test="periodType != null and periodType =='monthly'">
-            YEAR(${created_at}) = YEAR(NOW()) AND MONTH(${created_at}) = MONTH(now())
+            AND YEAR(${created_at}) = YEAR(NOW()) AND MONTH(${created_at}) = MONTH(now())
         </if>
         <if test="periodType != null and periodType =='daily'">
-            DATE(${created_at}) = DATE(NOW())
+            AND DATE(${created_at}) = DATE(NOW())
         </if>
         <if test="periodType != null and periodType =='weekly'">
-            YEARWEEK(${created_at}, 1) = YEARWEEK(NOW(), 1)
+            AND YEARWEEK(${created_at}, 1) = YEARWEEK(NOW(), 1)
         </if>
     </sql>
 
     <sql id="wherePrevCondition">
         <if test="periodType != null and periodType =='monthly'">
-            YEAR(${created_at}) = YEAR(NOW() - INTERVAL 1 MONTH) AND MONTH(${created_at}) = MONTH(NOW()- INTERVAL 1 MONTH)
+            AND YEAR(${created_at}) = YEAR(NOW() - INTERVAL 1 MONTH) AND MONTH(${created_at}) = MONTH(NOW()- INTERVAL 1 MONTH)
         </if>
         <if test="periodType != null and periodType =='daily'">
-            DATE(${created_at}) = DATE(NOW() - INTERVAL 1 DAY)
+            AND DATE(${created_at}) = DATE(NOW() - INTERVAL 1 DAY)
         </if>
         <if test="periodType != null and periodType =='weekly'">
-            YEARWEEK(${created_at}, 1) = YEARWEEK(NOW() - INTERVAL 1 WEEK, 1)
+            AND YEARWEEK(${created_at}, 1) = YEARWEEK(NOW() - INTERVAL 1 WEEK, 1)
         </if>
     </sql>
 
@@ -36,13 +36,16 @@
             , adopt.gender
             , adopt.animal_division1_id
             , adopt.animal_division2_id
-            , animal_division1.category
-            , animal_division2.category
+            , animal_division1.category as animal_division1_category
+            , animal_division2.category as animal_division2_category
+            , file.saved_name
         FROM adopt
         LEFT OUTER JOIN animal_division1
             ON adopt.animal_division1_id = animal_division1.id
         LEFT OUTER JOIN animal_division2
             ON adopt.animal_division2_id = animal_division2.id
+        LEFT OUTER JOIN (SELECT group_id, saved_name FROM file WHERE ord = 1) AS file
+            ON adopt.image_file_group_id = file.group_id
         ORDER BY created_by DESC
         LIMIT 3
     </select>
@@ -50,8 +53,10 @@
     <!-- 일상기록 조회 -->
     <select id="selectDiarys" resultType="map">
         SELECT
-            image_file_group_id
+            file.saved_name
         FROM diary
+        LEFT OUTER JOIN (SELECT group_id, saved_name FROM file WHERE ord = 1) AS file
+            ON diary.image_file_group_id = file.group_id
         ORDER BY created_by DESC
         LIMIT 6
     </select>
@@ -237,7 +242,7 @@
 
         <if test="periodType == 'totally'">
             SELECT
-                INFULL(COUNT(1), 0) total
+                IFNULL(COUNT(1), 0) total
             FROM inquiry
         </if>
     </select>
@@ -338,6 +343,21 @@
         GROUP BY months.month
     </select>
 
+    <select id="countAdoptionLocationStatistic" resultType="map">
+        SELECT
+            count(1) AS count
+             , sido
+             , sigungu
+        FROM adopt
+        WHERE
+            YEAR(adopt.created_at) = #{searchAdoptionYear}
+            AND MONTH(adopt.created_at) = #{searchAdoptionMonth}
+            AND adopt.status = #{searchAdoptionStatus}
+        group by sido, sigungu
+        ORDER BY count
+    </select>
+
+
     <select id="selectAdoption" resultType="map">
 
     </select>
@@ -348,11 +368,12 @@
         FROM send_history
         LEFT JOIN send_template
             ON send_history.send_template_id = send_template.id
-        WHERE
-        <include refid="whereCondition">
-            <property name="created_at" value="send_history.created_at"/>
-        </include>
-            AND send_template.method = 'SMS'
+        <where>
+            send_template.method = 'SMS'
+            <include refid="whereCondition">
+                <property name="created_at" value="send_history.created_at"/>
+            </include>
+        </where>
     </select>
 
     <select id="countEmailDelivery" resultType="int">
@@ -361,11 +382,11 @@
         FROM send_history
         LEFT JOIN send_template
             ON send_history.send_template_id = send_template.id
-        WHERE
-        <include refid="whereCondition">
-            <property name="created_at" value="send_history.created_at"/>
-        </include>
-            AND send_template.method = 'EMAIL'
+        <where>
+            send_template.method = 'EMAIL'
+            <include refid="whereCondition">
+                <property name="created_at" value="send_history.created_at"/>
+            </include>
+        </where>
     </select>
-
 </mapper>

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -42,10 +43,11 @@ public class IndexController {
         LocalDate today = LocalDate.now();
         String formattedDate = getFormattedDate(dashBoardDto.getPeriodType(), today);
         dashBoardDto.setSearchAdoptionYear(today.getYear());
+        dashBoardDto.setSearchAdoptionMonth(1);
         dashBoardDto.setSearchAdoptionStatus(AdoptStatus.COMPLETE.getKey());
 
         List<Map<String, Object>> adoptionStatistic = dashBoardMapper.countAdoptionStatus(dashBoardDto);
-
+        List<Map<String, Object>> adoptionLocationStatistic = dashBoardMapper.countAdoptionLocationStatistic(dashBoardDto);
 //        Map<String,Object> adoptionInfo = dashBoardMapper.selectAdoption(dashBoardDto);
 
         List<ManagerBoardDto> adminPosts = dashBoardMapper.selectAdminPosts();
@@ -54,16 +56,18 @@ public class IndexController {
         Map<String, Object> inquiriesStatistics = dashBoardMapper.countInquiries(dashBoardDto);
         Map<String, Object> adoptionsStatistics = dashBoardMapper.countAdoptions(dashBoardDto);
         Map<String, Object> diarysStatistics = dashBoardMapper.countDiarys(dashBoardDto);
-        List<Map<String, Object>> adoptions = dashBoardMapper.selectAdoptions();
-        List<Map<String, Object>> diarys = dashBoardMapper.selectDiarys();
+        List<Map<String, Object>> adoptionPosts = dashBoardMapper.selectAdoptions(); // 새로운 식구
+        List<Map<String, Object>> diaryPosts = dashBoardMapper.selectDiarys(); // 일상 기록
         Integer smsDeliveryCount = dashBoardMapper.countSmsDelivery(dashBoardDto);
         Integer emailDeliveryCount = dashBoardMapper.countEmailDelivery(dashBoardDto);
 
         //        model.addAttribute("adoptionInfo", adoptionInfo);
-        model.addAttribute("adoptions", adoptions);
+        model.addAttribute("periodType", dashBoardDto.getPeriodType());
+        model.addAttribute("adoptionLocationStatistic", adoptionLocationStatistic);
+        model.addAttribute("adoptionPosts", adoptionPosts);
         model.addAttribute("smsDeliveryCount", smsDeliveryCount);
         model.addAttribute("emailDeliveryCount", emailDeliveryCount);
-        model.addAttribute("diarys", diarys);
+        model.addAttribute("diaryPosts", diaryPosts);
         model.addAttribute("adminPosts", adminPosts);
         model.addAttribute("registeredMembersCount", registeredMembersCount);
         model.addAttribute("adoptionStatistic", adoptionStatistic);
@@ -97,5 +101,21 @@ public class IndexController {
                 break;
         }
         return formattedDate;
+    }
+
+    @GetMapping("/reload")
+    @ResponseBody
+    public List<Map<String, Object>> reload(@RequestParam String type) {
+        if ("adoption".equals(type)) {
+            return dashBoardMapper.selectAdoptions();// 새로운 식구
+        } else {
+            return dashBoardMapper.selectDiarys(); // 일상 기록
+        }
+    }
+
+    @GetMapping("/test")
+    @ResponseBody
+    public List<Map<String, Object>> adoptionLocationStatistic(DashBoardDto dashBoardDto) {
+        return dashBoardMapper.countAdoptionLocationStatistic(dashBoardDto);
     }
 }

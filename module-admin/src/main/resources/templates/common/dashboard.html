@@ -8,98 +8,140 @@
                 <div>분양완료 현황</div>
                 <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
-            <div class="status-summary__number-shift"
-                 th:classappend="${adoptionsStatistics.current - adoptionsStatistics.prev != 0 && adoptionsStatistics.current - adoptionsStatistics.prev > 0 ? 'increase' : 'decrease'}">
-                <div>
-                    <span th:text="${adoptionsStatistics.current - adoptionsStatistics.prev}">10</span>
 
-                    <th:block th:switch="${adoptionsStatistics.current - adoptionsStatistics.prev}">
-                        <span th:case="a">aa</span>
-                        <span th:case="b">bb</span>
-                    </th:block>
-
-                    <th:block th:if="${adoptionsStatistics.current - adoptionsStatistics.prev > 0}">
-                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
-                        </svg>
-                    </th:block>
-                    <th:block th:unless="${adoptionsStatistics.current - adoptionsStatistics.prev > 0}">
-                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
-                        </svg>
-                    </th:block>
+            <th:block th:if="${periodType == 'totally'}">
+                <div class="status-summary__number-shift">
+                    <div th:text="${adoptionsStatistics.total}">100</div>
                 </div>
-                <div th:text="${adoptionsStatistics.current}">100</div>
-            </div>
+            </th:block>
+
+            <th:block th:unless="${periodType == 'totally'}">
+                <div class="status-summary__number-shift"
+                     th:classappend="${adoptionsStatistics.current - adoptionsStatistics.prev != 0 && adoptionsStatistics.current - adoptionsStatistics.prev > 0 ? 'increase' : 'decrease'}">
+                    <div>
+                        <span th:text="${adoptionsStatistics.current - adoptionsStatistics.prev}">10</span>
+
+                        <th:block th:switch="${adoptionsStatistics.current - adoptionsStatistics.prev}">
+                            <span th:case="a">aa</span>
+                            <span th:case="b">bb</span>
+                        </th:block>
+
+                        <th:block th:if="${adoptionsStatistics.current - adoptionsStatistics.prev > 0}">
+                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                            </svg>
+                        </th:block>
+                        <th:block th:unless="${adoptionsStatistics.current - adoptionsStatistics.prev > 0}">
+                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                            </svg>
+                        </th:block>
+                    </div>
+                    <div th:text="${adoptionsStatistics.current}">100</div>
+                </div>
+            </th:block>
+
         </div>
         <div class="ss-dashboard-grid-item black status-summary">
             <div class="status-summary__title">
                 <div>일기 현황</div>
                 <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
-            <div class="status-summary__number-shift"
-                 th:classappend="${diarysStatistics.current - diarysStatistics.prev != 0 && diarysStatistics.current - diarysStatistics.prev > 0 ? 'increase' : 'decrease'}">
-                <div>
-                    <span th:text="${diarysStatistics.current - diarysStatistics.prev}"></span>
-                    <th:block th:if="${diarysStatistics.current - diarysStatistics.prev > 0}">
-                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
-                        </svg>
-                    </th:block>
-                    <th:block th:unless="${diarysStatistics.current - diarysStatistics.prev > 0}">
-                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
-                        </svg>
-                    </th:block>
+
+            <th:block th:if="${periodType == 'totally'}">
+                <div class="status-summary__number-shift">
+                    <div th:text="${diarysStatistics.total}">100</div>
                 </div>
-                <div th:text="${diarysStatistics.current}">120</div>
-            </div>
+            </th:block>
+
+            <th:block th:unless="${periodType == 'totally'}">
+                <div class="status-summary__number-shift"
+                     th:classappend="${diarysStatistics.current - diarysStatistics.prev != 0 && diarysStatistics.current - diarysStatistics.prev > 0 ? 'increase' : 'decrease'}">
+                    <div>
+                        <span th:text="${diarysStatistics.current - diarysStatistics.prev}"></span>
+                        <th:block th:if="${diarysStatistics.current - diarysStatistics.prev > 0}">
+                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                            </svg>
+                        </th:block>
+                        <th:block th:unless="${diarysStatistics.current - diarysStatistics.prev > 0}">
+                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                            </svg>
+                        </th:block>
+                    </div>
+                    <div th:text="${diarysStatistics.current}">120</div>
+                </div>
+            </th:block>
         </div>
+
         <div class="ss-dashboard-grid-item black status-summary">
             <div class="status-summary__title">
                 <div>문의 현황</div>
                 <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
 
-            <div class="status-summary__number-shift"
-                 th:classappend="${inquiriesStatistics.current - inquiriesStatistics.prev != 0 && inquiriesStatistics.current - inquiriesStatistics.prev > 0 ? 'increase' : 'decrease'}">
-                <div>
-                    <th:block th:if="${inquiriesStatistics.current - inquiriesStatistics.prev > 0}">
-                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
-                        </svg>
-                    </th:block>
-                    <th:block th:unless="${inquiriesStatistics.current - inquiriesStatistics.prev > 0}">
-                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
-                        </svg>
-                    </th:block>
+            <th:block th:if="${periodType == 'totally'}">
+                <div class="status-summary__number-shift">
+                    <div th:text="${inquiriesStatistics.total}">100</div>
                 </div>
-            </div>
+            </th:block>
+
+            <th:block th:unless="${periodType == 'totally'}">
+                <div class="status-summary__number-shift"
+                     th:classappend="${inquiriesStatistics.current - inquiriesStatistics.prev != 0 && inquiriesStatistics.current - inquiriesStatistics.prev > 0 ? 'increase' : 'decrease'}">
+                    <div>
+                        <span th:text="${inquiriesStatistics.current - inquiriesStatistics.prev}"></span>
+                        <th:block th:if="${inquiriesStatistics.current - inquiriesStatistics.prev > 0}">
+                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                            </svg>
+                        </th:block>
+                        <th:block th:unless="${inquiriesStatistics.current - inquiriesStatistics.prev > 0}">
+                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                            </svg>
+                        </th:block>
+                    </div>
+                    <div th:text="${inquiriesStatistics.current}">120</div>
+
+                </div>
+            </th:block>
+
         </div>
         <div class="ss-dashboard-grid-item black status-summary">
             <div class="status-summary__title">
                 <div>신고 현황</div>
                 <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
-            <div class="status-summary__number-shift"
-                 th:classappend="${reportStatistics.current - reportStatistics.prev != 0 && reportStatistics.current - reportStatistics.prev > 0 ? 'increase' : 'decrease'}">
-                <div>
-                    <th:block th:if="${reportStatistics.current - reportStatistics.prev > 0}">
-                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
-                        </svg>
-                    </th:block>
-                    <th:block th:if="${reportStatistics.current - reportStatistics.prev < 0}">
-                        <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
-                        </svg>
-                    </th:block>
-                    <th:block th:if="${reportStatistics.current - reportStatistics.prev == 0}">
-                    </th:block>
+
+            <th:block th:if="${periodType == 'totally'}">
+                <div class="status-summary__number-shift">
+                    <div th:text="${reportStatistics.total}">100</div>
                 </div>
-                <div th:text="${reportStatistics.current}">10</div>
-            </div>
+            </th:block>
+
+            <th:block th:unless="${periodType == 'totally'}">
+                <div class="status-summary__number-shift"
+                     th:classappend="${reportStatistics.current - reportStatistics.prev != 0 && reportStatistics.current - reportStatistics.prev > 0 ? 'increase' : 'decrease'}">
+                    <div>
+                        <span th:text="${reportStatistics.current - reportStatistics.prev}"></span>
+                        <th:block th:if="${reportStatistics.current - reportStatistics.prev > 0}">
+                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                            </svg>
+                        </th:block>
+                        <th:block th:unless="${reportStatistics.current - reportStatistics.prev > 0}">
+                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                            </svg>
+                        </th:block>
+                    </div>
+                    <div th:text="${diarysStatistics.current}">10</div>
+                </div>
+            </th:block>
+
+
         </div>
         <div class="ss-dashboard-grid-item white visit-summary">
             <div>
@@ -150,8 +192,11 @@
                 <div>
                     <div>분양현황</div>
                     <div>
-                        <input type="text" value="2023" readonly/>
-                        <svg
+                        <select name="" id="" class="form-select form-control form-control-round custom-select">
+                            <option value="2024">2024</option>
+                        </select>
+                        <!--<input type="text" value="2023" readonly/>-->
+                        <!--<svg
                                 width="24"
                                 height="24"
                                 viewBox="0 0 24 24"
@@ -162,7 +207,7 @@
                                     d="M6.71047 9.29344C6.32047 9.68344 6.32047 10.3134 6.71047 10.7034L11.3005 15.2934C11.6905 15.6834 12.3205 15.6834 12.7105 15.2934L17.3005 10.7034C17.6905 10.3134 17.6905 9.68344 17.3005 9.29344C16.9105 8.90344 16.2805 8.90344 15.8905 9.29344L12.0005 13.1734L8.12047 9.29344C7.73047 8.90344 7.09047 8.91344 6.71047 9.29344Z"
                                     fill="black"
                             />
-                        </svg>
+                        </svg>-->
                     </div>
                 </div>
                 <div>
@@ -178,58 +223,8 @@
                 <div class="adoption-summary-location">
                     <div>분양 등록지역</div>
                     <div>
-                        <div>9월</div>
-                        <ul>
-                            <li>
-                                <div>
-                                    <span>1</span>
-                                    <div>서울특별시 구로구</div>
-                                </div>
-                                <div>
-                                    <div>
-                                        101건
-                                        <svg
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <g>
-                                                <path
-                                                        d="M9.42546 13.9984C8.97546 13.9984 8.66296 13.7943 8.48796 13.3859C8.31296 12.9776 8.3838 12.6151 8.70046 12.2984L11.3005 9.69844C11.4005 9.59844 11.5088 9.52344 11.6255 9.47344C11.7421 9.42344 11.8671 9.39844 12.0005 9.39844C12.1338 9.39844 12.2588 9.42344 12.3755 9.47344C12.4921 9.52344 12.6005 9.59844 12.7005 9.69844L15.3005 12.2984C15.6171 12.6151 15.688 12.9776 15.513 13.3859C15.338 13.7943 15.0255 13.9984 14.5755 13.9984H9.42546Z"
-                                                        fill="#FF8031"
-                                                />
-                                            </g>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <span>1</span>
-                                    <div>서울특별시 구로구</div>
-                                </div>
-                                <div>
-                                    <div>
-                                        101건
-                                        <svg
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <g>
-                                                <path
-                                                        d="M9.42546 13.9984C8.97546 13.9984 8.66296 13.7943 8.48796 13.3859C8.31296 12.9776 8.3838 12.6151 8.70046 12.2984L11.3005 9.69844C11.4005 9.59844 11.5088 9.52344 11.6255 9.47344C11.7421 9.42344 11.8671 9.39844 12.0005 9.39844C12.1338 9.39844 12.2588 9.42344 12.3755 9.47344C12.4921 9.52344 12.6005 9.59844 12.7005 9.69844L15.3005 12.2984C15.6171 12.6151 15.688 12.9776 15.513 13.3859C15.338 13.7943 15.0255 13.9984 14.5755 13.9984H9.42546Z"
-                                                        fill="#FF8031"
-                                                />
-                                            </g>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </li>
+                        <div id="chartDetailMonth">9월</div>
+                        <ul id="charDetailList">
                             <li>
                                 <div>
                                     <span>1</span>
@@ -266,7 +261,7 @@
                 <div th:text="${formattedDate}">2024. 01. 01 기준</div>
             </div>
             <ul>
-                <li>
+                <li th:if="${periodType != 'totally'}">
                     <div>금일</div>
                     <div>[[${registeredMembersCount.current}]] <b>명</b></div>
                 </li>
@@ -296,9 +291,9 @@
         <div class="ss-dashboard-grid-item white latest-post">
             <div class="latest-post-header">
                 <div>
-                    <div class="latest-post-board-type active">새로운식구</div>
-                    <div class="latest-post-board-type">일상기록</div>
-                    <div class="latest-post-refresh">
+                    <div class="latest-post-board-type active" data-type="adoption">새로운식구</div>
+                    <div class="latest-post-board-type" data-type="diary">일상기록</div>
+                    <div class="latest-post-refresh" id="refresh">
                         <svg
                                 width="20"
                                 height="20"
@@ -316,9 +311,8 @@
                         <span>새로고침</span>
                     </div>
                 </div>
-                <div class="latest-post-more">
-              <span>더보기</span
-              >
+                <div class="latest-post-more" id="postMoreTag">
+                    <span>더보기</span>
                     <svg
                             width="24"
                             height="24"
@@ -335,56 +329,34 @@
                 </div>
             </div>
 
-            <!--일상기록 -->
-            <!--<div class="latest-post-grid">
-                <div class="latest-post-grid-img"><img src="" alt=""/></div>
-                <div class="latest-post-grid-img"><img src="" alt=""/></div>
-                <div class="latest-post-grid-img"><img src="" alt=""/></div>
-                <div class="latest-post-grid-img"><img src="" alt=""/></div>
-                <div class="latest-post-grid-img"><img src="" alt=""/></div>
-                <div class="latest-post-grid-img"><img src="" alt=""/></div>
-            </div>-->
-
             <!--새로운 식구 -->
-            <div class="latest-post-content">
-                <div class="latest-post-card">
+            <div class="latest-post-content" id="adoptionPostList">
+                <div class="latest-post-card" th:each="adoptionPost : ${adoptionPosts}">
                     <div class="latest-post-card-img">
-                        <img src="" alt=""/>
+                        <img th:if="${adoptionPost.saved_name != null}" th:src="@{/images/{savedName}(savedName=${adoptionPost.saved_name})}" alt=""/>
+                        <img th:if="${adoptionPost.saved_name == null}" src="" alt=""/>
                     </div>
-                    <span>서울특별시 중구 을지로</span>
-                    <p>2살 여아 시고르자브종 무료분양 합니다.</p>
+                    <span th:value="${adoptionPost.sido}">서울특별시 중구 을지로</span>
+                    <p th:utext="${adoptionPost.title}">2살 여아 시고르자브종 무료분양 합니다.</p>
                     <div class="latest-post-card-tag-box">
-                        <div class="latest-post-card-tag">#강아지</div>
-                        <div class="latest-post-card-tag">#믹스견</div>
-                        <div class="latest-post-card-tag">#암컷</div>
-                    </div>
-                </div>
-                <div class="latest-post-card">
-                    <div class="latest-post-card-img">
-                        <img src="" alt=""/>
-                    </div>
-                    <span>서울특별시 중구 을지로</span>
-                    <p>2살 여아 시고르자브종 무료분양 합니다.</p>
-                    <div class="latest-post-card-tag-box">
-                        <div class="latest-post-card-tag">#강아지</div>
-                        <div class="latest-post-card-tag">#믹스견</div>
-                        <div class="latest-post-card-tag">#암컷</div>
-                    </div>
-                </div>
-                <div class="latest-post-card">
-                    <div class="latest-post-card-img">
-                        <img src="" alt=""/>
-                    </div>
-                    <span>서울특별시 중구 을지로</span>
-                    <p>2살 여아 시고르자브종 무료분양 합니다.</p>
-                    <div class="latest-post-card-tag-box">
-                        <div class="latest-post-card-tag">#강아지</div>
-                        <div class="latest-post-card-tag">#믹스견</div>
-                        <div class="latest-post-card-tag">#암컷</div>
+                        <div class="latest-post-card-tag" th:text="|#${adoptionPost.animal_division1_category}|">#강아지</div>
+                        <div class="latest-post-card-tag" th:text="|#${adoptionPost.animal_division2_category}|">#믹스견</div>
+                        <div class="latest-post-card-tag" th:text="${adoptionPost.gender == 'M' ? '#수컷' : '#암컷'}">#암컷</div>
                     </div>
                 </div>
             </div>
+
+            <!--일상기록 -->
+            <div class="latest-post-grid d-none" id="diaryPostList">
+                <div class="latest-post-grid-img"
+                     th:if="${diaryPost != null}"
+                     th:each="diaryPost : ${diaryPosts}">
+                    <img th:if="${diaryPost.saved_name != null}" th:src="@{/images/{savedName}(savedName=${diaryPost.saved_name})}" alt=""/>
+                    <img th:if="${diaryPost.saved_name == null}" src="" alt=""/>
+                </div>
+            </div>
         </div>
+
         <div class="ss-dashboard-grid-item white">
             <div class="latest-post-header">
                 <div>
@@ -446,15 +418,93 @@
 <script type="text/javascript" th:src="@{/files/bower_components/chart.js/dist/Chart.js}"></script>
 <script th:inline="javascript">
     $(function () {
+        let postBoardType = 'adoption';
         const ctx = document.getElementById('myChart').getContext('2d');
-        //FF8031 , 300 (50 단위)
-        Chart.defaults.borderColor = '#712';
-
-        var gradient = ctx.createLinearGradient(0, 0, 0, 300);
+        const adoptionStatistic = /*[[${adoptionStatistic}]]*/null;
+        const gradient = ctx.createLinearGradient(0, 0, 0, 300);
         gradient.addColorStop(0, 'rgba(255, 128, 49, 0.5)');
         gradient.addColorStop(1, 'rgba(255, 255, 255,0)');
+        $('select').niceSelect();
 
-        const adoptionStatistic = /*[[${adoptionStatistic}]]*/null;
+        $("#refresh").on('click', function () {
+            const $activeTab = $(this).parent().find('.latest-post-board-type.active');
+            let type = $activeTab.data('type');
+
+            $.ajax({
+                type: 'get'
+                , url: '/admin/reload'
+                , data: {type: type}
+                , dataType: 'json'
+            }).done(function (response) {
+                let html = ``;
+                if (type === 'adoption') {
+                    for (const item of response) {
+                        html += `
+                                    <div class='latest-post-card'>
+                                        <div class="latest-post-card-img">
+                                            ${item.saved_name ?
+                                                `<img src="/images/${item.saved_name}" alt=""/>`
+                                                : `<img src="" alt="">`}
+                                        </div>
+                                        <span>${item.sido}</span>
+                                        <p>${item.title}</p>
+                                        <div class="latest-post-card-tag-box">
+                                            <div class="latest-post-card-tag">#${item.animal_division1_category}</div>
+                                            <div class="latest-post-card-tag">#${item.animal_division2_category}</div>
+                                            <div class="latest-post-card-tag">#${item.gender == 'M' ? '#수컷' : '암컷'}</div>
+                                        </div>
+                                    </div>`
+                    }
+                    $('#adoptionPostList').replaceWith(html);
+                }
+
+                if (type === 'diary') {
+                    for (const item of response) {
+                        html += `
+                                    <div class='latest-post-grid-img'>
+                                        ${item.saved_name ?
+                                            `<img src="/images/${Object.keys(item).includes('saved_name') ? item.saved_name : ''}" alt="image">`
+                                            : `<img src="" alt=""/>`
+                                        }
+                                    </div> `
+                    }
+                    $('#diaryPostList').replaceWith(html);
+
+                }
+            }).fail(function (response) {
+                alert('에러가 발생하였습니다.');
+            });
+
+        });
+
+        $('.latest-post-board-type').on('click', function () {
+            $('.latest-post-board-type').removeClass('active');
+            $(this).addClass('active');
+
+            let type = $(this).data('type');
+            postBoardType = type;
+
+            if (type === 'adoption') {
+                $('#adoptionPostList').removeClass('d-none');
+                $('#diaryPostList').addClass('d-none');
+            }
+
+            if (type === 'diary') {
+                $('#adoptionPostList').addClass('d-none');
+                $('#diaryPostList').removeClass('d-none');
+            }
+        })
+
+        $('#postMoreTag').on('click', function () {
+            if (postBoardType == 'adoption') {
+                location.href = 'admin/saesigManage/view';
+            } else {
+                location.href = 'admin/diaryManage/view';
+            }
+        })
+
+        //FF8031 , 300 (50 단위)
+        // Chart.defaults.borderColor = '#712';
         const myChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -478,8 +528,25 @@
                         const clickedDatasetIndex = elements[0]._datasetIndex;
                         const clickedElementIndex = elements[0]._index;
                         const value = myChart.data.datasets[clickedDatasetIndex].data[clickedElementIndex];
-                        console.log(clickedElementIndex)
-                        console.log('Clicked on:', value);
+
+                        const searchAdoptionYear = '2024';
+                        const searchAdoptionMonth = clickedElementIndex + 1;
+
+                        $.ajax({
+                            url: '/admin/test',
+                            method: 'get',
+                            data: {
+                                searchAdoptionYear : searchAdoptionYear
+                                , searchAdoptionMonth : searchAdoptionMonth
+                            },
+                            success: function(response) {
+                                console.log(reponse);
+                                for(const item of response) {
+
+                                }
+                                alert(response);
+                            }
+                        })
                     }
                 }
                 , maintainAspectRatio: false

@@ -35,4 +35,6 @@ public interface DashBoardMapper {
     List<Map<String,Object>> countAdoptionStatus(DashBoardDto dashBoardDto);
 
     Map<String, Object> selectAdoption(DashBoardDto dashBoardDto);
+
+    List<Map<String, Object>> countAdoptionLocationStatistic(DashBoardDto dashBoardDto);
 }
