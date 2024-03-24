@@ -1,6 +1,5 @@
 package com.saesig.index;
 
-import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.managerBoard.ManagerBoardDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,14 +42,9 @@ public class IndexController {
     public String dashboardView(DashBoardDto dashBoardDto, Model model) {
         LocalDate today = LocalDate.now();
         String formattedDate = getFormattedDate(dashBoardDto.getPeriodType(), today);
-        dashBoardDto.setSearchAdoptionYear(today.getYear());
-        dashBoardDto.setSearchAdoptionMonth(1);
-        dashBoardDto.setSearchAdoptionStatus(AdoptStatus.COMPLETE.getKey());
 
         List<Map<String, Object>> adoptionStatistic = dashBoardMapper.countAdoptionStatus(dashBoardDto);
         List<Map<String, Object>> adoptionLocationStatistic = dashBoardMapper.countAdoptionLocationStatistic(dashBoardDto);
-//        Map<String,Object> adoptionInfo = dashBoardMapper.selectAdoption(dashBoardDto);
-
         List<ManagerBoardDto> adminPosts = dashBoardMapper.selectAdminPosts();
         Map<String, Object> registeredMembersCount = dashBoardMapper.countRegisteredMembers(dashBoardDto);
         Map<String, Object> reportStatistics = dashBoardMapper.countReports(dashBoardDto);
@@ -62,7 +56,6 @@ public class IndexController {
         Integer smsDeliveryCount = dashBoardMapper.countSmsDelivery(dashBoardDto);
         Integer emailDeliveryCount = dashBoardMapper.countEmailDelivery(dashBoardDto);
 
-        //        model.addAttribute("adoptionInfo", adoptionInfo);
         model.addAttribute("dashBoardDto", dashBoardDto);
         model.addAttribute("adoptionLocationStatistic", adoptionLocationStatistic);
         model.addAttribute("adoptionPosts", adoptionPosts);
@@ -114,18 +107,6 @@ public class IndexController {
         }
     }
 
-    @GetMapping("/test")
-    @ResponseBody
-    public List<Map<String, Object>> adoptionLocationStatistic(DashBoardDto dashBoardDto) {
-        return dashBoardMapper.countAdoptionLocationStatistic(dashBoardDto);
-    }
-
-    /*
-      required parameter
-        searchAdoptionYear
-        searchAdoptionMonth
-        searchAdoptionStatus
-    * */
     @GetMapping("/dashboard/search/adoption")
     @ResponseBody
     public Map<String,Object> searchAdoptionData(DashBoardDto dashBoardDto) {

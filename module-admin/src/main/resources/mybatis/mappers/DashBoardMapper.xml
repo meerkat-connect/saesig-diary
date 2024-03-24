@@ -91,7 +91,7 @@
             FROM member
             WHERE
                 DATE(created_at) = CURDATE()
-                AND DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+                OR DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
         </if>
         <if test="periodType == 'weekly'">
             SELECT
@@ -133,7 +133,7 @@
                 FROM adopt_report
                 WHERE
                     DATE(created_at) = CURDATE()
-                    AND DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+                    OR DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
 
                 UNION ALL
 
@@ -143,7 +143,7 @@
                 FROM diary_report
                 WHERE
                     DATE(created_at) = CURDATE()
-                    AND DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+                    OR DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
             ) AS subquery
         </if>
 
@@ -219,8 +219,7 @@
                 , IFNULL(SUM(CASE WHEN DATE(created_at) <![CDATA[<]]>  CURDATE() THEN 1 ELSE 0 END), 0) prev
             FROM inquiry
             WHERE
-                DATE(created_at) = CURDATE()
-                AND DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+                DATE(created_at) = CURDATE() OR DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
         </if>
         <if test="periodType == 'weekly'">
             SELECT
@@ -256,8 +255,7 @@
             FROM adopt
             WHERE
                 status = 'COMPLETE'
-                AND DATE(created_at) = CURDATE()
-                AND DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+                AND (DATE(created_at) = CURDATE() OR DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY))
         </if>
         <if test="periodType == 'weekly'">
             SELECT
@@ -299,7 +297,7 @@
             FROM diary
             WHERE
                 DATE(created_at) = CURDATE()
-                AND DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
+                OR DATE(created_at) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)
         </if>
         <if test="periodType == 'weekly'">
             SELECT
@@ -355,11 +353,6 @@
             AND adopt.status = #{searchAdoptionStatus}
         group by sido, sigungu
         ORDER BY count
-    </select>
-
-
-    <select id="selectAdoption" resultType="map">
-
     </select>
 
     <select id="countSmsDelivery" resultType="int">

@@ -10,7 +10,7 @@
             <div class="ss-segmeneted-control" data-periodType="weekly">주간</div>
             <div class="ss-segmeneted-control" data-periodType="monthly">월간</div>
             <div class="ss-segmeneted-control" data-periodType="totally">종합</div>
-        </div>
+        </div>`
     </div>
 
     <div id="dashboardArea">
@@ -19,11 +19,19 @@
     <script type="text/javascript" th:src="@{/files/bower_components/chart.js/dist/Chart.js}"></script>
     <script th:inline="javascript">
         $(function () {
-            getDashboardData({periodType : 'daily'});
+            const initParam = {
+                periodType : 'daily'
+                , searchAdoptionYear : new Date().getFullYear()
+                , searchAdoptionMonth : 1
+                , searchAdoptionStatus : 'ONGOING'
+            }
+
+            getDashboardData(initParam);
 
             $('.ss-segmeneted-control').on('click', function () {
                 let data = $(this).data('periodtype');
-                getDashboardData({periodType: data})
+                initParam.periodType = data;
+                getDashboardData(initParam)
                 $('.ss-segmeneted-control').removeClass('ss-segmeneted-control--active')
                 $(this).addClass('ss-segmeneted-control--active');
             })

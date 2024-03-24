@@ -16,29 +16,31 @@
             </th:block>
 
             <th:block th:unless="${dashBoardDto.periodType == 'totally'}">
-                <div class="status-summary__number-shift"
-                     th:classappend="${adoptionsStatistics.current - adoptionsStatistics.prev != 0 && adoptionsStatistics.current - adoptionsStatistics.prev > 0 ? 'increase' : 'decrease'}">
-                    <div>
-                        <span th:text="${adoptionsStatistics.current - adoptionsStatistics.prev}">10</span>
-
-                        <th:block th:switch="${adoptionsStatistics.current - adoptionsStatistics.prev}">
-                            <span th:case="a">aa</span>
-                            <span th:case="b">bb</span>
-                        </th:block>
-
-                        <th:block th:if="${adoptionsStatistics.current - adoptionsStatistics.prev > 0}">
-                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
-                            </svg>
-                        </th:block>
-                        <th:block th:unless="${adoptionsStatistics.current - adoptionsStatistics.prev > 0}">
-                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
-                            </svg>
-                        </th:block>
+                <th:block th:if="${adoptionsStatistics.current - adoptionsStatistics.prev == 0}">
+                    <div class="status-summary__number-shift">
+                        <div th:text="${adoptionsStatistics.current}">100</div>
                     </div>
-                    <div th:text="${adoptionsStatistics.current}">100</div>
-                </div>
+                </th:block>
+
+                <th:block th:unless="${adoptionsStatistics.current - adoptionsStatistics.prev == 0}">
+                    <div class="status-summary__number-shift"
+                         th:classappend="${adoptionsStatistics.current - adoptionsStatistics.prev > 0 ? 'increase' : 'decrease'}">
+                        <div>
+                            <span th:text="${adoptionsStatistics.current - adoptionsStatistics.prev}">10</span>
+                            <th:block th:if="${adoptionsStatistics.current - adoptionsStatistics.prev > 0}">
+                                <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                                </svg>
+                            </th:block>
+                            <th:block th:unless="${adoptionsStatistics.current - adoptionsStatistics.prev > 0}">
+                                <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                                </svg>
+                            </th:block>
+                        </div>
+                        <div th:text="${adoptionsStatistics.current}">100</div>
+                    </div>
+                </th:block>
             </th:block>
 
         </div>
@@ -55,23 +57,32 @@
             </th:block>
 
             <th:block th:unless="${dashBoardDto.periodType == 'totally'}">
-                <div class="status-summary__number-shift"
-                     th:classappend="${diarysStatistics.current - diarysStatistics.prev != 0 && diarysStatistics.current - diarysStatistics.prev > 0 ? 'increase' : 'decrease'}">
-                    <div>
-                        <span th:text="${diarysStatistics.current - diarysStatistics.prev}"></span>
-                        <th:block th:if="${diarysStatistics.current - diarysStatistics.prev > 0}">
-                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
-                            </svg>
-                        </th:block>
-                        <th:block th:unless="${diarysStatistics.current - diarysStatistics.prev > 0}">
-                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
-                            </svg>
-                        </th:block>
+                <th:block th:if="${diarysStatistics.current - diarysStatistics.prev == 0}">
+                    <div class="status-summary__number-shift">
+                        <div th:text="${diarysStatistics.current}">100</div>
                     </div>
-                    <div th:text="${diarysStatistics.current}">120</div>
-                </div>
+                </th:block>
+
+                <th:block th:unless="${diarysStatistics.current - diarysStatistics.prev == 0}">
+                    <div class="status-summary__number-shift"
+                         th:classappend="${diarysStatistics.current - diarysStatistics.prev != 0 && diarysStatistics.current - diarysStatistics.prev > 0 ? 'increase' : 'decrease'}">
+                        <div>
+                            <span th:text="${diarysStatistics.current - diarysStatistics.prev}"></span>
+                            <th:block th:if="${diarysStatistics.current - diarysStatistics.prev > 0}">
+                                <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                                </svg>
+                            </th:block>
+                            <th:block th:unless="${diarysStatistics.current - diarysStatistics.prev > 0}">
+                                <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                                </svg>
+                            </th:block>
+                        </div>
+                        <div th:text="${diarysStatistics.current}">120</div>
+                    </div>
+                </th:block>
+
             </th:block>
         </div>
 
@@ -88,24 +99,31 @@
             </th:block>
 
             <th:block th:unless="${dashBoardDto.periodType == 'totally'}">
-                <div class="status-summary__number-shift"
-                     th:classappend="${inquiriesStatistics.current - inquiriesStatistics.prev != 0 && inquiriesStatistics.current - inquiriesStatistics.prev > 0 ? 'increase' : 'decrease'}">
-                    <div>
-                        <span th:text="${inquiriesStatistics.current - inquiriesStatistics.prev}"></span>
-                        <th:block th:if="${inquiriesStatistics.current - inquiriesStatistics.prev > 0}">
-                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
-                            </svg>
-                        </th:block>
-                        <th:block th:unless="${inquiriesStatistics.current - inquiriesStatistics.prev > 0}">
-                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
-                            </svg>
-                        </th:block>
+                <th:block th:if="${inquiriesStatistics.current - inquiriesStatistics.prev == 0}">
+                    <div class="status-summary__number-shift">
+                        <div th:text="${inquiriesStatistics.current}">100</div>
                     </div>
-                    <div th:text="${inquiriesStatistics.current}">120</div>
+                </th:block>
 
-                </div>
+                <th:block th:unless="${inquiriesStatistics.current - inquiriesStatistics.prev == 0}">
+                    <div class="status-summary__number-shift"
+                         th:classappend="${inquiriesStatistics.current - inquiriesStatistics.prev != 0 && inquiriesStatistics.current - inquiriesStatistics.prev > 0 ? 'increase' : 'decrease'}">
+                        <div>
+                            <span th:text="${inquiriesStatistics.current - inquiriesStatistics.prev}"></span>
+                            <th:block th:if="${inquiriesStatistics.current - inquiriesStatistics.prev > 0}">
+                                <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                                </svg>
+                            </th:block>
+                            <th:block th:unless="${inquiriesStatistics.current - inquiriesStatistics.prev > 0}">
+                                <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                                </svg>
+                            </th:block>
+                        </div>
+                        <div th:text="${inquiriesStatistics.current}">120</div>
+                    </div>
+                </th:block>
             </th:block>
 
         </div>
@@ -122,23 +140,31 @@
             </th:block>
 
             <th:block th:unless="${dashBoardDto.periodType == 'totally'}">
-                <div class="status-summary__number-shift"
-                     th:classappend="${reportStatistics.current - reportStatistics.prev != 0 && reportStatistics.current - reportStatistics.prev > 0 ? 'increase' : 'decrease'}">
-                    <div>
-                        <span th:text="${reportStatistics.current - reportStatistics.prev}"></span>
-                        <th:block th:if="${reportStatistics.current - reportStatistics.prev > 0}">
-                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
-                            </svg>
-                        </th:block>
-                        <th:block th:unless="${reportStatistics.current - reportStatistics.prev > 0}">
-                            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
-                            </svg>
-                        </th:block>
+                <th:block th:if="${reportStatistics.current - reportStatistics.prev == 0}">
+                    <div class="status-summary__number-shift">
+                        <div th:text="${reportStatistics.current}">100</div>
                     </div>
-                    <div th:text="${diarysStatistics.current}">10</div>
-                </div>
+                </th:block>
+
+                <th:block th:unless="${reportStatistics.current - reportStatistics.prev == 0}">
+                    <div class="status-summary__number-shift"
+                         th:classappend="${reportStatistics.current - reportStatistics.prev != 0 && reportStatistics.current - reportStatistics.prev > 0 ? 'increase' : 'decrease'}">
+                        <div>
+                            <span th:text="${reportStatistics.current - reportStatistics.prev}"></span>
+                            <th:block th:if="${reportStatistics.current - reportStatistics.prev > 0}">
+                                <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 5.5L4 0.5L8 5.5H0Z" fill="currentColor"/>
+                                </svg>
+                            </th:block>
+                            <th:block th:unless="${reportStatistics.current - reportStatistics.prev > 0}">
+                                <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 5.5L0 0.5H8L4 5.5Z" fill="currentColor"/>
+                                </svg>
+                            </th:block>
+                        </div>
+                        <div th:text="${reportStatistics.current}">120</div>
+                    </div>
+                </th:block>
             </th:block>
 
 
@@ -264,7 +290,11 @@
             </div>
             <ul>
                 <li th:if="${dashBoardDto.periodType != 'totally'}">
-                    <div>금일</div>
+                    <div th:switch="${dashBoardDto.periodType}">
+                        <span th:case="daily">금일</span>
+                        <span th:case="weekly">금주</span>
+                        <span th:case="monthly">금월</span>
+                    </div>
                     <div>[[${registeredMembersCount.current}]] <b>명</b></div>
                 </li>
                 <li>
@@ -421,11 +451,15 @@
 <script th:inline="javascript">
     $(function () {
         let postBoardType = 'adoption';
-        let adoptionStatus = 'ONGOING';
-        let searchAdoptionYear = new Date().getFullYear();
-        let searchAdoptionMonth = 1;
-        let searchAdoptionStatus = 'ONGOING';
-        const adoptionStatistic = /*[[${adoptionStatistic}]]*/null;
+        let chart = null;
+        let searchAdoptionYear = /*[[${dashBoardDto.searchAdoptionYear}]]*/null;
+        let searchAdoptionMonth = /*[[${dashBoardDto.searchAdoptionMonth}]]*/null;
+        let searchAdoptionStatus = /*[[${dashBoardDto.searchAdoptionStatus}]]*/null;
+        const commonParam = {
+            searchAdoptionYear: searchAdoptionYear
+            , searchAdoptionMonth: searchAdoptionMonth
+            , searchAdoptionStatus: searchAdoptionStatus
+        }
 
         $('select').niceSelect();
 
@@ -434,11 +468,36 @@
             $(this).parent().find('div').removeClass('active');
             $(this).addClass('active');
             searchAdoptionStatus = $(this).data('status');
+
+            $.ajax({
+                type: 'get'
+                , url: '/admin/dashboard/search/adoption'
+                , data: commonParam
+                , dataType: 'json'
+                , async: false
+                , success: function (response) {
+                    chart.data.datasets[0].data = response.adoptionStatistic.map(item => item.count)
+                    chart.update();
+                }
+            });
+
         });
 
         /* 차트 연도 변경 */
-        $('#adoptionSelect').on('change',function() {
+        $('#adoptionSelect').on('change', function () {
             searchAdoptionYear = $(this).val();
+
+            $.ajax({
+                type: 'get'
+                , url: '/admin/dashboard/search/adoption'
+                , data: commonParam
+                , dataType: 'json'
+                , async: false
+                , success: function (response) {
+                    chart.data.datasets[0].data = response.adoptionStatistic.map(item => item.count)
+                    chart.update();
+                }
+            });
         })
 
         $("#refresh").on('click', function () {
@@ -518,16 +577,16 @@
             }
         })
 
-        const renderChart = function(chartData) {
+        const renderChart = function () {
             //FF8031 , 300 (50 단위)
             // Chart.defaults.borderColor = '#712';
             const ctx = document.getElementById('myChart').getContext('2d');
-            const adoptionStatistic = chartData ;
+            const adoptionStatistic = /*[[${adoptionStatistic}]]*/null;
             const gradient = ctx.createLinearGradient(0, 0, 0, 300);
             gradient.addColorStop(0, 'rgba(255, 128, 49, 0.5)');
             gradient.addColorStop(1, 'rgba(255, 255, 255,0)');
 
-            const myChart = new Chart(ctx, {
+            chart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -547,25 +606,19 @@
                     }
                     , onClick: function (event, elements) {
                         if (elements.length > 0) {
-                            const clickedDatasetIndex = elements[0]._datasetIndex;
                             const clickedElementIndex = elements[0]._index;
-                            const value = myChart.data.datasets[clickedDatasetIndex].data[clickedElementIndex];
-                            const searchAdoptionMonth = clickedElementIndex + 1;
+                            searchAdoptionMonth = clickedElementIndex + 1;
 
                             $.ajax({
-                                url: '/admin/test',
+                                url: '/admin/dashboard/search/adoption',
                                 method: 'get',
-                                data: {
-                                    searchAdoptionYear: searchAdoptionYear
-                                    , searchAdoptionMonth: searchAdoptionMonth
-                                },
+                                data: commonParam,
                                 success: function (response) {
                                     let html = ``;
                                     let rowNumber = 1;
 
-                                    console.log(response);
                                     $('#chartDetailMonth').text(`${searchAdoptionMonth}월`);
-                                    for (const item of response) {
+                                    for (const item of response.adoptionLocationStatistic) {
                                         html += `
                                                 <li>
                                                     <div>
@@ -622,7 +675,7 @@
             });
         }
 
-        renderChart(adoptionStatistic);
+        renderChart();
     })
 
 </script>
