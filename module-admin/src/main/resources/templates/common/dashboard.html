@@ -9,13 +9,13 @@
                 <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
 
-            <th:block th:if="${periodType == 'totally'}">
+            <th:block th:if="${dashBoardDto.periodType == 'totally'}">
                 <div class="status-summary__number-shift">
                     <div th:text="${adoptionsStatistics.total}">100</div>
                 </div>
             </th:block>
 
-            <th:block th:unless="${periodType == 'totally'}">
+            <th:block th:unless="${dashBoardDto.periodType == 'totally'}">
                 <div class="status-summary__number-shift"
                      th:classappend="${adoptionsStatistics.current - adoptionsStatistics.prev != 0 && adoptionsStatistics.current - adoptionsStatistics.prev > 0 ? 'increase' : 'decrease'}">
                     <div>
@@ -48,13 +48,13 @@
                 <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
 
-            <th:block th:if="${periodType == 'totally'}">
+            <th:block th:if="${dashBoardDto.periodType == 'totally'}">
                 <div class="status-summary__number-shift">
                     <div th:text="${diarysStatistics.total}">100</div>
                 </div>
             </th:block>
 
-            <th:block th:unless="${periodType == 'totally'}">
+            <th:block th:unless="${dashBoardDto.periodType == 'totally'}">
                 <div class="status-summary__number-shift"
                      th:classappend="${diarysStatistics.current - diarysStatistics.prev != 0 && diarysStatistics.current - diarysStatistics.prev > 0 ? 'increase' : 'decrease'}">
                     <div>
@@ -81,13 +81,13 @@
                 <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
 
-            <th:block th:if="${periodType == 'totally'}">
+            <th:block th:if="${dashBoardDto.periodType == 'totally'}">
                 <div class="status-summary__number-shift">
                     <div th:text="${inquiriesStatistics.total}">100</div>
                 </div>
             </th:block>
 
-            <th:block th:unless="${periodType == 'totally'}">
+            <th:block th:unless="${dashBoardDto.periodType == 'totally'}">
                 <div class="status-summary__number-shift"
                      th:classappend="${inquiriesStatistics.current - inquiriesStatistics.prev != 0 && inquiriesStatistics.current - inquiriesStatistics.prev > 0 ? 'increase' : 'decrease'}">
                     <div>
@@ -115,13 +115,13 @@
                 <div th:text="${formattedDate}">2024. 01. 01</div>
             </div>
 
-            <th:block th:if="${periodType == 'totally'}">
+            <th:block th:if="${dashBoardDto.periodType == 'totally'}">
                 <div class="status-summary__number-shift">
                     <div th:text="${reportStatistics.total}">100</div>
                 </div>
             </th:block>
 
-            <th:block th:unless="${periodType == 'totally'}">
+            <th:block th:unless="${dashBoardDto.periodType == 'totally'}">
                 <div class="status-summary__number-shift"
                      th:classappend="${reportStatistics.current - reportStatistics.prev != 0 && reportStatistics.current - reportStatistics.prev > 0 ? 'increase' : 'decrease'}">
                     <div>
@@ -192,8 +192,10 @@
                 <div>
                     <div>분양현황</div>
                     <div>
-                        <select name="" id="" class="form-select form-control form-control-round custom-select">
+                        <select name="adoptionSelect" id="adoptionSelect" class="form-select form-control form-control-round custom-select">
                             <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
                         </select>
                         <!--<input type="text" value="2023" readonly/>-->
                         <!--<svg
@@ -210,10 +212,10 @@
                         </svg>-->
                     </div>
                 </div>
-                <div>
-                    <div class="active">분양중</div>
-                    <div>분양완료</div>
-                    <div>분양취소</div>
+                <div id="adoptionsStatusDivTab">
+                    <div class="active" data-status="ONGOING">분양중</div>
+                    <div data-status="COMPLETE">분양완료</div>
+                    <div data-status="STOP">분양취소</div>
                 </div>
             </div>
             <div class="adoption-summary-content">
@@ -223,16 +225,16 @@
                 <div class="adoption-summary-location">
                     <div>분양 등록지역</div>
                     <div>
-                        <div id="chartDetailMonth">9월</div>
+                        <div id="chartDetailMonth" th:text="|${dashBoardDto.searchAdoptionMonth}월|">9월</div>
                         <ul id="charDetailList">
-                            <li>
+                            <li th:each="adoptionLocation, adoptionLocationStat : ${adoptionLocationStatistic}">
                                 <div>
-                                    <span>1</span>
-                                    <div>서울특별시 구로구</div>
+                                    <span th:text="${adoptionLocationStat.index + 1}"></span>
+                                    <div th:text="|${adoptionLocation.sido} ${adoptionLocation.sigungu}|">서울특별시 구로구</div>
                                 </div>
                                 <div>
                                     <div>
-                                        101건
+                                        [[${adoptionLocation.count}]]
                                         <svg
                                                 width="24"
                                                 height="24"
@@ -261,7 +263,7 @@
                 <div th:text="${formattedDate}">2024. 01. 01 기준</div>
             </div>
             <ul>
-                <li th:if="${periodType != 'totally'}">
+                <li th:if="${dashBoardDto.periodType != 'totally'}">
                     <div>금일</div>
                     <div>[[${registeredMembersCount.current}]] <b>명</b></div>
                 </li>
@@ -290,7 +292,7 @@
         <!-- 새로운식구 -->
         <div class="ss-dashboard-grid-item white latest-post">
             <div class="latest-post-header">
-                <div>
+                <div id="divTab">
                     <div class="latest-post-board-type active" data-type="adoption">새로운식구</div>
                     <div class="latest-post-board-type" data-type="diary">일상기록</div>
                     <div class="latest-post-refresh" id="refresh">
@@ -419,12 +421,25 @@
 <script th:inline="javascript">
     $(function () {
         let postBoardType = 'adoption';
-        const ctx = document.getElementById('myChart').getContext('2d');
+        let adoptionStatus = 'ONGOING';
+        let searchAdoptionYear = new Date().getFullYear();
+        let searchAdoptionMonth = 1;
+        let searchAdoptionStatus = 'ONGOING';
         const adoptionStatistic = /*[[${adoptionStatistic}]]*/null;
-        const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-        gradient.addColorStop(0, 'rgba(255, 128, 49, 0.5)');
-        gradient.addColorStop(1, 'rgba(255, 255, 255,0)');
+
         $('select').niceSelect();
+
+        /* 차트 분양 상태 변경 */
+        $('#adoptionsStatusDivTab div').on('click', function () {
+            $(this).parent().find('div').removeClass('active');
+            $(this).addClass('active');
+            searchAdoptionStatus = $(this).data('status');
+        });
+
+        /* 차트 연도 변경 */
+        $('#adoptionSelect').on('change',function() {
+            searchAdoptionYear = $(this).val();
+        })
 
         $("#refresh").on('click', function () {
             const $activeTab = $(this).parent().find('.latest-post-board-type.active');
@@ -443,19 +458,19 @@
                                     <div class='latest-post-card'>
                                         <div class="latest-post-card-img">
                                             ${item.saved_name ?
-                                                `<img src="/images/${item.saved_name}" alt=""/>`
-                                                : `<img src="" alt="">`}
+                            `<img src="/images/${item.saved_name}" alt=""/>`
+                            : `<img src="" alt="">`}
                                         </div>
                                         <span>${item.sido}</span>
                                         <p>${item.title}</p>
                                         <div class="latest-post-card-tag-box">
                                             <div class="latest-post-card-tag">#${item.animal_division1_category}</div>
                                             <div class="latest-post-card-tag">#${item.animal_division2_category}</div>
-                                            <div class="latest-post-card-tag">#${item.gender == 'M' ? '#수컷' : '암컷'}</div>
+                                            <div class="latest-post-card-tag">#${item.gender == 'M' ? '수컷' : '암컷'}</div>
                                         </div>
                                     </div>`
                     }
-                    $('#adoptionPostList').replaceWith(html);
+                    $('#adoptionPostList').html(html);
                 }
 
                 if (type === 'diary') {
@@ -463,12 +478,12 @@
                         html += `
                                     <div class='latest-post-grid-img'>
                                         ${item.saved_name ?
-                                            `<img src="/images/${Object.keys(item).includes('saved_name') ? item.saved_name : ''}" alt="image">`
-                                            : `<img src="" alt=""/>`
-                                        }
+                            `<img src="/images/${Object.keys(item).includes('saved_name') ? item.saved_name : ''}" alt="image">`
+                            : `<img src="" alt=""/>`
+                        }
                                     </div> `
                     }
-                    $('#diaryPostList').replaceWith(html);
+                    $('#diaryPostList').html(html);
 
                 }
             }).fail(function (response) {
@@ -477,8 +492,8 @@
 
         });
 
-        $('.latest-post-board-type').on('click', function () {
-            $('.latest-post-board-type').removeClass('active');
+        $('#divTab .latest-post-board-type').on('click', function () {
+            $('#divTab .latest-post-board-type').removeClass('active');
             $(this).addClass('active');
 
             let type = $(this).data('type');
@@ -503,83 +518,111 @@
             }
         })
 
-        //FF8031 , 300 (50 단위)
-        // Chart.defaults.borderColor = '#712';
-        const myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-                datasets: [{
-                    data: adoptionStatistic.map(item => item.count)
-                    , fill: true
-                    , backgroundColor: gradient
-                    , borderColor: 'rgba(255, 128, 49)'
-                    , borderWidth: 2
-                    , color: '#000'
-                }]
-            },
-            options: {
-                responsive: true
-                , tooltips: {
-                    enabled: false,
-                }
-                , onClick: function (event, elements) {
-                    if (elements.length > 0) {
-                        const clickedDatasetIndex = elements[0]._datasetIndex;
-                        const clickedElementIndex = elements[0]._index;
-                        const value = myChart.data.datasets[clickedDatasetIndex].data[clickedElementIndex];
+        const renderChart = function(chartData) {
+            //FF8031 , 300 (50 단위)
+            // Chart.defaults.borderColor = '#712';
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const adoptionStatistic = chartData ;
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(255, 128, 49, 0.5)');
+            gradient.addColorStop(1, 'rgba(255, 255, 255,0)');
 
-                        const searchAdoptionYear = '2024';
-                        const searchAdoptionMonth = clickedElementIndex + 1;
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                    datasets: [{
+                        data: adoptionStatistic.map(item => item.count)
+                        , fill: true
+                        , backgroundColor: gradient
+                        , borderColor: 'rgba(255, 128, 49)'
+                        , borderWidth: 2
+                        , color: '#000'
+                    }]
+                },
+                options: {
+                    responsive: true
+                    , tooltips: {
+                        enabled: false,
+                    }
+                    , onClick: function (event, elements) {
+                        if (elements.length > 0) {
+                            const clickedDatasetIndex = elements[0]._datasetIndex;
+                            const clickedElementIndex = elements[0]._index;
+                            const value = myChart.data.datasets[clickedDatasetIndex].data[clickedElementIndex];
+                            const searchAdoptionMonth = clickedElementIndex + 1;
 
-                        $.ajax({
-                            url: '/admin/test',
-                            method: 'get',
-                            data: {
-                                searchAdoptionYear : searchAdoptionYear
-                                , searchAdoptionMonth : searchAdoptionMonth
-                            },
-                            success: function(response) {
-                                console.log(reponse);
-                                for(const item of response) {
+                            $.ajax({
+                                url: '/admin/test',
+                                method: 'get',
+                                data: {
+                                    searchAdoptionYear: searchAdoptionYear
+                                    , searchAdoptionMonth: searchAdoptionMonth
+                                },
+                                success: function (response) {
+                                    let html = ``;
+                                    let rowNumber = 1;
 
+                                    console.log(response);
+                                    $('#chartDetailMonth').text(`${searchAdoptionMonth}월`);
+                                    for (const item of response) {
+                                        html += `
+                                                <li>
+                                                    <div>
+                                                        <span>${rowNumber++}</span>
+                                                        <div>${item.sido} ${item.sigungu}</div>
+                                                    </div>
+                                                    <div>
+                                                        <div>${item.count}</div>
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <g>
+                                                                <path
+                                                                    d="M9.42546 13.9984C8.97546 13.9984 8.66296 13.7943 8.48796 13.3859C8.31296 12.9776 8.3838 12.6151 8.70046 12.2984L11.3005 9.69844C11.4005 9.59844 11.5088 9.52344 11.6255 9.47344C11.7421 9.42344 11.8671 9.39844 12.0005 9.39844C12.1338 9.39844 12.2588 9.42344 12.3755 9.47344C12.4921 9.52344 12.6005 9.59844 12.7005 9.69844L15.3005 12.2984C15.6171 12.6151 15.688 12.9776 15.513 13.3859C15.338 13.7943 15.0255 13.9984 14.5755 13.9984H9.42546Z"
+                                                                    fill="#FF8031"/>
+                                                            </g>
+                                                        </svg>
+                                                    </div>
+                                                </li>`
+                                    }
+                                    $('#charDetailList').html(html);
                                 }
-                                alert(response);
+                            })
+                        }
+                    }
+                    , maintainAspectRatio: false
+                    , legend: {
+                        display: false
+                    }
+                    , scales: {
+                        xAxes: [{
+                            gridLines: {
+                                // color: "rgba(0, 0, 0, 0)",
                             }
-                        })
+                        }]
+                        , yAxes: [{
+                            type: 'logarithmic', // 로그 스케일 사용
+                            ticks: {
+                                beginAtZero: true
+                                , callback: function (value) {
+                                    return Number(value.toString());
+                                }
+                                , fontSize: 12
+                                /*
+                                    , max: 300
+                                    , stepSize: 50
+                                */
+                            }
+                            , gridLines: {
+                                color: "rgba(0, 0, 0, 0)"
+                                , fontSize: 12
+                            }
+                        }]
                     }
                 }
-                , maintainAspectRatio: false
-                , legend: {
-                    display: false
-                }
-                , scales: {
-                    xAxes: [{
-                        gridLines: {
-                            // color: "rgba(0, 0, 0, 0)",
-                        }
-                    }]
-                    , yAxes: [{
-                        type: 'logarithmic', // 로그 스케일 사용
-                        ticks: {
-                            beginAtZero: true
-                            , callback: function (value) {
-                                return Number(value.toString());
-                            }
-                            , fontSize: 12
-                            /*
-                                , max: 300
-                                , stepSize: 50
-                            */
-                        }
-                        , gridLines: {
-                            color: "rgba(0, 0, 0, 0)"
-                            , fontSize: 12
-                        }
-                    }]
-                }
-            }
-        });
+            });
+        }
+
+        renderChart(adoptionStatistic);
     })
 
 </script>

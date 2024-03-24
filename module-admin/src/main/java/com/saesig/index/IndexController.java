@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -62,7 +63,7 @@ public class IndexController {
         Integer emailDeliveryCount = dashBoardMapper.countEmailDelivery(dashBoardDto);
 
         //        model.addAttribute("adoptionInfo", adoptionInfo);
-        model.addAttribute("periodType", dashBoardDto.getPeriodType());
+        model.addAttribute("dashBoardDto", dashBoardDto);
         model.addAttribute("adoptionLocationStatistic", adoptionLocationStatistic);
         model.addAttribute("adoptionPosts", adoptionPosts);
         model.addAttribute("smsDeliveryCount", smsDeliveryCount);
@@ -91,10 +92,10 @@ public class IndexController {
                 formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy. MM. dd"));
                 break;
             case "weekly":
-                formattedDate = String.format("%02d월 %d주차", month, weekNumber);
+                formattedDate = String.format("%d월 %d주차", month, weekNumber);
                 break;
             case "monthly":
-                formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy. MM월"));
+                formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy.M월"));
                 break;
             case "totally":
                 formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy. MM. dd"));
@@ -118,4 +119,25 @@ public class IndexController {
     public List<Map<String, Object>> adoptionLocationStatistic(DashBoardDto dashBoardDto) {
         return dashBoardMapper.countAdoptionLocationStatistic(dashBoardDto);
     }
+
+    /*
+      required parameter
+        searchAdoptionYear
+        searchAdoptionMonth
+        searchAdoptionStatus
+    * */
+    @GetMapping("/dashboard/search/adoption")
+    @ResponseBody
+    public Map<String,Object> searchAdoptionData(DashBoardDto dashBoardDto) {
+        Map<String, Object> result = new HashMap<>();
+
+        List<Map<String, Object>> adoptionStatistic = dashBoardMapper.countAdoptionStatus(dashBoardDto);
+        List<Map<String, Object>> adoptionLocationStatistic = dashBoardMapper.countAdoptionLocationStatistic(dashBoardDto);
+
+        result.put("adoptionStatistic", adoptionStatistic);
+        result.put("adoptionLocationStatistic", adoptionLocationStatistic);
+
+        return result;
+    }
+
 }
