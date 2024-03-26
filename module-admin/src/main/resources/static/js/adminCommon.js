@@ -152,3 +152,50 @@ function getDOMElement(target) {
         return target
     }
 }
+
+function commonAjax(options) {
+    var defaults = {
+        url: '',
+        method: 'GET',
+        data: {},
+        success: function(response) {
+            console.log('Success:', response);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+        }
+    };
+    options = $.extend({}, defaults, options);
+    var deferred = $.Deferred();
+
+    $.ajax({
+        url: options.url,
+        method: options.method,
+        data: options.data,
+        success: function(response) {
+            // 성공 시 resolve 호출
+            options.success(response);
+            deferred.resolve(response);
+        },
+        error: function(xhr, status, error) {
+            // 에러 시 reject 호출
+            options.error(xhr, status, error);
+            reject(error);
+        }
+    });
+
+    return deferred.promise();
+}
+
+// AJAX 호출
+/*commonAjax({
+    url: '/api/someEndpoint',
+    method: 'POST',
+    data: { /!* 필요한 데이터 *!/ }
+})
+    .then(function(response) {
+        console.log('Custom Success:', response);
+    })
+    .fail(function(error) {
+        console.error('Custom Error:', error);
+    });*/

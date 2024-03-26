@@ -452,13 +452,10 @@
     $(function () {
         let postBoardType = 'adoption';
         let chart = null;
-        let searchAdoptionYear = /*[[${dashBoardDto.searchAdoptionYear}]]*/null;
-        let searchAdoptionMonth = /*[[${dashBoardDto.searchAdoptionMonth}]]*/null;
-        let searchAdoptionStatus = /*[[${dashBoardDto.searchAdoptionStatus}]]*/null;
         const commonParam = {
-            searchAdoptionYear: searchAdoptionYear
-            , searchAdoptionMonth: searchAdoptionMonth
-            , searchAdoptionStatus: searchAdoptionStatus
+            searchAdoptionYear: /*[[${dashBoardDto.searchAdoptionYear}]]*/null
+            , searchAdoptionMonth: /*[[${dashBoardDto.searchAdoptionMonth}]]*/null
+            , searchAdoptionStatus: /*[[${dashBoardDto.searchAdoptionStatus}]]*/null
         }
 
         $('select').niceSelect();
@@ -467,7 +464,7 @@
         $('#adoptionsStatusDivTab div').on('click', function () {
             $(this).parent().find('div').removeClass('active');
             $(this).addClass('active');
-            searchAdoptionStatus = $(this).data('status');
+            commonParam.searchAdoptionStatus = $(this).data('status');
 
             $.ajax({
                 type: 'get'
@@ -485,7 +482,7 @@
 
         /* 차트 연도 변경 */
         $('#adoptionSelect').on('change', function () {
-            searchAdoptionYear = $(this).val();
+            commonParam.searchAdoptionYear = $(this).val();
 
             $.ajax({
                 type: 'get'
@@ -607,7 +604,7 @@
                     , onClick: function (event, elements) {
                         if (elements.length > 0) {
                             const clickedElementIndex = elements[0]._index;
-                            searchAdoptionMonth = clickedElementIndex + 1;
+                            commonParam.searchAdoptionMonth = clickedElementIndex + 1;
 
                             $.ajax({
                                 url: '/admin/dashboard/search/adoption',

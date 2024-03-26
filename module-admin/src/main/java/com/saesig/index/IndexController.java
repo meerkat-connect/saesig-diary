@@ -38,7 +38,7 @@ public class IndexController {
         return "common/index";
     }
 
-    @GetMapping("/dashboardView")
+    @GetMapping("/dashboard")
     public String dashboardView(DashBoardDto dashBoardDto, Model model) {
         LocalDate today = LocalDate.now();
         String formattedDate = getFormattedDate(dashBoardDto.getPeriodType(), today);
@@ -97,9 +97,9 @@ public class IndexController {
         return formattedDate;
     }
 
-    @GetMapping("/reload")
+    @GetMapping("/dashboard/refresh/post")
     @ResponseBody
-    public List<Map<String, Object>> reload(@RequestParam String type) {
+    public List<Map<String, Object>> refreshPost(@RequestParam String type) {
         if ("adoption".equals(type)) {
             return dashBoardMapper.selectAdoptions();// 새로운 식구
         } else {
@@ -109,7 +109,7 @@ public class IndexController {
 
     @GetMapping("/dashboard/search/adoption")
     @ResponseBody
-    public Map<String,Object> searchAdoptionData(DashBoardDto dashBoardDto) {
+    public Map<String,Object> searchAdoption(DashBoardDto dashBoardDto) {
         Map<String, Object> result = new HashMap<>();
 
         List<Map<String, Object>> adoptionStatistic = dashBoardMapper.countAdoptionStatus(dashBoardDto);
