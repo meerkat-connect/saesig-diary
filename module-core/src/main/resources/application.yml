@@ -15,10 +15,55 @@ spring:
       max-file-size: 5MB
       max-request-size: 10MB
 
+  session:
+    store-type: jdbc
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(Tq1mWDEq6K5WoBhsTofIJv8V0GE8ARF7q2jOvDFkG6AylXeuVRwWGg==)
+    password: ENC(+dV0xeVvNJDt6FXGe+CSK44tFILZusEDLhnusUQ1kBY=)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+            protocols: TLSv1.2
+          transport: smtp
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      format_sql: true
+    generate-ddl: false
+    database-platform: org.hibernate.dialect.MariaDBDialect
+
+
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    #    mapper-locations: classpath:mybatis/mappers/**/*.xml
+
+    data:
+      mongodb:
+        host: ENC(2J77q2vvF7KPM0R2h6gRrJUSVKfdmuh2)
+        port: 27017
+        authentication-database: admin
+        database: sample
+
+
+
 decorator:
   datasource:
     p6spy:
       enable-logging: true
+
+
+
 
 management:
   endpoints:
@@ -36,6 +81,7 @@ management:
       enabled: true
     env:
       enabled: true
+
 
 info:
   app:
@@ -59,27 +105,9 @@ springdoc:
 
 --- #local
 spring:
-  session:
-    store-type: jdbc
   config:
     activate:
       on-profile: local
-
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ENC(Tq1mWDEq6K5WoBhsTofIJv8V0GE8ARF7q2jOvDFkG6AylXeuVRwWGg==)
-    password: ENC(+dV0xeVvNJDt6FXGe+CSK44tFILZusEDLhnusUQ1kBY=)
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-          ssl:
-            trust: smtp.gmail.com
-            protocols: TLSv1.2
-          transport: smtp
 
   datasource:
     jdbc-url: jdbc:mysql://localhost:3306/saesig?createDatabaseIfNotExist=true
@@ -87,36 +115,11 @@ spring:
     username: root
     password: 1234
 
-  h2:
-    console: true
-
   sql:
     init:
       mode: always
       data-locations: classpath*:/data-mysql.sql
       schema-locations: classpath*:/schema-mysql.sql
-
-  jpa:
-    hibernate:
-      ddl-auto: none
-      format_sql: true
-    generate-ddl: false
-    database-platform: org.hibernate.dialect.MariaDBDialect
-
-  database:
-#    platform: mariadb
-
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
-#    mapper-locations: classpath:mybatis/mappers/**/*.xml
-
-    data:
-      mongodb:
-        host: ENC(2J77q2vvF7KPM0R2h6gRrJUSVKfdmuh2)
-        port: 27017
-        authentication-database: admin
-        database: sample
 
 file.dir: C:/saesigDiary/file/
 
@@ -125,6 +128,17 @@ favicon:
 kakao-thumbnail:
   file-dir: C:/saesigDiary/file/kakaoThumbnail/
 
+logging:
+  level:  # 각 package 별로 로깅 레벨을 지정할 수 있다.
+    root : INFO
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: INFO              # TRACE org.hibernate.type.descriptor.sql.BasicBinder.bind 로그를 지웁니다.
+        SQL: INFO
+
 --- #dev
 spring:
   config:
@@ -132,12 +146,19 @@ spring:
       on-profile: dev
 
   datasource:
-    jdbc-url: ENC(hba7Y+MC4DSevlLypKBISwedLzbr29GrCC6yaCnS2tMeeoZC2aDkZEWwMU4EtO12f0+64kLYC89lArUgj7gGW2njBEMGB9X4IZPQQb8l41CACCI8k4AKLPHTKAusawgA)
-    driver-class-name: ENC(DlK7u7h1xKX9kq7OHe060lR1cw6DNABmbBjQ6n/ITfo=)
-    username: ENC(dwo/ZZXd0UWdQzRWY39Kmw==)
-    password: ENC(Dg+d3+AOsL04p8sCO8pTuPOd1OmSkm9+)
+    jdbc-url: ENC(hba7Y+ZrSOg7A47SDzQgp9o5fPcehcdWAA9Z66NQu49m8sSqENgws+vQXJWncGuQ05O1sNFp5CJ02Q5kOMw/Cd89d+r+JLJrmCt2KvGPFTY+ffSVbUBM+YWpAaCaRldfYCs1Vq)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ENC(saesig QZxm0FiYrNntlJceSBabJw==)
+    password: ENC(r1LLkAJkusmbox80x5v3oCcHxCu+D0Bd)
 
 file.dir: /saesig/dev/file/
+
+favicon:
+  file-dir: /saesig/dev/file/favicon/
+kakao-thumbnail:
+  file-dir: /saesig/dev/file/kakaoThumbnail/
+
+
 --- #prod
 spring:
   config:
