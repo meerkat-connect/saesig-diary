@@ -645,9 +645,7 @@
                     }
                     , scales: {
                         xAxes: [{
-                            gridLines: {
-                                // color: "rgba(0, 0, 0, 0)",
-                            }
+                            gridLines: {}
                         }]
                         , yAxes: [{
                             type: 'logarithmic', // 로그 스케일 사용
@@ -657,10 +655,6 @@
                                     return Number(value.toString());
                                 }
                                 , fontSize: 12
-                                /*
-                                    , max: 300
-                                    , stepSize: 50
-                                */
                             }
                             , gridLines: {
                                 color: "rgba(0, 0, 0, 0)"
