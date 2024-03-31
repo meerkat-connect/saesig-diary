@@ -10,6 +10,7 @@ dependencies {
     implementation group: 'org.qlrm', name: 'qlrm', version: '3.0.1'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
     implementation 'org.springframework.session:spring-session-jdbc'
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
 
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation group: 'javax.mail', name: 'mail', version: '1.4.7'

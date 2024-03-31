@@ -124,7 +124,7 @@ spring:
 file.dir: C:/saesigDiary/file/
 
 favicon:
-  file-dir: C:/saesigDiary/file/favicon/
+  file-dir: C:/saesigDiary/file/favicon/   
 kakao-thumbnail:
   file-dir: C:/saesigDiary/file/kakaoThumbnail/
 
@@ -146,10 +146,10 @@ spring:
       on-profile: dev
 
   datasource:
-    jdbc-url: ENC(hba7Y+ZrSOg7A47SDzQgp9o5fPcehcdWAA9Z66NQu49m8sSqENgws+vQXJWncGuQ05O1sNFp5CJ02Q5kOMw/Cd89d+r+JLJrmCt2KvGPFTY+ffSVbUBM+YWpAaCaRldfYCs1Vq)
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ENC(saesig QZxm0FiYrNntlJceSBabJw==)
-    password: ENC(r1LLkAJkusmbox80x5v3oCcHxCu+D0Bd)
+    jdbc-url: ENC(9UYIlV52PeveFLJ2yIXgEI7JMqjFgcQGerCrApXG5Ry4gzvJOR5h/jT/oKy3DVBSWWQIIA3QYbAgJyWtwU5jP5WotTshWxaAnZ2NxlqLaQPi7xXR24Hr2tvM/dN+yYR7)
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: ENC(95ePKgRxP7hUPJNo9E65UQ==)
+    password: ENC(NYMTRtIaUjs1AmlSar9tmZUsPqDShDg5)
 
 file.dir: /saesig/dev/file/
 
