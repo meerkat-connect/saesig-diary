@@ -29,7 +29,28 @@ public class CustomResourceRepositoryImpl implements CustomResourceRepository {
 
     @Override
     public void changeDepth(Long id) {
-        String nativeQueryString =
+        String recursiveQueryString =
+                "WITH RECURSIVE resource_cte(id, depth) AS (" +
+                        "  SELECT id, 0 AS depth FROM resource WHERE id = :id " +
+                        "  UNION ALL " +
+                        "  SELECT r.id, c.depth + 1 FROM resource_cte c JOIN resource r ON c.id = r.upper_id" +
+                        ") SELECT id, depth FROM resource_cte";
+
+        Query recursiveQuery = em.createNativeQuery(recursiveQueryString).setParameter("id", id);
+
+        // 결과를 가져와서 리소스 테이블을 업데이트
+        List<Object[]> results = recursiveQuery.getResultList();
+        for (Object[] result : results) {
+            Long resourceId = Long.parseLong(result[0].toString());
+            Integer depth = Integer.parseInt(result[1].toString());
+
+            // 리소스 테이블 업데이트
+            em.createQuery("UPDATE Resource SET depth = :depth WHERE id = :resourceId")
+                    .setParameter("depth", depth.intValue())
+                    .setParameter("resourceId", resourceId.longValue())
+                    .executeUpdate();
+        }
+/*        String nativeQueryString =
                 "WITH RECURSIVE resource_cte(id,depth) AS ( " +
                     "SELECT a.id, a.depth FROM resource a where a.id = :id " +
                     "UNION ALL " +
@@ -40,7 +61,8 @@ public class CustomResourceRepositoryImpl implements CustomResourceRepository {
                 "WHERE resource.id = (SELECT id FROM resource_cte WHERE resource.id = resource_cte.id)";
 
         Query nativeQuery = em.createNativeQuery(nativeQueryString).setParameter("id",id);
-        int firstResult = nativeQuery.executeUpdate();
+        int firstResult = nativeQuery.executeUpdate();*/
+
 /*        List<Object[]> resultList = em.createNativeQuery(nativeQueryString).setParameter("id", id).getResultList();
 
         List<ResourceCteDto> collect = resultList.stream()
