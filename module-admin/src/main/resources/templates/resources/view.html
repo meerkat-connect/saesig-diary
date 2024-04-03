@@ -270,17 +270,16 @@
                                 "label": "하위 등록",
                                 "action": function (obj) {
                                     const selectedNode = $.jstree.reference(obj.reference).get_node(obj.reference).original;
-                                    if (selectedNode.type != 'MENU' && selectedNode.type != 'MENU_DETAIL') {
+                                    /*if (selectedNode.type != 'MENU' && selectedNode.type != 'MENU_DETAIL') {
                                         alert('프로그램 유형이 메뉴인 경우에만 하위 등록이 가능합니다.')
-                                    } else {
+                                    } else {*/
                                         $('#resourceForm')[0].reset();
                                         $('#id').val('');
                                         $('#type1').prop('checked', true);
                                         $('#upperId').val(_this.selectedNode.original.id);
                                         $('#upperUrl').val(_this.selectedNode.original.url);
                                         $('#category').val('');
-
-                                    }
+                                    // }
                                 }
                             }, "delete": {
                                 "separator_before": false,
@@ -388,15 +387,15 @@
                 const parentNodeOriginal = this.parentNode.original;
                 const selectedNodeOriginal = this.selectedNode.original;
 
-                if (selectedNodeOriginal.id === 0) {
+                /*if (selectedNodeOriginal.id === 0) {
                     $('#saveBtn').prop('disabled', true);
                     $('#httpMethod').prop('disabled', true);
                     $('#name, #url').prop('readonly', true);
-                } else {
+                } else {*/
                     $('#saveBtn').prop('disabled', false);
                     $('#httpMethod').prop('disabled', false);
                     $('#name, #url').prop('readonly', false);
-                }
+                // }
 
                 $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
                 $('#upperName').val(parentNodeOriginal ? parentNodeOriginal.name : '')

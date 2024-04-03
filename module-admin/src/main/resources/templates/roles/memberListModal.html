@@ -7,25 +7,27 @@
             </button>
         </div>
         <div class="modal-body">
-            <div class="row">
-                <div class="col-12 col-lg-6 mb-2 mb-lg-0">
-                    <div class="mb-0 form-group">
-                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
-                        <div class="input-group input-group-dropdown mb-0">
-                            <select name="searchType" class="form-select form-control form-control-round left-select custom-select">
-                                <option value="opt1">primary</option>
-                                <option value="opt2">Type 2</option>
-                                <option value="opt3">Type 3</option>
-                            </select>
-                            <input type="text" class="form-control form-control-round" name="searchKeyword" id="searchKeyword"/>
+            <form name="modalSearchForm" id="modalSearchForm">
+                <div class="row">
+                    <div class="col-12 col-lg-6 mb-2 mb-lg-0">
+                        <div class="mb-0 form-group">
+                            <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                            <div class="input-group input-group-dropdown mb-0">
+                                <select name="searchType" id="searchType" class="form-select form-control form-control-round left-select custom-select">
+                                    <option value="">- 선택 -</option>
+                                    <option value="email">이메일</option>
+                                    <option value="nickname">닉네임</option>
+                                </select>
+                                <input type="text" class="form-control form-control-round" name="searchKeyword" id="searchKeyword"/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="mt-1 p-t-20 text-center">
-                <button class="btn btn-gray m-r-5" data-bs-dismiss="modal">초기화</button>
-                <button class="btn btn-primary">검색</button>
-            </div>
+                <div class="mt-1 p-t-20 text-center">
+                    <button class="btn btn-gray m-r-5" id="searchInitBtn" type="button">초기화</button>
+                    <button class="btn btn-primary" id="searchBtn">검색</button>
+                </div>
+            </form>
             <div class="row mt-3">
                 <div class="col-12">
                     <div class="dt-responsive table-responsive">
@@ -60,60 +62,80 @@
     $(function () {
         let memberListTable;
         let selectedRow = [];
+        const $searchBtn = $('#modalSearchForm #searchBtn')
+        const $searchInitbtn = $('#modalSearchForm #searchInitBtn');
+        const $searchType = $('#modalSearchForm #searchType');
+        const $searchKeyword = $('#modalSearchForm #searchKeyword');
 
-        if (!!memberListTable) memberListTable.destroy();
+        const init = function() {
+            if (!!memberListTable) memberListTable.destroy();
 
-        memberListTable = $('#memberListTable').DataTable({
-            "columnDefs": [
-                {className: "dt-center", targets: "_all"}
-            ],
+            memberListTable = $('#memberListTable').DataTable({
+                "columnDefs": [
+                    {className: "dt-center", targets: "_all"}
+                ],
 
-            stripeClasses: [],
-            pagingType: 'full_numbers',
-            lengthChange: false,
-            responsive: true,
-            searching: false,
-            ordering: false,
-            paging: true,
-            info: false,
-            pageLength: 10,
-            bPaginate: true,
-            bAutoWidth: true,
-            serverSide: true,
-            processing: true,
+                stripeClasses: [],
+                pagingType: 'full_numbers',
+                lengthChange: false,
+                responsive: true,
+                searching: false,
+                ordering: false,
+                paging: true,
+                info: false,
+                pageLength: 10,
+                bPaginate: true,
+                bAutoWidth: true,
+                serverSide: true,
+                processing: true,
 
-            ajax: {
-                async: false,
-                url: `/admin/roles/memberMapping/members`,
-                method: 'get',
-                "dataSrc": function (res) {
-                    return res.data;
-                }
-            },
+                ajax: {
+                    data: $('#modalSearchForm').serialize(),
+                    url: `/admin/roles/memberMapping/members`,
+                    method: 'get',
+                    "dataSrc": function (res) {
+                        return res.data;
+                    }
+                },
 
-            columns: [
-                {
-                    render: function (data, type, row) {
-                        return `<div class="border-checkbox-section">
+                columns: [
+                    {
+                        render: function (data, type, row) {
+                            return `<div class="border-checkbox-section">
                                     <div class="border-checkbox-group">
                                         <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
                                         <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
                                     </div>
                                 </div>`;
-                    }
-                },
-                {data: 'id'},
-                {data: 'email'},
-                {data: 'nickname'}
-            ],
+                        }
+                    },
+                    {data: 'id'},
+                    {data: 'email'},
+                    {data: 'nickname'}
+                ],
 
-            language: {
-                search: '검색',
-                emptyTable: '데이터가 없습니다.',
-                lengthMenu: '보기',
-                loadingRecords: '로딩중..',
-            },
+                language: {
+                    search: '검색',
+                    emptyTable: '데이터가 없습니다.',
+                    lengthMenu: '보기',
+                    loadingRecords: '로딩중..',
+                },
+            });
+        }
+
+        init();
+        $('select').niceSelect();
+
+        $searchBtn.on('submit', function(e){
+            e.preventDefault();
+            init();
         });
+
+        $searchInitbtn.on('click', function(){
+            $searchType.val('');
+            $searchKeyword.val('');
+            $('select').niceSelect('update');
+        })
 
         $('#checkedMembersAddBtn').on('click', function () {
             if (confirm('선택하신 사용자를 역할에 매핑하시겠습니까?')) {
@@ -140,6 +162,7 @@
                 })
             }
         });
+
 
         $('input[name=tableCheckbox]').on('change', function () {
             const $this = $(this)
