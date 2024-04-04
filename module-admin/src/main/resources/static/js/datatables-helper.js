@@ -80,6 +80,8 @@ class DataTablesHelper {
         }).done(function (response) {
             _this.$contentPanel.html(response);
         }).fail(function (error) {
+            alert('페이지를 불러오는데 실패하였습니다.');
+            console.log(JSON.stringify(error));
         });
 
         _this.$contentPanel[0].scrollIntoView({block: 'center'})

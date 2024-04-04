@@ -59,7 +59,7 @@
                             <!-- 키워드 filter-btn -->
                             <div class="mt-1 p-t-20 text-center">
                                 <button type="button" class="btn btn-gray m-r-5" id="searchInit">초기화</button>
-                                <button type="button" class="btn btn-primary" id="searchBtn">검색</button>
+                                <button type="submit" class="btn btn-primary" id="searchBtn">검색</button>
                             </div>
                         </form>
                     </div>
@@ -125,15 +125,16 @@
     <script th:inline="javascript">
         const memberController = {
             selectedRow: [],
+            memberListTable: null,
+            dataTablesHelper: null,
 
             init: function () {
-                let dataTablesHelper = new DataTablesHelper('memberListTable','contentPanel');
-                let memberListTable = null;
+                this.dataTablesHelper = new DataTablesHelper('memberListTable','contentPanel');
 
-                if (memberListTable != null) memberListTable.destroy();
+                if (this.memberListTable != null) this.memberListTable.destroy();
                 this.selectedRow = [];
 
-                memberListTable = dataTablesHelper.datatables(`/admin/members?` + $('#searchForm').serialize(), {
+                this.memberListTable = this.dataTablesHelper.datatables(`/admin/members?` + $('#searchForm').serialize(), {
                     select: {
                         selector: 'td:not(:first-child)',
                         style: 'single'
@@ -169,10 +170,10 @@
                     ],
                 });
 
-                memberListTable.on('select', function (e, dt, type, indexes) {
-                    let rowData = memberListTable.rows(indexes).data().toArray();
+                this.memberListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = memberController.memberListTable.rows(indexes).data().toArray();
                     const selectedMemberId = rowData[0].id;
-                    dataTablesHelper.loadContent(`/admin/members/${selectedMemberId}`);
+                    memberController.dataTablesHelper.loadContent(`/admin/members/${selectedMemberId}`);
                 })
             }
         };
@@ -181,16 +182,7 @@
             memberController.init();
 
             $('body').on('click', '#insertBtn', function () {
-                $.ajax({
-                    type: 'get',
-                    url: '/admin/members/insert',
-                    dataType: 'html'
-                }).done(function (response) {
-                    $('#contentPanel').html(response);
-                }).fail(function (error) {
-                    alert('페이지를 불러오는데 실패하였습니다.');
-                    console.log(JSON.stringify(error));
-                });
+                memberController.dataTablesHelper.loadContent('/admin/members/insert');
             }).on('click', '#emailSendModalBtn', function () {
                 if (memberController.selectedRow.length == 0) {
                     alert('메일 발송을 위해 회원을 선택해 주십시오.');
