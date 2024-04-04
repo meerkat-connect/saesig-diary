@@ -62,6 +62,7 @@
     $(function () {
         let memberListTable;
         let selectedRow = [];
+        const $searchForm = $('#modalSearchForm');
         const $searchBtn = $('#modalSearchForm #searchBtn')
         const $searchInitbtn = $('#modalSearchForm #searchInitBtn');
         const $searchType = $('#modalSearchForm #searchType');
@@ -90,8 +91,7 @@
                 processing: true,
 
                 ajax: {
-                    data: $('#modalSearchForm').serialize(),
-                    url: `/admin/roles/memberMapping/members`,
+                    url: `/admin/roles/memberMapping/members?` + $('#modalSearchForm').serialize(),
                     method: 'get',
                     "dataSrc": function (res) {
                         return res.data;
@@ -126,8 +126,19 @@
         init();
         $('select').niceSelect();
 
-        $searchBtn.on('submit', function(e){
+        $searchForm.on('submit', function(e){
             e.preventDefault();
+
+            if($searchKeyword.val() && !$searchType.val() ) {
+                alert('키워드를 선택해 주십시오.');
+                return;
+            }
+
+            if(!$searchKeyword.val() && $searchType.val() ) {
+                alert('키워드를 입력해 주십시오.');
+                return;
+            }
+
             init();
         });
 

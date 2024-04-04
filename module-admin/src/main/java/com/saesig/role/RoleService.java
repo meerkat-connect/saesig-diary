@@ -5,12 +5,13 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.saesig.common.RequestDto;
-import com.saesig.domain.member.Member;
 import com.saesig.domain.member.MemberRepository;
 import com.saesig.domain.member.QMember;
 import com.saesig.domain.role.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -99,8 +100,36 @@ public class RoleService {
                 .collect(Collectors.toList());
     }
 
-    public Page<Member> findAllMemberUsingPageable(Pageable pageable) {
-        return memberRepository.findAll(pageable);
+    public DataTablesResponseDto findAllMemberUsingPageable(RequestDto requestDto) {
+        int pageNum = requestDto.getStart() / requestDto.getLength();
+        PageRequest of = PageRequest.of(pageNum, requestDto.getLength(), Sort.by(Sort.Direction.DESC, "createdAt"));
+        QMember qMember = QMember.member;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        String searchType = requestDto.getSearchType();
+        if (StringUtils.hasText(searchType)) {
+            if ("email".equals(searchType)) {
+                builder.and(qMember.email.like("%" +requestDto.getSearchKeyword() + "%"));
+            } else if ("nickname".equals(searchType)) {
+                builder.and(qMember.nickname.like("%" + requestDto.getSearchKeyword() + "%"));
+            }
+        }
+
+        QueryResults<MappedMemberDto> result = queryFactory.select(
+                        Projections.fields(
+                                MappedMemberDto.class,
+                                qMember.id, qMember.email, qMember.nickname
+                        )
+                ).from(qMember)
+                .innerJoin(qMember)
+                .where(builder)
+                .offset(of.getOffset())
+                .limit(of.getPageSize())
+                .fetchResults();
+
+        PageImpl<MappedMemberDto> members = new PageImpl<>(result.getResults(), of, result.getTotal());
+
+        return new DataTablesResponseDto(members, members.getContent());
     }
 
     public DataTablesResponseDto findMappedMembersById(Long roleId, RequestDto request) {
@@ -155,7 +184,7 @@ public class RoleService {
             }
         }
 
-        if (filteredIds.size() > 0)
+        if (!filteredIds.isEmpty())
             memberRoleMapper.insertMemberRoles(roleId, filteredIds, sessionMemberId);
     }
 

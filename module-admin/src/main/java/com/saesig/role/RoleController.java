@@ -3,20 +3,15 @@ package com.saesig.role;
 import com.saesig.common.RequestDto;
 import com.saesig.config.auth.LoginMember;
 import com.saesig.config.auth.SessionMember;
-import com.saesig.domain.member.Member;
 import com.saesig.domain.role.RoleResourceResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -67,14 +62,8 @@ public class RoleController {
     //모달에서 사용되는 URL
     @GetMapping("/memberMapping/members")
     @ResponseBody
-    public DataTablesResponseDto findAllMembers(HttpServletRequest request) {
-        Integer start = Integer.valueOf(request.getParameter("start"));
-        Integer length = Integer.valueOf(request.getParameter("length"));
-        Integer pageNum = start / length;
-        PageRequest of = PageRequest.of(pageNum, length);
-        Page<Member> members = roleService.findAllMemberUsingPageable(of);
-
-        return new DataTablesResponseDto(members, members.stream().map(MappedMemberDto::new).collect(Collectors.toList()));
+    public DataTablesResponseDto findAllMembers(RequestDto requestDto) {
+        return roleService.findAllMemberUsingPageable(requestDto);
     }
 
     //역할에 매핑된 사용자 조회
