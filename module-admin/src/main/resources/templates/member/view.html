@@ -17,7 +17,6 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1 "><strong>키워드</strong></div>
                                         <div class="input-group input-group-dropdown mb-0">
                                             <select name="searchType" id="searchType" class="form-select form-control form-control-round left-select custom-select">
-                                                <option value="">- 전체 -</option>
                                                 <option value="email">아이디</option>
                                                 <option value="nickname">닉네임</option>
                                             </select>
@@ -200,7 +199,8 @@
             }).on('click', '#searchBtn', function () {
                 memberController.init();
             }).on('click', '#searchInit', function () {
-                $('#searchKeyword, #searchType, #signupMethod, #memberStatus').val('');
+                $('#searchType').val('email');
+                $('#searchKeyword, #signupMethod, #memberStatus').val('');
                 $('select').niceSelect('update');
             });
 

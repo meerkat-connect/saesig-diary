@@ -120,7 +120,8 @@
                         contentType: 'application/json',
                         data: JSON.stringify(formData)
                     }).done(function (response) {
-                        alert('수정되었습니다..');
+                        alert('수정되었습니다.');
+                        memberController.memberListTable.ajax.reload(null, false);
                     }).fail(function (response) {
                         alert(response.responseJSON.error.message);
                     })
