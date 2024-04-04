@@ -34,8 +34,10 @@
                 <div class="row form-group mb-3">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>회원상태</strong></label>
                     <div class="col-sm-12">
-                        <select class="form-select form-control form-control-round custom-select" id="status" name="status" th:value="*{status.value}">
-                            <option th:each="ms : ${memberStatus}" th:value="${ms.key}" th:text="${ms.value}">value</option>
+
+                        <select class="form-select form-control form-control-round custom-select" th:field="*{status}">
+                            <option th:each="ms : ${memberStatus}" th:value="${ms.key}" th:text="${ms.value}" th:selected="${ms.key.equals(memberDetail.status.name)}">
+                            </option>
                         </select>
                     </div>
                 </div>
