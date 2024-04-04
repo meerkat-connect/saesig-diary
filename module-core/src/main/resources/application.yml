@@ -110,7 +110,7 @@ spring:
       on-profile: local
 
   datasource:
-    jdbc-url: jdbc:mariadb://localhost:3306/saesig?createDatabaseIfNotExist=true
+    jdbc-url: jdbc:mariadb://localhost:3306/saesig?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: 1234
