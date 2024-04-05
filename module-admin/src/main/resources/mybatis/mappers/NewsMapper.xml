@@ -10,7 +10,7 @@
         n.category,
         n.title,
         n.is_deleted,
-        DATE_FORMAT(n.created_at, 'yyyy-MM-dd') as created_at,
+        n.created_at,
         n.created_by,
         n.modified_at,
         n.is_fixed,

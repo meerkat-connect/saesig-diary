@@ -43,6 +43,9 @@ VALUES (1, 'ROLE_ADMIN', NULL, 'Y', '관리자 역할', NOW(), 1, NOW(), 1);
 INSERT INTO member_role(id, member_id,role_id, modified_at, modified_by, created_at, created_by)
 VALUES(1, 10, 1, NOW(),1,NOW(),1);
 
+INSERT INTO member_role(id, member_id,role_id, modified_at, modified_by, created_at, created_by)
+VALUES(2, 1, 1, NOW(),1,NOW(),1);
+
 INSERT INTO resource(id, name, is_enabled, type, depth, ord, upper_id, category, modified_at, modified_by, created_at, created_by)
 VALUES (1, '시스템관리', 'Y', 'DIRECTORY', 1, 2, 0, 'ADMIN', NOW(), 1, NOW(), 1);
 
