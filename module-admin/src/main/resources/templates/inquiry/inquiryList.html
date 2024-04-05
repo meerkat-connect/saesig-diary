@@ -288,6 +288,7 @@
                 $(document).find('input[type=checkbox][data-id]:checked').each(function (){
                     deleteRowArray.push($(this).attr('data-id'))
                 })
+                console.log(deleteRowArray)
                 $.ajax({
                     type : "DELETE",
                     async:false,
