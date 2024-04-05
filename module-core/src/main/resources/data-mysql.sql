@@ -191,10 +191,10 @@ INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, cr
 VALUES (23, 1, 23, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
-VALUES (24, 1, 23, NOW(), 1, NOW(), 1);
+VALUES (24, 1, 24, NOW(), 1, NOW(), 1);
 
 INSERT INTO role_resource(id, role_id, resource_id, modified_at, modified_by, created_at, created_by)
-VALUES (25, 1, 23, NOW(), 1, NOW(), 1);
+VALUES (25, 1, 25, NOW(), 1, NOW(), 1);
 
 INSERT INTO faq(id, category, title, content, ord, is_enabled, modified_at, modified_by, created_at, created_by)
 VALUES (1, 'TYPE_A', 'Lorem ipsum dolor sit amet', 'content1',  1, 'Y', NOW(), 1, NOW(), 1);

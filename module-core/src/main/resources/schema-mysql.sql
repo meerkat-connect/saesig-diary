@@ -1170,8 +1170,9 @@ CREATE TABLE IF NOT EXISTS `chatting_room`
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4;
 
+
 -- -----------------------------------------------------
--- Table `saesig`.`chatting_room`
+-- Table `saesig`.`diary_comment_interest`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `diary_comment_interest`;
 
@@ -1192,3 +1193,5 @@ CREATE TABLE `diary_comment_interest`
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
+
+
