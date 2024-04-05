@@ -40,9 +40,7 @@
                 and ar.reportCnt = 0
             </if>
         </if>
-        <if test="searchIsDeleted != '' and searchIsDeleted != null and searchIsDeleted != 'all'">
-            and a.is_deleted = #{searchIsDeleted}
-        </if>
+        and a.is_deleted = 'N'
         ORDER BY a.id DESC
         <include refid="PaginationMapper.footer"/>
     </select>
@@ -141,7 +139,11 @@
     </select>
 
     <delete id="deleteAdopt">
-        DELETE FROM adopt where id IN
+        UPDATE adopt
+        SET
+        is_deleted = 'Y'
+        WHERE
+        id IN
         <foreach item="item" collection="ids" open="("  separator="," close=")">
             #{item}
         </foreach>
