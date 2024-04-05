@@ -60,7 +60,8 @@ public class SignController {
             images.put("main_bg", "static/main_bg.png");
             images.put("bottom_logo", "static/bottom_logo.png");
 
-            MailDto mailDto = new MailDto(param.getEmail(), "", "", "새식일기의 가족이 되신것을 축하드립니다.", parameters, "mail/signupTemplate", images);
+//            MailDto mailDto = new MailDto(param.getEmail(), "", "", "새식일기의 가족이 되신것을 축하드립니다.", parameters, "mail/signupTemplate", images);
+            MailDto mailDto = new MailDto();
             this.mailService.sendMail(mailDto);
         }
         return result;
@@ -140,7 +141,8 @@ public class SignController {
         images.put("main_bg", "static/main_bg.png");
         images.put("bottom_logo", "static/bottom_logo.png");
 
-        MailDto mailDto = new MailDto(email, "", "", "새식일기 인증코드입니다.", parameters, "mail/codeTemplate", images);
+//        MailDto mailDto = new MailDto(email, "", "", "새식일기 인증코드입니다.", parameters, "mail/codeTemplate", images);
+        MailDto mailDto = new MailDto();
         mailDto.setParameters(parameters);
         this.mailService.sendMail(mailDto);
     }
@@ -167,7 +169,8 @@ public class SignController {
         images.put("resign_bg", "static/resign_bg.png");
         images.put("bottom_logo", "static/bottom_logo.png");
 
-        MailDto mailDto = new MailDto(email, "", "", "새식일기를 이용해주셔서 감사합니다.", parameters, "mail/resignTemplate", images);
+//        MailDto mailDto = new MailDto(email, "", "", "새식일기를 이용해주셔서 감사합니다.", parameters, "mail/resignTemplate", images);
+        MailDto mailDto = new MailDto();
         mailDto.setParameters(parameters);
         this.mailService.sendMail(mailDto);
         return result;

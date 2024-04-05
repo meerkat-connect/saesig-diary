@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -84,7 +86,7 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
         String newPassword = generateTemporaryPassword(10);
-        member.setTemporaryPassword(member.getPassword(), newPassword);
+        member.setTemporaryPassword(member.getPassword(), passwordEncoder.encode(newPassword));
         memberAdminRepository.save(member);
 
         String subject = "새식일기 임시 비밀번호 안내 이메일입니다.";
@@ -96,9 +98,20 @@ public class MemberService {
                 .toAddress(member.getEmail())
                 .subject(subject)
                 .message(message + newPassword)
-                .template("mail/tempPasswordTemplate")
+                .template("/api/mail/tempPasswordTemplate")
                 .fromAddress(fromAddress)
                 .build();
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("messageTitle",subject);
+        parameters.put("messageContent", message + newPassword);
+        mailDto.setParameters(parameters);
+
+        Map<String, String> images = new HashMap<>();
+        images.put("main_logo", "static/api/main_logo.png");
+        images.put("main_bg", "static/api/main_bg.png");
+        images.put("bottom_logo", "static/api/bottom_logo.png");
+        mailDto.setImages(images);
 
         mailService.sendMail(mailDto);
 
