@@ -78,11 +78,17 @@
                         required: '비밀번호 확인을 입력해 주십시오.',
                         equalTo: '비밀번호가 일치하지 않습니다.'
                     },
-                    nickname:  '닉네임을 입력해 주십시오.',
+                    nickname: '닉네임을 입력해 주십시오.',
                     email: '이메일을 입력해 주십시오.'
-                },
-                submitHandler: function() {
-                    if(confirm('등록하시겠습니까?')) {
+                }
+            });
+
+
+            $('#memberInsertForm').on('submit',function(e){
+                e.preventDefault();
+
+                if ($form.valid()) {
+                    if (confirm('등록하시겠습니까?')) {
                         const formData = $('#memberInsertForm').serializeObject();
                         $.ajax({
                             method: 'post',
@@ -91,6 +97,7 @@
                             data: JSON.stringify(formData)
                         }).done(function (response) {
                             alert('등록되었습니다.');
+                            memberController.dataTablesHelper.reload();
                         }).fail(function (error) {
                             alert('등록에 실패하였습니다.');
                         });
@@ -103,7 +110,7 @@
             });
 
             const isNicknameDuplicate = (nickname) => {
-                if(!nickname) {
+                if (!nickname) {
                     alert('닉네임을 입력해 주십시오.');
                     return;
                 }

@@ -55,8 +55,9 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
                 .where(searchEq(memberRequestDto.getSearchType(), memberRequestDto.getSearchKeyword()),
                         signupMethodEq(memberRequestDto.getSignupMethod()),
                         statusEq(memberRequestDto.getMemberStatus()))
-                .offset(pageable.getOffset()) //0부터 시작 (zero index)
-                .limit(pageable.getPageSize()) // 최대 2건 조회
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(qMember.createdAt.desc())
                 .fetchResults();
 
         return new PageImpl<>(members.getResults(), pageable, members.getTotal());

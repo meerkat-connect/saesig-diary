@@ -4,6 +4,7 @@ package com.saesig.domain.member;
 import com.saesig.domain.common.BaseEntity;
 import com.saesig.domain.role.MemberRole;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ import java.util.List;
 @Entity(name = "member")
 @ToString(exclude = "memberRoles")
 @DynamicUpdate
+@DynamicInsert
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,7 +73,16 @@ public class Member extends BaseEntity {
     private Integer failedLoginAttempt;
 
     @Builder
-    public Member(Long id, String email, String password, SignupMethod signupMethod, MemberStatus status, String nickname, String serviceAgreement, String locationServiceAgreement, String privacyAgreement, String marketingServiceAgreement) {
+    public Member(Long id
+            , String email
+            , String password
+            , SignupMethod signupMethod
+            , MemberStatus status
+            , String nickname
+            , String serviceAgreement
+            , String locationServiceAgreement
+            , String privacyAgreement
+            , String marketingServiceAgreement) {
         this.id = id;
         this.email = email;
         this.password = password;
