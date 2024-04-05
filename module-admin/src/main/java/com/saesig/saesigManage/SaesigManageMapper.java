@@ -27,5 +27,6 @@ public interface SaesigManageMapper {
     public Long updateAdoptVaccine(AdoptListDto param);
     public List<AdoptHistoryDto> selectHistoryByAdoptId(AdoptHistoryDto param);
     public Long deleteAdopt(Long[] ids);
+    public Long deleteAdoptVaccine(AdoptListDto param) throws Exception;
 
 }

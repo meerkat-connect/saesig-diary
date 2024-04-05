@@ -118,13 +118,16 @@
     </update>
 
     <insert id="updateAdoptVaccine" parameterType="com.saesig.saesigManage.AdoptListDto">
-        DELETE FROM adopt_vaccine WHERE adopt_id = #{id};
         INSERT INTO adopt_vaccine(adopt_id,vaccine_id,modified_at,modified_by,created_at,created_by)
         VALUES
         <foreach collection="vaccineList" item="vaccine" separator=",">
             (#{id}, #{vaccine}, now(), #{member.id}, now(), #{member.id})
         </foreach>
     </insert>
+
+    <delete id="deleteAdoptVaccine" parameterType="com.saesig.saesigManage.AdoptListDto">
+        DELETE FROM adopt_vaccine WHERE adopt_id = #{id};
+    </delete>
 
     <insert id="insertAdoptStatusChangeLog" parameterType="com.saesig.saesigManage.AdoptListDto">
         INSERT INTO adopt_history(adopt_id,before_status,after_status,member_id,modified_at,modified_by,created_at,created_by)
@@ -137,10 +140,10 @@
         <include refid="PaginationMapper.footer"/>
     </select>
 
-    <update id="deleteAdopt">
+    <delete id="deleteAdopt">
         DELETE FROM adopt where id IN
         <foreach item="item" collection="ids" open="("  separator="," close=")">
             #{item}
         </foreach>
-    </update>
+    </delete>
 </mapper>
