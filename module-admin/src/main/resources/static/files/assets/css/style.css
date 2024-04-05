@@ -214,7 +214,7 @@ p {
           display: inline-block; }
     .card .card-header span {
       color: #919aa3;
-      display: block;
+      /*display: block;*/
       font-size: 13px;
       margin-top: 5px; }
     .card .card-header + .card-block,

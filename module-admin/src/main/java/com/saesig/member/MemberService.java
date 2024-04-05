@@ -162,6 +162,9 @@ public class MemberService {
         Member member = memberAdminRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("회원 아이디가 존재하지 않습니다."));
         member.setNickname(memberUpdateDto.getNickname());
         member.setStatus(MemberStatus.valueOf(memberUpdateDto.getStatus()));
+        if(!MemberStatus.DORMANCY.getKey().equals(memberUpdateDto.getStatus())) {
+            //TODO: 휴면회원 테이블 제거
+        }
 
         return member.getId();
     }

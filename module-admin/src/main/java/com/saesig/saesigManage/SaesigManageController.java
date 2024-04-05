@@ -162,6 +162,7 @@ public class SaesigManageController {
         Map<String, Object> resultMap = new HashMap<>();
         Object result = saesigManageService.updateAdoptInfo(param);
         if (param.getVaccineList().length > 0){
+            Object vaccineDeleteResult = saesigManageService.deleteAdoptVaccine(param);
             Object vaccineResult = saesigManageService.updateAdoptVaccine(param);
         }
         if (!param.getBeforeStatus().getValue().equals(param.getStatus().getValue())){
@@ -190,7 +191,7 @@ public class SaesigManageController {
 
     @DeleteMapping("/deleteAdopt.do")
     @ResponseBody
-    public Long deleteAdopt(@RequestParam Long[] ids) throws Exception{
+    public Long deleteAdopt(@RequestBody Long[] ids) throws Exception{
         return saesigManageService.deleteAdopt(ids);
     };
 

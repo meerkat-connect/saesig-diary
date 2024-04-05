@@ -102,4 +102,9 @@ public class SaesigManageServiceImpl implements SaesigManageService{
         return saesigManageMapper.deleteAdopt(ids);
     };
 
+    @Override
+    public Long deleteAdoptVaccine(AdoptListDto param) throws Exception{
+        return saesigManageMapper.deleteAdoptVaccine(param);
+    };
+
 }

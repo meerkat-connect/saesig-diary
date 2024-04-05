@@ -63,7 +63,7 @@ public class CustomMemberRepositoryImpl implements CustomMemberRepository {
     }
 
     private BooleanExpression searchEq(String searchType, String searchKeyword) {
-        if(hasText(searchType)) {
+        if(hasText(searchType) && hasText(searchKeyword)) {
             if("email".equals(searchType)) {
                 return QMember.member.email.like("%" + searchKeyword + "%");
             } else if("nickname".equals(searchType)){

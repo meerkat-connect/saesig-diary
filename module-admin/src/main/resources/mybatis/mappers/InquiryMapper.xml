@@ -12,7 +12,7 @@
         i.status,
         i.title,
         i.is_deleted,
-        DATE_FORMAT(i.created_at, 'yyyy-MM-dd') as created_at,
+        i.created_at,
         i.created_by,
         i.modified_at,
         i.modified_by,

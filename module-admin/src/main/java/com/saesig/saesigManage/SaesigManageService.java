@@ -36,4 +36,6 @@ public interface SaesigManageService {
     public List<AdoptHistoryDto> selectHistoryByAdoptId(AdoptHistoryDto param) throws Exception;
 
     public Long deleteAdopt(Long[] ids) throws Exception;
+
+    public Long deleteAdoptVaccine(AdoptListDto param) throws Exception;
 }

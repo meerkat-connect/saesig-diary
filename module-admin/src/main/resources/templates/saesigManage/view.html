@@ -345,16 +345,24 @@
                 } else {
                     if (confirm('삭제하시겠습니까?')) {
                         $.ajax({
-                            type: 'delete',
-                            data: {deleteIds: adoptController.selectedRow.join(",")},
-                            url: '/admin/saesigManage/deleteAdopt.do'
-                        }).done(function () {
-                            alert('삭제 되었습니다.');
-                            adoptController.init();
-                        }).fail(function (error) {
-                            alert('삭제하는데 실패하였습니다.');
-                            console.log(JSON.stringify(error));
-                        });
+                            type : "DELETE",
+                            async:false,
+                            encrtpe : 'multipart/form-data',
+                            url: '/admin/saesigManage/deleteAdopt.do',
+                            dataType : 'json',
+                            data: JSON.stringify(adoptController.selectedRow),
+                            contentType:'application/json',
+                            ccache:false,
+                            success: function (result) {
+                                if (result){
+                                    alert("삭제되었습니다.")
+                                    adoptController.init();
+                                }
+                            },
+                            error: function (e) {
+                                console.log(e)
+                            }
+                        })
                     }
                 }
             }
