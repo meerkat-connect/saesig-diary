@@ -117,56 +117,23 @@
     <script th:inline="javascript">
         const faqController = {
             selectedRow: [],
+            faqListTable: null,
+            dataTablesHelper: null,
 
             init: function () {
-                let faqListTable = null;
+                this.dataTablesHelper = new DataTablesHelper('faqListTable', 'contentPanel')
 
-                if (faqListTable != null) faqListTable.destroy();
+                if (this.faqListTable != null) this.faqListTable.destroy();
                 this.selectedRow = [];
 
-                faqListTable = $('#faqListTable').DataTable({
+                this.faqListTable = this.dataTablesHelper.datatables(`/admin/faqs?` + $('#searchForm').serialize(), {
                     select: {
                         selector: 'td:not(:first-child, :nth-child(5))',
                         style: 'single'
                     },
-                    "columnDefs": [
-                        {className: "dt-center", targets: "_all"}
-                    ],
-                    stripeClasses: [],
-                    pagingType: 'full_numbers',
-                    lengthChange: false,
-                    responsive: true,
-                    searching: false,
-                    scrollX: true,
-                    destroy: true,
-                    ordering: false,
-                    paging: true,
-                    info: false,
-                    pageLength: 10,
-                    serverSide: true,
-                    processing: true,
-
-                    ajax: {
-                        async: false,
-                        url: `/admin/faqs?` + $('#searchForm').serialize(),
-                        method: 'get',
-                        "dataSrc": function (res) {
-                            if(res.recordsTotal > 0) {
-                                $.each(res.data, function (idx, item) {
-                                    item['rowNumber'] = res.recordsTotal - (res.pageNumber * res.pageSize) - idx;
-                                });
-                                if(res.data[0].ord ===  res.minOrd)
-                                    res.data[0].isFirst =true;
-                                if(res.data[res.data.length-1].ord === res.maxOrd)
-                                    res.data[res.data.length-1].isLast = true;
-                            }
-                            return res.data;
-                        }
-                    },
-
                     columns: [
                         {
-                            width:'40px',
+                            width: '40px',
                             render: function (data, type, row) {
                                 return `
                                     <div class="border-checkbox-section">
@@ -187,14 +154,14 @@
                                 return `${row.category.value}`;
                             }
                         },
-                        {data: 'title', width:'40%'},
+                        {data: 'title', width: '40%'},
                         {
                             render: function (data, type, row) {
                                 if (!!row.isFirst) {
                                     return `<button class="btn btn-sm btn-icon ord-down-btn" data-id="${row.id}">
                                                 <i class="ord-down-arrow"></i>
                                             </button>`;
-                                } else if(!!row.isLast) {
+                                } else if (!!row.isLast) {
                                     return `<button class="btn btn-sm btn-icon ord-up-btn" data-id="${row.id}">
                                                 <i class="ord-up-arrow"></i>
                                             </button>`;
@@ -217,37 +184,33 @@
                         {data: 'createdAt'},
                     ],
 
-                    language: {
-                        emptyTable: '데이터가 없습니다.',
-                        loadingRecords: '로딩중..',
-                    },
-
-                    drawCallback: function () {
-                        var $api = this.api();
-                        var pages = $api.page.info().pages;
-
-                        if (pages === 0) {
-                            $(".paginate_button").hide();
+                    ajax: {
+                        async: false,
+                        url: `/admin/faqs?` + $('#searchForm').serialize(),
+                        method: 'get',
+                        "dataSrc": function (res) {
+                            if (res.recordsTotal > 0) {
+                                res.data.forEach(function (data, index) {
+                                    data.rowNumber = res.recordsTotal - (res.pageNumber * res.pageSize) - index;
+                                });
+                                if (res.data[0].ord === res.minOrd)
+                                    res.data[0].isFirst = true;
+                                if (res.data[res.data.length - 1].ord === res.maxOrd)
+                                    res.data[res.data.length - 1].isLast = true;
+                            }
+                            return res.data;
                         }
                     }
-                })
 
-                faqListTable.on('select', function (e, dt, type, indexes) {
-                    let rowData = faqListTable.rows(indexes).data().toArray();
-                    const selectedFaqId = rowData[0].id;
-                    console.log(selectedFaqId);
-                    $.ajax({
-                        type: 'get',
-                        url: `/admin/faqs/${selectedFaqId}/form`,
-                        dataType: 'html'
-                    }).done(function (response) {
-                        $('#contentPanel').html(response);
-                    }).fail(function (error) {
-                    });
-                }).on('deselect', function (e, dt, type, indexes) {
-                    let rowData = faqListTable.rows(indexes).data().toArray();
                 });
+
+                this.faqListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = faqController.faqListTable.rows(indexes).data().toArray();
+                    const selectedFaqId = rowData[0].id;
+                    faqController.dataTablesHelper.loadContent(`/admin/faqs/${selectedFaqId}/form`);
+                })
             },
+
             delete: function () {
                 if (this.selectedRow.length === 0) {
                     alert('선택할 항목을 선택해 주십시오.');
@@ -259,7 +222,7 @@
                             url: '/admin/faqs'
                         }).done(function () {
                             alert('삭제 되었습니다.');
-                            faqController.reload();
+                            faqController.dataTablesHelper.reload();
                         }).fail(function (error) {
                             alert('삭제하는데 실패하였습니다.');
                             console.log(JSON.stringify(error));
@@ -279,33 +242,21 @@
                         url: `/admin/faqs/${id}/move`
                     }).done(function () {
                         alert('순서가 변경되었습니다.');
-                        faqController.reload();
+                        faqController.dataTablesHelper.reload();
+
                     }).fail(function (error) {
                         alert('순서를 변경하는데 실패하였습니다.');
                         console.log(JSON.stringify(error));
                     });
                 }
             },
-
-            reload:function() {
-                $('#faqListTable').DataTable().ajax.reload(null,false);
-            }
         };
 
         $(function () {
             faqController.init();
 
             $("body").on('click', '#insertBtn', function () {
-                $.ajax({
-                    cache: false,
-                    async: false,
-                    type: 'get',
-                    url: `/admin/faqs/form`,
-                    dataType: 'html'
-                }).done(function (response) {
-                    $('#contentPanel').html(response);
-                }).fail(function (error) {
-                });
+                faqController.dataTablesHelper.loadContent(`/admin/faqs/form`)
             }).on('click', '#deleteBtn', function () {
                 faqController.delete();
             }).on('click', '#searchBtn', function () {
@@ -316,12 +267,10 @@
             }).on('click', '.ord-down-btn', function () {
                 const id = $(this).data('id');
                 faqController.changeOrder(id, 'down')
-            }).on('click', '#initBtn', function() {
+            }).on('click', '#initBtn', function () {
                 $('#searchForm .custom-select').val('');
                 $('#searchForm .custom-select').niceSelect('update');
-            }).on('click','#reloadBtn', function() {
-                faqController.reload();
-            });
+            })
 
             $('input[name=tableCheckbox]').on('change', function () {
                 const $this = $(this)

@@ -76,32 +76,32 @@
         const faqFormController = {
 
             init: function() {
+
                 $('#faqForm').validate({
-                    ignore:[],
                     rules: {
                         category: {required:true},
-                        // title: {required:true},
-                        // content: {ckRequired: true},
+                        title: {required:true},
+                        content: {ckRequired: true},
                     },
                     messages: {
                         category:{required: '유형을 선택해 주십시오.'},
-                        // title:{required: '제목을 입력해 주십시오.'},
-                        // content: {ckRequired: '내용을 입력해 주십시오.'}
+                        title:{required: '제목을 입력해 주십시오.'},
+                        content: {ckRequired: '내용을 입력해 주십시오.'}
                     },
-                    submitHandler:function() {
-                        faqFormController.save();
-                    }
                 })
             },
 
             save: function () {
                 const id = $('#id').val();
-                if (!!id) {
-                    // 수정
-                    this.update();
-                } else {
-                    // 저장
-                    this.insert();
+
+                if($('#faqForm').valid()) {
+                    if (!!id) {
+                        // 수정
+                        this.update();
+                    } else {
+                        // 저장
+                        this.insert();
+                    }
                 }
             },
 
@@ -119,7 +119,7 @@
                         url: `/admin/faqs/${id}`
                     }).done(function(response){
                         alert('수정 되었습니다.');
-                        console.log(response);
+                        faqController.dataTablesHelper.reload();
                     }).fail(function(response){
                         alert('수정중 에러가 발생하였습니다.');
                         if(response.responseJSON.error.code == "COM-4") {
@@ -142,6 +142,7 @@
                         url: '/admin/faqs'
                     }).done(function(response){
                         alert('등록 되었습니다.');
+                        faqController.dataTablesHelper.reload();
                     }).fail(function(response){
                         if(response.responseJSON.error.code == "COM-4") {
                             alert('입력값이 유효하지 않습니다.');
@@ -154,7 +155,12 @@
         faqFormController.init();
 
         $('#cancelBtn').on('click',function() {
-            $('#contentPanel').html('');
+           faqController.dataTablesHelper.hideContent();
+        })
+
+        $('#faqForm').on('submit', function(e){
+            e.preventDefault();
+            faqFormController.save();
         })
     });
 

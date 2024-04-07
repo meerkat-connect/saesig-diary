@@ -5,7 +5,7 @@
  * **/
 //밸리데이터 옵션  alert 형식으로 변경
 $.validator.setDefaults({
-    debug:true,
+    debug:false,
     onkeyup:false, // 키를 뗄대 유효성 검사 off
     onclick:false, // checkbox와 radio 버튼 클릭시 유효성 검사 off
     onfocusout:false, // 포커스가 떠날때 유효성 검사 off
@@ -15,15 +15,14 @@ $.validator.setDefaults({
     errorClass: 'feedback-error',
     // validClass: 'feedback-valid',
     highlight:function(element, errorClass, validClass) {
-        console.log($(element));
+        console.log('highlight');
         $(element).removeClass(validClass).addClass(errorClass).
         next('label').removeAttr('data-success').attr('data-error', 'Incorrect!');
         // $(element).parents('.control-group').addClass('error');
     },
 
     unhighlight: function(element, errorClass, validClass) {
-        console.log($(element));
-        console.log($(element).parent().find('div.feedback-error'))
+        console.log('unhighlight');
         $(element).parent().find('div.feedback-error').removeClass('icofont-check').addClass('icofont-exclamation');
         /*$(element).removeClass(errorClass).addClass(validClass).
         next('label').removeAttr('data-error').attr('data-success', 'Correct!');*/
