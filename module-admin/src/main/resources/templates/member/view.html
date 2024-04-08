@@ -132,7 +132,7 @@
                 if (this.memberListTable != null) this.memberListTable.destroy();
                 this.selectedRow = [];
 
-                this.memberListTable = this.dataTablesHelper.datatables(`/admin/members?` + $('#searchForm').serialize(), {
+                this.memberListTable = this.dataTablesHelper.datatables(`/admin/members`, {
                     select: {
                         selector: 'td:not(:first-child)',
                         style: 'single'
@@ -169,6 +169,7 @@
                 });
 
                 this.memberListTable.on('select', function (e, dt, type, indexes) {
+                    memberController.memberListTable.off('select');
                     let rowData = memberController.memberListTable.rows(indexes).data().toArray();
                     const selectedMemberId = rowData[0].id;
                     memberController.dataTablesHelper.loadContent(`/admin/members/${selectedMemberId}`);

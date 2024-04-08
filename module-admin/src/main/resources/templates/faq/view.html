@@ -56,7 +56,7 @@
                             <!-- 키워드 filter-btn -->
                             <div class="mt-1 p-t-20 text-center">
                                 <button type="reset" class="btn btn-gray m-r-5" id="initBtn">초기화</button>
-                                <button type="button" class="btn btn-primary" id="searchBtn">검색</button>
+                                <button type="submit" class="btn btn-primary" id="searchBtn">검색</button>
                             </div>
                         </form>
                     </div>
@@ -123,14 +123,19 @@
             init: function () {
                 this.dataTablesHelper = new DataTablesHelper('faqListTable', 'contentPanel')
 
-                if (this.faqListTable != null) this.faqListTable.destroy();
+                if (this.faqListTable != null) {
+                    this.faqListTable.destroy();
+                    this.faqListTable.off('select');
+                }
+
                 this.selectedRow = [];
 
-                this.faqListTable = this.dataTablesHelper.datatables(`/admin/faqs?` + $('#searchForm').serialize(), {
+                this.faqListTable = this.dataTablesHelper.datatables(`/admin/faqs`, {
                     select: {
                         selector: 'td:not(:first-child, :nth-child(5))',
                         style: 'single'
                     },
+                    searchParameter: $('#searchForm').serialize(),
                     columns: [
                         {
                             width: '40px',
@@ -185,7 +190,6 @@
                     ],
 
                     ajax: {
-                        async: false,
                         url: `/admin/faqs?` + $('#searchForm').serialize(),
                         method: 'get',
                         "dataSrc": function (res) {
@@ -204,7 +208,7 @@
 
                 });
 
-                this.faqListTable.on('select', function (e, dt, type, indexes) {
+                this.faqListTable.one('select', function (e, dt, type, indexes) {
                     let rowData = faqController.faqListTable.rows(indexes).data().toArray();
                     const selectedFaqId = rowData[0].id;
                     faqController.dataTablesHelper.loadContent(`/admin/faqs/${selectedFaqId}/form`);
@@ -213,7 +217,7 @@
 
             delete: function () {
                 if (this.selectedRow.length === 0) {
-                    alert('선택할 항목을 선택해 주십시오.');
+                    alert('삭제할 항목을 선택해 주십시오.');
                 } else {
                     if (confirm('삭제하시겠습니까?')) {
                         $.ajax({
@@ -259,7 +263,8 @@
                 faqController.dataTablesHelper.loadContent(`/admin/faqs/form`)
             }).on('click', '#deleteBtn', function () {
                 faqController.delete();
-            }).on('click', '#searchBtn', function () {
+            }).on('submit', '#searchForm', function (e) {
+                e.preventDefault();
                 faqController.init();
             }).on('click', '.ord-up-btn', function () {
                 const id = $(this).data('id');
@@ -270,9 +275,7 @@
             }).on('click', '#initBtn', function () {
                 $('#searchForm .custom-select').val('');
                 $('#searchForm .custom-select').niceSelect('update');
-            })
-
-            $('input[name=tableCheckbox]').on('change', function () {
+            }).on('change', 'input[name=tableCheckbox]', function () {
                 const $this = $(this)
                 if ($this.is(':checked')) {
                     faqController.selectedRow.push($this.data('id'));
@@ -286,9 +289,7 @@
 
                     if (faqController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
                 }
-            })
-
-            $('#allCheckBox').on('change', function () {
+            }).on('change', '#allCheckBox', function () {
                 const $this = $(this);
 
                 if ($this.is(':checked')) {
@@ -304,8 +305,7 @@
                     })
                     faqController.selectedRow = [];
                 }
-
-            });
+            })
         })
     </script>
 
