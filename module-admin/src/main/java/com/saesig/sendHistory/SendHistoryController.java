@@ -48,7 +48,7 @@ public class SendHistoryController {
         return dtd;
     }
 
-    @GetMapping("form")
+    @GetMapping("sendHistoryForm.html")
     public String templateManageForm(Long id, Model model) throws Exception {
         model.addAttribute("searchSendMethod", enumMapperFactory.get("sendMethod"));
         model.addAttribute("searchSendCategory", enumMapperFactory.get("sendCategory"));
