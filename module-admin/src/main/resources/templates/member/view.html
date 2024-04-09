@@ -129,7 +129,10 @@
             init: function () {
                 this.dataTablesHelper = new DataTablesHelper('memberListTable','contentPanel');
 
-                if (this.memberListTable != null) this.memberListTable.destroy();
+                if (this.memberListTable != null) {
+                    this.memberListTable.destroy();
+                    this.memberListTable.off('select');
+                }
                 this.selectedRow = [];
 
                 this.memberListTable = this.dataTablesHelper.datatables(`/admin/members`, {
@@ -143,11 +146,11 @@
                             render: function (data, type, row) {
                                 return `
                                     <div class="border-checkbox-section">
-                                                <div class="border-checkbox-group">
-                                                    <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
-                                                    <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
-                                                </div>
-                                            </div>`;
+                                        <div class="border-checkbox-group">
+                                            <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
+                                            <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
+                                        </div>
+                                    </div>`;
                             }
                         },
                         {data: 'email'},
