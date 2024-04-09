@@ -249,7 +249,7 @@
                         },
                     }
                 })
-
+                listTable.off('select')
                 listTable.on('select', function (e, dt, type, indexes) {
                     let rowData = listTable.rows(indexes).data().toArray();
                     const selectId = rowData[0].id;
