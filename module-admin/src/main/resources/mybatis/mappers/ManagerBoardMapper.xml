@@ -23,10 +23,10 @@
             AND A.IS_DELETED = 'N'
         <!-- 키워드 -->
         <if test="searchType != null and searchType != '' and searchType == 'email'">
-            AND B.EMAIL LIKE CONCAT('%',#{searchName},'%')
+            AND B.EMAIL LIKE CONCAT('%',#{searchKeyword},'%')
         </if>
         <if test="searchType != null and searchType != '' and searchType == 'nickName'">
-            AND B.NICKNAME LIKE CONCAT('%',#{searchName},'%')
+            AND B.NICKNAME LIKE CONCAT('%',#{searchKeyword},'%')
         </if>
         <!-- 유형 -->
         <if test="searchCategory != null and searchCategory != ''">

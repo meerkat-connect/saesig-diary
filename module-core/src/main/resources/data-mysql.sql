@@ -269,37 +269,37 @@ VALUES (1, '동헌 게시판', '동헌 게시판', 'Y', 'Y', 'N', NOW(), 1, NOW(
 INSERT INTO board(id, name, description, category, modified_at, modified_by, created_at, created_by) VALUES (2, '관리자 게시판', '관리자 게시판', 'ADMIN', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (1, 2, '유형1', '제목1', '내용1', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (1, 2, 'batch', '제목1', '내용1', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (2, 2, '유형2', '제목2', '내용2', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (2, 2, 'batch', '제목2', '내용2', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (3, 2, '유형3', '제목3', '내용3', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (3, 2, 'batch', '제목3', '내용3', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (4, 2, '유형4', '제목4', '내용4', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (4, 2, 'now', '제목4', '내용4', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (5, 2, '유형5', '제목5', '내용5', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (5, 2, 'now', '제목5', '내용5', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (6, 2, '유형6', '제목6', '내용6', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (6, 2, 'now', '제목6', '내용6', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (7, 2, '유형7', '제목7', '내용7', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (7, 2, 'now', '제목7', '내용7', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (8, 2, '유형8', '제목8', '내용8', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (8, 2, 'immediate', '제목8', '내용8', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (9, 2, '유형9', '제목9', '내용9', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (9, 2, 'immediate', '제목9', '내용9', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (10, 2, '유형10', '제목10', '내용10', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (10, 2, 'immediate', '제목10', '내용10', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO post(id, board_id, category, title, content, attach_file_group_id, is_deleted, hits, is_fixed, modified_at, modified_by, created_at, created_by)
-VALUES (11, 2, '유형11', '제목11', '내용11', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
+VALUES (11, 2, 'immediate', '제목11', '내용11', 0, 'N', 123, 'N', NOW(), 1, NOW(), 1);
 
 INSERT INTO animal_division1(id, category)
 VALUES (1, '개');

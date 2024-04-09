@@ -299,6 +299,8 @@
                     }
                 })
 
+                adoptListTable.off('select')
+                adoptListTable.off('deselect')
                 adoptListTable.on('select', function (e, dt, type, indexes) {
                     let rowData = adoptListTable.rows(indexes).data().toArray();
                     const selectedAdoptId = rowData[0].id;
