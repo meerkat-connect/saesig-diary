@@ -33,6 +33,11 @@ var ckeditorApp = {
             return this.editorList[id].getData(id)
         }
     }
+
+    ,focus(id) {
+        ckeditorApp.editorList[id].editing.view.focus()
+        ckeditorApp.editorList[id].editing.view.getDomRoot().scrollIntoView({behavior: "smooth", block: "center"});
+    }
 }
 
 $(document).ready(function (){
