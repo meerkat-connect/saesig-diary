@@ -108,29 +108,29 @@
                             </div>
                         </div>
 
-                        <div class="mb-3 form-group row required">
+                        <div class="mb-3 form-group row">
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="styleClass"><strong>Style Class</strong></label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control form-control-round" name="styleClass" id="styleClass"/>
                             </div>
                         </div>
 
-                        <div class="mb-3 form-group row required">
+                        <div class="mb-3 form-group row">
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="ord"><strong>순서</strong></label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control form-control-round" name="ord" id="ord"/>
+                                <input type="text" class="form-control form-control-round" name="ord" id="ord" readonly/>
                             </div>
                         </div>
 
                         <div class="mb-3 form-group row required">
                             <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="category"><strong>분류</strong></label>
                             <div class="col-sm-12">
-                                <input type="text" class="form-control form-control-round" name="category" id="category"/>
+                                <input type="text" class="form-control form-control-round" name="category" id="category" readonly/>
                             </div>
                         </div>
 
                         <div class="mb-3 form-group row required">
-                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="type1"><strong>자원 유형 (메뉴 / 기능) </strong></label>
+                            <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>자원 유형</strong></label>
                             <div class="form-radio">
                                 <div class="radio radio-inline">
                                     <label class="mb-0">
@@ -201,6 +201,26 @@
                 this.selectedNode = this.selectedNode ?? null;
                 this.resources = [];
                 const _this = this;
+
+                $('#resourceForm').validate({
+                    ignore: []
+                    , rules: {
+                        httpMethod: {required: true}
+                        , name: {required: true}
+                        , url: {required: true}
+                        , category: {required: true}
+                        , type: {required: true}
+                    },
+                    messages: {
+                        httpMethod: {required: "Http Method Type을 입력해 주십시오."}
+                        , name: {required: "자원명을 입력해 주십시오."}
+                        , url: {required: "URL을 입력해 주십시오."}
+                        , category: {required: "분류를 입력해 주십시오."}
+                        , type: {required: "자원 유형을 선택해 주십시오."}
+                    }
+                });
+
+                $('#resourceForm').validate().resetForm();
 
                 $.ajax({
                     url: '/admin/resources',
@@ -276,10 +296,12 @@
                                     } else {*/
                                     $('#resourceForm')[0].reset();
                                     $('#id').val('');
-                                    $('#type1').prop('checked', true);
                                     $('#upperId').val(_this.selectedNode.original.id);
                                     $('#upperUrl').val(_this.selectedNode.original.url);
-                                    $('#category').val('');
+                                    $('#httpMethod').val('');
+                                    $('#category').val($('#searchType').val());
+                                    $('input[name=type]').prop('checked',false);
+                                    $('select').niceSelect('update');
                                     // }
                                 }
                             }, "delete": {
@@ -325,11 +347,19 @@
             },
 
             save: function () {
+                if(!this.selectedNode) {
+                    alert('자원이 선택되지 않았습니다.');
+                    return;
+                }
+
                 const id = $('#resourceForm #id').val();
-                if (!!id) {
-                    this.update(id);
-                } else {
-                    this.insert(id);
+
+                if($('#resourceForm').valid()) {
+                    if (!!id) {
+                        this.update(id);
+                    } else {
+                        this.insert(id);
+                    }
                 }
             },
 
@@ -340,6 +370,7 @@
                     const formData = $('#resourceForm').serializeObject();
                     formData.isEnabled = formData.isEnabled ? "Y" : "N";
                     formData.isLoginDisallowed = formData.isLoginDisallowed ? "Y" : "N";
+
                     $.ajax({
                         url: `/admin/resources/${formData.id}`,
                         type: 'put',
@@ -353,7 +384,7 @@
                     }).fail(function (error) {
                         alert('자원을 수정하는데 실패하였습니다.')
                         console.log(JSON.stringify(error));
-                    })
+                    });
                 }
             },
 
