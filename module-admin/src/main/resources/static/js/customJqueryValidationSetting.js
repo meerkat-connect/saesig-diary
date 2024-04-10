@@ -6,36 +6,26 @@
 //밸리데이터 옵션  alert 형식으로 변경
 $.validator.setDefaults({
     debug:false,
-    onkeyup:false, // 키를 뗄대 유효성 검사 off
-    onclick:false, // checkbox와 radio 버튼 클릭시 유효성 검사 off
-    onfocusout:false, // 포커스가 떠날때 유효성 검사 off
+    // onkeyup:false, // 키를 뗄대 유효성 검사 off
+    // onclick:false, // checkbox와 radio 버튼 클릭시 유효성 검사 off
+    // onfocusout:false, // 포커스가 떠날때 유효성 검사 off
     errorElement: "div",
     // focusInvalid: false, // 유형 검사 후 포커서를 해당 무효 필드에 둘 것인가 여부
     focusCleanup: false, // true로 설정되어 있는 경우 잘못된 필드에 포커스가 가면 에러메시지를 지운다.
-    errorClass: 'feedback-error',
+    errorClass: 'feedback-error icofont icofont-exclamation',
     // validClass: 'feedback-valid',
-    highlight:function(element, errorClass, validClass) {
-        console.log('highlight');
-        $(element).removeClass(validClass).addClass(errorClass).
-        next('label').removeAttr('data-success').attr('data-error', 'Incorrect!');
-        // $(element).parents('.control-group').addClass('error');
+   /* highlight:function(element, errorClass, validClass) {
     },
-
     unhighlight: function(element, errorClass, validClass) {
-        console.log('unhighlight');
-        $(element).parent().find('div.feedback-error').removeClass('icofont-check').addClass('icofont-exclamation');
-        /*$(element).removeClass(errorClass).addClass(validClass).
-        next('label').removeAttr('data-error').attr('data-success', 'Correct!');*/
+    },*/
 
-        // $(element).parents('.control-group').removeClass('error');
+    errorPlacement: function(error, element) {
+        element.parent().append(error);
+    }
 
-        // $(element).parents('.control-group').addClass('success');
-    },
-
-    errorPlacement: function (error, element) {
-        // error.prepend('<i class="icofont icofont-check"></i>')
-        // element.parent().append(error);
-    },
+    , success: function(label) {
+        label.parent().find('div.feedback-error').remove();
+    }
 });
 
 //default message 값 변경 English -> korean

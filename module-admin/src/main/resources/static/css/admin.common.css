@@ -10,6 +10,10 @@ b, strong {
     font-weight: 700;
 }
 
+.icofont-exclamation:before {
+    font-size:16px;
+}
+
 .input-group-dropdown > .form-select {
     padding-right: 3.5rem;
     flex: none;
