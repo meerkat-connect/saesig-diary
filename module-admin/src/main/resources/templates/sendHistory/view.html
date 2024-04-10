@@ -72,7 +72,7 @@
                             <!-- 키워드 filter-btn -->
                             <div class="mt-1 p-t-20 text-center">
                                 <button class="btn btn-gray m-r-5">초기화</button>
-                                <button class="btn btn-primary" onclick="search();">검색</button>
+                                <button class="btn btn-primary" onclick="listController.search();">검색</button>
                             </div>
                         </div>
                     </div>
@@ -176,8 +176,12 @@
                             }
                         },
                         "dataSrc": function (res) {
-                            res.data[0].isFirst = true;
-                            return res.data;
+                            console.log(res)
+                            if (res.data.length > 0){
+                                return res.data;
+                            }else{
+                                return false;
+                            }
                         }
                     },
 
@@ -230,6 +234,10 @@
                 }).on('deselect', function (e, dt, type, indexes) {
                     let rowData = listTable.rows(indexes).data().toArray();
                 });
+            },
+
+            search : function (){
+                this.init()
             }
         };
 
@@ -237,10 +245,6 @@
             initDateRangePicker("searchPeriod", "searchBgngDt", "searchEndDt");
 
             listController.init();
-
-            $("body").on('click', '#searchBtn', function () {
-                listController.init();
-            })
         })
     </script>
 

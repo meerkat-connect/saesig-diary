@@ -71,7 +71,7 @@
                             <!-- //키워드 filter -->
                             <!-- 키워드 filter-btn -->
                             <div class="mt-1 p-t-20 text-center">
-                                <button class="btn btn-gray m-r-5">초기화</button>
+                                <button class="btn btn-gray m-r-5" id="searchInit">초기화</button>
                                 <button class="btn btn-primary" onclick="listController.init();">검색</button>
                             </div>
                         </div>
@@ -235,6 +235,7 @@
                     }
                 })
 
+                listTable.off('select')
                 listTable.on('select', function (e, dt, type, indexes) {
                     let rowData = listTable.rows(indexes).data().toArray();
                     const selectId = rowData[0].id;
@@ -294,7 +295,10 @@
                 listController.delete();
             }).on('click', '#searchBtn', function () {
                 listController.init();
-            })
+            }).on('click', '#searchInit', function () {
+                $('#searchKeyword, #searchCategory, #searchTitle, #search, #searchPeriod, #searchBgngDt, #searchEndDt').val('');
+                $('select').niceSelect('update');
+            });
 
             $('input[name=tableCheckbox]').on('change', function (e) {
                 const $this = $(this);

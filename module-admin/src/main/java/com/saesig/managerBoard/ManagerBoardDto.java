@@ -30,6 +30,8 @@ public class ManagerBoardDto extends RequestDto {
 
     // search
     // 키워드, 유형, 제목, 등록일
+    private String searchType;
+    private String searchKeyword;
     private String searchCategory;
     private String searchTitle;
     private String searchBgngDt;

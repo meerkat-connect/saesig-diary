@@ -61,7 +61,7 @@
                                         <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>사용여부</strong>
                                         </div>
                                         <div class="col-sm-12">
-                                            <select name="searchIsEnabled" class="form-select form-control form-control-round custom-select">
+                                            <select id="searchIsEnabled" name="searchIsEnabled" class="form-select form-control form-control-round custom-select">
                                                 <option value="">- 전체 -</option>
                                                 <option value="Y">사용</option>
                                                 <option value="N">사용안함</option>
@@ -187,8 +187,11 @@
                             }
                         },
                         "dataSrc": function (res) {
-                            res.data[0].isFirst = true;
-                            return res.data;
+                            if (res.data.length > 0){
+                                return res.data;
+                            }else{
+                                return false;
+                            }
                         }
                     },
 
@@ -246,7 +249,7 @@
                         },
                     }
                 })
-
+                listTable.off('select')
                 listTable.on('select', function (e, dt, type, indexes) {
                     let rowData = listTable.rows(indexes).data().toArray();
                     const selectId = rowData[0].id;

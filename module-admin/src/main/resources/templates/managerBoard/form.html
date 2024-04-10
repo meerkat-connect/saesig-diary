@@ -78,6 +78,7 @@
             if(!confirm("수정하시겠습니까?")) return;
         }
 
+        $('#content').val(ckeditorApp.getEditorData('content'))
         const data = $("#managerNoticeBoardForm").serialize();
 
         $.ajax({

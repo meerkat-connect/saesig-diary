@@ -108,10 +108,12 @@
             if(!confirm("수정하시겠습니까?")) return;
         }
 
+        $('#content').val(ckeditorApp.getEditorData('content'));
         const data = $("#templateManageForm").serialize();
+        console.log(data)
 
         $.ajax({
-            url : formId === '' ? "/templateManage/insertForm.do" : "/templateManage/updateForm.do",
+            url : formId === '' ? "/admin/templateManage/insertForm.do" : "/admin/templateManage/updateForm.do",
             type: 'POST',
             cache : false,
             dataType: 'json',

@@ -96,6 +96,7 @@ public class TemplateManageController {
         Map<String, Object> resultMap = new HashMap<>();
 
         tmd.setMember(member);
+
         int retVal = 0;
         retVal = templateManageService.updateForm(tmd);
         if (retVal > 0) {
@@ -108,6 +109,7 @@ public class TemplateManageController {
 
         return resultMap;
     }
+
 
     @DeleteMapping("deleteItems.do")
     @ResponseBody

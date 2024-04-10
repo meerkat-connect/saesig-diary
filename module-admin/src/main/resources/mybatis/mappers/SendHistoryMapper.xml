@@ -17,12 +17,13 @@
             SEND_HISTORY A
         LEFT OUTER JOIN SEND_TEMPLATE B ON A.SEND_TEMPLATE_ID = B.ID
         LEFT OUTER JOIN MEMBER C ON A.RECIPIENT_ID = C.ID
+        WHERE 1=1
         <!-- 키워드 -->
         <if test="searchType != null and searchType != '' and searchType == 'email'">
-            AND C.EMAIL LIKE CONCAT('%',#{searchName},'%')
+            AND C.EMAIL LIKE CONCAT('%',#{searchKeyword},'%')
         </if>
         <if test="searchType != null and searchType != '' and searchType == 'nickName'">
-            AND C.NICKNAME LIKE CONCAT('%',#{searchName},'%')
+            AND C.NICKNAME LIKE CONCAT('%',#{searchKeyword},'%')
         </if>
         <!-- 발송유형 -->
         <if test="searchCategory != null and searchCategory != ''">

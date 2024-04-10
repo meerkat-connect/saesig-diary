@@ -36,6 +36,7 @@ public class SendHistoryDto extends RequestDto {
     // search
     private String searchCategory;
     private String searchTitle;
+    private String searchKeyword;
     private String searchBgngDt;
     private String searchEndDt;
 
