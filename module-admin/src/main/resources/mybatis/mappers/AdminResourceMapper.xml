@@ -4,8 +4,21 @@
 <mapper namespace="com.saesig.resource.AdminResourceMapper">
     <select id="findAll" resultType="com.saesig.resource.ResourceResponseDto">
         WITH RECURSIVE resource_cte(id, upper_id, name, url, depth, ord, style_class, category, tree_ord, type, http_method, is_enabled, tree_name, is_login_disallowed) AS (
-
-            SELECT id, upper_id, name, url, depth, ord, style_class, category, SUBSTR(CONCAT('0000', ord), -4) AS tree_ord, type, http_method, is_enabled, name as tree_name, is_login_disallowed
+            SELECT
+                id
+                 , upper_id
+                 , name
+                 , url
+                 , depth
+                 , ord
+                 , style_class
+                 , category
+                 , CONVERT(RIGHT(CONCAT('0000', ORD), 4), CHAR(255)) AS TREE_ORD
+                 , type
+                 , http_method
+                 , is_enabled
+                 , name as tree_name
+                 , is_login_disallowed
             FROM resource
             WHERE
                 upper_id = 0
@@ -14,7 +27,20 @@
 
             UNION ALL
 
-            SELECT a.id, a.upper_id, a.name, a.url, a.depth, a.ord, a.style_class, a.category, b.TREE_ORD || SUBSTR(CONCAT('0000',a.ord), -4) AS tree_ord, a.type, a.http_method, a.is_enabled, CONCAT(b.name , ' > '  , a.name) as tree_name, a.is_login_disallowed
+            SELECT a.id
+                 , a.upper_id
+                 , a.name
+                 , a.url
+                 , a.depth
+                 , a.ord
+                 , a.style_class
+                 , a.category
+                 , CONCAT(b.TREE_ORD, SUBSTR(CONCAT('0000', a.ord), -4)) AS tree_ord
+                 , a.type
+                 , a.http_method
+                 , a.is_enabled
+                 , CONCAT(b.name , ' > '  , a.name) as tree_name
+                 , a.is_login_disallowed
             FROM resource a
             INNER JOIN resource_cte b
                 ON a.upper_id = b.id
