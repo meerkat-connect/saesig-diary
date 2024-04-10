@@ -1,6 +1,6 @@
 <div class="card">
     <!-- 기본정보 -->
-    <form th:object="${faq}" method="post" id="faqForm" name="faqForm">
+    <form th:object="${faq}" id="faqForm" name="faqForm">
         <input type="hidden" th:field="*{id}">
         <div class="card-header p-b-0">
             <h3 class="sub-title"><strong>기본정보</strong></h3>
@@ -76,8 +76,8 @@
         const faqFormController = {
 
             init: function() {
-
                 $('#faqForm').validate({
+                    ignore:[],
                     rules: {
                         category: {required:true},
                         title: {required:true},
