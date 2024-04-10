@@ -28,11 +28,10 @@
             <div class="card">
                 <div class="col-lg-3 col-md-6 mb-3">
                     <div class="mb-0 form-group row">
-                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1 "><strong>유형선택</strong></div>
+                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1 "><strong>분류선택</strong></div>
                         <div class="col-12">
                             <select name="searchType" id="searchType" class="form-select form-control form-control-round left-select custom-select">
-                                <option value="">- 선택 -</option>
-                                <option value="ADMIN">ADMIN</option>
+                                <option value="ADMIN" selected>ADMIN</option>
                                 <option value="FRONT">FRONT</option>
                                 <option value="API">API</option>
                             </select>
@@ -200,12 +199,14 @@
             init: function () {
                 this.parentNode = this.parentNode ?? null;
                 this.selectedNode = this.selectedNode ?? null;
+                this.resources = [];
                 const _this = this;
 
                 $.ajax({
                     url: '/admin/resources',
                     type: 'get',
-                    async: false
+                    async: false,
+                    data: {category: $('#searchType').val()}
                 }).done(function (response) {
                     response.forEach(function (element, index) {
                         _this.resources[index] = {
@@ -273,12 +274,12 @@
                                     /*if (selectedNode.type != 'MENU' && selectedNode.type != 'MENU_DETAIL') {
                                         alert('프로그램 유형이 메뉴인 경우에만 하위 등록이 가능합니다.')
                                     } else {*/
-                                        $('#resourceForm')[0].reset();
-                                        $('#id').val('');
-                                        $('#type1').prop('checked', true);
-                                        $('#upperId').val(_this.selectedNode.original.id);
-                                        $('#upperUrl').val(_this.selectedNode.original.url);
-                                        $('#category').val('');
+                                    $('#resourceForm')[0].reset();
+                                    $('#id').val('');
+                                    $('#type1').prop('checked', true);
+                                    $('#upperId').val(_this.selectedNode.original.id);
+                                    $('#upperUrl').val(_this.selectedNode.original.url);
+                                    $('#category').val('');
                                     // }
                                 }
                             }, "delete": {
@@ -392,9 +393,9 @@
                     $('#httpMethod').prop('disabled', true);
                     $('#name, #url').prop('readonly', true);
                 } else {*/
-                    $('#saveBtn').prop('disabled', false);
-                    $('#httpMethod').prop('disabled', false);
-                    $('#name, #url').prop('readonly', false);
+                $('#saveBtn').prop('disabled', false);
+                $('#httpMethod').prop('disabled', false);
+                $('#name, #url').prop('readonly', false);
                 // }
 
                 $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
@@ -440,6 +441,10 @@
             $('#saveBtn').on('click', function () {
                 resourceController.save();
             });
+
+            $('#searchType').on('change',function () {
+                resourceController.init();
+            })
 
         });
     </script>

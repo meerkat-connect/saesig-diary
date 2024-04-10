@@ -15,8 +15,8 @@ public class ResourceService {
     private final ResourceRepository resourceRepository;
     private final AdminResourceMapper resourceMapper;
 
-    public List<ResourceResponseDto> findAll() {
-        return resourceMapper.findAll();
+    public List<ResourceResponseDto> findAll(String category) {
+        return resourceMapper.findAll(category);
     }
 
     public ResourceResponseDto findById(Long resourceId) {

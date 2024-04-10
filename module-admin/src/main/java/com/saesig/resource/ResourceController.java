@@ -24,8 +24,8 @@ public class ResourceController {
 
     @GetMapping("")
     @ResponseBody
-    public List<ResourceResponseDto> getResources() {
-        return resourceService.findAll();
+    public List<ResourceResponseDto> getResources(@RequestParam("category") String category) {
+        return resourceService.findAll(category);
     }
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
