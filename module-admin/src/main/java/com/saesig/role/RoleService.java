@@ -107,11 +107,12 @@ public class RoleService {
 
         BooleanBuilder builder = new BooleanBuilder();
         String searchType = requestDto.getSearchType();
-        if (StringUtils.hasText(searchType)) {
+        String searchKeyword = requestDto.getSearchKeyword();
+        if (StringUtils.hasText(searchType) && StringUtils.hasText(searchKeyword)) {
             if ("email".equals(searchType)) {
-                builder.and(qMember.email.like("%" +requestDto.getSearchKeyword() + "%"));
+                builder.and(qMember.email.like("%" + searchKeyword + "%"));
             } else if ("nickname".equals(searchType)) {
-                builder.and(qMember.nickname.like("%" + requestDto.getSearchKeyword() + "%"));
+                builder.and(qMember.nickname.like("%" + searchKeyword + "%"));
             }
         }
 
@@ -140,11 +141,12 @@ public class RoleService {
 
         BooleanBuilder builder = new BooleanBuilder();
         String searchType = request.getSearchType();
-        if (StringUtils.hasText(searchType)) {
+        String searchKeyword = request.getSearchKeyword();
+        if (StringUtils.hasText(searchType) && StringUtils.hasText(searchKeyword)) {
             if ("email".equals(searchType)) {
-                builder.and(qMember.email.eq(request.getSearchKeyword()));
+                builder.and(qMember.email.like("%" + searchKeyword + "%"));
             } else if ("nickname".equals(searchType)) {
-                builder.and(qMember.nickname.eq(request.getSearchKeyword()));
+                builder.and(qMember.nickname.eq("%" + searchKeyword + "%"));
             }
         }
         builder.and(qMemberRole.role.id.eq(roleId));

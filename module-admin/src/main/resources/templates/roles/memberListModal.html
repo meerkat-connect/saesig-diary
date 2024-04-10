@@ -14,7 +14,6 @@
                             <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
                             <div class="input-group input-group-dropdown mb-0">
                                 <select name="searchType" id="searchType" class="form-select form-control form-control-round left-select custom-select">
-                                    <option value="">- 선택 -</option>
                                     <option value="email">이메일</option>
                                     <option value="nickname">닉네임</option>
                                 </select>
@@ -25,7 +24,7 @@
                 </div>
                 <div class="mt-1 p-t-20 text-center">
                     <button class="btn btn-gray m-r-5" id="searchInitBtn" type="button">초기화</button>
-                    <button class="btn btn-primary" id="searchBtn">검색</button>
+                    <button class="btn btn-primary">검색</button>
                 </div>
             </form>
             <div class="row mt-3">
@@ -63,7 +62,6 @@
         let memberListTable;
         let selectedRow = [];
         const $searchForm = $('#modalSearchForm');
-        const $searchBtn = $('#modalSearchForm #searchBtn')
         const $searchInitbtn = $('#modalSearchForm #searchInitBtn');
         const $searchType = $('#modalSearchForm #searchType');
         const $searchKeyword = $('#modalSearchForm #searchKeyword');
@@ -128,22 +126,11 @@
 
         $searchForm.on('submit', function(e){
             e.preventDefault();
-
-            if($searchKeyword.val() && !$searchType.val() ) {
-                alert('키워드를 선택해 주십시오.');
-                return;
-            }
-
-            if(!$searchKeyword.val() && $searchType.val() ) {
-                alert('키워드를 입력해 주십시오.');
-                return;
-            }
-
             init();
         });
 
         $searchInitbtn.on('click', function(){
-            $searchType.val('');
+            $searchType.val('email');
             $searchKeyword.val('');
             $('select').niceSelect('update');
         })
