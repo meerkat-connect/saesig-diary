@@ -6,7 +6,7 @@
 //밸리데이터 옵션  alert 형식으로 변경
 $.validator.setDefaults({
     debug:false,
-    // onkeyup:false, // 키를 뗄대 유효성 검사 off
+    onkeyup:false, // 키를 뗄대 유효성 검사 off
     // onclick:false, // checkbox와 radio 버튼 클릭시 유효성 검사 off
     // onfocusout:false, // 포커스가 떠날때 유효성 검사 off
     errorElement: "div",
@@ -18,13 +18,12 @@ $.validator.setDefaults({
     },
     unhighlight: function(element, errorClass, validClass) {
     },*/
-
     errorPlacement: function(error, element) {
-        element.parent().append(error);
+        element.closest('.form-group').append(error);
     }
 
     , success: function(label) {
-        label.parent().find('div.feedback-error').remove();
+        label.closest('.form-group').find('div.feedback-error').remove();
     }
 });
 

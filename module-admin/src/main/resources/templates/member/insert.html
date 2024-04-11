@@ -10,7 +10,7 @@
                     <div class="row form-group required mb-3">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="email"><strong>아이디</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control form-control-sm form-control-round" id="email" name="email">
+                            <input type="email" class="form-control form-control-sm form-control-round" id="email" name="email">
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="nickname"><strong>닉네임</strong></label>
                         <div class="col-sm-12" style="position:relative">
                             <input type="text" class="form-control form-control-sm form-control-round" id="nickname" name="nickname">
-                            <button type="button" class="file-open-btn" style="right:20px;" id="nicknameCheckBtn">중복 확인</button>
+                            <!--<button type="button" class="file-open-btn" style="right:20px;" id="nicknameCheckBtn">중복 확인</button>-->
                         </div>
                     </div>
                 </div>
@@ -63,28 +63,63 @@
             const $form = $('#memberInsertForm');
 
             $form.validate({
+                ignore: [],
                 rules: {
                     password: 'required',
                     passwordCheck: {
                         required: true,
                         equalTo: "#password"
                     },
-                    nickname: 'required',
-                    email: 'required',
+                    nickname: {
+                        required: true,
+                        remote: {
+                            method: 'get',
+                            async: false,
+                            url: '/admin/members/isNicknameDuplicate',
+                            data: {
+                                nickname: function () {
+                                    return $("#nickname").val();
+                                }
+                            },
+                        },
+                        /*remote2 : {
+
+                        }*/
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        remote: {
+                            method: 'get',
+                            async: false,
+                            url: '/admin/members/isEmailDuplicate',
+                            data: {
+                                email: function () {
+                                    return $("#email").val();
+                                }
+                            },
+                        }
+                    },
                 },
                 messages: {
                     password: '비밀번호를 입력해 주십시오.',
                     passwordCheck: {
-                        required: '비밀번호 확인을 입력해 주십시오.',
+                        required: '비밀번호를 입력해 주십시오.',
                         equalTo: '비밀번호가 일치하지 않습니다.'
                     },
-                    nickname: '닉네임을 입력해 주십시오.',
-                    email: '이메일을 입력해 주십시오.'
+                    nickname: {
+                        required: '닉네임을 입력해 주십시오.'
+                        , remote: '닉네임이 중복됩니다.'
+                    },
+                    email: {
+                        required: '이메일을 입력해 주십시오.',
+                        email: "유효한 이메일을 입력해 주십시오.",
+                        remote: "이메일이 중복됩니다."
+                    }
                 }
             });
 
-
-            $('#memberInsertForm').on('submit',function(e){
+            $('#memberInsertForm').on('submit', function (e) {
                 e.preventDefault();
 
                 if ($form.valid()) {
@@ -104,31 +139,6 @@
                     }
                 }
             })
-
-            $('#nicknameCheckBtn').on('click', function () {
-                isNicknameDuplicate($('#nickname').val())
-            });
-
-            const isNicknameDuplicate = (nickname) => {
-                if (!nickname) {
-                    alert('닉네임을 입력해 주십시오.');
-                    return;
-                }
-
-                $.ajax({
-                    method: 'get',
-                    url: '/admin/members/isNicknameDuplicate',
-                    data: {nickname: $('#nickname').val()},
-                }).done(function (response) {
-                    if (response) {
-                        alert('중복되는 닉네임입니다.');
-                    } else {
-                        alert('사용가능한 닉네임입니다.');
-                    }
-                });
-            }
         })
-
-
     </script>
 </div>
