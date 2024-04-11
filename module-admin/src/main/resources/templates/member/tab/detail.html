@@ -1,4 +1,4 @@
-<form th:object="${memberDetail}" method="post" id="detailForm" name="detailForm">
+<form th:object="${memberDetail}" id="detailForm" name="detailForm">
     <input type="hidden" name="id" id="id" th:value="${memberId}">
     <div class="card-header  p-b-0">
         <h3 class="sub-title"><strong>기본정보</strong></h3>
@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="col-lg-6 mb-3">
-                <div class="row form-group mb-3">
+                <div class="row form-group mb-3 required">
                     <input type="hidden" id="prevNickname" name="prevNickname" th:value="*{nickname}">
                     <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="nickname"><strong>닉네임</strong></label>
                     <div class="col-sm-12">
@@ -88,7 +88,7 @@
 
     <div class="card-block-small text-center">
         <button type="button" class="btn btn-gray m-r-5" id="cancelBtn">취소</button>
-        <button type="button" class="btn btn-primary" id="saveBtn">저장</button>
+        <button type="submit" class="btn btn-primary" id="saveBtn">저장</button>
     </div>
 
     <script type="text/javascript" th:src="@{/js/custom-design.js}"></script>
@@ -110,26 +110,61 @@
                 }
             })
 
-            $('#saveBtn').on('click', function () {
-                if (!$('#nickname').val()) {
-                    alert('닉네임을 입력해 주십시오.');
-                } else {
+            $('#detailForm').validate({
+                rules: {
+                    nickname: {
+                        required: true,
+                        remote: {
+                            method: 'get',
+                            async: false,
+                            url: '/admin/members/isNicknameDuplicate',
+                            data: {
+                                nickname: function () {
+                                    return $("#nickname").val();
+                                }
+                            },
+                            dataFilter: function(response) {
+                                let parse = JSON.parse(response);
+                                if($('#nickname').val() == $('#prevNickname').val()) return true;
+                                else {
+                                    return parse;
+                                }
+                            }
+                        }
+                    }
+                },
+
+                messages: {
+                    nickname: {
+                        required: '닉네임을 입력해 주십시오.',
+                        remote: '닉네임이 중복됩니다.'
+                    }
+                }
+            });
+
+            $('#detailForm').on('submit', function (e) {
+                e.preventDefault();
+
+                if ($('#detailForm').valid()) {
+                    $('#nickname').rules('remove', 'remote');
+
                     const formData = $('#detailForm').serializeObject();
                     const memberId = $('#id').val();
                     $.ajax({
-                        method: 'patch',
+                        type: 'post',
                         url: `/admin/members/${memberId}`,
                         contentType: 'application/json',
-                        data: JSON.stringify(formData)
+                        data: JSON.stringify(formData),
                     }).done(function (response) {
                         alert('수정되었습니다.');
-                        memberController.memberListTable.ajax.reload(null, false);
-                    }).fail(function (response) {
+                        memberController.dataTablesHelper.reload();
+                    });
+                    /*}).fail(function (response) {
                         alert(response.responseJSON.error.message);
-                    })
+                    })*/
                 }
+
             });
         })
     </script>
-    <!--    generateTemporaryPassword -->
 </form>

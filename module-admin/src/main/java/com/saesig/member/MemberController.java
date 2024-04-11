@@ -59,7 +59,7 @@ public class MemberController {
         return "member/entrypoint";
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Long updateMember(@PathVariable Long id, @RequestBody @Valid MemberUpdateDto memberUpdateDto) {
         Optional<Member> byNickname = memberService.findByNickname(memberUpdateDto.getNickname());
