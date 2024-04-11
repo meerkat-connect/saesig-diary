@@ -134,6 +134,10 @@ public class MemberService {
         return memberAdminRepository.existsByNickname(nickname);
     }
 
+    public boolean isEmailDuplicate(String email) {
+        return memberAdminRepository.existsByEmail(email);
+    }
+
     public Optional<Member> findByNickname(String nickname) {
         return memberAdminRepository.findByNickname(nickname);
     }

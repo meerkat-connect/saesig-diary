@@ -145,7 +145,13 @@ public class MemberController {
     @GetMapping("/isNicknameDuplicate")
     @ResponseBody
     public boolean isNicknameDuplicate(@RequestParam String nickname) {
-        return memberService.isNicknameDuplicate(nickname);
+        return !memberService.isNicknameDuplicate(nickname);
+    }
+
+    @GetMapping("/isEmailDuplicate")
+    @ResponseBody
+    public boolean isEmailDuplicate(@RequestParam String email) {
+        return !memberService.isEmailDuplicate(email);
     }
 
     @GetMapping("/emailSendModal")
