@@ -6,6 +6,8 @@ import com.saesig.common.RequestDto;
 import com.saesig.domain.member.Member;
 import com.saesig.domain.member.MemberStatus;
 import com.saesig.domain.member.SignupMethod;
+import com.saesig.dormantMember.dto.DormantMemberResponseDto;
+import com.saesig.dormantMember.repository.DormantMemberRepository;
 import com.saesig.role.DataTablesResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ import java.util.Optional;
 @Service
 public class MemberService {
     private final MemberAdminRepository memberAdminRepository;
+    private final DormantMemberRepository dormantMemberRepository;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
 
@@ -164,11 +167,19 @@ public class MemberService {
     @Transactional
     public Long updateMember(Long id, MemberUpdateDto memberUpdateDto) {
         Member member = memberAdminRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("회원 아이디가 존재하지 않습니다."));
+
         member.setNickname(memberUpdateDto.getNickname());
         member.setStatus(MemberStatus.valueOf(memberUpdateDto.getStatus()));
+
+        // 휴면 해제
         if(!MemberStatus.DORMANCY.getKey().equals(memberUpdateDto.getStatus())) {
-            //TODO: 휴면회원 테이블 제거
+            Optional<DormantMemberResponseDto> dormantMember = dormantMemberRepository.findByMemberId(id);
+            if(dormantMember.isPresent()) {
+                dormantMemberRepository.deleteDormant(dormantMember.get().getId());
+            }
         }
+
+        // 휴면 등록
 
         return member.getId();
     }

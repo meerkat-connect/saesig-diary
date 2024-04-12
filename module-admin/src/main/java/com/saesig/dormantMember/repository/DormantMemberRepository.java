@@ -109,6 +109,36 @@ public class DormantMemberRepository {
         return Optional.ofNullable(dormantMemberDetail);
     }
 
+    public Optional<DormantMemberResponseDto> findByMemberId(Long memberId) {
+        DormantMemberResponseDto dormantMemberDetail = queryFactory.select(
+                        Projections.fields(
+                                DormantMemberResponseDto.class,
+                                dormantMember.id,
+                                member.id.as("memberId"),
+                                dormantMember.signupMethod,
+                                dormantMember.email,
+                                dormantMember.nickname,
+                                dormantMember.status,
+                                member.createdAt.as("joinedAt"),
+                                dormantMember.lastLoggedAt,
+                                dormantMember.createdAt.as("changedAt")
+                        )
+                ).from(dormantMember)
+                .innerJoin(member)
+                .on(dormantMember.member.id.eq(member.id))
+                .where(dormantMember.member.id.eq(memberId))
+                .fetchOne();
+
+        return Optional.ofNullable(dormantMemberDetail);
+    }
+
+
+    public void deleteDormant(Long dormantId){
+        queryFactory.delete(dormantMember)
+                .where(dormantMember.id.in(dormantId))
+                .execute();
+    }
+
     public void deleteDormant(Long[] dormantMemberIds) {
         List<Tuple> dormantMembers = queryFactory.select(
                         dormantMember.id

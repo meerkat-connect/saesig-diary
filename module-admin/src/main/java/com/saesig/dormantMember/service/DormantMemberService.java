@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class DormantMemberService {
@@ -24,6 +26,10 @@ public class DormantMemberService {
         return dormantMemberRepository
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("휴면회원 일련번호가 존재하지 않습니다."));
+    }
+
+    public Optional<DormantMemberResponseDto> findByMemberId(Long memberId) {
+        return dormantMemberRepository.findByMemberId(memberId);
     }
 
     @Transactional
