@@ -762,7 +762,7 @@ DROP TABLE IF EXISTS `saesig`.`dormant_member`;
 
 CREATE TABLE IF NOT EXISTS `saesig`.`dormant_member`
 (
-    `id`                          BIGINT(20)   NOT NULL COMMENT '휴면 회원 일련번호',
+    `id`                          BIGINT(20)   NOT NULL AUTO_INCREMENT COMMENT '휴면 회원 일련번호',
     `member_id`                   BIGINT(20)   NOT NULL COMMENT '회원 일련번호',
     `email`                       VARCHAR(50)  NOT NULL COMMENT '이메일',
     `password`                    VARCHAR(200) NULL     DEFAULT NULL COMMENT '비밀번호',
@@ -781,7 +781,8 @@ CREATE TABLE IF NOT EXISTS `saesig`.`dormant_member`
     `modified_at`                 DATETIME     NOT NULL COMMENT '수정일',
     `modified_by`                 BIGINT(20)   NULL     DEFAULT NULL COMMENT '수정자 일련번호',
     `created_at`                  DATETIME     NOT NULL COMMENT '등록일',
-    `created_by`                  BIGINT(20)   NULL     DEFAULT NULL COMMENT '등록자 일련번호'
+    `created_by`                  BIGINT(20)   NULL     DEFAULT NULL COMMENT '등록자 일련번호',
+    PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4;

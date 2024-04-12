@@ -115,46 +115,23 @@
     <script th:inline="javascript">
         const dormantMemberController = {
             selectedRow: [],
+            dormantMemberListTable: null,
+            dataTablesHelper: null,
 
             init: function () {
-                let dormantMemberListTable = null;
+                this.dataTablesHelper = new DataTablesHelper('dormantMemberListTable','contentPanel');
 
-                if (dormantMemberListTable != null) dormantMemberListTable.destroy();
+                if (this.dormantMemberListTable != null) {
+                    this.dormantMemberListTable.destroy();
+                    this.dormantMemberListTable.off('select');
+
+                }
                 this.selectedRow = [];
-                dormantMemberListTable = $('#dormantMemberListTable').DataTable({
+
+                this.dormantMemberListTable = this.dataTablesHelper.datatables('/admin/dormant-members', {
                     select: {
                         selector: 'td:not(:first-child)',
                         style: 'single'
-                    },
-                    "columnDefs": [
-                        {className: "dt-center", targets: "_all"}
-                    ],
-                    stripeClasses: [],
-                    pagingType: 'full_numbers',
-                    lengthChange: false,
-                    responsive: true,
-                    searching: false,
-                    destroy: true,
-                    ordering: false,
-                    paging: true,
-                    info: false,
-                    pageLength: 10,
-                    bPaginate: true,
-                    bAutoWidth: true,
-                    serverSide: true,
-                    processing: true,
-
-                    ajax: {
-                        async: false,
-                        url: `/admin/dormant-members?` + $('#searchForm').serialize(),
-                        method: 'get',
-                        "dataSrc": function (res) {
-                            $.each(res.data, function (idx, item) {
-                                item['rowNumber'] = res.recordsTotal - (res.pageNumber * res.pageSize) - idx;
-                            });
-
-                            return res.data;
-                        }
                     },
 
                     columns: [
@@ -184,43 +161,14 @@
                         {data: 'joinedAt'},
                         {data: 'lastLoggedAt'},
                         {data: 'changedAt'},
-                    ],
-                    drawCallback: function () {
-                        var $api = this.api();
-                        var pages = $api.page.info().pages;
+                    ]
+                });
 
-                        if (pages === 0) {
-                            $(".paginate_button").hide();
-                        }
-                    },
-
-                    language: {
-                        search: '검색',
-                        emptyTable: '데이터가 없습니다.',
-                        lengthMenu: '보기',
-                        loadingRecords: '로딩중..',
-                    },
-                })
-
-                dormantMemberListTable.on('select', function (e, dt, type, indexes) {
-                    let rowData = dormantMemberListTable.rows(indexes).data().toArray();
+                this.dormantMemberListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = dormantMemberController.dormantMemberListTable.rows(indexes).data().toArray();
                     const selectedMemberId = rowData[0].id;
-
-                    $.ajax({
-                        type: 'get',
-                        url: `/admin/dormant-members/${selectedMemberId}`,
-                        dataType: 'html'
-                    }).done(function (response) {
-                        $('#contentPanel').html(response);
-                    }).fail(function (error) {
-                    });
+                    dormantMemberController.dataTablesHelper.loadContent(`/admin/dormant-members/${selectedMemberId}`);
                 })
-            },
-
-            reload: function () {
-                $('#dormantMemberListTable').DataTable().ajax.reload(null, false);
-                this.selectedRow = [];
-                $('#allCheckbox').prop('checked', false);
             },
 
             releaseDormantStatus: function (isDetailView) {
@@ -245,7 +193,8 @@
                         data: {dormantMemberIds: dormantMemberIds}
                     }).done(function (response) {
                         alert('휴면 해제되었습니다.');
-                        dormantMemberController.reload();
+                        dormantMemberController.dataTablesHelper.reload();
+
                     }).fail(function (error) {
                         alert('휴면 해제에 실패하였습니다.');
                         console.log(JSON.stringify(error, null, 4));

@@ -168,8 +168,10 @@ public class MemberService {
     public Long updateMember(Long id, MemberUpdateDto memberUpdateDto) {
         Member member = memberAdminRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("회원 아이디가 존재하지 않습니다."));
 
-        member.setNickname(memberUpdateDto.getNickname());
-        member.setStatus(MemberStatus.valueOf(memberUpdateDto.getStatus()));
+        // 휴면 등록
+        if(MemberStatus.DORMANCY.getKey().equals(memberUpdateDto.getStatus()) && !member.getStatus().getKey().equals(MemberStatus.DORMANCY.getKey())) {
+            dormantMemberRepository.insertDormantMember(id);
+        }
 
         // 휴면 해제
         if(!MemberStatus.DORMANCY.getKey().equals(memberUpdateDto.getStatus())) {
@@ -179,7 +181,8 @@ public class MemberService {
             }
         }
 
-        // 휴면 등록
+        member.setNickname(memberUpdateDto.getNickname());
+        member.setStatus(MemberStatus.valueOf(memberUpdateDto.getStatus()));
 
         return member.getId();
     }

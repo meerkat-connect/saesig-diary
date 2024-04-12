@@ -6,18 +6,17 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.saesig.domain.member.Member;
 import com.saesig.domain.member.MemberStatus;
 import com.saesig.domain.member.QDormantMember;
 import com.saesig.domain.member.QMember;
 import com.saesig.dormantMember.dto.DormantMemberRequestDto;
 import com.saesig.dormantMember.dto.DormantMemberResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -30,6 +29,8 @@ import static org.springframework.util.StringUtils.hasText;
 @Repository
 public class DormantMemberRepository {
     private final JPAQueryFactory queryFactory;
+    private final EntityManager em;
+    private final AuditorAware auditorAware;
     private static final QDormantMember dormantMember = QDormantMember.dormantMember;
     private static final QMember member = QMember.member;
 
@@ -160,5 +161,20 @@ public class DormantMemberRepository {
                 .set(member.status, MemberStatus.NORMAL)
                 .where(member.id.in(memberIds))
                 .execute();
+    }
+
+    public void insertDormantMember(Long id) {
+        Member loginMember = (Member) auditorAware.getCurrentAuditor().get();
+        String nativeQuery =
+                "INSERT INTO dormant_member (member_id, email, password, prev_password, signup_method, status, nickname, last_logged_at, password_modified_at, service_agreement, location_service_agreement, privacy_agreement, marketing_service_agreement, modified_at, modified_by, created_at, created_by) " +
+                "SELECT m.id, m.email, m.password, m.prev_password, m.signup_method, m.status, m.nickname, m.last_logged_at, m.password_modified_at, m.service_agreement, m.location_service_agreement, m.privacy_agreement, m.marketing_service_agreement, NOW(), :modified_by, NOW(), :created_by " +
+                "FROM member m " +
+                "WHERE m.id = :id";
+
+        em.createNativeQuery(nativeQuery)
+                .setParameter("id", id)
+                .setParameter("modified_by", loginMember.getId())
+                .setParameter("created_by", loginMember.getId())
+                .executeUpdate();
     }
 }
