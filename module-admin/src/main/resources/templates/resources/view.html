@@ -307,9 +307,11 @@
                             }, "delete": {
                                 "separator_before": false,
                                 "separator_after": false,
-                                "label": "수정",
+                                "label": "삭제",
+                                "icon" : false,
                                 "action": function (obj) {
-                                    alert('수정 테스트 ')
+                                    const selectedNode = $.jstree.reference(obj.reference).get_node(obj.reference).original;
+                                    // resourceController.delete(selectedNode.id);
                                 }
                             }
                         }
@@ -360,6 +362,23 @@
                     } else {
                         this.insert(id);
                     }
+                }
+            },
+
+            delete : function(id) {
+                const _this = this;
+
+                if(confirm('하위 자원도 모두 삭제됩니다. 삭제하시겠습니까?')) {
+                    $.ajax({
+                        url: `/admin/resources/${id}`,
+                        type: 'delete',
+                        data: id,
+                        contentType: 'application/json'
+                    }).done(function(response){
+                        alert('삭제 되었습니다.');
+                        _this.$jstree.jstree().destroy();
+                        _this.init();
+                    })
                 }
             },
 
@@ -419,6 +438,7 @@
                 const parentNodeOriginal = this.parentNode.original;
                 const selectedNodeOriginal = this.selectedNode.original;
 
+                $('#resourceForm').validate().resetForm();
                 /*if (selectedNodeOriginal.id === 0) {
                     $('#saveBtn').prop('disabled', true);
                     $('#httpMethod').prop('disabled', true);

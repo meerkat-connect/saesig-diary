@@ -78,4 +78,28 @@ public class CustomResourceRepositoryImpl implements CustomResourceRepository {
                 .collect(Collectors.toList());
         collect.stream().forEach(System.out::println);*/
     }
+
+    @Override
+    public void delete(Long id) {
+        String deleteRoleResourceQuery = "DELETE FROM role_resource WHERE resource_id IN (" +
+                "WITH RECURSIVE resource_cte(id) AS (" +
+                "  SELECT id FROM resource WHERE id = :id " +
+                "  UNION ALL " +
+                "  SELECT r.id FROM resource_cte c JOIN resource r ON c.id = r.upper_id" +
+                ") SELECT id FROM resource_cte)";
+        em.createNativeQuery(deleteRoleResourceQuery)
+                .setParameter("id", id)
+                .executeUpdate();
+
+        String deleteResourcesQuery = "DELETE FROM resource WHERE id IN (" +
+                "WITH RECURSIVE resource_cte(id) AS (" +
+                "  SELECT id FROM resource WHERE id = :id " +
+                "  UNION ALL " +
+                "  SELECT r.id FROM resource_cte c JOIN resource r ON c.id = r.upper_id" +
+                ") SELECT id FROM resource_cte)";
+        em.createNativeQuery(deleteResourcesQuery)
+                .setParameter("id", id)
+                .executeUpdate();
+
+    }
 }

@@ -88,4 +88,14 @@ public class ResourceService {
     private boolean isNotSameParent(ResourceMoveDto resourceMoveDto) {
         return !isSameParent(resourceMoveDto);
     }
+
+    @Transactional
+    public Long delete(Long id) {
+        Resource resourceById = resourceRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("자원 아이디가 존재하지 않습니다."));
+
+        resourceRepository.delete(id);
+
+        return resourceById.getId();
+    }
 }

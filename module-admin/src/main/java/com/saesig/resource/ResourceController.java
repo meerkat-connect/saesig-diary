@@ -46,6 +46,12 @@ public class ResourceController {
         return resourceService.update(id, resourceUpdateDto);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public Long deleteResource(@PathVariable Long id) {
+        return resourceService.delete(id);
+    }
+
     @PostMapping(value = "/move", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Object> moveResource(@RequestBody ResourceMoveDto resourceMoveDto) {
