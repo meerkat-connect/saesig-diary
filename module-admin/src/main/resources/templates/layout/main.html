@@ -36,15 +36,16 @@
                                         <div class="col-lg-auto">
                                             <div class="page-header-title">
                                                 <div class="d-inline">
-                                                    <!--/*<h4>[[${#request.getAttribute('RESOURCE').name}]]</h4>*/-->
+                                                    <h4 th:if="${#request.getAttribute('RESOURCE') != null}" th:text="${#request.getAttribute('RESOURCE').name}"></h4>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-auto">
                                             <div class="page-header-breadcrumb">
                                                 <ul class="breadcrumb-title">
-                                                    <li class="breadcrumb-item" style="float: left;">
-                                                        <i class="feather icon-home"></i> <!--/*[[${#request.getAttribute('RESOURCE').treeName}]]*/-->
+                                                    <li class="breadcrumb-item" style="float: left;" th:if="${#request.getAttribute('RESOURCE') != null}">
+                                                        <i class="feather icon-home"></i>
+                                                        [[${#request.getAttribute('RESOURCE').treeName}]]
                                                     </li>
                                                 </ul>
                                             </div>
