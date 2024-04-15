@@ -11,19 +11,19 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
-public class CustomRoleResourceRepositoryImpl implements CustomRoleResourceRepository{
+public class CustomRoleResourceRepositoryImpl implements CustomRoleResourceRepository {
     private final EntityManager em;
 
     @Override
     public List<RoleResourceResponseDto> findMappedResources(Long roleId) {
         String nativeQueryString =
                 "SELECT a.name, a.url, b.role_id, a.upper_id, a.type, a.id " +
-                "FROM resource a " +
-                "LEFT OUTER JOIN ( " +
-                    "SELECT * FROM role_resource where role_id = :id " +
-                ") b on a.id = b.resource_id";
+                        "FROM resource a " +
+                        "LEFT OUTER JOIN ( " +
+                        "SELECT * FROM role_resource where role_id = :id " +
+                        ") b on a.id = b.resource_id";
 
-        Query nativeQuery = em.createNativeQuery(nativeQueryString).setParameter("id",roleId);
+        Query nativeQuery = em.createNativeQuery(nativeQueryString).setParameter("id", roleId);
         List<Object[]> resultList = nativeQuery.getResultList();
 
         List<RoleResourceResponseDto> collect = resultList.stream()
@@ -32,13 +32,28 @@ public class CustomRoleResourceRepositoryImpl implements CustomRoleResourceRepos
                             (String) roleResource[0],
                             (String) roleResource[1],
                             roleResource[2] == null ? 'N' : 'Y',
-                            roleResource[3] == null ? null : ((BigInteger)roleResource[3]).longValue(),
-                            (String ) roleResource[4],
-                            ((BigInteger)roleResource[5]).longValue()
+                            roleResource[3] == null ? null : ((BigInteger) roleResource[3]).longValue(),
+                            (String) roleResource[4],
+                            ((BigInteger) roleResource[5]).longValue()
                     );
                 })
                 .collect(Collectors.toList());
 
         return collect;
+    }
+
+    @Override
+    public void delete(Long resourceId) {
+        String deleteRoleResourceQuery =
+                "DELETE FROM role_resource WHERE resource_id IN (" +
+                        "WITH RECURSIVE resource_cte(id) AS (" +
+                        "  SELECT id FROM resource WHERE id = :id " +
+                        "  UNION ALL " +
+                        "  SELECT r.id FROM resource_cte c JOIN resource r ON c.id = r.upper_id" +
+                        ") SELECT id FROM resource_cte)";
+
+        em.createNativeQuery(deleteRoleResourceQuery)
+                .setParameter("id", resourceId)
+                .executeUpdate();
     }
 }

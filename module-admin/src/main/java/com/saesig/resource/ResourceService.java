@@ -3,6 +3,7 @@ package com.saesig.resource;
 import com.saesig.domain.role.Resource;
 import com.saesig.domain.role.ResourceRepository;
 import com.saesig.domain.role.ResourceType;
+import com.saesig.domain.role.RoleResourceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import java.util.List;
 @Service
 public class ResourceService {
     private final ResourceRepository resourceRepository;
+    private final RoleResourceRepository roleResourceRepository;
     private final AdminResourceMapper resourceMapper;
 
     public List<ResourceResponseDto> findAll(String category) {
@@ -94,6 +96,7 @@ public class ResourceService {
         Resource resourceById = resourceRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("자원 아이디가 존재하지 않습니다."));
 
+        roleResourceRepository.delete(id);
         resourceRepository.delete(id);
 
         return resourceById.getId();

@@ -81,17 +81,21 @@ public class CustomResourceRepositoryImpl implements CustomResourceRepository {
 
     @Override
     public void delete(Long id) {
-        String deleteRoleResourceQuery = "DELETE FROM role_resource WHERE resource_id IN (" +
-                "WITH RECURSIVE resource_cte(id) AS (" +
-                "  SELECT id FROM resource WHERE id = :id " +
-                "  UNION ALL " +
-                "  SELECT r.id FROM resource_cte c JOIN resource r ON c.id = r.upper_id" +
-                ") SELECT id FROM resource_cte)";
-        em.createNativeQuery(deleteRoleResourceQuery)
+        // 순서 재정렬
+        String sortOrderQuery =
+                "UPDATE resource r1 " +
+                        "JOIN (SELECT ord, upper_id FROM resource WHERE id = :id) r2 " +
+                        "ON r1.upper_id = r2.upper_id " +
+                        "SET r1.ord = r1.ord - 1 " +
+                        "WHERE r1.ord > r2.ord";
+
+        em.createNativeQuery(sortOrderQuery)
                 .setParameter("id", id)
                 .executeUpdate();
 
-        String deleteResourcesQuery = "DELETE FROM resource WHERE id IN (" +
+        // 자원 제거
+        String deleteResourcesQuery =
+                "DELETE FROM resource WHERE id IN (" +
                 "WITH RECURSIVE resource_cte(id) AS (" +
                 "  SELECT id FROM resource WHERE id = :id " +
                 "  UNION ALL " +
@@ -100,6 +104,5 @@ public class CustomResourceRepositoryImpl implements CustomResourceRepository {
         em.createNativeQuery(deleteResourcesQuery)
                 .setParameter("id", id)
                 .executeUpdate();
-
     }
 }
