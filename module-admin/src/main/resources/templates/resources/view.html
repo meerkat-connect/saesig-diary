@@ -207,7 +207,13 @@
                     , rules: {
                         httpMethod: {required: true}
                         , name: {required: true}
-                        , url: {required: true}
+                        , url: {
+                            required: {
+                                depends: function() {
+                                    return $(`input[name=type]`).val() != 'DIRECTORY'
+                                }
+                            }
+                        }
                         , category: {required: true}
                         , type: {required: true}
                     },
@@ -321,7 +327,7 @@
                     const originalParentIdOfSelectedNode = _this.$jstree.jstree(true).get_node(data.old_parent).id;
                     const originalOrdOfSelectedNode = data.node.original.ord;
                     const newParentIdOfSelectedNode = _this.$jstree.jstree(true).get_node(data.parent).id;
-                    const depthOfNewParentId = _this.$jstree.jstree(true).get_node(data.parent).depth;
+                    const depthOfNewParentId = _this.$jstree.jstree(true).get_node(data.parent).original.depth;
                     const newOrdOfSelectedNode = data.position + 1;
                     const idOfSelectedNode = data.node.original.id;
 
