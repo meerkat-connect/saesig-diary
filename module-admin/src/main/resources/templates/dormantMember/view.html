@@ -128,7 +128,9 @@
                 }
                 this.selectedRow = [];
 
-                this.dormantMemberListTable = this.dataTablesHelper.datatables('/admin/dormant-members', {
+                this.dormantMemberListTable = this.dataTablesHelper.datatables({
+                    url: '/admin/dormant-members',
+                    searchParameters: $('#searchForm').serializeObject(),
                     select: {
                         selector: 'td:not(:first-child)',
                         style: 'single'

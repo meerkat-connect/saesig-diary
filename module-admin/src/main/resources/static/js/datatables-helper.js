@@ -7,11 +7,13 @@ class DataTablesHelper {
     constructor(tableId, contentPanelId) {
         this.tableId = tableId;
         this.contentPanelId = contentPanelId;
-        this.$table = $('#'+ tableId);
+        this.$table = $('#' + tableId);
         this.$contentPanel = $('#' + contentPanelId);
     }
 
-    datatables = (url, customOption) =>  {
+    datatables = (customOption) => {
+        const self = this;
+
         const option = {
             columnDefs: [
                 {className: "dt-center", targets: "_all"}
@@ -33,8 +35,11 @@ class DataTablesHelper {
 
             ajax: {
                 async: false,
-                url: url,
+                url: customOption.url,
                 method: 'get',
+                data: function (d) {
+                    return self.setRequestData(customOption.searchParameters, d);
+                },
                 "dataSrc": function (res) {
                     res.data.forEach(function (data, index) {
                         data.rowNumber = res.recordsTotal - (res.pageNumber * res.pageSize) - index;
@@ -65,8 +70,30 @@ class DataTablesHelper {
         return this.$table.DataTable(option);
     }
 
+     setRequestData =(searchParameters, d) => {
+        let requestData = d;
+
+        if (!$.isEmptyObject(searchParameters)) {
+            if (typeof searchParameters === 'string') {
+                const serializedParams = decodeURIComponent(searchParameters);
+                const paramsArray = serializedParams.split('&');
+                paramsArray.forEach(param => {
+                    const keyValue = param.split('=');
+                    requestData[keyValue[0]] = keyValue[1];
+                });
+            } else if (Array.isArray(searchParameters)) {
+                searchParameters.forEach(param => {
+                    requestData[param.name] = param.value;
+                });
+            } else {
+                requestData = $.extend({}, d, searchParameters);
+            }
+        }
+        return requestData;
+    }
+
     reload = () => {
-        this.$table.DataTable().ajax.reload(null,false);
+        this.$table.DataTable().ajax.reload(null, false);
         this.$contentPanel.html('');
     }
 

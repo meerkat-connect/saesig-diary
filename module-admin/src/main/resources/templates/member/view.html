@@ -135,7 +135,9 @@
                 }
                 this.selectedRow = [];
 
-                this.memberListTable = this.dataTablesHelper.datatables(`/admin/members`, {
+                this.memberListTable = this.dataTablesHelper.datatables({
+                    url: `/admin/members`,
+                    searchParameters : $('#searchForm').serialize(),
                     select: {
                         selector: 'td:not(:first-child)',
                         style: 'single'
@@ -168,7 +170,7 @@
                         {data: 'adoptCount'},
                         {data: 'receiveCount'},
                         {data: 'createdAt'},
-                    ],
+                    ]
                 });
 
                 this.memberListTable.on('select', function (e, dt, type, indexes) {

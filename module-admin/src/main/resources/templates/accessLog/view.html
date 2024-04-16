@@ -94,7 +94,9 @@
             init: function () {
                 let dataTablesHelper = new DataTablesHelper('logListTable');
 
-                dataTablesHelper.datatables(`/admin/access-log?` + $('#searchForm').serialize(), {
+                dataTablesHelper.datatables({
+                    url: `/admin/access-log`,
+                    searchParameters: $('#searchForm').serializeObject(),
                     columns: [
                         {data: 'rowNumber'},
                         {data: 'resourceName'},

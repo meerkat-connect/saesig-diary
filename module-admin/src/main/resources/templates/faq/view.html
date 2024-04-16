@@ -130,7 +130,8 @@
 
                 this.selectedRow = [];
 
-                this.faqListTable = this.dataTablesHelper.datatables(`/admin/faqs`, {
+                this.faqListTable = this.dataTablesHelper.datatables({
+                    url: `/admin/faqs`,
                     select: {
                         selector: 'td:not(:first-child, :nth-child(5))',
                         style: 'single'
@@ -189,9 +190,12 @@
                     ],
 
                     ajax: {
-                        url: `/admin/faqs?` + $('#searchForm').serialize(),
+                        url: `/admin/faqs`,
                         method: 'get',
-                        "dataSrc": function (res) {
+                        data: function (d) {
+                            return $.extend({}, d, $('#searchForm').serializeObject());
+                        },
+                        dataSrc: function (res) {
                             if (res.recordsTotal > 0) {
                                 res.data.forEach(function (data, index) {
                                     data.rowNumber = res.recordsTotal - (res.pageNumber * res.pageSize) - index;
@@ -204,7 +208,6 @@
                             return res.data;
                         }
                     }
-
                 });
 
                 this.faqListTable.one('select', function (e, dt, type, indexes) {
