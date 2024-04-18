@@ -65,7 +65,6 @@ public class SecurityConfig {
 
         // 인증 정책
         httpSecurity
-                .csrf().disable()
                 .formLogin()
                 .loginPage(LOGIN_PAGE_URI)
                 .loginProcessingUrl("/login_proc")

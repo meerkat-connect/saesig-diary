@@ -18,8 +18,6 @@ public class SecurityLocalConfig {
     public SecurityFilterChain localSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .requestMatchers(matchers -> matchers.antMatchers("/**/*"))
-                .csrf()
-                .disable()
                 .headers()
                 .frameOptions()
                 .disable();

@@ -1,7 +1,12 @@
 jQuery(function () {
 
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+
     jQuery.ajaxSetup({
         beforeSend: function (xhr) {
+            xhr.setRequestHeader("AJAX", true);
+            xhr.setRequestHeader(header, token);
         },
         error: function (xhr, e) {
             const responseJSON = xhr.responseJSON;
