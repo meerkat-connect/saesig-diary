@@ -205,15 +205,22 @@
                 $('#resourceForm').validate({
                     ignore: []
                     , rules: {
-                        httpMethod: {required: true}
-                        , name: {required: true}
-                        , url: {
+                        httpMethod: {
                             required: {
-                                depends: function() {
+                                depends: function () {
                                     return $(`input[name=type]`).val() != 'DIRECTORY'
                                 }
                             }
                         }
+                        , name: {required: true}
+                        , url: {
+                            required: {
+                                depends: function () {
+                                    return $(`input[name=type]`).val() != 'DIRECTORY'
+                                }
+                            }
+                        }
+
                         , category: {required: true}
                         , type: {required: true}
                     },
@@ -306,7 +313,7 @@
                                     $('#upperUrl').val(_this.selectedNode.original.url);
                                     $('#httpMethod').val('');
                                     $('#category').val($('#searchType').val());
-                                    $('input[name=type]').prop('checked',false);
+                                    $('input[name=type]').prop('checked', false);
                                     $('select').niceSelect('update');
                                     // }
                                 }
@@ -314,7 +321,7 @@
                                 "separator_before": false,
                                 "separator_after": false,
                                 "label": "삭제",
-                                "icon" : false,
+                                "icon": false,
                                 "action": function (obj) {
                                     const selectedNode = $.jstree.reference(obj.reference).get_node(obj.reference).original;
                                     resourceController.delete(selectedNode.id);
@@ -355,14 +362,14 @@
             },
 
             save: function () {
-                if(!this.selectedNode) {
+                if (!this.selectedNode) {
                     alert('자원이 선택되지 않았습니다.');
                     return;
                 }
 
                 const id = $('#resourceForm #id').val();
 
-                if($('#resourceForm').valid()) {
+                if ($('#resourceForm').valid()) {
                     if (!!id) {
                         this.update(id);
                     } else {
@@ -371,16 +378,16 @@
                 }
             },
 
-            delete : function(id) {
+            delete: function (id) {
                 const _this = this;
 
-                if(confirm('하위 자원도 모두 삭제됩니다. 삭제하시겠습니까?')) {
+                if (confirm('하위 자원도 모두 삭제됩니다. 삭제하시겠습니까?')) {
                     $.ajax({
                         url: `/admin/resources/${id}`,
                         type: 'delete',
                         data: id,
                         contentType: 'application/json'
-                    }).done(function(response){
+                    }).done(function (response) {
                         alert('삭제 되었습니다.');
                         _this.$jstree.jstree().destroy();
                         _this.init();
@@ -444,7 +451,6 @@
                 const parentNodeOriginal = this.parentNode.original;
                 const selectedNodeOriginal = this.selectedNode.original;
 
-                $('#resourceForm').validate().resetForm();
                 /*if (selectedNodeOriginal.id === 0) {
                     $('#saveBtn').prop('disabled', true);
                     $('#httpMethod').prop('disabled', true);
@@ -455,6 +461,7 @@
                 $('#name, #url').prop('readonly', false);
                 // }
 
+                $('#resourceForm').validate().resetForm();
                 $('#upperId').val(parentNodeOriginal ? parentNodeOriginal.id : '');
                 $('#upperName').val(parentNodeOriginal ? parentNodeOriginal.name : '')
                 $('#upperUrl').val(parentNodeOriginal ? parentNodeOriginal.url : '');
@@ -468,7 +475,7 @@
                 $('#category').val(selectedNodeOriginal.category);
                 adminCommon.toggleSwitch($('#isEnabled'), selectedNodeOriginal.isEnabled === 'Y');
                 adminCommon.toggleSwitch($('#isLoginDisallowed'), selectedNodeOriginal.isLoginDisallowed === 'Y');
-                $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true);
+                $(`input[name=type]:input[value=${selectedNodeOriginal.type}]`).prop('checked', true).trigger('change');
                 $('#httpMethod').val(selectedNodeOriginal.httpMethod).niceSelect('update');
             },
 
@@ -499,9 +506,31 @@
                 resourceController.save();
             });
 
-            $('#searchType').on('change',function () {
+            $('#searchType').on('change', function () {
                 resourceController.init();
             })
+
+            $('input:radio[name="type"]').on('change',function(){
+                let selectedVal = $(this).val();
+
+                if (selectedVal === 'DIRECTORY') {
+                    $('#url').prop('readonly', true);
+                    $('#httpMethod').prop('disabled', true);
+                    $('#httpMethod').addClass('readonly');
+                    $('#httpMethod').closest('.form-group').removeClass('required');
+                    $('#url').closest('.form-group').removeClass('required');
+                    $('#httpMethod').niceSelect('update');
+                } else {
+                    $('#url').prop('readonly', false);
+                    $('#httpMethod').prop('disabled', false);
+                    $('#httpMethod').removeClass('readonly');
+                    $('#httpMethod').closest('.form-group').addClass('required');
+                    $('#url').closest('.form-group').addClass('required');
+                    $('#httpMethod').niceSelect('update');
+
+                }
+            })
+
 
         });
     </script>
