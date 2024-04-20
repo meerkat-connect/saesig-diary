@@ -3,14 +3,121 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main}">
 <div layout:fragment="content">
-    <style>
-        .dt-responsive {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    </style>
-<!--    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>-->
+    <!-- Page-body start -->
+    <div class="page-body">
+        <div class="row">
+            <!-- 필터 부분 -->
+            <form name="searchForm" id="searchForm" action="" onsubmit="return false;" class="card">
+                <div class="card-block-small">
+                    <!-- 키워드 filter -->
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="mb-0 form-group row">
+                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
+                                <div class="input-group input-group-dropdown mb-0">
+                                    <select name="searchKeywordSelect" id="searchKeywordSelect"
+                                            class="form-select form-control custom-select form-control-round left-select">
+                                        <option value="">- 선택 -</option>
+                                        <option value="m.email">아이디</option>
+                                        <option value="nickname">닉네임</option>
+                                    </select>
+                                    <input type="text" class="form-control form-control-round" name="searchKeyword"
+                                           id="searchKeyword"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="mb-0 form-group row">
+                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>문의유형</strong></div>
+                                <div class="col-sm-12">
+                                    <select name="searchCategory" id="searchCategory"
+                                            class="form-select form-control form-control-round custom-select">
+                                        <option value="">- 전체 -</option>
+                                        <option th:each="category : ${categoryList}" th:value="${category.key}" th:text="${category.value}">value</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="mb-0 form-group row">
+                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>제목</strong></div>
+                                <div class="input-group input-group-dropdown mb-0">
+                                    <input type="text" class="form-control form-control-round" name="searchTitle"
+                                           id="searchTitle"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-3">
+                            <div class="mb-0 form-group row">
+                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>답변 상태</strong></div>
+                                <div class="col-sm-12">
+                                    <select name="searchStatus"
+                                            class="form-select form-control form-control-round custom-select"
+                                            id="searchStatus">
+                                        <option value="">- 전체 -</option>
+                                        <option th:each="status : ${statusList}" th:value="${status.key}" th:text="${status.value}">value</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //키워드 filter -->
+                    <!-- 키워드 filter-btn -->
+                    <div class="mt-1 p-t-20 text-center">
+                        <button class="btn btn-gray m-r-5" id="searchInit">초기화</button>
+                        <button class="btn btn-primary" id="searchBtn">검색</button>
+                    </div>
+                </div>
+            </form>
+            <!-- //필터 부분 -->
+
+            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="row p-20 p-b-0">
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <h5><strong>1:1 문의 검색결과</strong></h5>
+                        </div>
+                        <div class="col-12 col-md-6 text-right">
+                            <button type="button" class="btn btn-delete" id="deleteBtn" onclick="inquiryList.deleteInquiry()">삭제</button>
+                        </div>
+                    </div>
+                    <div class="card-block-small">
+                        <div class="dt-responsive table-responsive">
+                            <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <table id="inquiryListTable" class="display" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="border-checkbox-section">
+                                                <div class="border-checkbox-group">
+                                                    <input type="checkbox" class="border-checkbox " id="checkboxAll" name="rowCheckbox" value="All">
+                                                    <label class="form-label border-checkbox-label" for="checkboxAll"></label>
+                                                </div>
+                                            </div>
+                                            <!--<input type="checkbox" id="allCheckBox" name="allCheckBox">-->
+                                        </th>
+                                        <th>문의유형</th>
+                                        <th>제목</th>
+                                        <th>작성자</th>
+                                        <th>답변상태</th>
+                                        <th>등록일</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
+        </div>
+        <div id="contentPanel">
+
+        </div>
+    </div>
     <script th:inline="javascript">
         const inquiryList = {
             AnswerData : null,
@@ -270,7 +377,7 @@
                     success: function (result) {
                         if (result){
                             alert("답변이 등록되었습니다.")
-                           $("#answerStatus").val(1)
+                            $("#answerStatus").val(1)
                             let currentPage = inquiryList.table.page.info().page
                             inquiryList.inquiryListLoad()
                             inquiryList.table.page(currentPage).draw('page');
@@ -282,13 +389,12 @@
                     }
                 })
             },
-            
+
             deleteInquiry : function () {
                 deleteRowArray = []
                 $(document).find('input[type=checkbox][data-id]:checked').each(function (){
                     deleteRowArray.push($(this).attr('data-id'))
                 })
-                console.log(deleteRowArray)
                 $.ajax({
                     type : "DELETE",
                     async:false,
@@ -314,122 +420,5 @@
             inquiryList.init();
         });
     </script>
-
-    <!-- Page-body start -->
-    <div class="page-body">
-        <div class="row">
-            <!-- 필터 부분 -->
-            <form name="searchForm" id="searchForm" action="" onsubmit="return false;" class="card">
-                <div class="card-block-small">
-                    <!-- 키워드 filter -->
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="mb-0 form-group row">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>키워드</strong></div>
-                                <div class="input-group input-group-dropdown mb-0">
-                                    <select name="searchKeywordSelect" id="searchKeywordSelect"
-                                            class="form-select form-control custom-select form-control-round left-select">
-                                        <option value="">- 선택 -</option>
-                                        <option value="m.email">아이디</option>
-                                        <option value="nickname">닉네임</option>
-                                    </select>
-                                    <input type="text" class="form-control form-control-round" name="searchKeyword"
-                                           id="searchKeyword"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="mb-0 form-group row">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>문의유형</strong></div>
-                                <div class="col-sm-12">
-                                    <select name="searchCategory" id="searchCategory"
-                                            class="form-select form-control form-control-round custom-select">
-                                        <option value="">- 전체 -</option>
-                                        <option th:each="category : ${categoryList}" th:value="${category.key}" th:text="${category.value}">value</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="mb-0 form-group row">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>제목</strong></div>
-                                <div class="input-group input-group-dropdown mb-0">
-                                    <input type="text" class="form-control form-control-round" name="searchTitle"
-                                           id="searchTitle"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 mb-3">
-                            <div class="mb-0 form-group row">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>답변 상태</strong></div>
-                                <div class="col-sm-12">
-                                    <select name="searchStatus"
-                                            class="form-select form-control form-control-round custom-select"
-                                            id="searchStatus">
-                                        <option value="">- 전체 -</option>
-                                        <option th:each="status : ${statusList}" th:value="${status.key}" th:text="${status.value}">value</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- //키워드 filter -->
-                    <!-- 키워드 filter-btn -->
-                    <div class="mt-1 p-t-20 text-center">
-                        <button class="btn btn-disabled m-r-5" id="searchInit">초기화</button>
-                        <button class="btn btn-primary" id="searchBtn">검색</button>
-                    </div>
-                </div>
-            </form>
-            <!-- //필터 부분 -->
-
-            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
-            <div class="col-12">
-                <div class="card">
-                    <div class="row p-20 p-b-0">
-                        <div class="col-12 col-md-6 mb-2 mb-md-0">
-                            <h5><strong>1:1 문의 검색결과</strong></h5>
-                        </div>
-                        <div class="col-12 col-md-6 text-right">
-                            <button type="button" class="btn btn-delete" id="deleteBtn" onclick="inquiryList.deleteInquiry()">삭제</button>
-                        </div>
-                    </div>
-                    <div class="card-block-small">
-                        <div class="dt-responsive table-responsive">
-                            <div id="order-table_wrapper" class="dataTables_wrapper dt-bootstrap4">
-                                <table id="inquiryListTable" class="display" style="width:100%">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            <div class="border-checkbox-section">
-                                                <div class="border-checkbox-group">
-                                                    <input type="checkbox" class="border-checkbox " id="checkboxAll" name="rowCheckbox" value="All">
-                                                    <label class="form-label border-checkbox-label" for="checkboxAll"></label>
-                                                </div>
-                                            </div>
-                                            <!--<input type="checkbox" id="allCheckBox" name="allCheckBox">-->
-                                        </th>
-                                        <th>문의유형</th>
-                                        <th>제목</th>
-                                        <th>작성자</th>
-                                        <th>답변상태</th>
-                                        <th>등록일</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
-        </div>
-        <div id="contentPanel">
-
-        </div>
-    </div>
-
 </div>
 </html>

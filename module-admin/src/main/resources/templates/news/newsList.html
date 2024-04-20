@@ -3,18 +3,115 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main}">
 <div layout:fragment="content">
-    <style>
-        .nice-select.form-select.form-control.custom-select.form-control-round {
-            border-top-left-radius: 50px !important;
-            border-bottom-left-radius: 50px !important;
-        }
+    <!-- Page-body start -->
+    <div class="page-body">
+        <div class="row">
+            <!-- 필터 부분 -->
+            <form name="searchForm" id="searchForm" action="" onsubmit="return false;" class="card">
+                <div class="card-block-small">
+                    <!-- 키워드 filter -->
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 mb-3">
+                            <div class="mb-0 form-group row">
+                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>유형</strong></div>
+                                <div class="col-sm-12">
+                                    <select name="searchCategory" id="searchCategory"
+                                            class="form-select form-control form-control-round custom-select left-select">
+                                        <option value="">- 전체 -</option>
+                                        <option th:each="newsCategory : ${newsCategories}" th:value="${newsCategory.key}" th:text="${newsCategory.value}">value</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 mb-3">
+                            <div class="mb-0 form-group row">
+                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>제목</strong></div>
+                                <div class="input-group input-group-dropdown mb-0">
+                                    <input type="text" class="form-control form-control-round" name="searchTitle"
+                                           id="searchTitle"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //키워드 filter -->
+                    <!-- 키워드 filter-btn -->
+                    <div class="mt-1 p-t-20 text-center">
+                        <button class="btn btn-gray m-r-5" id="searchInit">초기화</button>
+                        <button class="btn btn-primary" id="searchBtn">검색</button>
+                    </div>
+                </div>
+            </form>
+            <!-- //필터 부분 -->
 
-        .table-responsive {
-            overflow-y: hidden;
-        }
-    </style>
-    <!--    <script type="text/javascript" th:src="@{/js/common/common.js}"></script>-->
-<!--    <script type="text/javascript" th:src="@{/js/custom-design.js}"></script>-->
+            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="row p-20 p-b-0">
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <h5><strong>검색결과</strong></h5>
+                        </div>
+                        <div class="col-12 col-md-6 text-right">
+                            <button class="btn btn-transparent" id="insertBtn">등록</button>
+                            <button type="button" class="btn btn-delete" id="deleteBtn">삭제</button>
+                        </div>
+                    </div>
+                    <div class="card-block-small">
+                        <div class="dt-responsive table-responsive">
+                            <table id="newsListTable"
+                                   class="col-12 hover nowrap row-border"
+                                   role="grid" style="width: 100%">
+                                <thead>
+                                <tr role="row">
+                                    <th class="" tabindex="0"
+                                        rowspan="1"
+                                        colspan="1">
+                                        <div class="border-checkbox-section mt20">
+                                            <div class="border-checkbox-group">
+                                                <input type="checkbox" class="border-checkbox " id="checkboxAll" name="rowCheckbox" value="All">
+                                                <label class="form-label border-checkbox-label" for="checkboxAll"></label>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="" tabindex="0"
+                                        rowspan="1"
+                                        colspan="1">
+                                        유형
+                                    </th>
+                                    <th class="" tabindex="0"
+                                        rowspan="1"
+                                        colspan="1">
+                                        제목
+                                    </th>
+                                    <th tabindex="0"
+                                        rowspan="1"
+                                        colspan="1">
+                                        작성자
+                                    </th>
+                                    <th class="" tabindex="0"
+                                        rowspan="1"
+                                        colspan="1">
+                                        고정글여부
+                                    </th>
+                                    <th class="" tabindex="0"
+                                        rowspan="1"
+                                        colspan="1">
+                                        등록일
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody style="border-bottom: 1px solid #dddddd">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
+        </div>
+        <div id="contentPanel">
+
+        </div>
+    </div>
     <script type="text/javascript" th:src="@{/js/ckeditor/build/ckeditor.js}"></script>
     <script type="text/javascript" th:src="@{/js/ckeditor/build/UploadAdapter.js}"></script>
     <script type="text/javascript" th:src="@{/js/ckeditor/ckeditorApplication.js}"></script>
@@ -72,7 +169,7 @@
                         const category = /*[[${newsCategories}]]*/null;
                         let option = ''
                         $(category).each(function (){
-                         option += '<option value="'+this.key+'">'+this.value+'</option>';
+                            option += '<option value="'+this.key+'">'+this.value+'</option>';
                         })
                         $(document).find('#category').append(option)
                         ckeditorApp.setckeditor();
@@ -319,116 +416,5 @@
         });
 
     </script>
-
-    <!-- Page-body start -->
-    <div class="page-body">
-        <div class="row">
-            <!-- 필터 부분 -->
-            <form name="searchForm" id="searchForm" action="" onsubmit="return false;" class="card">
-                <div class="card-block-small">
-                    <!-- 키워드 filter -->
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12 mb-3">
-                            <div class="mb-0 form-group row">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>유형</strong></div>
-                                <div class="col-sm-12">
-                                    <select name="searchCategory" id="searchCategory"
-                                            class="form-select form-control form-control-round custom-select left-select">
-                                        <option value="">- 전체 -</option>
-                                        <option th:each="newsCategory : ${newsCategories}" th:value="${newsCategory.key}" th:text="${newsCategory.value}">value</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12 mb-3">
-                            <div class="mb-0 form-group row">
-                                <div class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>제목</strong></div>
-                                <div class="input-group input-group-dropdown mb-0">
-                                    <input type="text" class="form-control form-control-round" name="searchTitle"
-                                           id="searchTitle"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- //키워드 filter -->
-                    <!-- 키워드 filter-btn -->
-                    <div class="mt-1 p-t-20 text-center">
-                        <button class="btn btn-disabled m-r-5" id="searchInit">초기화</button>
-                        <button class="btn btn-primary" id="searchBtn">검색</button>
-                    </div>
-                </div>
-            </form>
-            <!-- //필터 부분 -->
-
-            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
-            <div class="col-12">
-                <div class="card">
-                    <div class="row p-20 p-b-0">
-                        <div class="col-12 col-md-6 mb-2 mb-md-0">
-                            <h5><strong>검색결과</strong></h5>
-                        </div>
-                        <div class="col-12 col-md-6 text-right">
-                            <button class="btn btn-transparent" id="insertBtn">등록</button>
-                            <button type="button" class="btn btn-delete" id="deleteBtn">삭제</button>
-                        </div>
-                    </div>
-                    <div class="card-block-small">
-                        <div class="dt-responsive table-responsive">
-                            <table id="newsListTable"
-                                   class="col-12 hover nowrap row-border"
-                                   role="grid" style="width: 100%">
-                                <thead>
-                                <tr role="row">
-                                    <th class="" tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        <div class="border-checkbox-section mt20">
-                                            <div class="border-checkbox-group">
-                                                <input type="checkbox" class="border-checkbox " id="checkboxAll" name="rowCheckbox" value="All">
-                                                <label class="form-label border-checkbox-label" for="checkboxAll"></label>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <th class="" tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        유형
-                                    </th>
-                                    <th class="" tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        제목
-                                    </th>
-                                    <th tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        작성자
-                                    </th>
-                                    <th class="" tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        고정글여부
-                                    </th>
-                                    <th class="" tabindex="0"
-                                        rowspan="1"
-                                        colspan="1">
-                                        등록일
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody style="border-bottom: 1px solid #dddddd">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
-        </div>
-        <div id="contentPanel">
-
-        </div>
-    </div>
-
 </div>
 </html>
