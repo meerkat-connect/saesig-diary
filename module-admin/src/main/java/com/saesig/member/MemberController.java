@@ -160,4 +160,10 @@ public class MemberController {
         model.addAttribute("templates", templates);
         return "member/emailSendModal";
     }
+
+    @PostMapping("/emailSendModal/send")
+    @ResponseBody
+    public Long sendEmail(@RequestParam Long[] memberIds, @RequestParam String message) {
+        return memberService.sendMail(memberIds, message);
+    }
 }

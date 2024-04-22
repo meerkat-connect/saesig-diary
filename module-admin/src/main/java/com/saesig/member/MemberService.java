@@ -18,9 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -187,4 +185,35 @@ public class MemberService {
         return member.getId();
     }
 
+    public Long sendMail(Long[] memberIds, String message) {
+        String subject = "새식일기 안내 이메일입니다.";
+        String fromAddress = "meerkat@gmail.com";
+        List<Member> members = memberAdminRepository.findAllById(Arrays.asList(memberIds));
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("messageTitle",subject);
+        parameters.put("messageContent", message);
+
+        Map<String, String> images = new HashMap<>();
+        images.put("main_logo", "static/api/main_logo.png");
+        images.put("main_bg", "static/api/main_bg.png");
+        images.put("bottom_logo", "static/api/bottom_logo.png");
+
+        for (Member member : members) {
+            MailDto mailDto = MailDto.builder()
+                    .toAddress(member.getEmail())
+                    .subject(subject)
+                    .message(message)
+                    .template("/api/mail/codeTemplate")
+                    .fromAddress(fromAddress)
+                    .build();
+
+            mailDto.setParameters(parameters);
+            mailDto.setImages(images);
+
+            mailService.sendMail(mailDto);
+        }
+
+        return 1L;
+    }
 }

@@ -72,7 +72,16 @@
 
         $('#emailSendBtn').on('click', function () {
             if(confirm('이메일을 발송하시겠습니까?')){
-
+                $.ajax({
+                    url: '/admin/members/emailSendModal/send'
+                    , type: 'post'
+                    , data: {
+                        message: ckeditorApp.getEditorData('content')
+                        , memberIds: memberController.selectedRow
+                    }
+                }).done(function (response) {
+                    alert('발송 되었습니다.');
+                });
             }
         });
 
@@ -96,7 +105,6 @@
                 if(selectedRow == $this.data('id')) {
                     data.push({email : $this.closest('td').next().text(), nickname : $this.closest('td').next().next().text()});
                 }
-                console.log(`selectedRow = ${selectedRow} , index = ${index} , id = ${$this.data('id')}`);
             })
         }
 
