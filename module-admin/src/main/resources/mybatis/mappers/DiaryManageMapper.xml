@@ -44,10 +44,10 @@
     <select id="selectDiaryCntData" resultType="com.saesig.diaryManage.DiaryManageDto" parameterType="com.saesig.diaryManage.DiaryManageDto">
         SELECT
             D.ID,
-            IFNULL(C.cnt,0) as commentCnt,
+            IFNULL(C.cnt,0) as commentCnt
             FROM DIARY D
                  LEFT JOIN MEMBER M ON D.modified_by = M.id
-                 LEFT JOIN (SELECT diary_id, count(*) as cnt from diary_comment WHERE DEPTH = 1 group by diary_id) C ON D.id = C.diary_id
+                 LEFT JOIN (SELECT diary_id, count(*) as cnt from diary_comment WHERE DEPTH = 1 and IS_DELETED = 'N' group by diary_id) C ON D.id = C.diary_id
     </select>
 
     <select id="selectDiaryById" resultType="com.saesig.diaryManage.DiaryManageDto" parameterType="com.saesig.diaryManage.DiaryManageDto">
@@ -88,7 +88,6 @@
         SET
             TITLE = #{title},
             CONTENT = #{content},
-            CATEGORY = #{diaryCategory},
             STATUS = #{diaryStatus},
             IS_DELETED = #{isDeleted},
             MODIFIED_AT = now(),

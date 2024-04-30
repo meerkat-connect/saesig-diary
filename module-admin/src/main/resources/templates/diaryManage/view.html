@@ -252,7 +252,7 @@
 
                     $.ajax({
                         type: 'get',
-                        url: `/admin/diaryManage/detailForm.html?id=+${selectedDiaryId}`,
+                        url: `/admin/diaryManage/detailForm.html?id=${selectedDiaryId}`,
                         dataType: 'html'
                     }).done(function (response) {
                         $('#contentPanel').html(response);
@@ -298,11 +298,15 @@
             reportUrl :"",
             infoUrl :"",
 
-            initTab : function () {
+            initTab : function (tabid=null) {
                 this.currentTab = "";
                 this.commentUrl ='/admin/diaryManage/commentForm.html?id='+this.diaryId;
                 this.infoUrl ='/admin/diaryManage/infoForm.html?id='+this.diaryId;
-                this.moveTab("info")
+                if (tabid == null){
+                    this.moveTab("info")
+                }else{
+                    this.moveTab(tabid)
+                }
             },
 
             moveTab : (tabid)=>{
@@ -400,6 +404,7 @@
 
             ,getCommentList : function () {
                 let _this = this;
+                $('#commentCon').empty();
                 $.ajax({
                     type: 'GET',
                     data: {id : _this.id},
@@ -459,7 +464,7 @@
                                 el += '</div>'
                                 el += '</div>'
                                 el += '<div class="comment-btn-con">'
-                                el += '<button class="btn btn-delete m-r-10 mb-2" onClick="diaryCommentController.deleteComment('+this.id+')">삭제</button>'
+                                el += '<button class="btn btn-delete m-r-10 mb-2" onClick="diaryCommentController.deleteReply('+this.id+')">삭제</button>'
                                 el += '</div>'
                                 el += '</div>'
                                 el += '</div>'
@@ -494,6 +499,9 @@
                         url: `/admin/diaryManage/deleteCommentById.do`
                     }).done(function (response) {
                         alert("삭제처리가 완료되었습니다.")
+                        diaryController.init();
+                        tabController.initTab("comment")
+                        $('#commentCnt').text($('#commentCnt').text() - 1)
                     }).fail(function (error) {
                         alert('삭제처리 중 에러가 발생하였습니다.');
                         console.log(JSON.stringify(error));
@@ -509,6 +517,8 @@
                         url: `/admin/diaryManage/deleteCommentById.do`
                     }).done(function (response) {
                         alert("삭제처리가 완료되었습니다.")
+                        diaryController.init();
+                        tabController.initTab("comment")
                     }).fail(function (error) {
                         alert('삭제처리 중 에러가 발생하였습니다.');
                         console.log(JSON.stringify(error));
