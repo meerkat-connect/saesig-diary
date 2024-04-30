@@ -71,7 +71,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
         ErrorResponse errorResponse = ErrorResponse.of(errorCode.getMessage(), errorCode.getCode());
 
-        return ResponseEntity.status(errorCode.getStatus()).body(errorResponse);
+        return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
     }
 
     @Override
