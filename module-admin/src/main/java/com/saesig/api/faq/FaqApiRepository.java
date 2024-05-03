@@ -17,9 +17,8 @@ import org.springframework.util.StringUtils;
 public class FaqApiRepository {
     private final JPAQueryFactory queryFactory;
 
-    public Page<FaqApiResponseDto> findAll(FaqApiRequestDto faqRequestDto) {
+    public Page<FaqApiResponseDto> findAll(FaqApiRequestDto faqRequestDto, Pageable pageable) {
         QFaq qFaq = QFaq.faq;
-        Pageable pageable = faqRequestDto.getPageable();
         BooleanBuilder builder = new BooleanBuilder();
 
         if (!StringUtils.isEmpty(faqRequestDto.getKeyword())) {

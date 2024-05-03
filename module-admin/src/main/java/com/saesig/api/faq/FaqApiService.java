@@ -3,6 +3,7 @@ package com.saesig.api.faq;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -10,9 +11,7 @@ import org.springframework.stereotype.Service;
 public class FaqApiService {
     private final FaqApiRepository faqApiRepository;
 
-    public Page<FaqApiResponseDto> findAll(FaqApiRequestDto faqApiRequestDto) {
-        Page<FaqApiResponseDto> find = faqApiRepository.findAll(faqApiRequestDto);
-
-        return faqApiRepository.findAll(faqApiRequestDto);
+    public Page<FaqApiResponseDto> findAll(FaqApiRequestDto faqApiRequestDto, Pageable pageable) {
+        return faqApiRepository.findAll(faqApiRequestDto, pageable);
     }
 }
