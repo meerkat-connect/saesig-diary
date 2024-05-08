@@ -1,9 +1,10 @@
 package com.saesig.api.faq;
 
 import lombok.Getter;
-import org.springframework.data.domain.Pageable;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class FaqApiRequestDto {
     private String keyword;
 }

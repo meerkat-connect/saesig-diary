@@ -28,7 +28,7 @@ public class FaqApiController {
 
         Page<FaqApiResponseDto> find = faqApiService.findAll(faqApiRequestDto, pageable);
 
-        result.put("data", find.getContent());
+        result.put("faqs", find.getContent());
         return ResponseEntity
                 .ok()
                 .body(ApiRequestResult.of(result));
