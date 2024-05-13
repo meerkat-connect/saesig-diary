@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum ExposureLocation implements EnumMapperType {
-    main("메인")
-    , sub1("서브1");
+    MAIN("메인")
+    , SUB1("서브1");
 
     @Getter
     private final String value;
