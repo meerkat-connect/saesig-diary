@@ -26,7 +26,7 @@ public class BannerApiController {
 
         Page<BannerApiResponseDto> find = bannerApiService.findAll(bannerApiRequestDto, pageable);
 
-        result.put("faqs", find.getContent());
+        result.put("banners", find.getContent());
         return ResponseEntity
                 .ok()
                 .body(ApiRequestResult.of(result));

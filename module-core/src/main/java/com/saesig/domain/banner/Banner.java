@@ -33,7 +33,7 @@ public class Banner extends BaseEntity {
     private String url;
 
     @Column
-    private String ord;
+    private Long ord;
 
     @Column(name = "is_enabled")
     private String isEnabled;
