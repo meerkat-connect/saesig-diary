@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ExposureLocation implements EnumMapperType {
     MAIN("메인")
-    , SUB1("서브1");
+    , EVENT("이벤트");
 
     @Getter
     private final String value;
