@@ -95,4 +95,10 @@
         AND ID = #{id}
     </delete>
 
+    <select id="existsByNickname" resultType="int">
+        SELECT count(1)
+        FROM member
+        WHERE nickname = #{nickname}
+    </select>
+
 </mapper>

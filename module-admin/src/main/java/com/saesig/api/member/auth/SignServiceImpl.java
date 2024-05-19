@@ -23,6 +23,11 @@ public class SignServiceImpl implements SignService {
     }
 
     @Override
+    public boolean existsByNickname(String nickname) {
+        return signMapper.existsByNickname(nickname) > 0 ? true : false;
+    }
+
+    @Override
     public SignDto findEmailByNickname(String nickname) {
         SignDto signDto = signMapper.findEmailByNickname(nickname);
         if (signDto != null && signDto.getEmail() != null) {

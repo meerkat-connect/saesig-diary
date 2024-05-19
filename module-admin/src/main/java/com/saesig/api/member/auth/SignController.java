@@ -3,6 +3,7 @@ package com.saesig.api.member.auth;
 import com.saesig.api.mail.MailDto;
 import com.saesig.api.mail.MailService;
 import com.saesig.api.util.Constants;
+import com.saesig.error.ApiRequestResult;
 import com.saesig.error.ErrorCode;
 import com.saesig.error.VerificationCodeMismatchException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,11 +15,13 @@ import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -80,9 +83,19 @@ public class SignController {
     }
 
     @Operation(summary = "닉네임으로 이메일 찾기", description = "닉네임으로 가입된 이메일 찾기")
-    @GetMapping({"/find/email/{nickname}"})
-    public SignDto findEmailByNickname(@PathVariable String nickname) {
-        return signService.findEmailByNickname(nickname);
+    @GetMapping({"/find-email"})
+    public ResponseEntity<ApiRequestResult> findEmailByNickname(@RequestParam String nickname) {
+        if(!signService.existsByNickname(nickname)) {
+            throw new IllegalArgumentException("존재하지 않는 닉네임입니다.");
+        }
+
+        Map<String, Object> result = new HashMap<>();
+
+        SignDto emailByNickname = signService.findEmailByNickname(nickname);
+        String email = Objects.isNull(emailByNickname) ? null : emailByNickname.getEmail();
+        result.put("email", email);
+
+        return ResponseEntity.ok().body(ApiRequestResult.of(result));
     }
 
     @Operation(summary = "SMS 본인인증으로 이메일 찾기", description = "SMS 본인인증으로 가입된 이메일 찾기")

@@ -12,4 +12,5 @@ public interface SignMapper {
     int updatePassword(SignDto param);
     int resign(Long id);
 
+    int existsByNickname(String nickname);
 }
