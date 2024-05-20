@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import java.util.stream.Stream;
+
 @RequiredArgsConstructor
 @Getter
 public enum ErrorCode {
@@ -17,5 +19,12 @@ public enum ErrorCode {
     private final HttpStatus status;
     private final String code;
     private final String message;
+
+    public static ErrorCode of(HttpStatus status) {
+        return Stream.of(ErrorCode.values())
+                .filter(type -> type.getStatus().equals(status))
+                .findFirst()
+                .orElse(null);
+    }
 
 }

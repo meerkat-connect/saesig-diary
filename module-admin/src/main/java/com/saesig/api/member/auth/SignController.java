@@ -85,10 +85,6 @@ public class SignController {
     @Operation(summary = "닉네임으로 이메일 찾기", description = "닉네임으로 가입된 이메일 찾기")
     @GetMapping({"/find-email"})
     public ResponseEntity<ApiRequestResult> findEmailByNickname(@RequestParam String nickname) {
-        if(!signService.existsByNickname(nickname)) {
-            throw new IllegalArgumentException("존재하지 않는 닉네임입니다.");
-        }
-
         Map<String, Object> result = new HashMap<>();
 
         SignDto emailByNickname = signService.findEmailByNickname(nickname);

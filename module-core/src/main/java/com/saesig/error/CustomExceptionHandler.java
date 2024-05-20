@@ -5,6 +5,7 @@ import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -80,5 +81,17 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse errorResponse = ErrorResponse.of(errorCode.getMessage(), errorCode.getCode(), ex.getBindingResult());
 
         return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
+            request.setAttribute("javax.servlet.error.exception", ex, 0);
+        }
+
+        ErrorCode errorCode = ErrorCode.of(status);
+        ErrorResponse errorResponse = ErrorResponse.of(errorCode.getMessage(), errorCode.getCode());
+
+        return ResponseEntity.status(status).body(ApiRequestResult.of(errorResponse));
     }
 }
