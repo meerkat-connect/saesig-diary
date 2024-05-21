@@ -101,4 +101,10 @@
         WHERE nickname = #{nickname}
     </select>
 
+    <select id="existsByEmail" resultType="int">
+        SELECT count(1)
+        FROM member
+        WHERE email = #{email}
+    </select>
+
 </mapper>

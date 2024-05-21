@@ -10,4 +10,5 @@ public interface SignService {
     int updatePassword(SignDto param);
     int resign(Long id);
 
+    boolean existsByEmail(String email);
 }

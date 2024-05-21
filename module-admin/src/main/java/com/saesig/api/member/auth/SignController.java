@@ -4,6 +4,7 @@ import com.saesig.api.mail.MailDto;
 import com.saesig.api.mail.MailService;
 import com.saesig.api.util.Constants;
 import com.saesig.error.ApiRequestResult;
+import com.saesig.error.CustomRuntimeException;
 import com.saesig.error.ErrorCode;
 import com.saesig.error.VerificationCodeMismatchException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
 
@@ -46,6 +46,78 @@ public class SignController {
         // 쿨SMS (SMS 발송용) - 계정 내 등록된 유효한 API 키, API Secret Key
         this.messageService = NurigoApp.INSTANCE.initialize("NCS4YSWXMANXRGLD", "ZHSJXFM0VRYMLZFRYQVRWMALZKOPBLNJ", "https://api.coolsms.co.kr");
     }
+
+    @Operation(summary = "닉네임으로 이메일 찾기", description = "닉네임으로 가입된 이메일 찾기")
+    @GetMapping({"/find-email"})
+    public ResponseEntity<ApiRequestResult> findEmailByNickname(@RequestParam String nickname) {
+        Map<String, Object> result = new HashMap<>();
+
+        if(!signService.existsByNickname(nickname))
+            throw new CustomRuntimeException("존재하지 않는 닉네임입니다.", ErrorCode.INVALID_INPUT_VALUE);
+
+        SignDto emailByNickname = signService.findEmailByNickname(nickname);
+
+        result.put("email", emailByNickname.getEmail());
+
+        return ResponseEntity.ok().body(ApiRequestResult.of(result));
+    }
+
+    @Operation(summary = "비밀번호 찾기", description = "비밀번호 찾기 : 이메일 본인인증 코드 발송")
+    @GetMapping("/find-password")
+    public ResponseEntity<ApiRequestResult> findPassword(@RequestParam String email) {
+        if(!signService.existsByEmail(email))
+            throw new CustomRuntimeException("존재하지 않는 이메일입니다.", ErrorCode.INVALID_INPUT_VALUE);
+
+        Map<String, Object> result = new HashMap<>();
+
+        String subject = "새식일기 비밀번호 찾기 이메일입니다.";
+        String fromAddress = "meerkat@gmail.com";
+
+        // 메일 내용 세팅
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("messageTitle", "안녕하세요. 새식일기입니다:)");
+        parameters.put("messageContent", "하단에 표기된 인증번호를 진행중인 화면에 입력해주세요.");
+        parameters.put("verificationMailCode", this.verificationMailCode);
+
+        Map<String, String> images = new HashMap<>();
+        images.put("main_logo", "static/main_logo.png");
+        images.put("main_bg", "static/main_bg.png");
+        images.put("bottom_logo", "static/bottom_logo.png");
+
+        MailDto mailDto = MailDto.builder()
+                .toAddress(email)
+                .subject(subject)
+                .template("/api/mail/codeTemplate")
+                .fromAddress(fromAddress)
+                .build();
+
+        mailDto.setParameters(parameters);
+        mailDto.setImages(images);
+
+        mailService.sendMail(mailDto);
+
+        result.put("verificationMailCode", verificationMailCode);
+
+        return ResponseEntity.ok().body(ApiRequestResult.of(result));
+    }
+
+    @Operation(summary = "비밀번호 찾기(재설정)", description = "본인인증 후 비밀번호 재설정")
+    @PostMapping({"/find-password/{code}"})
+    public int updatePassword(@PathVariable String code, @RequestBody SignDto param) {
+        // required parameter : verificationCode , email, newPassword
+
+        // 메일 본인인증 번호와 사용자 입력값 일치여부 체크
+        if (!this.verificationMailCode.equals(code)) {
+            throw new VerificationCodeMismatchException(ErrorCode.INVALID_VERIFICATION_CODE);
+        }
+        param.setPassword(passwordEncoder.encode(param.getPassword()));
+        return signService.updatePassword(param);
+    }
+
+
+
+
+
 
     @Operation(summary = "회원가입 등록", description = "입력한 정보를 이용하여 회원가입을 진행")
     @PostMapping("/signup")
@@ -82,17 +154,7 @@ public class SignController {
         return signService.duplicate(param);
     }
 
-    @Operation(summary = "닉네임으로 이메일 찾기", description = "닉네임으로 가입된 이메일 찾기")
-    @GetMapping({"/find-email"})
-    public ResponseEntity<ApiRequestResult> findEmailByNickname(@RequestParam String nickname) {
-        Map<String, Object> result = new HashMap<>();
 
-        SignDto emailByNickname = signService.findEmailByNickname(nickname);
-        String email = Objects.isNull(emailByNickname) ? null : emailByNickname.getEmail();
-        result.put("email", email);
-
-        return ResponseEntity.ok().body(ApiRequestResult.of(result));
-    }
 
     @Operation(summary = "SMS 본인인증으로 이메일 찾기", description = "SMS 본인인증으로 가입된 이메일 찾기")
     @GetMapping({"/find/email/{mobileNumber}/{code}"})
@@ -104,16 +166,8 @@ public class SignController {
         return signService.findEmailBySms(mobileNumber);
     }
 
-    @Operation(summary = "비밀번호 찾기(재설정)", description = "본인인증 후 비밀번호 재설정")
-    @PutMapping({"/find/password/{code}"})
-    public int updatePassword(@PathVariable String code, @RequestBody SignDto param) {
-        // 메일 본인인증 번호와 사용자 입력값 일치여부 체크
-        if (!this.verificationMailCode.equals(code)) {
-            throw new VerificationCodeMismatchException(ErrorCode.INVALID_VERIFICATION_CODE);
-        }
-        param.setPassword(passwordEncoder.encode(param.getPassword()));
-        return signService.updatePassword(param);
-    }
+
+
 
     @Operation(summary = "SMS 본인인증", description = "SMS 본인인증 코드 발송", parameters = {
             @Parameter(name = "mobileNumber", description = "수신자 전화번호", example = "01012341234")})
@@ -134,26 +188,6 @@ public class SignController {
     @GetMapping({"/sms/valid/{code}"})
     public boolean isSmsCodeValid(@PathVariable String code) {
         return this.verificationSmsCode.equals(code);
-    }
-
-    @Operation(summary = "이메일 본인인증", description = "이메일 본인인증 코드 발송")
-    @PostMapping({"/email/{email}"})
-    public void sendCodeMail(@PathVariable String email) {
-        // 메일 내용 세팅
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("messageTitle", "안녕하세요. 새식일기입니다:)");
-        parameters.put("messageContent", "하단에 표기된 인증번호를 진행중인 화면에 입력해주세요.");
-        parameters.put("verificationMailCode", this.verificationMailCode);
-
-        Map<String, String> images = new HashMap<>();
-        images.put("main_logo", "static/main_logo.png");
-        images.put("main_bg", "static/main_bg.png");
-        images.put("bottom_logo", "static/bottom_logo.png");
-
-//        MailDto mailDto = new MailDto(email, "", "", "새식일기 인증코드입니다.", parameters, "mail/codeTemplate", images);
-        MailDto mailDto = new MailDto();
-        mailDto.setParameters(parameters);
-        this.mailService.sendMail(mailDto);
     }
 
     @Operation(summary = "이메일 본인인증 유효성 확인", description = "이메일 본인인증 코드와 사용자 입력값 일치여부 체크")

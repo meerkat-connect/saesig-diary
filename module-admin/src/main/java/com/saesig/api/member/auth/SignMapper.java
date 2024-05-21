@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface SignMapper {
-
     int signup(SignDto param);
     int duplicate(SignDto param);
     SignDto findEmailByNickname(String nickname);
@@ -13,4 +12,6 @@ public interface SignMapper {
     int resign(Long id);
 
     int existsByNickname(String nickname);
+
+    int existsByEmail(String email);
 }
