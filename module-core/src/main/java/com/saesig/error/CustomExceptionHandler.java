@@ -35,6 +35,21 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
     }
 
+    @ExceptionHandler(CustomRuntimeException.class)
+    public ResponseEntity<ApiRequestResult> customRuntimeExceptionHandler(CustomRuntimeException ex) {
+        String message = ex.getMessage();
+
+        if(ex.getErrorCode() == null) {
+            ErrorCode internalServerError = ErrorCode.INTERNAL_SERVER_ERROR;
+            ErrorResponse errorResponse = ErrorResponse.of(message == null ? internalServerError.getMessage() : message, internalServerError.getCode());
+            return ResponseEntity.status(internalServerError.getStatus()).body(ApiRequestResult.of(errorResponse));
+        }
+
+        ErrorCode errorCode = ex.getErrorCode();
+        ErrorResponse errorResponse = ErrorResponse.of(message == null ? errorCode.getMessage(): message, errorCode.getCode());
+        return ResponseEntity.status(errorCode.getStatus()).body(ApiRequestResult.of(errorResponse));
+    }
+
     @ExceptionHandler(NicknameDuplicateException.class)
     public ResponseEntity<ApiRequestResult> nicknameDuplicateExceptionHandler(NicknameDuplicateException ex) {
         ErrorCode errorCode = ex.getErrorCode();
