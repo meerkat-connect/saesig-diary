@@ -47,7 +47,7 @@ class ResourceServiceTest {
 
         //then
         ResourceResponseDto byId1 = resourceService.findById(5L);
-        List<ResourceResponseDto> findAll = resourceService.findAll();
+        List<ResourceResponseDto> findAll = resourceService.findAll("ADMIN");
 
         assertThat(byId.getUpperId()).isNotEqualTo(byId1.getUpperId());
         findAll.forEach(System.out::println);
