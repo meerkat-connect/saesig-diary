@@ -78,21 +78,19 @@
     </select>
 
     <update id="updatePassword" parameterType="com.saesig.api.member.auth.SignDto">
-        UPDATE MEMBER
-        SET PASSWORD             = #{password}
-          , PREV_PASSWORD        = PASSWORD
-          , PASSWORD_MODIFIED_AT = now()
-          , MODIFIED_AT          = now()
-          , MODIFIED_BY          = #{modifiedBy}
-        WHERE 1=1
-        AND ID = #{id}
+        UPDATE member
+        SET password             = #{password}
+          , prev_password        = #{password}
+          , password_modified_at = now()
+          , modified_at          = now()
+          , modified_by          = #{id}
+        WHERE
+            id = #{id}
     </update>
 
     <delete id="resign" parameterType="Long">
-        DELETE
-        FROM MEMBER
-        WHERE 1=1
-        AND ID = #{id}
+        DELETE FROM member
+        WHERE id = #{id}
     </delete>
 
     <select id="existsByNickname" resultType="int">

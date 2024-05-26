@@ -3,6 +3,7 @@ package com.saesig.api.member.auth;
 import com.saesig.api.mail.MailDto;
 import com.saesig.api.mail.MailService;
 import com.saesig.api.util.Constants;
+import com.saesig.api.verification.VerificationService;
 import com.saesig.error.ApiRequestResult;
 import com.saesig.error.CustomRuntimeException;
 import com.saesig.error.ErrorCode;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -30,15 +32,19 @@ import java.util.Random;
 @RestController()
 @RequestMapping(Constants.CONTEXT_PATH + "/sign")
 public class SignController {
-
+    private final VerificationService verificationService;
     private final SignService signService;
     private final PasswordEncoder passwordEncoder;
     private final DefaultMessageService messageService;
     private final MailService mailService;
+
+    @Deprecated
     String verificationSmsCode = String.format("%06d", new Random().nextInt(1000000));
+    @Deprecated
     String verificationMailCode = String.format("%06d", new Random().nextInt(1000000));
 
-    public SignController(SignService signService, PasswordEncoder passwordEncoder, MailService mailService) {
+    public SignController(SignService signService, PasswordEncoder passwordEncoder, MailService mailService, VerificationService verificationService) {
+        this.verificationService = verificationService;
         this.signService = signService;
         this.passwordEncoder = passwordEncoder;
         this.mailService = mailService;
@@ -68,6 +74,8 @@ public class SignController {
         if(!signService.existsByEmail(email))
             throw new CustomRuntimeException("존재하지 않는 이메일입니다.", ErrorCode.INVALID_INPUT_VALUE);
 
+        String code = verificationService.generateVerificationCode(email);
+
         Map<String, Object> result = new HashMap<>();
 
         String subject = "새식일기 비밀번호 찾기 이메일입니다.";
@@ -77,7 +85,7 @@ public class SignController {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("messageTitle", "안녕하세요. 새식일기입니다:)");
         parameters.put("messageContent", "하단에 표기된 인증번호를 진행중인 화면에 입력해주세요.");
-        parameters.put("verificationMailCode", this.verificationMailCode);
+        parameters.put("verificationMailCode", code);
 
         Map<String, String> images = new HashMap<>();
         images.put("main_logo", "static/main_logo.png");
@@ -96,28 +104,24 @@ public class SignController {
 
         mailService.sendMail(mailDto);
 
-        result.put("verificationMailCode", verificationMailCode);
-
         return ResponseEntity.ok().body(ApiRequestResult.of(result));
     }
 
     @Operation(summary = "비밀번호 찾기(재설정)", description = "본인인증 후 비밀번호 재설정")
     @PostMapping({"/find-password/{code}"})
-    public int updatePassword(@PathVariable String code, @RequestBody SignDto param) {
+    public int updatePassword(@PathVariable String code, @RequestBody @Valid SignDto param) {
         // required parameter : verificationCode , email, newPassword
+        if(verificationService.getVerificationCodeByEmail(param.getEmail()) == null) {
+            throw new CustomRuntimeException("이메일에 대응되는 코드가 존재하지 않습니다.");
+        }
 
-        // 메일 본인인증 번호와 사용자 입력값 일치여부 체크
-        if (!this.verificationMailCode.equals(code)) {
+        if(!verificationService.verifyCode(param.getEmail(), code)) {
             throw new VerificationCodeMismatchException(ErrorCode.INVALID_VERIFICATION_CODE);
         }
+
         param.setPassword(passwordEncoder.encode(param.getPassword()));
         return signService.updatePassword(param);
     }
-
-
-
-
-
 
     @Operation(summary = "회원가입 등록", description = "입력한 정보를 이용하여 회원가입을 진행")
     @PostMapping("/signup")
@@ -154,8 +158,6 @@ public class SignController {
         return signService.duplicate(param);
     }
 
-
-
     @Operation(summary = "SMS 본인인증으로 이메일 찾기", description = "SMS 본인인증으로 가입된 이메일 찾기")
     @GetMapping({"/find/email/{mobileNumber}/{code}"})
     public SignDto findEmailBySms(@PathVariable String mobileNumber, @PathVariable String code) {
@@ -165,9 +167,6 @@ public class SignController {
         }
         return signService.findEmailBySms(mobileNumber);
     }
-
-
-
 
     @Operation(summary = "SMS 본인인증", description = "SMS 본인인증 코드 발송", parameters = {
             @Parameter(name = "mobileNumber", description = "수신자 전화번호", example = "01012341234")})
@@ -218,4 +217,5 @@ public class SignController {
         this.mailService.sendMail(mailDto);
         return result;
     }
+
 }
