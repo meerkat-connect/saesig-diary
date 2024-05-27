@@ -1,5 +1,7 @@
 package com.saesig.api.mail;
 
+import com.saesig.error.CustomRuntimeException;
+import com.saesig.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +52,7 @@ public class MailServiceImpl implements MailService {
             log.info("메일 전송 완료");
         } catch (Exception ex) {
             log.error("메일 전송에 실패하였습니다.");
-            throw new RuntimeException(ex.getMessage());
+            throw new CustomRuntimeException("메일 전송에 실패하였습니다." , ErrorCode.INTERNAL_SERVER_ERROR);
         }
     }
 }

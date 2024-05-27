@@ -88,9 +88,9 @@ public class SignController {
         parameters.put("verificationMailCode", code);
 
         Map<String, String> images = new HashMap<>();
-        images.put("main_logo", "static/main_logo.png");
-        images.put("main_bg", "static/main_bg.png");
-        images.put("bottom_logo", "static/bottom_logo.png");
+        images.put("main_logo", "static/api/main_logo.png");
+        images.put("main_bg", "static/api/main_bg.png");
+        images.put("bottom_logo", "static/api/bottom_logo.png");
 
         MailDto mailDto = MailDto.builder()
                 .toAddress(email)
