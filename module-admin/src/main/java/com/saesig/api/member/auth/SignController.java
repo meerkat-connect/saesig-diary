@@ -69,7 +69,7 @@ public class SignController {
     }
 
     @Operation(summary = "비밀번호 찾기", description = "비밀번호 찾기 : 이메일 본인인증 코드 발송")
-    @GetMapping("/find-password")
+    @GetMapping("/find-password/send-email")
     public ResponseEntity<ApiRequestResult> findPassword(@RequestParam String email) {
         if(!signService.existsByEmail(email))
             throw new CustomRuntimeException("존재하지 않는 이메일입니다.", ErrorCode.INVALID_INPUT_VALUE);
@@ -107,9 +107,9 @@ public class SignController {
         return ResponseEntity.ok().body(ApiRequestResult.of(result));
     }
 
-    @Operation(summary = "비밀번호 찾기(재설정)", description = "본인인증 후 비밀번호 재설정")
-    @PostMapping({"/find-password/{code}"})
-    public int updatePassword(@PathVariable String code, @RequestBody @Valid SignDto param) {
+    @Operation(summary = "인증코드 검증", description = "인증코드 검증")
+    @PostMapping({"/find-password/verify-code"})
+    public int verifyCode(@PathVariable String code, @RequestBody @Valid SignDto param) {
         // required parameter : verificationCode , email, newPassword
         if(verificationService.getVerificationCodeByEmail(param.getEmail()) == null) {
             throw new CustomRuntimeException("이메일에 대응되는 코드가 존재하지 않습니다.");
@@ -118,6 +118,16 @@ public class SignController {
         if(!verificationService.verifyCode(param.getEmail(), code)) {
             throw new VerificationCodeMismatchException(ErrorCode.INVALID_VERIFICATION_CODE);
         }
+
+        param.setPassword(passwordEncoder.encode(param.getPassword()));
+        return signService.updatePassword(param);
+    }
+
+    @Operation(summary = "비밀번호 재설정", description = "본인인증 후 비밀번호 재설정")
+    @PostMapping({"/find-password/update"})
+    public int updatePassword(@RequestBody @Valid SignDto param) {
+        // required parameter : email, newPassword
+        // 이메일 미존재
 
         param.setPassword(passwordEncoder.encode(param.getPassword()));
         return signService.updatePassword(param);
