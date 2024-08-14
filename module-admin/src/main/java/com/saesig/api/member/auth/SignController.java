@@ -109,24 +109,24 @@ public class SignController {
 
     @Operation(summary = "인증코드 검증", description = "인증코드 검증")
     @PostMapping({"/find-password/verify-code"})
-    public int verifyCode(@PathVariable String code, @RequestBody @Valid SignDto param) {
+    public int verifyCode(@RequestParam(required = true) String code, @RequestBody @Valid SignDto param) {
         // required parameter : verificationCode , email, newPassword
         if(verificationService.getVerificationCodeByEmail(param.getEmail()) == null) {
-            throw new CustomRuntimeException("이메일에 대응되는 코드가 존재하지 않습니다.");
+            throw new CustomRuntimeException("이메일에 대응하는 코드가 존재하지 않습니다.", ErrorCode.INVALID_INPUT_VALUE);
         }
 
         if(!verificationService.verifyCode(param.getEmail(), code)) {
             throw new VerificationCodeMismatchException(ErrorCode.INVALID_VERIFICATION_CODE);
         }
 
-        param.setPassword(passwordEncoder.encode(param.getPassword()));
-        return signService.updatePassword(param);
+        return 1; // 성공
     }
 
     @Operation(summary = "비밀번호 재설정", description = "본인인증 후 비밀번호 재설정")
     @PostMapping({"/find-password/update"})
     public int updatePassword(@RequestBody @Valid SignDto param) {
         // required parameter : email, newPassword
+
         // 이메일 미존재
 
         param.setPassword(passwordEncoder.encode(param.getPassword()));
@@ -159,12 +159,20 @@ public class SignController {
     @Operation(summary = "회원정보 중복검사", description = "이메일/닉네임 중복검사")
     @GetMapping({"/duplicate/{mode}/{value}"})
     public int duplicate(@PathVariable String mode, @PathVariable String value) {
+//        signService.isSignPossible(param);
         SignDto param = new SignDto();
         if ("email".equals(mode)) {
             param.setEmail(value);
         } else if ("nickname".equals(mode)) {
             param.setNickname(value);
         }
+
+        // 아이디 형식이 올바르지 않습니다.
+        // 이미 사용중인 아이디입니다.
+        // 간편회원가입으로 가입된 이력이 있습니다.
+        // 사용할 수 없는 닉네임입니다.
+        // 이미 사용중인 닉네임입니다.
+
         return signService.duplicate(param);
     }
 
