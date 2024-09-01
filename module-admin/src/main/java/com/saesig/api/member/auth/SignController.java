@@ -109,8 +109,7 @@ public class SignController {
 
     @Operation(summary = "인증코드 검증", description = "인증코드 검증")
     @PostMapping({"/find-password/verify-code"})
-    public int verifyCode(@PathVariable String code, @RequestBody @Valid SignDto param) {
-        // required parameter : verificationCode , email, newPassword
+    public ResponseEntity<ApiRequestResult> verifyCode(@PathVariable String code, @Valid SignDto param) {
         if(verificationService.getVerificationCodeByEmail(param.getEmail()) == null) {
             throw new CustomRuntimeException("이메일에 대응되는 코드가 존재하지 않습니다.");
         }
@@ -119,18 +118,18 @@ public class SignController {
             throw new VerificationCodeMismatchException(ErrorCode.INVALID_VERIFICATION_CODE);
         }
 
-        param.setPassword(passwordEncoder.encode(param.getPassword()));
-        return signService.updatePassword(param);
+        return ResponseEntity.ok().body(ApiRequestResult.noContent());
     }
 
     @Operation(summary = "비밀번호 재설정", description = "본인인증 후 비밀번호 재설정")
     @PostMapping({"/find-password/update"})
-    public int updatePassword(@RequestBody @Valid SignDto param) {
+    public ResponseEntity<ApiRequestResult> updatePassword(@Valid SignDto param) {
         // required parameter : email, newPassword
-        // 이메일 미존재
+        Map<String, Object> result = new HashMap<>();
 
         param.setPassword(passwordEncoder.encode(param.getPassword()));
-        return signService.updatePassword(param);
+        result.put("nickname", signService.updatePassword(param));
+        return ResponseEntity.ok().body(ApiRequestResult.of(result));
     }
 
     @Operation(summary = "회원가입 등록", description = "입력한 정보를 이용하여 회원가입을 진행")
@@ -191,18 +190,6 @@ public class SignController {
         System.out.println(response);
 
         return response;
-    }
-
-    @Operation(summary = "SMS 본인인증 유효성 확인", description = "SMS 본인인증 문자와 사용자 입력값 일치여부 체크")
-    @GetMapping({"/sms/valid/{code}"})
-    public boolean isSmsCodeValid(@PathVariable String code) {
-        return this.verificationSmsCode.equals(code);
-    }
-
-    @Operation(summary = "이메일 본인인증 유효성 확인", description = "이메일 본인인증 코드와 사용자 입력값 일치여부 체크")
-    @GetMapping({"/email/valid/{code}"})
-    public boolean isMailCodeValid(@PathVariable String code) {
-        return this.verificationMailCode.equals(code);
     }
 
     @Operation(summary = "회원탈퇴", description = "회원탈퇴")
