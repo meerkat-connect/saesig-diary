@@ -1,5 +1,6 @@
 package com.saesig.config;
 
+import com.saesig.config.auth.oauth.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Profile({"local", "dev"})
 public class SecurityLocalConfig {
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain localSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -20,8 +22,12 @@ public class SecurityLocalConfig {
                 .requestMatchers(matchers -> matchers.antMatchers("/**/*"))
                 .headers()
                 .frameOptions()
-                .disable();
-
+                .disable()
+                .and()
+                .oauth2Login()
+                .defaultSuccessUrl("/") // 기본값이 / 임
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService);
         return httpSecurity.build();
     }
 }
