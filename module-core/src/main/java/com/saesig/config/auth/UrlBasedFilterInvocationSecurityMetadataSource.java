@@ -48,14 +48,10 @@ public class UrlBasedFilterInvocationSecurityMetadataSource implements FilterInv
     }
 
     public void reload() {
-        requestMap.clear();
-
         LinkedHashMap<RequestMatcher, List<ConfigAttribute>> resources = securityResourceService.getResourceList();
-        Iterator<Map.Entry<RequestMatcher, List<ConfigAttribute>>> iterator = resources.entrySet().iterator();
 
-        while (iterator.hasNext()) {
-            Map.Entry<RequestMatcher, List<ConfigAttribute>> next = iterator.next();
-            requestMap.put(next.getKey(), next.getValue());
-        }
+        requestMap.clear();
+        requestMap.putAll(resources);
+
     }
 }
