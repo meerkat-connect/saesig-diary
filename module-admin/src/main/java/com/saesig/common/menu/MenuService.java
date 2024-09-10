@@ -5,6 +5,8 @@ import com.saesig.global.menu.ResourceMapper;
 import com.saesig.global.menu.ResourceNode;
 import com.saesig.global.menu.ResourceTree;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -13,11 +15,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MenuService {
     private final ResourceMapper resourceMapper;
     private ResourceTree resourceTree = null;
+    private final WebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator;
 
     public String menuPrint() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();

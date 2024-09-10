@@ -36,4 +36,10 @@ public class ApiRequestResult {
     public static ApiRequestResult of(Map<String, Object> data, Map<String, Object> page) {
         return new ApiRequestResult(false, data, null, page);
     }
+
+    public static ApiRequestResult noContent() {
+        return new ApiRequestResult(true,null,null,null);
+    }
 }
+
+

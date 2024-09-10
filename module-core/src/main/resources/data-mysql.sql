@@ -26,7 +26,7 @@ INSERT INTO member(id, email, password, prev_password, password_modified_at, sig
 VALUES (9, 'email9@email.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'NAVER', '서정도9', '01012341209', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO member(id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
-VALUES (10, 'wjm358@naver.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'KAKAO', '원종민', '01012341210', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
+VALUES (10, 'wonjjong.dev@gmail.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'KAKAO', '원종민', '01012341210', 'NORMAL', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
 
 INSERT INTO dormant_member(id, member_id, email, password, prev_password, password_modified_at, signup_method, nickname, mobile_number, status, last_logged_at, modified_at, modified_by, created_at, created_by, service_agreement, privacy_agreement)
 VALUES (1, 10, 'wjm358@naver.com', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', '{bcrypt}$2a$10$uLXiBxKq2iUbdRJB8mrWr.nSyrBoS5MzgpSMUuyFTL/S0ob21BXt2', NOW(), 'EMAIL', '원종민', '01051778536', 'DORMANCY', NOW(), NOW(), 1, NOW(), 1, 'Y', 'Y');
