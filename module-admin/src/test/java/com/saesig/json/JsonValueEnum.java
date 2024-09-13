@@ -6,14 +6,14 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum JsonEnum {
-    TEST("test"),
-    TEST2("test2");
+public enum JsonValueEnum {
+    C("CC"),
+    D("DD");
 
-    private final String name;
+    private final String value;
 
     @JsonValue
     private String getJsonValue() {
-        return "11111";
+        return String.format("%s/%s", name(), getValue());
     }
 }

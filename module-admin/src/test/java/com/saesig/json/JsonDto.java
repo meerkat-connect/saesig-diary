@@ -2,13 +2,11 @@ package com.saesig.json;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @Getter
-@Setter
+@ToString
 public class JsonDto {
     private Long id;
 
@@ -20,25 +18,24 @@ public class JsonDto {
     @JsonDeserialize(using = NameDeSerialize.class)
     private String fullName;
 
-    private JsonEnum jsonEnum;
+    private JsonValueEnum jsonValueEnum;
 
-    public JsonDto(Long id, String lastName, String firstName) {
+    private JsonFormatEnum jsonFormatEnum;
+
+    public JsonDto(Long id, String lastName, String firstName, JsonValueEnum jsonValueEnum) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
+        this.jsonValueEnum = jsonValueEnum;
         this.fullName = this.lastName + " " + this.firstName;
     }
 
-
-    public JsonDto(Long id, String lastName, String firstName, JsonEnum jsonEnum) {
+    public JsonDto(Long id, String lastName, String firstName, JsonValueEnum jsonValueEnum, JsonFormatEnum jsonFormatEnum) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
-        this.jsonEnum = jsonEnum;
-        this.fullName = this.lastName + " " + this.firstName;
+        this.jsonValueEnum = jsonValueEnum;
+        this.jsonFormatEnum = jsonFormatEnum;
     }
 
-    public String toString() {
-        return id + "," + lastName + "," + firstName + "," + jsonEnum;
-    }
 }

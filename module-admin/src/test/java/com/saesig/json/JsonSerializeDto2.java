@@ -10,14 +10,11 @@ import lombok.ToString;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonSerialize(using = ObjectSerialize.class)
+@JsonDeserialize(using = ObjectDeSerialize.class)
 @Getter
 @ToString
-
-public class JsonSerializeDto {
+public class JsonSerializeDto2 {
     private Long id;
-
-    @JsonSerialize(using = NameSerialize.class)
-    @JsonDeserialize(using = NameDeSerialize.class)
     private String name;
-
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 public class JsonValueDto {
     private Long id;
 
+    @JsonValue
     private String name;
 
     @JsonValue
