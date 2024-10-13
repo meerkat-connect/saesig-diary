@@ -1,43 +1,57 @@
 package com.saesig.config.auth;
 
+import com.saesig.domain.role.Resource;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
+@Slf4j
 public class UrlBasedFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     private final SecurityResourceService securityResourceService;
-    private LinkedHashMap<RequestMatcher, List<ConfigAttribute>> requestMap = new LinkedHashMap<>();
 
-
-    public UrlBasedFilterInvocationSecurityMetadataSource(LinkedHashMap<RequestMatcher, List<ConfigAttribute>> requestMap, SecurityResourceService securityResourceService) {
-        this.securityResourceService = securityResourceService;
-        this.requestMap = requestMap;
-    }
-
+    private final CacheManager cacheManager;
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         HttpServletRequest request = ((FilterInvocation) object).getRequest();
+        LinkedHashMap<RequestMatcher, List<ConfigAttribute>> resourceList = getResourceListFromCache();
 
-        if (requestMap != null) {
-            for (Map.Entry<RequestMatcher, List<ConfigAttribute>> entry : requestMap.entrySet()) {
-                RequestMatcher matcher = entry.getKey();
-                if (matcher.matches(request)) {
-                    return entry.getValue();
-                }
+        for (Map.Entry<RequestMatcher, List<ConfigAttribute>> entry : resourceList.entrySet()) {
+            RequestMatcher matcher = entry.getKey();
+            if (matcher.matches(request)) {
+                return entry.getValue();
             }
         }
+
         return null;
+    }
+
+    private LinkedHashMap<RequestMatcher, List<ConfigAttribute>> getResourceListFromCache() {
+        Cache cache = cacheManager.getCache("resourceList");
+        LinkedHashMap<RequestMatcher, List<ConfigAttribute>> resourceList = cache.get("allResources", LinkedHashMap.class);
+        if(resourceList == null) {
+            log.info("역할 관련 리소스 캐시 조회");
+            resourceList = securityResourceService.getResourceList();
+        }
+        return resourceList;
     }
 
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
-        return requestMap.values().stream()
+        LinkedHashMap<RequestMatcher, List<ConfigAttribute>> resourceList = getResourceListFromCache();
+
+        return resourceList.values().stream()
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
     }
@@ -45,13 +59,5 @@ public class UrlBasedFilterInvocationSecurityMetadataSource implements FilterInv
     @Override
     public boolean supports(Class<?> clazz) {
         return FilterInvocation.class.isAssignableFrom(clazz);
-    }
-
-    public void reload() {
-        LinkedHashMap<RequestMatcher, List<ConfigAttribute>> resources = securityResourceService.getResourceList();
-
-        requestMap.clear();
-        requestMap.putAll(resources);
-
     }
 }

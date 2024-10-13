@@ -5,6 +5,7 @@ import com.saesig.domain.role.ResourceRepository;
 import com.saesig.domain.role.RoleResource;
 import com.saesig.domain.role.RoleResourceRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -21,6 +22,7 @@ public class SecurityResourceService {
     private final ResourceRepository resourceRepository;
     private final RoleResourceRepository roleResourceRepository;
 
+    @Cacheable(cacheNames = "resourceList", key="'allResources'")
     public LinkedHashMap<RequestMatcher, List<ConfigAttribute>> getResourceList() {
         LinkedHashMap<RequestMatcher, List<ConfigAttribute>> result = new LinkedHashMap<>();
 

@@ -2,13 +2,13 @@ package com.saesig.config;
 
 import com.saesig.config.auth.SecurityResourceService;
 import com.saesig.config.auth.UrlBasedFilterInvocationSecurityMetadataSource;
-import com.saesig.config.auth.UrlResourceFactoryBean;
 import com.saesig.config.auth.formLogin.*;
 import com.saesig.config.auth.oauth.CustomOAuth2LoginFailHandler;
 import com.saesig.config.auth.oauth.CustomOAuth2LoginSuccessHandler;
 import com.saesig.config.auth.oauth.CustomOAuth2UserService;
 import com.saesig.domain.member.MemberApiService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -36,6 +36,7 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomOAuth2LoginFailHandler customOAuth2LoginFailHandler;
     private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
+    private final CacheManager cacheManager;
 
     private static final String LOGIN_PAGE_URI = "/admin/login";
     private static final String[] ENDPOINT_WHITELIST = new String[]{
@@ -135,13 +136,8 @@ public class SecurityConfig {
     }
 
     public UrlBasedFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource() {
-        return new UrlBasedFilterInvocationSecurityMetadataSource(urlResourceFactoryBean().getObject(), securityResourceService);
+        return new UrlBasedFilterInvocationSecurityMetadataSource(securityResourceService, cacheManager);
     }
-
-    public UrlResourceFactoryBean urlResourceFactoryBean() {
-        return new UrlResourceFactoryBean(securityResourceService);
-    }
-
 
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler("/error");
