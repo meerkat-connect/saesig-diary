@@ -66,6 +66,7 @@ public class SecurityConfig {
 
         // 인증 정책
         httpSecurity
+                .antMatcher("/admin/**")
                 .formLogin()
                 .loginPage(LOGIN_PAGE_URI)
                 .loginProcessingUrl("/login_proc")
