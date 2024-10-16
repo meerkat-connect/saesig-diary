@@ -9,7 +9,7 @@ bootJar.enabled = false
 subprojects {
     group = 'saesig-diary'
     version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = '11'
+    sourceCompatibility = '17'
 
     apply plugin: "java"
     apply plugin: "io.spring.dependency-management"
