@@ -1,31 +1,18 @@
 package com.saesig.domain.role;
 
+import com.saesig.global.menu.ResourceItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
 public class CustomResourceRepositoryImpl implements CustomResourceRepository {
     private final EntityManager em;
-
-    @Override
-    public List<ResourceCteDto> findAllByIdUsingCTE(Long id) {
-        String nativeQueryString =
-                "WITH RECURSIVE resource_cte(id) AS (" +
-                        "SELECT a.* FROM resource a where a.id = :id " +
-                        "UNION ALL " +
-                        "SELECT b.* FROM resource_cte AS a " +
-                        "JOIN resource AS b ON a.id = b.upper_id) " +
-                        "SELECT * FROM resource_cte";
-        Query nativeQuery = em.createNativeQuery(nativeQueryString, Resource.class);
-        nativeQuery.setParameter("id", id);
-
-        return nativeQuery.getResultList();
-    }
 
     @Override
     public void changeDepth(Long id) {
@@ -50,33 +37,6 @@ public class CustomResourceRepositoryImpl implements CustomResourceRepository {
                     .setParameter("resourceId", resourceId.longValue())
                     .executeUpdate();
         }
-/*        String nativeQueryString =
-                "WITH RECURSIVE resource_cte(id,depth) AS ( " +
-                    "SELECT a.id, a.depth FROM resource a where a.id = :id " +
-                    "UNION ALL " +
-                    "SELECT b.id,a.depth + 1  FROM resource_cte AS a " +
-                    "JOIN resource AS b ON a.id = b.upper_id) " +
-                "UPDATE resource " +
-                "SET resource.depth = (SELECT depth FROM resource_cte WHERE resource.id = resource_cte.id) " +
-                "WHERE resource.id = (SELECT id FROM resource_cte WHERE resource.id = resource_cte.id)";
-
-        Query nativeQuery = em.createNativeQuery(nativeQueryString).setParameter("id",id);
-        int firstResult = nativeQuery.executeUpdate();*/
-
-/*        List<Object[]> resultList = em.createNativeQuery(nativeQueryString).setParameter("id", id).getResultList();
-
-        List<ResourceCteDto> collect = resultList.stream()
-                .map(resource -> {
-                    return new ResourceCteDto(
-                            Long.parseLong(resource[0].toString()),
-                            (String) resource[1],
-                            (String) resource[2],
-                            (Integer) resource[3],
-                            (Integer) resource[4]
-                    );
-                })
-                .collect(Collectors.toList());
-        collect.stream().forEach(System.out::println);*/
     }
 
     @Override
@@ -96,13 +56,95 @@ public class CustomResourceRepositoryImpl implements CustomResourceRepository {
         // 자원 제거
         String deleteResourcesQuery =
                 "DELETE FROM resource WHERE id IN (" +
-                "WITH RECURSIVE resource_cte(id) AS (" +
-                "  SELECT id FROM resource WHERE id = :id " +
-                "  UNION ALL " +
-                "  SELECT r.id FROM resource_cte c JOIN resource r ON c.id = r.upper_id" +
-                ") SELECT id FROM resource_cte)";
+                        "WITH RECURSIVE resource_cte(id) AS (" +
+                        "  SELECT id FROM resource WHERE id = :id " +
+                        "  UNION ALL " +
+                        "  SELECT r.id FROM resource_cte c JOIN resource r ON c.id = r.upper_id" +
+                        ") SELECT id FROM resource_cte)";
         em.createNativeQuery(deleteResourcesQuery)
                 .setParameter("id", id)
                 .executeUpdate();
+    }
+
+    @Override
+    public List<ResourceItem> findAllEnabled(String category) {
+        String query = """
+                     WITH RECURSIVE resource_cte AS (         
+                        SELECT
+                            id,
+                            upper_id,
+                            name,
+                            url,
+                            depth,
+                            ord,
+                            style_class,
+                            category,
+                            CAST(LPAD(ord, 4,'0') AS CHAR(255)) AS tree_ord,
+                            type,
+                            http_method,
+                            is_enabled,
+                            name AS tree_name,
+                            is_login_disallowed              
+                        FROM
+                            resource              
+                        WHERE
+                            upper_id = 0          
+                            AND is_enabled = 'Y'          
+                            AND category = :category
+       
+                        UNION ALL
+        
+                        SELECT
+                            a.id,
+                            a.upper_id,
+                            a.name,
+                            a.url,
+                            a.depth,
+                            a.ord,
+                            a.style_class,
+                            a.category,
+                            CAST(CONCAT(b.tree_ord, LPAD(a.ord, 4,'0')) AS CHAR(255)) AS tree_ord,
+                            a.type,
+                            a.http_method,
+                            a.is_enabled,
+                            CONCAT(b.name, ' > ', a.name) AS tree_name,
+                            a.is_login_disallowed              
+                        FROM
+                            resource a              
+                        INNER JOIN resource_cte b              
+                            ON a.upper_id = b.id              
+                        WHERE
+                            a.is_enabled = 'Y'          
+                            AND a.category = :category     
+                        )  
+                        SELECT
+                            *      
+                        FROM
+                            resource_cte
+                        ORDER BY
+                            tree_ord, depth
+                """;
+
+        List<Object[]> enabledResources = em.createNativeQuery(query).setParameter("category", ResourceCategory.ADMIN.toString()).getResultList();
+        enabledResources.stream().map(enabledResource -> {
+             return ResourceItem.builder()
+                    .id((Long) enabledResource[0])
+                    .upperId((Long) enabledResource[1])
+                    .name((String) enabledResource[2])
+                    .url((String) enabledResource[3])
+                    .depth((Integer) enabledResource[4])
+                    .ord((Integer) enabledResource[5])
+                    .styleClass((String) enabledResource[6])
+                    .category((String) enabledResource[7])
+                    .treeOrd((String) enabledResource[8])
+                    .type((String) enabledResource[9])
+                    .httpMethod((String) enabledResource[10])
+                    .isEnabled((Character) enabledResource[11])
+                    .treeName((String) enabledResource[12])
+                    .isLoginDisallowed((Character) enabledResource[13])
+                    .build();
+        }).collect(Collectors.toList());
+
+        return List.of();
     }
 }

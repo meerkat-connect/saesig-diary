@@ -1,12 +1,13 @@
 package com.saesig.global.menu;
 
+import com.saesig.domain.role.Resource;
 import com.saesig.domain.role.ResourceType;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class ResourceItem {
     private Long id;
     private Long upperId;
@@ -33,5 +34,23 @@ public class ResourceItem {
 
     public boolean isVisible() {
         return isMenu() || isDirectory();
+    }
+
+    @Deprecated
+    public static ResourceItem fromEntity(Resource resource) {
+        return ResourceItem.builder()
+                .id(resource.getId())
+                .upperId(resource.getParentResource() != null ? resource.getParentResource().getId() : null)
+                .name(resource.getName())
+                .type(resource.getType() != null ? resource.getType().name() : null)
+                .httpMethod(resource.getHttpMethod())
+                .styleClass(resource.getStyleClass())
+                .isEnabled(resource.getIsEnabled())
+                .url(resource.getUrl())
+                .depth(resource.getDepth())
+                .ord(resource.getOrd())
+                .category(resource.getCategory())
+                .isLoginDisallowed(resource.getIsLoginDisallowed())
+                .build();
     }
 }

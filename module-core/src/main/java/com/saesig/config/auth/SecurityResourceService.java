@@ -4,6 +4,7 @@ import com.saesig.domain.role.Resource;
 import com.saesig.domain.role.ResourceRepository;
 import com.saesig.domain.role.RoleResource;
 import com.saesig.domain.role.RoleResourceRepository;
+import com.saesig.global.menu.ResourceItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.ConfigAttribute;
@@ -19,7 +20,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class SecurityResourceService {
+
     private final ResourceRepository resourceRepository;
+
     private final RoleResourceRepository roleResourceRepository;
 
     @Cacheable(cacheNames = "resourceList", key="'allResources'")
@@ -55,4 +58,11 @@ public class SecurityResourceService {
 
         return result;
     }
+
+    // 활성화된 자원 목록 조회
+    @Cacheable(cacheNames = "resourceList", key = "'enabledResources'")
+    public List<ResourceItem> getEnabledResources() {
+        return resourceRepository.findAllEnabled("admin");
+    }
+
 }

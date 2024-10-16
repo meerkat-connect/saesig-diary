@@ -1,18 +1,18 @@
 package com.saesig.domain.role;
 
-import com.saesig.domain.role.Resource;
-import com.saesig.domain.role.ResourceCteDto;
-import com.saesig.domain.role.ResourceRepository;
+import com.saesig.config.CustomDataJpaTest;
+import com.saesig.global.menu.ResourceItem;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
-import com.saesig.config.CustomDataJpaTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 @CustomDataJpaTest
 @ActiveProfiles("local")
 class ResourceRepositoryTest {
@@ -44,17 +44,6 @@ class ResourceRepositoryTest {
     }
 
     @Test
-    public void testCte() {
-        //given
-
-        //when
-        List<ResourceCteDto> resources = resourceRepository.findAllByIdUsingCTE(2L);
-
-        //then
-        assertThat(resources.size()).isGreaterThan(0);
-    }
-
-    @Test
     public void changeDepth() {
         //given
 
@@ -63,4 +52,19 @@ class ResourceRepositoryTest {
 
         //then
     }
+
+    @Test
+    @DisplayName("enabled된 모든 자원 목록 조회 ")
+    public void getEnabledResources(){
+        //given
+
+        //when
+        List<ResourceItem> allEnabled = resourceRepository.findAllEnabled("admin");
+
+        //then
+        for (ResourceItem resource : allEnabled) {
+            System.out.println(resource);
+        }
+    }
+
 }

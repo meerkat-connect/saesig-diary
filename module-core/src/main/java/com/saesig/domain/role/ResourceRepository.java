@@ -30,7 +30,5 @@ public interface ResourceRepository extends JpaRepository<Resource, Long>, Custo
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE Resource r SET r.ord=:ord, r.parentResource.id=:parentId, r.depth =:depth + 1 WHERE r.id=:id")
-    void changeParentId(@Param("id") Long id, @Param("parentId") Long parentId,@Param("ord") Integer ord, @Param("depth") Integer depth);
-
-    Resource findByUrlAndHttpMethod(String url, String httpMethod);
+    void changeParentId(@Param("id") Long id, @Param("parentId") Long parentId, @Param("ord") Integer ord, @Param("depth") Integer depth);
 }

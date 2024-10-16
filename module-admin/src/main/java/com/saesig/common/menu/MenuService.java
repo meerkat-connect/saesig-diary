@@ -1,12 +1,11 @@
 package com.saesig.common.menu;
 
+import com.saesig.config.auth.SecurityResourceService;
 import com.saesig.global.menu.ResourceItem;
-import com.saesig.global.menu.ResourceMapper;
 import com.saesig.global.menu.ResourceNode;
 import com.saesig.global.menu.ResourceTree;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -19,9 +18,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class MenuService {
-    private final ResourceMapper resourceMapper;
+    private final SecurityResourceService securityResourceService;
     private ResourceTree resourceTree = null;
-    private final WebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator;
 
     public String menuPrint() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
@@ -42,22 +40,22 @@ public class MenuService {
             if (node1.isVisible()) {
                 if (node1.isDirectory()) {
                     sb
-                        .append("<div class=\"pcoded-navigatio-lavel\">")
-                        .append(node1.getName())
-                        .append("</div>");
+                            .append("<div class=\"pcoded-navigatio-lavel\">")
+                            .append(node1.getName())
+                            .append("</div>");
                 } else {
                     String mkey = "1";
                     sb
-                        .append("<a class=\"d-block pcoded-navigatio-lavel\" href=\"javascript:goMenu('")
-                        .append(addContextToUrl(context, node1.getUrl()))
-                        .append("','")
-                        .append(mkey).append("')\">\n")
-                        .append(node1.getName())
-                        .append("</a>");
+                            .append("<a class=\"d-block pcoded-navigatio-lavel\" href=\"javascript:goMenu('")
+                            .append(addContextToUrl(context, node1.getUrl()))
+                            .append("','")
+                            .append(mkey).append("')\">\n")
+                            .append(node1.getName())
+                            .append("</a>");
                 }
 
                 // depth == 2
-                if(resourceNode.hasVisibleChildren()) {
+                if (resourceNode.hasVisibleChildren()) {
                     sb.append("<ul class=\"pcoded-item pcoded-left-item\">");
                     for (ResourceNode resourceNode2 : resourceNode.getChildNodes()) {
                         ResourceItem node2 = resourceNode2.getData();
@@ -83,14 +81,14 @@ public class MenuService {
                             iconClass = "icon-hash";
                         }
                         sb
-                            .append("<span class=\"pcoded-micon\"><i class=\"feather ")
-                            .append(iconClass)
-                            .append("\"></i></span><span class=\"pcoded-mtext\">")
-                            .append(node2.getName())
-                            .append("</span></a>\n");
+                                .append("<span class=\"pcoded-micon\"><i class=\"feather ")
+                                .append(iconClass)
+                                .append("\"></i></span><span class=\"pcoded-mtext\">")
+                                .append(node2.getName())
+                                .append("</span></a>\n");
 
                         //depth == 3
-                        if(resourceNode2.hasVisibleChildren()) {
+                        if (resourceNode2.hasVisibleChildren()) {
                             sb.append("<ul class=\"first-depth-submenu pcoded-submenu\">\n");
                             for (ResourceNode resourceNode3 : resourceNode2.getChildNodes()) {
                                 ResourceItem node3 = resourceNode3.getData();
@@ -107,7 +105,7 @@ public class MenuService {
                                 }
                                 sb.append("<span class=\"pcoded-mtext\">").append(node3.getName()).append("</span></a>\n");
 
-                                if(resourceNode3.hasVisibleChildren()) {
+                                if (resourceNode3.hasVisibleChildren()) {
                                     sb.append("<ul class=\"pcoded-submenu\">\n");
                                     for (ResourceNode resourceNode4 : resourceNode3.getChildNodes()) {
                                         ResourceItem node4 = resourceNode4.getData();
@@ -142,15 +140,13 @@ public class MenuService {
         // <ul class="pcoded-submenu"> </ul>
         // sb.append("<li class=""> <a href=${url}><span class="pcoded-mtext">${resource_name}</span></a></li>")
 
-        // depth >= 4
-
         return sb.toString();
     }
 
     public ResourceItem getResourceItemBy(ResourceNode node, String url, String httpMethod) {
         ResourceItem returnResource = null;
 
-        if(node == null) return null;
+        if (node == null) return null;
 
         if (node != null) {
             ResourceItem resourceItem = node.getData();
@@ -176,31 +172,46 @@ public class MenuService {
     }
 
     public ResourceTree getResourceTree(String resourceCategory) {
-
         if (resourceTree != null) return resourceTree;
 
-        // 자원 유형에 따른 목록 조회
-        List<ResourceItem> resources = resourceMapper.findAll();
+        List<ResourceItem> resources = securityResourceService.getEnabledResources();
         return makeResourcetree(resources);
     }
 
     private ResourceTree makeResourcetree(List<ResourceItem> resources) {
+
         if (resourceTree == null) {
             resourceTree = new ResourceTree();
         }
 
         synchronized (resourceTree) {
+            ResourceNode root = new ResourceNode();
+            ResourceItem resourceItem = ResourceItem.builder()
+                    .id(0L)
+                    .upperId(0L)
+                    .name("메뉴구조도")
+                    .url("")
+                    .depth(0)
+                    .ord(0)
+                    .styleClass("")
+                    .category("admin")
+                    .treeOrd("0")
+                    .type("DIRECTORY")
+                    .httpMethod("")
+                    .isEnabled('Y')
+                    .treeName("메뉴구조도")
+                    .isLoginDisallowed('N')
+                    .build();
+            root.setData(resourceItem);
+            resourceTree.setRoot(root);
+
             for (ResourceItem resource : resources) {
                 ResourceNode resourceNode = new ResourceNode();
                 resourceNode.setData(resource);
 
-                if (resource.getId().equals(0L)) {
-                    resourceTree.setRoot(resourceNode);
-                } else {
-                    ResourceNode parentNode = getParentNodeById(resource.getUpperId());
-                    if (parentNode != null) {
-                        parentNode.addChild(resourceNode);
-                    }
+                ResourceNode parentNode = getParentNodeById(resource.getUpperId());
+                if (parentNode != null) {
+                    parentNode.addChild(resourceNode);
                 }
             }
         }
