@@ -128,12 +128,12 @@ public class CustomResourceRepositoryImpl implements CustomResourceRepository {
         List<Object[]> enabledResources = em.createNativeQuery(query).setParameter("category", ResourceCategory.ADMIN.toString()).getResultList();
         enabledResources.stream().map(enabledResource -> {
              return ResourceItem.builder()
-                    .id((Long) enabledResource[0])
-                    .upperId((Long) enabledResource[1])
+                    .id(Long.valueOf(String.valueOf(enabledResource[0])))
+                    .upperId(Long.valueOf(String.valueOf(enabledResource[1])))
                     .name((String) enabledResource[2])
                     .url((String) enabledResource[3])
-                    .depth((Integer) enabledResource[4])
-                    .ord((Integer) enabledResource[5])
+                    .depth(Integer.valueOf(String.valueOf(enabledResource[4])))
+                    .ord(Integer.valueOf(String.valueOf(enabledResource[5])))
                     .styleClass((String) enabledResource[6])
                     .category((String) enabledResource[7])
                     .treeOrd((String) enabledResource[8])
