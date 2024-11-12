@@ -3,6 +3,7 @@ package com.saesig.global.file;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.saesig.domain.file.FileGroup;
 import com.saesig.error.ErrorCode;
 import com.saesig.error.FileNotExistException;
 import lombok.RequiredArgsConstructor;
@@ -53,14 +54,35 @@ public class S3FileService implements FileService {
     @Override
     @Transactional
     public FileDto storeFile(MultipartFile multipartFile) {
+        // /saesig-s3/diary/~~~.png
+        // /saesig-s3/post/~~~.png
+        // /saesig-s3/adopt/~~~.png
+
+        // saesig-s3 : bucketName
+        // diary/post/adopt/~~~.png : key
+        // multipartFile : file
         try {
             File uploadFile = convert(multipartFile)
                     .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
 
-            String fileName = multipartFile.getOriginalFilename();
-            String uploadImageUrl = putS3(uploadFile, fileName);
+            String originFileName = multipartFile.getOriginalFilename();
+            String savedFileName = createSavedFileName(originFileName);
+
+            FileGroup savedFileGroup = fileGroupRepository.save(new FileGroup("temp"));
+
+            com.saesig.domain.file.File savedFile = fileRepository.save(com.saesig.domain.file.File.builder()
+                    .fileGroup(savedFileGroup)
+                    .originName(originFileName)
+                    .savedName(savedFileName)
+                    .size(multipartFile.getSize())
+                    .extension(extractExt(originFileName))
+                    .build());
+
+            String uploadImageUrl = putS3(uploadFile, savedFileName);
+            log.info("Uploaded Image Url = {}" , uploadImageUrl);
             removeNewFile(uploadFile);
         } catch (Exception e) {
+            log.error("S3로 이미지 업로드 중 오류 발생");
             throw new RuntimeException(e);
         }
         return null;
@@ -81,6 +103,9 @@ public class S3FileService implements FileService {
     }
 
     private String putS3(File uploadFile, String fileName) {
+        // PutObjectRequest: bucketname , key, file
+        fileName = "adopt/" + fileName;
+        //withCannedAcl 메소드를 사용하는 경우 putObjectAcl 권한을 필요로함
         s3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
         return s3Client.getUrl(bucket, fileName).toString();
     }
