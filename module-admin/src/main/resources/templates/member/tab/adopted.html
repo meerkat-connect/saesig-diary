@@ -63,7 +63,11 @@
                         {data: 'title'},
                         {data: 'animalDivision1'},
                         {data: 'animalDivision2'},
-                        {data: 'gender'},
+                        {
+                            data: 'gender', render: function (data, type, row) {
+                                return data === 'M' ? '수컷' : '암컷';
+                            }
+                        },
                         {data: 'adoptionMemberName'},
                         {data: 'adoptedCompletedAt'},
                     ],
