@@ -91,14 +91,14 @@ public class MemberService {
         memberAdminRepository.save(member);
 
         String subject = "새식일기 임시 비밀번호 안내 이메일입니다.";
-        String message = "안녕하세요. 새식일기 임시 비밀번호 안내 메일입니다. "
-                + "\n" + "회원님의 임시 비밀번호는 아래와 같습니다. 로그인 후 반드시 비밀번호를 변경해주세요." + "\n";
+        String message = "안녕하세요. 새식일기 임시 비밀번호 안내 메일입니다. <br>"
+                + "회원님의 임시 비밀번호는 아래와 같습니다. 로그인 후 반드시 비밀번호를 변경해주세요.<br>";
         String fromAddress = "meerkat@gmail.com";
 
         MailDto mailDto = MailDto.builder()
                 .toAddress(member.getEmail())
-                .subject(subject)
-                .message(message + newPassword)
+                .subject(subject) // 제목
+                .message(message + newPassword) // 내용
                 .template("/api/mail/tempPasswordTemplate")
                 .fromAddress(fromAddress)
                 .build();
