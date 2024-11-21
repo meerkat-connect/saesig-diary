@@ -1,0 +1,270 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+
+<div layout:fragment="content">
+    <div class="page-body">
+        <div class="row">
+            <!-- 필터 부분 -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-block-small">
+                        <form id="searchForm" name="searchForm">
+                            <!-- 키워드 filter -->
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1 "><strong>키워드</strong></div>
+                                        <div class="input-group input-group-dropdown mb-0">
+                                            <select name="searchType" id="searchType" class="form-select form-control form-control-round left-select custom-select">
+                                                <option value="email">신고대상자 아이디</option>
+                                                <option value="nickname">신고대상자 닉네임</option>
+                                                <option value="nickname">신고자 아이디</option>
+                                                <option value="nickname">신고자 닉네임</option>
+                                            </select>
+                                            <input type="text" class="form-control form-control-round" name="searchKeyword" id="searchKeyword"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>분류</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="signupMethod" id="signupMethod" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option th:each="sM: ${signupMethod}" th:value="${sM.key}" th:text="${sM.value}">value</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>제목</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <input type="text" class="form-control form-control-round" name="" id=""/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>상태</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="" id="" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                                <option value="">분양중</option>
+                                                <option value="">예약중</option>
+                                                <option value="">분양완료</option>
+                                                <option value="">분양중지</option>
+                                                <option value="">게시중</option>
+                                                <option value="">중지</option>
+                                                <option value="">삭제</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 mb-3">
+                                    <div class="mb-0 form-group row">
+                                        <div class="form-label col-sm-12 col-form-label p-t-0 pb-1">
+                                            <strong>신고유형</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <select name="" id="" class="form-select form-control form-control-round custom-select">
+                                                <option value="">- 전체 -</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //키워드 filter -->
+
+                            <!-- 키워드 filter-btn -->
+                            <div class="mt-1 p-t-20 text-center">
+                                <button type="button" class="btn btn-gray m-r-5" id="searchInit">초기화</button>
+                                <button type="submit" class="btn btn-primary" id="searchBtn">검색</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- //필터 부분 -->
+
+            <!-- 그리드 부분(표시를 위해 임의로 넣어둠) -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="row p-20 p-b-0">
+                        <div class="col-12 col-md-6 mb-2 mb-md-0">
+                            <h5><strong>검색결과</strong></h5>
+                        </div>
+                    </div>
+                    <div class="card-block-small">
+                        <div class="dt-responsive table-responsive">
+                            <table id="reportListTable" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>분류</th>
+                                        <th>제목</th>
+                                        <th>상태</th>
+                                        <th>신고대상자</th>
+                                        <th>신고유형</th>
+                                        <th>신고자</th>
+                                        <th>신고접수일</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //그리드 부분(표시를 위해 임의로 넣어둠) -->
+
+            <!-- Content Area -->
+            <div class="col-12">
+                <div id="contentPanel">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="emailSendModalContainer" data-bs-backdrop="static" aria-hidden="true"></div>
+
+    <script th:inline="javascript">
+        const memberController = {
+            selectedRow: [],
+            reportListTable: null,
+            dataTablesHelper: null,
+
+            init: function () {
+                this.dataTablesHelper = new DataTablesHelper('reportListTable','contentPanel');
+
+                if (this.reportListTable != null) {
+                    this.reportListTable.destroy();
+                    this.reportListTable.off('select');
+                }
+                this.selectedRow = [];
+
+                this.reportListTable = this.dataTablesHelper.datatables({
+                    url: `/admin/members`,
+                    searchParameters : $('#searchForm').serialize(),
+                    select: {
+                        selector: 'td:not(:first-child)',
+                        style: 'single'
+                    },
+                    columns: [
+                        {
+                            width: 80,
+                            render: function (data, type, row) {
+                                return `
+                                    <div class="border-checkbox-section">
+                                        <div class="border-checkbox-group">
+                                            <input type="checkbox" class="border-checkbox" data-id="${row.id}" name="tableCheckbox" id="checkbox${row.id}">
+                                            <label class="form-label border-checkbox-label" for="checkbox${row.id}"></label>
+                                        </div>
+                                    </div>`;
+                            }
+                        },
+                        {data: 'email'},
+                        {data: 'nickname'},
+                        {
+                            render: function (data, type, row) {
+                                return `${row.signupMethod.value}`
+                            }
+                        },
+                        {
+                            render: function (data, type, row) {
+                                return `${row.status.value}`
+                            }
+                        },
+                        {data: 'adoptCount'},
+                        {data: 'receiveCount'},
+                        {data: 'createdAt'},
+                    ]
+                });
+
+                this.reportListTable.on('select', function (e, dt, type, indexes) {
+                    let rowData = memberController.reportListTable.rows(indexes).data().toArray();
+                    const selectedMemberId = rowData[0].id;
+                    memberController.dataTablesHelper.loadContent(`/admin/members/${selectedMemberId}`);
+                })
+            }
+        };
+
+        $(function () {
+            memberController.init();
+
+            $('body').on('click', '#insertBtn', function () {
+                memberController.dataTablesHelper.loadContent('/admin/members/insert');
+            }).on('click', '#emailSendModalBtn', function () {
+                if (memberController.selectedRow.length == 0) {
+                    alert('메일 발송을 위해 회원을 선택해 주십시오.');
+                    return;
+                }
+
+                const emailSendModalUrl = '/admin/members/emailSendModal';
+
+                $("#emailSendModalContainer").load(emailSendModalUrl, function (response, status, xhr) {
+                    if (status == "success") {
+                        $("#emailSendModalContainer").modal("show");
+                    }
+                });
+
+            }).on('click', '#searchBtn', function () {
+                memberController.init();
+            }).on('click', '#searchInit', function () {
+                $('#searchType').val('email');
+                $('#searchKeyword, #signupMethod, #memberStatus').val('');
+                $('select').niceSelect('update');
+            });
+
+            $('input[name=tableCheckbox]').on('change', function (e) {
+                const $this = $(this);
+                if ($this.is(':checked')) {
+                    memberController.selectedRow.push($this.data('id'));
+                    if (memberController.selectedRow.length === $('input[name=tableCheckbox]').length) {
+                        $('#allCheckBox').prop('checked', true);
+                    }
+                } else {
+                    memberController.selectedRow = $.grep(memberController.selectedRow, function (i) {
+                        return i != $this.data('id');
+                    })
+
+                    if (memberController.selectedRow.length === 0) $('#allCheckBox').prop('checked', false);
+                }
+            })
+
+            $('#allCheckBox').on('change', function (e) {
+                const $this = $(this);
+
+                if ($this.is(':checked')) {
+                    const allSelectedRow = [];
+                    $('input[name=tableCheckbox]').each(function () {
+                        this.checked = true;
+                        allSelectedRow.push($(this).data('id'));
+                    })
+                    memberController.selectedRow = allSelectedRow;
+                } else {
+                    $('input[name=tableCheckbox]').each(function () {
+                        this.checked = false;
+                    })
+                    memberController.selectedRow = [];
+                }
+
+            });
+        });
+    </script>
+</div>
+</html>
