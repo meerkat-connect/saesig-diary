@@ -689,12 +689,13 @@ CREATE TABLE IF NOT EXISTS `saesig`.`diary_interest`
 -- -----------------------------------------------------
 -- Table `saesig`.`diary_report`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `saesig`.`diary_report`;
+DROP TABLE IF EXISTS `saesig`.`report`;
 
-CREATE TABLE IF NOT EXISTS `saesig`.`diary_report`
+CREATE TABLE IF NOT EXISTS `saesig`.`report`
 (
     `id`          BIGINT(20)    NOT NULL AUTO_INCREMENT COMMENT '신고 일련번호',
-    `diary_id`    BIGINT(20)    NOT NULL COMMENT '일기 일련번호',
+    `diary_id`    BIGINT(20)    NULL COMMENT '일기 일련번호',
+    `adopt_id`    BIGINT(20)    NULL COMMENT '분양 일련번호',
     `category`    VARCHAR(20)   NOT NULL COMMENT '유형',
     `content`     VARCHAR(1000) NULL DEFAULT NULL COMMENT '내용',
     `member_id`   BIGINT(20)    NOT NULL COMMENT '신고자 회원 일련번호',

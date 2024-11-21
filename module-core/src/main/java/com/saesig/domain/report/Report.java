@@ -1,8 +1,9 @@
-package com.saesig.domain.diary;
+package com.saesig.domain.report;
 
+import com.saesig.domain.adopt.Adopt;
 import com.saesig.domain.common.BaseEntity;
+import com.saesig.domain.diary.Diary;
 import com.saesig.domain.member.Member;
-import com.saesig.domain.report.ReportCategory;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,9 +11,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@Entity(name = "diary_report")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DiaryReport extends BaseEntity {
+@Entity
+public class Report extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +21,10 @@ public class DiaryReport extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
     private Diary diary;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "adopt_id")
+    private Adopt adopt;
 
     @Column
     @Enumerated(EnumType.STRING)
