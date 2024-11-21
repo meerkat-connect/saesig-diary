@@ -5,6 +5,7 @@ import com.saesig.domain.common.BaseEntity;
 import com.saesig.domain.diary.Diary;
 import com.saesig.domain.member.Member;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -37,4 +38,13 @@ public class Report extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member reportMember;
 
+    @Builder
+    public Report(Long id, Diary diary, Adopt adopt, ReportCategory category, String content, Member reportMember) {
+        this.id = id;
+        this.diary = diary;
+        this.adopt = adopt;
+        this.category = category;
+        this.content = content;
+        this.reportMember = reportMember;
+    }
 }
