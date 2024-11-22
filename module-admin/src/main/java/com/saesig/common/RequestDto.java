@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class RequestDto {
-    private String searchType;
-
-    private String searchKeyword;
-
     private Integer start;
 
     private Integer length;
 
     private Integer pageNum;
+
+    private String searchType;
+
+    private String searchKeyword;
 }
