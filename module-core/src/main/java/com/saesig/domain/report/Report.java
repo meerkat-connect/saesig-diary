@@ -19,13 +19,12 @@ public class Report extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diary_id")
-    private Diary diary;
+    @Column
+    private Long targetId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "adopt_id")
-    private Adopt adopt;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private ReportTargetType targetType;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -39,12 +38,12 @@ public class Report extends BaseEntity {
     private Member reportMember;
 
     @Builder
-    public Report(Long id, Diary diary, Adopt adopt, ReportCategory category, String content, Member reportMember) {
+    public Report(Long id, Long targetId, ReportCategory category, String content, Member reportMember, ReportTargetType targetType) {
         this.id = id;
-        this.diary = diary;
-        this.adopt = adopt;
+        this.targetId = targetId;
         this.category = category;
         this.content = content;
         this.reportMember = reportMember;
+        this.targetType = targetType;
     }
 }
