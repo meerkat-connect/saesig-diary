@@ -4,10 +4,7 @@ import com.saesig.domain.animalDivision.AnimalDivision1;
 import com.saesig.domain.animalDivision.AnimalDivision2;
 import com.saesig.domain.common.BaseEntity;
 import com.saesig.domain.member.Member;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -82,4 +79,16 @@ public class Adopt extends BaseEntity {
     @Column(name = "stop_category")
     private String stopCategory;
 
+    @Builder
+    public Adopt(Long id, String content, String gender, String ageCategory, AdoptStatus status, AnimalDivision1 animalDivision1, AnimalDivision2 animalDivision2, String sido, String sigungu) {
+        this.id = id;
+        this.content = content;
+        this.gender = gender;
+        this.ageCategory = ageCategory;
+        this.status = status;
+        this.animalDivision1 = animalDivision1;
+        this.animalDivision2 = animalDivision2;
+        this.sido = sido;
+        this.sigungu = sigungu;
+    }
 }
