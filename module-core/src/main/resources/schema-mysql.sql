@@ -694,7 +694,7 @@ DROP TABLE IF EXISTS `saesig`.`report`;
 CREATE TABLE IF NOT EXISTS `saesig`.`report`
 (
     `id`          BIGINT(20)    NOT NULL AUTO_INCREMENT COMMENT '신고 일련번호',
-    `target_id`   BIGINT(20)    NOT NULL COMMENT '신고 대상 게시글 일련번호'
+    `target_id`   BIGINT(20)    NOT NULL COMMENT '신고 대상 게시글 일련번호',
     `target_type` VARCHAR(20)  NOT NULL COMMENT '신고 대상 타입'
     `category`    VARCHAR(20)   NOT NULL COMMENT '유형',
     `content`     VARCHAR(1000) NULL DEFAULT NULL COMMENT '내용',
