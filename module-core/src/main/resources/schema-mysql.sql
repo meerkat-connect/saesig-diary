@@ -695,7 +695,7 @@ CREATE TABLE IF NOT EXISTS `saesig`.`report`
 (
     `id`          BIGINT(20)    NOT NULL AUTO_INCREMENT COMMENT '신고 일련번호',
     `target_id`   BIGINT(20)    NOT NULL COMMENT '신고 대상 게시글 일련번호',
-    `target_type` VARCHAR(20)  NOT NULL COMMENT '신고 대상 타입'
+    `target_type` VARCHAR(20)  NOT NULL COMMENT '신고 대상 타입',
     `category`    VARCHAR(20)   NOT NULL COMMENT '유형',
     `content`     VARCHAR(1000) NULL DEFAULT NULL COMMENT '내용',
     `member_id`   BIGINT(20)    NOT NULL COMMENT '신고자 회원 일련번호',
@@ -703,11 +703,7 @@ CREATE TABLE IF NOT EXISTS `saesig`.`report`
     `modified_by` BIGINT(20)    NOT NULL COMMENT '수정자 일련번호',
     `created_at`  DATETIME      NOT NULL COMMENT '등록일',
     `created_by`  BIGINT(20)    NOT NULL COMMENT '등록자 일련번호',
-    PRIMARY KEY (`id`),
-    INDEX `diary_id` (`diary_id` ASC) VISIBLE,
-    CONSTRAINT `diary_report_ibfk_1`
-        FOREIGN KEY (`diary_id`)
-            REFERENCES `saesig`.`diary` (`id`)
+    PRIMARY KEY (`id`)
 )
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4;
