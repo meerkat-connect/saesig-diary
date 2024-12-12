@@ -627,7 +627,6 @@ CREATE TABLE IF NOT EXISTS `saesig`.`diary`
     `category`            VARCHAR(20)   NOT NULL COMMENT '카테고리',
     `status`              VARCHAR(20)   NOT NULL COMMENT '상태',
     `is_secret`           VARCHAR(1)    NOT NULL DEFAULT 'N' COMMENT '비밀 여부',
-    `is_deleted`          VARCHAR(1)    NOT NULL DEFAULT 'N' COMMENT '삭제 여부',
     `hits`                INT(11)       NOT NULL DEFAULT 0 COMMENT '조회수',
     `created_at`          DATETIME      NOT NULL COMMENT '등록일',
     `created_by`          BIGINT(20)    NOT NULL COMMENT '등록자 일련번호',

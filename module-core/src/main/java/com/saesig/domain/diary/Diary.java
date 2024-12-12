@@ -32,6 +32,10 @@ public class Diary extends BaseEntity {
     private String isSecret;
 
     @Column
+    @Enumerated(EnumType.STRING)
+    private DiaryStatus status;
+
+    @Column
     private String isDeleted;
 
     @Column
