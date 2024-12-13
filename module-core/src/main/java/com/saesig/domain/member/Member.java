@@ -42,6 +42,9 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
+    @Column(name = "mobile_number")
+    private String mobileNumber;
+
     @Column
     private String nickname;
 
