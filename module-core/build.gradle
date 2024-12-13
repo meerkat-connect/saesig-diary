@@ -7,7 +7,7 @@ buildscript {
 plugins {
     id 'java-library'
     id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
-    id 'com.gorylenko.gradle-git-properties' version '2.4.1' // git info
+//    id 'com.gorylenko.gradle-git-properties' version '2.4.1' // git info
 }
 
 dependencies {
