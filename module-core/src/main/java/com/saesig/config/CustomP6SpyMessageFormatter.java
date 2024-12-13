@@ -14,7 +14,7 @@ import java.util.Stack;
 @Configuration
 public class CustomP6SpyMessageFormatter implements MessageFormattingStrategy {
 
-    private static final String ALLOW_FILTER = "saesgDiary";
+    private static final String ALLOW_FILTER = "com.saesig";
 
     @PostConstruct
     public void setLogMessageFormat() {
@@ -24,10 +24,8 @@ public class CustomP6SpyMessageFormatter implements MessageFormattingStrategy {
     @Override
     public String formatMessage(int connectionId, String now, long elapsed, String category, String prepared, String sql, String url) {
         sql = formatSql(category,sql);
-        LocalDateTime current = LocalDateTime.now();
 
         return FormatStyle.HIGHLIGHT.getFormatter().format(String.format("[%s] | %d ms | %s", category, elapsed, formatSql(category, sql)) + createStack(connectionId,elapsed));
-//        return current + " | " + "수행시간 : " + elapsed + "ms" + sql;
     }
 
     private String formatSql(String category, String sql) {
@@ -62,8 +60,7 @@ public class CustomP6SpyMessageFormatter implements MessageFormattingStrategy {
         }
 
         return new StringBuffer().append("\n\n\tConnection ID:").append(connectionId)
-                .append(" | Excution Time:").append(elapsed).append(" ms\n")
-                .append("\n\tExcution Time:").append(elapsed).append(" ms\n")
+                .append(" | Execution Time:").append(elapsed).append(" ms\n")
                 .append("\n\tCall Stack :").append(sb).append("\n")
                 .append("\n--------------------------------------")
                 .toString();
