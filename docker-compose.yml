@@ -1,0 +1,29 @@
+services:
+  mysql:
+    image: 'mysql:8.0.40'
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - '3306:3306'
+
+  module-admin:
+    build:
+      context: ./
+      dockerfile: module-admin/Dockerfile
+    container_name: module-admin
+    env_file:
+      - ./module-admin/.env
+    environment:
+      - ACTIVE_PROFILE=${ACTIVE_PROFILE}
+      - ENCRYPTOR_KEY=${ENCRYPTOR_KEY}
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mysql
+
+# namedVolume만 추가
+volumes:
+  mysql_data:
