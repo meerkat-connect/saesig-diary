@@ -15,9 +15,6 @@ spring:
       max-file-size: 5MB
       max-request-size: 10MB
 
-  session:
-    store-type: jdbc
-
   mail:
     host: smtp.gmail.com
     port: 587
@@ -114,6 +111,8 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
     password: 1234
+    hikari:
+      auto-commit: false
 
   sql:
     init:
