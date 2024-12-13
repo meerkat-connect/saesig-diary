@@ -22,3 +22,7 @@ dependencies {
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.2.2'
 
 }
+
+jar {
+    enabled = false
+}
