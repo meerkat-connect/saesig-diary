@@ -320,7 +320,7 @@ DROP TABLE IF EXISTS `saesig`.`adopt_history`;
 
 CREATE TABLE IF NOT EXISTS `saesig`.`adopt_history`
 (
-    `id`            BIGINT(20)    NOT NULL AUTO_INCREMENT COMMENT '분양 상태 일련번호',
+    `id`            BIGINT(20)    NOT NULL AUTO_INCREMENT COMMENT '분양 이력 일련번호',
     `adopt_id`      BIGINT(20)    NOT NULL COMMENT '분양 일련번호',
     `before_status` VARCHAR(20)   NOT NULL COMMENT '분양 상태 변경 전 값',
     `after_status`  VARCHAR(20)   NOT NULL COMMENT '분양 상태 변경 후 값',
@@ -637,6 +637,28 @@ CREATE TABLE IF NOT EXISTS `saesig`.`diary`
     ENGINE = InnoDB
     DEFAULT CHARACTER SET = utf8mb4;
 
+
+-- -----------------------------------------------------
+-- Table `saesig`.`diary_history`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `saesig`.`diary_history`;
+
+CREATE TABLE IF NOT EXISTS `saesig`.`diary_history`
+(
+    `id`            BIGINT(20)    NOT NULL AUTO_INCREMENT COMMENT '일기 이력 일련번호',
+    `diary_id`      BIGINT(20)    NOT NULL COMMENT '일기 일련번호',
+    `before_status` VARCHAR(20)   NOT NULL COMMENT '일기 상태 변경 전 값',
+    `after_status`  VARCHAR(20)   NOT NULL COMMENT '일기 상태 변경 후 값',
+    `reason`        VARCHAR(1000) NULL DEFAULT NULL COMMENT '수정 사유',
+    `member_id`     VARCHAR(1000) NOT NULL COMMENT '변경회원 일련번호',
+    `modified_at`   DATETIME      NOT NULL COMMENT '수정일',
+    `modified_by`   BIGINT(20)    NOT NULL COMMENT '수정자 일련번호',
+    `created_at`    DATETIME      NOT NULL COMMENT '등록일',
+    `created_by`    BIGINT(20)    NOT NULL COMMENT '등록자 일련번호',
+    PRIMARY KEY (`id`)
+)
+    ENGINE = InnoDB
+    DEFAULT CHARACTER SET = utf8mb4;
 
 -- -----------------------------------------------------
 -- Table `saesig`.`diary_comment`
