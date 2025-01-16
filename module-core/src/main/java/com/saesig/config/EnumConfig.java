@@ -43,7 +43,7 @@ public class EnumConfig {
         factory.put("memberStatus", MemberStatus.class);
         factory.put("signupMethod", SignupMethod.class);
         factory.put("adoptStatus", AdoptStatus.class);
-        factory.put("reportCategry", ReportCategory.class);
+        factory.put("reportCategory", ReportCategory.class);
         factory.put("adoptStopCategory", AdoptStopCategory.class);
         factory.put("exposureLocation", ExposureLocation.class);
         factory.put("buttonOption", ButtonOption.class);
