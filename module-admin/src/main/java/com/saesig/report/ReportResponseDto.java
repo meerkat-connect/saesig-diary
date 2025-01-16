@@ -1,22 +1,30 @@
 package com.saesig.report;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.saesig.domain.adopt.AdoptStatus;
 import com.saesig.domain.diary.DiaryStatus;
 import com.saesig.domain.report.ReportCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
 @ToString
+@NoArgsConstructor
 @AllArgsConstructor
 public class ReportResponseDto {
     private Long id;
 
+    private String type;
+
     private ReportCategory category;
 
+    private String content;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
@@ -37,7 +45,7 @@ public class ReportResponseDto {
 
         private String title;
 
-        private AdoptStatus adoptStatus;
+        private AdoptStatus status;
 
         private String createdBy;
     }
@@ -52,7 +60,7 @@ public class ReportResponseDto {
 
         private String content;
 
-        private DiaryStatus diaryStatus;
+        private DiaryStatus status;
 
         private String createdBy;
     }

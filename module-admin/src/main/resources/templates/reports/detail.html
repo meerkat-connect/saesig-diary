@@ -1,0 +1,107 @@
+<div class="card" xmlns:th="http://www.w3.org/1999/html">
+    <div class="card-header  p-b-0">
+        <h3 class="sub-title"><strong>기본정보</strong></h3>
+    </div>
+    <form th:object="${report}">
+        <input type="hidden" th:field="*{id}">
+        <div class="card-block-small p-t-0">
+            <div class="row">
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group required mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="type"><strong>분류</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-sm form-control-round" th:field="*{type}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="status"><strong>상태</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-sm form-control-round" th:field="*{adoptDto.status.value}" readonly>
+                            <input type="text" class="form-control form-control-sm form-control-round" th:field="*{diaryDto.status.value}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-round" th:field="*{adoptDto.title}" readonly>
+                            <input type="text" class="form-control form-control-round" th:field="*{diaryDto.title}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>신고대상자</strong></label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-round" th:field="*{diaryDto.createdBy}" readonly>
+                            <input type="text" class="form-control form-control-round" th:field="*{adoptDto.createdBy}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="joinedAt"><strong>신고유형</strong></label>
+                        <div class="col-sm-12">
+                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{category.value}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="reporterName"><strong>신고자</strong></label>
+                        <div class="col-sm-12">
+                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{reporterName}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>신고접수일시</strong></label>
+                        <div class="col-sm-12">
+                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{createdAt}" readonly>
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="col-lg-3 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="changedAt"><strong>게시물 상태변경</strong></label>
+                        <div class="col-sm-12">
+                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{changedAt}" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="changedAt"><strong>상태변경일시</strong></label>
+                        <div class="col-sm-12">
+                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{changedAt}" readonly>
+                        </div>
+                    </div>
+                </div>-->
+                <div class="col-lg-12 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="changedAt"><strong>내용</strong></label>
+                        <div class="col-sm-12">
+                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{content}" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-block-small text-center">
+            <button type="button" class="btn btn-transparent" id="releaseDormantStatusDetailBtn">휴면해제</button>
+        </div>
+    </form>
+</div>
+
+<script th:inline="javascript">
+    $(function(){
+        $('body').on('click', '#releaseDormantStatusDetailBtn', function() {
+            dormantMemberController.releaseDormantStatus(true);
+        })
+    })
+</script>
