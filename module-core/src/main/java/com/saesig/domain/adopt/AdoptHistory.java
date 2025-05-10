@@ -21,10 +21,10 @@ public class AdoptHistory extends BaseEntity {
     private Adopt adopt;
 
     @Column(name = "before_status")
-    private Long beforeStatus;
+    private AdoptStatus beforeStatus;
 
     @Column(name = "after_status")
-    private Long afterStatus;
+    private AdoptStatus afterStatus;
 
     @Column
     private Long reason;

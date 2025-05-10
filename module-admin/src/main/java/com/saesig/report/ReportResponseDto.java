@@ -48,6 +48,18 @@ public class ReportResponseDto {
         private AdoptStatus status;
 
         private String createdBy;
+
+        private AdoptStatus beforeStatus;
+
+        private LocalDateTime beforeChangedAt;
+
+        public AdoptDto(Long id, String content, String title, AdoptStatus status, String createdBy) {
+            this.id = id;
+            this.content = content;
+            this.title = title;
+            this.status = status;
+            this.createdBy = createdBy;
+        }
     }
 
     @Getter
@@ -63,5 +75,17 @@ public class ReportResponseDto {
         private DiaryStatus status;
 
         private String createdBy;
+
+        private DiaryStatus beforeStatus;
+
+        private LocalDateTime beforeChangedAt;
+
+        public DiaryDto(Long id, String title, String content, DiaryStatus status, String createdBy) {
+            this.id = id;
+            this.title = title;
+            this.content = content;
+            this.status = status;
+            this.createdBy = createdBy;
+        }
     }
 }

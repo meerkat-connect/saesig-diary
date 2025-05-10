@@ -18,14 +18,14 @@ public class DiaryHistory extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "adopt_id")
-    private Diary adopt;
+    @JoinColumn(name = "diary_id")
+    private Diary diary;
 
     @Column(name = "before_status")
-    private Long beforeStatus;
+    private DiaryStatus beforeStatus;
 
     @Column(name = "after_status")
-    private Long afterStatus;
+    private DiaryStatus afterStatus;
 
     @Column
     private Long reason;

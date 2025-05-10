@@ -18,8 +18,8 @@
                     <div class="row form-group mb-3">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="status"><strong>상태</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control form-control-sm form-control-round" th:field="*{adoptDto.status.value}" readonly>
-                            <input type="text" class="form-control form-control-sm form-control-round" th:field="*{diaryDto.status.value}" readonly>
+                            <input th:if="${report.adoptDto.id == null}" type="text" class="form-control form-control-sm form-control-round" th:field="*{diaryDto.status.value}" readonly>
+                            <input th:unless="${report.adoptDto.id == null}" type="text" class="form-control form-control-sm form-control-round" th:field="*{adoptDto.status.value}" readonly >
                         </div>
                     </div>
                 </div>
@@ -27,8 +27,8 @@
                     <div class="row form-group mb-3">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="title"><strong>제목</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control form-control-round" th:field="*{adoptDto.title}" readonly>
-                            <input type="text" class="form-control form-control-round" th:field="*{diaryDto.title}" readonly>
+                            <input th:if="${report.adoptDto.id == null}" type="text" class="form-control form-control-round" th:field="*{diaryDto.title}" readonly>
+                            <input th:unless="${report.adoptDto.id == null}" type="text" class="form-control form-control-round" th:field="*{adoptDto.title}" readonly>
                         </div>
                     </div>
                 </div>
@@ -36,8 +36,8 @@
                     <div class="row form-group mb-3">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1"><strong>신고대상자</strong></label>
                         <div class="col-sm-12">
-                            <input type="text" class="form-control form-control-round" th:field="*{diaryDto.createdBy}" readonly>
-                            <input type="text" class="form-control form-control-round" th:field="*{adoptDto.createdBy}" readonly>
+                            <input th:if="${report.adoptDto.id == null}" type="text" class="form-control form-control-round" th:field="*{diaryDto.createdBy}" readonly>
+                            <input th:unless="${report.adoptDto.id == null}" type="text" class="form-control form-control-round" th:field="*{adoptDto.createdBy}" readonly>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="row form-group mb-3">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="joinedAt"><strong>신고유형</strong></label>
                         <div class="col-sm-12">
-                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{category.value}" readonly>
+                            <input type="text" class="form-control form-control-sm form-control-round" th:field="*{category.value}" readonly>
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <div class="row form-group mb-3">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="reporterName"><strong>신고자</strong></label>
                         <div class="col-sm-12">
-                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{reporterName}" readonly>
+                            <input type="text" class="form-control form-control-sm form-control-round" th:field="*{reporterName}" readonly>
                         </div>
                     </div>
                 </div>
@@ -61,31 +61,48 @@
                     <div class="row form-group mb-3">
                         <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="createdAt"><strong>신고접수일시</strong></label>
                         <div class="col-sm-12">
-                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{createdAt}" readonly>
-                        </div>
-                    </div>
-                </div>
-<!--                <div class="col-lg-3 mb-3">
-                    <div class="row form-group mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="changedAt"><strong>게시물 상태변경</strong></label>
-                        <div class="col-sm-12">
-                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{changedAt}" readonly>
+                            <input type="text" class="form-control form-control-sm form-control-round" th:field="*{createdAt}" readonly>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-3 mb-3">
                     <div class="row form-group mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="changedAt"><strong>상태변경일시</strong></label>
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="changedAt"><strong>게시물 상태변경</strong></label>
                         <div class="col-sm-12">
-                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{changedAt}" readonly>
+                            <select name="changeStatus" id="changeStatus" class="form-select form-control form-control-round left-select custom-select">
+                                <th:block th:if="${report.adoptDto.id == null}" th:each="status : ${diaryStatus}">
+                                    <option th:value="${status.key}" th:text="${status.value}" th:selected="${status.key == report.diaryDto.status.key}"></option>
+                                </th:block>
+                                <th:block th:unless="${report.adoptDto.id == null}" th:each="status : ${adoptStatus}">
+                                    <option th:value="${status.key}" th:text="${status.value}" th:selected="${status.key == report.adoptDto.status.key}"></option>
+                                </th:block>
+                            </select>
                         </div>
                     </div>
-                </div>-->
+                </div>
+                <div class="col-lg-3 mb-3">
+                    <div class="row form-group mb-3">
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="beforeChangedAt"><strong>상태변경일시</strong></label>
+                        <div class="col-sm-12">
+                            <th:block th:if="${report.adoptDto.id == null}">
+                                <input type="text" class="form-control form-control-sm form-control-round" th:value="${report.diaryDto.beforeChangedAt}" readonly>
+                            </th:block>
+                            <th:block th:unless="${report.adoptDto.id == null}">
+                                <input type="text" class="form-control form-control-sm form-control-round" th:value="${report.adoptDto.beforeChangedAt}" readonly>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-12 mb-3">
                     <div class="row form-group mb-3">
-                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="changedAt"><strong>내용</strong></label>
+                        <label class="form-label col-sm-12 col-form-label p-t-0 pb-1" for="content"><strong>내용</strong></label>
                         <div class="col-sm-12">
-                            <input type="datetime" class="form-control form-control-sm form-control-round" th:field="*{content}" readonly>
+                            <th:block th:if="${report.adoptDto.id == null}">
+                                <textarea class="form-control form-control-sm form-control-round" th:value="${report.diaryDto.content}" readonly></textarea>
+                            </th:block>
+                            <th:block th:unless="${report.adoptDto.id == null}">
+                                <textarea class="form-control form-control-sm form-control-round" th:value="${report.adoptDto.content}" readonly></textarea>
+                            </th:block>
                         </div>
                     </div>
                 </div>
@@ -93,7 +110,9 @@
         </div>
 
         <div class="card-block-small text-center">
-            <button type="button" class="btn btn-transparent" id="releaseDormantStatusDetailBtn">휴면해제</button>
+            <button type="button" class="btn btn-delete" id="report-delete">삭제</button>
+            <button type="button" class="btn btn-gray">취소</button>
+            <button type="button" class="btn btn-primary">저장</button>
         </div>
     </form>
 </div>

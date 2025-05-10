@@ -87,6 +87,8 @@ public class ReportQuerydslRepositoryImpl implements ReportQuerydslRepository {
         QMember qMember = QMember.member;
         QAdoptHistory qAdoptHistory = QAdoptHistory.adoptHistory;
         QDiaryHistory qDiaryHistory = QDiaryHistory.diaryHistory;
+        QAdoptHistory qLatestAdoptHistory = new QAdoptHistory("latestAdoptHistory");
+        QDiaryHistory qLatestDiaryHistory = new QDiaryHistory("latestDiaryHistory");
 
         ReportResponseDto report = queryFactory.select(
                         Projections.fields(
@@ -105,6 +107,8 @@ public class ReportQuerydslRepositoryImpl implements ReportQuerydslRepository {
                                         , qAdopt.content
                                         , qAdopt.status
                                         , qAdopt.createdBy.nickname.as("createdBy")
+                                        , qAdoptHistory.beforeStatus.as("beforeStatus")
+                                        , qAdoptHistory.createdAt.as("beforeChangedAt")
                                 ).as("adoptDto")
                                 , Projections.constructor(
                                         ReportResponseDto.DiaryDto.class,
@@ -113,13 +117,25 @@ public class ReportQuerydslRepositoryImpl implements ReportQuerydslRepository {
                                         , qDiary.content
                                         , qDiary.status
                                         , qDiary.createdBy.nickname.as("createdBy")
+                                        , qDiaryHistory.beforeStatus.as("beforeStatus")
+                                        , qDiaryHistory.createdAt.as("beforeChangedAt")
                                 ).as("diaryDto")
                         )
                 ).from(qReport)
                 .leftJoin(qReport.diary, qDiary)
-                .leftJoin(qDiaryHistory).on(qDiary.id.eq(qDiaryHistory.id))
+                .leftJoin(qDiaryHistory).on(qDiary.id.eq(qDiaryHistory.diary.id)
+                        .and(qDiaryHistory.createdAt.eq(
+                                JPAExpressions.select(qLatestDiaryHistory.createdAt.max())
+                                        .from(qLatestDiaryHistory)
+                                        .where(qLatestDiaryHistory.diary.id.eq(qDiary.id))
+                        )))
                 .leftJoin(qReport.adopt, qAdopt)
-                .leftJoin(qAdoptHistory).on(qAdopt.id.eq(qAdoptHistory.id))
+                .leftJoin(qAdoptHistory).on(qAdopt.id.eq(qAdoptHistory.adopt.id)
+                        .and(qAdoptHistory.createdAt.eq(
+                                JPAExpressions.select(qLatestAdoptHistory.createdAt.max())
+                                        .from(qLatestAdoptHistory)
+                                        .where(qLatestAdoptHistory.adopt.id.eq(qAdopt.id))
+                        )))
                 .leftJoin(qReport.reportMember, qMember)
                 .leftJoin(qDiary.createdBy, qMember)
                 .leftJoin(qAdopt.createdBy, qMember)

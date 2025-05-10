@@ -29,6 +29,8 @@ public class ReportController {
     @GetMapping("/{reportId}")
     public String detail(Model model, @PathVariable Long reportId) {
         model.addAttribute("report", reportService.findById(reportId));
+        model.addAttribute("adoptStatus", enumMapperFactory.get("adoptStatus"));
+        model.addAttribute("diaryStatus", enumMapperFactory.get("diaryStatus"));
         return "reports/detail";
     }
 }
