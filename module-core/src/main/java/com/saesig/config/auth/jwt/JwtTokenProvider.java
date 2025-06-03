@@ -3,6 +3,7 @@ package com.saesig.config.auth.jwt;
 import com.saesig.config.auth.formLogin.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,20 +26,44 @@ public class JwtTokenProvider {
     @Value("${jwt.secret-key}")
     private String secretKey;
 
-    @Value("${jwt.expire-seconds}")
-    private long expireSecond;
+    @Value("${jwt.access-expire-second-ms}")
+    private long accessTokenExpireMs;
 
-    public String createToken(String username, List<String> roles) {
+    @Value("${jwt.refresh-expire-second-ms}")
+    private long refreshTokenExpireMs;
+
+    public TokenResponseDto createToken(String username, List<String> roles) {
+        String accessToken = createAccessToken(username, roles);
+        String refreshToken = creatRefreshToken();
+
+        return TokenResponseDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+    private String createAccessToken(String username, List<String> roles) {
         Claims claims = Jwts.claims()
                 .add("roles", roles)
                 .build();
 
         Date now = new Date();
-        Date expireDate = new Date(now.getTime() + expireSecond);
+        Date expireDate = new Date(now.getTime() + accessTokenExpireMs);
 
         return Jwts.builder()
                 .subject(username)
                 .claims(claims)
+                .issuedAt(now)
+                .expiration(expireDate)
+                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
+                .compact();
+    }
+
+    private String creatRefreshToken() {
+        Date now = new Date();
+        Date expireDate = new Date(now.getTime() + refreshTokenExpireMs);
+
+        return Jwts.builder()
                 .issuedAt(now)
                 .expiration(expireDate)
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
@@ -85,4 +110,5 @@ public class JwtTokenProvider {
             return false;
         }
     }
+
 }

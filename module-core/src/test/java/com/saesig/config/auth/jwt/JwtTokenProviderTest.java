@@ -1,14 +1,11 @@
 package com.saesig.config.auth.jwt;
 
-import com.saesig.config.MybatisConfig;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
@@ -34,11 +31,13 @@ class JwtTokenProviderTest {
         final List<String> roles = List.of("ROLE_ADMIN", "ROLE_USER");
 
         //when
-        String token = jwtTokenProvider.createToken(username, roles);
+        TokenResponseDto tokenDto = jwtTokenProvider.createToken(username, roles);
 
         //then
-        assertNotNull(token, "토큰이 생성되어야 합니다.");
-        assertEquals(username, jwtTokenProvider.getUsername(token), "토큰에서 사용자 이름을 올바르게 가져와야 합니다.");
+        String accessToken = tokenDto.accessToken();
+        assertNotNull(tokenDto.accessToken(), "액세스 토큰은 null일 수 없습니다..");
+        assertNotNull(tokenDto.refreshToken(), "리프레시 토큰은 null일 수 없습니다.");
+        assertEquals(username, jwtTokenProvider.getUsername(accessToken), "토큰에서 사용자 이름을 올바르게 가져와야 합니다.");
     }
 
     @Test
@@ -49,11 +48,13 @@ class JwtTokenProviderTest {
         final List<String> roles = List.of("ROLE_ADMIN", "ROLE_USER");
 
         //when
-        String token = jwtTokenProvider.createToken(username, roles);
+        TokenResponseDto tokenDto = jwtTokenProvider.createToken(username, roles);
+
 
         //then
-        assertNotNull(token, "토큰이 생성되어야 합니다.");
-        assertEquals(2, jwtTokenProvider.getRoles(token).size(), "토큰에서 역할 목록의 크기가 올바르게 조회되어야 합니다.");
+        String accessToken = tokenDto.accessToken();
+        assertNotNull(accessToken, "토큰이 생성되어야 합니다.");
+        assertEquals(2, jwtTokenProvider.getRoles(accessToken).size(), "토큰에서 역할 목록의 크기가 올바르게 조회되어야 합니다.");
     }
 
 

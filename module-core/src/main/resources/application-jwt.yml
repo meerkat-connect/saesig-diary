@@ -1,3 +1,5 @@
 jwt:
   secret-key: 0f4cdec1356622a81a3523214c756f3cf209b14d8b124c61a26213630c112b8d0599532df088b0bd2072893f8c21e7c7702610d1c75afdd59535b94592ed7ed5
   expire-seconds: 86400000 # 24시간
+  access-expire-second-ms: 86400000 # 24시간
+  refresh-expire-second-ms: 1209600000 # 14일
