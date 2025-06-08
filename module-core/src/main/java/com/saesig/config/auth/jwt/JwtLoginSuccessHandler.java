@@ -1,7 +1,6 @@
 package com.saesig.config.auth.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.saesig.global.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -14,13 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
 public class JwtLoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtTokenProvider jwtTokenProvider;
-    private final CacheService cacheService;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -35,7 +32,6 @@ public class JwtLoginSuccessHandler implements AuthenticationSuccessHandler {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 
-        cacheService.saveRefreshToken(name, token.refreshToken());
         objectMapper.writeValue(response.getWriter(), token);
     }
 }

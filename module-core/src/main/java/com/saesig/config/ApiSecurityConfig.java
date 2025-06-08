@@ -42,6 +42,7 @@ public class ApiSecurityConfig {
                 .antMatcher("/api/**")
                 .authenticationManager(apiAuthenticationManager(httpSecurity))
                 .authorizeHttpRequests(auth -> auth
+                        .antMatchers("/api/token/refresh").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -59,8 +60,8 @@ public class ApiSecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .csrf().disable()
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .csrf().disable();
+//                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 //                .addFilterBefore(customFilterSecurityInterceptor(), FilterSecurityInterceptor.class);
 //                .exceptionHandling(eh -> eh
 //                        .authenticationEntryPoint(jwtAuthenticationEntryPoint())
