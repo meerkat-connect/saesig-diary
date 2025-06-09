@@ -1,7 +1,5 @@
 #FROM openjdk:17-jdk-slim
-#
-#WORKDIR /app
-#
+
 #COPY gradlew settings.gradle build.gradle /app/
 #COPY gradle /app/gradle
 #
