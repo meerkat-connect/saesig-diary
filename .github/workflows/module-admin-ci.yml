@@ -1,0 +1,53 @@
+name: module-admin CI/CD
+
+on:
+  push:
+    branches: [ develop ]
+    paths:
+      - 'module-admin/**'
+  pull_request:
+    branches: [ develop ]
+    paths:
+      - 'module-admin/**'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: wonjjong/saesig-admin
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build JAR for module-admin
+        run: |
+          ./gradlew :module-admin:clean :module-admin:build -x test
+
+      - name: Copy JAR into Docker context
+        run: |
+          cp module-admin/build/libs/*.jar module-admin/app.jar
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: module-admin/Dockerfile
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:latest
