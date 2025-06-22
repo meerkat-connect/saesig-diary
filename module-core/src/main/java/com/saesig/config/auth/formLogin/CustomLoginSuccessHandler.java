@@ -1,6 +1,6 @@
 package com.saesig.config.auth.formLogin;
 
-import com.saesig.domain.member.MemberApiService;
+import com.saesig.domain.member.MemberAdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -18,11 +18,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Slf4j
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-    private final MemberApiService memberService;
+    private final MemberAdminService memberService;
     private static final int MAX_INACTIVE_INTERVAL = 20;
 
-    public CustomLoginSuccessHandler(String defaultTargetUrl, MemberApiService memberApiService) {
-        this.memberService = memberApiService;
+    public CustomLoginSuccessHandler(String defaultTargetUrl, MemberAdminService memberAdminService) {
+        this.memberService = memberAdminService;
         setDefaultTargetUrl(defaultTargetUrl);
     }
 

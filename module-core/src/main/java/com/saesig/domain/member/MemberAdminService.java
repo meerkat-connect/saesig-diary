@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class MemberApiService {
+public class MemberAdminService {
     private final QueryDslMemberRepository memberRepository;
 
     @Transactional

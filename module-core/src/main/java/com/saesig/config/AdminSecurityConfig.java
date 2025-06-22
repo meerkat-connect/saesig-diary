@@ -3,7 +3,7 @@ package com.saesig.config;
 import com.saesig.config.auth.SecurityResourceService;
 import com.saesig.config.auth.UrlBasedFilterInvocationSecurityMetadataSource;
 import com.saesig.config.auth.formLogin.*;
-import com.saesig.domain.member.MemberApiService;
+import com.saesig.domain.member.MemberAdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +30,7 @@ import java.util.Collections;
 @Profile("local")
 public class AdminSecurityConfig {
     private final SecurityResourceService securityResourceService;
-    private final MemberApiService memberApiService;
+    private final MemberAdminService memberAdminService;
     private final CacheManager cacheManager;
     private final CustomAuthenticationProvider customAuthenticationProvider;
 
@@ -122,11 +122,11 @@ public class AdminSecurityConfig {
     }
 
     public CustomLoginSuccessHandler authenticationSuccessHandler() {
-        return new CustomLoginSuccessHandler("/admin", memberApiService);
+        return new CustomLoginSuccessHandler("/admin", memberAdminService);
     }
 
     public AuthenticationFailureHandler authenticationFailureHandler() {
-        return new CustomLoginFailureHandler(memberApiService);
+        return new CustomLoginFailureHandler(memberAdminService);
     }
 
     public LogoutSuccessHandler logoutSuccessHandler() {

@@ -1,6 +1,6 @@
 package com.saesig.config.auth.formLogin;
 
-import com.saesig.domain.member.MemberApiService;
+import com.saesig.domain.member.MemberAdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AccountStatusException;
@@ -17,7 +17,7 @@ import java.net.URLEncoder;
 @Slf4j
 @RequiredArgsConstructor
 public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-    private final MemberApiService memberApiService;
+    private final MemberAdminService memberAdminService;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws ServletException, IOException {
@@ -27,7 +27,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             String username = request.getParameter("username");
             failureMessage = exception.getMessage();
             try{
-                memberApiService.afterLoginFail(username);
+                memberAdminService.afterLoginFail(username);
             } catch(Exception ex) {
                 // 로그 생성
                 log.info("afterLoginFail Exception = {} ", ex.getMessage());
